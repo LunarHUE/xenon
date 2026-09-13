@@ -4,7 +4,7 @@ import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit } from 'solid-js'
 
-import { spread } from './spread'
+import { spread } from '../spread'
 
 export interface ButtonProps extends Omit<ComponentProps<'button'>, 'type' | 'disabled'> {
   /** Host element or component. Non-`button` hosts get role and keyboard handling. */
