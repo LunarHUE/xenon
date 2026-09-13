@@ -1,0 +1,18 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  # tsc comes from TypeScript 7 (native). typescript-eslint still loads the 6.x
+  # JS compiler API, so that stays available under the `typescript` name.
+  # Collapse to one `typescript: ^7` once typescript-eslint supports the 7.x API.
+  typescript: npm:@typescript/typescript6@^6.0.2
+  '@typescript/native': npm:typescript@^7.0.2
+  eslint: ^10.10.0
+  vitest: ^5.0.0
+  solid-js: 2.0.0-rc.8
+  '@solidjs/web': 2.0.0-rc.8
+
+overrides:
+  # solid-js@rc.N declares ^rc.N which floats forward; keep the runtime in lockstep.
+  '@solidjs/signals': 2.0.0-rc.8

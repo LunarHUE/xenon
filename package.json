@@ -1,0 +1,21 @@
+{
+  "name": "kit",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.12"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": ">=22"
+  }
+}

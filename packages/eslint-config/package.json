@@ -1,0 +1,23 @@
+{
+  "name": "@kit/eslint-config",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./base": "./base.js",
+    "./core": "./core.js",
+    "./solid": "./solid.js"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint-plugin-solid": "^0.18.0",
+    "typescript": "catalog:",
+    "typescript-eslint": "^8.70.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10"
+  },
+  "devDependencies": {
+    "eslint": "catalog:"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@kit/solid",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "types": "./src/*.tsx",
+      "default": "./src/*.tsx"
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kit/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@solidjs/web": "^2.0.0-rc.8",
+    "solid-js": "^2.0.0-rc.8"
+  },
+  "devDependencies": {
+    "@kit/eslint-config": "workspace:*",
+    "@kit/typescript-config": "workspace:*",
+    "@solidjs/testing-library": "^1.0.0-beta.3",
+    "@solidjs/vite-plugin": "^3.0.0-next.43",
+    "@solidjs/web": "catalog:",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@typescript/native": "catalog:",
+    "eslint": "catalog:",
+    "jsdom": "^30.0.1",
+    "solid-js": "catalog:",
+    "typescript": "catalog:",
+    "vite": "^8.3.0",
+    "vitest": "catalog:"
+  }
+}
