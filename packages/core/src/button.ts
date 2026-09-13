@@ -3,7 +3,7 @@ import type { PartProps } from './part'
 
 export interface ButtonOptions {
   native?: boolean
-  disabled?: boolean
+  disabled?: TagAttrs['button']['disabled']
   type?: TagAttrs['button']['type']
 }
 
