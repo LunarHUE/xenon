@@ -1,16 +1,10 @@
+import type { TagAttrs } from './attrs.generated'
 import type { PartProps } from './part'
 
 export interface ButtonOptions {
-  /**
-   * Whether the host is a native `<button>`. Native buttons get the browser's
-   * role, focus and keyboard behavior for free. Any other host (`a`, `div`)
-   * gets `role="button"`, a tab stop, and Enter/Space activation per the APG
-   * button pattern.
-   */
   native?: boolean
   disabled?: boolean
-  /** Defaults to `button` so a button inside a form never submits by accident. */
-  type?: 'button' | 'submit' | 'reset'
+  type?: TagAttrs['button']['type']
 }
 
 export function button(options?: ButtonOptions & { native?: true }): PartProps<'button'>
