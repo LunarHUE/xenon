@@ -21,15 +21,14 @@ append_once "$HOME/.bashrc" 'eval "$(direnv hook bash)"'
 append_once "$HOME/.config/nix/nix.conf" "experimental-features = nix-command flakes"
 append_once "$HOME/.config/nix/nix.conf" "warn-dirty = false"
 
-# --- pnpm global bin ---------------------------------------------------------
-# `pnpm add -g` needs PNPM_HOME on PATH. pnpm itself comes from the flake and
-# the pinned version is managed through `packageManager`, so nothing is
-# installed here.
-PNPM_HOME="${PNPM_HOME:-$HOME/.local/share/pnpm}"
-mkdir -p "$PNPM_HOME"
+# --- bun global bin ----------------------------------------------------------
+# `bun install -g` drops binaries in $BUN_INSTALL/bin, which is not on PATH by
+# default. Bun itself comes from the flake, so nothing is installed here.
+BUN_INSTALL="${BUN_INSTALL:-$HOME/.bun}"
+mkdir -p "$BUN_INSTALL/bin"
 
-append_once "$HOME/.bashrc" "export PNPM_HOME=\"$PNPM_HOME\""
-append_once "$HOME/.bashrc" "export PATH=\"\$PNPM_HOME:\$PATH\""
+append_once "$HOME/.bashrc" "export BUN_INSTALL=\"$BUN_INSTALL\""
+append_once "$HOME/.bashrc" "export PATH=\"\$BUN_INSTALL/bin:\$PATH\""
 
 # --- direnv / flake bootstrap ------------------------------------------------
 if [ ! -f "$WORKSPACE_DIR/.envrc" ]; then

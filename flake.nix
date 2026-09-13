@@ -40,11 +40,8 @@
         };
 
         # Everything needed to install, build, and test. Both shells get these.
-        # pnpm from nixpkgs only bootstraps: it reads `packageManager` in
-        # package.json and runs the pinned version itself.
         corePackages = with pkgs; [
-          nodejs_24
-          pnpm
+          bun
         ];
 
         # Interactive-only tooling. Kept out of ci so the CI closure stays small.
@@ -68,7 +65,7 @@
             "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh";
 
           shellHook = ''
-            echo "Nix devShell ready. node $(node --version 2>/dev/null), pnpm $(pnpm --version 2>/dev/null)"
+            echo "Nix devShell ready. bun $(bun --version 2>/dev/null)"
           '';
         };
       in {
