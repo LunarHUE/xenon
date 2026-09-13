@@ -1,4 +1,4 @@
-import type { PartProps } from '@kit/core'
+import type { AnyPart } from '@kit/core'
 
 type Handler = (event: Event) => void
 
@@ -14,7 +14,7 @@ type Handler = (event: Event) => void
  * memoized part can be spread directly.
  */
 export function spread(
-  part: PartProps,
+  part: AnyPart,
   props: Record<string, unknown> = {}
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { ...part.attrs, ...props }

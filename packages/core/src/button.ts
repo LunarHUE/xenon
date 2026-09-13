@@ -13,13 +13,16 @@ export interface ButtonOptions {
   type?: 'button' | 'submit' | 'reset'
 }
 
-export function button(options: ButtonOptions = {}): PartProps {
+export function button(options?: ButtonOptions & { native?: true }): PartProps<'button'>
+export function button(options: ButtonOptions & { native: false }): PartProps<'div'>
+export function button(options: ButtonOptions): PartProps<'button'> | PartProps<'div'>
+export function button(options: ButtonOptions = {}): PartProps<'button'> | PartProps<'div'> {
   const native = options.native ?? true
   const disabled = options.disabled ?? false
   const dataDisabled = disabled ? '' : undefined
 
   if (native) {
-    return {
+    const part: PartProps<'button'> = {
       attrs: {
         type: options.type ?? 'button',
         disabled: disabled || undefined,
@@ -27,9 +30,10 @@ export function button(options: ButtonOptions = {}): PartProps {
       },
       on: {},
     }
+    return part
   }
 
-  return {
+  const part: PartProps<'div'> = {
     attrs: {
       role: 'button',
       tabindex: disabled ? undefined : 0,
@@ -44,7 +48,7 @@ export function button(options: ButtonOptions = {}): PartProps {
             // keydown is only cancelled so the page does not scroll.
             if (event.key === 'Enter') {
               event.preventDefault()
-              ;(event.currentTarget as HTMLElement).click()
+              event.currentTarget.click()
             } else if (event.key === ' ') {
               event.preventDefault()
             }
@@ -52,9 +56,10 @@ export function button(options: ButtonOptions = {}): PartProps {
           keyup(event) {
             if (event.key === ' ') {
               event.preventDefault()
-              ;(event.currentTarget as HTMLElement).click()
+              event.currentTarget.click()
             }
           },
         },
   }
+  return part
 }

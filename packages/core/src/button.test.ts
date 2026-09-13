@@ -1,10 +1,12 @@
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, expectTypeOf, test, vi } from 'vitest'
 
 import { button } from './button'
 
+type HostKeyboardEvent = KeyboardEvent & { currentTarget: HTMLDivElement }
+
 function key(name: string) {
   const event = { key: name, preventDefault: vi.fn(), currentTarget: { click: vi.fn() } }
-  return event as unknown as KeyboardEvent & typeof event
+  return event as unknown as HostKeyboardEvent & typeof event
 }
 
 describe('button', () => {
@@ -51,6 +53,17 @@ describe('button', () => {
     const up = key(' ')
     part.on.keyup?.(up)
     expect(up.currentTarget.click).toHaveBeenCalledOnce()
+  })
+
+  test('attrs are typed per tag', () => {
+    const native = button()
+    expectTypeOf(native.attrs.type).toEqualTypeOf<'button' | 'submit' | 'reset' | undefined>()
+    expectTypeOf(native.attrs).not.toHaveProperty('href')
+
+    const host = button({ native: false })
+    expectTypeOf(host.attrs).not.toHaveProperty('type')
+    expectTypeOf(host.attrs).not.toHaveProperty('disabled')
+    expectTypeOf(host.on.keydown).parameter(0).toHaveProperty('currentTarget')
   })
 
   test('non-native: other keys are ignored', () => {

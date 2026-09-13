@@ -1,22 +1,27 @@
-/**
- * The contract between core and every adapter.
- *
- * A component in core is a function from options to one PartProps per part
- * (root, trigger, content, ...). Adapters spread `attrs` onto the element and
- * bind `on` with addEventListener or the framework's equivalent. Nothing in
- * this shape is framework-flavored: attribute names are the HTML spelling
- * (`class`, `for`, `tabindex`), event names are the DOM spelling (`keydown`).
- */
+import type { GlobalAttrs, TagAttrs } from './attrs.generated'
 
-/** Attributes in HTML spelling. `undefined` means "do not set". */
-export type Attrs = Record<string, string | number | boolean | undefined>
+export type Tag = keyof HTMLElementTagNameMap
 
-/** Native DOM listeners keyed by event name. */
-export type Listeners = {
-  [K in keyof HTMLElementEventMap]?: (event: HTMLElementEventMap[K]) => void
+export type Attrs<T extends Tag> = GlobalAttrs &
+  (T extends keyof TagAttrs ? Partial<TagAttrs[T]> : Record<never, never>)
+
+export type Listeners<T extends Tag> = {
+  [K in keyof HTMLElementEventMap]?: (
+    event: HTMLElementEventMap[K] & { currentTarget: HTMLElementTagNameMap[T] }
+  ) => void
 }
 
-export interface PartProps {
-  attrs: Attrs
-  on: Listeners
+export interface PartProps<T extends Tag> {
+  attrs: Attrs<T>
+  on: Listeners<T>
+}
+
+/**
+ * A part of any tag. Adapters take this: they only flatten attrs and bind
+ * listeners, so they never need to know the host. `never` on the event
+ * parameter is what lets every `PartProps<T>` be assignable here.
+ */
+export interface AnyPart {
+  attrs: GlobalAttrs
+  on: { [K in keyof HTMLElementEventMap]?: (event: never) => void }
 }
