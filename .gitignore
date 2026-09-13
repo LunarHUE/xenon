@@ -5,3 +5,6 @@ dist/
 *.log
 .vscode/*
 !.vscode/settings.json
+.direnv/
+result
+result-*
