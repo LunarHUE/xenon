@@ -1,8 +1,3 @@
-/**
- * Hand-maintained facts the attribute data does not carry. The generator
- * reads this file; nothing at runtime does.
- */
-
 /** Boolean attributes: presence is true, absence is false. WHATWG list. */
 export const booleans = new Set([
   'allowfullscreen',
@@ -35,13 +30,8 @@ export const booleans = new Set([
   'shadowrootserializable',
 ])
 
-/** Attributes that are plain strings, never numbers. Everything else unlisted is `string | number`. */
 export const strings = new Set(['class', 'id', 'lang', 'role', 'style', 'title', 'name', 'form'])
 
-/**
- * Enumerated attributes: the generated type becomes a union of these strings.
- * `'*'` applies to every tag; a tag key applies to that tag only and wins.
- */
 export const enumerated: Record<string, Record<string, readonly string[]>> = {
   '*': {
     autocapitalize: ['off', 'none', 'on', 'sentences', 'words', 'characters'],

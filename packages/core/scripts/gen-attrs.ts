@@ -1,11 +1,3 @@
-/**
- * Emits src/attrs.generated.ts from the WHATWG attribute index
- * (html-element-attributes) and the ARIA attribute list (aria-attributes),
- * narrowed by scripts/attrs.overrides.ts.
- *
- *   bun scripts/gen-attrs.ts          write the file
- *   bun scripts/gen-attrs.ts --check  exit 1 if the file is stale
- */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { ariaAttributes } from 'aria-attributes'
 import { htmlElementAttributes } from 'html-element-attributes'
@@ -34,7 +26,6 @@ function lines(tag: string, names: readonly string[]): string {
 }
 
 const globals = [...new Set([...htmlElementAttributes['*']!, 'role'])].sort()
-// `role` is in both lists; it is emitted once, with the globals.
 const ariaLines = ariaAttributes
   .filter((name) => name !== 'role')
   .map((name) => `  '${name}'?: ${aria[name] ? union(aria[name]) : 'string'}`)
