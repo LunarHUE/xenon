@@ -31,3 +31,12 @@ Independent review and package lint passed. Peer review qualified disabled focus
 | `f217e6f` | document radio host and form contracts | `packages/core/src/radio-group/radio-group.ts` |
 | `dc11685` | document accordion disclosure and navigation contracts | `packages/core/src/accordion/accordion.ts` |
 | `ceb7df3` | qualify toggle group keydown cancellation | `packages/core/src/toggle-group/toggle-group.ts` |
+
+## Core C3 complete
+
+Independent review and package lint passed. Overlay docs distinguish pure core attributes from DOM hosting, focus and dismissal responsibilities.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `f1c13a7` | document dialog alert dialog and drawer contracts | `packages/core/src/dialog/dialog.ts`, `packages/core/src/alert-dialog/alert-dialog.ts`, `packages/core/src/drawer/drawer.ts` |
+| `107dd58` | document collapsible separator and progress behavior | `packages/core/src/collapsible/collapsible.ts`, `packages/core/src/separator/separator.ts`, `packages/core/src/progress/progress.ts` |
