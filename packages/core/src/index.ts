@@ -1,5 +1,6 @@
 export type { GlobalAttrs, TagAttrs } from './attrs.generated'
 export * from './button'
 export * from './checkbox'
+export * from './composite'
 export type { AnyPart, Attrs, Listeners, PartProps, Tag } from './part'
 export * from './switch'
