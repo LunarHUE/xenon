@@ -161,7 +161,8 @@ are valid anchors. Points beyond their clipping boundary are hidden normally.
 but installs no observers. An options object independently controls
 ancestorScroll, ancestorResize, elementResize, layoutShift, and animationFrame.
 Use animationFrame for anchors moving through transforms; it is off by default.
-Element resize uses border-box observation of anchor, wrapper, and arrow, with
+Element resize uses border-box observation of anchor, wrapper, arrow, clipping
+ancestors, and explicit element boundaries, with
 writes batched into the owning window's next animation frame. Scroll and layout
 tracking use Floating UI. Disposal cancels scheduled work and ignores stale
 observer callbacks, results, size writes, and automatic errors.

@@ -3,6 +3,7 @@ import {
   autoUpdate,
   computePosition,
   flip,
+  getOverflowAncestors,
   hide,
   limitShift,
   offset,
@@ -112,6 +113,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
   let stopObservers: (() => void) | undefined
   let observedAnchor: PositioningAnchor | undefined
   let observedArrow: HTMLElement | null | undefined
+  let observedBoundaries: Element[] = []
   let observedConfig = ''
   let active = false
   const publish = (next: PositioningState) => {
@@ -378,16 +380,39 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
       ])
       const anchorContext = context(anchor)
       const observerAnchor = anchorContext ?? anchor
+      const explicitBoundary = options.collisionBoundary
+      const boundaryNodes = new Set<Element>()
+      if (options.autoUpdate !== false && updateOptions?.elementResize !== false) {
+        const ancestors = [
+          ...getOverflowAncestors(floating),
+          ...(anchorContext ? getOverflowAncestors(anchorContext) : []),
+        ]
+        for (const node of ancestors) {
+          if ('nodeType' in node && node.nodeType === 1) boundaryNodes.add(node as Element)
+        }
+        if (Array.isArray(explicitBoundary)) {
+          for (const node of explicitBoundary) boundaryNodes.add(node)
+        } else if (
+          explicitBoundary &&
+          typeof explicitBoundary === 'object' &&
+          'nodeType' in explicitBoundary
+        ) {
+          boundaryNodes.add(explicitBoundary)
+        }
+      }
       if (
         observedAnchor !== observerAnchor ||
         observedArrow !== arrowElement ||
-        observedConfig !== config
+        observedConfig !== config ||
+        observedBoundaries.length !== boundaryNodes.size ||
+        observedBoundaries.some((node) => !boundaryNodes.has(node))
       ) {
         stopObservers?.()
         stopObservers = undefined
         observedAnchor = observerAnchor
         observedArrow = arrowElement
         observedConfig = config
+        observedBoundaries = [...boundaryNodes]
         if (options.autoUpdate !== false) {
           let observing = true
           const update = () => {
@@ -421,6 +446,8 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
           if (anchorContext) resizeObserver?.observe(anchorContext, { box: 'border-box' })
           resizeObserver?.observe(floating, { box: 'border-box' })
           if (arrowElement) resizeObserver?.observe(arrowElement, { box: 'border-box' })
+          for (const boundary of boundaryNodes)
+            resizeObserver?.observe(boundary, { box: 'border-box' })
           stopObservers = () => {
             observing = false
             stop()
