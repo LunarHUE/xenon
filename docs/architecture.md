@@ -191,6 +191,68 @@ Cross-cutting, and binding on everything built after this point.
 - `as="fieldset"` drops `role="group"` and carries the native `disabled`
   attribute instead.
 
+## Decisions taken for the toggle family
+
+- Toggle has no link host. `aria-pressed` on `role="link"` is a critical axe
+  failure, so `as="a"` resolves to the generic host and gets `role="button"`.
+  It is the one place toggle does not inherit the whole button host set.
+- `data-state` carries `on` or `off` and a bare `data-pressed` rides with it
+  while pressed. The two library camps are not exclusive and the pair matches
+  what checkbox already emits.
+- A toggle group's container is always `role="group"` and its items always
+  report `aria-pressed`, in both modes. A container whose role changes when a
+  prop changes is surprising, and radio semantics belong to radio group.
+- Group items stay focusable while disabled, carrying `aria-disabled`, so a
+  disabled item keeps its place in the arrow ring. There is no per-item
+  native-disabled opt-out.
+
+## Decisions taken for tabs
+
+- A tab always carries `tabindex`, `aria-selected` and `aria-controls`,
+  whether or not its panel is mounted, which is why panel ids come from the
+  root rather than from a panel registering itself.
+- A panel stays mounted and carries the native `hidden` attribute while its
+  tab is not selected, so form state inside a panel survives. Unmounting on
+  hide is a later option.
+- Panel tab-reachability is decided by probing the whole panel for a
+  focusable descendant, watched by a mutation observer so a panel that gains
+  or loses content re-probes. Core only ever sees the resulting boolean.
+- The tab stop starts on the selected tab and stays with the focused tab once
+  focus is inside the list, handing back to the selection when focus leaves.
+- A disabled tab takes the native `disabled` attribute and is skipped
+  outright by arrow navigation, rather than being focusable and unselectable.
+
+## Decisions taken for radio group
+
+- The host decision belongs to the item, not the group, because everything
+  that differs between native and non-native is per item.
+- On the native host the browser owns arrow keys, wrapping, disabled skipping
+  and focus, so the engine binds none of them and every input shares one
+  `name`. Non-native hosts get the full composite engine, `role="radio"` and
+  a hidden input each when the group is named.
+- A group with no `name` still gets a generated one, because without it the
+  browser does not treat the inputs as a group and native arrow selection
+  stops working. The cost is that an unnamed native group does contribute an
+  entry on submit.
+- Arrow navigation starts from the radio that received the key, not from the
+  selected value. The two come apart under readonly and under a fixed
+  controlled value.
+- After any change the adapter rewrites `checked` on every registered input,
+  because checking one unchecks its siblings in the DOM.
+
+## Decisions taken for progress and separator
+
+- A non-finite value is indeterminate rather than reaching the DOM, since a
+  non-numeric `aria-valuenow` is a critical axe failure.
+- While indeterminate, `aria-valuenow` and `aria-valuetext` are both omitted
+  and the format hook is not called. There is nothing to format.
+- The percentage reaches CSS as `--progress-percentage`, written by the
+  adapter. Writing it through the `style` attribute from core would lose to a
+  user `style` prop, because user attributes win.
+- A separator is a native `hr` by default and only spells `role="separator"`
+  when `as` resolves to something else. `decorative` drops the role and the
+  orientation attribute together.
+
 ## Three Solid traps every compound adapter hits
 
 All three produce an infinite loop or a thrown context error, and all three
