@@ -57,7 +57,7 @@ export interface SelectProps {
   id?: string
   /** Keep closed popup mounted and hidden after exit. */
   forceMount?: boolean
-  /** Popup layout direction. */
+  /** Popup layout direction; otherwise inherited from the trigger after mount. */
   dir?: 'ltr' | 'rtl'
 }
 function createSelect(props: SelectProps) {
@@ -70,6 +70,16 @@ function createSelect(props: SelectProps) {
   const [search, setSearch] = createSignal('')
   const [trigger, setTrigger] = createSignal<HTMLElement>()
   const [content, setContent] = createSignal<HTMLElement>()
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  onSettled(() => {
+    const node = trigger()
+    if (node)
+      setAmbient(
+        node.closest('[dir]')?.getAttribute('dir') === 'rtl' || node.ownerDocument.dir === 'rtl'
+          ? 'rtl'
+          : 'ltr'
+      )
+  })
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let triggerRead: (() => string | undefined) | undefined
   let contentRead: (() => string | undefined) | undefined
@@ -157,11 +167,18 @@ function createSelect(props: SelectProps) {
   const memo = createMemo(compute)
   const engine = isServer ? compute : memo
   createEffect(
-    () => engine().state.activeValue,
-    (next) => {
-      if (next !== undefined && open())
-        content()
-          ?.ownerDocument.getElementById(optionId(next))
+    () => {
+      const activeValue = engine().state.activeValue
+      return {
+        open: open(),
+        content: content(),
+        id: activeValue === undefined ? undefined : optionId(activeValue),
+      }
+    },
+    (state) => {
+      if (state.open && state.id)
+        state.content?.ownerDocument
+          .getElementById(state.id)
           ?.scrollIntoView?.({ block: 'nearest' })
     }
   )
@@ -190,7 +207,7 @@ function createSelect(props: SelectProps) {
     reset() {
       if (props.value === undefined) setInternal(props.defaultValue)
     },
-    dir: () => props.dir ?? ('ltr' as const),
+    dir: () => props.dir ?? ambient(),
   }
 }
 const Context = createContext<ReturnType<typeof createSelect>>()
@@ -268,7 +285,8 @@ export function SelectRoot(props: SelectProps): JSX.Element {
       </select>
     </Context>
   )
-  return context.associations ? context.associations.finish(element) : element
+  // eslint-disable-next-line solid/components-return-once -- isServer is fixed for this runtime.
+  return isServer ? context.associations!.finish(element) : element
 }
 /** Polymorphic trigger props. Custom hosts must forward attributes and ref. */
 export type SelectTriggerProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {

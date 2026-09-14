@@ -9,6 +9,7 @@ import {
   omit,
   onCleanup,
   useContext,
+  untrack,
 } from 'solid-js'
 import { createPositioner } from '../positioning'
 import type { Positioner, PositionerOptions } from '../positioning'
@@ -55,7 +56,8 @@ export function useSelectionPositioner(): SelectionPositioner {
 }
 /** Hosts a nonmodal selection popup with fixed geometry, exit presence, and dismissal. */
 export function SelectionPopup(props: SelectionPopupProps): JSX.Element {
-  const context = props.source
+  // The root supplies one source object for this component lifetime; its readers stay reactive.
+  const context = untrack(() => props.source)
   const rest = omit(
     props as Record<string, unknown>,
     'source',

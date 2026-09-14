@@ -211,4 +211,25 @@ describe('Select', () => {
     flush()
     expect(native.value).toBe('a')
   })
+  test('author option handlers can cancel pointer selection', () => {
+    const change = vi.fn()
+    const view = render(() => (
+      <Select items={items} onValueChange={change}>
+        <Select.Trigger>Fruit</Select.Trigger>
+        <Select.Positioner>
+          <Select.Content>
+            <Select.Item value="a" onClick={(event) => event.preventDefault()}>
+              Cancel Apple
+            </Select.Item>
+          </Select.Content>
+        </Select.Positioner>
+      </Select>
+    ))
+    const trigger = view.getByRole('combobox')
+    press(trigger, 'ArrowDown')
+    view.getByText('Cancel Apple').click()
+    flush()
+    expect(change).not.toHaveBeenCalled()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
 })

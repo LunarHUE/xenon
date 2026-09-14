@@ -80,4 +80,11 @@ describe('select', () => {
     select({ items, onOpenChange: open }).parts.trigger.on.keydown?.(event)
     expect(open).not.toHaveBeenCalled()
   })
+  test('closed ArrowUp opens at the last enabled option', () => {
+    const active = vi.fn()
+    const open = vi.fn()
+    press(select({ items, onActiveChange: active, onOpenChange: open }), 'ArrowUp')
+    expect(active).toHaveBeenCalledWith('c')
+    expect(open).toHaveBeenCalledWith(true)
+  })
 })

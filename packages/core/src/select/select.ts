@@ -2,7 +2,7 @@ import type { PartProps } from '../part'
 
 /** Data retained while the popup is unmounted, for display, typeahead, and forms. */
 export interface SelectItem {
-  /** Unique submitted identity. */
+  /** Unique nonempty submitted identity; the empty string is reserved for the native placeholder. */
   value: string
   /** Plain text displayed by Value and searched by typeahead. */
   label: string
@@ -28,7 +28,12 @@ export interface SelectOptions {
   /** Exposes invalid semantics. */
   invalid?: boolean
   /** Trigger and popup IDs supplied by the adapter. */
-  ids?: { trigger?: string; content?: string }
+  ids?: {
+    /** Trigger host ID. */
+    trigger?: string
+    /** Listbox host ID and option-ID prefix. */
+    content?: string
+  }
   /** Caller-managed search buffer, reset after an idle timeout by the adapter. */
   search?: string
   /** Reports a requested committed value; construction is silent. */
@@ -40,6 +45,29 @@ export interface SelectOptions {
   /** Reports accumulated search text. */
   onSearchChange?: (search: string) => void
 }
+/** Computed selection state and host bundles, recomputed after state requests. */
+export interface SelectResult {
+  /** Resolved input snapshot; event requests do not mutate it. */
+  state: {
+    /** Popup visibility. */
+    open: boolean
+    /** Committed value. */
+    value: string | undefined
+    /** Enabled highlighted value. */
+    activeValue: string | undefined
+    /** Metadata for the committed value, including while closed. */
+    selectedItem: SelectItem | undefined
+  }
+  /** Bind these bundles to their corresponding hosts. */
+  parts: {
+    /** Native button with select-only combobox semantics. */
+    trigger: PartProps<'button'>
+    /** Listbox surface with no DOM focus transfer. */
+    content: PartProps<'div'>
+    /** Option semantics and pointer selection handlers. */
+    item(value: string): PartProps<'div'>
+  }
+}
 /** Stable option ID derived from the popup ID and encoded value. */
 export function getSelectItemId(id: string, value: string): string {
   return `${id}-option-${encodeURIComponent(value)}`
@@ -50,7 +78,7 @@ export function getSelectItemId(id: string, value: string): string {
  * closes without preventing native focus movement. Closed typeahead commits directly.
  * The adapter owns state, focus, mounting, positioning, and native form integration.
  */
-export function select(options: SelectOptions) {
+export function select(options: SelectOptions): SelectResult {
   const open = options.open ?? false
   const blocked = options.disabled || options.readonly
   const enabled = options.items.filter((item) => !item.disabled)
@@ -89,7 +117,13 @@ export function select(options: SelectOptions) {
     ) {
       event.preventDefault()
       if (!open) {
-        show(event.key === 'Home' ? 'first' : event.key === 'End' ? 'last' : undefined)
+        show(
+          event.key === 'Home'
+            ? 'first'
+            : event.key === 'End' || (event.key === 'ArrowUp' && options.value === undefined)
+              ? 'last'
+              : undefined
+        )
         return
       }
       if (event.key === 'Enter' || event.key === ' ' || (event.altKey && event.key === 'ArrowUp')) {
