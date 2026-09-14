@@ -22,6 +22,11 @@ import type {
   PositioningState,
 } from './types'
 
+/**
+ * Create an unmeasured snapshot from requested side, alignment, and strategy.
+ * Defaults are bottom, center, and absolute. Geometry and transform origin are
+ * null; positioned and referenceHidden are false. Performs no DOM work.
+ */
 export function initialPositioningState(
   options: Partial<PositioningOptions> = {}
 ): PositioningState {
@@ -47,10 +52,15 @@ export function initialPositioningState(
   }
 }
 
-/** Save only properties owned by this controller, leaving unrelated styles intact. */
+/**
+ * Save the original value on first write to each owned style or attribute.
+ * Restoration reinstates that value even if another writer changed it meanwhile;
+ * unrelated properties remain untouched. Keep owned properties exclusive until released.
+ */
 function owned(element: HTMLElement) {
   const styles = new Map<string, [string, string]>()
   const attrs = new Map<string, string | null>()
+  /** Restore one saved inline style and priority, then relinquish its ownership. */
   const restoreStyle = (name: string) => {
     const original = styles.get(name)
     if (!original) return
@@ -58,6 +68,7 @@ function owned(element: HTMLElement) {
     else element.style.removeProperty(name)
     styles.delete(name)
   }
+  /** Restore one saved attribute string or its original absence. */
   const restoreAttr = (name: string) => {
     if (!attrs.has(name)) return
     const value = attrs.get(name)!
@@ -66,6 +77,7 @@ function owned(element: HTMLElement) {
     attrs.delete(name)
   }
   return {
+    /** Save once, then write an inline style without priority only when necessary. */
     style(name: string, value: string) {
       if (!styles.has(name))
         styles.set(name, [
@@ -75,6 +87,7 @@ function owned(element: HTMLElement) {
       if (element.style.getPropertyValue(name) !== value || element.style.getPropertyPriority(name))
         element.style.setProperty(name, value)
     },
+    /** Save once, then set a value or remove the attribute for null. */
     attr(name: string, value: string | null) {
       if (!attrs.has(name)) attrs.set(name, element.getAttribute(name))
       if (value === null) element.removeAttribute(name)
@@ -82,6 +95,7 @@ function owned(element: HTMLElement) {
     },
     restoreStyle,
     restoreAttr,
+    /** Restore all owned mutations and remove a leftover empty style attribute. */
     restore() {
       for (const name of styles.keys()) restoreStyle(name)
       for (const name of attrs.keys()) restoreAttr(name)
@@ -91,9 +105,11 @@ function owned(element: HTMLElement) {
   }
 }
 
+/** Resolve the real anchor or optional virtual context used for connectivity and observers. */
 function context(anchor: PositioningAnchor): Element | undefined {
   return 'nodeType' in anchor ? anchor : anchor.contextElement
 }
+/** Edge on which an arrow protrudes for each resolved popup side. */
 const opposite: Record<PositioningSide, PositioningSide> = {
   top: 'bottom',
   bottom: 'top',
@@ -101,11 +117,30 @@ const opposite: Record<PositioningSide, PositioningSide> = {
   right: 'left',
 }
 
-/** Geometry and subscriptions only. The caller owns mounting, presence, and layering. */
+/**
+ * Position a connected floating wrapper and maintain its geometry subscriptions.
+ *
+ * @remarks
+ * Creation immediately applies the initial options and requests asynchronous
+ * measurement when usable. The caller owns mounting, presence, layering, and the
+ * content/arrow artwork. Keep geometry on this wrapper and animate inner content
+ * so transforms do not alter the measurement box.
+ *
+ * The controller owns position, left/top, visibility, pointer-events, geometry
+ * custom properties, placement attributes, and any requested matched dimension
+ * or direction. Arrow styles and presentation attributes are owned separately.
+ * Disabling, losing a usable anchor during update, or disposal restores saved
+ * values. Callers should avoid writing owned properties until released.
+ *
+ * @param floating - Wrapper to measure and style in its owner document.
+ * @param initial - Full initial options; later updates replace rather than merge them.
+ * @returns A controller whose manual reposition promise rejects on measurement errors.
+ */
 export function createPositioner(floating: HTMLElement, initial: PositioningOptions): Positioner {
   let options = initial
   let state = initialPositioningState(options)
   let disposed = false
+  /** Every new measurement/update/disposal invalidates older asynchronous results. */
   let generation = 0
   const floatingOwned = owned(floating)
   let arrowElement: HTMLElement | null | undefined
@@ -116,6 +151,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
   let observedBoundaries: Element[] = []
   let observedConfig = ''
   let active = false
+  /** Store a fresh snapshot and notify with a copy only when at least one field changes. */
   const publish = (next: PositioningState) => {
     const changed = (Object.keys(next) as (keyof PositioningState)[]).some(
       (key) => state[key] !== next[key]
@@ -123,11 +159,13 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
     state = next
     if (changed) options.onPositioned?.({ ...state })
   }
+  /** Keep a newly active or re-anchored wrapper noninteractive until measurement succeeds. */
   const pending = () => {
     floatingOwned.style('visibility', 'hidden')
     floatingOwned.style('pointer-events', 'none')
     floatingOwned.attr('data-positioned', null)
   }
+  /** Release observers and owned styles/attributes without publishing a replacement state. */
   const clear = () => {
     stopObservers?.()
     stopObservers = undefined
@@ -139,6 +177,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
     floatingOwned.restore()
     active = false
   }
+  /** Require enabled state, an anchor, connected floating DOM, and any connected anchor context. */
   const usable = () => {
     const anchor = options.anchor
     return (
@@ -148,6 +187,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
       (!context(anchor) || context(anchor)!.isConnected)
     )
   }
+  /** Route automatic failures to onError, or rethrow in a microtask if no handler exists. */
   const report = (error: unknown) => {
     if (disposed) return
     if (options.onError) options.onError(error)
@@ -156,6 +196,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
         throw error
       })
   }
+  /** Fire an automatic measurement; only a current usable request reports a rejection. */
   const request = () => {
     const task = reposition()
     const ticket = generation
@@ -164,6 +205,11 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
     })
   }
 
+  /**
+   * Measure one captured option set. Generation checks suppress stale writes;
+   * current size middleware may publish dimensions before final coordinates.
+   * Manual calls propagate failures to their returned promise.
+   */
   async function reposition(): Promise<void> {
     const ticket = ++generation
     if (disposed || !usable()) return
@@ -327,9 +373,12 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
     })
   }
 
+  /** Mutable handle; getState copies the snapshot and disposal restores owned DOM. */
   const controller: Positioner = {
+    /** Return a copy so callers cannot mutate the internal snapshot. */
     getState: () => ({ ...state }),
     reposition,
+    /** Replace options, restore obsolete ownership, reconcile subscriptions, and request measurement. */
     update(next) {
       if (disposed) return
       generation++
@@ -458,6 +507,7 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
       }
       request()
     },
+    /** Idempotently invalidate pending results and restore owned DOM without notifying onPositioned. */
     dispose() {
       if (disposed) return
       disposed = true
