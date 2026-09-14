@@ -58,9 +58,11 @@ function pointerUpTargets(
   const targets = eventTargets(event, document)
   if (!targets) return
   const target = targets[0]
-  if (!captured && !target?.hasPointerCapture?.(event.pointerId)) return targets
-  // Capture retargets pointerup; use the physical endpoint for containment.
   let hit = document.elementFromPoint?.(event.clientX, event.clientY)
+  // Native text selection can also retarget pointerup without reporting capture.
+  // Keep the composed path when it agrees with the physical endpoint.
+  if (!captured && !target?.hasPointerCapture?.(event.pointerId) && (!hit || targets.includes(hit)))
+    return targets
   if (!hit) return
   while (hit.shadowRoot?.elementFromPoint) {
     const inner = hit.shadowRoot.elementFromPoint(event.clientX, event.clientY)

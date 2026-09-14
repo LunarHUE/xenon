@@ -273,34 +273,39 @@ describe('outside pointer dismissal', () => {
     expect(later).not.toHaveBeenCalled()
   })
 
-  test('captured releases use physical endpoints, including open shadow roots', () => {
-    const dismiss = vi.fn()
-    const host = element()
-    const shadow = host.attachShadow({ mode: 'open' })
-    const content = document.createElement('div')
-    shadow.append(content)
-    layer({ outsidePointer: 'dismiss', onDismiss: dismiss }, content)
-    const capture = element()
-    Object.defineProperty(capture, 'hasPointerCapture', { value: () => true })
-    const hit = vi.fn((): Element | null => host)
-    const innerHit = vi.fn(() => content)
-    Object.defineProperty(document, 'elementFromPoint', { configurable: true, value: hit })
-    Object.defineProperty(shadow, 'elementFromPoint', { configurable: true, value: innerHit })
-    try {
-      gesture(capture)
-      expect(hit).toHaveBeenCalledWith(0, 0)
-      expect(innerHit).toHaveBeenCalledWith(0, 0)
-      expect(dismiss).not.toHaveBeenCalled()
-      hit.mockReturnValue(null)
-      gesture(capture)
-      expect(dismiss).not.toHaveBeenCalled()
-      hit.mockReturnValue(capture)
-      gesture(capture)
-      expect(dismiss).toHaveBeenCalledTimes(1)
-    } finally {
-      Reflect.deleteProperty(document, 'elementFromPoint')
+  test.each([true, false])(
+    'retargeted releases use physical endpoints with capture=%s, including open shadow roots',
+    (captured) => {
+      const dismiss = vi.fn()
+      const host = element()
+      const shadow = host.attachShadow({ mode: 'open' })
+      const content = document.createElement('div')
+      shadow.append(content)
+      layer({ outsidePointer: 'dismiss', onDismiss: dismiss }, content)
+      const capture = element()
+      Object.defineProperty(capture, 'hasPointerCapture', { value: () => captured })
+      const hit = vi.fn((): Element | null => host)
+      const innerHit = vi.fn(() => content)
+      Object.defineProperty(document, 'elementFromPoint', { configurable: true, value: hit })
+      Object.defineProperty(shadow, 'elementFromPoint', { configurable: true, value: innerHit })
+      try {
+        gesture(capture)
+        expect(hit).toHaveBeenCalledWith(0, 0)
+        expect(innerHit).toHaveBeenCalledWith(0, 0)
+        expect(dismiss).not.toHaveBeenCalled()
+        hit.mockReturnValue(null)
+        if (captured) {
+          gesture(capture)
+          expect(dismiss).not.toHaveBeenCalled()
+        }
+        hit.mockReturnValue(capture)
+        gesture(capture)
+        expect(dismiss).toHaveBeenCalledTimes(1)
+      } finally {
+        Reflect.deleteProperty(document, 'elementFromPoint')
+      }
     }
-  })
+  )
 
   test.each(['inside', 'contact'])(
     'a new %s press cancels an already scheduled request',
@@ -354,7 +359,7 @@ describe('outside pointer dismissal', () => {
     const capture = document.createElement('button')
     shadow.append(capture)
     Object.defineProperty(capture, 'hasPointerCapture', { value: () => true })
-    const hit = vi.fn(() => content)
+    const hit = vi.fn((): Element | null => content)
     Object.defineProperty(document, 'elementFromPoint', { configurable: true, value: hit })
     try {
       pointer('pointerdown', capture)
@@ -363,8 +368,9 @@ describe('outside pointer dismissal', () => {
       vi.runAllTimers()
       expect(hit).toHaveBeenCalledTimes(1)
       expect(dismiss).not.toHaveBeenCalled()
+      hit.mockReturnValue(null)
       gesture(host)
-      expect(hit).toHaveBeenCalledTimes(1)
+      expect(hit).toHaveBeenCalledTimes(2)
       expect(dismiss).toHaveBeenCalledTimes(1)
     } finally {
       Reflect.deleteProperty(document, 'elementFromPoint')
@@ -407,4 +413,21 @@ describe('outside pointer dismissal', () => {
     gesture()
     expect(dismiss).toHaveBeenCalledTimes(1)
   })
+})
+
+test('pointer classifier can treat a native backdrop target as outside on both endpoints', () => {
+  const node = element()
+  const dismiss = vi.fn()
+  const classifier = vi.fn((event: PointerEvent) => (event.clientX < 0 ? false : undefined))
+  layer({ outsidePointer: 'dismiss', onDismiss: dismiss, isPointerInside: classifier }, node)
+  pointer('pointerdown', node, { clientX: -1 })
+  pointer('pointerup', node, { clientX: 1 })
+  vi.runAllTimers()
+  expect(dismiss).not.toHaveBeenCalled()
+  const down = pointer('pointerdown', node, { clientX: -1 })
+  const up = pointer('pointerup', node, { clientX: -1 })
+  vi.runAllTimers()
+  expect(classifier).toHaveBeenCalledWith(down)
+  expect(classifier).toHaveBeenCalledWith(up)
+  expect(dismiss).toHaveBeenCalledExactlyOnceWith(up)
 })
