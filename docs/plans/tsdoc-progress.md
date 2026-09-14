@@ -107,3 +107,16 @@ Independent review and package lint passed. Peer reviewed toolbar, toggle group 
 | `d5e9bce` | document toggle group selection and navigation | `packages/solid/src/toggle-group/context.ts`, `packages/solid/src/toggle-group/toggle-group.tsx` |
 | `5da7ccb` | document toolbar parts and registry contracts | `packages/solid/src/toolbar/context.ts`, `packages/solid/src/toolbar/items.tsx`, `packages/solid/src/toolbar/toolbar.tsx` |
 | `46747eb` | document radio hosts and form state ownership | `packages/solid/src/radio-group/context.ts`, `packages/solid/src/radio-group/item.tsx`, `packages/solid/src/radio-group/radio-group.tsx` |
+
+## Solid S4 complete
+
+Independent review and package lint passed. Disclosures independently reviewed, including retained IDs, structural focus probing, presence overrides and SSR timing. Documented existing limitation: programmatic focus reporting can select a disabled tab in automatic mode; keyboard destinations and click selection remain gated. Native focusout cancellation wording was corrected. All 38 current Solid documentation links resolve.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `4ecabb7` | document collapsible presence and part contracts | `packages/solid/src/collapsible/context.ts`, `packages/solid/src/collapsible/collapsible.tsx` |
+| `5e648cb` | document tabs registry and focusable-content probe | `packages/solid/src/tabs/context.ts`, `packages/solid/src/tabs/focusable.ts` |
+| `858d250` | document accordion selection and item presence | `packages/solid/src/accordion/context.ts`, `packages/solid/src/accordion/accordion.tsx`, `packages/solid/src/accordion/items.tsx` |
+| `fd3e479` | clarify tabs disabled navigation contract | `packages/solid/src/tabs/context.ts` |
+| `187f8a8` | document tabs parts and selection lifecycle | `packages/solid/src/tabs/tabs.tsx`, `packages/solid/src/tabs/parts.tsx` |
+| `951bac6` | clarify native tabs focusout cancellation | `packages/solid/src/tabs/parts.tsx` |
