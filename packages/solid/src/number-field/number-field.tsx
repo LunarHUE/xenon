@@ -33,16 +33,25 @@ export interface NumberFieldProps extends Omit<
   /** Group CSS class. */
   class?: string
 }
+/** Shared number-field state, element identity, and optional Field integration. */
 interface Context {
+  /** Deferred server label and control associations. */
   associations?: ReturnType<typeof serverAssociations>
+  /** Current root props. */
   props: NumberFieldProps
+  /** Reactive core result. */
   engine: () => ReturnType<typeof numberField>
+  /** Optional enclosing Field. */
   field: ReturnType<typeof useFieldContext>
+  /** Current input ID, including author overrides. */
   id: () => string
+  /** Register a live input ID getter and return its cleanup. */
   registerId: (read: () => string | undefined) => () => void
+  /** Record the native text input for form reset and validity synchronization. */
   setInput: (input: HTMLInputElement) => void
 }
 const Context = createContext<Context>()
+/** Read the required owning NumberField context. */
 function useNumberField() {
   const context = useContext(Context)
   if (!context) throw new Error('NumberField parts must be inside a <NumberField>')
@@ -251,10 +260,16 @@ function NumberFieldValueText(props: NumberFieldValueTextProps): JSX.Element {
 }
 /** Numeric form input and its independently styled parts. */
 export const NumberField = Object.assign(NumberFieldRoot, {
+  /** Native text spinbutton with locale parsing and Field associations. */
   Input: NumberFieldInput,
+  /** Layout wrapper for the input and step controls. */
   Control: NumberFieldControl,
+  /** Native label targeting the current input ID. */
   Label: NumberFieldLabel,
+  /** Formatted editable text rendered outside the input. */
   ValueText: NumberFieldValueText,
+  /** Native button requesting the next greater step. */
   IncrementTrigger: NumberFieldIncrementTrigger,
+  /** Native button requesting the next smaller step. */
   DecrementTrigger: NumberFieldDecrementTrigger,
 })

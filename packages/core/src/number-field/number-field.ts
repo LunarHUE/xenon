@@ -121,9 +121,13 @@ export function numberField(options: NumberFieldOptions = {}) {
     (parsed !== null &&
       (!Number.isFinite(parsed) || parsed < (min ?? -Infinity) || parsed > (max ?? Infinity)))
   const flags = {
+    /** Present while the root is disabled. */
     'data-disabled': options.disabled ? '' : undefined,
+    /** Present while edits are blocked without disabling focus. */
     'data-readonly': options.readonly ? '' : undefined,
+    /** Present when a nonempty value is required. */
     'data-required': options.required ? '' : undefined,
+    /** Present for author invalid state or a draft parse/range error. */
     'data-invalid': invalid ? '' : undefined,
   }
   const move = (direction: 1 | -1, amount?: number) => {
@@ -214,28 +218,45 @@ export function numberField(options: NumberFieldOptions = {}) {
     },
   }
   return {
+    /** Committed numeric value, editable text, validation and step availability. */
     state: {
+      /** Finite committed number, or null for empty or nonfinite input. */
       value,
+      /** Supplied draft or the formatted committed value. */
       inputValue: text,
+      /** Parsed draft, null for empty, or NaN for text that cannot be parsed. */
       parsedValue: parsed,
+      /** Author invalid state or a nonempty draft outside the numeric bounds. */
       invalid,
+      /** Whether increasing is blocked by interaction state or the upper bound. */
       incrementDisabled,
+      /** Whether decreasing is blocked by interaction state or the lower bound. */
       decrementDisabled,
     },
     /** Commit the current draft, restoring invalid text and clamping finite values. */
     commit,
+    /** Group, editable spinbutton and two directional step buttons. */
     parts: {
+      /** Semantic group with disabled and invalid announcements. */
       root: {
+        /** Group role, ARIA state and shared styling attributes. */
         attrs: {
           ...flags,
+          /** Associates the input and step buttons as one group. */
           role: 'group',
+          /** Announces disabled state on the group. */
           'aria-disabled': options.disabled ? 'true' : undefined,
+          /** Announces author or draft validation errors. */
           'aria-invalid': invalid ? 'true' : undefined,
         },
+        /** Root has no interaction handlers. */
         on: {},
       } satisfies PartProps<'div'>,
+      /** Text spinbutton, draft input, blur commit and keyboard stepping. */
       input,
+      /** Button requesting the next greater step. */
       incrementTrigger: trigger(1),
+      /** Button requesting the next smaller step. */
       decrementTrigger: trigger(-1),
     },
   }

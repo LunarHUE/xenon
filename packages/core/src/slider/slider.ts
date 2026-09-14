@@ -77,9 +77,11 @@ export interface SliderResult {
   percentage(value: number): number
 }
 
+/** Substitute a fallback for omitted or nonfinite numeric input. */
 function finite(value: number | undefined, fallback: number): number {
   return value !== undefined && Number.isFinite(value) ? value : fallback
 }
+/** Round accumulated binary noise to fifteen significant decimal digits. */
 function clean(value: number): number {
   return Number(value.toPrecision(15))
 }

@@ -48,30 +48,48 @@ export type SliderValueTextProps = JSX.IntrinsicElements['output']
 /** Label attributes. Rendered as a span to avoid native range label bugs. */
 export type SliderLabelProps = JSX.IntrinsicElements['span']
 
+/** Shared slider snapshot, native thumb registry, and gesture coordination. */
 interface Context {
+  /** Current normalized core result. */
   result(): SliderResult
+  /** Reactive root configuration. */
   props: SliderProps
+  /** Stable fallback base for generated part IDs. */
   id: string
+  /** Registered shared label ID. */
   label(): string | undefined
+  /** Update the registered label ID. */
   setLabel(value: string | undefined): void
+  /** Current field and slider data attributes. */
   flags(): GlobalAttrs
+  /** Mounted native thumbs keyed by their initial index. */
   inputs: Map<number, HTMLInputElement>
+  /** Live author-aware thumb ID readers. */
   thumbIds: Map<number, () => string>
+  /** Request different values and queue DOM synchronization. */
   change(value: number[]): void
+  /** Emit the latest pending change once per finished gesture. */
   commit(): void
+  /** Restore native input values after reactive updates settle. */
   sync(): void
+  /** Start a pointer gesture against the mounted control geometry. */
   start(event: PointerEvent, index?: number): void
+  /** Register the element whose bounds define pointer coordinates. */
   setControl(el: HTMLDivElement): void
+  /** Record focus for root styling. */
   setFocus(value: boolean): void
+  /** Optional enclosing Field. */
   field: ReturnType<typeof useFieldContext>
 }
 const SliderContext = createContext<Context>()
+/** Read the required owning Slider context. */
 function useSlider(): Context {
   const context = useContext(SliderContext)
   if (!context) throw new Error('Slider parts must be rendered inside <Slider>')
   return context
 }
 
+/** Append author string styles or merge author object styles after defaults. */
 function mergeStyle(
   style: SliderPartProps['style'],
   defaults: JSX.CSSProperties
@@ -83,6 +101,7 @@ function mergeStyle(
     : { ...defaults, ...(typeof style === 'object' ? style : {}) }
 }
 
+/** Own array values, native form reset and pointer gesture cleanup. */
 function SliderRoot(props: SliderProps): JSX.Element {
   const field = useFieldContext()
   const id = createUniqueId()
@@ -292,6 +311,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
   )
 }
 
+/** Register pointer geometry and suppress touch scrolling during a gesture. */
 function SliderControl(props: SliderPartProps): JSX.Element {
   const context = useSlider()
   const rest = omit(props, 'children', 'ref')
@@ -314,6 +334,7 @@ function SliderControl(props: SliderPartProps): JSX.Element {
     </div>
   )
 }
+/** Render a decorative track with shared styling flags. */
 function SliderTrack(props: SliderPartProps): JSX.Element {
   const context = useSlider()
   return (
@@ -325,6 +346,7 @@ function SliderTrack(props: SliderPartProps): JSX.Element {
     </div>
   )
 }
+/** Expose numeric start and end percentage properties for consumer CSS. */
 function SliderRange(props: SliderPartProps): JSX.Element {
   const context = useSlider()
   const style = () => {
@@ -346,6 +368,7 @@ function SliderRange(props: SliderPartProps): JSX.Element {
     </div>
   )
 }
+/** Render a native range input at its initial fixed index with custom keyboard stepping. */
 function SliderThumb(props: SliderThumbProps): JSX.Element {
   const context = useSlider()
   const initialIndex = untrack(() => props.index ?? 0)
@@ -465,6 +488,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
     />
   )
 }
+/** Register a shared label ID and focus the first thumb when the label is clicked. */
 function SliderLabel(props: SliderLabelProps): JSX.Element {
   const context = useSlider()
   const id = () => (typeof props.id === 'string' ? props.id : `${context.id}-label`)
@@ -492,6 +516,7 @@ function SliderLabel(props: SliderLabelProps): JSX.Element {
     </span>
   )
 }
+/** Render consumer content or the current values separated by a dash. */
 function SliderValueText(props: SliderValueTextProps): JSX.Element {
   const context = useSlider()
   const rest = omit(props, 'children')

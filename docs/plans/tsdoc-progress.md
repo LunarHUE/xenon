@@ -266,3 +266,18 @@ commands, Content refs, and untransformed viewport sizing. The member inventory
 reports core 635, DOM 144, Solid 900 with zero missing comments. All local links
 resolve: core 32, DOM 6, Solid 60. API and validation notes are recorded in
 `overlay-standardization.md`.
+
+## Numeric and structured inputs follow-up
+
+Slider, NumberField, PinInput, TagsInput and Editable were reviewed against their
+current implementations. Added missing NumberField result and compound-part
+comments, plus private NumberField and Slider context contracts. Clarified that
+Slider thumb indices are captured at mount. Removed an inaccurate example claim
+that Escape restores NumberField drafts; the current field does not handle Escape.
+
+The public-member audit reports 33 core implementation files, 156 exports and 777
+owned members, and 63 Solid implementation files, 310 exports and 992 owned
+members. Both inventories have zero missing comments. All local documentation
+links resolve: core 32 and Solid 60. Plain re-export aliases and generated native
+attribute members remain excluded by the existing audit. The five family coverage
+ledgers record behavioral scope and browser evidence separately.
