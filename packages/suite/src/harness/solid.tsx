@@ -1,11 +1,11 @@
-import { Button } from '@kit/solid'
+import { Button, Checkbox, Switch } from '@kit/solid'
 import { Dynamic, render } from '@solidjs/web'
 import type { ValidComponent } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
 
 import type { ComponentName, Components, Harness, Mounted } from '../harness'
 
-const components = { button: Button }
+const components = { button: Button, checkbox: Checkbox, switch: Switch }
 
 const mounted = new Set<() => void>()
 
