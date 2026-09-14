@@ -1,15 +1,29 @@
+/**
+ * Generates HTML/ARIA attribute interfaces from upstream name lists and local
+ * type overrides. Runs immediately when loaded: `--check` compares exact file
+ * contents and exits with status 1 when stale or unreadable; otherwise the script
+ * writes src/attrs.generated.ts. Output paths are relative to this module.
+ *
+ * @packageDocumentation
+ */
 import { readFileSync, writeFileSync } from 'node:fs'
 import { ariaAttributes } from 'aria-attributes'
 import { htmlElementAttributes } from 'html-element-attributes'
 
 import { aria, booleans, enumerated, strings } from './attrs.overrides'
 
+/** Generated source destination, independent of the working directory. */
 const OUT = new URL('../src/attrs.generated.ts', import.meta.url)
 
+/** Joins trusted, nonempty literal lists without escaping quotes or deduplicating values. */
 function union(values: readonly string[]): string {
   return values.map((v) => `'${v}'`).join(' | ')
 }
 
+/**
+ * Chooses boolean, forced string, tag-specific tokens, then global tokens in
+ * that order. Unrecognized HTML values fall back to string | number.
+ */
 function valueType(tag: string, name: string): string {
   if (booleans.has(name)) return 'boolean'
   if (strings.has(name)) return 'string'
@@ -17,20 +31,25 @@ function valueType(tag: string, name: string): string {
   return own ? union(own) : 'string | number'
 }
 
+/** Leaves letter-led alphanumeric names bare and quotes others; names must not contain unescaped quotes. */
 function key(name: string): string {
   return /^[a-z][a-z0-9]*$/i.test(name) ? name : `'${name}'`
 }
 
+/** Emits optional HTML properties in input order, without sorting or removing duplicate names. */
 function lines(tag: string, names: readonly string[]): string {
   return names.map((name) => `  ${key(name)}?: ${valueType(tag, name)}`).join('\n')
 }
 
+/** Deduplicated, sorted global HTML names, including role. */
 const globals = [...new Set([...htmlElementAttributes['*']!, 'role'])].sort()
+/** ARIA properties in upstream order; role is emitted with the HTML globals instead. */
 const ariaLines = ariaAttributes
   .filter((name) => name !== 'role')
   .map((name) => `  '${name}'?: ${aria[name] ? union(aria[name]) : 'string'}`)
   .join('\n')
 
+/** Sorted tag names; the global wildcard is emitted separately. */
 const tags = Object.keys(htmlElementAttributes)
   .filter((tag) => tag !== '*')
   .sort()

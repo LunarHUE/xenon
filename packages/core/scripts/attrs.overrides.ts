@@ -1,4 +1,7 @@
-/** Boolean attributes: presence is true, absence is false. WHATWG list. */
+/**
+ * HTML names generated as JavaScript boolean attributes before other overrides
+ * are considered. Adapters serialize true as presence and false as absence.
+ */
 export const booleans = new Set([
   'allowfullscreen',
   'async',
@@ -30,8 +33,15 @@ export const booleans = new Set([
   'shadowrootserializable',
 ])
 
+/** HTML names forced to string after boolean lookup, before enumerated overrides. */
 export const strings = new Set(['class', 'id', 'lang', 'role', 'style', 'title', 'name', 'form'])
 
+/**
+ * Literal-value overrides keyed by HTML tag, then attribute name. The `*` entry
+ * supplies fallback values when a tag-specific entry is absent. Only names in
+ * the upstream attribute lists are emitted; an override does not add an attribute.
+ * Values must be safe inside unescaped single-quoted TypeScript string literals.
+ */
 export const enumerated: Record<string, Record<string, readonly string[]>> = {
   '*': {
     autocapitalize: ['off', 'none', 'on', 'sentences', 'words', 'characters'],
@@ -98,7 +108,9 @@ export const enumerated: Record<string, Record<string, readonly string[]>> = {
 
 /**
  * ARIA attributes with token values. Unlisted ones are `string`. ARIA
- * booleans are the strings 'true' | 'false', never JS booleans.
+ * booleans are the strings 'true' | 'false', never JS booleans. Only names in
+ * the upstream ARIA list are emitted. Tokens must be safe inside unescaped
+ * single-quoted TypeScript string literals.
  */
 export const aria: Record<string, readonly string[]> = {
   'aria-atomic': ['true', 'false'],
