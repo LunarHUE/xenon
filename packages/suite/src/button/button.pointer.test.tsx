@@ -33,8 +33,6 @@ describe('button pointer', () => {
     expect(targets).toEqual([el, el, el])
   })
 
-  spec.todo('button.pointer.2')
-
   spec('button.pointer.3', () => {
     const events: MouseEvent[] = []
     const live = mount('button', {

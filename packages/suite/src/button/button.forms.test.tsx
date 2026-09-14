@@ -101,34 +101,6 @@ describe('button forms', () => {
     expect(el.form).toBe(null)
   })
 
-  spec.todo('button.forms.4')
-
-  spec.todo('button.forms.5')
-
-  spec.todo('button.forms.6')
-
-  spec.todo('button.forms.7')
-
-  spec.skip('button.forms.8', 'jsdom does not normalize CRLF in setCustomValidity', () => {
-    const m = mount('button', { children: 'Go', type: 'submit' })
-    formWith(m.container)
-    const el = buttonHost(m.container)
-    expect(el.willValidate).toBe(true)
-
-    const invalid = vi.fn()
-    el.addEventListener('invalid', (event) => invalid(event.cancelable))
-    el.setCustomValidity('Pick one first')
-    expect(el.checkValidity()).toBe(false)
-    expect(invalid).toHaveBeenCalledWith(true)
-    expect(el.reportValidity()).toBe(false)
-
-    el.setCustomValidity('')
-    expect(el.checkValidity()).toBe(true)
-
-    el.setCustomValidity('Pick one\r\nfirst')
-    expect(el.validationMessage).toBe('Pick one\nfirst')
-  })
-
   spec('button.forms.9', () => {
     const m = mount('button', { children: 'Go' })
     const el = buttonHost(m.container)
@@ -147,31 +119,6 @@ describe('button forms', () => {
     ]
     for (const flag of flags) expect(flag in el.validity).toBe(true)
     expect(el.validity.valid).toBe(true)
-  })
-
-  spec.skip('button.forms.10', 'jsdom ignores formnovalidate on the submitter', async () => {
-    const user = userEvent.setup()
-    const m = mount('button', { children: 'Go', type: 'submit' })
-    const form = formWith(m.container)
-    const required = textInput(form, 'required')
-    required.required = true
-    const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
-    form.addEventListener('submit', submit)
-
-    form.noValidate = true
-    await user.click(host(m.container))
-    await m.settle()
-    expect(submit).toHaveBeenCalledTimes(1)
-
-    form.noValidate = false
-    await user.click(host(m.container))
-    await m.settle()
-    expect(submit).toHaveBeenCalledTimes(1)
-
-    m.setProps({ formnovalidate: true })
-    await user.click(host(m.container))
-    await m.settle()
-    expect(submit).toHaveBeenCalledTimes(2)
   })
 
   spec('button.forms.11', async () => {
@@ -203,8 +150,6 @@ describe('button forms', () => {
     await m.settle()
     expect(input.value).toBe('typed again')
   })
-
-  spec.todo('button.forms.12')
 
   spec('button.forms.13', async () => {
     const user = userEvent.setup()
@@ -339,10 +284,6 @@ describe('button forms', () => {
     expect(reset).toHaveBeenCalledTimes(1)
   })
 
-  spec.todo('button.forms.20')
-
-  spec.todo('button.forms.21')
-
   spec('button.forms.22', () => {
     const popover = document.createElement('div')
     popover.id = 'button-forms-22'
@@ -400,10 +341,6 @@ describe('button forms', () => {
     expect(submitter).toBe('First')
   })
 
-  spec.todo('button.forms.25')
-
-  spec.todo('button.forms.26')
-
   spec('button.forms.27', async () => {
     const user = userEvent.setup()
     const m = mount('button', { children: 'Go', type: 'submit', name: 'action', value: 'save' })
@@ -454,8 +391,6 @@ describe('button forms', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
-  spec.todo('button.forms.30')
-
   spec('button.forms.31', () => {
     const native = mount('button', { children: 'Go', id: 'button-forms-31-native' })
     const nativeLabel = createLabel('Native')
@@ -473,22 +408,6 @@ describe('button forms', () => {
     expect(customLabel.control).toBe(null)
     expect(host(custom.container)).toHaveAccessibleName('Custom label')
   })
-
-  spec.skip(
-    'button.forms.32',
-    'native hosts delegate activation to the browser; preventing keydown would cancel it',
-    () => {
-      const m = mount('button', { children: 'Go' })
-      formWith(m.container)
-      const el = host(m.container)
-      el.focus()
-
-      expect(fireEvent.keyDown(el, { key: 'Enter' })).toBe(false)
-      expect(fireEvent.keyUp(el, { key: 'Enter' })).toBe(false)
-      expect(fireEvent.keyDown(el, { key: ' ' })).toBe(false)
-      expect(fireEvent.keyUp(el, { key: ' ' })).toBe(false)
-    }
-  )
 
   spec('button.forms.33', () => {
     const m = mount('button', { children: 'Go', type: 'submit' })
@@ -520,10 +439,6 @@ describe('button forms', () => {
     await m.settle()
     expect(reset).toHaveBeenCalledTimes(1)
   })
-
-  spec.todo('button.forms.35')
-
-  spec.todo('button.forms.36')
 
   spec('button.forms.37', () => {
     const form = createForm('button-forms-37')

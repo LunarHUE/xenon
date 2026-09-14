@@ -6,12 +6,6 @@ import { describe, expect, vi } from 'vitest'
 import { mount } from '../harness/solid'
 import { spec } from '../spec'
 
-function host(container: HTMLElement): HTMLElement {
-  const el = container.firstElementChild
-  if (!(el instanceof HTMLElement)) throw new Error('nothing mounted')
-  return el
-}
-
 describe('button keyboard', () => {
   spec('button.keyboard.1', async () => {
     const user = userEvent.setup()
@@ -140,34 +134,6 @@ describe('button keyboard', () => {
     expect(clicks).not.toHaveBeenCalled()
   })
 
-  spec.skip('button.keyboard.10', 'a[href] host is a link, see button.notes.1', async () => {
-    const clicks = vi.fn()
-    const m = mount('button', {
-      as: 'a',
-      href: '#keyboard-10',
-      children: 'Go',
-      onClick: clicks,
-    } as ButtonProps)
-    const el = host(m.container)
-    el.focus()
-    expect(fireEvent.keyDown(el, { key: ' ' })).toBe(false)
-    fireEvent.keyUp(el, { key: ' ' })
-    await m.settle()
-    expect(clicks).toHaveBeenCalledTimes(1)
-    expect(window.location.hash).toBe('#keyboard-10')
-  })
-
-  spec.skip('button.keyboard.11', 'a[href] host is a link, see button.notes.1', async () => {
-    const m = mount('button', { as: 'a', href: '#keyboard-11', children: 'Go' } as ButtonProps)
-    const el = host(m.container)
-    const click = vi.spyOn(el, 'click')
-    el.focus()
-    fireEvent.keyDown(el, { key: ' ' })
-    fireEvent.keyUp(el, { key: ' ' })
-    await m.settle()
-    expect(click).toHaveBeenCalledTimes(1)
-  })
-
   spec('button.keyboard.12', async () => {
     const user = userEvent.setup()
     const clicks = vi.fn()
@@ -188,31 +154,6 @@ describe('button keyboard', () => {
     expect(clicks).toHaveBeenCalled()
   })
 
-  spec.skip('button.keyboard.13', 'input[type=checkbox] is not a supported host', async () => {
-    const clicks = vi.fn()
-    const m = mount('button', {
-      as: 'input',
-      type: 'checkbox',
-      onClick: clicks,
-    } as unknown as ButtonProps)
-    const el = host(m.container)
-    el.focus()
-    fireEvent.keyDown(el, { key: 'Enter' })
-    fireEvent.keyUp(el, { key: 'Enter' })
-    await m.settle()
-    expect(clicks).not.toHaveBeenCalled()
-    expect(fireEvent.keyDown(el, { key: ' ' })).toBe(true)
-    fireEvent.keyUp(el, { key: ' ' })
-    await m.settle()
-    expect(clicks).toHaveBeenCalled()
-  })
-
-  spec.todo('button.keyboard.14')
-
-  spec.todo('button.keyboard.15')
-
-  spec.todo('button.keyboard.17')
-
   spec('button.keyboard.18', async () => {
     const clicks = vi.fn()
     const m = mount('button', { as: 'div', children: 'Go', onClick: clicks })
@@ -225,8 +166,6 @@ describe('button keyboard', () => {
     await m.settle()
     expect(clicks).toHaveBeenCalledTimes(1)
   })
-
-  spec.todo('button.keyboard.19')
 
   spec('button.keyboard.20', async () => {
     const user = userEvent.setup()

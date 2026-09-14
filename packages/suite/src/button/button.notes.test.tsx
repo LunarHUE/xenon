@@ -101,8 +101,6 @@ describe('button notes', () => {
     expect(messages).toMatch(/ref/i)
   })
 
-  spec.todo('button.notes.8')
-
   spec('button.notes.9', async () => {
     const user = userEvent.setup()
     expect(typeof PointerEvent).toBe('function')

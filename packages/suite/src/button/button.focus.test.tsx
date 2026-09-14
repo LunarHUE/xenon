@@ -30,10 +30,6 @@ describe('button focus management', () => {
     expect(screen.getByRole('button')).toHaveAttribute('tabindex', '-1')
   })
 
-  spec.todo('button.focus.4')
-
-  spec.todo('button.focus.5')
-
   spec('button.focus.6', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
@@ -44,10 +40,6 @@ describe('button focus management', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(el).toHaveFocus()
   })
-
-  spec.todo('button.focus.7')
-
-  spec.todo('button.focus.8')
 
   spec('button.focus.9', async () => {
     const user = userEvent.setup()
@@ -151,8 +143,6 @@ describe('button focus management', () => {
     expect(screen.getByRole('button', { name: 'after' })).toHaveFocus()
   })
 
-  spec.todo('button.focus.15')
-
   spec('button.focus.16', () => {
     mount('button', { children: 'one' })
     mount('button', { children: 'two' })
@@ -173,8 +163,6 @@ describe('button focus management', () => {
 
     expect(events).toEqual(['focus one', 'blur one -> two', 'focus two'])
   })
-
-  spec.todo('button.focus.17')
 
   spec('button.focus.18', () => {
     mount('button', { children: 'one' })
@@ -199,10 +187,6 @@ describe('button focus management', () => {
     await user.tab()
     expect(screen.getByRole('button', { name: 'last' })).toHaveFocus()
   })
-
-  spec.todo('button.focus.20')
-
-  spec.todo('button.focus.21')
 
   spec('button.focus.22', async () => {
     const m = mount('button', { children: 'Go', autofocus: true })
@@ -245,11 +229,6 @@ describe('button focus management', () => {
     screen.getByRole('button', { name: 'before' }).focus()
     await user.tab()
     expect(screen.getByRole('button', { name: 'after' })).toHaveFocus()
-  })
-
-  spec.skip('button.focus.26', 'divergence settled toward button.focus.27', () => {
-    mount('button', { as: 'div', children: 'Go', disabled: true })
-    expect(screen.getByRole('button')).toHaveAttribute('tabindex', '-1')
   })
 
   spec('button.focus.27', () => {
@@ -310,21 +289,5 @@ describe('button focus management', () => {
     await m.settle()
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(el).toHaveFocus()
-  })
-
-  spec.todo('button.focus.30')
-
-  spec.skip('button.focus.31', 'no runtime focusable flag; ariakit candidate not adopted', () => {
-    const m = mount('button', { as: 'div', children: 'Go', focusable: true } as ButtonProps)
-    const el = screen.getByRole('button')
-    el.focus()
-    expect(el).toHaveAttribute('tabindex', '0')
-
-    m.setProps({ focusable: false } as Partial<ButtonProps>)
-    expect(el).not.toHaveAttribute('tabindex')
-    expect(el).not.toHaveAttribute('data-focus-visible')
-
-    m.setProps({ focusable: true } as Partial<ButtonProps>)
-    expect(el).toHaveAttribute('tabindex', '0')
   })
 })

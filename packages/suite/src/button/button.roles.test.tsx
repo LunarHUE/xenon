@@ -69,10 +69,6 @@ describe('button roles', () => {
     expect(screen.getByRole('button')).toHaveAttribute('aria-disabled', 'true')
   })
 
-  spec.todo('button.roles.5')
-
-  spec.todo('button.roles.6')
-
   spec('button.roles.7', async () => {
     const m = mount('button', { as: 'div', children: 'Go' })
     const el = screen.getByRole('button')
@@ -93,8 +89,6 @@ describe('button roles', () => {
     })
     expect(screen.getByRole('button')).toHaveAccessibleName('Delete')
   })
-
-  spec.todo('button.roles.9')
 
   spec('button.roles.10', async () => {
     const m = mount('button', {
@@ -220,8 +214,6 @@ describe('button roles', () => {
     mount('button', { children: 'Go', autofocus: true })
     expect(screen.getByRole('button')).toHaveAttribute('data-autofocus')
   })
-
-  spec.todo('button.roles.24')
 
   spec('button.roles.25', () => {
     const m = mount('button', { as: 'textarea', placeholder: 'Write' } as ButtonProps)

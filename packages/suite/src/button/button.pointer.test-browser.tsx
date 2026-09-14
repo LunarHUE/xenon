@@ -1,7 +1,7 @@
 import type { ButtonProps } from '../harness'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, vi } from 'vitest'
+import { describe, expect, onTestFinished, test, vi } from 'vitest'
 
 import { mount } from '../harness/solid'
 import { spec } from '../spec'
@@ -32,7 +32,9 @@ describe('button pointer in a browser', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
-  spec('button.pointer.8', async () => {
+  // Native button.pointer.8 navigation and hit testing run in e2e/components.spec.ts.
+  // This checks only the event/attribute contract of the user-event simulation.
+  test('simulated middle-click events preserve link gating', async () => {
     const user = userEvent.setup()
     const url = window.location.href
     const seen: MouseEvent[] = []
@@ -40,6 +42,7 @@ describe('button pointer in a browser', () => {
       if (event instanceof MouseEvent) seen.push(event)
     }
     document.addEventListener('auxclick', record, true)
+    onTestFinished(() => document.removeEventListener('auxclick', record, true))
 
     const enabled = mount('button', {
       as: 'a',
@@ -48,7 +51,7 @@ describe('button pointer in a browser', () => {
     } as ButtonProps)
     await user.pointer({
       keys: '[MouseMiddle]',
-      target: screen.getByRole('button', { name: 'open' }),
+      target: screen.getByRole('link', { name: 'open' }),
     })
     await enabled.settle()
     expect(seen).toHaveLength(1)
@@ -63,9 +66,10 @@ describe('button pointer in a browser', () => {
     } as ButtonProps)
     await user.pointer({
       keys: '[MouseMiddle]',
-      target: screen.getByRole('button', { name: 'blocked' }),
+      target: screen.getByText('blocked'),
     })
     await accessiblyDisabled.settle()
+    expect(screen.getByText('blocked')).not.toHaveAttribute('href')
     expect(window.location.href).toBe(url)
     accessiblyDisabled.unmount()
 
@@ -75,7 +79,7 @@ describe('button pointer in a browser', () => {
       children: 'inert',
       style: 'pointer-events: none',
     } as ButtonProps)
-    const el = screen.getByRole('button', { name: 'inert' })
+    const el = screen.getByRole('link', { name: 'inert' })
     const before = seen.length
     await expect(user.pointer({ keys: '[MouseMiddle]', target: el })).rejects.toThrow()
     expect(seen).toHaveLength(before)
