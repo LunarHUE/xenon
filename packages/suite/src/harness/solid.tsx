@@ -19,6 +19,7 @@ import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'
 
 import type { ComponentName, Components, Harness, Mounted } from '../harness'
 
+/** Maps harness names to Solid component roots. */
 const components = {
   button: Button,
   checkbox: Checkbox,
@@ -35,18 +36,26 @@ const components = {
   separator: Separator,
 }
 
+/** Tracks live fixture disposers for shared test cleanup. */
 const mounted = new Set<() => void>()
 
+/** Passes through child content or invokes its zero-argument factory without tracking reads. */
 function renderChildren(value: unknown): JSX.Element {
   if (typeof value !== 'function') return value as JSX.Element
   return untrack(() => (value as () => JSX.Element)())
 }
 
+/** Resolves on the next global animation frame. */
 function raf(): Promise<void> {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()))
 }
 
+/** Solid test adapter that renders into document.body and tracks fixtures for cleanup. */
 export const harness: Harness = {
+  /**
+   * Appends a div to document.body, renders a component with copied inputs, and flushes Solid.
+   * Child factories are invoked without arguments and without tracking their reads.
+   */
   mount<N extends ComponentName>(name: N, initial: Components[N]): Mounted<Components[N]> {
     const container = document.createElement('div')
     document.body.appendChild(container)
@@ -63,6 +72,7 @@ export const harness: Harness = {
       container
     )
     flush()
+    /** Removes this fixture from cleanup tracking before disposing it and removing its wrapper. */
     const unmount = () => {
       if (!mounted.has(unmount)) return
       mounted.delete(unmount)
@@ -88,8 +98,10 @@ export const harness: Harness = {
   },
 }
 
+/** Convenience alias for the Solid harness mount method. */
 export const mount = harness.mount
 
+/** Unmounts a snapshot of all fixtures currently tracked by this module. */
 export function cleanup() {
   for (const unmount of [...mounted]) unmount()
 }
