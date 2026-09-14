@@ -16,6 +16,7 @@ export interface LayerOptions {
 }
 
 export interface LayerHandle {
+  isTopmost(): boolean
   update(options: Omit<LayerOptions, 'parent'>): void
   registerBranch(element: Element): () => void
   contains(event: Event): boolean
@@ -237,6 +238,7 @@ export function registerLayer(element: HTMLElement, options: LayerOptions = {}):
   registry.invalidate()
   registry.entries.push(entry)
   const handle: LayerHandle = {
+    isTopmost: () => entry.active && registry.entries.at(-1) === entry,
     update(next) {
       if (entry.active) entry.options = { ...next }
     },
