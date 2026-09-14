@@ -219,6 +219,11 @@ export function listbox(options: ListboxOptions) {
       orientation,
     },
     /** Root host and option factory. */
-    parts: { root, item },
+    parts: {
+      /** Listbox semantics, active descendant, root focus entry, and keyboard handlers. */
+      root,
+      /** Option semantics, selection, and enabled-only navigation handlers for a value. */
+      item,
+    },
   }
 }

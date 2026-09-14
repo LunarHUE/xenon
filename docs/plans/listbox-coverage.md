@@ -17,7 +17,7 @@ The core and Solid tests cover the implemented contract below. This is a support
 
 The requested default is roving focus and wrapping navigation. This differs from inventory bullets that require container-only focus or clamping as the default. Both container virtual focus and explicit clamping are available. Single-select Space commits; it does not clear a selected option. Multiple selection consistently uses `aria-selected`, not `aria-checked`.
 
-The tests use Node for core and jsdom for Solid. Browser accessibility tooling, assistive-technology interaction, hydration, pointer cancellation across actual touch gestures, and scroll visibility have not been verified by these tests. Registration settles on the client; SSR emits roles, IDs and selection attributes, but does not pre-register descendants to resolve their initial navigation order.
+The tests use Node for core and jsdom for Solid. A Vite server-transform fixture also checks server-rendered custom Listbox IDs and initial selection, plus CheckboxGroup label/description associations through nested Fields. Browser accessibility tooling, assistive-technology interaction, hydration, pointer cancellation across actual touch gestures, and scroll visibility have not been verified by these tests. Registration settles on the client; SSR emits roles, IDs and selection attributes, but does not pre-register descendants to resolve their initial navigation order.
 
 ## Deferred
 
