@@ -13,6 +13,7 @@ import {
 
 import { AccordionItemContext, useAccordion, useAccordionItem } from './context'
 import type { AccordionEntry, AccordionItemContextValue } from './context'
+import { disclosureTrigger } from '../internal/disclosure-trigger'
 import { createPresence, measure } from '../internal/presence'
 import { spread } from '../spread'
 
@@ -88,7 +89,11 @@ export function AccordionItem<T extends ValidComponent = 'div'>(
     present: life.present,
     status: life.status,
     trigger: () => context.trigger(entry),
-    panel: () => context.panel(entry),
+    panel: () => {
+      const panel = context.panel(entry)
+      // Item forceMount can override the root; its presence owns hidden state.
+      return { attrs: { ...panel.attrs, ...life.part().attrs }, on: panel.on }
+    },
     panelRef: life.ref,
   }
 
@@ -132,7 +137,10 @@ export function AccordionTrigger<T extends ValidComponent = 'button'>(
     <Dynamic
       component={(own.as ?? 'button') as ValidComponent}
       ref={ref}
-      {...spread(context.trigger(), { ...rest })}
+      {...spread(
+        disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
+        { ...rest, id: own.id ?? context.trigger().attrs.id }
+      )}
     />
   )
 }
@@ -170,7 +178,7 @@ export function AccordionPanel<T extends ValidComponent = 'div'>(
       <Dynamic
         component={(own.as ?? 'div') as ValidComponent}
         ref={ref}
-        {...spread(context.panel(), { ...rest })}
+        {...spread(context.panel(), { ...rest, id: own.id ?? context.panel().attrs.id })}
       />
     </Show>
   )

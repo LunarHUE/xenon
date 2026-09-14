@@ -13,6 +13,7 @@ import {
 
 import { CollapsibleContext, useCollapsible } from './context'
 import type { CollapsibleContextValue } from './context'
+import { disclosureTrigger } from '../internal/disclosure-trigger'
 import { createPresence, measure } from '../internal/presence'
 import { spread } from '../spread'
 
@@ -123,7 +124,7 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
   props: CollapsibleTriggerProps<T>
 ): JSX.Element {
   const own = props as PartProps
-  const rest = omit(props as Record<string, unknown>, 'as', 'ref')
+  const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'id')
   const context = useCollapsible('Collapsible.Trigger')
 
   createEffect(
@@ -137,7 +138,10 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
     <Dynamic
       component={(own.as ?? 'button') as ValidComponent}
       ref={own.ref}
-      {...spread(context.trigger(), { ...rest })}
+      {...spread(
+        disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
+        { ...rest, id: own.id ?? context.trigger().attrs.id }
+      )}
     />
   )
 }
@@ -146,7 +150,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
   props: CollapsibleContentProps<T>
 ): JSX.Element {
   const own = props as PartProps
-  const rest = omit(props as Record<string, unknown>, 'as', 'ref')
+  const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'id')
   const context = useCollapsible('Collapsible.Content')
 
   let el: HTMLElement | undefined
@@ -175,7 +179,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
       <Dynamic
         component={(own.as ?? 'div') as ValidComponent}
         ref={ref}
-        {...spread(context.content(), { ...rest })}
+        {...spread(context.content(), { ...rest, id: own.id ?? context.content().attrs.id })}
       />
     </Show>
   )

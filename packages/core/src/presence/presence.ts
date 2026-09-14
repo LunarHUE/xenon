@@ -32,6 +32,7 @@ export function presence(options: PresenceOptions = {}): PresenceResult {
       'data-state': open ? 'open' : 'closed',
       'data-starting-style': status === 'entering' ? '' : undefined,
       'data-ending-style': status === 'exiting' ? '' : undefined,
+      inert: status === 'exiting' ? true : undefined,
       hidden: forceMount && !open && status !== 'exiting' ? true : undefined,
     },
     on: {},

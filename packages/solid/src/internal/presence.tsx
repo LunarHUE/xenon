@@ -61,7 +61,11 @@ export function createPresence(source: PresenceSource): Presence {
 }
 
 export function measure(el: HTMLElement, name: string, status: PresenceStatus): void {
-  if (status === 'exited') return
+  if (status === 'exited') {
+    el.style.removeProperty(`--${name}-height`)
+    el.style.removeProperty(`--${name}-width`)
+    return
+  }
   const settled = status === 'entered'
   el.style.setProperty(`--${name}-height`, settled ? 'auto' : `${el.scrollHeight}px`)
   el.style.setProperty(`--${name}-width`, settled ? 'auto' : `${el.scrollWidth}px`)

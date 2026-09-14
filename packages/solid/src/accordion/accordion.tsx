@@ -60,7 +60,8 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
     'children'
   )
 
-  const [entries, setEntries] = createSignal<AccordionEntry[]>([])
+  // Keyed item disposal unregisters while its parent computation is running.
+  const [entries, setEntries] = createSignal<AccordionEntry[]>([], { ownedWrite: true })
   const [internal, setInternal] = createSignal<AccordionValue>(untrack(() => own.defaultValue))
   const [active, setActive] = createSignal<string>()
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
@@ -75,8 +76,7 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
     own.onValueChange?.(next)
   }
 
-  const engine = createMemo(() => {
-    const list = entries()
+  const build = (list: readonly AccordionEntry[]) => {
     const byValue = new Map(list.map((entry) => [entry.value, entry]))
     return accordion<string>({
       items: list.map((entry) => entry.value),
@@ -99,7 +99,10 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
         onSettled(() => byValue.get(item)?.el?.focus())
       },
     })
-  })
+  }
+  const engine = createMemo(() => build(entries()))
+  const forEntry = (entry: AccordionEntry) =>
+    entries().includes(entry) ? engine() : build([...entries(), entry])
 
   let registered: AccordionEntry[] = []
   const register = (entry: AccordionEntry) => {
@@ -113,9 +116,9 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
 
   const context: AccordionContextValue = {
     register,
-    item: (entry) => engine().parts.item(entry.value),
-    trigger: (entry) => engine().parts.trigger(entry.value),
-    panel: (entry) => engine().parts.panel(entry.value),
+    item: (entry) => forEntry(entry).parts.item(entry.value),
+    trigger: (entry) => forEntry(entry).parts.trigger(entry.value),
+    panel: (entry) => forEntry(entry).parts.panel(entry.value),
     isOpen: (item) => engine().state.isOpen(item),
     disabled,
     forceMount,
