@@ -246,3 +246,13 @@ No spec checklist was ticked as part of this documentation work.
 - Date adapters: currently a plan only; no implementation documentation fabricated.
 
 Existing behavior observations remain recorded above for separate follow-up work.
+
+## Selection and forms follow-up
+
+Listbox, CheckboxGroup, Select, and Combobox were added with their public API
+TSDoc in the implementation commits, along with the shared selection popup host.
+The executable `solid/src/select/index.tsx` is included in the member audit;
+it is not a plain export barrel. The final core and Solid audits report no
+missing owned public members and no unresolved local TSDoc links. Detailed API
+scope and test evidence are recorded in `selection-and-forms.md` and
+`listbox-coverage.md` beside this ledger.
