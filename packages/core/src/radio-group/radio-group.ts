@@ -123,6 +123,7 @@ export function radioGroup(options: RadioGroupOptions = {}): RadioGroupResult {
     attrs: {
       ...flags,
       role: 'radiogroup',
+      dir: options.direction,
       'aria-orientation': orientation === 'horizontal' ? 'horizontal' : undefined,
       'aria-disabled': disabled ? 'true' : undefined,
       'aria-readonly': readonly ? 'true' : undefined,

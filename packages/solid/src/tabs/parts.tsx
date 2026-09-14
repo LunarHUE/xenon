@@ -1,4 +1,4 @@
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
 
@@ -75,6 +75,8 @@ export function TabsTab<T extends ValidComponent = 'button'>(props: TabsTabProps
     entry.el = node
     own.ref?.(node)
   }
+
+  if (isServer) context.register(entry)
 
   onSettled(() => {
     if (own.id !== undefined) context.claimId('tab', own.value, own.id)

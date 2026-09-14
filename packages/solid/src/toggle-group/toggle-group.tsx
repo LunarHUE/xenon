@@ -94,7 +94,8 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     'children'
   )
 
-  const [entries, setEntries] = createSignal<ToggleGroupEntry[]>([])
+  // Keyed children unregister while Solid disposes an owned computation.
+  const [entries, setEntries] = createSignal<ToggleGroupEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<string>()
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
   const [internal, setInternal] = createSignal<GroupValue>(untrack(() => own.defaultValue))

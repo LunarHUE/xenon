@@ -1,7 +1,7 @@
 import type { AnyPart, CompositeDirection } from '@kit/core'
 import { tabs } from '@kit/core'
 import type { TabsActivationMode, TabsOrientation } from '@kit/core'
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
 
@@ -53,7 +53,8 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     'children'
   )
 
-  const [entries, setEntries] = createSignal<TabEntry[]>([])
+  // Keyed tab disposal unregisters while its parent computation is running.
+  const [entries, setEntries] = createSignal<TabEntry[]>([], { ownedWrite: true })
   const [focused, setFocused] = createSignal<string>()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultValue))
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
@@ -79,12 +80,22 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
   const controlled = () => own.value !== undefined
   const current = () => own.value ?? internal()
 
+  let registered: TabEntry[] = []
   const items = createMemo(() => entries().map((entry) => entry.value()))
-  const entryOf = (value: string) => entries().find((entry) => entry.value() === value)
+  const entryOf = (value: string) =>
+    (isServer ? registered : entries()).find((entry) => entry.value() === value)
 
-  const engine = createMemo(() =>
+  const serverItems = () => {
+    const selected = current()
+    const values = registered
+      .filter((entry) => selected !== undefined || !entry.disabled())
+      .map((entry) => entry.value())
+    if (selected !== undefined && !values.includes(selected)) values.push(selected)
+    return values
+  }
+  const build = () =>
     tabs<string>({
-      items: items(),
+      items: isServer ? serverItems() : items(),
       ids: {
         tab: (value) => idFor('tab', value),
         panel: (value) => idFor('panel', value),
@@ -107,15 +118,14 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
         onSettled(() => entryOf(value)?.el?.focus())
       },
     })
-  )
-
-  let registered: TabEntry[] = []
+  const result = createMemo(build)
+  const engine = () => (isServer ? build() : result())
   const register = (entry: TabEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
-    setEntries(registered)
+    if (!isServer) setEntries(registered)
     return () => {
       registered = registered.filter((other) => other !== entry)
-      setEntries(registered)
+      if (!isServer) setEntries(registered)
     }
   }
 

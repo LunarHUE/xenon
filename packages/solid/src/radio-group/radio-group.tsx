@@ -61,7 +61,8 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
     'children'
   )
 
-  const [entries, setEntries] = createSignal<RadioGroupEntry[]>([])
+  // Keyed children unregister while Solid disposes an owned computation.
+  const [entries, setEntries] = createSignal<RadioGroupEntry[]>([], { ownedWrite: true })
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
   const [internal, setInternal] = createSignal<RadioValue | undefined>(
     untrack(() => own.defaultValue)
@@ -150,7 +151,8 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
 
   onSettled(() => {
     if (!el) return
-    const nearest = el.closest('[dir]')
+    // The root reflects the engine's direction; read inheritance above it.
+    const nearest = el.parentElement?.closest('[dir]')
     const value = nearest?.getAttribute('dir') ?? el.ownerDocument.dir
     setAmbient(value === 'rtl' ? 'rtl' : 'ltr')
 
