@@ -28,6 +28,9 @@ test('native numeric form validation, localized submission, stepping and reset',
   const input = host.querySelector('input[role="spinbutton"]') as HTMLInputElement
   const form = host.querySelector('form')!
   expect(input.checkValidity()).toBe(false)
+  await userEvent.fill(input, '20')
+  flush()
+  expect(input.checkValidity()).toBe(false)
   await userEvent.fill(input, '2,5')
   await userEvent.keyboard('{Enter}')
   flush()

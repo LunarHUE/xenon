@@ -114,7 +114,13 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
     },
     on: {
       keydown(event) {
-        if (options.disabled || event.isComposing) return
+        if (
+          options.disabled ||
+          event.defaultPrevented ||
+          event.isComposing ||
+          event.keyCode === 229
+        )
+          return
         const modifier = event.ctrlKey || event.metaKey
         let target: number | undefined
         if (event.key === 'ArrowLeft') target = modifier ? 0 : index - 1

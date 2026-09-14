@@ -86,3 +86,55 @@ test('external values update the existing input and author IDs update stepper co
   expect((input as HTMLInputElement).value).toBe('5')
   expect(view.getByRole('button').getAttribute('aria-controls')).toBe('second')
 })
+
+test('nonfinite controlled values never serialize NaN or Infinity', () => {
+  const view = render(() => (
+    <form>
+      <NumberField value={NaN} name="amount">
+        <NumberField.Input aria-label="Amount" />
+      </NumberField>
+    </form>
+  ))
+  expect(new FormData(view.container.querySelector('form')!).get('amount')).toBe('')
+})
+
+test('native validity follows draft range errors and recovers after correction', () => {
+  const view = render(() => (
+    <NumberField min={0} max={10}>
+      <NumberField.Input aria-label="Amount" />
+    </NumberField>
+  ))
+  const input = view.getByRole('spinbutton') as HTMLInputElement
+  type(input, '20')
+  expect(input.checkValidity()).toBe(false)
+  type(input, '4')
+  expect(input.checkValidity()).toBe(true)
+})
+
+test('readonly and author-canceled input restore the visible DOM', () => {
+  const changed = vi.fn()
+  const view = render(() => (
+    <>
+      <NumberField readonly value={2} onValueChange={changed}>
+        <NumberField.Input aria-label="Readonly amount" />
+      </NumberField>
+      <NumberField value={3} onValueChange={changed}>
+        <NumberField.Input
+          aria-label="Canceled amount"
+          onInput={(event) => event.preventDefault()}
+        />
+      </NumberField>
+    </>
+  ))
+  for (const input of view.getAllByRole('spinbutton') as HTMLInputElement[]) {
+    input.value = '99'
+    input.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true }))
+  }
+  expect(
+    (view.getByRole('spinbutton', { name: 'Readonly amount' }) as HTMLInputElement).value
+  ).toBe('2')
+  expect(
+    (view.getByRole('spinbutton', { name: 'Canceled amount' }) as HTMLInputElement).value
+  ).toBe('3')
+  expect(changed).not.toHaveBeenCalled()
+})

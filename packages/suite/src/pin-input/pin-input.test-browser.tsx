@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
 import { PinInput } from '@tenon/solid/pin-input'
-import { For, flush } from 'solid-js'
+import { For, flush, createSignal } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 const disposers: (() => void)[] = []
@@ -50,4 +50,43 @@ test('pin input browser paste, keyboard, required validation and form reset', as
   await userEvent.click(container.querySelector('button[type="reset"]')!)
   flush()
   expect(slots.map((slot) => slot.value)).toEqual(['', '', '', ''])
+})
+
+test('form reset follows a dynamically reassigned external owner in a real browser', async () => {
+  const [owner, setOwner] = createSignal('otp-first')
+  const container = document.createElement('div')
+  document.body.append(container)
+  const dispose = render(
+    () => (
+      <>
+        <form id="otp-first" />
+        <form id="otp-second" />
+        <PinInput form={owner()} defaultValue="1" name="otp" length={2}>
+          <PinInput.Input index={0} />
+          <PinInput.Input index={1} />
+        </PinInput>
+      </>
+    ),
+    container
+  )
+  disposers.push(() => {
+    dispose()
+    container.remove()
+  })
+  flush()
+  const slots = container.querySelectorAll<HTMLInputElement>('[data-index]')
+  await userEvent.fill(slots[1]!, '2')
+  setOwner('otp-second')
+  flush()
+  const forms = container.querySelectorAll('form')
+  forms[0]!.reset()
+  await Promise.resolve()
+  flush()
+  expect(slots[1]!.value).toBe('2')
+  forms[1]!.reset()
+  await Promise.resolve()
+  flush()
+  expect(slots[0]!.value).toBe('1')
+  expect(slots[1]!.value).toBe('')
+  expect(new FormData(forms[1]!).get('otp')).toBe('1')
 })

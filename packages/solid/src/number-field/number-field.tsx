@@ -84,11 +84,11 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
       },
     })
   )
-  onSettled(() => {
-    input?.setCustomValidity(
-      engine().state.invalid ? 'Enter a valid number within the allowed range.' : ''
-    )
-  })
+  createEffect(
+    () => engine().state.invalid,
+    (invalid) =>
+      input?.setCustomValidity(invalid ? 'Enter a valid number within the allowed range.' : '')
+  )
   let previous = untrack(value)
   createEffect(
     () => value(),
@@ -125,10 +125,10 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
     },
     registerId(read) {
       idReader = read
-      setIdRevision(++revision)
+      if (!isServer) setIdRevision(++revision)
       return () => {
         if (idReader === read) idReader = undefined
-        setIdRevision(++revision)
+        if (!isServer) setIdRevision(++revision)
       }
     },
   }
@@ -141,7 +141,7 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
         name={props.name ?? field?.name()}
         form={props.form}
         disabled={props.disabled || field?.disabled()}
-        value={value() ?? ''}
+        value={engine().state.value ?? ''}
       />
     </div>
   )
@@ -160,19 +160,29 @@ function NumberFieldInput(props: NumberFieldInputProps): JSX.Element {
   // eslint-disable-next-line solid/reactivity -- Registry retains the live ID reader.
   onCleanup(context.registerId(() => (typeof props.id === 'string' ? props.id : undefined)))
   if (context.field) onCleanup(context.field.registerControl(context.id))
+  const bindings = () => {
+    const merged = spread(context.engine().parts.input, {
+      ...rest,
+      id: context.id(),
+      form: context.props.form,
+      'aria-labelledby': context.field
+        ? fieldLabelledBy(context.field, props['aria-labelledby'], true)
+        : props['aria-labelledby'],
+      'aria-describedby': context.field
+        ? fieldDescribedBy(context.field, props['aria-describedby'])
+        : props['aria-describedby'],
+    })
+    const key = Object.keys(merged).find((name) => name.toLowerCase() === 'oninput')!
+    const handler = merged[key] as (event: InputEvent & { currentTarget: HTMLInputElement }) => void
+    merged[key] = (event: InputEvent & { currentTarget: HTMLInputElement }) => {
+      handler(event)
+      event.currentTarget.value = context.engine().state.inputValue
+    }
+    return merged
+  }
   return (
     <input
-      {...spread(context.engine().parts.input, {
-        ...rest,
-        id: context.id(),
-        form: context.props.form,
-        'aria-labelledby': context.field
-          ? fieldLabelledBy(context.field, props['aria-labelledby'], true)
-          : props['aria-labelledby'],
-        'aria-describedby': context.field
-          ? fieldDescribedBy(context.field, props['aria-describedby'])
-          : props['aria-describedby'],
-      })}
+      {...bindings()}
       ref={(el) => {
         context.setInput(el)
         props.ref?.(el)

@@ -46,6 +46,14 @@ external selection/cells API, clipboard failure warning, or cross-slot cut/selec
 all model. Slot placeholder behavior follows native inputs. The optional focused
 root marker and vertical-key propagation stopping are not implemented. Per-slot
 host polymorphism is not offered; Input is a native input. Consumers should not
-provide native per-slot names through untyped spreads. Dynamic form reassociation
-after mount is not observed by the reset listener. The first slot uses the Field control ID during SSR; standalone position labels
-are always present.
+provide native per-slot names through untyped spreads. Reset follows the current native form owner, including reassociation after mount.
+The first slot registers its live author ID synchronously for SSR Field labels.
+Every slot inherits Field descriptions, and standalone position labels remain present.
+
+## Follow-up verification
+
+Chromium and WebKit verify native external-form reassociation and reset. Adapter
+regressions also cover canceled reset and readonly autofill attempts against the
+submission proxy. Both browsers render the five-family numeric fixture without
+JavaScript, then separately verify hydration preserves existing nodes and supports
+subsequent numeric, OTP, slider, tag, and editable form edits.

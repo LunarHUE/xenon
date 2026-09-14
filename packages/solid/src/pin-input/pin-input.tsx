@@ -51,6 +51,10 @@ export interface PinInputProps extends Omit<ComponentProps<'div'>, 'onChange' | 
 
 /** Shared slot bindings and native element registration. */
 interface Context {
+  /** Surrounding field metadata inherited by every slot. */
+  field: ReturnType<typeof useFieldContext>
+  /** Native slot form owner. */
+  form: () => string | undefined
   /** Current pure controller. */
   engine: () => ReturnType<typeof pinInput>
   /** Restore DOM values after canceled or controlled edits. */
@@ -117,28 +121,24 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
     () => engine().state.value,
     () => untrack(sync)
   )
-  const cleanups = new Map<number, () => void>()
   const context: Context = {
+    field,
+    form: () => props.form,
     engine,
     sync,
     id: (index) => (index === 0 && field ? field.ids.control : `${base}-input-${index}`),
     register(index, el) {
       inputs.set(index, el)
-      if (index === 0 && field)
-        cleanups.set(
-          index,
-          field.registerControl(() => el.id, el)
-        )
       return () => {
         if (inputs.get(index) === el) inputs.delete(index)
-        cleanups.get(index)?.()
-        cleanups.delete(index)
       }
     },
   }
   onSettled(() => {
-    const form = mirror?.form
-    const reset = (event: Event) =>
+    const element = mirror
+    if (!element) return
+    const reset = (event: Event) => {
+      if (event.target !== element.form) return
       // eslint-disable-next-line solid/reactivity -- Native reset runs in this queued event callback.
       queueMicrotask(() => {
         if (event.defaultPrevented) return
@@ -146,8 +146,9 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
         flush()
         sync()
       })
-    form?.addEventListener('reset', reset)
-    return () => form?.removeEventListener('reset', reset)
+    }
+    element.ownerDocument.addEventListener('reset', reset)
+    return () => element.ownerDocument.removeEventListener('reset', reset)
   })
   const rest = omit(
     props,
@@ -208,6 +209,8 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
         required={required()}
         pattern={`.{${engine().state.length}}`}
         autocomplete="off"
+        onInput={sync}
+        onChange={sync}
         onInvalid={(event) => {
           event.preventDefault()
           focus(engine().state.insertion)
@@ -234,10 +237,15 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
   let unregister: (() => void) | undefined
   onCleanup(() => unregister?.())
   const rest = omit(props, 'index', 'ref')
+  const id = () => (typeof props.id === 'string' ? props.id : context.id(props.index))
+  if (context.field && untrack(() => props.index) === 0) {
+    // eslint-disable-next-line solid/reactivity -- Field retains the live ID reader through this owner's lifetime.
+    onCleanup(context.field.registerControl(id))
+  }
   const part = () => {
     const core = context.engine().parts.input(props.index)
     return {
-      attrs: { ...core.attrs, id: context.id(props.index) },
+      attrs: { ...core.attrs, id: id(), form: context.form() },
       on: {
         ...core.on,
         focus() {
@@ -276,7 +284,12 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
     }
   }
   const bindings = () => {
-    const merged = spread(part(), { ...rest })
+    const merged = spread(part(), {
+      ...rest,
+      'aria-describedby': context.field
+        ? fieldDescribedBy(context.field, props['aria-describedby'])
+        : tokens(props['aria-describedby']),
+    })
     const key = Object.keys(merged).find((name) => name.toLowerCase() === 'oninput')!
     const handler = merged[key] as (event: Event) => void
     merged[key] = (event: Event) => {

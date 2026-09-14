@@ -1,5 +1,5 @@
 import { cleanup, render } from '@solidjs/testing-library'
-import { For, flush } from 'solid-js'
+import { For, flush, createSignal } from 'solid-js'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { PinInput } from './index'
 import { Field } from '../field'
@@ -102,4 +102,57 @@ describe('PinInput', () => {
     expect(slot.value).toBe('1')
     expect(change).not.toHaveBeenCalled()
   })
+})
+
+test('reset follows a changed explicit form owner and honors cancellation', async () => {
+  const [owner, setOwner] = createSignal('first-form')
+  const changed = vi.fn()
+  const view = render(() => (
+    <>
+      <form id="first-form" />
+      <form id="second-form" />
+      <PinInput form={owner()} name="otp" length={4} defaultValue="12" onValueChange={changed}>
+        <Slots />
+      </PinInput>
+    </>
+  ))
+  const slots = view.getAllByRole('textbox') as HTMLInputElement[]
+  input(slots[2]!, '34')
+  setOwner('second-form')
+  flush()
+  const forms = view.container.querySelectorAll('form')
+  forms[0]!.reset()
+  await Promise.resolve()
+  flush()
+  expect(slots.map((slot) => slot.value).join('')).toBe('1234')
+  forms[1]!.reset()
+  await Promise.resolve()
+  flush()
+  expect(slots.map((slot) => slot.value).join('')).toBe('12')
+  input(slots[2]!, '34')
+  forms[1]!.addEventListener('reset', (event) => event.preventDefault(), { once: true })
+  forms[1]!.reset()
+  await Promise.resolve()
+  flush()
+  expect(slots.map((slot) => slot.value).join('')).toBe('1234')
+  expect(changed).toHaveBeenCalledTimes(2)
+})
+
+test('readonly autofill cannot mutate the submitted proxy, and slots inherit descriptions', () => {
+  const view = render(() => (
+    <form>
+      <Field>
+        <Field.Label>Verification</Field.Label>
+        <Field.Description>Sent to your phone</Field.Description>
+        <PinInput readonly name="otp" defaultValue="1234" length={4}>
+          <Slots />
+        </PinInput>
+      </Field>
+    </form>
+  ))
+  const proxy = view.container.querySelector('input[name="otp"]') as HTMLInputElement
+  proxy.value = '9999'
+  proxy.dispatchEvent(new InputEvent('input', { bubbles: true }))
+  expect(new FormData(view.container.querySelector('form')!).get('otp')).toBe('1234')
+  expect(view.getAllByRole('textbox')[0]).toHaveAccessibleDescription('Sent to your phone')
 })

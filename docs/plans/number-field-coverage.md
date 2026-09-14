@@ -61,3 +61,11 @@ use native button click activation, including assistive-technology activation.
 They do not install gesture timers or global pointer listeners. Composition
 keydown events and legacy keyCode 229 do not commit or step. No formatter cache or
 custom parser callback is exposed yet. SSR associations finalize labels and stepper IDs after synchronous parts register.
+
+## Follow-up verification
+
+Native validity updates reactively as malformed or out-of-range drafts are
+corrected. Nonfinite controlled values submit an empty string. Readonly and
+author-canceled input events restore the browser value. Chromium and WebKit cover
+native validity, forms and resets, plus no-JavaScript SSR custom associations and
+node-preserving hydration with subsequent edits across all five new families.

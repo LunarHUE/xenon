@@ -41,3 +41,11 @@ describe('pinInput', () => {
     expect(focus).toHaveBeenLastCalledWith(3)
   })
 })
+
+test('legacy composition and author-canceled keyboard events never delete a code', () => {
+  const change = vi.fn()
+  const handler = pinInput({ value: '12', onValueChange: change }).parts.input(0).on.keydown!
+  handler({ key: 'Delete', keyCode: 229 } as never)
+  handler({ key: 'Delete', defaultPrevented: true } as never)
+  expect(change).not.toHaveBeenCalled()
+})
