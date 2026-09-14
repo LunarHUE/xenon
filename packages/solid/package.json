@@ -28,6 +28,10 @@
     "./positioning": {
       "types": "./src/positioning/index.ts",
       "default": "./src/positioning/index.ts"
+    },
+    "./popover": {
+      "types": "./src/popover/index.tsx",
+      "default": "./src/popover/index.tsx"
     }
   },
   "scripts": {

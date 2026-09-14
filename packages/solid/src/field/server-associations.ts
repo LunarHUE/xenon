@@ -1,7 +1,7 @@
 import { escape, resolveSSRNode, ssrAttribute } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 
-export type Association = 'for' | 'aria-labelledby' | 'aria-describedby'
+export type Association = 'for' | 'aria-labelledby' | 'aria-describedby' | 'aria-controls'
 
 interface ServerNode {
   t: string[]
