@@ -72,6 +72,11 @@ During a drag, content exposes `--drawer-swipe-offset` (positive pixels away fro
 the chosen edge) and content/handle expose `data-swiping`. Apply the offset to
 your transform, reversing its sign for top and left. Releasing after at least
 25% of the drawer's relevant dimension, with a minimum of 40px, requests close.
+The release offset stays available through the exit animation, so its starting
+transform can use `var(--drawer-swipe-offset, 0px)`. It resets after exit, on
+reopening, or when a controlled root refuses the close request. DOM consumers
+of `registerDrawerHandle` use the returned `reset()` for those lifecycle changes;
+the Solid adapter handles them automatically.
 Short drags and pointer cancellation reset the offset; the synthetic click after
 a drag does not close it a second time. The helper restores its inline styles
 on cleanup.

@@ -20,15 +20,17 @@ export function registerDrawerHandle(
   const previousTouchAction = handle.style.getPropertyValue('touch-action')
   const previousTouchPriority = handle.style.getPropertyPriority('touch-action')
   handle.style.setProperty('touch-action', 'none')
-  const reset = () => {
+  const reset = (preserveOffset = false) => {
     const id = drag?.id
     drag = undefined
     offset = 0
     content.removeAttribute('data-swiping')
     handle.removeAttribute('data-swiping')
-    if (previousOffset)
-      content.style.setProperty('--drawer-swipe-offset', previousOffset, previousPriority)
-    else content.style.removeProperty('--drawer-swipe-offset')
+    if (!preserveOffset) {
+      if (previousOffset)
+        content.style.setProperty('--drawer-swipe-offset', previousOffset, previousPriority)
+      else content.style.removeProperty('--drawer-swipe-offset')
+    }
     if (id !== undefined && handle.hasPointerCapture?.(id)) handle.releasePointerCapture(id)
   }
   const down = (event: PointerEvent) => {
@@ -73,7 +75,8 @@ export function registerDrawerHandle(
     move(event)
     const reached = drag.extent > 0 && offset >= Math.max(40, drag.extent * 0.25)
     const dismiss = options.onDismiss
-    reset()
+    // Exit keyframes need the release position after the gesture itself ends.
+    reset(!canceled && reached)
     if (!canceled && reached) dismiss()
   }
   const cancel = (event: PointerEvent) => {
@@ -92,6 +95,9 @@ export function registerDrawerHandle(
   handle.addEventListener('lostpointercapture', cancel)
   handle.addEventListener('click', click, true)
   return {
+    reset() {
+      reset()
+    },
     update(next: DrawerHandleOptions) {
       if (next.side !== options.side) reset()
       options = next

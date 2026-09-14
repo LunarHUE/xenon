@@ -81,3 +81,40 @@ test('author cancellation and disabled handles refuse gestures', () => {
   m.pointer('pointerup', 0, 200)
   expect(m.dismiss).not.toHaveBeenCalled()
 })
+test('dismissal keeps the release offset available to the exit animation', () => {
+  const m = setup()
+  let releaseOffset = ''
+  m.controller.update({
+    side: 'bottom',
+    onDismiss: () => {
+      releaseOffset = m.content.style.getPropertyValue('--drawer-swipe-offset')
+    },
+  })
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 0, 110)
+  expect(releaseOffset).toBe('110px')
+  expect(m.content.style.getPropertyValue('--drawer-swipe-offset')).toBe('110px')
+  m.controller.reset()
+  expect(m.content.style.getPropertyValue('--drawer-swipe-offset')).toBe('')
+})
+test('disposal restores the author offset after a dismissing swipe', () => {
+  const content = document.createElement('div')
+  const handle = document.createElement('button')
+  content.append(handle)
+  document.body.append(content)
+  content.style.setProperty('--drawer-swipe-offset', '2px', 'important')
+  vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({ width: 200, height: 400 } as DOMRect)
+  const controller = registerDrawerHandle(handle, content, { side: 'bottom', onDismiss() {} })
+  for (const [type, clientY] of [
+    ['pointerdown', 0],
+    ['pointerup', 120],
+  ] as const) {
+    handle.dispatchEvent(
+      new PointerEvent(type, { pointerId: 1, isPrimary: true, button: 0, clientY })
+    )
+  }
+  expect(content.style.getPropertyValue('--drawer-swipe-offset')).toBe('120px')
+  controller.dispose()
+  expect(content.style.getPropertyValue('--drawer-swipe-offset')).toBe('2px')
+  expect(content.style.getPropertyPriority('--drawer-swipe-offset')).toBe('important')
+})
