@@ -85,3 +85,15 @@ Independent review and package lint passed. Shared props, event merging, control
 | `e4295a1` | document button props and checked control state | `packages/solid/src/button/button.tsx`, `packages/solid/src/internal/checked.tsx` |
 | `a5393d6` | document presence timing and disclosure activation | `packages/solid/src/internal/presence.tsx`, `packages/solid/src/internal/disclosure-trigger.ts` |
 | `e74d797` | clarify prop merge tracking context | `packages/solid/src/spread.ts` |
+
+## Solid S2 complete
+
+Independent review and package lint passed. Nine files reviewed. Field public and aliased Error/control hovers resolve documentation. Peer review corrected host classification and registry-order wording.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `b840294` | document field context and SSR association ownership | `packages/solid/src/field/context.ts`, `packages/solid/src/field/server-associations.ts` |
+| `97b6408` | document checkbox switch and toggle components | `packages/solid/src/checkbox/checkbox.tsx`, `packages/solid/src/switch/switch.tsx`, `packages/solid/src/toggle/toggle.tsx` |
+| `c49f12a` | document field root and compound parts | `packages/solid/src/field/field.tsx`, `packages/solid/src/field/parts.tsx` |
+| `b9ab313` | document progress and separator presentation | `packages/solid/src/progress/progress.tsx`, `packages/solid/src/separator/separator.tsx` |
+| `73a6da0` | clarify field ID getter contract | `packages/solid/src/field/field.tsx` |
