@@ -45,7 +45,7 @@ export interface HoverIntent {
   dismiss(): void
   /** Cancel pending work and intent without requesting a state change. */
   cancel(): void
-  /** Reconcile a changed disabled state, canceling work and requesting close when disabled. */
+  /** Reconcile live policy. Pending delays use elapsed time from their original intent; disabled cancels work. */
   refresh(): void
   /** Idempotently release timers and temporary document listeners. */
   dispose(): void
@@ -58,6 +58,8 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
   let openTimer: ReturnType<typeof setTimeout> | undefined,
     closeTimer: ReturnType<typeof setTimeout> | undefined,
     transitTimer: ReturnType<typeof setTimeout> | undefined
+  let pendingOpen: { trigger: HTMLElement; reason: HoverOpenReason; started: number } | undefined
+  let closeStarted: number | undefined
   let cleanupTransit: (() => void) | undefined
   let lastPress = -Infinity,
     lastTouch = -Infinity
@@ -83,10 +85,12 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
   const clearOpen = () => {
     clearTimeout(openTimer)
     openTimer = undefined
+    pendingOpen = undefined
   }
   const clearClose = () => {
     clearTimeout(closeTimer)
     closeTimer = undefined
+    closeStarted = undefined
   }
   const cancel = () => {
     clearOpen()
@@ -100,21 +104,27 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
     clearClose()
     if (!disposed && !hovered && !focused && options.open()) options.onClose()
   }
-  const scheduleClose = () => {
-    clearOpen()
-    clearClose()
-    if (hovered || focused) return
-    const ms = delay(options.closeDelay())
+  const armClose = () => {
+    clearTimeout(closeTimer)
+    const ms = Math.max(0, delay(options.closeDelay()) - (now() - closeStarted!))
     if (ms === 0) close()
     else closeTimer = setTimeout(close, ms)
   }
-  const requestOpen = (trigger: HTMLElement, reason: HoverOpenReason) => {
+  const scheduleClose = () => {
+    reconcileOpening()
     clearClose()
+    if (hovered || focused) return
     clearOpen()
-    clearTransit()
-    if (disposed || options.disabled() || trigger.hasAttribute('disabled')) return
+    closeStarted = now()
+    armClose()
+  }
+  const armOpen = () => {
+    clearTimeout(openTimer)
+    const pending = pendingOpen
+    if (!pending) return
+    const { trigger, reason, started } = pending
     const execute = () => {
-      openTimer = undefined
+      clearOpen()
       if (
         !disposed &&
         !options.disabled() &&
@@ -124,11 +134,30 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
       )
         options.onOpen(trigger, reason)
     }
-    const ms = options.open()
+    const duration = options.open()
       ? 0
       : delay(reason === 'focus' ? (options.focusDelay?.() ?? 0) : options.openDelay())
+    const ms = Math.max(0, duration - (now() - started))
     if (ms === 0) execute()
     else openTimer = setTimeout(execute, ms)
+  }
+  const reconcileOpening = () => {
+    if (!pendingOpen) return
+    if (pendingOpen.reason === 'hover' ? hovered : focused) return
+    if (!hovered && !focused) {
+      clearOpen()
+      return
+    }
+    pendingOpen.reason = focused ? 'focus' : 'hover'
+    armOpen()
+  }
+  const requestOpen = (trigger: HTMLElement, reason: HoverOpenReason) => {
+    clearClose()
+    clearOpen()
+    clearTransit()
+    if (disposed || options.disabled() || trigger.hasAttribute('disabled')) return
+    pendingOpen = { trigger, reason, started: now() }
+    armOpen()
   }
   const ignored = (event: PointerEvent) => {
     if (event.pointerType === 'touch') {
@@ -189,7 +218,7 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
     triggerLeave(event) {
       if (disposed || ignored(event)) return
       hovered = false
-      clearOpen()
+      reconcileOpening()
       travel(event, options.content())
     },
     contentEnter(event) {
@@ -238,9 +267,18 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
     },
     cancel,
     refresh() {
+      if (disposed) return
       if (options.disabled()) {
         cancel()
         if (options.open()) options.onClose()
+        return
+      }
+      if (pendingOpen) armOpen()
+      if (closeStarted !== undefined) armClose()
+      if (!options.hoverable() && cleanupTransit) {
+        clearTransit()
+        hovered = false
+        scheduleClose()
       }
     },
     dispose() {

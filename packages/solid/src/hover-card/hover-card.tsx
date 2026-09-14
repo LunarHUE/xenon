@@ -81,9 +81,13 @@ export type HoverCardViewportProps = import('../popover/popover').PopoverViewpor
 type RootContext = ReturnType<typeof usePopover>
 type TriggerEntry = Parameters<RootContext['registerTrigger']>[0]
 interface Context {
+  /** Shared popup state and native layer registration. */
   root: RootContext
+  /** Owns hover/focus timers and travel geometry. */
   intent: ReturnType<typeof createHoverIntent>
+  /** Mounted anchors eligible to open this preview. */
   entries: Set<TriggerEntry>
+  /** Suppresses focus opening while Escape restores the trigger. */
   restoring: boolean
 }
 const HoverCardContext = createContext<Context | null>(null)
@@ -132,10 +136,8 @@ function HoverCardRoot<T extends ValidComponent = 'div', Payload = unknown>(
     local = context
     contexts.set(root, context)
     createEffect(
-      () => props.disabled,
-      (disabled) => {
-        if (disabled) intent.cancel()
-      }
+      () => [props.disabled, props.openDelay, props.closeDelay],
+      () => intent.refresh()
     )
     onCleanup(() => {
       intent.dispose()

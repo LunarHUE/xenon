@@ -96,3 +96,47 @@ test('corridor expires instead of retaining an idle pointer forever', () => {
   expect(s.closed).toHaveBeenCalledOnce()
   s.intent.dispose()
 })
+
+test('changed delays reconcile against elapsed intent time and disposal stays final', () => {
+  vi.useFakeTimers()
+  let opening = 100,
+    closing = 100
+  const s = setup({ openDelay: () => opening, closeDelay: () => closing, hoverable: () => false })
+  s.intent.triggerEnter(s.event(s.trigger))
+  vi.advanceTimersByTime(40)
+  opening = 60
+  s.intent.refresh()
+  vi.advanceTimersByTime(19)
+  expect(s.opened).not.toHaveBeenCalled()
+  vi.advanceTimersByTime(1)
+  expect(s.opened).toHaveBeenCalledOnce()
+  s.intent.triggerLeave(s.event(s.trigger))
+  vi.advanceTimersByTime(30)
+  closing = 20
+  s.intent.refresh()
+  expect(s.closed).toHaveBeenCalledOnce()
+  s.intent.triggerEnter(s.event(s.trigger))
+  s.intent.dispose()
+  opening = 0
+  s.intent.refresh()
+  vi.runAllTimers()
+  expect(s.opened).toHaveBeenCalledOnce()
+})
+
+test('a pending open survives either pointer or focus leaving while the other remains', () => {
+  vi.useFakeTimers()
+  const s = setup({ focusDelay: () => 100 })
+  s.intent.focusIn(s.event(s.trigger) as unknown as FocusEvent)
+  vi.advanceTimersByTime(50)
+  s.intent.triggerLeave(s.event(s.trigger))
+  vi.advanceTimersByTime(50)
+  expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'focus')
+  s.intent.dismiss()
+  s.opened.mockClear()
+  s.intent.triggerEnter(s.event(s.trigger))
+  vi.advanceTimersByTime(50)
+  s.intent.focusOut(s.event(s.trigger) as unknown as FocusEvent)
+  vi.advanceTimersByTime(50)
+  expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'hover')
+  s.intent.dispose()
+})
