@@ -5,3 +5,6 @@ bun.lock
 .direnv
 flake.lock
 packages/core/src/attrs.generated.ts
+playwright-report
+test-results
+.vitest

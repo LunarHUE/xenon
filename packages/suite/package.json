@@ -9,7 +9,10 @@
     "test": "vitest run --project jsdom",
     "test:browser": "vitest run --project browser",
     "spec:check": "bun scripts/check-spec.ts",
-    "spec:tick": "vitest run --project jsdom --reporter=json --outputFile=.vitest/results.json; bun scripts/tick-spec.ts .vitest/results.json"
+    "spec:tick": "vitest run --project jsdom --reporter=json --outputFile=.vitest/results.json; bun scripts/tick-spec.ts .vitest/results.json",
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:all": "playwright test",
+    "test:browser:all": "KIT_BROWSERS=chromium,firefox,webkit vitest run --project browser"
   },
   "dependencies": {
     "@kit/core": "workspace:*",

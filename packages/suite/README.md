@@ -1,0 +1,57 @@
+# Component conformance and browser tests
+
+Run commands from `packages/suite`, or use `bun run --cwd packages/suite <script>`.
+
+| Command                                    | Coverage                                                            |
+| ------------------------------------------ | ------------------------------------------------------------------- |
+| `bun run test`                             | Conformance in jsdom                                                |
+| `bun run test:browser`                     | Conformance plus browser-only cases in Chromium                     |
+| `KIT_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
+| `bun run test:browser:all`                 | Chromium, Firefox and WebKit                                        |
+| `bun run test:e2e`                         | Full-page flows against the built example app in Chromium           |
+| `bunx playwright test --project webkit`    | Same E2E flows in WebKit                                            |
+| `bunx playwright test --project firefox`   | Same E2E flows in Firefox                                           |
+| `bun run test:e2e:all`                     | E2E in all three engines                                            |
+| `bun run spec:check`                       | Spec IDs with runnable tests, separate from TODO/skip registrations |
+
+Install the desired browser with `bunx playwright install chromium`, `firefox`,
+or `webkit`. CI Linux hosts may also need `bunx playwright install --with-deps chromium`.
+WebKit is an engine target; this does not claim testing on shipping Safari or iOS.
+
+E2E launches a fresh production build and preview server on port 4173, plus a
+Solid SSR fixture server on port 4174. Occupied ports fail the run so stale
+servers cannot supply a false passing result. Startup waits for each server's
+readiness output; it does not probe closed ports, which can stall under WSL
+network forwarding. The SSR tests check original
+markup with JavaScript disabled, DOM and ID preservation through hydration,
+and subsequent interactions.
+Tests use real Playwright keyboard and pointer input. Failed runs retain traces,
+screenshots and an HTML report under ignored output directories. Open the report
+with `bunx playwright show-report`.
+
+The component suite keeps spec IDs on tests. `*.test.tsx` runs in both jsdom and
+browsers; `*.test-browser.tsx` contains cases requiring browser behavior. Put
+native keyboard default actions, layout, animation timing and focus traversal in
+the browser tier. Do not substitute dispatched DOM events for native behavior.
+Full-page `e2e/*.spec.ts` tests exercise several components together and need not
+claim an individual research spec ID.
+
+`spec:check` counts source registrations, not passing assertions. Research specs
+also include competing library APIs and unshipped features. Component scope notes
+identify those explicitly; an unchecked bullet is not automatically a test gap
+in the shipped API. A client render is never proof of SSR or hydration.
+
+One known SSR failure is retained with Playwright's `test.fail`: a field control
+inside a native wrapper cannot automatically discover a description outside and
+after that wrapper before JavaScript runs. Explicit author `aria-describedby`
+and a matching description ID work, and hydration adds the automatic reference.
+The expected-failure marker follows successful infrastructure checks; a future
+fix makes this test unexpectedly pass so the marker must be removed. Details and
+an asserted workaround live in `src/field/README.md` and `e2e/hydration.spec.ts`.
+
+The older Button, Checkbox, Switch, Toolbar and Composite placeholders are
+classified in each directory's `coverage.md`. Shipped behavior has runnable
+assertions; unshipped dependencies, rejected alternatives, framework-specific
+contracts and browser research rules have explicit dispositions. Removing a
+TODO registration does not claim that research behavior was implemented.
+`e2e/legacy-hydration.spec.ts` covers their applicable server behavior.

@@ -9,3 +9,5 @@ dist/
 result
 result-*
 .vitest/
+playwright-report/
+test-results/

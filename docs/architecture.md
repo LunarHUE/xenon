@@ -90,6 +90,10 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
   `tabindex="-1"`. The engine always resolves an active item when it has
   items: the consumer's choice if navigable, else the first navigable, else
   the first item. The tab stop follows focus, so clicks and keys share it.
+- Before hydration, toolbar items remain ordinary tab stops, with natively
+  disabled items excluded. Once the client registry is populated, the toolbar
+  narrows to one roving tab stop. The client starts with the same attributes as
+  the server so hydration updates every non-active item correctly.
 - Only keys on the active axis are claimed, and a claimed key has its default
   prevented before the move, even at a boundary. Arrows with a modifier held
   do nothing. Home and End are always claimed.
@@ -134,6 +138,9 @@ Cross-cutting, and binding on everything built after this point.
   the description, then the error, and the error only while invalid.
 - Measured sizes are published as part-named custom properties with no brand
   prefix, such as `--collapsible-panel-height`.
+- Exiting presence-controlled content carries native `inert` until it leaves,
+  so its visible exit animation does not leave interactive or accessible content.
+  Reopening clears inert and cancels the stale exit wait.
 - Exit timing comes from the Web Animations API. Where `getAnimations` is
   missing, as in jsdom, the element leaves immediately.
 
@@ -192,6 +199,24 @@ Cross-cutting, and binding on everything built after this point.
   escape it. Outside a field the control behaves exactly as before.
 - `as="fieldset"` drops `role="group"` and carries the native `disabled`
   attribute instead.
+- Part registration keeps live author-id accessors, so changing a control or
+  label id updates the association without removing and re-appending that
+  part in the registry. Labels and descriptions register their DOM elements
+  to preserve document order even when conditional siblings settle later.
+- Field parts render children separately from attribute spreads. In
+  particular a checkbox nested in a label must not be recreated when its own
+  registration updates the label's `for` attribute.
+- Server rendering registers parts synchronously and reads the current plain
+  registry, because server effects do not run and server memos do not update.
+  The same memo and effect calls are still allocated on server and client;
+  skipping either changes Solid's hydration keys. `Field.Label` defers its view
+  so a later sibling control's author ID is registered before `for` is emitted.
+  `Field.Control` returns a
+  lazy memo whose view is untracked so direct sibling descriptions register
+  before its attributes are serialized, including descriptions written after
+  the control. The memo keeps the client input node stable as flags change.
+  A native wrapper around the control still serializes before a description
+  outside that wrapper; that SSR case needs an explicit author reference.
 
 ## Decisions taken for the toggle family
 
@@ -273,7 +298,9 @@ reference shape.
   items resolve their context outside the provider and throw.
 - Registering from `onSettled` with a setter's updater form re-triggers the
   same `onSettled`. Keep a plain array beside the signal, sort that, and pass
-  the new array to the setter.
+  the new array to the setter. Registry signals also use `ownedWrite: true`: keyed
+  item cleanup can run inside the parent computation and must still unregister
+  the removed item.
 
 ## `@kit/dom`
 
