@@ -1,6 +1,6 @@
 # TSDoc progress
 
-Approved plan: [tsdoc.md](./tsdoc.md). All batches below received coordinator diff review, comment-only AST/directive checks, and package typecheck before commit.
+Approved plan: [tsdoc.md](./tsdoc.md). Run baseline: `707e71f`; the pre-existing example change in that commit is outside this documentation pass. All batches below received coordinator diff review, comment-only AST/directive checks, and package typecheck before commit.
 
 ## Core C1 complete
 
@@ -97,3 +97,13 @@ Independent review and package lint passed. Nine files reviewed. Field public an
 | `c49f12a` | document field root and compound parts | `packages/solid/src/field/field.tsx`, `packages/solid/src/field/parts.tsx` |
 | `b9ab313` | document progress and separator presentation | `packages/solid/src/progress/progress.tsx`, `packages/solid/src/separator/separator.tsx` |
 | `73a6da0` | clarify field ID getter contract | `packages/solid/src/field/field.tsx` |
+
+## Solid S3 complete
+
+Independent review and package lint passed. Peer reviewed toolbar, toggle group and radio group contracts; clarified radio equality and native-host author overrides before commit. Navigation group documentation is complete.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `d5e9bce` | document toggle group selection and navigation | `packages/solid/src/toggle-group/context.ts`, `packages/solid/src/toggle-group/toggle-group.tsx` |
+| `5da7ccb` | document toolbar parts and registry contracts | `packages/solid/src/toolbar/context.ts`, `packages/solid/src/toolbar/items.tsx`, `packages/solid/src/toolbar/toolbar.tsx` |
+| `46747eb` | document radio hosts and form state ownership | `packages/solid/src/radio-group/context.ts`, `packages/solid/src/radio-group/item.tsx`, `packages/solid/src/radio-group/radio-group.tsx` |
