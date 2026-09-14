@@ -2,6 +2,11 @@ import { generateHydrationScript, renderToStream, renderToString } from '@solidj
 import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
 import { PositioningFixture } from './positioning'
+import { Popups } from './popups'
+
+export function renderPopups(menuOpen = false) {
+  return generateHydrationScript() + renderToString(() => <Popups menuOpen={menuOpen} />)
+}
 
 export function renderPositioning() {
   return generateHydrationScript() + renderToString(() => <PositioningFixture />)

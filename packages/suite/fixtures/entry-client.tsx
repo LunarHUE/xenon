@@ -3,6 +3,7 @@ import { flush } from 'solid-js'
 import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
 import { PositioningFixture } from './positioning'
+import { Popups } from './popups'
 
 const root = document.getElementById('app')!
 const serverNodes = [...root.querySelectorAll('*')]
@@ -10,7 +11,9 @@ const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>
-    query.has('positioning') ? (
+    query.has('popups') ? (
+      <Popups menuOpen={query.has('menu')} />
+    ) : query.has('positioning') ? (
       <PositioningFixture />
     ) : query.has('dialogs') ? (
       <Dialogs />

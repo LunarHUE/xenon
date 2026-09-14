@@ -168,7 +168,7 @@ function PopoverRoot<T extends ValidComponent = 'div'>(props: PopoverProps<T>): 
       triggers.push(entry)
       return () => {
         triggers = triggers.filter((item) => item !== entry)
-        if (untrack(trigger) === entry.element) setTrigger(triggers[0]?.element)
+        if (!isServer && untrack(trigger) === entry.element) setTrigger(triggers[0]?.element)
       }
     },
     activeTrigger(entry) {
@@ -476,7 +476,9 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
   props: PopoverAnchorProps<T>
 ): JSX.Element {
   const context = usePopover('Popover.Anchor')
-  onCleanup(() => context.setAnchor(undefined))
+  onCleanup(() => {
+    if (!isServer) context.setAnchor(undefined)
+  })
   const own = props as {
     as?: ValidComponent
     ref?: (el: HTMLElement) => void
@@ -502,7 +504,9 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
 ): JSX.Element {
   const positioner = useContext(PositionerContext)
   if (!positioner) throw new Error('Popover.Arrow must be rendered inside Popover.Positioner')
-  onCleanup(() => positioner.setArrow(undefined))
+  onCleanup(() => {
+    if (!isServer) positioner.setArrow(undefined)
+  })
   const own = props as {
     as?: ValidComponent
     ref?: (el: HTMLElement) => void
