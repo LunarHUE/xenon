@@ -12,7 +12,10 @@ describe('pinInput', () => {
   test('paste overwrites from focus and filters invalid characters', () => {
     const change = vi.fn()
     const focus = vi.fn()
-    pinInput({ value: '1234', length: 4, onValueChange: change, onFocusChange: focus }).insert(1, 'a9-8-7-6')
+    pinInput({ value: '1234', length: 4, onValueChange: change, onFocusChange: focus }).insert(
+      1,
+      'a9-8-7-6'
+    )
     expect(change).toHaveBeenCalledExactlyOnceWith('1987')
     expect(focus).toHaveBeenCalledExactlyOnceWith(3)
   })
@@ -29,7 +32,9 @@ describe('pinInput', () => {
     const change = vi.fn()
     const focus = vi.fn()
     const result = pinInput({ value: '123', onValueChange: change, onFocusChange: focus })
-    const event = { key: 'Delete', preventDefault: vi.fn() } as unknown as KeyboardEvent & { currentTarget: HTMLInputElement }
+    const event = { key: 'Delete', preventDefault: vi.fn() } as unknown as KeyboardEvent & {
+      currentTarget: HTMLInputElement
+    }
     result.parts.input(1).on.keydown?.(event)
     expect(change).toHaveBeenCalledWith('13')
     result.focus(5)

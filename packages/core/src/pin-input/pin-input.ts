@@ -110,7 +110,7 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
       inputmode: options.type && options.type !== 'numeric' ? 'text' : 'numeric',
       autocomplete: index === 0 ? 'one-time-code' : 'off',
       autocapitalize: 'off',
-      spellcheck: false,
+      spellcheck: 'false',
     },
     on: {
       keydown(event) {
