@@ -19,28 +19,28 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Roles and attributes
 
-- [ ] `composite.roles.1` Given a composite widget, then it occupies exactly one stop in the page tab sequence and arrow keys move focus among its items. [apg, radix, base-ui, react-aria, reka, melt, bits, ariakit, zag]
+- [x] `composite.roles.1` Given a composite widget, then it occupies exactly one stop in the page tab sequence and arrow keys move focus among its items. [apg, radix, base-ui, react-aria, reka, melt, bits, ariakit, zag]
 - [ ] `composite.roles.2` Given `aria-activedescendant` is used, then the referenced element MUST satisfy one of three DOM relationships: it is a DOM descendant of the focused referencing element, or the referencing element's `aria-owns` includes its id, or the referencing element has role `combobox`, `textbox` or `searchbox` with `aria-controls` pointing at a container that supports `aria-activedescendant` and either contains the element or owns it. [apg]
 - [ ] `composite.roles.3` Given a composite using `aria-activedescendant`, then DOM focus remains on the container while `aria-activedescendant` names the active item, and the container's own role is what assistive technology reports as focused. [apg, ariakit]
 - [ ] `composite.roles.4` Given a composite using `aria-activedescendant` with no active item, then the container carries no `aria-activedescendant` at all and no item is marked active; the first arrow key sets both. [ariakit] (candidate)
 - [ ] `composite.roles.5` Given the active item, then it carries a stable active marker for styling (`data-active-item`), and a focus-visible marker only when the move came from the keyboard. [ariakit] (candidate)
 - [ ] `composite.roles.6` Given a composite with an orientation, then the orientation is NOT mirrored onto a role that already implies it: neither a `role="menu"` popup nor a generic composite root emits `aria-orientation`. [base-ui] (candidate)
 - [ ] `composite.roles.7` Given grid rows that carry `aria-posinset`, when cells render, then each cell derives its own `aria-posinset` from the row-level value and shares the row's `aria-setsize`. [ariakit] (candidate)
-- [ ] `composite.roles.8` Given an item disabled only accessibly, then it carries `aria-disabled="true"` with no native `disabled` attribute and reports itself as not truly disabled; a truly disabled item carries the native `disabled` attribute. [ariakit, base-ui]
-- [ ] `composite.roles.9` Divergence: the item holding the roving tab stop carries `tabindex="0"` and every other item `tabindex="-1"`. [apg, radix, base-ui, react-aria, reka, zag, melt] (decision needed)
+- [x] `composite.roles.8` Given an item disabled only accessibly, then it carries `aria-disabled="true"` with no native `disabled` attribute and reports itself as not truly disabled; a truly disabled item carries the native `disabled` attribute. [ariakit, base-ui]
+- [x] `composite.roles.9` Divergence: the item holding the roving tab stop carries `tabindex="0"` and every other item `tabindex="-1"`. [apg, radix, base-ui, react-aria, reka, zag, melt] (decision needed)
 - [ ] `composite.roles.10` Divergence: the item holding the roving tab stop has its `tabindex` attribute REMOVED entirely rather than set to `0`, which is only equivalent for hosts that are natively tabbable. The APG tabs examples call `removeAttribute('tabindex')` on the selected tab. [apg] (decision needed)
 
 ### Keyboard
 
-- [ ] `composite.keyboard.1` Given a composite using roving tabindex, then moving focus sets `tabindex="-1"` on the element that had `tabindex="0"`, sets `tabindex="0"` on the new target, and then calls `focus()` on it, in that order. [apg]
-- [ ] `composite.keyboard.2` Given a vertical composite, then ArrowDown moves to the next item and ArrowUp to the previous; given a horizontal one, ArrowRight and ArrowLeft do, subject to direction. [apg, base-ui, react-aria, reka, melt, bits, ariakit, corvu, zag]
-- [ ] `composite.keyboard.3` Given a composite whose orientation is one axis, when a key from the other axis is pressed, then nothing moves and the default is NOT prevented, so an embedded control can still use it. Only keys along the active axis have their default prevented; an orientation of "both" prevents both pairs. [base-ui, react-aria, ariakit, reka]
-- [ ] `composite.keyboard.4` Given Home is pressed anywhere in a composite, then focus and the roving tab stop move to the first item; End moves both to the last. In a nested structure this crosses group boundaries to the very first or last item of the whole composite. [apg, base-ui, melt, ariakit, corvu, zag]
+- [x] `composite.keyboard.1` Given a composite using roving tabindex, then moving focus sets `tabindex="-1"` on the element that had `tabindex="0"`, sets `tabindex="0"` on the new target, and then calls `focus()` on it, in that order. [apg]
+- [x] `composite.keyboard.2` Given a vertical composite, then ArrowDown moves to the next item and ArrowUp to the previous; given a horizontal one, ArrowRight and ArrowLeft do, subject to direction. [apg, base-ui, react-aria, reka, melt, bits, ariakit, corvu, zag]
+- [x] `composite.keyboard.3` Given a composite whose orientation is one axis, when a key from the other axis is pressed, then nothing moves and the default is NOT prevented, so an embedded control can still use it. Only keys along the active axis have their default prevented; an orientation of "both" prevents both pairs. [base-ui, react-aria, ariakit, reka]
+- [x] `composite.keyboard.4` Given Home is pressed anywhere in a composite, then focus and the roving tab stop move to the first item; End moves both to the last. In a nested structure this crosses group boundaries to the very first or last item of the whole composite. [apg, base-ui, melt, ariakit, corvu, zag]
 - [ ] `composite.keyboard.5` Given PageDown and PageUp in a list, then focus moves a page at a time, using the scroll container's own viewport height rather than the window's; in an iframe that is the frame's viewport, not the outer page's. [react-aria, ariakit]
 - [ ] `composite.keyboard.6` Given a composite with no active item, when the forward key is pressed, then the first item becomes active; when the backward key is pressed, then the last item becomes active. [corvu, reka, base-ui]
 - [ ] `composite.keyboard.7` Given a closed popup composite and an arrow key on its trigger, then the popup opens and focus lands on the first item for the forward key or the last item for the backward key; a prop turns the open-on-arrow behavior off. [base-ui] (candidate)
-- [ ] `composite.keyboard.8` Given any recognised navigation key, then `preventDefault()` is called before the active item changes, even when the move turns out to be a no-op at a boundary. [corvu, ariakit]
-- [ ] `composite.keyboard.9` Given an arrow key pressed with any modifier held, then arrow navigation is suppressed by default; a list of allowed modifiers can be configured, and only those then navigate. [base-ui] (candidate)
+- [x] `composite.keyboard.8` Given any recognised navigation key, then `preventDefault()` is called before the active item changes, even when the move turns out to be a no-op at a boundary. [corvu, ariakit]
+- [x] `composite.keyboard.9` Given an arrow key pressed with any modifier held, then arrow navigation is suppressed by default; a list of allowed modifiers can be configured, and only those then navigate. [base-ui] (candidate)
 - [ ] `composite.keyboard.10` Given a modified navigation key such as Alt+ArrowDown, when it moves the active item, then the new item is marked focus-visible even if the previous interaction was a pointer click; when the same key moves nothing at a boundary, the current item still becomes focus-visible from its own keydown. A modified NON-navigation key such as Ctrl+C leaves the modality at pointer. [ariakit] (candidate)
 - [ ] `composite.keyboard.11` Given a composite whose items are grid cells, then the forward and backward keys move within the row and the vertical keys move within the column, landing in the same column of the target row. [base-ui, ariakit, zag]
 - [ ] `composite.keyboard.12` Given grid navigation, then the cross-axis keys are claimed and their default prevented even when they fall outside the configured orientation. [base-ui] (candidate)
@@ -56,14 +56,14 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 - [ ] `composite.keyboard.22` Given a composite with Tab handling turned on and an active item that is not at the relevant boundary, when Tab is pressed, then the default is prevented and the next item becomes active; at the boundary the default is allowed so focus leaves the composite. This conflicts with the single-tab-stop ARIA convention and needs an explicit opt-out. [corvu] (candidate)
 - [ ] `composite.keyboard.23` Given a vim-mode composite, then the configured vim keys (`h`, `j`, `k`, `l` by default) are added alongside the arrow key for each direction; the defaults are Latin, so a non-Latin layout only gets the arrows. [corvu] (candidate)
 - [ ] `composite.keyboard.24` Given a keydown, then the key is lowercased before matching, so key matching is case-insensitive. [corvu] (candidate)
-- [ ] `composite.keyboard.25` Given an empty item list, when any key is pressed, then the handler returns before matching and calls no `preventDefault`. [corvu] (candidate)
-- [ ] `composite.keyboard.26` Divergence: arrow navigation loops by default, so the forward key at the last item moves to the first; a prop turns looping off. [base-ui, bits] (decision needed)
-- [ ] `composite.keyboard.27` Divergence: arrow navigation clamps by default, so the forward key at the last item leaves focus where it is; a prop turns looping on. [react-aria, reka, melt, ariakit, zag, corvu] (decision needed)
+- [x] `composite.keyboard.25` Given an empty item list, when any key is pressed, then the handler returns before matching and calls no `preventDefault`. [corvu] (candidate)
+- [x] `composite.keyboard.26` Divergence: arrow navigation loops by default, so the forward key at the last item moves to the first; a prop turns looping off. [base-ui, bits] (decision needed)
+- [x] `composite.keyboard.27` Divergence: arrow navigation clamps by default, so the forward key at the last item leaves focus where it is; a prop turns looping on. [react-aria, reka, melt, ariakit, zag, corvu] (decision needed)
 - [ ] `composite.keyboard.28` Given a loop hook, when navigation would wrap, then the hook is called with the key, the previous index, the computed next index and the item registry, and its return value wins: returning the previous index pins focus, returning any other index redirects the wrap. With looping disabled the hook is never called. [base-ui] (candidate)
 
 ### Pointer
 
-- [ ] `composite.pointer.1` Given a composite that manages focus with roving `tabindex` or `aria-activedescendant`, when one of its items is clicked or tapped, then the same `tabindex` or `aria-activedescendant` update is applied as for keyboard navigation, otherwise pointer and keyboard state diverge. [apg, react-aria, base-ui]
+- [x] `composite.pointer.1` Given a composite that manages focus with roving `tabindex` or `aria-activedescendant`, when one of its items is clicked or tapped, then the same `tabindex` or `aria-activedescendant` update is applied as for keyboard navigation, otherwise pointer and keyboard state diverge. [apg, react-aria, base-ui]
 - [ ] `composite.pointer.2` Given a composite with hover-to-highlight enabled, when a `mousemove` with non-zero movement lands on an item, then that item becomes the active item and the navigate callback reports its index; a `pointerleave` moves focus back to the container. With hover-to-highlight off, neither happens. [base-ui] (candidate)
 - [ ] `composite.pointer.3` Given a pending item focus queued in an animation frame, when the pointer leaves before that frame runs, then the queued focus is cancelled, the item is deactivated and the navigate callback is called with null. [base-ui] (candidate) (browser-only)
 - [ ] `composite.pointer.4` Given an item taller than its scroll-clipped container, when `pointerleave` fires at a point inside the item's own rect but outside the clipping container, then the active item is still cleared. [base-ui] (candidate)
@@ -73,16 +73,16 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Focus management
 
-- [ ] `composite.focus.1` Given the tab-stop conventions, then there are three families: menubar and toolbar put the tab stop on the FIRST item; radio group, tabs, listbox and tree put it on the SELECTED item; grid and treegrid RESTORE the last-focused item. A component must declare which family it belongs to. [apg]
-- [ ] `composite.focus.2` Given a composite that loses focus and wants a specific item focused next time, then that item's `tabindex` is set to `0` and the previous holder's to `-1` before the composite loses focus. [apg]
+- [x] `composite.focus.1` Given the tab-stop conventions, then there are three families: menubar and toolbar put the tab stop on the FIRST item; radio group, tabs, listbox and tree put it on the SELECTED item; grid and treegrid RESTORE the last-focused item. A component must declare which family it belongs to. [apg]
+- [x] `composite.focus.2` Given a composite that loses focus and wants a specific item focused next time, then that item's `tabindex` is set to `0` and the previous holder's to `-1` before the composite loses focus. [apg]
 - [ ] `composite.focus.3` Given a roving-tabindex composite, then the user agent scrolls the newly focused element into view automatically; given an `aria-activedescendant` composite, then the implementation MUST draw its own visual focus indicator on the active item AND scroll it into view itself, because the user agent will not. [apg, ariakit]
 - [ ] `composite.focus.4` Given an item reached by keyboard that lies below the fold, then the composite scrolls it into view, including when the scroller is the document itself rather than a wrapper. [ariakit, base-ui]
 - [ ] `composite.focus.5` Given a selected item and a composite that opens as a popup, then the selected item is scrolled into view when the popup opens. [base-ui] (candidate)
 - [ ] `composite.focus.6` Given a scroll container and an item with a scroll margin, when the item is scrolled into view in an RTL horizontal composite, then the left scroll margin is used for the left-overflow check. [base-ui] (candidate)
-- [ ] `composite.focus.7` Given a composite whose default entry item is disabled, then the initial roving tab stop moves to the first item that can hold it; when every item is disabled, the first item keeps the tab stop so the composite is still reachable. [base-ui] (candidate)
-- [ ] `composite.focus.8` Given the item holding the highlight is unmounted, then the tab stop falls back into range: to the declared active item if there is one, otherwise to the first item that can hold it, skipping hidden and `aria-disabled` items; if no item can legitimately hold it, the first item takes it anyway. [base-ui] (candidate)
-- [ ] `composite.focus.9` Given an item earlier than the highlighted one is unmounted, then the highlighted item keeps the tab stop and the next arrow key continues from there. [base-ui] (candidate)
-- [ ] `composite.focus.10` Given the active item is removed from the DOM, when the composite is re-entered, then focus lands on a surviving item and arrow navigation continues from there. [ariakit, base-ui]
+- [x] `composite.focus.7` Given a composite whose default entry item is disabled, then the initial roving tab stop moves to the first item that can hold it; when every item is disabled, the first item keeps the tab stop so the composite is still reachable. [base-ui] (candidate)
+- [x] `composite.focus.8` Given the item holding the highlight is unmounted, then the tab stop falls back into range: to the declared active item if there is one, otherwise to the first item that can hold it, skipping hidden and `aria-disabled` items; if no item can legitimately hold it, the first item takes it anyway. [base-ui] (candidate)
+- [x] `composite.focus.9` Given an item earlier than the highlighted one is unmounted, then the highlighted item keeps the tab stop and the next arrow key continues from there. [base-ui] (candidate)
+- [x] `composite.focus.10` Given the active item is removed from the DOM, when the composite is re-entered, then focus lands on a surviving item and arrow navigation continues from there. [ariakit, base-ui]
 - [ ] `composite.focus.11` Given a virtual-focus composite whose container is not focusable, when arrow keys move the active item, then focus is not redirected to the container, each item is marked focus-visible in turn, and a single development warning says the container must be focusable. [ariakit] (candidate)
 - [ ] `composite.focus.12` Given a pending focus move whose target item has not mounted yet, when it mounts after focus has already left the composite, then it is NOT focused and focus stays where the user put it; when it mounts with focus still inside, it is focused. [ariakit] (candidate)
 - [ ] `composite.focus.13` Given two rapid unresolved focus moves, when the items mount, then only the latest requested item takes focus. [ariakit] (candidate)
@@ -105,11 +105,11 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### RTL and i18n
 
-- [ ] `composite.rtl.1` Given a horizontal composite under RTL, then ArrowLeft moves forward and ArrowRight moves backward; vertical keys are direction-independent. [base-ui, react-aria, reka, corvu, ariakit]
+- [x] `composite.rtl.1` Given a horizontal composite under RTL, then ArrowLeft moves forward and ArrowRight moves backward; vertical keys are direction-independent. [base-ui, react-aria, reka, corvu, ariakit]
 - [ ] `composite.rtl.2` Given an RTL composite with no active item, when the RTL forward key (ArrowLeft) is pressed on the container, then the first item in reading order takes focus; when the RTL backward key is pressed first instead, then the last item does. [ariakit] (candidate)
 - [ ] `composite.rtl.3` Given an RTL grid, then the horizontal keys are mirrored while row wrapping still follows reading order, and Home and End still reach the first and last items of the whole grid. [base-ui] (candidate) (browser-only)
 - [ ] `composite.rtl.4` Given an RTL grid and a cell that spans several columns, when navigating out of it, then the move leaves from the forward edge of the spanning cell. [base-ui] (candidate) (browser-only)
-- [ ] `composite.rtl.5` Divergence: direction is read from the DOM (`dir` on an ancestor, or a direction provider), so an RTL page works without extra wiring. [base-ui, react-aria, reka] (decision needed)
+- [x] `composite.rtl.5` Divergence: direction is read from the DOM (`dir` on an ancestor, or a direction provider), so an RTL page works without extra wiring. [base-ui, react-aria, reka] (decision needed)
 - [ ] `composite.rtl.6` Divergence: direction is a prop only, never read from `dir` or computed style, so an RTL page must pass it explicitly. [corvu] (decision needed)
 
 ### SSR and hydration
@@ -120,18 +120,18 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Accessibility tooling
 
-- [ ] `composite.a11y.1` Given a composite using roving tabindex, then no item has a positive `tabindex`: only `0` and `-1` are ever emitted (serious). [axe]
+- [x] `composite.a11y.1` Given a composite using roving tabindex, then no item has a positive `tabindex`: only `0` and `-1` are ever emitted (serious). [axe]
 - [ ] `composite.a11y.2` Given an id referenced by `aria-activedescendant`, then that id MUST be unique in the document (critical). [axe]
 
 ### Notes and edge cases
 
 - [ ] `composite.notes.1` Given a composite state primitive, then it is index- and identity-agnostic: the item list may be any array (an accordion can pass plain integers), which lets one primitive drive triggers, options and cells. [corvu] (candidate)
-- [ ] `composite.notes.2` Given items matched by identity, then reference equality is used to locate the active item, so recreating item objects between renders breaks navigation. [corvu] (candidate)
+- [x] `composite.notes.2` Given items matched by identity, then reference equality is used to locate the active item, so recreating item objects between renders breaks navigation. [corvu] (candidate)
 - [ ] `composite.notes.3` Given a virtualized composite renderer measured by a `ResizeObserver`, then scrolling the whole list, re-rendering items to new nodes under the same ids, and unmounting the list all leave zero observed-but-detached nodes. [ariakit] (candidate) (browser-only)
 - [ ] `composite.notes.4` Given a virtualized renderer whose active descendant lies outside the rendered window, then the active item's ancestor item is rendered alongside it so both appear in index order. [ariakit] (candidate) (browser-only)
 - [ ] `composite.notes.5` Given a cross-oriented group inside a renderer, then its extent along the parent axis is read from the rendered element or from the largest child extent, never by summing the children's cross-axis sizes. [ariakit] (candidate) (browser-only)
 - [ ] `composite.notes.6` Given two composite items sharing one DOM node through nesting, then registration ownership stays with the outer item (it comes from ref attachment order), the outer metadata survives an update to the inner item alone, and arrow navigation still walks the items in order. [base-ui] (candidate)
-- [ ] `composite.notes.7` Given a composite primitive with no module-level state, then many instances in one test file do not leak into each other; the only shared state is what the consumer passes in. [corvu] (candidate)
+- [x] `composite.notes.7` Given a composite primitive with no module-level state, then many instances in one test file do not leak into each other; the only shared state is what the consumer passes in. [corvu] (candidate)
 
 ## collection
 

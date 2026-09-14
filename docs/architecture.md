@@ -81,6 +81,30 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
 - Core is pure: uncontrolled state (`defaultChecked`) lives in the adapter,
   and core always receives the current `checked`.
 
+## Decisions taken for the composite engine and toolbar
+
+- The engine is a pure, generic navigator: items are any array, it never
+  touches an element, and it returns `parts.item(item)` for each one. A part
+  keyed by identity is the shape for every collection-like controller.
+- The item holding the tab stop carries `tabindex="0"`, every other item
+  `tabindex="-1"`. The engine always resolves an active item when it has
+  items: the consumer's choice if navigable, else the first navigable, else
+  the first item. The tab stop follows focus, so clicks and keys share it.
+- Only keys on the active axis are claimed, and a claimed key has its default
+  prevented before the move, even at a boundary. Arrows with a modifier held
+  do nothing. Home and End are always claimed.
+- The engine clamps at the ends. Toolbar turns looping on by default, as the
+  APG example does, with `loop={false}` to clamp.
+- Direction comes from a `dir` prop, else from the nearest `dir` ancestor.
+- A natively disabled item leaves the ring. An `aria-disabled` item stays in
+  it, so toolbar buttons default to `focusableWhenDisabled`. Re-entering a
+  toolbar lands on the last active item.
+- Button gating suppresses user keydown and keyup only for Enter and Space
+  while not interactive; arrows and the rest always reach the user handler.
+- Separators always emit the perpendicular `aria-orientation` explicitly.
+- Not this round: grid, virtual focus, typeahead, selection, PageUp/Down,
+  nested composites.
+
 ## Toolchain
 
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
