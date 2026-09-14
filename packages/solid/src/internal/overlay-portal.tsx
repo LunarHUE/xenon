@@ -22,6 +22,9 @@ export interface OverlayPortalProps {
  * ancestry. It adds no wrapper. Changing the mount element recreates the portal
  * subtree. Like Solid's Portal, server output is empty and hydration renders the
  * contents fresh on the client. Portal only the popup, not its form-owning Root.
+ * Native form ownership follows the destination DOM ancestry; use an explicit
+ * form attribute on portaled controls when their form lives outside that ancestry.
+ * Inherited modal destinations wait for the owning content ref before mounting.
  */
 export function OverlayPortal(props: OverlayPortalProps): JSX.Element {
   const inherited = useContext(OverlayPortalMountContext)

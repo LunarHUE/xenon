@@ -21,13 +21,17 @@ export type OverlayHandleCommand<Payload> =
 
 declare const contextType: unique symbol
 
-/** Imperative controls for one mounted overlay root. */
+/**
+ * Imperative controls for one mounted overlay root. Commands request changes through
+ * that root's controlled/uncontrolled policy; the handle owns no visibility state.
+ * Before attachment and after disposal, commands are ignored without queuing.
+ */
 export interface OverlayHandle<Payload, Context = unknown> {
   /** The mounted root's current open state, or false while detached. */
   readonly isOpen: boolean
-  /** Request opening, optionally selecting a registered trigger. */
+  /** Request opening, optionally selecting a registered trigger. Unknown explicit IDs are ignored; omission uses the root-specific active/fallback opener. */
   open(triggerId?: string): void
-  /** Request opening with a payload, including an explicitly undefined payload. */
+  /** Request opening with typed data on the root-specific active/fallback opener. An explicitly undefined value is preserved when Payload permits it. Anchored overlays still require a usable anchor. */
   openWithPayload(payload: Payload): void
   /** Request closing the mounted root. */
   close(): void

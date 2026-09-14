@@ -45,7 +45,11 @@ export interface DialogRenderState<Payload = unknown> {
 export type AlertDialogRenderState<Payload = unknown> = DialogRenderState<Payload>
 /** Live render callback state for Drawer. */
 export type DrawerRenderState<Payload = unknown> = DialogRenderState<Payload>
-/** Create a reusable dialog-family handle. Detached commands are ignored rather than queued. */
+/**
+ * Create a typed dialog-family handle for one mounted Root. Detached commands are
+ * ignored without queuing. openWithPayload preserves the supplied data, including
+ * undefined when allowed by Payload; visibility remains owned by the Root.
+ */
 export function createDialogHandle<Payload = unknown>(): DialogHandle<Payload> {
   return createOverlayHandle<Payload, Context>()
 }
@@ -124,7 +128,7 @@ export type DrawerProps<T extends ValidComponent = 'div', Payload = unknown> = D
   DrawerOwn
 /** Content props. Inside Viewport this renders a div; standalone usage retains a native dialog. */
 export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
-  /** Receives the inner div inside Viewport, or the native dialog in standalone usage. */
+  /** Receives the visual inner div inside Viewport, or the native dialog in standalone usage. Use Viewport.ref when native dialog methods are needed. */
   ref?: (el: HTMLElement) => void
 }
 /** Native scrolling/layout host props. The adapter owns native presentation. */
@@ -497,9 +501,12 @@ export function DialogClose<T extends ValidComponent = 'button'>(
  * preserves the legacy native dialog host and controller.
  *
  * @remarks
- * Content ID registration lasts for this component's owner, even while its native
- * element is absent. Each physical mount creates a controller; ref replacement
- * disposes the previous controller, and physical unmount disposes the current one.
+ * Inside Viewport, Content supplies its ID, role, and ARIA naming to the native
+ * viewport host. Its ref receives the visual div used for focus scope, outside
+ * hit testing, exit observation, and drawer gestures. The Viewport owns the native
+ * controller; standalone Content owns that controller itself. Content association
+ * registration belongs to the host component's owner, including periods when its
+ * physical native element is absent.
  * Logical closing retains the native session through exiting presence. Closed
  * force-mounted content remains rendered with an inactive controller.
  *
@@ -508,9 +515,10 @@ export function DialogClose<T extends ValidComponent = 'button'>(
  * controller modality changes restart the session. Alerts disallow outside closure
  * and prefer the registered Cancel target when no initialFocus is supplied.
  *
- * Server markup writes open from logical state; client presentation uses the
- * controller. Author ARIA attributes override generated associations. A truthy
- * aria-label suppresses generated aria-labelledby, but an explicit authored
+ * Without Portal, server markup writes open on the native host from logical
+ * state; client presentation uses the controller. Portal emits no server contents
+ * and mounts its subtree fresh on the client. Author ARIA attributes override
+ * generated associations. A truthy aria-label suppresses generated aria-labelledby, but an explicit authored
  * aria-labelledby still wins. Development settlement warns for a missing accessible
  * name, and for an alert without a description; it does not validate referenced IDs.
  * @throws If rendered outside a dialog-family root.
