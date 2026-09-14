@@ -8,7 +8,7 @@ export interface TabEntry {
   el: HTMLElement | null
   /** Current unique string key linking this tab to its panel. */
   value: () => string
-  /** Current disabled state, including root policy, used to skip navigation and activation. */
+  /** Current disabled state, including root policy, used to skip keyboard destinations and click selection. */
   disabled: () => boolean
 }
 
