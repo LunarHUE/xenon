@@ -11,30 +11,48 @@ import type { ToggleGroupContextValue, ToggleGroupEntry } from './context'
 import { gate } from '../internal/gate'
 import { spread } from '../spread'
 
+/** Unified internal payload: scalar/undefined in single mode, array in multiple mode. */
 type GroupValue = string | readonly string[] | undefined
 
+/** Group-owned navigation and host props shared by both selection modes. */
 interface Shared {
+  /** Arrow-navigation axis, defaulting to horizontal; exposed through data-orientation. */
   orientation?: 'horizontal' | 'vertical'
+  /** Horizontal navigation direction. Omission reads nearest dir ancestor or document dir after settling, starting at ltr. */
   dir?: CompositeDirection
+  /** Wrap arrow navigation at either end, including disabled items. Defaults to true. */
   loop?: boolean
+  /** Block all selection changes and gated author activation handlers while retaining navigation. Defaults to false. */
   disabled?: boolean
+  /** Receives the rendered group host; custom components must forward it. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Single selection, including an empty state after pressing the selected item again. */
 interface Single {
+  /** Select at most one item. This is the default mode. */
   mode?: 'single'
+  /** Controlled selection when defined; undefined uses internal state. */
   value?: string
+  /** Initial uncontrolled selection; later changes are ignored. Defaults to empty. */
   defaultValue?: string
+  /** Reports the selected key or undefined after accepted activation; uncontrolled state updates first. */
   onValueChange?: (value: string | undefined) => void
 }
 
+/** Independent pressed membership with an array payload; empty arrays are allowed. */
 interface Multiple {
+  /** Enable multiple selection and array callback payloads. */
   mode: 'multiple'
+  /** Controlled membership when defined, including an empty array; undefined uses internal state. */
   value?: readonly string[]
+  /** Initial uncontrolled membership; later changes are ignored. Defaults to empty. */
   defaultValue?: readonly string[]
+  /** Reports the next membership array after accepted activation; uncontrolled state updates first. */
   onValueChange?: (value: readonly string[]) => void
 }
 
+/** Internal unified view of the public discriminated selection props. */
 type Own = Shared & { mode?: ToggleGroupMode } & {
   value?: GroupValue
   defaultValue?: GroupValue
@@ -42,25 +60,38 @@ type Own = Shared & { mode?: ToggleGroupMode } & {
   as?: ValidComponent
 }
 
+/** Item-owned identity, disabled state, and host ref. */
 interface ItemOwn {
+  /** Unique group selection key. Changing it changes the identity used by selection and navigation. */
   value: string
+  /** Block activation, OR-combined with group disabled; the item remains a keyboard destination. Defaults to false. */
   disabled?: boolean
+  /** Receives the visible item host, used for navigation focus and registration ordering. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic group props with mode-specific controlled/uncontrolled selection. */
 export type ToggleGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Shared | 'mode' | 'value' | 'defaultValue' | 'onValueChange' | 'as'
 > &
   Shared &
-  (Single | Multiple) & { as?: T }
+  (Single | Multiple) & {
+    /** Group host, defaulting to div. Custom components must forward props and refs. */
+    as?: T
+  }
 
+/** Polymorphic toggle item props; remaining host attributes override core defaults through spread. */
 export type ToggleGroupItemProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
   keyof ItemOwn | 'as'
 > &
-  ItemOwn & { as?: T }
+  ItemOwn & {
+    /** Item host: omitted/button uses button semantics, input uses input-button semantics, and other values are generic. */
+    as?: T
+  }
 
+/** Sorts available item hosts by document position; missing hosts retain their registration order. */
 function byDomOrder(a: ToggleGroupEntry, b: ToggleGroupEntry): number {
   if (!a.el || !b.el) return 0
   const relation = a.el.compareDocumentPosition(b.el)
@@ -69,12 +100,22 @@ function byDomOrder(a: ToggleGroupEntry, b: ToggleGroupEntry): number {
   return 0
 }
 
+/** Infers core host semantics from the literal as value, without inspecting custom component output. */
 function hostOf(as: ValidComponent | undefined): ToggleHost {
   if (as === undefined || as === 'button') return 'button'
   if (as === 'input') return 'input'
   return 'generic'
 }
 
+/**
+ * Owns selection state and a DOM-ordered item registry with independent roving focus.
+ * Controlled mode is determined whenever value is read. onValueChange fires only
+ * for accepted activation, never initialization or navigation. In single mode,
+ * setting value to undefined releases control to internal state.
+ * Item registration occurs after settling; direction is sampled after the root
+ * settles, without observing later ancestor dir changes. Navigation updates active
+ * immediately and focuses its registered host after settling.
+ */
 function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   props: ToggleGroupProps<T>
 ): JSX.Element {
@@ -106,8 +147,10 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   const controlled = () => own.value !== undefined
   const current = () => own.value ?? internal()
 
+  /** Resolves the first registered entry with this current value; callers must avoid duplicate keys. */
   const entryFor = (value: string) => entries().find((entry) => entry.value() === value)
 
+  /** Stores a proposal only while uncontrolled, then notifies the current callback. */
   const change = (next: GroupValue) => {
     if (!untrack(controlled)) setInternal(next)
     own.onValueChange?.(next)
@@ -134,6 +177,7 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   )
 
   let registered: ToggleGroupEntry[] = []
+  /** Sorts on addition and publishes removals; no observer tracks later DOM-only reordering. */
   const register = (entry: ToggleGroupEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
     setEntries(registered)
@@ -179,6 +223,13 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   )
 }
 
+/**
+ * Registers one toggle host with the enclosing group after settling and unregisters
+ * through lifecycle cleanup. Disabled items retain their roving focus behavior.
+ * Author handlers run before core handlers and may cancel them; selected activation
+ * handlers are gated while disabled. Generic hosts add Enter/Space activation.
+ * @throws If rendered outside a ToggleGroup.
+ */
 function ToggleGroupItem<T extends ValidComponent = 'button'>(
   props: ToggleGroupItemProps<T>
 ): JSX.Element {
@@ -217,4 +268,12 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
   )
 }
 
-export const ToggleGroup = Object.assign(ToggleGroupRoot, { Item: ToggleGroupItem })
+/**
+ * Group of pressed buttons with single or multiple selection and independent arrow navigation.
+ * Renders group semantics, not a radiogroup. Provide an accessible group name and
+ * distinct item values. No hidden form inputs or form-reset selection handling are installed.
+ */
+export const ToggleGroup = Object.assign(ToggleGroupRoot, {
+  /** Toggle item requiring this group's context; see {@link ToggleGroupItemProps}. */
+  Item: ToggleGroupItem,
+})
