@@ -8,6 +8,8 @@ export interface LayerOptions {
   parent?: LayerHandle
   escape?: 'dismiss' | 'ignore'
   onEscapeKeyDown?: (event: KeyboardEvent) => void
+  /** Override pointer containment for native backdrops; undefined uses DOM containment. */
+  isPointerInside?: (event: PointerEvent) => boolean | undefined
   outsidePointer?: 'dismiss' | 'ignore'
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
   onDismiss?: (event: KeyboardEvent | PointerEvent) => void
@@ -106,7 +108,12 @@ function createRegistry(document: Document): Registry {
     if (!primaryPointer(event)) return
     const entry = registry.entries.at(-1)
     const targets = eventTargets(event, document)
-    if (!entry || !targets || contains(registry, entry, targets)) return
+    if (
+      !entry ||
+      !targets ||
+      (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
+    )
+      return
     pending = { entry, event, generation }
   }
   const pointercancel = (event: PointerEvent) => {
@@ -123,7 +130,8 @@ function createRegistry(document: Document): Registry {
       entry.active && generation === gesture.generation && registry.entries.at(-1) === entry
     if (!current() || !primaryPointer(event)) return
     const targets = pointerUpTargets(event, document, captured)
-    if (!targets || contains(registry, entry, targets)) return
+    if (!targets || (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets)))
+      return
     const options = entry.options
     if (options.outsidePointer !== 'dismiss') return
     // Wait for target and bubble handlers to cancel either native event.

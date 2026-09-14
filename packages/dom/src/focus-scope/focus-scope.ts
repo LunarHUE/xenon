@@ -108,6 +108,11 @@ function focus(element: FocusTarget): void {
 }
 
 function fallback(scope: Scope): void {
+  // Native dialogs are focusable without a tabindex, which HTML forbids on dialog.
+  if (scope.container.localName === 'dialog') {
+    scope.container.focus({ preventScroll: true })
+    return
+  }
   if (!scope.container.hasAttribute('tabindex')) {
     scope.container.setAttribute('tabindex', '-1')
     scope.fallbackOwned = true

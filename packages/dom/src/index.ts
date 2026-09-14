@@ -1,3 +1,6 @@
 export * from './wait-for-exit'
 export * from './layer'
 export * from './focus-scope'
+export * from './modal'
+export * from './dialog'
+export * from './drawer'
