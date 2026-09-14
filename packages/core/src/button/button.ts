@@ -71,7 +71,7 @@ export function button(
 export function button(options: ButtonOptions & { host: 'input' }): ButtonResult<PartProps<'input'>>
 /** Preserves native link role and keyboard behavior; callers supply href and manage its focusability. */
 export function button(options: ButtonOptions & { host: 'link' }): ButtonResult<PartProps<'a'>>
-/** Adds button role and synthesizes clicks on Enter keydown and Space keyup when interactive. */
+/** Adds button role and clicks on non-repeated Enter keydown and Space keyup when interactive. */
 export function button(options: ButtonOptions & { host: 'generic' }): ButtonResult<PartProps<'div'>>
 /** Builds the part selected by a runtime host value. See {@link ButtonOptions} for defaults. */
 export function button(options: ButtonOptions): ButtonAny

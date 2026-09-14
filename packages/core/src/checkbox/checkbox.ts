@@ -8,8 +8,8 @@ export type CheckboxHost = CheckedHost
 /** Checked-control options from {@link CheckedOptions}, with an independent mixed state. */
 export interface CheckboxOptions extends CheckedOptions {
   /**
-   * Mixed presentation, defaulting to false, independent of checked. Activation
-   * does not clear it. Input adapters must set the indeterminate DOM property;
+   * Mixed presentation, defaulting to false, independent of checked. Core does
+   * not change this option on activation. Input adapters must set the indeterminate DOM property;
    * other hosts receive aria-checked="mixed".
    */
   indeterminate?: boolean
