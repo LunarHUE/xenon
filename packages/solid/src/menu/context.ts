@@ -49,6 +49,10 @@ export interface MenuContextValue {
   setLayer(layer: LayerHandle | undefined): void
   /** Logical parent supplied by Menu.Sub; absent for an independent Menu root. */
   parent?: MenuContextValue
+  /** Close registered child menus recursively without closing this menu. */
+  resetChildren(): void
+  /** Register a child reset callback for same-root reopening; caller owns cleanup. */
+  registerSub(reset: () => void): () => void
   /** Effective visibility, gated by every parent before controlled/uncontrolled local state. */
   open(): boolean
   /** Requests visibility; opening an already-open menu focuses the requested edge without notifying. Closing clears typeahead. */

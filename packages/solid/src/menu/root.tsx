@@ -108,6 +108,7 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
   const [layer, setLayer] = createSignal<LayerHandle | undefined>(undefined, { ownedWrite: true })
   let triggers: MenuTriggerEntry[] = []
   const listeners = new Set<() => void>()
+  const submenus = new Set<() => void>()
   const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
     ownedWrite: true,
   })
@@ -144,6 +145,7 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
   const change = (next: boolean, requested?: 'first' | 'last' | 'content') => {
     if (next) {
       edge = requested ?? 'first'
+      if (edge === 'content') setActive(undefined)
       setRestore(true)
       if (untrack(open)) {
         if (edge === 'content') {
@@ -169,8 +171,8 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
     )
   const life = createPresence({ open, forceMount: () => props.forceMount ?? false })
   /** Builds core navigation and typeahead, renewing the buffer timeout on each search request. */
-  const compute = () =>
-    menu({
+  const compute = () => {
+    const result = menu({
       open: open(),
       items: entries(),
       active: active(),
@@ -187,6 +189,26 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
         searchTimer = setTimeout(() => setSearch(''), 700)
       },
     })
+    if (edge !== 'content') return result
+    const item = result.parts.item
+    return {
+      ...result,
+      parts: {
+        ...result.parts,
+        item(entry: MenuEntry) {
+          const part = item(entry)
+          return {
+            ...part,
+            attrs: {
+              ...part.attrs,
+              'data-highlighted': active() === entry ? '' : undefined,
+              tabindex: -1,
+            },
+          }
+        },
+      },
+    }
+  }
   const memo = createMemo(compute)
   const engine = isServer ? compute : memo
   const context: MenuContextValue = {
@@ -232,6 +254,15 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
       }
     },
     parent,
+    resetChildren() {
+      for (const reset of submenus) reset()
+    },
+    registerSub(reset) {
+      submenus.add(reset)
+      return () => {
+        submenus.delete(reset)
+      }
+    },
     open,
     change,
     restore,
@@ -305,6 +336,16 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
       }, 200)
     },
   }
+  if (parent)
+    onCleanup(
+      parent.registerSub(() =>
+        untrack(() => {
+          context.resetChildren()
+          setRestore(false)
+          change(false)
+        })
+      )
+    )
   onCleanup(() => {
     clearTimeout(searchTimer)
     clearTimeout(hoverTimer)

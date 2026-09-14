@@ -1,13 +1,14 @@
 import { expect, test, vi } from 'vitest'
 import { menubar } from './menubar'
 function key(key: string) {
-  return {
+  const event = {
     key,
     preventDefault() {
-      this.defaultPrevented = true
+      event.defaultPrevented = true
     },
     defaultPrevented: false,
-  } as unknown as KeyboardEvent & { currentTarget: HTMLButtonElement }
+  }
+  return event as unknown as KeyboardEvent & { currentTarget: HTMLButtonElement }
 }
 test('menubar wraps enabled triggers, reverses RTL, and requests opening edges', () => {
   const active = vi.fn(),
@@ -45,4 +46,9 @@ test('menubar leaves Tab default intact and disabled activation silent', () => {
   change.mockClear()
   engine.parts.trigger('disabled').on.keydown?.(key('Enter'))
   expect(change).not.toHaveBeenCalled()
+})
+test('all disabled triggers stay outside the tab order', () => {
+  const engine = menubar({ items: ['file', 'edit'], disabled: () => true })
+  expect(engine.parts.trigger('file').attrs.tabindex).toBe(-1)
+  expect(engine.parts.trigger('edit').attrs.tabindex).toBe(-1)
 })

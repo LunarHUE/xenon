@@ -426,7 +426,7 @@ export function NavigationMenuLink<T extends ValidComponent = 'a'>(
   )
 }
 /** Panel attributes. Supply value when placing panels together outside their Item, such as inside Viewport. */
-export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Omit<Host<T>, 'onSelect'> & {
+export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Host<T> & {
   value?: string
 }
 /** Kept-mounted panel, hidden while unselected. Arrow keys walk panel tab stops without wrapping; Tab retains logical trigger order across portals. */

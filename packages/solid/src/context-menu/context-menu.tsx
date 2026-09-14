@@ -1,0 +1,168 @@
+import { Dynamic } from '@solidjs/web'
+import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
+import { createMemo, createUniqueId, omit, onCleanup } from 'solid-js'
+import { contextMenu } from '@tenon/core/context-menu'
+import type { ContextMenuPoint } from '@tenon/core/context-menu'
+import { MenuRoot } from '../menu/root'
+import type { MenuProps } from '../menu/root'
+import { useMenu } from '../menu/context'
+import type { MenuTriggerEntry } from '../menu/context'
+import { MenuContent } from '../menu/content'
+import type { MenuContentProps } from '../menu/content'
+import { spread } from '../spread'
+
+/** Context-menu visibility, direction, presence, and item navigation options. */
+export type ContextMenuProps<Payload = unknown> = MenuProps<Payload>
+/** Region props. The default div has a tab stop for keyboard context-menu access. */
+export type ContextMenuTriggerProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Region host; defaults to div. */
+  as?: T
+  /** Allow the native context menu and suppress all custom opening gestures. */
+  disabled?: boolean
+  /** Receives the region host. */
+  ref?: (element: HTMLElement) => void
+}
+/** Provides shared Menu state for a context-menu region and popup. */
+export function ContextMenuRoot<Payload = unknown>(props: ContextMenuProps<Payload>): JSX.Element {
+  const rest = omit(props as unknown as Record<string, unknown>, 'children')
+  return <MenuRoot {...rest} children={props.children} />
+}
+/** Opens at client coordinates, keyboard region center, or a 500ms touch hold. Movement beyond 10px, release, cancellation, and scrolling cancel a pending hold. */
+export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
+  props: ContextMenuTriggerProps<T>
+): JSX.Element {
+  const context = useMenu('ContextMenu.Trigger')
+  const id = createUniqueId()
+  const own = props as ContextMenuTriggerProps<'div'>
+  const rest = omit(props as Record<string, unknown>, 'as', 'children', 'ref', 'disabled')
+  const entry: MenuTriggerEntry = {
+    id: () => (typeof own.id === 'string' ? own.id : id),
+    disabled: () => !!own.disabled,
+    payload: () => undefined,
+  }
+  onCleanup(context.registerTrigger(entry))
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let start: ContextMenuPoint | undefined
+  let removeListeners: (() => void) | undefined
+  function cancel() {
+    clearTimeout(timer)
+    timer = undefined
+    start = undefined
+    removeListeners?.()
+    removeListeners = undefined
+  }
+  function open(point?: ContextMenuPoint) {
+    if (entry.disabled() || !entry.element) return
+    cancel()
+    const box = entry.element.getBoundingClientRect()
+    const location = point ?? { x: box.left + box.width / 2, y: box.top + box.height / 2 }
+    if (context.open()) context.resetChildren()
+    context.setAnchor({
+      contextElement: entry.element,
+      getBoundingClientRect: () => new DOMRect(location.x, location.y, 0, 0),
+    })
+    context.activate(entry, 'content')
+  }
+  function hold(event: PointerEvent) {
+    if (event.pointerType !== 'touch' || entry.disabled()) return
+    if (start || !event.isPrimary) {
+      cancel()
+      return
+    }
+    start = { x: event.clientX, y: event.clientY }
+    const doc = entry.element!.ownerDocument
+    const move = (event: PointerEvent) => {
+      if (start && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 10) cancel()
+    }
+    const second = (event: PointerEvent) => {
+      if (event.pointerType === 'touch' && !event.isPrimary) cancel()
+    }
+    doc.addEventListener('pointermove', move)
+    doc.addEventListener('pointerdown', second)
+    doc.addEventListener('pointerup', cancel)
+    doc.addEventListener('pointercancel', cancel)
+    doc.addEventListener('scroll', cancel, true)
+    removeListeners = () => {
+      doc.removeEventListener('pointermove', move)
+      doc.removeEventListener('pointerdown', second)
+      doc.removeEventListener('pointerup', cancel)
+      doc.removeEventListener('pointercancel', cancel)
+      doc.removeEventListener('scroll', cancel, true)
+    }
+    timer = setTimeout(() => open(start), 500)
+  }
+  onCleanup(cancel)
+  const part = () => {
+    const engine = contextMenu({
+      items: [],
+      open: context.open() && context.activeTrigger(entry),
+      triggerDisabled: own.disabled,
+      onOpenRequest: open,
+    })
+    return {
+      ...engine.parts.trigger,
+      on: {
+        ...engine.parts.trigger.on,
+        pointerdown: hold,
+        click() {
+          if (context.open()) context.closeAll(false)
+        },
+      },
+    }
+  }
+  const children = createMemo(() => own.children)
+  return (
+    <Dynamic
+      component={own.as ?? 'div'}
+      {...spread(part(), { tabindex: 0, ...rest, id: entry.id() })}
+      ref={(element: HTMLElement) => {
+        entry.element = element
+        context.setTrigger(element)
+        own.ref?.(element)
+      }}
+    >
+      {children()}
+    </Dynamic>
+  )
+}
+/** Menu surface props, including author naming and handlers. */
+export type ContextMenuContentProps<T extends ValidComponent = 'div'> = MenuContentProps<T>
+/** Shares item, submenu, and dismissal behavior with Menu, suppresses native menus within the surface, and supports navigation from initial surface focus. */
+export function ContextMenuContent<T extends ValidComponent = 'div'>(
+  props: ContextMenuContentProps<T>
+): JSX.Element {
+  const context = useMenu('ContextMenu.Content')
+  const rest = omit(props as Record<string, unknown>, 'children')
+  const children = createMemo(() => props.children)
+  return (
+    <MenuContent
+      {...spread(
+        {
+          attrs: {},
+          on: {
+            contextmenu(event: MouseEvent) {
+              event.preventDefault()
+            },
+            keydown(event: KeyboardEvent) {
+              if (
+                event.target !== context.content() ||
+                event.isComposing ||
+                event.altKey ||
+                event.ctrlKey ||
+                event.metaKey
+              )
+                return
+              if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+                event.preventDefault()
+                context.change(true, ['ArrowUp', 'End'].includes(event.key) ? 'last' : 'first')
+              }
+            },
+          },
+        },
+        { ...rest }
+      )}
+    >
+      {children()}
+    </MenuContent>
+  )
+}

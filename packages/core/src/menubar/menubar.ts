@@ -36,6 +36,7 @@ export function menubar<T>(options: MenubarOptions<T>) {
     return {
       attrs: {
         ...nav.attrs,
+        tabindex: options.disabled?.(value) ? -1 : nav.attrs.tabindex,
         type: 'button',
         role: 'menuitem',
         'aria-haspopup': 'menu',
