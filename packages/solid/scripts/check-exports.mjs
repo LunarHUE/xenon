@@ -63,7 +63,7 @@ for (const source of ['@tenon/solid/button', '@tenon/solid']) {
     'Button must be retained'
   )
   const unrelated = modules.filter((path) =>
-    /\/(solid|core|dom)\/src\/(checkbox|dialog|drawer|popover|menu|positioning)\//.test(path)
+    /\/(solid|core|dom)\/src\/(checkbox|checkbox-group|listbox|select|combobox|dialog|drawer|popover|menu|positioning)\//.test(path)
   )
   assert.deepEqual(unrelated, [], `${source} retains unrelated component modules`)
 }

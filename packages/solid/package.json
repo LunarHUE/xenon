@@ -92,6 +92,18 @@
     "./checkbox-group": {
       "types": "./src/checkbox-group/index.tsx",
       "default": "./src/checkbox-group/index.tsx"
+    },
+    "./listbox": {
+      "types": "./src/listbox/index.tsx",
+      "default": "./src/listbox/index.tsx"
+    },
+    "./select": {
+      "types": "./src/select/index.tsx",
+      "default": "./src/select/index.tsx"
+    },
+    "./combobox": {
+      "types": "./src/combobox/index.tsx",
+      "default": "./src/combobox/index.tsx"
     }
   },
   "scripts": {
