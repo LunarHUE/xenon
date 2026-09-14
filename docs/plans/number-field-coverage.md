@@ -71,3 +71,7 @@ corrected. Nonfinite controlled values submit an empty string. Readonly and
 author-canceled input events restore the browser value. Chromium and WebKit cover
 native validity, forms and resets, plus no-JavaScript SSR custom associations and
 node-preserving hydration with subsequent edits across all five new families.
+
+Native reset reconciliation runs after the browser's reset default action and
+rewrites the visible input even if its numeric state is unchanged. Chromium and
+WebKit cover clicking Reset with untouched default and controlled values.

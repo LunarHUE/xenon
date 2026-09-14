@@ -40,8 +40,34 @@ test('native numeric form validation, localized submission, stepping and reset',
   flush()
   expect(input.value).toBe('3')
   form.reset()
-  await Promise.resolve()
+  await new Promise((resolve) => setTimeout(resolve, 0))
   flush()
   expect(input.value).toBe('')
   expect(input.checkValidity()).toBe(false)
+})
+
+test('native reset activation retains untouched default and controlled values', async () => {
+  host = document.createElement('div')
+  document.body.append(host)
+  dispose = render(
+    () => (
+      <form>
+        <NumberField defaultValue={2}>
+          <NumberField.Input aria-label="Default" />
+        </NumberField>
+        <NumberField value={3}>
+          <NumberField.Input aria-label="Controlled" />
+        </NumberField>
+        <button type="reset">Reset</button>
+      </form>
+    ),
+    host
+  )
+  flush()
+  await userEvent.click(host.querySelector('button')!)
+  await new Promise((resolve) => setTimeout(resolve, 0))
+  flush()
+  expect(
+    [...host.querySelectorAll<HTMLInputElement>('[role="spinbutton"]')].map((input) => input.value)
+  ).toEqual(['2', '3'])
 })

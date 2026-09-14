@@ -57,3 +57,8 @@ regressions also cover canceled reset and readonly autofill attempts against the
 submission proxy. Both browsers render the five-family numeric fixture without
 JavaScript, then separately verify hydration preserves existing nodes and supports
 subsequent numeric, OTP, slider, tag, and editable form edits.
+
+Native reset reconciliation runs in a zero-delay timer after the browser's reset
+default action. It rewrites every slot even when controlled or default state did
+not change. The timer is canceled on disposal. Chromium and WebKit both cover
+clicking Reset with untouched default and controlled codes.

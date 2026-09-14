@@ -137,10 +137,12 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
   onSettled(() => {
     const element = mirror
     if (!element) return
+    let resetTimer: ReturnType<typeof setTimeout> | undefined
     const reset = (event: Event) => {
       if (event.target !== element.form) return
-      // eslint-disable-next-line solid/reactivity -- Native reset runs in this queued event callback.
-      queueMicrotask(() => {
+      // Restore after the browser has completed the native reset default action.
+      clearTimeout(resetTimer)
+      resetTimer = setTimeout(() => {
         if (event.defaultPrevented) return
         if (props.value === undefined) setInternal(initial)
         flush()
@@ -148,7 +150,10 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
       })
     }
     element.ownerDocument.addEventListener('reset', reset)
-    return () => element.ownerDocument.removeEventListener('reset', reset)
+    return () => {
+      clearTimeout(resetTimer)
+      element.ownerDocument.removeEventListener('reset', reset)
+    }
   })
   const rest = omit(
     props,

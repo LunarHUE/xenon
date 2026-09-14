@@ -80,13 +80,45 @@ test('form reset follows a dynamically reassigned external owner in a real brows
   flush()
   const forms = container.querySelectorAll('form')
   forms[0]!.reset()
-  await Promise.resolve()
+  await new Promise((resolve) => setTimeout(resolve, 0))
   flush()
   expect(slots[1]!.value).toBe('2')
   forms[1]!.reset()
-  await Promise.resolve()
+  await new Promise((resolve) => setTimeout(resolve, 0))
   flush()
   expect(slots[0]!.value).toBe('1')
   expect(slots[1]!.value).toBe('')
   expect(new FormData(forms[1]!).get('otp')).toBe('1')
+})
+
+test('native reset activation retains untouched default and controlled codes', async () => {
+  const container = document.createElement('div')
+  document.body.append(container)
+  const dispose = render(
+    () => (
+      <form>
+        <PinInput defaultValue="12" length={2}>
+          <PinInput.Input index={0} />
+          <PinInput.Input index={1} />
+        </PinInput>
+        <PinInput value="34" length={2}>
+          <PinInput.Input index={0} />
+          <PinInput.Input index={1} />
+        </PinInput>
+        <button type="reset">Reset</button>
+      </form>
+    ),
+    container
+  )
+  disposers.push(() => {
+    dispose()
+    container.remove()
+  })
+  flush()
+  await userEvent.click(container.querySelector('button')!)
+  await new Promise((resolve) => setTimeout(resolve, 0))
+  flush()
+  expect(
+    [...container.querySelectorAll<HTMLInputElement>('[data-index]')].map((input) => input.value)
+  ).toEqual(['1', '2', '3', '4'])
 })

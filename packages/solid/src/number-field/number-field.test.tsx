@@ -31,7 +31,7 @@ test('draft preserves trailing decimal, commits on Enter, and resets canonical f
   expect(input.value).toBe('3')
   expect(new FormData(form).get('quantity')).toBe('3')
   form.reset()
-  await Promise.resolve()
+  await new Promise((resolve) => setTimeout(resolve, 0))
   flush()
   expect(input.value).toBe('2')
   expect(changed).toHaveBeenCalledTimes(1)
