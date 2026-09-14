@@ -1,32 +1,87 @@
 import { focusable, isFocusable, tabbable } from 'tabbable'
 
+/** Focus containment, initial placement, and conditional restoration for one region. */
 export interface FocusScopeOptions {
+  /**
+   * Active parent registered by this module in the same document. Fixed at
+   * registration. Noncontained children extend their parent region; the parent
+   * chain also supplies restoration fallbacks after ancestors are disposed.
+   */
   parent?: FocusScopeHandle
+  /**
+   * Trap Tab and redirect outside focus while this is the newest containing
+   * scope. Defaults to true. False still permits initial placement and restoration.
+   */
   contain?: boolean
+  /**
+   * Initial target, accepted only when connected, focusable, in this document,
+   * and inside the region. Otherwise preserve usable focus already inside, then
+   * try autofocus, then the first tab stop or container fallback. False skips
+   * initial placement without disabling later containment. Used only at registration.
+   */
   initialFocus?: HTMLElement | false
+  /**
+   * Attempt conditional restoration on disposal, defaulting to true. False
+   * skips the final/opener target but does not prevent a resumed scope from
+   * recovering focus into its own region.
+   */
   restoreFocus?: boolean
+  /**
+   * Preferred connected, focusable restoration target in this document.
+   * Falls back to the element focused at registration when unusable; ancestor
+   * opener fallbacks may replace targets belonging to disposed parents.
+   */
   finalFocus?: HTMLElement
 }
 
+/** Registration lifetime; mutation methods become no-ops after disposal. */
 export interface FocusScopeHandle {
+  /**
+   * Replaces mutable options, restoring defaults for omitted properties. Keeps
+   * parent identity and does not rerun initial placement. Reconciles lost focus
+   * synchronously; enabling containment recovers focus if this scope becomes top.
+   */
   update(options: Omit<FocusScopeOptions, 'parent' | 'initialFocus'>): void
+  /**
+   * Adds an extra region root, such as a portal, in registration order. Duplicate
+   * registrations are counted separately; the returned cleanup is idempotent.
+   * Adding/removing roots may synchronously recover focus into the top scope.
+   * @throws If the branch belongs to another document and the scope is active.
+   */
   registerBranch(element: Element): () => void
+  /**
+   * Removes this scope synchronously and releases its branches and owned fallback
+   * tabindex. Restores focus only when focus still belongs here or was lost to
+   * the body, and no newer containing scope or focused noncontained scope blocks it.
+   * Descendants remain registered. Repeated calls are harmless. The last scope
+   * removes the document listeners and mutation observer.
+   */
   dispose(): void
 }
 
+/** Focusable HTML or SVG element supporting preventScroll focus calls. */
 type FocusTarget = HTMLElement | SVGElement
+/** Internal registration state retained by handles, including disposed parent history. */
 type Scope = {
   container: HTMLElement
+  /** Fixed logical ancestry; disposal leaves this reference available to descendants. */
   parent?: Scope
   options: FocusScopeOptions
+  /** Reference counts for extra region roots in first-registration order. */
   branches: Map<Element, number>
+  /** Deep active element captured before registration performs focus placement. */
   opener: Element | null
+  /** Most recently observed focus within this region, reused when still usable. */
   last: Element | null
+  /** Tracks focus ownership for loss recovery; deliberate focus outside clears it except at body. */
   hadFocus: boolean
   disposed: boolean
+  /** Region roots captured before disposal so descendant restoration can avoid closed parent regions. */
   closedRoots?: Element[]
+  /** Whether this registration added the container tabindex and may remove it if still -1. */
   fallbackOwned: boolean
 }
+/** Shared listeners, observer, and registration order for one owner document. */
 type Manager = {
   scopes: Scope[]
   refresh(): void
@@ -34,16 +89,20 @@ type Manager = {
   recover(scope: Scope): void
   destroy(): void
 }
+/** One manager per document, removed when its final scope is disposed. */
 const managers = new WeakMap<Document, Manager>()
+/** Resolves only handles issued here, including disposed ancestors needed for restoration. */
 const handles = new WeakMap<FocusScopeHandle, Scope>()
 const checks = { getShadowRoot: true } as const
 
+/** Follows active elements through accessible open shadow roots. */
 function activeElement(document: Document): Element | null {
   let active = document.activeElement
   while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement
   return active
 }
 
+/** Walks slots, light-DOM parents, and shadow hosts to test composed ancestry. */
 function composedContains(root: Element, target: Element): boolean {
   let node: Node | null = target
   while (node) {
@@ -53,6 +112,7 @@ function composedContains(root: Element, target: Element): boolean {
   return false
 }
 
+/** Lists container, branches, then recursively included noncontained children in registration order. */
 function roots(scope: Scope, scopes: Scope[]): Element[] {
   const result: Element[] = [scope.container, ...scope.branches.keys()]
   for (const child of scopes) {
@@ -63,6 +123,7 @@ function roots(scope: Scope, scopes: Scope[]): Element[] {
   return result
 }
 
+/** Tests the current region, or its saved roots after logical disposal. */
 function contains(scope: Scope, target: Element | null, scopes: Scope[]): boolean {
   return (
     !!target &&
@@ -70,6 +131,7 @@ function contains(scope: Scope, target: Element | null, scopes: Scope[]): boolea
   )
 }
 
+/** Accepts only connected, focusable elements owned by the specified document. */
 function usable(element: Element | null | undefined, document: Document): element is FocusTarget {
   return (
     !!element &&
@@ -79,6 +141,10 @@ function usable(element: Element | null | undefined, document: Document): elemen
   )
 }
 
+/**
+ * Concatenates each root's tab order, removes duplicate elements, and keeps one
+ * stop per named radio group sharing a form and tree. Root order is not globally DOM-sorted.
+ */
 function candidates(scope: Scope, scopes: Scope[]): FocusTarget[] {
   const nodes = [
     ...new Set(
@@ -103,10 +169,12 @@ function candidates(scope: Scope, scopes: Scope[]): FocusTarget[] {
   })
 }
 
+/** Requests focus without scrolling; focus events can synchronously reenter scope logic. */
 function focus(element: FocusTarget): void {
   element.focus({ preventScroll: true })
 }
 
+/** Focuses the container, temporarily adding tabindex=-1 only when absent on a non-dialog host. */
 function fallback(scope: Scope): void {
   // Native dialogs are focusable without a tabindex, which HTML forbids on dialog.
   if (scope.container.localName === 'dialog') {
@@ -120,10 +188,13 @@ function fallback(scope: Scope): void {
   if (usable(scope.container, scope.container.ownerDocument)) focus(scope.container)
 }
 
+/** Installs document focus/keyboard listeners and a shared DOM mutation observer. */
 function createManager(document: Document): Manager {
   const scopes: Scope[] = []
   const redirecting = new Set<Scope>()
+  /** Newest containing scope owns trapping; noncontained registrations do not pause it. */
   const top = () => scopes.findLast((scope) => scope.options.contain !== false)
+  /** Restores usable remembered focus, then a tab stop, then the container, with per-scope reentry protection. */
   const recover = (scope: Scope) => {
     if (redirecting.has(scope) || scope.disposed) return
     redirecting.add(scope)
@@ -138,6 +209,7 @@ function createManager(document: Document): Manager {
       redirecting.delete(scope)
     }
   }
+  /** Records region ownership before redirecting focus that escaped the current trap. */
   const onFocus = () => {
     const active = activeElement(document)
     for (const scope of scopes) {
@@ -149,6 +221,7 @@ function createManager(document: Document): Manager {
     const scope = top()
     if (scope && !contains(scope, active, scopes)) recover(scope)
   }
+  /** Recomputes and cycles the top region on unconsumed Tab; Shift reverses its root-ordered traversal. */
   const onKey = (event: KeyboardEvent) => {
     const scope = top()
     if (
@@ -173,6 +246,7 @@ function createManager(document: Document): Manager {
         : (index + (event.shiftKey ? -1 : 1) + nodes.length) % nodes.length
     focus(nodes[next]!)
   }
+  /** Recovers lost/unusable focus at mutation delivery only while the top scope still owns focus. */
   const observer = new document.defaultView!.MutationObserver(() => {
     refresh()
     const scope = top()
@@ -204,6 +278,7 @@ function createManager(document: Document): Manager {
       ],
     })
   }
+  /** Observes accessible shadow trees below roots; closed shadow contents remain inaccessible. */
   const discover = (root: Element) => {
     if (root.shadowRoot) {
       observe(root.shadowRoot)
@@ -211,6 +286,7 @@ function createManager(document: Document): Manager {
     }
     for (const child of root.children) discover(child)
   }
+  /** Rebuilds observation of the document and open shadow roots around all registered regions. */
   function refresh() {
     observer.disconnect()
     observed.clear()
@@ -256,7 +332,24 @@ function createManager(document: Document): Manager {
   }
 }
 
-/** Register a focus region independently of dismissal layers. Dispose when logically closed. */
+/**
+ * Registers a focus region independently of dismissal layers and places initial
+ * focus synchronously unless disabled by initialFocus=false.
+ *
+ * @param container - Region host in a live document with a defaultView and MutationObserver.
+ * @param options - Registration settings; omitted containment and restoration default to true.
+ * @returns A handle to update policy, register portal roots, and end the scope.
+ * @throws If the supplied parent is foreign, disposed, or from another document.
+ * @remarks
+ * Dispose when logically closed, even if exit animation keeps the DOM mounted.
+ * This module handles focus only; it does not dismiss overlays or make outside
+ * content inert. The newest containing scope owns Tab and outside-focus recovery.
+ * Focus moves use preventScroll. DOM mutations can recover focus asynchronously
+ * through the shared observer; updates and branch changes reconcile immediately.
+ * Empty regions can receive a temporary tabindex=-1, removed on disposal only
+ * if the registration added it and its value remains -1. Native dialog hosts
+ * are focused without adding tabindex.
+ */
 export function registerFocusScope(
   container: HTMLElement,
   options: FocusScopeOptions = {}
