@@ -44,16 +44,17 @@ registrations have independent cleanup. Non-element targets and other documents
 do not count as inside. Containment is queried during event dispatch, while the
 composed path is available.
 
-Core stays pure. Solid will own refs, reactive registration updates, and open
+Core stays pure. Solid owns refs, reactive registration updates, and open
 state. A dismissal is a request: a controlled owner can keep its layer open.
-Dispose when logically closed even if presence keeps exit content mounted.
+For modal exits, keep the registration alive with dismissal disabled until
+presence finishes, so a second gesture cannot reach a layer below it.
 
 Focus containment and restoration use the separate [focus scope](focus-scope.md)
-handle. This engine does not yet implement focus-outside dismissal,
-scroll locking, background inertness, CSS stacking, portals, or
-native dialog synchronization. Those have separate lifetimes and platform
-decisions. Native dialog `cancel` routing must be settled before connecting this
-Escape listener to `<dialog>`, so one key cannot close two layers.
+handle. Modal isolation and scroll locking use `registerModal`; native dialog
+synchronization uses `createDialogController`. Those handles have separate
+lifetimes, joined by the dialog controller. Focus-outside dismissal, CSS stack
+indices, and portal components remain separate work. The native dialog family
+uses the browser's top layer and does not need a portal.
 
 The research checklist in `spec/layering.md` includes conflicting library
 behaviors. This slice adopts topmost-only routing and bubble-phase Escape;
@@ -117,3 +118,35 @@ that dismiss on pointerdown alone, wait for a touch-generated click, dismiss fro
 keyboard clicks, or infer inside regions from arbitrary bounding rectangles are
 not implemented. The broader research checklist remains unclaimed until its
 component-visible contracts are adopted.
+
+## Modal lifetime
+
+`registerModal(content)` makes background branches inert and sets
+`aria-hidden="true"`. The newest modal owns the permitted region, including
+explicit `registerBranch` registrations. Nested disposal restores the previous
+modal's region. A mutation observer reconciles inserted nodes, open shadow roots,
+and slot changes. Previous inert and aria-hidden attributes are restored exactly.
+Closed shadow roots remain opaque; attach open roots before registration or
+before inserting their hosts.
+
+Scroll locks are reference counted across modals. They set root/body overflow
+and compensate the body for the scrollbar gap, then restore the previous inline
+values and priorities when the final lock ends. `lockScroll: false` opts an
+individual registration out. Consumers must not concurrently own those same
+style properties. Desktop Chromium and WebKit are covered; physical iOS touch
+scrolling has not been verified.
+
+`createDialogController` separates logical `open` from physical `active`.
+During exit, `open` is false while `active` stays true: the native dialog remains
+in the top layer, focus containment and modal locks stay in place, and further
+dismissal is ignored. Reopening reuses the session. After exit, the controller
+releases locks, closes the native dialog, and restores focus to a usable opener
+or explicit final target. Disposed ancestor sessions are skipped during restoration.
+
+Native `cancel` and `close` events become controlled change requests. Escape is
+handled once, and a controlled owner can refuse a native `method="dialog"`
+close. An SSR `open` attribute is promoted with `showModal()` during hydration.
+Backdrop pointer events target the dialog itself; the controller supplies a
+rectangle classifier to the layer registry for that native special case.
+
+See [the dialog family](dialog-family.md) for the public Solid components.

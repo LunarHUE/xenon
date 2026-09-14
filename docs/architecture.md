@@ -317,9 +317,16 @@ reference shape.
 ## `@tenon/dom`
 
 Framework-free browser logic that a React or Vue adapter would reuse, and the
-only package besides the adapters allowed to touch the DOM. It exists now
-because presence needs to wait on a real animation. Positioning and the
-layering stack will land here too.
+only package besides the adapters allowed to touch the DOM. It owns presence
+animation timing, the layering stack, focus scopes, modal locks, native dialog
+synchronization, and drawer handle gestures. Positioning will land here too.
+
+Dialog, AlertDialog, and Drawer have separate public modules in core and Solid.
+Shared adapter internals accept each family's core controller. Drawer gesture
+code is reachable only through Drawer; production bundles verify that importing
+Dialog alone excludes both other families, including through the root barrel.
+See [layering](layering.md) and [the dialog family](dialog-family.md) for their
+lifecycle and API decisions.
 
 ## Toolchain
 
@@ -333,7 +340,7 @@ overridden to the same version because the rc range floats.
 - Calendar and date picker [date adapters](plans/date-adapters.md). Proposed
   separation of calendar behavior from date representation, with a native `Date`
   default and provider-level configuration.
-- `@tenon/dom` when the first floating component (popover) lands.
+- Positioning for the first floating component (popover).
 - A conformance suite written once against the DOM, run per adapter through a
   small mount harness. Spec source: WAI-ARIA Authoring Practices keyboard and
   role tables, then the React Aria, Radix, Zag and Ariakit suites.

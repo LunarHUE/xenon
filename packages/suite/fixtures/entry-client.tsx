@@ -1,11 +1,16 @@
 import { hydrate } from '@solidjs/web'
 import { flush } from 'solid-js'
 import { RoundOne } from './round-one'
+import { Dialogs } from './dialogs'
 
 const root = document.getElementById('app')!
 const serverNodes = [...root.querySelectorAll('*')]
 const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
-hydrate(() => <RoundOne asyncContent={new URLSearchParams(location.search).has('async')} />, root)
+const query = new URLSearchParams(location.search)
+hydrate(
+  () => (query.has('dialogs') ? <Dialogs /> : <RoundOne asyncContent={query.has('async')} />),
+  root
+)
 flush()
 requestAnimationFrame(() => {
   root.dataset.preserved = String(serverNodes.every((node) => root.contains(node)))

@@ -1,5 +1,10 @@
 import { generateHydrationScript, renderToStream, renderToString } from '@solidjs/web'
 import { RoundOne } from './round-one'
+import { Dialogs } from './dialogs'
+
+export function renderDialogs() {
+  return generateHydrationScript() + renderToString(() => <Dialogs />)
+}
 
 export function render() {
   return generateHydrationScript() + renderToString(() => <RoundOne />)
