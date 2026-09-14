@@ -86,6 +86,8 @@ interface Own {
   initialFocus?: HTMLElement | false
   /** Preferred focus return target. Unusable targets fall back to active trigger, opener, then ancestor openers; deliberate outside focus is preserved. */
   finalFocus?: HTMLElement
+  /** Permit focus restoration when the floating session ends. Defaults to true; deliberate outside focus is preserved. */
+  restoreFocus?: boolean
   /** Synchronous Escape hook; preventDefault vetoes dismissal. Not invoked when Escape dismissal is disabled or while exiting closed. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
   /** Deferred outside-pointer hook; wrapper preventDefault vetoes dismissal. See {@link LayerPointerOutsideEvent}. */
@@ -237,6 +239,7 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
     'onFocusOutside',
     'initialFocus',
     'finalFocus',
+    'restoreFocus',
     'onEscapeKeyDown',
     'onPointerOutside',
     'contentId',
@@ -632,6 +635,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
           modal: context.result().state.modal,
           initialFocus: context.own.initialFocus,
           finalFocus: context.own.finalFocus,
+          restoreFocus: context.own.restoreFocus,
           closeOnEscape: context.own.closeOnEscape,
           closeOnOutside: context.own.closeOnOutside,
           closeOnFocusOutside: context.own.closeOnFocusOutside,

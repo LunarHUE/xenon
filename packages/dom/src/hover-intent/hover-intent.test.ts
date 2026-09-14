@@ -1,0 +1,98 @@
+import { afterEach, expect, test, vi } from 'vitest'
+import { createHoverIntent } from './hover-intent'
+afterEach(() => {
+  vi.useRealTimers()
+  document.body.replaceChildren()
+})
+function setup(overrides: Partial<Parameters<typeof createHoverIntent>[0]> = {}) {
+  const trigger = document.createElement('button'),
+    content = document.createElement('div')
+  document.body.append(trigger, content)
+  let open = false
+  const opened = vi.fn(() => {
+      open = true
+    }),
+    closed = vi.fn(() => {
+      open = false
+    })
+  const intent = createHoverIntent({
+    trigger: () => trigger,
+    content: () => content,
+    open: () => open,
+    disabled: () => false,
+    openDelay: () => 100,
+    closeDelay: () => 50,
+    hoverable: () => true,
+    onOpen: opened,
+    onClose: closed,
+    ...overrides,
+  })
+  const event = (element: HTMLElement, extra = {}) =>
+    ({
+      currentTarget: element,
+      target: element,
+      pointerType: 'mouse',
+      defaultPrevented: false,
+      clientX: 0,
+      clientY: 0,
+      relatedTarget: null,
+      ...extra,
+    }) as unknown as PointerEvent
+  return { trigger, content, intent, opened, closed, event }
+}
+test('pending hover cancels on leave and real focus opens immediately', () => {
+  vi.useFakeTimers()
+  const s = setup()
+  s.intent.triggerEnter(s.event(s.trigger))
+  vi.advanceTimersByTime(80)
+  s.intent.triggerLeave(s.event(s.trigger))
+  vi.advanceTimersByTime(200)
+  expect(s.opened).not.toHaveBeenCalled()
+  s.intent.focusIn(s.event(s.trigger) as unknown as FocusEvent)
+  expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'focus')
+  s.intent.dispose()
+})
+test('touch and synthesized mouse/focus are suppressed and disposal cancels work', () => {
+  vi.useFakeTimers()
+  const s = setup()
+  s.intent.press(s.event(s.trigger, { pointerType: 'touch' }))
+  s.intent.triggerEnter(s.event(s.trigger))
+  s.intent.focusIn(s.event(s.trigger) as unknown as FocusEvent)
+  vi.advanceTimersByTime(500)
+  expect(s.opened).not.toHaveBeenCalled()
+  vi.advanceTimersByTime(200)
+  s.intent.triggerEnter(s.event(s.trigger))
+  s.intent.dispose()
+  vi.runAllTimers()
+  expect(s.opened).not.toHaveBeenCalled()
+})
+test('content arrival retains hover while either focus or pointer still holds it', () => {
+  vi.useFakeTimers()
+  const s = setup({ openDelay: () => 0 })
+  s.intent.triggerEnter(s.event(s.trigger))
+  s.intent.focusIn(s.event(s.trigger) as unknown as FocusEvent)
+  s.intent.triggerLeave(s.event(s.trigger, { relatedTarget: s.content }))
+  s.intent.contentEnter(s.event(s.content))
+  vi.advanceTimersByTime(500)
+  expect(s.closed).not.toHaveBeenCalled()
+  s.intent.contentLeave(s.event(s.content))
+  vi.advanceTimersByTime(500)
+  expect(s.closed).not.toHaveBeenCalled()
+  s.intent.focusOut(s.event(s.trigger) as unknown as FocusEvent)
+  vi.advanceTimersByTime(50)
+  expect(s.closed).toHaveBeenCalledOnce()
+  s.intent.dispose()
+})
+test('corridor expires instead of retaining an idle pointer forever', () => {
+  vi.useFakeTimers()
+  const s = setup({ openDelay: () => 0 })
+  s.content.getBoundingClientRect = () =>
+    ({ left: 100, right: 200, top: 0, bottom: 100 }) as DOMRect
+  s.intent.triggerEnter(s.event(s.trigger))
+  s.intent.triggerLeave(s.event(s.trigger, { clientX: 50, clientY: 50 }))
+  vi.advanceTimersByTime(299)
+  expect(s.closed).not.toHaveBeenCalled()
+  vi.advanceTimersByTime(51)
+  expect(s.closed).toHaveBeenCalledOnce()
+  s.intent.dispose()
+})
