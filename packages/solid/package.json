@@ -104,6 +104,26 @@
     "./combobox": {
       "types": "./src/combobox/index.tsx",
       "default": "./src/combobox/index.tsx"
+    },
+    "./slider": {
+      "types": "./src/slider/index.tsx",
+      "default": "./src/slider/index.tsx"
+    },
+    "./number-field": {
+      "types": "./src/number-field/index.tsx",
+      "default": "./src/number-field/index.tsx"
+    },
+    "./pin-input": {
+      "types": "./src/pin-input/index.tsx",
+      "default": "./src/pin-input/index.tsx"
+    },
+    "./tags-input": {
+      "types": "./src/tags-input/index.tsx",
+      "default": "./src/tags-input/index.tsx"
+    },
+    "./editable": {
+      "types": "./src/editable/index.tsx",
+      "default": "./src/editable/index.tsx"
     }
   },
   "scripts": {
