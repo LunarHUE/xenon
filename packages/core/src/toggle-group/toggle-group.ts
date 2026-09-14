@@ -84,8 +84,8 @@ export interface ToggleGroupResult<T> {
     root: PartProps<'div'>
     /**
      * Builds a toggle for an item from `items`. Runtime semantics follow `host`,
-     * although the return type always uses a button host. Navigation handlers run
-     * before activation handlers and suppress them when the event default is prevented.
+     * although the return type always uses a button host. On keydown, navigation
+     * runs first; a prevented default skips the toggle's keydown handler.
      */
     item(item: T): PartProps<'button'>
   }
