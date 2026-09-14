@@ -312,7 +312,9 @@ reference shape.
   same `onSettled`. Keep a plain array beside the signal, sort that, and pass
   the new array to the setter. Registry signals also use `ownedWrite: true`: keyed
   item cleanup can run inside the parent computation and must still unregister
-  the removed item.
+  the removed item. Trigger refs should capture the element first and publish
+  it from `onSettled`; publishing during the ref callback can restart an ancestor
+  computation and replace already hydrated content.
 
 ## `@tenon/dom`
 
@@ -335,6 +337,12 @@ Dialog alone excludes both other families, including through the root barrel.
 See [layering](layering.md) and [the dialog family](dialog-family.md) for their
 lifecycle and API decisions.
 
+Popover and Menu also have independent public modules. Their explicit Positioner
+parts compose anchored geometry with native manual popover hosting, and Content
+owns semantics and animation. The shared floating-layer controller waits for
+positioning before initial focus and retains layer ownership through exit.
+See [Popover and Menu](popover-menu.md) for API and keyboard decisions.
+
 ## Toolchain
 
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
@@ -347,7 +355,8 @@ overridden to the same version because the rc range floats.
 - Calendar and date picker [date adapters](plans/date-adapters.md). Proposed
   separation of calendar behavior from date representation, with a native `Date`
   default and provider-level configuration.
-- Popover, tooltip, and menu adapters composing positioning with layering.
+- Tooltip API discussion, including the shared configuration pattern mentioned
+  in the calendar plan, before implementing its adapter.
 - A conformance suite written once against the DOM, run per adapter through a
   small mount harness. Spec source: WAI-ARIA Authoring Practices keyboard and
   role tables, then the React Aria, Radix, Zag and Ariakit suites.
