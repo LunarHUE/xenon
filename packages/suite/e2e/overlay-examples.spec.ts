@@ -34,6 +34,11 @@ test('example alert defaults to Cancel and the archive action can be reset', asy
 test('example drawer keeps its preference and closes through its handle', async ({ page }) => {
   const trigger = page.getByRole('button', { name: 'Notification settings', exact: true })
   await trigger.click()
+  const drawer = page.getByRole('dialog', { name: 'Less noise. Your choice.' })
+  await expect(drawer).toHaveCSS('width', `${page.viewportSize()!.width}px`)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(drawer).toHaveCSS('width', '390px')
+  expect((await drawer.boundingBox())!.x).toBe(0)
   await page.getByRole('checkbox', { name: 'Send a weekly digest' }).uncheck()
   const handle = page.getByRole('button', { name: 'Close notification settings' })
   const bounds = (await handle.boundingBox())!

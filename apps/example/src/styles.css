@@ -1132,7 +1132,8 @@ body::before {
 .demo-drawer {
   inset: auto 0 0;
   margin: 0 auto;
-  width: min(42rem, 100%);
+  width: 100%;
+  max-width: none;
   padding-top: 0.5rem;
   box-shadow: 0 -8px 32px rgb(27 25 22 / 12%);
   transform: translateY(var(--drawer-swipe-offset, 0px));

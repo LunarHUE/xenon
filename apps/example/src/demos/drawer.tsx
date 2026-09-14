@@ -12,8 +12,8 @@ export function DrawerDemo() {
       title="Drawer"
       blurb="A panel at the edge of the page. Drag its handle down, press Escape, or use the closing button to return to your place."
     >
-      <Bench caption="Bottom sheet" note="drag handle · keyboard close">
-        <Drawer side="bottom" open={open()} onOpenChange={setOpen}>
+      <Bench caption="Bottom sheet" note="120px drag threshold · keyboard close">
+        <Drawer side="bottom" dragThreshold={120} open={open()} onOpenChange={setOpen}>
           <Drawer.Trigger class="btn">Notification settings</Drawer.Trigger>
           <Drawer.Content class="overlay-sheet demo-drawer">
             <Drawer.Handle class="demo-drawer__handle" aria-label="Close notification settings">
@@ -42,6 +42,7 @@ export function DrawerDemo() {
         <Readout
           rows={[
             ['open', String(open())],
+            ['drag threshold', '120px'],
             ['weekly digest', digest() ? 'on' : 'off'],
           ]}
         />
