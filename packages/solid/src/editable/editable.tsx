@@ -181,7 +181,7 @@ function EditableRoot(props: EditableProps): JSX.Element {
     const reset = (event: Event) => {
       if (event.target !== context.input?.form) return
       clearTimeout(resetTimer)
-      // eslint-disable-next-line solid/reactivity -- Restore after the browser reset default action, using current props.
+      // Restore after the browser reset default action, using current props.
       resetTimer = setTimeout(() => {
         if (event.defaultPrevented) return
         if (props.value === undefined) setInternal(props.defaultValue ?? '')
