@@ -9,29 +9,48 @@ import type { AccordionContextValue, AccordionEntry } from './context'
 import { AccordionItem, AccordionPanel, AccordionTrigger } from './items'
 import { spread } from '../spread'
 
+/** Single-mode key or empty state, or a multiple-mode array of open keys. */
 export type AccordionValue = string | readonly string[] | undefined
 
+/** Root-owned selection, navigation, and mounting props. */
 interface Own {
+  /** Controlled open values when defined; undefined uses internal state. Single mode uses the first array entry. */
   value?: AccordionValue
+  /** Initial uncontrolled open values, defaulting to empty; subsequent changes are ignored. */
   defaultValue?: AccordionValue
+  /** Reports accepted open-value proposals after updating uncontrolled state; no callback on initialization or navigation. */
   onValueChange?: (value: AccordionValue) => void
+  /** Selection mode, defaulting to single. Multiple mode permits closing every item. */
   mode?: 'single' | 'multiple'
+  /** Permit closing the last single-mode item. Defaults to false; ignored in multiple mode. */
   collapsible?: boolean
+  /** Arrow-navigation axis, defaulting to vertical. */
   orientation?: 'horizontal' | 'vertical'
+  /** Horizontal navigation direction. Omission samples nearest dir or document dir after settling, initially ltr; not forwarded as a root attribute. */
   dir?: CompositeDirection
+  /** Wrap arrow navigation at enabled ends. Defaults to true through the core engine. */
   loop?: boolean
+  /** Disable all item triggers and skip their keyboard destinations. Defaults to false. */
   disabled?: boolean
+  /** Default panel mounting policy, false unless supplied. Items may override it with either true or false. */
   forceMount?: boolean
+  /** Give panels region role and trigger naming by default. False omits those generated attributes. */
   region?: boolean
+  /** Receives the root host; custom components must forward it for ambient direction lookup. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic accordion root props with controlled or uncontrolled open values. */
 export type AccordionProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Root host, defaulting to div; custom components must forward props and refs. */
+    as?: T
+  }
 
+/** Sorts by known trigger hosts; pairs with missing hosts retain registration order. */
 function byDomOrder(a: AccordionEntry, b: AccordionEntry): number {
   if (!a.el || !b.el) return 0
   const relation = a.el.compareDocumentPosition(b.el)
@@ -40,6 +59,13 @@ function byDomOrder(a: AccordionEntry, b: AccordionEntry): number {
   return 0
 }
 
+/**
+ * Owns open selection, registered trigger order, and independent navigation focus.
+ * Defined value selects controlled mode on each read; undefined releases control.
+ * Item registration and requested DOM focus run after settling. Registration sorts
+ * current trigger positions; later DOM-only moves are not observed. Ambient reading
+ * direction is sampled after settling without observing ancestor attribute changes.
+ */
 function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T>): JSX.Element {
   const own = props as Own & { as?: ValidComponent }
   const rest = omit(
@@ -71,11 +97,13 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
   const disabled = () => own.disabled ?? false
   const forceMount = () => own.forceMount ?? false
 
+  /** Stores proposals only while uncontrolled, then invokes the current callback. */
   const change = (next: AccordionValue) => {
     if (!untrack(controlled)) setInternal(next)
     own.onValueChange?.(next)
   }
 
+  /** Builds core state from supplied registrations and their current per-item readers. */
   const build = (list: readonly AccordionEntry[]) => {
     const byValue = new Map(list.map((entry) => [entry.value, entry]))
     return accordion<string>({
@@ -101,10 +129,12 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
     })
   }
   const engine = createMemo(() => build(entries()))
+  /** Includes an unregistered item provisionally so initial/server part output has IDs and state. */
   const forEntry = (entry: AccordionEntry) =>
     entries().includes(entry) ? engine() : build([...entries(), entry])
 
   let registered: AccordionEntry[] = []
+  /** Publishes a trigger-sorted entry list and removes only this identity during cleanup. */
   const register = (entry: AccordionEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
     setEntries(registered)
@@ -154,8 +184,16 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
   )
 }
 
+/**
+ * Accordion root with item, trigger, and panel parts. Item keys must be unique.
+ * Native triggers keep their normal tab stops; arrow navigation is independent
+ * of opening. The caller supplies trigger names and panel animation styles.
+ */
 export const Accordion = Object.assign(AccordionRoot, {
+  /** Item scope owning stable identity and panel presence. */
   Item: AccordionItem,
+  /** Disclosure trigger requiring an enclosing Item. */
   Trigger: AccordionTrigger,
+  /** Conditional panel requiring an enclosing Item. */
   Panel: AccordionPanel,
 })
