@@ -397,7 +397,7 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
   )
 }
 /** Native anchor props plus current-page semantics and cancellable selection notification. */
-export type NavigationMenuLinkProps<T extends ValidComponent = 'a'> = Host<T> & {
+export type NavigationMenuLinkProps<T extends ValidComponent = 'a'> = Omit<Host<T>, 'onSelect'> & {
   /** Adds aria-current=page when true. */
   current?: boolean
   /** Runs after an uncanceled click. preventDefault keeps the panel open and cancels native navigation. */
@@ -426,7 +426,7 @@ export function NavigationMenuLink<T extends ValidComponent = 'a'>(
   )
 }
 /** Panel attributes. Supply value when placing panels together outside their Item, such as inside Viewport. */
-export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Host<T> & {
+export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Omit<Host<T>, 'onSelect'> & {
   value?: string
 }
 /** Kept-mounted panel, hidden while unselected. Arrow keys walk panel tab stops without wrapping; Tab retains logical trigger order across portals. */
