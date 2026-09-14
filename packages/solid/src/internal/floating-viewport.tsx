@@ -17,7 +17,7 @@ export interface FloatingViewportSource {
 
 /** Native div props and the owning overlay's state. */
 export interface FloatingViewportProps extends JSX.HTMLAttributes<HTMLDivElement> {
-  /** Root-owned state and the pre-change snapshot notification. */
+  /** Stable root-owned source, captured once at component setup; its accessors remain reactive. */
   source: FloatingViewportSource
 }
 
@@ -30,6 +30,11 @@ export interface FloatingViewportProps extends JSX.HTMLAttributes<HTMLDivElement
  * When animating width from --viewport-width, give [data-current] width: max-content
  * so its intrinsic measurement is independent of the viewport's animated width.
  * Consumer content can supply its own explicit width or wrapping constraint.
+ * Size variables use the current wrapper's untransformed offsetWidth/offsetHeight.
+ * Snapshots are captured before source writes and committed after Solid settles.
+ * Closing or unmounting removes previous content and stops pending work. Clones
+ * are inert and aria-hidden, with IDs and form associations removed; live form
+ * values are copied, and cloned controls are disabled to prevent form participation.
  *
  * @example
  * ```css

@@ -143,14 +143,20 @@ describe('viewport snapshots', () => {
 
   test('without WAAPI commits immediately and restores size variables on disposal', () => {
     const { viewport, current, controller } = harness()
-    viewport.style.setProperty('--viewport-width', 'original')
-    current.getBoundingClientRect = () => ({ width: 140, height: 65 }) as DOMRect
+    viewport.style.setProperty('--viewport-width', 'original', 'important')
+    // A scale transform must not feed scaled visual bounds into layout sizing.
+    current.getBoundingClientRect = () => ({ width: 70, height: 32.5 }) as DOMRect
+    Object.defineProperties(current, {
+      offsetWidth: { get: () => 140 },
+      offsetHeight: { get: () => 65 },
+    })
     controller.capture()
     controller.sync()
     expect(viewport.querySelector('[data-previous]')).toBeNull()
     expect(viewport.style.getPropertyValue('--viewport-width')).toBe('140px')
     controller.dispose()
     expect(viewport.style.getPropertyValue('--viewport-width')).toBe('original')
+    expect(viewport.style.getPropertyPriority('--viewport-width')).toBe('important')
   })
 
   test('observes live size changes without repeated style writes and disconnects on close', () => {
@@ -169,7 +175,10 @@ describe('viewport snapshots', () => {
     )
     const { current, viewport, controller, close } = harness()
     let width = 120
-    current.getBoundingClientRect = () => ({ width, height: 80 }) as DOMRect
+    Object.defineProperties(current, {
+      offsetWidth: { get: () => width },
+      offsetHeight: { get: () => 80 },
+    })
     controller.sync()
     expect(observe).toHaveBeenCalledWith(current)
     expect(viewport.style.getPropertyValue('--viewport-width')).toBe('120px')

@@ -1,8 +1,8 @@
 /** Browser hosts and current overlay state used by the viewport controller. */
 export interface ViewportOptions {
-  /** Host receiving transition attributes and size custom properties. */
+  /** Host receiving data-transitioning, data-activation-direction, and measured viewport/popup size custom properties. */
   viewport: HTMLElement
-  /** Live framework-owned children, which are never moved or cloned as components. */
+  /** Live framework-owned wrapper. Its offsetWidth/offsetHeight supply untransformed border-box dimensions; descendants are cloned only as DOM. */
   current: HTMLElement
   /** Current logical visibility. */
   open(): boolean
@@ -18,7 +18,7 @@ export interface ViewportController {
   capture(): void
   /** Commit the captured switch after the framework has updated live DOM, or synchronize visibility. */
   sync(): void
-  /** Remove snapshots and stop frame, animation completion, and resize work permanently. */
+  /** Remove snapshots, cancel scheduled frames, ignore stale completion callbacks, disconnect resize observation, and restore still-owned size properties. CSS animations themselves are not canceled. */
   dispose(): void
 }
 
@@ -59,6 +59,20 @@ function snapshot(source: HTMLElement): HTMLElement {
  * Animate changes through consumer CSS using inert DOM snapshots and measured size variables.
  * No animations are authored here. Both wrappers' finite animations must settle before
  * removal; cancellation counts as completion. Missing WAAPI settles immediately.
+ *
+ * @remarks
+ * Writes --viewport-width, --viewport-height, --popup-width, and --popup-height on
+ * the viewport and current content host in CSS pixels. Measurements use integer
+ * offsetWidth/offsetHeight, including padding and borders but excluding transforms
+ * and margins. ResizeObserver watches the current wrapper while open. Consumer CSS
+ * must keep its intrinsic dimensions independent of any animated viewport width.
+ * The controller never changes positioner coordinates or authors CSS animations.
+ *
+ * capture() must run before framework writes and sync() after the resulting DOM
+ * settles. Rapid switches replace the outgoing snapshot; stale completion callbacks
+ * cannot remove its replacement. Closing clears snapshots and stops observation.
+ * Direction tokens compare trigger centers in screen coordinates with a 5px
+ * tolerance on each axis. Infinite animations are excluded from completion waits.
  */
 export function createViewport(options: ViewportOptions): ViewportController {
   const { viewport, current } = options
@@ -71,12 +85,16 @@ export function createViewport(options: ViewportOptions): ViewportController {
   let disposed = false
   let observer: ResizeObserver | undefined
   const writes = new Map<HTMLElement, Map<string, string>>()
-  const originals = new Map<HTMLElement, Map<string, string>>()
+  const originals = new Map<HTMLElement, Map<string, { value: string; priority: string }>>()
 
   function write(host: HTMLElement, name: string, value: string) {
     let saved = originals.get(host)
     if (!saved) originals.set(host, (saved = new Map()))
-    if (!saved.has(name)) saved.set(name, host.style.getPropertyValue(name))
+    if (!saved.has(name))
+      saved.set(name, {
+        value: host.style.getPropertyValue(name),
+        priority: host.style.getPropertyPriority(name),
+      })
     if (host.style.getPropertyValue(name) !== value) host.style.setProperty(name, value)
     let values = writes.get(host)
     if (!values) writes.set(host, (values = new Map()))
@@ -85,7 +103,7 @@ export function createViewport(options: ViewportOptions): ViewportController {
 
   function measure() {
     if (disposed || !options.open()) return
-    const rect = current.getBoundingClientRect()
+    const rect = { width: current.offsetWidth, height: current.offsetHeight }
     for (const host of new Set(
       [viewport, options.content()].filter((el): el is HTMLElement => !!el)
     )) {
@@ -184,7 +202,7 @@ export function createViewport(options: ViewportOptions): ViewportController {
       measure()
       from = options.trigger()?.getBoundingClientRect()
       previous = snapshot(current)
-      const rect = current.getBoundingClientRect()
+      const rect = { width: current.offsetWidth, height: current.offsetHeight }
       previous.style.width = `${rect.width}px`
       previous.style.height = `${rect.height}px`
       pending = true
@@ -196,8 +214,12 @@ export function createViewport(options: ViewportOptions): ViewportController {
       observer?.disconnect()
       for (const [host, values] of originals)
         for (const [name, value] of values) {
-          if (host.style.getPropertyValue(name) !== writes.get(host)?.get(name)) continue
-          if (value) host.style.setProperty(name, value)
+          if (
+            host.style.getPropertyValue(name) !== writes.get(host)?.get(name) ||
+            host.style.getPropertyPriority(name) !== ''
+          )
+            continue
+          if (value.value) host.style.setProperty(name, value.value, value.priority)
           else host.style.removeProperty(name)
         }
       originals.clear()
