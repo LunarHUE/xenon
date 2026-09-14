@@ -1,3 +1,4 @@
+import { collection } from '../collection/collection'
 import type { PartProps } from '../part'
 
 export type CompositeOrientation = 'horizontal' | 'vertical' | 'both'
@@ -50,45 +51,29 @@ export function composite<T>(options: CompositeOptions<T>): CompositeResult<T> {
   const orientation = options.orientation ?? 'horizontal'
   const direction = options.direction ?? 'ltr'
   const loop = options.loop ?? false
-  const isDisabled = options.disabled
 
-  const navigable: number[] = []
-  for (let index = 0; index < items.length; index++) {
-    const item = items[index] as T
-    if (!isDisabled?.(item)) navigable.push(index)
-  }
-
-  const first = navigable[0]
-  const last = navigable[navigable.length - 1]
+  const entries = collection({ items, disabled: options.disabled })
 
   const proposed = options.active
-  const activeIndex =
-    proposed !== undefined && items.includes(proposed) && !isDisabled?.(proposed)
-      ? items.indexOf(proposed)
-      : (first ?? (items.length > 0 ? 0 : -1))
-  const active = activeIndex < 0 ? undefined : items[activeIndex]
+  const active =
+    proposed !== undefined && entries.indexOf(proposed) >= 0 && !options.disabled?.(proposed)
+      ? proposed
+      : (entries.first() ?? items[0])
 
   const state: CompositeState<T> = { active, orientation, direction, loop }
 
   function targetOf(move: Move): T | undefined {
-    if (first === undefined || last === undefined) return undefined
-    if (move === 'first') return items[first]
-    if (move === 'last') return items[last]
-    if (move === 'forward') {
-      const next = navigable.find((index) => index > activeIndex)
-      if (next !== undefined) return items[next]
-      return loop ? items[first] : undefined
-    }
-    const previous = navigable.findLast((index) => index < activeIndex)
-    if (previous !== undefined) return items[previous]
-    return loop ? items[last] : undefined
+    if (move === 'first') return entries.first()
+    if (move === 'last') return entries.last()
+    if (move === 'forward') return entries.next(active, { loop })
+    return entries.previous(active, { loop })
   }
 
   const parts = {
     item(item: T): PartProps<'div'> {
       return {
         attrs: {
-          tabindex: activeIndex >= 0 && item === active ? 0 : -1,
+          tabindex: active !== undefined && item === active ? 0 : -1,
           'data-orientation': orientation,
         },
         on: {
