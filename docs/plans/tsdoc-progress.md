@@ -164,3 +164,17 @@ Independent review and package lint passed. All four scripts independently revie
 | `8aeaddd` | document spec source scanning and coverage reports | `packages/suite/scripts/spec-ids.ts`, `packages/suite/scripts/check-spec.ts` |
 | `09585f1` | document report-driven spec checklist updates | `packages/suite/scripts/tick-spec.ts` |
 | `1bea912` | document SSR fixture server lifecycle | `packages/suite/scripts/serve-ssr.ts` |
+
+## Tooling T3 complete
+
+Independent review and package lint passed. Independently reviewed 15 additional tooling/fixture/helper files beyond the 90-file inventory. Existing core/solid runner comments already explain consequential behavior; package ESLint wrappers are mechanical composition. TypeScript JSON presets and tsconfigs have no TSDoc declarations. Static fixture JSX and individual test cases remain excluded; meaningful reusable hydration and native-browser assertion contracts are covered. Final inventory review found no omitted planned paths or meaningful undocumented contracts within scope.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `4d3c3c7` | document shared lint preset boundaries | `packages/eslint-config/base.js`, `packages/eslint-config/solid.js` |
+| `2c1c8a9` | clarify DOM unit test environment scope | `packages/dom/vitest.config.ts` |
+| `cc96067` | document SSR rendering and hydration checkpoints | `packages/suite/fixtures/entry-server.tsx`, `packages/suite/fixtures/entry-client.tsx` |
+| `4268cec` | document shared E2E hydration assertions | `packages/suite/e2e/field-associations.spec.ts`, `packages/suite/e2e/legacy-hydration.spec.ts`, `packages/suite/e2e/hydration.spec.ts` |
+| `69df757` | document nested and asynchronous field fixtures | `packages/suite/fixtures/nested-fields.tsx`, `packages/suite/fixtures/streaming-field.tsx` |
+| `bc49c2f` | document browser runner selection and lifecycle | `packages/suite/vitest.config.ts`, `packages/suite/playwright.config.ts`, `packages/suite/vitest-setup.ts` |
+| `399ae8b` | document reusable native browser assertions | `packages/suite/src/field/field.test-browser.tsx`, `packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx` |
