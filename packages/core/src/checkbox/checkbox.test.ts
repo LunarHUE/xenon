@@ -187,13 +187,16 @@ describe('checkbox', () => {
     expect(onCheckedChange).not.toHaveBeenCalled()
   })
 
-  test('button host: Space cancels keydown and leaves the click to the browser', () => {
+  test('button host: Space cancels keydown and clicks on keyup', () => {
     const { on } = checkbox({ host: 'button' }).parts.root
     const down = key(' ')
     on.keydown?.(down)
     expect(down.preventDefault).toHaveBeenCalled()
     expect(down.dispatched).toHaveLength(0)
-    expect(on.keyup).toBeUndefined()
+    const up = key(' ')
+    on.keyup?.(up)
+    expect(up.preventDefault).toHaveBeenCalled()
+    expect(up.dispatched).toHaveLength(1)
   })
 
   test('generic host: role, tab stop and aria state', () => {
@@ -254,13 +257,16 @@ describe('checkbox', () => {
     const button = checkbox({ host: 'button' }).parts.root
     const buttonDown = key('Enter')
     button.on.keydown?.(buttonDown)
-    expect(buttonDown.preventDefault).not.toHaveBeenCalled()
+    expect(buttonDown.preventDefault).toHaveBeenCalled()
     expect(buttonDown.dispatched).toHaveLength(0)
+    const buttonUp = key('Enter')
+    button.on.keyup?.(buttonUp)
+    expect(buttonUp.dispatched).toHaveLength(0)
 
     const generic = checkbox({ host: 'generic' }).parts.root
     const genericDown = key('Enter')
     generic.on.keydown?.(genericDown)
-    expect(genericDown.preventDefault).not.toHaveBeenCalled()
+    expect(genericDown.preventDefault).toHaveBeenCalled()
     expect(genericDown.dispatched).toHaveLength(0)
     const genericUp = key('Enter')
     generic.on.keyup?.(genericUp)

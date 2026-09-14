@@ -111,8 +111,15 @@ export function checkedRoot(
     options.onCheckedChange?.(!state.checked)
   }
 
-  const keydown = (event: KeyboardEvent) => {
-    if (event.key === ' ') event.preventDefault()
+  const keys = {
+    keydown(event: KeyboardEvent) {
+      if (event.key === ' ' || event.key === 'Enter') event.preventDefault()
+    },
+    keyup(event: KeyboardEvent & { currentTarget: HTMLElement }) {
+      if (event.key !== ' ') return
+      event.preventDefault()
+      if (state.interactive) activate(event)
+    },
   }
 
   if (state.host === 'button') {
@@ -125,7 +132,7 @@ export function checkedRoot(
         type: 'button',
         disabled: state.disabled || undefined,
       },
-      on: { click: toggle, keydown },
+      on: { click: toggle, ...keys },
     }
     return { host: 'button', root }
   }
@@ -139,15 +146,7 @@ export function checkedRoot(
       'aria-disabled': state.disabled ? 'true' : undefined,
       tabindex: state.disabled ? undefined : 0,
     },
-    on: {
-      click: toggle,
-      keydown,
-      keyup(event) {
-        if (event.key !== ' ') return
-        event.preventDefault()
-        if (state.interactive) activate(event)
-      },
-    },
+    on: { click: toggle, ...keys },
   }
   return { host: 'generic', root }
 }
