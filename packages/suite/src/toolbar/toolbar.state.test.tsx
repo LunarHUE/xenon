@@ -73,10 +73,6 @@ describe('toolbar state', () => {
     expect(paste).not.toHaveAttribute('aria-disabled')
   })
 
-  spec.todo('toolbar.state.3')
-
-  spec.todo('toolbar.state.4')
-
   spec('toolbar.state.5', async () => {
     const m = mount('toolbar', {
       'aria-label': 'Edit',
@@ -127,16 +123,4 @@ describe('toolbar state', () => {
     }
     expect(scope.getByRole('button', { name: 'Cut' })).toHaveAttribute('aria-disabled', 'true')
   })
-
-  spec.todo('toolbar.state.7')
-
-  spec.todo('toolbar.state.8')
-
-  spec.todo('toolbar.state.9')
-
-  spec.todo('toolbar.state.10')
-
-  spec.todo('toolbar.state.11')
-
-  spec.todo('toolbar.state.12')
 })

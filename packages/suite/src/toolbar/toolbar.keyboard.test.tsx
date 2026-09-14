@@ -268,12 +268,6 @@ describe('toolbar keyboard', () => {
     expect(clicks).toHaveBeenCalledTimes(1)
   })
 
-  spec.todo('toolbar.keyboard.10')
-
-  spec.todo('toolbar.keyboard.11')
-
-  spec.todo('toolbar.keyboard.12')
-
   spec('toolbar.keyboard.13', async () => {
     const user = userEvent.setup()
     const capture = vi.fn()
@@ -310,32 +304,6 @@ describe('toolbar keyboard', () => {
     expect(capture).toHaveBeenCalledTimes(2)
   })
 
-  spec.todo('toolbar.keyboard.14')
-
-  spec.todo('toolbar.keyboard.15')
-
-  spec.todo('toolbar.keyboard.16')
-
-  spec.todo('toolbar.keyboard.17')
-
-  spec.todo('toolbar.keyboard.18')
-
-  spec.todo('toolbar.keyboard.19')
-
-  spec.todo('toolbar.keyboard.20')
-
-  spec.todo('toolbar.keyboard.21')
-
-  spec.todo('toolbar.keyboard.22')
-
-  spec.todo('toolbar.keyboard.23')
-
-  spec.todo('toolbar.keyboard.24')
-
-  spec.todo('toolbar.keyboard.25')
-
-  spec.todo('toolbar.keyboard.26')
-
   spec('toolbar.keyboard.27', async () => {
     const user = userEvent.setup()
     const m = mount('toolbar', { 'aria-label': 'Format', children: format })
@@ -354,8 +322,6 @@ describe('toolbar keyboard', () => {
     await m.settle()
     expect(document.activeElement).toBe(bold)
   })
-
-  spec.todo('toolbar.keyboard.28')
 
   spec('toolbar.keyboard.29', async () => {
     const user = userEvent.setup()
@@ -377,23 +343,5 @@ describe('toolbar keyboard', () => {
     await user.keyboard('{ArrowRight}')
     await m.settle()
     expect(document.activeElement).toBe(underline)
-  })
-
-  spec.skip('toolbar.keyboard.30', 'arrow navigation wraps, see toolbar.keyboard.29', async () => {
-    const user = userEvent.setup()
-    const m = mount('toolbar', { 'aria-label': 'Format', children: format })
-    const [bold, , underline] = trio(m.container)
-
-    underline.focus()
-    await m.settle()
-    await user.keyboard('{ArrowRight}')
-    await m.settle()
-    expect(document.activeElement).toBe(underline)
-
-    bold.focus()
-    await m.settle()
-    await user.keyboard('{ArrowLeft}')
-    await m.settle()
-    expect(document.activeElement).toBe(bold)
   })
 })

@@ -81,12 +81,6 @@ describe('toolbar accessibility tooling', () => {
     expect(impacts).toEqual({ 'button-name': 'critical', 'aria-command-name': 'serious' })
   })
 
-  spec.todo('toolbar.a11y.3')
-
-  spec.todo('toolbar.a11y.4')
-
-  spec.todo('toolbar.a11y.5')
-
   spec('toolbar.a11y.6', async () => {
     const m = mount('toolbar', {
       'aria-label': 'Edit',

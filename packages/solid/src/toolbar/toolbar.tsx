@@ -1,6 +1,6 @@
 import { composite } from '@kit/core'
 import type { AnyPart, CompositeDirection } from '@kit/core'
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled } from 'solid-js'
 
@@ -43,7 +43,8 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
     'children'
   )
 
-  const [entries, setEntries] = createSignal<ToolbarEntry[]>([])
+  // Keyed children unregister while Solid disposes an owned computation.
+  const [entries, setEntries] = createSignal<ToolbarEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<ToolbarEntry>()
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
 
@@ -80,7 +81,13 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
 
   const context: ToolbarContextValue = {
     register,
-    part: (entry) => engine().parts.item(entry),
+    // Until the client registry exists, native items must remain keyboard reachable.
+    part: (entry) => {
+      const part = engine().parts.item(entry)
+      return isServer || entries().length === 0
+        ? { ...part, attrs: { ...part.attrs, tabindex: entry.disabled() ? -1 : 0 } }
+        : part
+    },
     orientation,
     disabled,
   }

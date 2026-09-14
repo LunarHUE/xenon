@@ -1,6 +1,6 @@
 import { Toolbar } from '@kit/solid'
 import { within } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from 'vitest/browser'
 import { describe, expect, onTestFinished } from 'vitest'
 
 import { mount } from '../harness/solid'
@@ -34,7 +34,7 @@ function anchorAfter(): HTMLElement {
 
 describe('toolbar focus management in a browser', () => {
   spec('toolbar.focus.7', async () => {
-    const user = userEvent.setup()
+    const user = userEvent
     const m = mount('toolbar', {
       'aria-label': 'Edit',
       children: () => (
@@ -66,7 +66,7 @@ describe('toolbar focus management in a browser', () => {
   })
 
   spec('toolbar.focus.8', async () => {
-    const user = userEvent.setup()
+    const user = userEvent
     const m = mount('toolbar', {
       'aria-label': 'Edit',
       children: () => (
@@ -95,13 +95,13 @@ describe('toolbar focus management in a browser', () => {
   })
 
   spec('toolbar.focus.9', async () => {
-    const user = userEvent.setup()
+    const user = userEvent
     const m = mount('toolbar', {
       'aria-label': 'Edit',
       children: () => (
         <>
           <Toolbar.Button>Select all</Toolbar.Button>
-          <Toolbar.Button disabled>Copy</Toolbar.Button>
+          <Toolbar.Button as="input" value="Copy" disabled />
         </>
       ),
     })

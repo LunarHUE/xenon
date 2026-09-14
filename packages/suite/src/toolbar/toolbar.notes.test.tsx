@@ -98,8 +98,6 @@ describe('toolbar notes and edge cases', () => {
     expect(() => render(() => <Toolbar.Button>Bold</Toolbar.Button>, host)).toThrow(/Toolbar/)
   })
 
-  spec.todo('toolbar.notes.4')
-
   spec('toolbar.notes.5', async () => {
     const user = userEvent.setup()
     const onToolbar = vi.fn()
@@ -168,8 +166,4 @@ describe('toolbar notes and edge cases', () => {
     await user.tab({ shift: true })
     expect(document.activeElement).toBe(italic)
   })
-
-  spec.todo('toolbar.notes.7')
-
-  spec.todo('toolbar.notes.8')
 })

@@ -43,6 +43,4 @@ describe('composite a11y', () => {
     for (const value of tabindexes(m.container)) expect(['0', '-1']).toContain(value)
     await expectNoViolations(m.container, ['tabindex'])
   })
-
-  spec.todo('composite.a11y.2')
 })

@@ -85,8 +85,4 @@ describe('toolbar rtl and i18n', () => {
     await m.settle()
     expect(document.activeElement).toBe(bold)
   })
-
-  spec.todo('toolbar.rtl.3')
-
-  spec.todo('toolbar.rtl.4')
 })

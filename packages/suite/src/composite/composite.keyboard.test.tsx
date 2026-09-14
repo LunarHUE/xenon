@@ -132,24 +132,6 @@ describe('composite keyboard', () => {
     expect(help).toHaveAttribute('tabindex', '-1')
   })
 
-  spec.todo('composite.keyboard.5')
-
-  spec.skip(
-    'composite.keyboard.6',
-    'the engine always resolves an active item while the toolbar has items',
-    async () => {
-      const user = userEvent.setup()
-      const m = mount('toolbar', { 'aria-label': 'Format', children: three })
-      const root = screen.getByRole('toolbar')
-      root.focus()
-      await user.keyboard('{ArrowRight}')
-      await m.settle()
-      expect(item('bold')).toHaveFocus()
-    }
-  )
-
-  spec.todo('composite.keyboard.7')
-
   spec('composite.keyboard.8', async () => {
     const m = mount('toolbar', { 'aria-label': 'Format', loop: false, children: three })
     item('bold').focus()
@@ -188,36 +170,6 @@ describe('composite keyboard', () => {
     await m.settle()
     expect(item('italic')).toHaveFocus()
   })
-
-  spec.todo('composite.keyboard.10')
-
-  spec.todo('composite.keyboard.11')
-
-  spec.todo('composite.keyboard.12')
-
-  spec.todo('composite.keyboard.13')
-
-  spec.todo('composite.keyboard.14')
-
-  spec.todo('composite.keyboard.15')
-
-  spec.todo('composite.keyboard.16')
-
-  spec.todo('composite.keyboard.17')
-
-  spec.todo('composite.keyboard.18')
-
-  spec.todo('composite.keyboard.19')
-
-  spec.todo('composite.keyboard.20')
-
-  spec.todo('composite.keyboard.21')
-
-  spec.todo('composite.keyboard.22')
-
-  spec.todo('composite.keyboard.23')
-
-  spec.todo('composite.keyboard.24')
 
   spec('composite.keyboard.25', async () => {
     const m = mount('toolbar', {
@@ -268,6 +220,4 @@ describe('composite keyboard', () => {
     expect(item('underline')).toHaveAttribute('tabindex', '0')
     expect(item('bold')).toHaveAttribute('tabindex', '-1')
   })
-
-  spec.todo('composite.keyboard.28')
 })

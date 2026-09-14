@@ -51,14 +51,6 @@ describe('composite focus management', () => {
     expect(item('italic')).toHaveFocus()
   })
 
-  spec.todo('composite.focus.3')
-
-  spec.todo('composite.focus.4')
-
-  spec.todo('composite.focus.5')
-
-  spec.todo('composite.focus.6')
-
   spec('composite.focus.7', async () => {
     const user = userEvent.setup()
     const skipped = mount('toolbar', {
@@ -195,28 +187,4 @@ describe('composite focus management', () => {
     await m.settle()
     expect(item('underline')).toHaveFocus()
   })
-
-  spec.todo('composite.focus.11')
-
-  spec.todo('composite.focus.12')
-
-  spec.todo('composite.focus.13')
-
-  spec.todo('composite.focus.14')
-
-  spec.todo('composite.focus.15')
-
-  spec.todo('composite.focus.16')
-
-  spec.todo('composite.focus.17')
-
-  spec.todo('composite.focus.18')
-
-  spec.todo('composite.focus.19')
-
-  spec.todo('composite.focus.20')
-
-  spec.todo('composite.focus.21')
-
-  spec.todo('composite.focus.22')
 })

@@ -36,16 +36,4 @@ describe('composite pointer', () => {
     expect(item('italic')).toHaveAttribute('tabindex', '0')
     expect(item('underline')).toHaveAttribute('tabindex', '-1')
   })
-
-  spec.todo('composite.pointer.2')
-
-  spec.todo('composite.pointer.3')
-
-  spec.todo('composite.pointer.4')
-
-  spec.todo('composite.pointer.5')
-
-  spec.todo('composite.pointer.6')
-
-  spec.todo('composite.pointer.7')
 })

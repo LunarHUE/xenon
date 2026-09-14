@@ -42,18 +42,6 @@ describe('composite roles and attributes', () => {
     expect(item('underline')).toHaveFocus()
   })
 
-  spec.todo('composite.roles.2')
-
-  spec.todo('composite.roles.3')
-
-  spec.todo('composite.roles.4')
-
-  spec.todo('composite.roles.5')
-
-  spec.todo('composite.roles.6')
-
-  spec.todo('composite.roles.7')
-
   spec('composite.roles.8', () => {
     mount('toolbar', {
       'aria-label': 'Format',
@@ -95,14 +83,4 @@ describe('composite roles and attributes', () => {
     expect(item('italic')).toHaveAttribute('tabindex', '0')
     expect(item('underline')).toHaveAttribute('tabindex', '-1')
   })
-
-  spec.skip(
-    'composite.roles.10',
-    'the item holding the tab stop keeps tabindex="0", see composite.roles.9',
-    () => {
-      mount('toolbar', { 'aria-label': 'Format', children: three })
-      expect(item('bold')).not.toHaveAttribute('tabindex')
-      expect(item('italic')).toHaveAttribute('tabindex', '-1')
-    }
-  )
 })

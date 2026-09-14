@@ -63,14 +63,4 @@ describe('toolbar pointer', () => {
     expect(document.activeElement).toBe(link)
     expect(link).toHaveAttribute('tabindex', '0')
   })
-
-  spec.todo('toolbar.pointer.3')
-
-  spec.todo('toolbar.pointer.5')
-
-  spec.todo('toolbar.pointer.6')
-
-  spec.todo('toolbar.pointer.7')
-
-  spec.todo('toolbar.pointer.8')
 })

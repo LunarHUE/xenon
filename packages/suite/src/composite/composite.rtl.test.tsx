@@ -58,23 +58,6 @@ describe('composite rtl and i18n', () => {
     expect(item('bold')).toHaveFocus()
   })
 
-  spec.skip(
-    'composite.rtl.2',
-    'the engine always resolves an active item while the toolbar has items, see composite.keyboard.6',
-    async () => {
-      const user = userEvent.setup()
-      const m = mount('toolbar', { 'aria-label': 'Format', dir: 'rtl', children: three })
-      screen.getByRole('toolbar').focus()
-      await user.keyboard('{ArrowLeft}')
-      await m.settle()
-      expect(item('bold')).toHaveFocus()
-    }
-  )
-
-  spec.todo('composite.rtl.3')
-
-  spec.todo('composite.rtl.4')
-
   spec('composite.rtl.5', async () => {
     const user = userEvent.setup()
     documentDir('rtl')
@@ -90,21 +73,4 @@ describe('composite rtl and i18n', () => {
     await m.settle()
     expect(item('bold')).toHaveFocus()
   })
-
-  spec.skip(
-    'composite.rtl.6',
-    'direction falls back to the nearest [dir] ancestor, see composite.rtl.5',
-    async () => {
-      const user = userEvent.setup()
-      documentDir('rtl')
-
-      const m = mount('toolbar', { 'aria-label': 'Format', children: three })
-      await m.settle()
-
-      item('bold').focus()
-      await user.keyboard('{ArrowRight}')
-      await m.settle()
-      expect(item('italic')).toHaveFocus()
-    }
-  )
 })

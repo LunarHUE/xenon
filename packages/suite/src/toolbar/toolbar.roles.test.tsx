@@ -266,10 +266,6 @@ describe('toolbar roles and attributes', () => {
     )
   })
 
-  spec.todo('toolbar.roles.11')
-
-  spec.todo('toolbar.roles.12')
-
   spec('toolbar.roles.13', () => {
     const horizontal = mount('toolbar', {
       'aria-label': 'Format',
@@ -295,34 +291,6 @@ describe('toolbar roles and attributes', () => {
       expect(el).toHaveAttribute('data-orientation', 'vertical')
     }
   })
-
-  spec.todo('toolbar.roles.14')
-
-  spec.todo('toolbar.roles.15')
-
-  spec.todo('toolbar.roles.16')
-
-  spec.todo('toolbar.roles.17')
-
-  spec.skip(
-    'toolbar.roles.18',
-    'a redundant aria-orientation is never written, see toolbar.roles.19',
-    () => {
-      const m = mount('toolbar', {
-        'aria-label': 'Format',
-        orientation: 'vertical',
-        children: () => (
-          <>
-            <Toolbar.Button>Bold</Toolbar.Button>
-            <Toolbar.Separator />
-            <Toolbar.Button>Italic</Toolbar.Button>
-          </>
-        ),
-      })
-      const el = within(root(m.container)).getByRole('separator')
-      expect(el.getAttribute('aria-orientation')).toBe('horizontal')
-    }
-  )
 
   spec('toolbar.roles.19', () => {
     const m = mount('toolbar', {

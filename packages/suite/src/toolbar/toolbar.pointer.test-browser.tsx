@@ -1,6 +1,6 @@
 import { Toolbar } from '@kit/solid'
 import { within } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
+import { userEvent } from 'vitest/browser'
 import { describe, expect, vi } from 'vitest'
 
 import { mount } from '../harness/solid'
@@ -14,7 +14,7 @@ function root(container: HTMLElement): HTMLElement {
 
 describe('toolbar pointer in a browser', () => {
   spec('toolbar.pointer.4', async () => {
-    const user = userEvent.setup()
+    const user = userEvent
     const onMouseMove = vi.fn()
     const onClick = vi.fn()
     const m = mount('toolbar', {
@@ -37,7 +37,7 @@ describe('toolbar pointer in a browser', () => {
     await m.settle()
     expect(onMouseMove).toHaveBeenCalled()
 
-    await user.click(paste)
+    await user.click(paste, { force: true })
     await m.settle()
     expect(onClick).not.toHaveBeenCalled()
   })

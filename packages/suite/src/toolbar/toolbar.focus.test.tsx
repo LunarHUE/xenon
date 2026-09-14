@@ -234,8 +234,6 @@ describe('toolbar focus management', () => {
     expect(document.activeElement).toBe(scope.getByRole('button', { name: 'Paste' }))
   })
 
-  spec.todo('toolbar.focus.10')
-
   spec('toolbar.focus.11', async () => {
     const user = userEvent.setup()
     const m = mount('toolbar', {
@@ -324,28 +322,4 @@ describe('toolbar focus management', () => {
     await m.settle()
     expect(stops(m.container)).toEqual([italic])
   })
-
-  spec.skip(
-    'toolbar.focus.14',
-    're-entry restores the last focused item, see toolbar.focus.13',
-    async () => {
-      const user = userEvent.setup()
-      const m = mount('toolbar', { 'aria-label': 'Format', children: format })
-      const [bold, italic] = trio(m.container)
-      const before = anchorBefore()
-      const after = anchorAfter()
-
-      before.focus()
-      await user.tab()
-      await user.keyboard('{ArrowRight}')
-      await m.settle()
-      expect(document.activeElement).toBe(italic)
-
-      await user.tab()
-      expect(document.activeElement).toBe(after)
-
-      await user.tab({ shift: true })
-      expect(document.activeElement).toBe(bold)
-    }
-  )
 })

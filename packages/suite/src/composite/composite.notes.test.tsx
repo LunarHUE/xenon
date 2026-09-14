@@ -19,8 +19,6 @@ function item(name: string): HTMLElement {
 }
 
 describe('composite notes and edge cases', () => {
-  spec.todo('composite.notes.1')
-
   spec('composite.notes.2', async () => {
     const user = userEvent.setup()
     const m = mount('toolbar', { 'aria-label': 'Format', children: three })
@@ -40,14 +38,6 @@ describe('composite notes and edge cases', () => {
     await m.settle()
     expect(item('underline')).toHaveFocus()
   })
-
-  spec.todo('composite.notes.3')
-
-  spec.todo('composite.notes.4')
-
-  spec.todo('composite.notes.5')
-
-  spec.todo('composite.notes.6')
 
   spec('composite.notes.7', async () => {
     const user = userEvent.setup()
