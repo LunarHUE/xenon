@@ -1,0 +1,13 @@
+{
+  "extends": "@kit/typescript-config/solid-library.json",
+  "compilerOptions": {
+    "types": ["vite/client", "bun"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "scripts/**/*.ts",
+    "vitest.config.ts",
+    "vitest-setup.ts"
+  ]
+}

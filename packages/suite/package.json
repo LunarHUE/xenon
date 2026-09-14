@@ -1,0 +1,38 @@
+{
+  "name": "@kit/suite",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --project jsdom",
+    "test:browser": "vitest run --project browser",
+    "spec:check": "bun scripts/check-spec.ts",
+    "spec:tick": "vitest run --project jsdom --reporter=json --outputFile=.vitest/results.json; bun scripts/tick-spec.ts .vitest/results.json"
+  },
+  "dependencies": {
+    "@kit/core": "workspace:*",
+    "@kit/solid": "workspace:*",
+    "@solidjs/web": "catalog:",
+    "solid-js": "catalog:"
+  },
+  "devDependencies": {
+    "@kit/eslint-config": "workspace:*",
+    "@kit/typescript-config": "workspace:*",
+    "@solidjs/vite-plugin": "^3.0.0-next.43",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/bun": "catalog:",
+    "@typescript/native": "catalog:",
+    "@vitest/browser-playwright": "^5.0.0",
+    "axe-core": "^4.13.0",
+    "eslint": "catalog:",
+    "jsdom": "^30.0.1",
+    "playwright": "^1.63.0",
+    "typescript": "catalog:",
+    "vite": "^8.3.0",
+    "vitest": "catalog:"
+  }
+}
