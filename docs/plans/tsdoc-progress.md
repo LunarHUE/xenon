@@ -178,3 +178,71 @@ Independent review and package lint passed. Independently reviewed 15 additional
 | `69df757` | document nested and asynchronous field fixtures | `packages/suite/fixtures/nested-fields.tsx`, `packages/suite/fixtures/streaming-field.tsx` |
 | `bc49c2f` | document browser runner selection and lifecycle | `packages/suite/vitest.config.ts`, `packages/suite/playwright.config.ts`, `packages/suite/vitest-setup.ts` |
 | `399ae8b` | document reusable native browser assertions | `packages/suite/src/field/field.test-browser.tsx`, `packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx` |
+
+## Final verification
+
+Completed the 90-file implementation/support inventory and 15 additional tooling,
+fixture, and reusable assertion files: 105 source files in 68 focused documentation
+commits. Progress/checkpoint commits are separate. Each source batch was reviewed
+against implementation and existing tests; every group received independent review.
+
+| Area | Planned files | Additional audit files | Total changed source files |
+| --- | --- | --- | --- |
+| core | 26 | 0 | 26 |
+| DOM | 9 | 1 | 10 |
+| Solid | 46 | 0 | 46 |
+| suite | 9 | 12 | 21 |
+| shared ESLint | 0 | 2 | 2 |
+| Total | 90 | 15 | 105 |
+
+The TypeScript checker found documentation for all owned exported declarations and
+reachable members in implementation sources. Re-export aliases were inspected at
+their declaring types and representative consumer hovers; inherited platform props
+were not copied into Tenon documentation.
+
+| Package | Implementation files audited | Exported declarations | Reachable members | Missing docs |
+| --- | --- | --- | --- | --- |
+| core | 24 | 121 | 531 | 0 |
+| DOM | 9 | 35 | 134 | 0 |
+| Solid | 45 | 185 | 592 | 0 |
+| suite | 5 | 18 | 62 | 0 |
+
+All 98 source documentation links resolve. No executable example blocks were added.
+The script/configuration/fixture contracts were reviewed separately from the
+implementation-symbol audit.
+
+Final checks passed:
+
+- Workspace typecheck: all 5 tasks.
+- Workspace lint: all 5 tasks, including generated-attribute freshness.
+- Workspace tests: all 4 tasks; 186 core, 146 DOM, 172 Solid, and 640 suite tests
+  passed (1,144 total, across 114 test files).
+- Solid production export check: every public subpath builds; Button imports from
+  both the barrel and subpath exclude unrelated component modules.
+- Suite source coverage scanner: passed with no unknown registered spec IDs.
+- Prettier: all 105 changed source files passed.
+- Full source comparison against `707e71f`: normalized comment-free TypeScript ASTs
+  are unchanged across all 105 files. Tooling/purity/suppression directives were
+  checked separately and remain unchanged.
+
+The final changes contain documentation and its formatting only. No browser rerun
+was required: browser-helper assertions and all runtime behavior remain unchanged,
+and browser-dependent contracts were checked against the existing browser coverage.
+No spec checklist was ticked as part of this documentation work.
+
+## Exclusions confirmed
+
+- Generated `packages/core/src/attrs.generated.ts`: documented at the generator and
+  overrides; generation freshness passed without modifying output.
+- Plain re-export barrels: 22 core, 9 DOM, and 19 Solid files were inspected. Solid's
+  executable `menu/index.tsx` is included in the implementation inventory.
+- Individual test cases and static fixture JSX: excluded; reused harness/assertion,
+  custom-host, asynchronous fixture, and hydration contracts were documented.
+- Shared TypeScript JSON presets, package tsconfigs/manifests, Turbo JSON, mechanical
+  ESLint wrappers, and Nix/direnv setup: reviewed where relevant, with no invented
+  TypeScript API comments added to configuration data. Existing core/solid runner
+  and core lint-boundary comments were sufficient.
+- Example app: untouched, including the existing change in baseline `707e71f`.
+- Date adapters: currently a plan only; no implementation documentation fabricated.
+
+Existing behavior observations remain recorded above for separate follow-up work.

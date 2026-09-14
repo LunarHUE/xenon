@@ -1,6 +1,7 @@
 # TSDoc pass
 
-Status: approved and in progress. See tsdoc-progress.md for reviewed batches.
+Status: complete. See [tsdoc-progress.md](./tsdoc-progress.md) for reviewed batches,
+commit hashes, exclusions, and final checks.
 
 The working tree was committed before this plan. The latest behavior change is
 `2bcb35a`, which makes Drawer thresholds explicit `%`, `px`, or `rem` strings.
