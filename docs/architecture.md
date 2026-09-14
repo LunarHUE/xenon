@@ -105,6 +105,43 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
 - Not this round: grid, virtual focus, typeahead, selection, PageUp/Down,
   nested composites.
 
+## Decisions taken for round one
+
+Cross-cutting, and binding on everything built after this point.
+
+- `data-state` is the primary styling hook and always carries an explicit
+  value. Bare presence attributes stay bare: an empty string when on, absent
+  when off.
+- A single-selection change payload is a bare value, and `undefined` when
+  nothing is selected. Multiple selection gives an array. Never an array of
+  one, never an empty string or null for empty.
+- Selection commits on click, never on pointer down.
+- `aria-orientation` is emitted only when it differs from the role default,
+  so a horizontal tablist and toolbar carry none. This departs from the
+  library majority for tabs, deliberately, so the two agree.
+- Native first. Where a native element already supplies form participation,
+  `required`, `disabled`, implicit submission or label association, use it
+  rather than rebuilding it in ARIA.
+- Mounting never fires a change callback.
+- `undefined` always means uncontrolled. A prop that goes from a value to
+  `undefined` silently returns control to internal state.
+- Ids are never generated in core. Core takes them as options and the adapter
+  mints one base, deriving the rest. An author id always wins.
+- The error message rides in `aria-describedby`, never `aria-errormessage`,
+  because VoiceOver and NVDA do not support the latter. Author ids lead, then
+  the description, then the error, and the error only while invalid.
+- Measured sizes are published as part-named custom properties with no brand
+  prefix, such as `--collapsible-panel-height`.
+- Exit timing comes from the Web Animations API. Where `getAnimations` is
+  missing, as in jsdom, the element leaves immediately.
+
+## `@kit/dom`
+
+Framework-free browser logic that a React or Vue adapter would reuse, and the
+only package besides the adapters allowed to touch the DOM. It exists now
+because presence needs to wait on a real animation. Positioning and the
+layering stack will land here too.
+
 ## Toolchain
 
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
