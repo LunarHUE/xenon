@@ -14,29 +14,29 @@ Neither component has an APG pattern page.
 
 ### Roles and attributes
 
-- [ ] `pin-input.roles-and-attributes.1` Given a pin input, then the root is `role="group"` so assistive technology reports the slots as one control, and it survives being rendered as another tag through `asChild` or `render`. [radix, base-ui]
-- [ ] `pin-input.roles-and-attributes.2` Given the anatomy, then the parts are root, label, control and input, plus a hidden input for form value. [zag, melt, bits]
-- [ ] `pin-input.roles-and-attributes.3` Given the root, then it carries `data-invalid`, `data-disabled`, `data-readonly` and `data-complete`, and the label adds `data-required`. [zag, base-ui, reka]
-- [ ] `pin-input.roles-and-attributes.4` Given every slot filled, then the root and every slot carry `data-complete`. [zag, base-ui, reka]
-- [ ] `pin-input.roles-and-attributes.5` Given a slot, then it carries its index (`data-index` or `data-radix-index`), a filled marker when it holds a character (`data-filled`), and `data-disabled`, `data-readonly`, `data-invalid` and `aria-invalid` mirroring the root. [zag, radix, base-ui]
-- [ ] `pin-input.roles-and-attributes.6` Given three slots, then each slot's `aria-label` reads "pin code 1 of 3", "pin code 2 of 3", "pin code 3 of 3" from a translated template. [zag, ark]
-- [ ] `pin-input.roles-and-attributes.7` Given a numeric or OTP pin input, then each slot sets `inputmode="numeric"`, and a text pin input sets `inputmode="text"`; an explicit `inputMode` prop overrides the built-in choice for the first slot and the hidden input. [zag, base-ui, corvu]
-- [ ] `pin-input.roles-and-attributes.8` Given each slot, then `autocapitalize` is off or none and `spellcheck` is false, so mobile keyboards do not mangle a code. [zag, corvu]
-- [ ] `pin-input.roles-and-attributes.9` Given a slot, then `enterkeyhint` is `done` on the last slot and `next` on the others, so mobile keyboards show the right action key. [zag] (candidate)
-- [ ] `pin-input.roles-and-attributes.10` Given a masked pin input, then the visible slots render as `input[type="password"]`; a per-slot `type` override wins over the mask, for example `type="tel"` on one slot. [melt, base-ui, zag, radix]
-- [ ] `pin-input.roles-and-attributes.11` Given a `placeholder`, then it is shown on empty unfocused slots and blanked on the focused slot, so the caret is never competing with placeholder glyphs; the placeholder returns as soon as the slot is blurred while empty. [reka, melt, zag]
-- [ ] `pin-input.roles-and-attributes.12` Given a `disabled` pin input, then every slot is disabled, the root carries `data-disabled`, and the hidden input is disabled too. [melt, bits, base-ui, radix, zag]
-- [ ] `pin-input.roles-and-attributes.13` Given a `readOnly` pin input, then every slot carries the native `readonly` attribute and the root carries `data-readonly`; focusing a read-only slot still sets `data-focused` on the root. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.14` Given a length-validated pin input, then each visible slot gets a single-character `pattern`, for example `pattern="[a-zA-Z0-9]{1}"` for alphanumeric validation, while the hidden validation input gets the full-length pattern. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.15` Given a `length` and an overlong default value, then only the first visible slot carries `maxlength` equal to the length and the remaining slots carry no `maxlength`. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.16` Given a field label associated with the pin input, then every slot resolves to that accessible name (via `aria-labelledby` or a native `for` pointing at the first slot's id), and no slot carries `aria-describedby` for the field description; the description goes on the group instead. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.17` Given a native label plus a per-slot `aria-label` on the first slot, then the shared label wins on the first slot and the `aria-label` is dropped, while later slots keep their own `aria-label`. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.18` Given a root `aria-labelledby` or `aria-describedby`, then it lands on the `role="group"` root only and no slot carries it; an external `aria-describedby` is ordered before a field description id. [base-ui] (candidate)
-- [ ] `pin-input.roles-and-attributes.19` Given a consumer-rendered slot layout, then the component exposes per-slot state instead of slot elements: a cells list with `char`, `isActive` and `hasFakeCaret`, plus `isFocused` and `isHovering`. [bits, corvu]
-- [ ] `pin-input.roles-and-attributes.20` Divergence: each slot is its own focusable `input`, so the component manages a roving tabindex across slots, with `tabindex="0"` on the insertion point and `-1` on the rest. [zag, ark, reka, melt, radix, base-ui] (decision needed)
-- [ ] `pin-input.roles-and-attributes.21` Divergence: one real transparent input sits over consumer-drawn slots and is the only focus target, with selection exposed as an active-slot index array so no slot needs its own input. [corvu, bits] (decision needed)
-- [ ] `pin-input.roles-and-attributes.22` Divergence: `autocomplete="one-time-code"` goes on the first slot only and every other slot gets `autocomplete="off"`. [base-ui] (decision needed)
-- [ ] `pin-input.roles-and-attributes.23` Divergence: `autocomplete="one-time-code"` goes on every slot when the field is in OTP mode, and `off` on every slot when it is not. [zag, ark, corvu] (decision needed)
+- [ ] `pin-input.roles.1` Given a pin input, then the root is `role="group"` so assistive technology reports the slots as one control, and it survives being rendered as another tag through `asChild` or `render`. [radix, base-ui]
+- [ ] `pin-input.roles.2` Given the anatomy, then the parts are root, label, control and input, plus a hidden input for form value. [zag, melt, bits]
+- [ ] `pin-input.roles.3` Given the root, then it carries `data-invalid`, `data-disabled`, `data-readonly` and `data-complete`, and the label adds `data-required`. [zag, base-ui, reka]
+- [ ] `pin-input.roles.4` Given every slot filled, then the root and every slot carry `data-complete`. [zag, base-ui, reka]
+- [ ] `pin-input.roles.5` Given a slot, then it carries its index (`data-index` or `data-radix-index`), a filled marker when it holds a character (`data-filled`), and `data-disabled`, `data-readonly`, `data-invalid` and `aria-invalid` mirroring the root. [zag, radix, base-ui]
+- [ ] `pin-input.roles.6` Given three slots, then each slot's `aria-label` reads "pin code 1 of 3", "pin code 2 of 3", "pin code 3 of 3" from a translated template. [zag, ark]
+- [ ] `pin-input.roles.7` Given a numeric or OTP pin input, then each slot sets `inputmode="numeric"`, and a text pin input sets `inputmode="text"`; an explicit `inputMode` prop overrides the built-in choice for the first slot and the hidden input. [zag, base-ui, corvu]
+- [ ] `pin-input.roles.8` Given each slot, then `autocapitalize` is off or none and `spellcheck` is false, so mobile keyboards do not mangle a code. [zag, corvu]
+- [ ] `pin-input.roles.9` Given a slot, then `enterkeyhint` is `done` on the last slot and `next` on the others, so mobile keyboards show the right action key. [zag] (candidate)
+- [ ] `pin-input.roles.10` Given a masked pin input, then the visible slots render as `input[type="password"]`; a per-slot `type` override wins over the mask, for example `type="tel"` on one slot. [melt, base-ui, zag, radix]
+- [ ] `pin-input.roles.11` Given a `placeholder`, then it is shown on empty unfocused slots and blanked on the focused slot, so the caret is never competing with placeholder glyphs; the placeholder returns as soon as the slot is blurred while empty. [reka, melt, zag]
+- [ ] `pin-input.roles.12` Given a `disabled` pin input, then every slot is disabled, the root carries `data-disabled`, and the hidden input is disabled too. [melt, bits, base-ui, radix, zag]
+- [ ] `pin-input.roles.13` Given a `readOnly` pin input, then every slot carries the native `readonly` attribute and the root carries `data-readonly`; focusing a read-only slot still sets `data-focused` on the root. [base-ui] (candidate)
+- [ ] `pin-input.roles.14` Given a length-validated pin input, then each visible slot gets a single-character `pattern`, for example `pattern="[a-zA-Z0-9]{1}"` for alphanumeric validation, while the hidden validation input gets the full-length pattern. [base-ui] (candidate)
+- [ ] `pin-input.roles.15` Given a `length` and an overlong default value, then only the first visible slot carries `maxlength` equal to the length and the remaining slots carry no `maxlength`. [base-ui] (candidate)
+- [ ] `pin-input.roles.16` Given a field label associated with the pin input, then every slot resolves to that accessible name (via `aria-labelledby` or a native `for` pointing at the first slot's id), and no slot carries `aria-describedby` for the field description; the description goes on the group instead. [base-ui] (candidate)
+- [ ] `pin-input.roles.17` Given a native label plus a per-slot `aria-label` on the first slot, then the shared label wins on the first slot and the `aria-label` is dropped, while later slots keep their own `aria-label`. [base-ui] (candidate)
+- [ ] `pin-input.roles.18` Given a root `aria-labelledby` or `aria-describedby`, then it lands on the `role="group"` root only and no slot carries it; an external `aria-describedby` is ordered before a field description id. [base-ui] (candidate)
+- [ ] `pin-input.roles.19` Given a consumer-rendered slot layout, then the component exposes per-slot state instead of slot elements: a cells list with `char`, `isActive` and `hasFakeCaret`, plus `isFocused` and `isHovering`. [bits, corvu]
+- [ ] `pin-input.roles.20` Divergence: each slot is its own focusable `input`, so the component manages a roving tabindex across slots, with `tabindex="0"` on the insertion point and `-1` on the rest. [zag, ark, reka, melt, radix, base-ui] (decision needed)
+- [ ] `pin-input.roles.21` Divergence: one real transparent input sits over consumer-drawn slots and is the only focus target, with selection exposed as an active-slot index array so no slot needs its own input. [corvu, bits] (decision needed)
+- [ ] `pin-input.roles.22` Divergence: `autocomplete="one-time-code"` goes on the first slot only and every other slot gets `autocomplete="off"`. [base-ui] (decision needed)
+- [ ] `pin-input.roles.23` Divergence: `autocomplete="one-time-code"` goes on every slot when the field is in OTP mode, and `off` on every slot when it is not. [zag, ark, corvu] (decision needed)
 
 ### Keyboard
 
@@ -90,18 +90,18 @@ Neither component has an APG pattern page.
 
 ### Focus management
 
-- [ ] `pin-input.focus-management.1` Given an empty slot after a gap is focused programmatically, then focus is redirected to the first empty slot, so a user cannot start typing in the middle of a code. [reka, base-ui]
-- [ ] `pin-input.focus-management.2` Given only one slot is tabbable, when Tab is pressed from the active slot, then focus leaves the field entirely and lands on the next control (for example the clear button or a Next button) rather than walking through the remaining slots. [zag, base-ui]
-- [ ] `pin-input.focus-management.3` Given focus on the control after the field, when Shift+Tab is pressed, then focus re-enters at the insertion point, which is the last slot when every slot is filled. [zag] (candidate)
-- [ ] `pin-input.focus-management.4` Given `autoFocus`, then the first slot is focused on mount. [ark] (candidate)
-- [ ] `pin-input.focus-management.5` Given a pin input inside a field wrapper, when the field label is clicked, then the first slot receives focus. [ark, base-ui]
-- [ ] `pin-input.focus-management.6` Given `blurOnComplete`, when the last character is entered, then the last slot is blurred; pressing Backspace on the last slot afterwards moves focus to the previous slot instead of blurring again. [zag] (candidate)
-- [ ] `pin-input.focus-management.7` Given a hidden validation input focused programmatically, then focus is redirected to the first visible slot. [base-ui] (candidate)
-- [ ] `pin-input.focus-management.8` Given an exposed input ref, when a consumer calls focus on it, then the real (hidden) input takes focus. [bits] (candidate)
-- [ ] `pin-input.focus-management.9` Given a controlled value whose change is never accepted, then focus does not move later when the value changes for another reason; given a change accepted asynchronously, focus moves to the next slot once it lands. [base-ui] (candidate)
-- [ ] `pin-input.focus-management.10` Given a consumer `onFocus` or `onBlur` that calls `preventDefault`, then the DOM focus still moves but the component's own focused state does not follow, so `data-focused` on the root can be suppressed or preserved deliberately. [base-ui] (candidate)
-- [ ] `pin-input.focus-management.11` Given the single-input design, when the input is focused, then the selection is first collapsed to the end of the value, the focused flag is set, and the selection is normalized into active slots; on blur the shift flag clears, active slots empty and the inserting flag is false. [corvu] (candidate)
-- [ ] `pin-input.focus-management.12` Given a selection change while the input is not the active element, or with a null selection range, then the selection is recorded as null, active slots empty and the inserting flag is false. [corvu] (candidate)
+- [ ] `pin-input.focus.1` Given an empty slot after a gap is focused programmatically, then focus is redirected to the first empty slot, so a user cannot start typing in the middle of a code. [reka, base-ui]
+- [ ] `pin-input.focus.2` Given only one slot is tabbable, when Tab is pressed from the active slot, then focus leaves the field entirely and lands on the next control (for example the clear button or a Next button) rather than walking through the remaining slots. [zag, base-ui]
+- [ ] `pin-input.focus.3` Given focus on the control after the field, when Shift+Tab is pressed, then focus re-enters at the insertion point, which is the last slot when every slot is filled. [zag] (candidate)
+- [ ] `pin-input.focus.4` Given `autoFocus`, then the first slot is focused on mount. [ark] (candidate)
+- [ ] `pin-input.focus.5` Given a pin input inside a field wrapper, when the field label is clicked, then the first slot receives focus. [ark, base-ui]
+- [ ] `pin-input.focus.6` Given `blurOnComplete`, when the last character is entered, then the last slot is blurred; pressing Backspace on the last slot afterwards moves focus to the previous slot instead of blurring again. [zag] (candidate)
+- [ ] `pin-input.focus.7` Given a hidden validation input focused programmatically, then focus is redirected to the first visible slot. [base-ui] (candidate)
+- [ ] `pin-input.focus.8` Given an exposed input ref, when a consumer calls focus on it, then the real (hidden) input takes focus. [bits] (candidate)
+- [ ] `pin-input.focus.9` Given a controlled value whose change is never accepted, then focus does not move later when the value changes for another reason; given a change accepted asynchronously, focus moves to the next slot once it lands. [base-ui] (candidate)
+- [ ] `pin-input.focus.10` Given a consumer `onFocus` or `onBlur` that calls `preventDefault`, then the DOM focus still moves but the component's own focused state does not follow, so `data-focused` on the root can be suppressed or preserved deliberately. [base-ui] (candidate)
+- [ ] `pin-input.focus.11` Given the single-input design, when the input is focused, then the selection is first collapsed to the end of the value, the focused flag is set, and the selection is normalized into active slots; on blur the shift flag clears, active slots empty and the inserting flag is false. [corvu] (candidate)
+- [ ] `pin-input.focus.12` Given a selection change while the input is not the active element, or with a null selection range, then the selection is recorded as null, active slots empty and the inserting flag is false. [corvu] (candidate)
 
 ### State
 
@@ -137,51 +137,51 @@ Neither component has an APG pattern page.
 
 ### RTL and i18n
 
-- [ ] `pin-input.rtl-and-i18n.1` Given `dir="rtl"`, then the horizontal arrows are mirrored: ArrowRight moves toward the previous slot and ArrowLeft toward the next; modifier-plus-arrow boundary jumps mirror the same way. [zag, base-ui]
-- [ ] `pin-input.rtl-and-i18n.2` Given an IME composition in progress, then focus does not shift between slots, arrow keys do not move, and nothing is written into a slot until composition ends; on `compositionend` the committed value is processed and distributed one character per slot, with focus landing after the last one. A numeric field rejects a non-numeric committed composition outright. [reka] (candidate)
+- [ ] `pin-input.rtl.1` Given `dir="rtl"`, then the horizontal arrows are mirrored: ArrowRight moves toward the previous slot and ArrowLeft toward the next; modifier-plus-arrow boundary jumps mirror the same way. [zag, base-ui]
+- [ ] `pin-input.rtl.2` Given an IME composition in progress, then focus does not shift between slots, arrow keys do not move, and nothing is written into a slot until composition ends; on `compositionend` the committed value is processed and distributed one character per slot, with focus landing after the last one. A numeric field rejects a non-numeric committed composition outright. [reka] (candidate)
 
 ### SSR and hydration
 
-- [ ] `pin-input.ssr-and-hydration.1` Given server rendering with a root id, then slot ids are deterministic: the first slot reuses the root id and later slots append a 1-based suffix. [base-ui] (candidate)
-- [ ] `pin-input.ssr-and-hydration.2` Given server rendering, then the hidden validation input is emitted with `minlength`, `maxlength` and the full-length pattern so a no-JavaScript form still validates. [base-ui] (candidate)
-- [ ] `pin-input.ssr-and-hydration.3` Given a React 17 id fallback where `useId` is unavailable, then generated slot ids are omitted during SSR until the client assigns them. [base-ui] (candidate)
-- [ ] `pin-input.ssr-and-hydration.4` Given a no-script CSS fallback, then a `<noscript><style>` block is emitted on the server restoring color, background, caret, letter spacing, centered text, a visible border, full width, inherited font size and no clip path, so the field is usable without JavaScript; the block is not rendered on the client, so hydration must tolerate a server-only node. Setting the fallback to null emits nothing and hands the no-JavaScript appearance to the consumer. [corvu] (candidate)
+- [ ] `pin-input.ssr.1` Given server rendering with a root id, then slot ids are deterministic: the first slot reuses the root id and later slots append a 1-based suffix. [base-ui] (candidate)
+- [ ] `pin-input.ssr.2` Given server rendering, then the hidden validation input is emitted with `minlength`, `maxlength` and the full-length pattern so a no-JavaScript form still validates. [base-ui] (candidate)
+- [ ] `pin-input.ssr.3` Given a React 17 id fallback where `useId` is unavailable, then generated slot ids are omitted during SSR until the client assigns them. [base-ui] (candidate)
+- [ ] `pin-input.ssr.4` Given a no-script CSS fallback, then a `<noscript><style>` block is emitted on the server restoring color, background, caret, letter spacing, centered text, a visible border, full width, inherited font size and no clip path, so the field is usable without JavaScript; the block is not rendered on the client, so hydration must tolerate a server-only node. Setting the fallback to null emits nothing and hands the no-JavaScript appearance to the consumer. [corvu] (candidate)
 
 ### Accessibility tooling
 
-- [ ] `pin-input.accessibility-tooling.1` Given a default pin input, when axe runs, then there are no violations; this holds for the numeric variant too. [reka, melt, zag, ark, radix]
-- [ ] `pin-input.accessibility-tooling.2` Given a length that does not match the number of rendered slots, then exactly one development warning names both numbers, with singular wording for one input. [base-ui] (candidate)
-- [ ] `pin-input.accessibility-tooling.3` Given a length of 0, -1, 3.7, NaN or Infinity, then exactly one development warning says the length must be a positive integer. [base-ui] (candidate)
-- [ ] `pin-input.accessibility-tooling.4` Given an `aria-label` on the first slot with no associated label, then exactly one development warning says the first input's `aria-label` is ignored; with a native label or a field label present, no warning fires. [base-ui] (candidate)
-- [ ] `pin-input.accessibility-tooling.5` Given the single-input design, then assistive technology sees one text input with `inputmode="numeric"` and `autocomplete="one-time-code"`, and the visible slots are decorative markup the consumer must label; because the real text is transparent, only the consumer's slot rendering conveys the value under zoom or high contrast. [corvu] (candidate)
+- [ ] `pin-input.a11y.1` Given a default pin input, when axe runs, then there are no violations; this holds for the numeric variant too. [reka, melt, zag, ark, radix]
+- [ ] `pin-input.a11y.2` Given a length that does not match the number of rendered slots, then exactly one development warning names both numbers, with singular wording for one input. [base-ui] (candidate)
+- [ ] `pin-input.a11y.3` Given a length of 0, -1, 3.7, NaN or Infinity, then exactly one development warning says the length must be a positive integer. [base-ui] (candidate)
+- [ ] `pin-input.a11y.4` Given an `aria-label` on the first slot with no associated label, then exactly one development warning says the first input's `aria-label` is ignored; with a native label or a field label present, no warning fires. [base-ui] (candidate)
+- [ ] `pin-input.a11y.5` Given the single-input design, then assistive technology sees one text input with `inputmode="numeric"` and `autocomplete="one-time-code"`, and the visible slots are decorative markup the consumer must label; because the real text is transparent, only the consumer's slot rendering conveys the value under zoom or high contrast. [corvu] (candidate)
 
 ### Notes and edge cases
 
-- [ ] `pin-input.notes-and-edge-cases.1` Given the value helpers behind a pin input, then they are worth testing directly: whitespace stripping removes spaces, tabs and newlines and maps nullish input to the empty string; normalization filters by validation type, applies the custom normalizer after the built-in filter, refilters its output and clamps last (a negative length yields the empty string); replacement rewrites from an index and preserves suffix characters when normalization drops part of the replacement; character removal at an out-of-bounds index leaves the value unchanged. [base-ui] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.2` Given a part rendered with no root ancestor, then it throws a named context error rather than rendering a broken tree. [base-ui, corvu]
-- [ ] `pin-input.notes-and-edge-cases.3` Given the conformance harness, then it needs per-slot locators by index, a real-clipboard paste helper, a key-at-a-time fill helper (not programmatic value assignment), per-slot focus and value assertions, an assertion over all slot values in order, attribute presence and absence assertions, and a count of slots with `tabindex="0"` to prove only one is tabbable. [zag] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.4` Given jsdom, then several single-input behaviors cannot be asserted: `ResizeObserver` is missing so the root throws without a polyfill, `offsetHeight` is 0 so the computed font size is `0px`, `selectionchange` never fires on its own so tests must dispatch it synthetically after moving the caret, the form-reset resync needs two animation frames, and neither `clip-path` nor `@supports` conditions are observable through computed style. [corvu] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.5` Given the shared injected stylesheet in the single-input design, then it is module-level mutable state with a refcount, so a test that unmounts without running framework cleanup leaves the `<style>` node in `document.head` and blocks later cleanup; its CSS text also carries stray trailing characters, so a rule-count assertion will not match the source. [corvu] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.6` Given a sanitizing regex built as `new RegExp('[^' + pattern.source + ']', 'g')`, then an anchored pattern such as `^\d*$` is spliced into a character class and the filter matches the literal characters `^`, `\d`, `*` and `$`, so its behavior is incidental rather than designed; a pattern of null disables sanitizing entirely and accepts every character. [corvu] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.7` Given a required-but-unset maximum length, then nothing supplies a fallback and the slice and insertion logic compare against `undefined`; a spec implementation MUST default or reject it instead. [corvu] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.8` Given ark's Solid suite, then the backspace, completion, OTP autocomplete and replace-last cases and the whole field block are commented out, so Solid only proves the aria labels and forward focus movement; Vue wraps every render in a next-tick helper because the machine's initial effects land after Vue's first flush. [ark] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.9` Given reka's suite, then the placeholder of the last slot after a reset cannot be asserted because jsdom does not update `document.activeElement` in time. [reka] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.10` Given a password manager that writes each slot directly and fires a plain `input` event with no `data`, then every slot takes its character and the completion callback still fires. [reka] (candidate)
-- [ ] `pin-input.notes-and-edge-cases.11` Given the single-input design, then it reserves a right-hand gutter for password manager icons by default, widening the input to `calc(100% + 40px)` with a `clip-path` of `inset(0 40px 0 0)`; disabling that leaves the input at `100%` with no clip path. [corvu] (candidate)
+- [ ] `pin-input.notes.1` Given the value helpers behind a pin input, then they are worth testing directly: whitespace stripping removes spaces, tabs and newlines and maps nullish input to the empty string; normalization filters by validation type, applies the custom normalizer after the built-in filter, refilters its output and clamps last (a negative length yields the empty string); replacement rewrites from an index and preserves suffix characters when normalization drops part of the replacement; character removal at an out-of-bounds index leaves the value unchanged. [base-ui] (candidate)
+- [ ] `pin-input.notes.2` Given a part rendered with no root ancestor, then it throws a named context error rather than rendering a broken tree. [base-ui, corvu]
+- [ ] `pin-input.notes.3` Given the conformance harness, then it needs per-slot locators by index, a real-clipboard paste helper, a key-at-a-time fill helper (not programmatic value assignment), per-slot focus and value assertions, an assertion over all slot values in order, attribute presence and absence assertions, and a count of slots with `tabindex="0"` to prove only one is tabbable. [zag] (candidate)
+- [ ] `pin-input.notes.4` Given jsdom, then several single-input behaviors cannot be asserted: `ResizeObserver` is missing so the root throws without a polyfill, `offsetHeight` is 0 so the computed font size is `0px`, `selectionchange` never fires on its own so tests must dispatch it synthetically after moving the caret, the form-reset resync needs two animation frames, and neither `clip-path` nor `@supports` conditions are observable through computed style. [corvu] (candidate)
+- [ ] `pin-input.notes.5` Given the shared injected stylesheet in the single-input design, then it is module-level mutable state with a refcount, so a test that unmounts without running framework cleanup leaves the `<style>` node in `document.head` and blocks later cleanup; its CSS text also carries stray trailing characters, so a rule-count assertion will not match the source. [corvu] (candidate)
+- [ ] `pin-input.notes.6` Given a sanitizing regex built as `new RegExp('[^' + pattern.source + ']', 'g')`, then an anchored pattern such as `^\d*$` is spliced into a character class and the filter matches the literal characters `^`, `\d`, `*` and `$`, so its behavior is incidental rather than designed; a pattern of null disables sanitizing entirely and accepts every character. [corvu] (candidate)
+- [ ] `pin-input.notes.7` Given a required-but-unset maximum length, then nothing supplies a fallback and the slice and insertion logic compare against `undefined`; a spec implementation MUST default or reject it instead. [corvu] (candidate)
+- [ ] `pin-input.notes.8` Given ark's Solid suite, then the backspace, completion, OTP autocomplete and replace-last cases and the whole field block are commented out, so Solid only proves the aria labels and forward focus movement; Vue wraps every render in a next-tick helper because the machine's initial effects land after Vue's first flush. [ark] (candidate)
+- [ ] `pin-input.notes.9` Given reka's suite, then the placeholder of the last slot after a reset cannot be asserted because jsdom does not update `document.activeElement` in time. [reka] (candidate)
+- [ ] `pin-input.notes.10` Given a password manager that writes each slot directly and fires a plain `input` event with no `data`, then every slot takes its character and the completion callback still fires. [reka] (candidate)
+- [ ] `pin-input.notes.11` Given the single-input design, then it reserves a right-hand gutter for password manager icons by default, widening the input to `calc(100% + 40px)` with a `clip-path` of `inset(0 40px 0 0)`; disabling that leaves the input at `100%` with no clip path. [corvu] (candidate)
 
 ## password-input
 
 ### Roles and attributes
 
-- [ ] `password-input.roles-and-attributes.1` Given a password input, then the anatomy is root, label, control, input, indicator and visibility trigger. [zag] (candidate)
-- [ ] `password-input.roles-and-attributes.2` Given a password input, then the input starts at `type="password"` and toggles to `type="text"` when visibility is on, exposing `data-state` of `hidden` or `visible`. [radix, zag]
-- [ ] `password-input.roles-and-attributes.3` Given the visibility trigger, then it is `type="button"` with `aria-controls` pointing at the input id, `aria-expanded` reflecting visibility, `data-state`, `data-disabled`, `data-readonly` and a translated `aria-label` that changes with visibility. [zag] (candidate)
-- [ ] `password-input.roles-and-attributes.4` Given a toggle rendered with visible and hidden text slots, then its accessible name and text content are the hidden-state label ("Show") while the password is masked and flip to the visible-state label ("Hide") once revealed. [radix] (candidate)
-- [ ] `password-input.roles-and-attributes.5` Given an icon pair instead of text, then only the state-matching icon is in the document at a time, and the rendered icon carries `data-icon` naming the state plus `aria-hidden="true"`. [radix] (candidate)
-- [ ] `password-input.roles-and-attributes.6` Given the indicator part, then it is `aria-hidden` and mirrors `data-state`, so it is decorative. [zag] (candidate)
-- [ ] `password-input.roles-and-attributes.7` Given the root, label, control and indicator, then each carries `data-disabled`, `data-invalid` and `data-readonly`, and the label adds `data-required`. [zag] (candidate)
-- [ ] `password-input.roles-and-attributes.8` Given the input, then it sets `autocapitalize` off and `spellcheck` false, and `autocomplete="current-password"`. [radix, zag]
-- [ ] `password-input.roles-and-attributes.9` Given the input, then it carries password-manager opt-out attributes `data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, `data-form-type="other"` and `data-protonpass-ignore="true"`, pinning the quirks of 1Password, LastPass, Bitwarden, Dashlane and Proton Pass. [zag] (candidate)
+- [ ] `password-input.roles.1` Given a password input, then the anatomy is root, label, control, input, indicator and visibility trigger. [zag] (candidate)
+- [ ] `password-input.roles.2` Given a password input, then the input starts at `type="password"` and toggles to `type="text"` when visibility is on, exposing `data-state` of `hidden` or `visible`. [radix, zag]
+- [ ] `password-input.roles.3` Given the visibility trigger, then it is `type="button"` with `aria-controls` pointing at the input id, `aria-expanded` reflecting visibility, `data-state`, `data-disabled`, `data-readonly` and a translated `aria-label` that changes with visibility. [zag] (candidate)
+- [ ] `password-input.roles.4` Given a toggle rendered with visible and hidden text slots, then its accessible name and text content are the hidden-state label ("Show") while the password is masked and flip to the visible-state label ("Hide") once revealed. [radix] (candidate)
+- [ ] `password-input.roles.5` Given an icon pair instead of text, then only the state-matching icon is in the document at a time, and the rendered icon carries `data-icon` naming the state plus `aria-hidden="true"`. [radix] (candidate)
+- [ ] `password-input.roles.6` Given the indicator part, then it is `aria-hidden` and mirrors `data-state`, so it is decorative. [zag] (candidate)
+- [ ] `password-input.roles.7` Given the root, label, control and indicator, then each carries `data-disabled`, `data-invalid` and `data-readonly`, and the label adds `data-required`. [zag] (candidate)
+- [ ] `password-input.roles.8` Given the input, then it sets `autocapitalize` off and `spellcheck` false, and `autocomplete="current-password"`. [radix, zag]
+- [ ] `password-input.roles.9` Given the input, then it carries password-manager opt-out attributes `data-1p-ignore`, `data-lpignore="true"`, `data-bwignore="true"`, `data-form-type="other"` and `data-protonpass-ignore="true"`, pinning the quirks of 1Password, LastPass, Bitwarden, Dashlane and Proton Pass. [zag] (candidate)
 
 ### Pointer
 
@@ -190,10 +190,10 @@ Neither component has an APG pattern page.
 
 ### Focus management
 
-- [ ] `password-input.focus-management.1` Given a caret position or a selection range in the input, when visibility is toggled, then the caret and selection are restored exactly, and they survive a second toggle. [radix, zag]
-- [ ] `password-input.focus-management.2` Given the toggle is clicked, then focus returns to the input rather than staying on the button. [radix] (candidate)
-- [ ] `password-input.focus-management.3` Divergence: the visibility trigger is excluded from the tab order (`tabindex="-1"`), so Tab goes from the password field straight to the next control. [zag] (decision needed)
-- [ ] `password-input.focus-management.4` Divergence: the visibility trigger is an ordinary focusable button in the tab order, reachable between the input and the next control. [radix] (decision needed)
+- [ ] `password-input.focus.1` Given a caret position or a selection range in the input, when visibility is toggled, then the caret and selection are restored exactly, and they survive a second toggle. [radix, zag]
+- [ ] `password-input.focus.2` Given the toggle is clicked, then focus returns to the input rather than staying on the button. [radix] (candidate)
+- [ ] `password-input.focus.3` Divergence: the visibility trigger is excluded from the tab order (`tabindex="-1"`), so Tab goes from the password field straight to the next control. [zag] (decision needed)
+- [ ] `password-input.focus.4` Divergence: the visibility trigger is an ordinary focusable button in the tab order, reachable between the input and the next control. [radix] (decision needed)
 
 ### Forms
 
@@ -202,13 +202,13 @@ Neither component has an APG pattern page.
 
 ### Accessibility tooling
 
-- [ ] `password-input.accessibility-tooling.1` Given a password input with a label and a text or icon toggle, when axe runs, then there are no violations. [radix, zag]
+- [ ] `password-input.a11y.1` Given a password input with a label and a text or icon toggle, when axe runs, then there are no violations. [radix, zag]
 
 ### Notes and edge cases
 
-- [ ] `password-input.notes-and-edge-cases.1` Given unconsumed props on the input or the toggle, then they land on the rendered element and the ref resolves to it; `asChild` onto an `<input>` or a `<button>` keeps the part's own attributes. [radix] (candidate)
-- [ ] `password-input.notes-and-edge-cases.2` Given the conformance harness, then it needs the input and visibility-trigger locators, a click on the trigger, type-attribute assertions in both directions, and a caret assertion reading `selectionStart` and `selectionEnd` to prove the caret survives the type swap. [zag] (candidate)
-- [ ] `password-input.notes-and-edge-cases.3` Given ark's password input, then Svelte is the only framework with a test and it covers only field invalid propagation, so ark is weak evidence for this component. [ark] (candidate)
+- [ ] `password-input.notes.1` Given unconsumed props on the input or the toggle, then they land on the rendered element and the ref resolves to it; `asChild` onto an `<input>` or a `<button>` keeps the part's own attributes. [radix] (candidate)
+- [ ] `password-input.notes.2` Given the conformance harness, then it needs the input and visibility-trigger locators, a click on the trigger, type-attribute assertions in both directions, and a caret assertion reading `selectionStart` and `selectionEnd` to prove the caret survives the type swap. [zag] (candidate)
+- [ ] `password-input.notes.3` Given ark's password input, then Svelte is the only framework with a test and it covers only field invalid propagation, so ark is weak evidence for this component. [ark] (candidate)
 
 ## Sources
 
@@ -220,12 +220,12 @@ Neither component has an APG pattern page.
 
 ## Deferred
 
-- One input per slot versus one input overlaid on drawn slots (`pin-input.roles-and-attributes.20` and `.21`). This is the architectural fork for the whole component. It decides whether the suite asserts per-slot focus and roving tabindex at all, or asserts a selection-to-active-slot mapping instead. Everything in Focus management depends on it.
+- One input per slot versus one input overlaid on drawn slots (`pin-input.roles.20` and `.21`). This is the architectural fork for the whole component. It decides whether the suite asserts per-slot focus and roving tabindex at all, or asserts a selection-to-active-slot mapping instead. Everything in Focus management depends on it.
 - Delete and Backspace splicing (`pin-input.keyboard.28` and `.29`). Holes in the middle of a code are either possible or not, which changes what the value type can be (`string` versus a fixed-length array with gaps).
 - Where End goes (`pin-input.keyboard.30` and `.31`). Last filled slot versus first empty slot. Small, but it changes the insertion-point definition used by click redirection too.
 - Auto-submit on completion (`pin-input.forms.8` and `.9`). zag submits by default; base-ui requires opting in. Submitting a form as a side effect of a keystroke is the kind of default that needs a deliberate decision.
-- `autocomplete` placement (`pin-input.roles-and-attributes.22` and `.23`). First slot only versus every slot. Browsers differ on which one actually triggers SMS autofill, so this needs testing on real devices, not in the suite.
-- Visibility-trigger tab order (`password-input.focus-management.3` and `.4`). Excluding the toggle from the tab order makes it keyboard-unreachable, which is hard to defend; keeping it in the order adds a tab stop between a password field and the submit button. Neither side is obviously right.
-- Corvu's injected global stylesheet, iOS letter-spacing workaround and password-manager gutter (`pin-input.notes-and-edge-cases.5`, `.6`, `.11`). Real problems with browser-specific fixes, but they are styling decisions the consumer should own, not conformance bullets.
+- `autocomplete` placement (`pin-input.roles.22` and `.23`). First slot only versus every slot. Browsers differ on which one actually triggers SMS autofill, so this needs testing on real devices, not in the suite.
+- Visibility-trigger tab order (`password-input.focus.3` and `.4`). Excluding the toggle from the tab order makes it keyboard-unreachable, which is hard to defend; keeping it in the order adds a tab stop between a password field and the submit button. Neither side is obviously right.
+- Corvu's injected global stylesheet, iOS letter-spacing workaround and password-manager gutter (`pin-input.notes.5`, `.6`, `.11`). Real problems with browser-specific fixes, but they are styling decisions the consumer should own, not conformance bullets.
 - Fake caret rendering. bits exposes `hasFakeCaret` per cell and corvu exposes an inserting flag for the same purpose. Neither is tested as behavior, so the spec records the state flags and not their appearance.
 - ariakit and headlessui contribute nothing here: neither ships a pin input or a password toggle.

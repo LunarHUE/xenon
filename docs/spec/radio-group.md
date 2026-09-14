@@ -137,10 +137,10 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Animation and presence
 
-- [ ] `radio-group.anim.1` Given an item indicator with no force-mount flag, then it is absent while the item is unselected and inserted when the item is selected; `forceMount` / `keepMounted` keeps it in the DOM either way. [kobalte, base-ui, radix]
-- [ ] `radio-group.anim.2` Given an indicator with no CSS exit animation, when the value moves away from that radio, then the indicator is removed immediately; given a `[data-ending-style]` animation, then it synchronously gains `data-ending-style`, fires `onAnimationEnd` and is only then removed. [base-ui] (candidate) (browser-only)
-- [ ] `radio-group.anim.3` Given an indicator with a `[data-starting-style]` transition, when the value moves to that radio, then the indicator mounts and the enter transition runs to completion. [base-ui] (candidate) (browser-only)
-- [ ] `radio-group.anim.4` Given a single sliding group indicator rather than a per-item one, then it is hidden while no value is selected or its measured rect is empty and it exposes `--left`, `--top`, `--width` and `--height` CSS variables plus `--transition-duration` (default 150ms), `--transition-property` and `--transition-timing-function`. [zag] (candidate)
+- [ ] `radio-group.animation.1` Given an item indicator with no force-mount flag, then it is absent while the item is unselected and inserted when the item is selected; `forceMount` / `keepMounted` keeps it in the DOM either way. [kobalte, base-ui, radix]
+- [ ] `radio-group.animation.2` Given an indicator with no CSS exit animation, when the value moves away from that radio, then the indicator is removed immediately; given a `[data-ending-style]` animation, then it synchronously gains `data-ending-style`, fires `onAnimationEnd` and is only then removed. [base-ui] (candidate) (browser-only)
+- [ ] `radio-group.animation.3` Given an indicator with a `[data-starting-style]` transition, when the value moves to that radio, then the indicator mounts and the enter transition runs to completion. [base-ui] (candidate) (browser-only)
+- [ ] `radio-group.animation.4` Given a single sliding group indicator rather than a per-item one, then it is hidden while no value is selected or its measured rect is empty and it exposes `--left`, `--top`, `--width` and `--height` CSS variables plus `--transition-duration` (default 150ms), `--transition-property` and `--transition-timing-function`. [zag] (candidate)
 
 ### RTL and i18n
 
@@ -220,7 +220,7 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Animation and presence
 
-- [ ] `segment-group.anim.1` Given a segment group indicator, then it is measured from the selected segment's rect, so a test must wait for that measurement (resolve the label with an async query) before asserting on it. [ark, zag]
+- [ ] `segment-group.animation.1` Given a segment group indicator, then it is measured from the selected segment's rect, so a test must wait for that measurement (resolve the label with an async query) before asserting on it. [ark, zag]
 
 ### Accessibility tooling
 
@@ -242,6 +242,6 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 - Radio groups nested inside a toolbar (`radio-group.keyboard.12` and `radio-group.keyboard.13`): needs the toolbar component first, since the behavior is defined by the toolbar's focus model.
 - SVG radio groups (`radio.roles.14`): a rendering concern for the consumer, not something the controller can enforce.
 - Object-valued items and their bracket-path form serialization (`radio-group.forms.23`) plus custom comparison by field or comparator (`radio-group.state.9`): needs a value-identity design first.
-- The sliding measured group indicator (`radio-group.anim.4`): depends on element measurement and a resize observer, which the first implementation leaves to the consumer.
+- The sliding measured group indicator (`radio-group.animation.4`): depends on element measurement and a resize observer, which the first implementation leaves to the consumer.
 - Screen-reader announcement tests (`radio-group.a11y.2`): needs a driven-screen-reader harness the suite does not have.
 - `inputRef` targeting rules (`radio-group.forms.21`): a framework-specific ref contract that belongs in adapter unit tests.

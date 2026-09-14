@@ -149,13 +149,13 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Animation and presence
 
-- [ ] `checkbox.anim.1` Given an indicator part with no force-mount flag, then it is absent from the DOM while the checkbox is unchecked and inserted once the checkbox becomes checked; given the checkbox is `indeterminate`, then the indicator mounts even though `checked` is false. [kobalte, base-ui, radix, reka, zag]
-- [ ] `checkbox.anim.2` Given an indicator with `forceMount` / `keepMounted`, then it is in the DOM while unchecked, checked and indeterminate alike, which is what lets CSS drive an exit animation. [kobalte, base-ui]
-- [ ] `checkbox.anim.3` Given an indicator with no CSS exit animation, when the checkbox is unchecked, then the indicator is removed from the DOM immediately. [base-ui] (candidate) (browser-only)
-- [ ] `checkbox.anim.4` Given an indicator whose `[data-ending-style]` runs a CSS animation, when the checkbox is unchecked, then the indicator is first still present carrying `data-ending-style` and is only removed after `onAnimationEnd` fires. [base-ui] (candidate) (browser-only)
-- [ ] `checkbox.anim.5` Given an indicator with `[data-starting-style]` and a transition, when the checkbox is checked, then the indicator mounts, `onTransitionEnd` eventually fires, and `getAnimations` is never called. [base-ui] (candidate) (browser-only)
-- [ ] `checkbox.anim.6` Given ten checked checkboxes each with an exit-animated indicator, when all are unchecked at once, then every commit observes either all ten indicators or none, never a partial count, so they unmount in a single commit. [base-ui] (candidate) (browser-only)
-- [ ] `checkbox.anim.7` Given the indicator part, then it receives library-owned inline `pointer-events: none` merged with, not replacing, the author's `style`. [radix] (candidate)
+- [ ] `checkbox.animation.1` Given an indicator part with no force-mount flag, then it is absent from the DOM while the checkbox is unchecked and inserted once the checkbox becomes checked; given the checkbox is `indeterminate`, then the indicator mounts even though `checked` is false. [kobalte, base-ui, radix, reka, zag]
+- [ ] `checkbox.animation.2` Given an indicator with `forceMount` / `keepMounted`, then it is in the DOM while unchecked, checked and indeterminate alike, which is what lets CSS drive an exit animation. [kobalte, base-ui]
+- [ ] `checkbox.animation.3` Given an indicator with no CSS exit animation, when the checkbox is unchecked, then the indicator is removed from the DOM immediately. [base-ui] (candidate) (browser-only)
+- [ ] `checkbox.animation.4` Given an indicator whose `[data-ending-style]` runs a CSS animation, when the checkbox is unchecked, then the indicator is first still present carrying `data-ending-style` and is only removed after `onAnimationEnd` fires. [base-ui] (candidate) (browser-only)
+- [ ] `checkbox.animation.5` Given an indicator with `[data-starting-style]` and a transition, when the checkbox is checked, then the indicator mounts, `onTransitionEnd` eventually fires, and `getAnimations` is never called. [base-ui] (candidate) (browser-only)
+- [ ] `checkbox.animation.6` Given ten checked checkboxes each with an exit-animated indicator, when all are unchecked at once, then every commit observes either all ten indicators or none, never a partial count, so they unmount in a single commit. [base-ui] (candidate) (browser-only)
+- [ ] `checkbox.animation.7` Given the indicator part, then it receives library-owned inline `pointer-events: none` merged with, not replacing, the author's `style`. [radix] (candidate)
 
 ### SSR and hydration
 

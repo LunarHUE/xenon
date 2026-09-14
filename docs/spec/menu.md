@@ -297,19 +297,19 @@ nested in a dialog, and a combobox nested in a menu. Context menus live in
 
 ### Accessibility tooling
 
-- [ ] `menu.a11y-tooling.1` Given an open menu with items, separators, checkbox items, a radio group and an arrow, when axe runs over the document, then there MUST be no violations. Also asserted for a closed menu and for a context menu. [axe, zag, ark, reka, melt]
-- [ ] `menu.a11y-tooling.2` Given a menu with neither `aria-label` nor `aria-labelledby`, then a development warning MUST be emitted. [react-aria] (candidate)
-- [ ] `menu.a11y-tooling.3` Given `aria-controls` on a menu button that also carries `aria-haspopup`, then an unresolvable reference MUST be reported as incomplete rather than a failure, so lazily rendered menus surface as needing review. [axe]
-- [ ] `menu.a11y-tooling.4` Given a scrollable menu, then it MUST contain a focusable element or be focusable itself (serious impact). [axe]
-- [ ] `menu.a11y-tooling.5` Given any element with a `role`, then the role MUST be valid, non-abstract and not deprecated, every ARIA attribute on it MUST be allowed for that role and host element, and all required attributes MUST be present. [axe]
-- [ ] `menu.a11y-tooling.6` Given any `aria-*` attribute, then its name and value MUST be valid; an unresolved id reference is reported as incomplete and an empty value as ignored-while-empty. [axe]
-- [ ] `menu.a11y-tooling.7` Given an id referenced by `aria-controls`, `aria-labelledby`, `aria-describedby`, `aria-owns` or `aria-activedescendant`, then that id MUST be unique in the document (critical impact). [axe]
-- [ ] `menu.a11y-tooling.8` Given an element with `aria-hidden="true"`, then neither it nor any descendant MUST be focusable; only the outermost such element is tested. [axe]
-- [ ] `menu.a11y-tooling.9` Given `role="presentation"` or `role="none"`, then the element MUST NOT also be focusable or carry a global ARIA attribute. [axe]
-- [ ] `menu.a11y-tooling.10` Given `aria-brailleroledescription` or `aria-braillelabel`, then a non-braille equivalent MUST exist (serious impact). [axe]
-- [ ] `menu.a11y-tooling.11` Given a clickable menu item, then its touch target SHOULD be at least 24 by 24 CSS pixels or leave sufficient space from its neighbors; the axe rule ships disabled and MUST be enabled explicitly. [axe]
-- [ ] `menu.a11y-tooling.12` Given VoiceOver, then a submenu trigger MUST drop `aria-expanded` entirely when the submenu is opened by ArrowRight or Enter (so VoiceOver does not talk over the item announcement) while keeping `aria-haspopup="menu"`; opened by pointer, where focus stays on the trigger, it MUST keep `aria-expanded="true"`. [base-ui] (candidate)
-- [ ] `menu.a11y-tooling.13` Given TalkBack on Android, then a virtual press on a submenu trigger (a 1x1 zero-pressure `pointerdown` plus `mousedown` and `click` with `detail: 0`) MUST open the submenu and the trailing click MUST NOT toggle it closed, while an ordinary pressed-mouse sequence MUST NOT be treated as a virtual press. (browser-only) [base-ui] (candidate)
+- [ ] `menu.a11y.1` Given an open menu with items, separators, checkbox items, a radio group and an arrow, when axe runs over the document, then there MUST be no violations. Also asserted for a closed menu and for a context menu. [axe, zag, ark, reka, melt]
+- [ ] `menu.a11y.2` Given a menu with neither `aria-label` nor `aria-labelledby`, then a development warning MUST be emitted. [react-aria] (candidate)
+- [ ] `menu.a11y.3` Given `aria-controls` on a menu button that also carries `aria-haspopup`, then an unresolvable reference MUST be reported as incomplete rather than a failure, so lazily rendered menus surface as needing review. [axe]
+- [ ] `menu.a11y.4` Given a scrollable menu, then it MUST contain a focusable element or be focusable itself (serious impact). [axe]
+- [ ] `menu.a11y.5` Given any element with a `role`, then the role MUST be valid, non-abstract and not deprecated, every ARIA attribute on it MUST be allowed for that role and host element, and all required attributes MUST be present. [axe]
+- [ ] `menu.a11y.6` Given any `aria-*` attribute, then its name and value MUST be valid; an unresolved id reference is reported as incomplete and an empty value as ignored-while-empty. [axe]
+- [ ] `menu.a11y.7` Given an id referenced by `aria-controls`, `aria-labelledby`, `aria-describedby`, `aria-owns` or `aria-activedescendant`, then that id MUST be unique in the document (critical impact). [axe]
+- [ ] `menu.a11y.8` Given an element with `aria-hidden="true"`, then neither it nor any descendant MUST be focusable; only the outermost such element is tested. [axe]
+- [ ] `menu.a11y.9` Given `role="presentation"` or `role="none"`, then the element MUST NOT also be focusable or carry a global ARIA attribute. [axe]
+- [ ] `menu.a11y.10` Given `aria-brailleroledescription` or `aria-braillelabel`, then a non-braille equivalent MUST exist (serious impact). [axe]
+- [ ] `menu.a11y.11` Given a clickable menu item, then its touch target SHOULD be at least 24 by 24 CSS pixels or leave sufficient space from its neighbors; the axe rule ships disabled and MUST be enabled explicitly. [axe]
+- [ ] `menu.a11y.12` Given VoiceOver, then a submenu trigger MUST drop `aria-expanded` entirely when the submenu is opened by ArrowRight or Enter (so VoiceOver does not talk over the item announcement) while keeping `aria-haspopup="menu"`; opened by pointer, where focus stays on the trigger, it MUST keep `aria-expanded="true"`. [base-ui] (candidate)
+- [ ] `menu.a11y.13` Given TalkBack on Android, then a virtual press on a submenu trigger (a 1x1 zero-pressure `pointerdown` plus `mousedown` and `click` with `detail: 0`) MUST open the submenu and the trailing click MUST NOT toggle it closed, while an ordinary pressed-mouse sequence MUST NOT be treated as a virtual press. (browser-only) [base-ui] (candidate)
 
 ### Notes and edge cases
 

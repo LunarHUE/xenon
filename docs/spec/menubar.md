@@ -144,13 +144,13 @@ arrow keys that switch the open menu, and the handoff between levels.
 
 ### Accessibility tooling
 
-- [ ] `menubar.a11y-tooling.1` Given a menubar closed and with its first menu open, when axe runs over the container, then there MUST be no violations. [axe, reka]
-- [ ] `menubar.a11y-tooling.2` Given a scrollable menubar overflow container, then it MUST contain a focusable element or be focusable itself. [axe]
-- [ ] `menubar.a11y-tooling.3` Given any element with a `role` in a menubar, then the role MUST be valid, non-abstract and not deprecated, every ARIA attribute on it MUST be allowed for that role and host element, and all required attributes MUST be present; `aria-*` names and values MUST be valid, unresolved id references reported as incomplete, and referenced ids MUST be unique. [axe]
-- [ ] `menubar.a11y-tooling.4` Given `role="presentation"`/`role="none"` in a menubar, then the element MUST NOT also be focusable or carry a global ARIA attribute, and MUST NOT carry `aria-label` or `aria-labelledby`. [axe]
-- [ ] `menubar.a11y-tooling.5` Given an element with `aria-hidden="true"` in a menubar, then neither it nor any descendant MUST be focusable; only the outermost such element is tested. [axe]
-- [ ] `menubar.a11y-tooling.6` Given `aria-brailleroledescription` or `aria-braillelabel`, then a non-braille equivalent MUST exist. [axe]
-- [ ] `menubar.a11y-tooling.7` Given a clickable menubar item, then its touch target SHOULD be at least 24 by 24 CSS pixels or leave sufficient space from its neighbors; the axe rule ships disabled and MUST be enabled explicitly. [axe]
+- [ ] `menubar.a11y.1` Given a menubar closed and with its first menu open, when axe runs over the container, then there MUST be no violations. [axe, reka]
+- [ ] `menubar.a11y.2` Given a scrollable menubar overflow container, then it MUST contain a focusable element or be focusable itself. [axe]
+- [ ] `menubar.a11y.3` Given any element with a `role` in a menubar, then the role MUST be valid, non-abstract and not deprecated, every ARIA attribute on it MUST be allowed for that role and host element, and all required attributes MUST be present; `aria-*` names and values MUST be valid, unresolved id references reported as incomplete, and referenced ids MUST be unique. [axe]
+- [ ] `menubar.a11y.4` Given `role="presentation"`/`role="none"` in a menubar, then the element MUST NOT also be focusable or carry a global ARIA attribute, and MUST NOT carry `aria-label` or `aria-labelledby`. [axe]
+- [ ] `menubar.a11y.5` Given an element with `aria-hidden="true"` in a menubar, then neither it nor any descendant MUST be focusable; only the outermost such element is tested. [axe]
+- [ ] `menubar.a11y.6` Given `aria-brailleroledescription` or `aria-braillelabel`, then a non-braille equivalent MUST exist. [axe]
+- [ ] `menubar.a11y.7` Given a clickable menubar item, then its touch target SHOULD be at least 24 by 24 CSS pixels or leave sufficient space from its neighbors; the axe rule ships disabled and MUST be enabled explicitly. [axe]
 
 ### Notes and edge cases
 

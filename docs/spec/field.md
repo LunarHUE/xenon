@@ -135,7 +135,7 @@ referenced from the component specs rather than repeated per component.
 
 ### Animation and presence
 
-- [ ] `field.anim.1` Given an error part with a CSS enter transition under `[data-starting-style]`, when it is matched, then it mounts and the transition runs to completion; given an exit animation under `[data-ending-style]`, when it stops matching, then it keeps `data-ending-style` until the animation finishes and only then leaves the DOM. [base-ui] (candidate) (browser-only)
+- [ ] `field.animation.1` Given an error part with a CSS enter transition under `[data-starting-style]`, when it is matched, then it mounts and the transition runs to completion; given an exit animation under `[data-ending-style]`, when it stops matching, then it keeps `data-ending-style` until the animation finishes and only then leaves the DOM. [base-ui] (candidate) (browser-only)
 
 ### SSR and hydration
 
@@ -349,7 +349,7 @@ referenced from the component specs rather than repeated per component.
 
 ### Positioning
 
-- [ ] `textarea.pos.1` Given an auto-growing textarea, then its inline height is set from its scroll height on mount, for the default, controlled and uncontrolled cases alike, and updates as the content grows; an explicit `height` prop suppresses the auto-grow entirely. [react-aria] (candidate)
+- [ ] `textarea.positioning.1` Given an auto-growing textarea, then its inline height is set from its scroll height on mount, for the default, controlled and uncontrolled cases alike, and updates as the content grows; an explicit `height` prop suppresses the auto-grow entirely. [react-aria] (candidate)
 
 ## text-field
 
@@ -424,5 +424,5 @@ referenced from the component specs rather than repeated per component.
 - Field items and their id scoping (`field.roles.8`, `field.roles.9`, `field.roles.16`): two libraries with incompatible models (`Field.Item` value scoping versus a `target` prop), so the shape needs deciding before it can be tested.
 - Array fields and form-value paths (`form.forms.20` through `form.forms.22`, `form.focus.8`): a form-state library in its own right, out of scope for a headless component set.
 - Framework-specific render-prop mechanics (`as`/`asChild`/`render` prop resolution, Fragment class merging, `refName`, the "Passing props on Fragment" errors, `data-headlessui-state` and its Tailwind variants, exported-surface snapshots, `describeConformance` suites): adapter concerns for `packages/core` and `packages/solid` unit tests. `controlled-state.notes.2` keeps the part that concerns controlled values.
-- Auto-growing textarea height (`textarea.pos.1`): needs measurement and a resize observer; the first implementation leaves sizing to the consumer.
+- Auto-growing textarea height (`textarea.positioning.1`): needs measurement and a resize observer; the first implementation leaves sizing to the consumer.
 - Contextual-help triggers and necessity indicators beyond the plain `*`: Spectrum-specific field furniture with no second source.

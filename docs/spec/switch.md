@@ -117,7 +117,7 @@ candidate. `(candidate)` marks a bullet backed by exactly one library.
 
 ### Animation and presence
 
-- [ ] `switch.anim.1` Given a thumb part, then it is always mounted: there is no presence gate and no `forceMount`, unlike a checkbox indicator, so the thumb is animated by CSS from `data-state` alone. [kobalte, base-ui, radix, zag, reka, bits]
+- [ ] `switch.animation.1` Given a thumb part, then it is always mounted: there is no presence gate and no `forceMount`, unlike a checkbox indicator, so the thumb is animated by CSS from `data-state` alone. [kobalte, base-ui, radix, zag, reka, bits]
 
 ### SSR and hydration
 

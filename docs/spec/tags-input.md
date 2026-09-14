@@ -13,20 +13,20 @@ Neither component has an APG pattern page.
 
 ### Roles and attributes
 
-- [ ] `tags-input.roles-and-attributes.1` Given a tags input, then the anatomy parts are root, label, control, input, clearTrigger, item, itemPreview, itemInput, itemText and itemDeleteTrigger. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.2` Given the root, then it carries `data-invalid`, `data-readonly`, `data-disabled`, `data-focus` and `data-empty`, and the label adds `data-required`. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.3` Given the control, then it carries `data-disabled`, `data-readonly`, `data-invalid` and `data-focus`, and becomes tabbable with `tabindex="0"` when the whole widget is read-only, so a read-only tags input is still reachable. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.4` Given the text input, then it carries `data-invalid`, `aria-invalid`, `data-readonly`, `data-empty`, `autocomplete="off"`, `autocapitalize="none"` and `enterkeyhint="done"`, and shows the placeholder only while empty. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.5` Given a tag item, then it carries `data-value` and `data-disabled`; the item preview adds `data-highlighted` and is hidden while that tag is being edited; the item text carries `data-disabled` and `data-highlighted`. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.6` Given a per-tag edit input, then it is `tabindex="-1"`, hidden unless that tag is editing, and carries a translated `aria-label` naming the tag being edited. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.7` Given a per-tag delete trigger, then it is `type="button"` with `tabindex="-1"`, `data-disabled`, `aria-disabled`, `data-highlighted` and a translated `aria-label` naming the tag, so it is reached through the tag rather than through Tab. [zag] (candidate)
-- [ ] `tags-input.roles-and-attributes.8` Given a remove affordance nested inside a tag, then it is `aria-hidden="true"` with `aria-label="Press Delete or Backspace to remove"` and renders a default icon; used standalone outside a tag it is a named, focusable button with no `aria-label` added, no default icon, and no duplicate button carrying the bare tag name. [ariakit] (candidate)
-- [ ] `tags-input.roles-and-attributes.9` Given a standalone remove button whose name comes from a `render` element or a root `aria-labelledby`, then that name is preserved and no `aria-label` is added. [ariakit] (candidate)
-- [ ] `tags-input.roles-and-attributes.10` Given a standalone remove button with an `aria-label`, then it keeps its visible text and passes axe's `aria-hidden-focus` rule with no violations. [ariakit] (candidate) (browser-only)
-- [ ] `tags-input.roles-and-attributes.11` Given an explicit `aria-label` on the tag list or on the control, then each carries that `aria-label` and no `aria-labelledby`. [ariakit] (candidate) (chromium-only)
-- [ ] `tags-input.roles-and-attributes.12` Given a rendered tag, then its text element is addressable as a named part, for example `data-part="item-text"` with `data-scope="tags-input"`. [zag, ark]
-- [ ] `tags-input.roles-and-attributes.13` Divergence: the tags live inside a `listbox` with each tag an `option`, the text input is a sibling of the listbox rather than a descendant (the `listbox` role accepts only options as children), the listbox has no `aria-owns`, and a `group` wrapper contains both so one label names all three. [ariakit] (decision needed)
-- [ ] `tags-input.roles-and-attributes.14` Divergence: the tags and the input carry no ARIA collection roles at all; tags are plain elements identified by data parts and the input keeps the accessible name. [zag, reka] (decision needed)
+- [ ] `tags-input.roles.1` Given a tags input, then the anatomy parts are root, label, control, input, clearTrigger, item, itemPreview, itemInput, itemText and itemDeleteTrigger. [zag] (candidate)
+- [ ] `tags-input.roles.2` Given the root, then it carries `data-invalid`, `data-readonly`, `data-disabled`, `data-focus` and `data-empty`, and the label adds `data-required`. [zag] (candidate)
+- [ ] `tags-input.roles.3` Given the control, then it carries `data-disabled`, `data-readonly`, `data-invalid` and `data-focus`, and becomes tabbable with `tabindex="0"` when the whole widget is read-only, so a read-only tags input is still reachable. [zag] (candidate)
+- [ ] `tags-input.roles.4` Given the text input, then it carries `data-invalid`, `aria-invalid`, `data-readonly`, `data-empty`, `autocomplete="off"`, `autocapitalize="none"` and `enterkeyhint="done"`, and shows the placeholder only while empty. [zag] (candidate)
+- [ ] `tags-input.roles.5` Given a tag item, then it carries `data-value` and `data-disabled`; the item preview adds `data-highlighted` and is hidden while that tag is being edited; the item text carries `data-disabled` and `data-highlighted`. [zag] (candidate)
+- [ ] `tags-input.roles.6` Given a per-tag edit input, then it is `tabindex="-1"`, hidden unless that tag is editing, and carries a translated `aria-label` naming the tag being edited. [zag] (candidate)
+- [ ] `tags-input.roles.7` Given a per-tag delete trigger, then it is `type="button"` with `tabindex="-1"`, `data-disabled`, `aria-disabled`, `data-highlighted` and a translated `aria-label` naming the tag, so it is reached through the tag rather than through Tab. [zag] (candidate)
+- [ ] `tags-input.roles.8` Given a remove affordance nested inside a tag, then it is `aria-hidden="true"` with `aria-label="Press Delete or Backspace to remove"` and renders a default icon; used standalone outside a tag it is a named, focusable button with no `aria-label` added, no default icon, and no duplicate button carrying the bare tag name. [ariakit] (candidate)
+- [ ] `tags-input.roles.9` Given a standalone remove button whose name comes from a `render` element or a root `aria-labelledby`, then that name is preserved and no `aria-label` is added. [ariakit] (candidate)
+- [ ] `tags-input.roles.10` Given a standalone remove button with an `aria-label`, then it keeps its visible text and passes axe's `aria-hidden-focus` rule with no violations. [ariakit] (candidate) (browser-only)
+- [ ] `tags-input.roles.11` Given an explicit `aria-label` on the tag list or on the control, then each carries that `aria-label` and no `aria-labelledby`. [ariakit] (candidate) (chromium-only)
+- [ ] `tags-input.roles.12` Given a rendered tag, then its text element is addressable as a named part, for example `data-part="item-text"` with `data-scope="tags-input"`. [zag, ark]
+- [ ] `tags-input.roles.13` Divergence: the tags live inside a `listbox` with each tag an `option`, the text input is a sibling of the listbox rather than a descendant (the `listbox` role accepts only options as children), the listbox has no `aria-owns`, and a `group` wrapper contains both so one label names all three. [ariakit] (decision needed)
+- [ ] `tags-input.roles.14` Divergence: the tags and the input carry no ARIA collection roles at all; tags are plain elements identified by data parts and the input keeps the accessible name. [zag, reka] (decision needed)
 
 ### Keyboard
 
@@ -68,9 +68,9 @@ Neither component has an APG pattern page.
 
 ### Focus management
 
-- [ ] `tags-input.focus-management.1` Given a highlighted tag, when a click lands outside or Tab moves focus out, then the highlight is cleared. [zag] (candidate)
-- [ ] `tags-input.focus-management.2` Given a tag is added, when the DOM settles, then the input is still the active element and its value is the empty string. [reka, melt, zag]
-- [ ] `tags-input.focus-management.3` Given a tags input inside a field wrapper, when the field label is clicked, then the visible text input takes focus rather than the hidden form input. [ark] (candidate)
+- [ ] `tags-input.focus.1` Given a highlighted tag, when a click lands outside or Tab moves focus out, then the highlight is cleared. [zag] (candidate)
+- [ ] `tags-input.focus.2` Given a tag is added, when the DOM settles, then the input is still the active element and its value is the empty string. [reka, melt, zag]
+- [ ] `tags-input.focus.3` Given a tags input inside a field wrapper, when the field label is clicked, then the visible text input takes focus rather than the hidden form input. [ark] (candidate)
 
 ### State
 
@@ -90,36 +90,36 @@ Neither component has an APG pattern page.
 
 ### RTL and i18n
 
-- [ ] `tags-input.rtl-and-i18n.1` Given a delimiter and an IME composition in progress, when the composed text contains the delimiter, then no tag is created and the input keeps the raw characters; once composition ends the deferred value is processed and the tag is created. [reka, ariakit]
+- [ ] `tags-input.rtl.1` Given a delimiter and an IME composition in progress, when the composed text contains the delimiter, then no tag is created and the input keeps the raw characters; once composition ends the deferred value is processed and the tag is created. [reka, ariakit]
 
 ### Accessibility tooling
 
-- [ ] `tags-input.accessibility-tooling.1` Given a default tags input, when axe runs, then there are no violations. [reka, melt]
-- [ ] `tags-input.accessibility-tooling.2` Given the ark tags-input axe case, then it is skipped, so ark has no passing automated a11y check for this component and its tags cannot be cited as axe evidence. [ark] (candidate)
+- [ ] `tags-input.a11y.1` Given a default tags input, when axe runs, then there are no violations. [reka, melt]
+- [ ] `tags-input.a11y.2` Given the ark tags-input axe case, then it is skipped, so ark has no passing automated a11y check for this component and its tags cannot be cited as axe evidence. [ark] (candidate)
 
 ### Notes and edge cases
 
-- [ ] `tags-input.notes-and-edge-cases.1` Given a single-character `delimiter` such as `,`, when `tag1,` is typed, then the delimiter alone creates the tag `tag1`; given a regex delimiter such as `/[ ,;]+/`, each match creates a tag, so `tag1,`, `tag2 `, `tag3;` yields three tags and `"tag1, tag2;tag3 tag4"` pasted yields four. [reka] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.2` Given a string delimiter containing regex metacharacters, then it splits literally: `.` splits `"one.two."` into two tags, `+` does not throw even though it is not a valid regex on its own, and `|` does not hang even though it matches the empty string. [ariakit] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.3` Given object values with a `displayValue` formatter, then each tag renders the formatted string, for example `Person: Durward Reynolds`. [reka] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.4` Given a `convertValue` function turning typed text into an object, when a tag is submitted, then the bound array holds the converted object; given object values with `displayValue` but no `convertValue`, the error handler is called exactly once with "You must provide a `convertValue` function when using objects as values." [reka] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.5` Given a tag field combined with a combobox, when a suggestion is accepted with Enter, then it becomes a tag and the combobox value resets to empty, the suggestion list resets, and the added tag's option carries `data-active-item` and `aria-selected="true"` after arrow navigation; removing a tag from the list leaves the typed value intact. [ariakit] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.6` Given a tag combobox with inline autocomplete, when a query is typed, then the input holds the completed value with the completion selected; after selecting and deselecting a tag, retyping the same query leaves no text selected, the option keeps `data-active-item`, `aria-selected` follows the tag's presence, and arrowing through other options updates the input value without re-selecting text. [ariakit] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.7` Given a conformance harness for tags input, then it needs per-tag locators keyed by value (tag, close button, editor), a clipboard-backed paste helper, an add helper that asserts the input cleared and kept focus, an edit helper that asserts focus returned to the main input, a `deleteLastTag` that presses Backspace twice, and highlight assertions on `data-highlighted`. Paste tests need real `clipboard-read` and `clipboard-write` permissions. [zag] (candidate)
-- [ ] `tags-input.notes-and-edge-cases.8` Given the reka suite, then it stubs `window.getComputedStyle` to return an empty object, so the component's own style reads are disabled in its default and disabled-tag tests; a port of those tests MUST not depend on measured geometry. [reka] (candidate)
+- [ ] `tags-input.notes.1` Given a single-character `delimiter` such as `,`, when `tag1,` is typed, then the delimiter alone creates the tag `tag1`; given a regex delimiter such as `/[ ,;]+/`, each match creates a tag, so `tag1,`, `tag2 `, `tag3;` yields three tags and `"tag1, tag2;tag3 tag4"` pasted yields four. [reka] (candidate)
+- [ ] `tags-input.notes.2` Given a string delimiter containing regex metacharacters, then it splits literally: `.` splits `"one.two."` into two tags, `+` does not throw even though it is not a valid regex on its own, and `|` does not hang even though it matches the empty string. [ariakit] (candidate)
+- [ ] `tags-input.notes.3` Given object values with a `displayValue` formatter, then each tag renders the formatted string, for example `Person: Durward Reynolds`. [reka] (candidate)
+- [ ] `tags-input.notes.4` Given a `convertValue` function turning typed text into an object, when a tag is submitted, then the bound array holds the converted object; given object values with `displayValue` but no `convertValue`, the error handler is called exactly once with "You must provide a `convertValue` function when using objects as values." [reka] (candidate)
+- [ ] `tags-input.notes.5` Given a tag field combined with a combobox, when a suggestion is accepted with Enter, then it becomes a tag and the combobox value resets to empty, the suggestion list resets, and the added tag's option carries `data-active-item` and `aria-selected="true"` after arrow navigation; removing a tag from the list leaves the typed value intact. [ariakit] (candidate)
+- [ ] `tags-input.notes.6` Given a tag combobox with inline autocomplete, when a query is typed, then the input holds the completed value with the completion selected; after selecting and deselecting a tag, retyping the same query leaves no text selected, the option keeps `data-active-item`, `aria-selected` follows the tag's presence, and arrowing through other options updates the input value without re-selecting text. [ariakit] (candidate)
+- [ ] `tags-input.notes.7` Given a conformance harness for tags input, then it needs per-tag locators keyed by value (tag, close button, editor), a clipboard-backed paste helper, an add helper that asserts the input cleared and kept focus, an edit helper that asserts focus returned to the main input, a `deleteLastTag` that presses Backspace twice, and highlight assertions on `data-highlighted`. Paste tests need real `clipboard-read` and `clipboard-write` permissions. [zag] (candidate)
+- [ ] `tags-input.notes.8` Given the reka suite, then it stubs `window.getComputedStyle` to return an empty object, so the component's own style reads are disabled in its default and disabled-tag tests; a port of those tests MUST not depend on measured geometry. [reka] (candidate)
 
 ## tag-group
 
 ### Roles and attributes
 
-- [ ] `tag-group.roles-and-attributes.1` Given a tag group with items, then the container is `role="grid"`, each tag is a `row`, and there is exactly one `gridcell` per row. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.2` Given a tag row, then it has `tabindex="0"` before the roving tabindex settles, and the group's `aria-label` or `aria-labelledby` lands on the grid element while an item's own `aria-label` lands on its gridcell. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.3` Given a tag group with a label and description plus error-message slots, then the grid's `aria-labelledby` points at the label and its `aria-describedby` resolves to the description followed by the error text. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.4` Given an action affordance such as `actionLabel="Clear"` with an action handler, then the action wrapper is `role="group"` with `aria-label="Actions"` and an `aria-labelledby` of "<tagGroupId> <actionGroupId>". [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.5` Given a removal handler on the group, then each row carries `data-allows-removing="true"`, the matching render prop is true, and the remove button gets `aria-label="Remove"` automatically. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.6` Given `selectionMode="multiple"` with disabled keys, then the disabled row carries `aria-disabled="true"` and the disabled render-prop class. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.7` Given a tag list with no items and an empty-state renderer, then the list carries `data-empty="true"`, shows the empty content, and its role changes from `grid` to `group`. [react-aria] (candidate)
-- [ ] `tag-group.roles-and-attributes.8` Given data attributes on the group and on each item, then the grid and each row carry their own values, and unconsumed props such as an icon or an unsafe class name never leak into the DOM. [react-aria] (candidate)
+- [ ] `tag-group.roles.1` Given a tag group with items, then the container is `role="grid"`, each tag is a `row`, and there is exactly one `gridcell` per row. [react-aria] (candidate)
+- [ ] `tag-group.roles.2` Given a tag row, then it has `tabindex="0"` before the roving tabindex settles, and the group's `aria-label` or `aria-labelledby` lands on the grid element while an item's own `aria-label` lands on its gridcell. [react-aria] (candidate)
+- [ ] `tag-group.roles.3` Given a tag group with a label and description plus error-message slots, then the grid's `aria-labelledby` points at the label and its `aria-describedby` resolves to the description followed by the error text. [react-aria] (candidate)
+- [ ] `tag-group.roles.4` Given an action affordance such as `actionLabel="Clear"` with an action handler, then the action wrapper is `role="group"` with `aria-label="Actions"` and an `aria-labelledby` of "<tagGroupId> <actionGroupId>". [react-aria] (candidate)
+- [ ] `tag-group.roles.5` Given a removal handler on the group, then each row carries `data-allows-removing="true"`, the matching render prop is true, and the remove button gets `aria-label="Remove"` automatically. [react-aria] (candidate)
+- [ ] `tag-group.roles.6` Given `selectionMode="multiple"` with disabled keys, then the disabled row carries `aria-disabled="true"` and the disabled render-prop class. [react-aria] (candidate)
+- [ ] `tag-group.roles.7` Given a tag list with no items and an empty-state renderer, then the list carries `data-empty="true"`, shows the empty content, and its role changes from `grid` to `group`. [react-aria] (candidate)
+- [ ] `tag-group.roles.8` Given data attributes on the group and on each item, then the grid and each row carry their own values, and unconsumed props such as an icon or an unsafe class name never leak into the DOM. [react-aria] (candidate)
 
 ### Keyboard
 
@@ -149,15 +149,15 @@ Neither component has an APG pattern page.
 
 ### Focus management
 
-- [ ] `tag-group.focus-management.1` Given buttons around the group, when Tab enters it, then the first tag is focused and one more Tab leaves the whole group; Shift+Tab from the following button enters the group on its LAST tag. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.2` Given focus moved within the group and then out, when Shift+Tab returns, then focus lands on the tag that was focused before, so the group remembers its last focused item. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.3` Given the focused tag is removed by Delete or Backspace, then the removal handler fires with that id and focus lands on the next tag, after which arrow navigation still works. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.4` Given the last remaining tag is removed, then after the removal settles there are no rows left and focus moves to the grid container. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.5` Given the focused tag is removed and its neighbors are disabled, then focus falls back to the grid rather than repeatedly trying to focus a disabled neighbor. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.6` Given items inserted at the head of the list, when the first tag is removed repeatedly, then items are removed newest first with list order preserved, and after the last removal focus moves to the group element. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.7` Given focus and blur callbacks on a tag, when Tab focuses it and an arrow key moves on, then it gains `data-focus-visible="true"` and the focus class, loses them on move, and focus, blur and focus-change fire as focus passes through. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.8` Given an empty group whose empty state contains a link, when Tab is pressed, then focus lands on that link. [react-aria] (candidate)
-- [ ] `tag-group.focus-management.9` Given a group with a show-all button and a custom action, when Tab is pressed repeatedly, then focus goes tag, show-all, action; Enter on the action fires it once; Shift+Tab walks back through the show-all button to the tag; and a mouse press on a tag does not fire the action. [react-aria] (candidate)
+- [ ] `tag-group.focus.1` Given buttons around the group, when Tab enters it, then the first tag is focused and one more Tab leaves the whole group; Shift+Tab from the following button enters the group on its LAST tag. [react-aria] (candidate)
+- [ ] `tag-group.focus.2` Given focus moved within the group and then out, when Shift+Tab returns, then focus lands on the tag that was focused before, so the group remembers its last focused item. [react-aria] (candidate)
+- [ ] `tag-group.focus.3` Given the focused tag is removed by Delete or Backspace, then the removal handler fires with that id and focus lands on the next tag, after which arrow navigation still works. [react-aria] (candidate)
+- [ ] `tag-group.focus.4` Given the last remaining tag is removed, then after the removal settles there are no rows left and focus moves to the grid container. [react-aria] (candidate)
+- [ ] `tag-group.focus.5` Given the focused tag is removed and its neighbors are disabled, then focus falls back to the grid rather than repeatedly trying to focus a disabled neighbor. [react-aria] (candidate)
+- [ ] `tag-group.focus.6` Given items inserted at the head of the list, when the first tag is removed repeatedly, then items are removed newest first with list order preserved, and after the last removal focus moves to the group element. [react-aria] (candidate)
+- [ ] `tag-group.focus.7` Given focus and blur callbacks on a tag, when Tab focuses it and an arrow key moves on, then it gains `data-focus-visible="true"` and the focus class, loses them on move, and focus, blur and focus-change fire as focus passes through. [react-aria] (candidate)
+- [ ] `tag-group.focus.8` Given an empty group whose empty state contains a link, when Tab is pressed, then focus lands on that link. [react-aria] (candidate)
+- [ ] `tag-group.focus.9` Given a group with a show-all button and a custom action, when Tab is pressed repeatedly, then focus goes tag, show-all, action; Enter on the action fires it once; Shift+Tab walks back through the show-all button to the tag; and a mouse press on a tag does not fire the action. [react-aria] (candidate)
 
 ### State
 
@@ -166,7 +166,7 @@ Neither component has an APG pattern page.
 
 ### Dismissal and layering
 
-- [ ] `tag-group.dismissal-and-layering.1` Given a tag wrapped in a tooltip trigger, when the tag is hovered and the delay elapses, then a tooltip with the trigger's content appears. [react-aria] (candidate)
+- [ ] `tag-group.dismissal.1` Given a tag wrapped in a tooltip trigger, when the tag is hovered and the delay elapses, then a tooltip with the trigger's content appears. [react-aria] (candidate)
 
 ### Positioning
 
@@ -175,15 +175,15 @@ Neither component has an APG pattern page.
 
 ### SSR and hydration
 
-- [ ] `tag-group.ssr-and-hydration.1` Given a tag group with static items, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
-- [ ] `tag-group.ssr-and-hydration.2` Given a strict-mode group whose list conditionally includes a fourth tag, when server-rendered, then the HTML contains the three visible rows in order with the grid role; after hydration the same three rows remain and adding the fourth inserts it in its correct position rather than appending. [react-aria] (candidate)
+- [ ] `tag-group.ssr.1` Given a tag group with static items, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
+- [ ] `tag-group.ssr.2` Given a strict-mode group whose list conditionally includes a fourth tag, when server-rendered, then the HTML contains the three visible rows in order with the grid role; after hydration the same three rows remain and adding the fourth inserts it in its correct position rather than appending. [react-aria] (candidate)
 
 ### Notes and edge cases
 
-- [ ] `tag-group.notes-and-edge-cases.1` Given an empty tag group, then the localized empty text (for example "None") is shown once the tabbable-child observer settles. [react-aria] (candidate)
-- [ ] `tag-group.notes-and-edge-cases.2` Given items with hrefs, then rows are not anchor elements but carry `data-href`, and clicking a row produces a native click whose target is a real anchor with the expected href. [react-aria] (candidate)
-- [ ] `tag-group.notes-and-edge-cases.3` Given tags with hrefs under `selectionMode` none, single or multiple, when a link tag is activated by mouse or Enter, then the native click fires and the selection does not change; activating a non-link tag selects it instead where selection is enabled. [react-aria] (candidate)
-- [ ] `tag-group.notes-and-edge-cases.4` Given a router provider with a `useHref` that prefixes a base path, when a tag with an href and router options is activated, then `data-href` is the prefixed path and navigation is called with the original href plus those options. [react-aria] (candidate)
+- [ ] `tag-group.notes.1` Given an empty tag group, then the localized empty text (for example "None") is shown once the tabbable-child observer settles. [react-aria] (candidate)
+- [ ] `tag-group.notes.2` Given items with hrefs, then rows are not anchor elements but carry `data-href`, and clicking a row produces a native click whose target is a real anchor with the expected href. [react-aria] (candidate)
+- [ ] `tag-group.notes.3` Given tags with hrefs under `selectionMode` none, single or multiple, when a link tag is activated by mouse or Enter, then the native click fires and the selection does not change; activating a non-link tag selects it instead where selection is enabled. [react-aria] (candidate)
+- [ ] `tag-group.notes.4` Given a router provider with a `useHref` that prefixes a base path, when a tag with an href and router options is activated, then `data-href` is the prefixed path and navigation is called with the original href plus those options. [react-aria] (candidate)
 
 ## Sources
 
@@ -195,9 +195,9 @@ Neither component has an APG pattern page.
 
 ## Deferred
 
-- Tag collection semantics. `tags-input.roles-and-attributes.13` and `.14` are the deepest split in this group: ariakit models tags as `option` elements in a `listbox` sibling to the input, react-aria models them as rows in a `grid`, zag and reka use no collection role at all. Each choice drags in different keyboard expectations, so this decision comes before the keyboard bullets can be finalized.
+- Tag collection semantics. `tags-input.roles.13` and `.14` are the deepest split in this group: ariakit models tags as `option` elements in a `listbox` sibling to the input, react-aria models them as rows in a `grid`, zag and reka use no collection role at all. Each choice drags in different keyboard expectations, so this decision comes before the keyboard bullets can be finalized.
 - Whether `tag-group` is a separate component or a rendering mode of `tags-input` with the input removed. Only react-aria ships it standalone, so the whole section is single-source. Merging would let the roving-tabindex and removal-focus bullets be shared.
 - Selection. Only react-aria's tag group supports selecting tags; the tags inputs treat a "highlighted" tag as transient keyboard state, not selection. No cross-library contract to write yet.
 - Undo and redo (`tags-input.keyboard.16`). ariakit is alone in keeping an edit history. It is a real feature with real tests, but nothing to reconcile it against.
 - `maxRows` overflow with a show-all toggle (`tag-group.positioning.1` and `.2`). It needs measured layout, so it belongs in a browser-mode suite and possibly not in the conformance suite at all.
-- Tag combobox integration (`tags-input.notes-and-edge-cases.5` and `.6`). This is the intersection of two components; it should be specified once the combobox spec settles, and its bullets may move there.
+- Tag combobox integration (`tags-input.notes.5` and `.6`). This is the intersection of two components; it should be specified once the combobox spec settles, and its bullets may move there.

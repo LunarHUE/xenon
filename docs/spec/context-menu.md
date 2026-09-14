@@ -124,8 +124,8 @@ attributes, and the dismissal rules that follow from opening at a point.
 
 ### Accessibility tooling
 
-- [ ] `context-menu.a11y-tooling.1` Given a context menu opened by right click, when axe runs over the container, then there MUST be no violations. [radix, reka, melt]
-- [ ] `context-menu.a11y-tooling.2` Given a modal context menu whose fallback disclosure is the previously focused control, then that captured control MUST NOT join the modal context (it cannot be assumed to close the menu), the fallback dismiss button MUST render next to the menu rather than inside it, and the menu MUST contain no `button` — its accessibility-tree children MUST be only its items and separators. [ariakit] (candidate)
+- [ ] `context-menu.a11y.1` Given a context menu opened by right click, when axe runs over the container, then there MUST be no violations. [radix, reka, melt]
+- [ ] `context-menu.a11y.2` Given a modal context menu whose fallback disclosure is the previously focused control, then that captured control MUST NOT join the modal context (it cannot be assumed to close the menu), the fallback dismiss button MUST render next to the menu rather than inside it, and the menu MUST contain no `button` — its accessibility-tree children MUST be only its items and separators. [ariakit] (candidate)
 
 ### Notes and edge cases
 

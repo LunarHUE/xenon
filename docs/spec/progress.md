@@ -11,23 +11,23 @@ rather than a library, so they are normative and never carry `(candidate)`.
 
 ### Roles and attributes
 
-- [ ] `progress.roles-and-attributes.1` Given an element that communicates progress of a task, then it MUST have `role="progressbar"` and MUST NOT use `role="meter"`. [apg]
-- [ ] `progress.roles-and-attributes.2` Given a progressbar with a known value, then `aria-valuenow` MUST be set and MUST fall within the minimum and maximum. [apg]
-- [ ] `progress.roles-and-attributes.3` Given a progressbar whose range is 0 to 100, then `aria-valuemin` and `aria-valuemax` MAY be omitted because those are the role defaults. [apg]
-- [ ] `progress.roles-and-attributes.4` Given a progressbar where the bare number is unhelpful, then `aria-valuetext` MAY be set to a readable string. [apg]
-- [ ] `progress.roles-and-attributes.5` Given `role="progressbar"`, then all of its descendants are forced presentational by the user agent, so it MUST NOT contain a focusable widget-role descendant. [apg, axe]
-- [ ] `progress.roles-and-attributes.6` Given `role="progressbar"`, then it MUST have an accessible name from `aria-label`, `aria-labelledby` or `title`; axe tags this WCAG 1.1.1 A at serious impact, and every library resolves `aria-labelledby` to the label part's generated id. [apg, axe, react-aria, base-ui, kobalte, bits]
-- [ ] `progress.roles-and-attributes.7` Given a progressbar in the axe role table, then it is a widget-type role whose superclass is `range`, with NO required attributes and role-specific allowed attributes `aria-expanded`, `aria-valuemax`, `aria-valuemin`, `aria-valuenow` and `aria-valuetext`; the absence of `aria-valuenow` from `requiredAttrs` is what makes an indeterminate progress bar legal. [axe]
-- [ ] `progress.roles-and-attributes.8` Given a progress root rendered with no value props, then `aria-valuemin="0"`, `aria-valuemax="100"` and `aria-valuenow="0"` are written explicitly rather than left to the role defaults. [react-aria, base-ui, kobalte, bits, ark]
-- [ ] `progress.roles-and-attributes.9` Given a `value` prop, then `aria-valuenow` is that value as a string, and updating the prop updates the attribute in the same commit. [react-aria, radix, base-ui, kobalte, bits, zag]
-- [ ] `progress.roles-and-attributes.10` Given explicit `min` and `max` props, for example `min: 10` and `max: 20`, then `aria-valuemin` and `aria-valuemax` reflect them verbatim. [react-aria, base-ui, kobalte, bits]
-- [ ] `progress.roles-and-attributes.11` Given no custom formatter, then `aria-valuetext` defaults to the value formatted as a percentage of the min-to-max range, for example `"25%"` at `value={25}` of 0 to 100. [react-aria, base-ui, kobalte, zag, ark]
-- [ ] `progress.roles-and-attributes.12` Given `aria-labelledby` and `aria-valuetext` passed in by the consumer, then both appear verbatim on the root instead of being overwritten by the component's own values. [bits] (candidate)
-- [ ] `progress.roles-and-attributes.13` Given a progressbar implemented as `role="img"` over a spinner image, then `role-img-alt` requires alternative text from `aria-label`, `aria-labelledby` or `title`, at serious impact. [axe]
-- [ ] `progress.roles-and-attributes.14` Given the progress anatomy, then the parts are root, label, track, range (indicator), valueText, view, circle, circleTrack and circleRange, and the root carries `data-max`, `data-value`, `data-state`, `data-orientation` and a `--percent` custom property that is left undefined while indeterminate. [zag] (candidate)
-- [ ] `progress.roles-and-attributes.15` Given the value-text part, then it is `aria-live="polite"` so screen readers announce value changes without the progressbar itself being focused. [zag] (candidate)
-- [ ] `progress.roles-and-attributes.16` Divergence: the formatted value is exposed as `aria-valuetext` while the accessible name comes from the label part. [apg, react-aria, base-ui, kobalte] (decision needed)
-- [ ] `progress.roles-and-attributes.17` Divergence: the formatted value is exposed as `aria-label` on the semantic element, which overwrites the name computed from the label part. [zag] (decision needed)
+- [ ] `progress.roles.1` Given an element that communicates progress of a task, then it MUST have `role="progressbar"` and MUST NOT use `role="meter"`. [apg]
+- [ ] `progress.roles.2` Given a progressbar with a known value, then `aria-valuenow` MUST be set and MUST fall within the minimum and maximum. [apg]
+- [ ] `progress.roles.3` Given a progressbar whose range is 0 to 100, then `aria-valuemin` and `aria-valuemax` MAY be omitted because those are the role defaults. [apg]
+- [ ] `progress.roles.4` Given a progressbar where the bare number is unhelpful, then `aria-valuetext` MAY be set to a readable string. [apg]
+- [ ] `progress.roles.5` Given `role="progressbar"`, then all of its descendants are forced presentational by the user agent, so it MUST NOT contain a focusable widget-role descendant. [apg, axe]
+- [ ] `progress.roles.6` Given `role="progressbar"`, then it MUST have an accessible name from `aria-label`, `aria-labelledby` or `title`; axe tags this WCAG 1.1.1 A at serious impact, and every library resolves `aria-labelledby` to the label part's generated id. [apg, axe, react-aria, base-ui, kobalte, bits]
+- [ ] `progress.roles.7` Given a progressbar in the axe role table, then it is a widget-type role whose superclass is `range`, with NO required attributes and role-specific allowed attributes `aria-expanded`, `aria-valuemax`, `aria-valuemin`, `aria-valuenow` and `aria-valuetext`; the absence of `aria-valuenow` from `requiredAttrs` is what makes an indeterminate progress bar legal. [axe]
+- [ ] `progress.roles.8` Given a progress root rendered with no value props, then `aria-valuemin="0"`, `aria-valuemax="100"` and `aria-valuenow="0"` are written explicitly rather than left to the role defaults. [react-aria, base-ui, kobalte, bits, ark]
+- [ ] `progress.roles.9` Given a `value` prop, then `aria-valuenow` is that value as a string, and updating the prop updates the attribute in the same commit. [react-aria, radix, base-ui, kobalte, bits, zag]
+- [ ] `progress.roles.10` Given explicit `min` and `max` props, for example `min: 10` and `max: 20`, then `aria-valuemin` and `aria-valuemax` reflect them verbatim. [react-aria, base-ui, kobalte, bits]
+- [ ] `progress.roles.11` Given no custom formatter, then `aria-valuetext` defaults to the value formatted as a percentage of the min-to-max range, for example `"25%"` at `value={25}` of 0 to 100. [react-aria, base-ui, kobalte, zag, ark]
+- [ ] `progress.roles.12` Given `aria-labelledby` and `aria-valuetext` passed in by the consumer, then both appear verbatim on the root instead of being overwritten by the component's own values. [bits] (candidate)
+- [ ] `progress.roles.13` Given a progressbar implemented as `role="img"` over a spinner image, then `role-img-alt` requires alternative text from `aria-label`, `aria-labelledby` or `title`, at serious impact. [axe]
+- [ ] `progress.roles.14` Given the progress anatomy, then the parts are root, label, track, range (indicator), valueText, view, circle, circleTrack and circleRange, and the root carries `data-max`, `data-value`, `data-state`, `data-orientation` and a `--percent` custom property that is left undefined while indeterminate. [zag] (candidate)
+- [ ] `progress.roles.15` Given the value-text part, then it is `aria-live="polite"` so screen readers announce value changes without the progressbar itself being focused. [zag] (candidate)
+- [ ] `progress.roles.16` Divergence: the formatted value is exposed as `aria-valuetext` while the accessible name comes from the label part. [apg, react-aria, base-ui, kobalte] (decision needed)
+- [ ] `progress.roles.17` Divergence: the formatted value is exposed as `aria-label` on the semantic element, which overwrites the name computed from the label part. [zag] (decision needed)
 
 ### Keyboard
 
@@ -74,49 +74,49 @@ rather than a library, so they are normative and never carry `(candidate)`.
 
 ### RTL and i18n
 
-- [ ] `progress.rtl-and-i18n.1` Given a `locale` of `de-DE` and a decimal format with two fraction digits, then the value part renders the German form, dot thousands separator and comma decimal separator. [base-ui] (candidate)
+- [ ] `progress.rtl.1` Given a `locale` of `de-DE` and a decimal format with two fraction digits, then the value part renders the German form, dot thousands separator and comma decimal separator. [base-ui] (candidate)
 
 ### SSR and hydration
 
-- [ ] `progress.ssr-and-hydration.1` Given a linear or circular progress with an `aria-label`, when server-rendered and hydrated, then no errors or hydration mismatches occur. [react-aria] (candidate)
+- [ ] `progress.ssr.1` Given a linear or circular progress with an `aria-label`, when server-rendered and hydrated, then no errors or hydration mismatches occur. [react-aria] (candidate)
 
 ### Accessibility tooling
 
-- [ ] `progress.accessibility-tooling.1` Given the rendered progress example, when axe runs, then there are no violations. [reka, ark]
-- [ ] `progress.accessibility-tooling.2` Given `aria-valuenow` on a progressbar set to a non-numeric string, then `aria-valid-attr-value` fails at critical impact. [axe]
-- [ ] `progress.accessibility-tooling.3` Given a progress with no visible label and no `aria-label` or `aria-labelledby`, then a development-mode console warning names the missing attribute. [react-aria] (candidate)
-- [ ] `progress.accessibility-tooling.4` Given any component in this suite, then the shared axe ARIA rules apply and MUST pass: `aria-roles` (no invalid, abstract or unsupported role, critical), `aria-allowed-attr` (every ARIA attribute allowed for role and host element, no deprecated or unsupported attribute, critical), `aria-required-attr` (critical), `aria-valid-attr` and `aria-valid-attr-value` (critical, with unresolved id references reported as incomplete and empty values as ignored), `aria-prohibited-attr` (no `aria-label` or `aria-labelledby` on `none`/`presentation`, serious), `aria-deprecated-role` (minor), `tabindex` (never greater than 0, so roving tabindex uses only 0 and -1, serious), `duplicate-id-aria` (referenced ids unique, critical), `presentation-role-conflict` (minor), `aria-hidden-focus` (no focusable content inside `aria-hidden="true"`, serious, outermost element only), `aria-braille-equivalent` (serious), and `target-size` (24 by 24 CSS pixels, WCAG 2.2 AA, serious, shipped disabled so it must be enabled explicitly). [axe]
+- [ ] `progress.a11y.1` Given the rendered progress example, when axe runs, then there are no violations. [reka, ark]
+- [ ] `progress.a11y.2` Given `aria-valuenow` on a progressbar set to a non-numeric string, then `aria-valid-attr-value` fails at critical impact. [axe]
+- [ ] `progress.a11y.3` Given a progress with no visible label and no `aria-label` or `aria-labelledby`, then a development-mode console warning names the missing attribute. [react-aria] (candidate)
+- [ ] `progress.a11y.4` Given any component in this suite, then the shared axe ARIA rules apply and MUST pass: `aria-roles` (no invalid, abstract or unsupported role, critical), `aria-allowed-attr` (every ARIA attribute allowed for role and host element, no deprecated or unsupported attribute, critical), `aria-required-attr` (critical), `aria-valid-attr` and `aria-valid-attr-value` (critical, with unresolved id references reported as incomplete and empty values as ignored), `aria-prohibited-attr` (no `aria-label` or `aria-labelledby` on `none`/`presentation`, serious), `aria-deprecated-role` (minor), `tabindex` (never greater than 0, so roving tabindex uses only 0 and -1, serious), `duplicate-id-aria` (referenced ids unique, critical), `presentation-role-conflict` (minor), `aria-hidden-focus` (no focusable content inside `aria-hidden="true"`, serious, outermost element only), `aria-braille-equivalent` (serious), and `target-size` (24 by 24 CSS pixels, WCAG 2.2 AA, serious, shipped disabled so it must be enabled explicitly). [axe]
 
 ### Notes and edge cases
 
-- [ ] `progress.notes-and-edge-cases.1` Given this APG commit, then there is no progressbar pattern page, example or test file; the normative material comes from the range-related-properties practice, the axe role table and the HTML `progress` element. [apg]
-- [ ] `progress.notes-and-edge-cases.2` Given unconsumed props (`ref`, `data-*`, `className`, inline `style`, `onClick`) on the root or the indicator, then they land on the rendered element, the ref resolves to it, and clicking fires `onClick`. [radix, react-aria]
-- [ ] `progress.notes-and-edge-cases.3` Given `asChild` or `render` onto another tag, for example an `<article>`, then that tag is rendered and still carries `role="progressbar"`, `aria-valuenow` and the status data attributes. [radix, base-ui, react-aria]
-- [ ] `progress.notes-and-edge-cases.4` Given a progress part rendered with no progress root ancestor, then it throws a named context error rather than rendering a broken tree. [base-ui] (candidate)
-- [ ] `progress.notes-and-edge-cases.5` Given the root, value, indicator, label and track parts, then each has a declared ref element type: div for root, indicator and track, span for value and label. [base-ui] (candidate)
-- [ ] `progress.notes-and-edge-cases.6` Given a `slot` name and a matching context provider, then the element carries both the `slot` attribute and the slot-provided props such as `aria-label`. [react-aria] (candidate)
-- [ ] `progress.notes-and-edge-cases.7` Given a consumer-supplied indicator transform such as `translateX(-${100 - value}%)`, then the primitive does not position the indicator itself, so a spec test on indicator geometry only applies to libraries that set the width. [reka] (candidate)
-- [ ] `progress.notes-and-edge-cases.8` Given a bits-style data-attribute convention, then the root carries `data-progress-root` for styling hooks independent of the ARIA attributes. [bits] (candidate)
+- [ ] `progress.notes.1` Given this APG commit, then there is no progressbar pattern page, example or test file; the normative material comes from the range-related-properties practice, the axe role table and the HTML `progress` element. [apg]
+- [ ] `progress.notes.2` Given unconsumed props (`ref`, `data-*`, `className`, inline `style`, `onClick`) on the root or the indicator, then they land on the rendered element, the ref resolves to it, and clicking fires `onClick`. [radix, react-aria]
+- [ ] `progress.notes.3` Given `asChild` or `render` onto another tag, for example an `<article>`, then that tag is rendered and still carries `role="progressbar"`, `aria-valuenow` and the status data attributes. [radix, base-ui, react-aria]
+- [ ] `progress.notes.4` Given a progress part rendered with no progress root ancestor, then it throws a named context error rather than rendering a broken tree. [base-ui] (candidate)
+- [ ] `progress.notes.5` Given the root, value, indicator, label and track parts, then each has a declared ref element type: div for root, indicator and track, span for value and label. [base-ui] (candidate)
+- [ ] `progress.notes.6` Given a `slot` name and a matching context provider, then the element carries both the `slot` attribute and the slot-provided props such as `aria-label`. [react-aria] (candidate)
+- [ ] `progress.notes.7` Given a consumer-supplied indicator transform such as `translateX(-${100 - value}%)`, then the primitive does not position the indicator itself, so a spec test on indicator geometry only applies to libraries that set the width. [reka] (candidate)
+- [ ] `progress.notes.8` Given a bits-style data-attribute convention, then the root carries `data-progress-root` for styling hooks independent of the ARIA attributes. [bits] (candidate)
 
 ## meter
 
 ### Roles and attributes
 
-- [ ] `meter.roles-and-attributes.1` Given the element serving as a meter, then it MUST have `role="meter"`. [apg, kobalte, base-ui, bits]
-- [ ] `meter.roles-and-attributes.2` Given a meter, then `aria-valuenow` MUST be set to a decimal value between `aria-valuemin` and `aria-valuemax`; unlike `progressbar`, `aria-valuenow` is REQUIRED for `meter` and omitting it fails axe at critical impact. [apg, axe]
-- [ ] `meter.roles-and-attributes.3` Given a meter, then `aria-valuemin` MUST be a decimal value less than `aria-valuemax`, and `aria-valuemax` MUST be a decimal greater than `aria-valuemin`. [apg]
-- [ ] `meter.roles-and-attributes.4` Given a meter whose range is 0 to 100, then `aria-valuemin` and `aria-valuemax` MAY be omitted because those are the role defaults; outside that range, for example an alkaline pH gauge from 7 to 14, both MUST be set explicitly. [apg]
-- [ ] `meter.roles-and-attributes.5` Given a meter where a bare percentage would not be user friendly, then `aria-valuetext` MUST be set to a readable string such as `"50% (6 hours) remaining"`, because assistive technology otherwise presents `aria-valuenow` as a percentage. [apg]
-- [ ] `meter.roles-and-attributes.6` Given a meter with a visible label, then that label MUST be referenced by `aria-labelledby`, otherwise `aria-label` MUST supply the name; axe tags the missing name WCAG 1.1.1 A at serious impact. [apg, axe, react-aria, base-ui, kobalte, bits]
-- [ ] `meter.roles-and-attributes.7` Given `role="meter"`, then all of its descendants are forced presentational, so it MUST NOT contain a focusable widget-role descendant, at serious impact. [apg, axe]
-- [ ] `meter.roles-and-attributes.8` Given `role="meter"` in the axe role table, then it is a structure-type role whose superclass is `range`, with `aria-valuenow` required and role-specific allowed attributes exactly `aria-valuemax`, `aria-valuemin` and `aria-valuetext`; `aria-expanded` is NOT allowed on `meter`, unlike on `progressbar`. [axe]
-- [ ] `meter.roles-and-attributes.9` Given a meter root rendered with no value props, then `aria-valuemin="0"`, `aria-valuemax="100"`, `aria-valuenow="0"` and `aria-valuetext="0%"` are written explicitly and the value-label part reads `"0%"`. [react-aria, kobalte, bits]
-- [ ] `meter.roles-and-attributes.10` Given `value` of 30 with the default range, then `aria-valuenow` is `"30"` and `aria-valuetext` is the percent format of 0.3; changing `value` to 77 updates `aria-valuenow`, `aria-valuetext`, the value text and the indicator width together. [react-aria, base-ui, kobalte, bits]
-- [ ] `meter.roles-and-attributes.11` Given explicit `min` and `max` props, then `aria-valuemin` and `aria-valuemax` reflect them verbatim, and changing all three of `min`, `max` and `value` keeps the attributes, the formatted text and the indicator width consistent on rerender. [base-ui, bits]
-- [ ] `meter.roles-and-attributes.12` Given `aria-labelledby` and `aria-valuetext` passed in by the consumer, then both appear verbatim on the root. [bits] (candidate)
-- [ ] `meter.roles-and-attributes.13` Given the APG meter example, then exactly one `role="meter"` element exists, it is a `div`, and its `aria-labelledby` resolves. [apg]
-- [ ] `meter.roles-and-attributes.14` Divergence: the meter root renders `role="meter"` alone. [apg, base-ui, kobalte, bits] (decision needed)
-- [ ] `meter.roles-and-attributes.15` Divergence: the meter root renders the literal `role="meter progressbar"`, so browsers without `meter` support fall back to `progressbar`. [react-aria] (decision needed)
+- [ ] `meter.roles.1` Given the element serving as a meter, then it MUST have `role="meter"`. [apg, kobalte, base-ui, bits]
+- [ ] `meter.roles.2` Given a meter, then `aria-valuenow` MUST be set to a decimal value between `aria-valuemin` and `aria-valuemax`; unlike `progressbar`, `aria-valuenow` is REQUIRED for `meter` and omitting it fails axe at critical impact. [apg, axe]
+- [ ] `meter.roles.3` Given a meter, then `aria-valuemin` MUST be a decimal value less than `aria-valuemax`, and `aria-valuemax` MUST be a decimal greater than `aria-valuemin`. [apg]
+- [ ] `meter.roles.4` Given a meter whose range is 0 to 100, then `aria-valuemin` and `aria-valuemax` MAY be omitted because those are the role defaults; outside that range, for example an alkaline pH gauge from 7 to 14, both MUST be set explicitly. [apg]
+- [ ] `meter.roles.5` Given a meter where a bare percentage would not be user friendly, then `aria-valuetext` MUST be set to a readable string such as `"50% (6 hours) remaining"`, because assistive technology otherwise presents `aria-valuenow` as a percentage. [apg]
+- [ ] `meter.roles.6` Given a meter with a visible label, then that label MUST be referenced by `aria-labelledby`, otherwise `aria-label` MUST supply the name; axe tags the missing name WCAG 1.1.1 A at serious impact. [apg, axe, react-aria, base-ui, kobalte, bits]
+- [ ] `meter.roles.7` Given `role="meter"`, then all of its descendants are forced presentational, so it MUST NOT contain a focusable widget-role descendant, at serious impact. [apg, axe]
+- [ ] `meter.roles.8` Given `role="meter"` in the axe role table, then it is a structure-type role whose superclass is `range`, with `aria-valuenow` required and role-specific allowed attributes exactly `aria-valuemax`, `aria-valuemin` and `aria-valuetext`; `aria-expanded` is NOT allowed on `meter`, unlike on `progressbar`. [axe]
+- [ ] `meter.roles.9` Given a meter root rendered with no value props, then `aria-valuemin="0"`, `aria-valuemax="100"`, `aria-valuenow="0"` and `aria-valuetext="0%"` are written explicitly and the value-label part reads `"0%"`. [react-aria, kobalte, bits]
+- [ ] `meter.roles.10` Given `value` of 30 with the default range, then `aria-valuenow` is `"30"` and `aria-valuetext` is the percent format of 0.3; changing `value` to 77 updates `aria-valuenow`, `aria-valuetext`, the value text and the indicator width together. [react-aria, base-ui, kobalte, bits]
+- [ ] `meter.roles.11` Given explicit `min` and `max` props, then `aria-valuemin` and `aria-valuemax` reflect them verbatim, and changing all three of `min`, `max` and `value` keeps the attributes, the formatted text and the indicator width consistent on rerender. [base-ui, bits]
+- [ ] `meter.roles.12` Given `aria-labelledby` and `aria-valuetext` passed in by the consumer, then both appear verbatim on the root. [bits] (candidate)
+- [ ] `meter.roles.13` Given the APG meter example, then exactly one `role="meter"` element exists, it is a `div`, and its `aria-labelledby` resolves. [apg]
+- [ ] `meter.roles.14` Divergence: the meter root renders `role="meter"` alone. [apg, base-ui, kobalte, bits] (decision needed)
+- [ ] `meter.roles.15` Divergence: the meter root renders the literal `role="meter progressbar"`, so browsers without `meter` support fall back to `progressbar`. [react-aria] (decision needed)
 
 ### Keyboard
 
@@ -157,28 +157,28 @@ rather than a library, so they are normative and never carry `(candidate)`.
 
 ### RTL and i18n
 
-- [ ] `meter.rtl-and-i18n.1` Given a `locale` of `de-DE`, then `aria-valuetext` is the German percent format, which inserts a narrow no-break space before `%`, and it is byte-identical to the value part's text content. [base-ui] (candidate)
-- [ ] `meter.rtl-and-i18n.2` Given a `locale` of `de-DE` with a two-fraction-digit decimal format, then the value part renders the German number form. [base-ui] (candidate)
+- [ ] `meter.rtl.1` Given a `locale` of `de-DE`, then `aria-valuetext` is the German percent format, which inserts a narrow no-break space before `%`, and it is byte-identical to the value part's text content. [base-ui] (candidate)
+- [ ] `meter.rtl.2` Given a `locale` of `de-DE` with a two-fraction-digit decimal format, then the value part renders the German number form. [base-ui] (candidate)
 
 ### SSR and hydration
 
-- [ ] `meter.ssr-and-hydration.1` Given a meter with a label, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
+- [ ] `meter.ssr.1` Given a meter with a label, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
 
 ### Accessibility tooling
 
-- [ ] `meter.accessibility-tooling.1` Given `aria-valuenow`, `aria-valuemin` or `aria-valuemax` on a meter set to a non-numeric string, then `aria-valid-attr-value` fails at critical impact. [axe]
-- [ ] `meter.accessibility-tooling.2` Given any component in this suite, then the shared axe ARIA rules listed in `progress.accessibility-tooling.4` apply to the meter as well. [axe]
+- [ ] `meter.a11y.1` Given `aria-valuenow`, `aria-valuemin` or `aria-valuemax` on a meter set to a non-numeric string, then `aria-valid-attr-value` fails at critical impact. [axe]
+- [ ] `meter.a11y.2` Given any component in this suite, then the shared axe ARIA rules listed in `progress.a11y.4` apply to the meter as well. [axe]
 
 ### Notes and edge cases
 
-- [ ] `meter.notes-and-edge-cases.1` Given a value with no meaningful maximum, such as the world population, then `meter` MUST NOT be used. [apg]
-- [ ] `meter.notes-and-edge-cases.2` Given progress such as loading or percent completion of a task, then `meter` MUST NOT be used; use `role="progressbar"`. [apg]
-- [ ] `meter.notes-and-edge-cases.3` Given a meter, then it has no indeterminate mode: there is no `value: null` case and no `data-indeterminate` attribute, which is the one genuine semantic difference from progress. [kobalte, bits]
-- [ ] `meter.notes-and-edge-cases.4` Given a meter part rendered with no meter root ancestor, then it throws a named context error. [base-ui] (candidate)
-- [ ] `meter.notes-and-edge-cases.5` Given the root, value, indicator, label and track parts, then each has a declared ref element type: div for root, indicator and track, span for value and label. [base-ui] (candidate)
-- [ ] `meter.notes-and-edge-cases.6` Given a `slot` name and a matching context provider, then the element carries both the `slot` attribute and the slot-provided `aria-label`. [react-aria] (candidate)
-- [ ] `meter.notes-and-edge-cases.7` Given arbitrary DOM props and a custom render function, then the props pass through to the rendered element. [react-aria] (candidate)
-- [ ] `meter.notes-and-edge-cases.8` Given a bits-style data-attribute convention, then the root carries `data-meter-root`. [bits] (candidate)
+- [ ] `meter.notes.1` Given a value with no meaningful maximum, such as the world population, then `meter` MUST NOT be used. [apg]
+- [ ] `meter.notes.2` Given progress such as loading or percent completion of a task, then `meter` MUST NOT be used; use `role="progressbar"`. [apg]
+- [ ] `meter.notes.3` Given a meter, then it has no indeterminate mode: there is no `value: null` case and no `data-indeterminate` attribute, which is the one genuine semantic difference from progress. [kobalte, bits]
+- [ ] `meter.notes.4` Given a meter part rendered with no meter root ancestor, then it throws a named context error. [base-ui] (candidate)
+- [ ] `meter.notes.5` Given the root, value, indicator, label and track parts, then each has a declared ref element type: div for root, indicator and track, span for value and label. [base-ui] (candidate)
+- [ ] `meter.notes.6` Given a `slot` name and a matching context provider, then the element carries both the `slot` attribute and the slot-provided `aria-label`. [react-aria] (candidate)
+- [ ] `meter.notes.7` Given arbitrary DOM props and a custom render function, then the props pass through to the rendered element. [react-aria] (candidate)
+- [ ] `meter.notes.8` Given a bits-style data-attribute convention, then the root carries `data-meter-root`. [bits] (candidate)
 
 ## Sources
 

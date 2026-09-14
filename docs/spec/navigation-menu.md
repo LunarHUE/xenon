@@ -156,7 +156,7 @@ viewport that animates between sizes.
 
 ### Accessibility tooling
 
-- [ ] `navigation-menu.a11y-tooling.1` Given a navigation menu closed and with a panel open, when axe runs over the container, then there MUST be no violations. [zag, reka]
+- [ ] `navigation-menu.a11y.1` Given a navigation menu closed and with a panel open, when axe runs over the container, then there MUST be no violations. [zag, reka]
 
 ### Notes and edge cases
 

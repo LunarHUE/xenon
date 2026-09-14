@@ -14,12 +14,12 @@ libraries.
 
 ### Roles and attributes
 
-- [ ] `editable.roles-and-attributes.1` Given an editable, then the anatomy parts are root, area, label, preview, input, editTrigger, submitTrigger, cancelTrigger and control. [zag] (candidate)
-- [ ] `editable.roles-and-attributes.2` Given the preview part, then it carries `data-placeholder-shown`, `aria-readonly`, `data-readonly`, `data-disabled`, `aria-disabled`, `aria-invalid`, `data-invalid`, `data-autoresize`, a translated `aria-label`, and `tabindex="0"` while interactive. [zag] (candidate)
-- [ ] `editable.roles-and-attributes.3` Given the input part, then it carries a translated `aria-label`, the edit placeholder, `aria-invalid`, `data-invalid`, `data-disabled`, `data-readonly` and `data-autoresize`. [zag] (candidate)
-- [ ] `editable.roles-and-attributes.4` Given not-editing state, then the input carries the `hidden` attribute, and given editing state the preview carries it; `hidden` is how the mode is expressed in the DOM rather than unmounting the part. [zag, ark]
-- [ ] `editable.roles-and-attributes.5` Given the area part, then it carries `data-focus` while editing, `data-disabled` when disabled, and `data-placeholder-shown` when empty; the label part carries `data-focus`, `data-invalid` and `data-required`. [zag] (candidate)
-- [ ] `editable.roles-and-attributes.6` Given the edit trigger, then it is `type="button"` and hidden while editing; given the submit and cancel triggers, they are `type="button"`, hidden while not editing, and each carries a translated `aria-label`. [zag] (candidate)
+- [ ] `editable.roles.1` Given an editable, then the anatomy parts are root, area, label, preview, input, editTrigger, submitTrigger, cancelTrigger and control. [zag] (candidate)
+- [ ] `editable.roles.2` Given the preview part, then it carries `data-placeholder-shown`, `aria-readonly`, `data-readonly`, `data-disabled`, `aria-disabled`, `aria-invalid`, `data-invalid`, `data-autoresize`, a translated `aria-label`, and `tabindex="0"` while interactive. [zag] (candidate)
+- [ ] `editable.roles.3` Given the input part, then it carries a translated `aria-label`, the edit placeholder, `aria-invalid`, `data-invalid`, `data-disabled`, `data-readonly` and `data-autoresize`. [zag] (candidate)
+- [ ] `editable.roles.4` Given not-editing state, then the input carries the `hidden` attribute, and given editing state the preview carries it; `hidden` is how the mode is expressed in the DOM rather than unmounting the part. [zag, ark]
+- [ ] `editable.roles.5` Given the area part, then it carries `data-focus` while editing, `data-disabled` when disabled, and `data-placeholder-shown` when empty; the label part carries `data-focus`, `data-invalid` and `data-required`. [zag] (candidate)
+- [ ] `editable.roles.6` Given the edit trigger, then it is `type="button"` and hidden while editing; given the submit and cancel triggers, they are `type="button"`, hidden while not editing, and each carries a translated `aria-label`. [zag] (candidate)
 
 ### Keyboard
 
@@ -43,10 +43,10 @@ libraries.
 
 ### Focus management
 
-- [ ] `editable.focus-management.1` Given the preview is focused, then the input becomes visible and receives focus, so focus alone activates edit mode in the default activation mode; a placeholder preview focused programmatically behaves the same, and typing plus Enter commits. [zag, ark]
-- [ ] `editable.focus-management.2` Given `selectOnFocus: true` and a default value, when edit mode is entered, then the input has focus and both `selectionStart` and `selectionEnd` equal the value length, so the whole value is selected. [reka] (candidate)
-- [ ] `editable.focus-management.3` Divergence: focusing the preview enters edit mode, so the preview is a tab stop that cannot be tabbed through without editing. [zag, ark] (decision needed)
-- [ ] `editable.focus-management.4` Divergence: entering edit mode requires a click, double-click or the edit trigger, so focus alone leaves the preview in read mode. [reka] (decision needed)
+- [ ] `editable.focus.1` Given the preview is focused, then the input becomes visible and receives focus, so focus alone activates edit mode in the default activation mode; a placeholder preview focused programmatically behaves the same, and typing plus Enter commits. [zag, ark]
+- [ ] `editable.focus.2` Given `selectOnFocus: true` and a default value, when edit mode is entered, then the input has focus and both `selectionStart` and `selectionEnd` equal the value length, so the whole value is selected. [reka] (candidate)
+- [ ] `editable.focus.3` Divergence: focusing the preview enters edit mode, so the preview is a tab stop that cannot be tabbed through without editing. [zag, ark] (decision needed)
+- [ ] `editable.focus.4` Divergence: entering edit mode requires a click, double-click or the edit trigger, so focus alone leaves the preview in read mode. [reka] (decision needed)
 
 ### State
 
@@ -64,29 +64,29 @@ libraries.
 
 ### Animation and presence
 
-- [ ] `editable.animation-and-presence.1` Given `autoResize: true`, then both preview and input stay mounted and swap `visibility: hidden` instead of toggling `hidden`, so the box does not jump between read and edit mode. [reka, zag]
+- [ ] `editable.animation.1` Given `autoResize: true`, then both preview and input stay mounted and swap `visibility: hidden` instead of toggling `hidden`, so the box does not jump between read and edit mode. [reka, zag]
 
 ### Accessibility tooling
 
-- [ ] `editable.accessibility-tooling.1` Given the basic editable, when axe runs over the root, then there are no violations. [reka, zag, ark]
+- [ ] `editable.a11y.1` Given the basic editable, when axe runs over the root, then there are no violations. [reka, zag, ark]
 
 ### Notes and edge cases
 
-- [ ] `editable.notes-and-edge-cases.1` Given the preview entering edit mode, then click, focus and dblclick each carry a distinct event source so the machine can tell which gesture started the edit and apply the right activation mode. [zag] (candidate)
-- [ ] `editable.notes-and-edge-cases.2` Given a conformance harness for editable, then it needs locators for preview, input, save, edit and cancel, a helper that focuses the preview and waits for `input:focus`, a key-at-a-time typing helper, and assertions for input visibility, input focus, input value and committed preview text; zag's Playwright model is exactly that list. [zag] (candidate)
-- [ ] `editable.notes-and-edge-cases.3` Given a framework adapter, then the typing path differs: Solid types straight into the element found by label text, React needs an intermediate clear-and-wait, and Vue needs a 10 ms per-key delay for reactivity to flush. A shared suite MUST therefore drive typing through a harness hook rather than a fixed key delay. [ark] (candidate)
+- [ ] `editable.notes.1` Given the preview entering edit mode, then click, focus and dblclick each carry a distinct event source so the machine can tell which gesture started the edit and apply the right activation mode. [zag] (candidate)
+- [ ] `editable.notes.2` Given a conformance harness for editable, then it needs locators for preview, input, save, edit and cancel, a helper that focuses the preview and waits for `input:focus`, a key-at-a-time typing helper, and assertions for input visibility, input focus, input value and committed preview text; zag's Playwright model is exactly that list. [zag] (candidate)
+- [ ] `editable.notes.3` Given a framework adapter, then the typing path differs: Solid types straight into the element found by label text, React needs an intermediate clear-and-wait, and Vue needs a 10 ms per-key delay for reactivity to flush. A shared suite MUST therefore drive typing through a harness hook rather than a fixed key delay. [ark] (candidate)
 
 ## search-field
 
 ### Roles and attributes
 
-- [ ] `search-field.roles-and-attributes.1` Given a search field, then the input has `type="search"` and resolves to the `searchbox` role. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.2` Given a search field composed of label, input, clear button and description plus error-message slots, then `aria-labelledby` points at the label, `aria-describedby` resolves to the description and error text in order, and the clear button gets `aria-label="Clear search"` automatically. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.3` Given `isReadOnly`, then the input's wrapper carries `data-readonly` and no clear button renders. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.4` Given `excludeFromTabOrder`, then the searchbox has `tabindex="-1"`. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.5` Given a `form="test"` prop, then the input carries the `form` attribute. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.6` Given a custom `icon` element, then it renders in place of the default search icon; given `icon=""`, no icon renders. [react-aria] (candidate)
-- [ ] `search-field.roles-and-attributes.7` Given `data-*` attributes on the component, then exactly one element carries them and it is the outer wrapper, not the input. [react-aria] (candidate)
+- [ ] `search-field.roles.1` Given a search field, then the input has `type="search"` and resolves to the `searchbox` role. [react-aria] (candidate)
+- [ ] `search-field.roles.2` Given a search field composed of label, input, clear button and description plus error-message slots, then `aria-labelledby` points at the label, `aria-describedby` resolves to the description and error text in order, and the clear button gets `aria-label="Clear search"` automatically. [react-aria] (candidate)
+- [ ] `search-field.roles.3` Given `isReadOnly`, then the input's wrapper carries `data-readonly` and no clear button renders. [react-aria] (candidate)
+- [ ] `search-field.roles.4` Given `excludeFromTabOrder`, then the searchbox has `tabindex="-1"`. [react-aria] (candidate)
+- [ ] `search-field.roles.5` Given a `form="test"` prop, then the input carries the `form` attribute. [react-aria] (candidate)
+- [ ] `search-field.roles.6` Given a custom `icon` element, then it renders in place of the default search icon; given `icon=""`, no icon renders. [react-aria] (candidate)
+- [ ] `search-field.roles.7` Given `data-*` attributes on the component, then exactly one element carries them and it is the outer wrapper, not the input. [react-aria] (candidate)
 
 ### Keyboard
 
@@ -107,7 +107,7 @@ libraries.
 
 ### Focus management
 
-- [ ] `search-field.focus-management.1` Given the clear button, then it is excluded from the tab order, so Tab goes from the input past the button to the next control. [react-aria] (candidate)
+- [ ] `search-field.focus.1` Given the clear button, then it is excluded from the tab order, so Tab goes from the input past the button to the next control. [react-aria] (candidate)
 
 ### State
 
@@ -124,17 +124,17 @@ libraries.
 
 ### RTL and i18n
 
-- [ ] `search-field.rtl-and-i18n.1` Given a `de-DE` locale provider, then the clear button's `aria-label` is the German translation of "Clear search" from the bundled messages, not the English string. [react-aria] (candidate)
+- [ ] `search-field.rtl.1` Given a `de-DE` locale provider, then the clear button's `aria-label` is the German translation of "Clear search" from the bundled messages, not the English string. [react-aria] (candidate)
 
 ### SSR and hydration
 
-- [ ] `search-field.ssr-and-hydration.1` Given a search field with a label, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
+- [ ] `search-field.ssr.1` Given a search field with a label, when server-rendered and hydrated, then no errors occur. [react-aria] (candidate)
 
 ### Notes and edge cases
 
-- [ ] `search-field.notes-and-edge-cases.1` Given a `slot` name and a matching context provider, then the wrapper carries the `slot` attribute and the searchbox gets the slot's `aria-label`. [react-aria] (candidate)
-- [ ] `search-field.notes-and-edge-cases.2` Given children as a function of the field state, then the rendered output can read the current value, for example a description reading `You are looking for "test"`. [react-aria] (candidate)
-- [ ] `search-field.notes-and-edge-cases.3` Given a `render` prop returning an element with extra props, then the wrapper is that custom element. [react-aria] (candidate)
+- [ ] `search-field.notes.1` Given a `slot` name and a matching context provider, then the wrapper carries the `slot` attribute and the searchbox gets the slot's `aria-label`. [react-aria] (candidate)
+- [ ] `search-field.notes.2` Given children as a function of the field state, then the rendered output can read the current value, for example a description reading `You are looking for "test"`. [react-aria] (candidate)
+- [ ] `search-field.notes.3` Given a `render` prop returning an element with extra props, then the wrapper is that custom element. [react-aria] (candidate)
 
 ## Sources
 
@@ -147,6 +147,6 @@ libraries.
 
 - The `search-field` section is single-source. react-aria is the only library in the research with a dedicated search field; the others build one from a text input plus a button. Every bullet is a candidate until a second implementation exists, and the whole section is a reasonable candidate for folding into a future `text-field.md`.
 - Editable's commit-on-blur default. `editable.pointer.8` and `editable.pointer.9` are the same gesture with opposite outcomes: zag commits on outside click unconditionally, reka commits only when `submitMode` says to. Picking one changes the default prop set, so it needs a decision before the suite can test blur at all.
-- Preview focusability. `editable.focus-management.3` and `editable.focus-management.4` disagree on whether the preview is a tab stop that starts an edit. This interacts with the commit decision: if focus starts an edit, blur must do something sensible.
+- Preview focusability. `editable.focus.3` and `editable.focus.4` disagree on whether the preview is a tab stop that starts an edit. This interacts with the commit decision: if focus starts an edit, blur must do something sensible.
 - Multiline editable. Only zag mentions it, and only to say Enter behaves differently. No library in the research tests a multiline commit gesture, so `editable.keyboard.5` has no cross-library counterpart.
 - `autoResize` geometry. Both reka and zag keep the preview and input mounted, but neither asserts the resulting width, so the spec covers the visibility swap and not the sizing.
