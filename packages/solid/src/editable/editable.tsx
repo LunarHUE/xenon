@@ -9,6 +9,7 @@ import {
   createMemo,
   createSignal,
   createUniqueId,
+  flush,
   omit,
   onCleanup,
   onSettled,
@@ -176,18 +177,25 @@ function EditableRoot(props: EditableProps): JSX.Element {
   onSettled(() => {
     const document = context.input?.ownerDocument
     if (!document) return
+    let resetTimer: ReturnType<typeof setTimeout> | undefined
     const reset = (event: Event) => {
       if (event.target !== context.input?.form) return
-      // eslint-disable-next-line solid/reactivity -- Read current controlled props after cancelable reset dispatch.
-      queueMicrotask(() => {
+      clearTimeout(resetTimer)
+      // eslint-disable-next-line solid/reactivity -- Restore after the browser reset default action, using current props.
+      resetTimer = setTimeout(() => {
         if (event.defaultPrevented) return
         if (props.value === undefined) setInternal(props.defaultValue ?? '')
         setDraft(props.value ?? props.defaultValue ?? '')
         if (props.editing === undefined) setActive(false)
-      })
+        flush()
+        if (context.input) context.input.value = editing() ? draft() : value()
+      }, 0)
     }
     document.addEventListener('reset', reset, true)
-    return () => document.removeEventListener('reset', reset, true)
+    return () => {
+      clearTimeout(resetTimer)
+      document.removeEventListener('reset', reset, true)
+    }
   })
   const rest = omit(
     props,
@@ -270,7 +278,7 @@ export function EditablePreview(props: EditablePreviewProps): JSX.Element {
         if (typeof props.ref === 'function') props.ref(node)
       }}
     >
-      {props.children ?? (context.result().state.value || context.props.placeholder)}
+      {props.children ?? (context.result().state.value || context.props.placeholder || 'Edit')}
     </span>
   )
 }

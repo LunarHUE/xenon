@@ -90,7 +90,7 @@ test('native form values and silent reset restore defaults', async () => {
   const form = m.container.querySelector('form')!
   expect(new FormData(form).get('title')).toBe('After')
   form.reset()
-  await Promise.resolve()
+  await new Promise((resolve) => setTimeout(resolve, 0))
   flush()
   expect(m.getByRole('button', { name: 'Before' })).toBeVisible()
   expect(new FormData(form).get('title')).toBe('Before')
