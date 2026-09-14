@@ -4,6 +4,20 @@ import { createFloatingLayer } from './floating-layer'
 
 type Options = Parameters<typeof createFloatingLayer>[1]
 const cleanups: (() => void)[] = []
+
+test('inactive trigger branches remain inside across active-trigger switches and are released', () => {
+  const other = document.createElement('button')
+  document.body.append(other)
+  const { controller, options, trigger } = setup({ branches: [other] })
+  const inside: boolean[] = []
+  other.addEventListener('probe', (event) => inside.push(controller.layer!.contains(event)))
+  other.dispatchEvent(new Event('probe', { bubbles: true }))
+  controller.update({ ...options, trigger: other, branches: [trigger, other] })
+  other.dispatchEvent(new Event('probe', { bubbles: true }))
+  controller.update({ ...options, branches: [] })
+  other.dispatchEvent(new Event('probe', { bubbles: true }))
+  expect(inside).toEqual([true, true, false])
+})
 function setup(initial: Partial<Options> = {}) {
   const wrapper = document.createElement('div')
   const content = document.createElement('div')

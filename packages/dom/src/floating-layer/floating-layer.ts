@@ -39,6 +39,8 @@ export interface FloatingLayerOptions {
   positioned: boolean
   /** Same-document trigger, registered as a dismissal branch and used as a restoration fallback. */
   trigger?: HTMLElement
+  /** Additional same-document trigger elements treated as inside for pointer and focus dismissal. */
+  branches?: readonly HTMLElement[]
   /**
    * Active same-document dismissal parent. Otherwise infer a parent from the newest
    * floating session whose wrapper contains this wrapper. Changing this option restarts the session.
@@ -181,8 +183,7 @@ export function createFloatingLayer(
   let session: Session | undefined
   let scope: FocusScopeHandle | undefined
   let modal: ModalRegistration | undefined
-  let registeredTrigger: HTMLElement | undefined
-  let releaseTrigger: (() => void) | undefined
+  const branches = new Map<HTMLElement, () => void>()
   let pointerDown = false
   let releasePointerTimer: ReturnType<typeof setTimeout> | undefined
   let focusTimer: ReturnType<typeof setTimeout> | undefined
@@ -254,9 +255,8 @@ export function createFloatingLayer(
     scope = undefined
     modal?.dispose()
     modal = undefined
-    releaseTrigger?.()
-    releaseTrigger = undefined
-    registeredTrigger = undefined
+    for (const release of branches.values()) release()
+    branches.clear()
     ending.layer.dispose()
     const stack = sessions.get(document)!
     stack.splice(stack.indexOf(ending), 1)
@@ -408,12 +408,19 @@ export function createFloatingLayer(
         session.layer.update(layerOptions())
         show()
       }
-      if (registeredTrigger !== options.trigger) {
-        releaseTrigger?.()
-        registeredTrigger = options.trigger
-        releaseTrigger = options.trigger
-          ? session!.layer.registerBranch(options.trigger)
-          : undefined
+      const nextBranches = new Set(
+        [options.trigger, ...(options.branches ?? [])].filter(
+          (element): element is HTMLElement => !!element && element.ownerDocument === document
+        )
+      )
+      for (const [element, release] of branches) {
+        if (!nextBranches.has(element)) {
+          release()
+          branches.delete(element)
+        }
+      }
+      for (const element of nextBranches) {
+        if (!branches.has(element)) branches.set(element, session!.layer.registerBranch(element))
       }
       session!.returnFocus = options.finalFocus ?? options.trigger ?? session!.opener
       if (options.positioned && !scope) {

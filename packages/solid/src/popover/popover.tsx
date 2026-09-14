@@ -46,7 +46,12 @@ export interface PopoverRenderState<Payload = unknown> {
   /** Payload selected by a trigger or an imperative opening request. */
   readonly payload: Payload | undefined
 }
-/** Create a reusable handle; commands without a mounted root are ignored. */
+/**
+ * Create a typed handle for one mounted popover Root. Detached commands are ignored
+ * without queuing. Opening needs a registered trigger host or explicit Anchor;
+ * openWithPayload keeps that anchor and supplies data through the root render state.
+ * The Root retains authority over controlled and uncontrolled visibility.
+ */
 export function createPopoverHandle<Payload = unknown>(): PopoverHandle<Payload> {
   return createOverlayHandle<Payload, Context>()
 }
@@ -104,7 +109,7 @@ export type PopoverProps<T extends ValidComponent = 'div', Payload = unknown> = 
     as?: T
     /** Connect detached triggers and commands. Keep this handle stable for the mounted root. */
     handle?: PopoverHandle<Payload>
-    /** Static parts or a callback receiving live open, trigger, and payload getters. */
+    /** Static parts or a callback receiving live open, triggerId, and payload getters. */
     children?: JSX.Element | ((state: PopoverRenderState<Payload>) => JSX.Element)
   }
 /** Dialog content host props. Requires Popover.Positioner; author aria-label suppresses generated title naming. */
@@ -163,6 +168,8 @@ interface Context {
   ): string | undefined
   /** Current trigger host used for default anchoring, dismissal branching, and focus return. */
   trigger(): HTMLElement | undefined
+  /** Every mounted trigger is inside the dismissal boundary, even when inactive. */
+  triggerElements(): HTMLElement[]
   /** Selects the trigger host without changing logical visibility. */
   setTrigger(el: HTMLElement | undefined): void
   /** Selected trigger identity for render state and viewport transitions. */
@@ -311,6 +318,10 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
     change,
     content,
     trigger,
+    triggerElements() {
+      revision()
+      return triggers.flatMap((entry) => (entry.element ? [entry.element] : []))
+    },
     setTrigger,
     triggerId,
     payload,
@@ -617,6 +628,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
           active: active(),
           positioned: positioner.state().positioned,
           trigger: context.trigger(),
+          branches: context.triggerElements(),
           modal: context.result().state.modal,
           initialFocus: context.own.initialFocus,
           finalFocus: context.own.finalFocus,
@@ -875,6 +887,8 @@ export type PopoverViewportProps = Omit<FloatingViewportProps, 'source'>
 /**
  * Place inside Content to retain inert previous content during trigger or payload
  * transitions. CSS supplies animation and scrolling; this wrapper adds no tab stop.
+ * See {@link FloatingViewport} for dimension variables and the intrinsic-sizing
+ * CSS recipe. Previous content is a sanitized DOM clone with no Solid ownership.
  */
 export function PopoverViewport(props: PopoverViewportProps): JSX.Element {
   const context = usePopover('Popover.Viewport')
