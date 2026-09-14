@@ -276,7 +276,7 @@ Slider thumb indices are captured at mount. Removed an inaccurate example claim
 that Escape restores NumberField drafts; the current field does not handle Escape.
 
 The public-member audit reports 33 core implementation files, 156 exports and 777
-owned members, and 63 Solid implementation files, 310 exports and 992 owned
+owned members, and 63 Solid implementation files, 311 exports and 992 owned
 members. Both inventories have zero missing comments. All local documentation
 links resolve: core 32 and Solid 60. Plain re-export aliases and generated native
 attribute members remain excluded by the existing audit. The five family coverage

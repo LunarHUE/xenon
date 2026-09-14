@@ -33,3 +33,69 @@ source divergences are not all simultaneous requirements.
 Core and Solid tests cover state and composition. Chromium and WebKit tests cover
 native editing, focus, forms, and slider geometry. Integration also checks public
 subpath exports, typecheck, lint, formatting, and existing component regressions.
+
+## Delivered API
+
+Each component imports independently:
+
+```tsx
+import { Slider } from '@tenon/solid/slider'
+import { NumberField } from '@tenon/solid/number-field'
+import { PinInput } from '@tenon/solid/pin-input'
+import { TagsInput } from '@tenon/solid/tags-input'
+import { Editable } from '@tenon/solid/editable'
+```
+
+- Slider: Control, Track, Range, Thumb, Label, ValueText. A single slider uses
+  `[value]`; a range uses `[minimum, maximum]` and two indexed thumbs. Thumbs are
+  native range inputs, and their index is fixed at mount.
+- NumberField: Input, Control, Label, ValueText, IncrementTrigger, DecrementTrigger.
+  Locale-aware drafts commit on blur, Enter, or stepping. Form values remain
+  canonical numbers. Compact/scientific/engineering display notation is rejected
+  explicitly because it is not an editable numeric format supported by the parser.
+- PinInput: indexed Input slots, one scalar code, full-code validation and one
+  submitted value. Slots accept native paste/autofill without numeric conversion,
+  preserving leading zeroes.
+- TagsInput: Control, Input, Item, ItemText, ItemInput, ItemDeleteTrigger,
+  ClearTrigger, Label, Description, Error. The root child callback's reactive
+  `value` renders tags explicitly. Forms receive repeated entries under one name.
+- Editable: Preview, Input, EditTrigger, SubmitTrigger, CancelTrigger, Label,
+  Description, Error. Input accepts `as="textarea"` for multiline editing.
+
+The example app has all five demos, including both slider forms, OTP completion,
+localized numeric stepping, tag replacement, and editable cancellation.
+
+## Review fixes
+
+Native reset-button clicks run the browser's default action after synchronous
+handlers and may run it after queued microtasks. Slider, NumberField, PinInput,
+and Editable restore state and DOM values after that action, including controlled
+or unchanged values. Pending reconciliation is canceled on disposal. Form owner
+checks follow current native ownership rather than a stale initial form.
+
+TagsInput editors inherit readonly and per-item disabled changes during editing.
+Editable ignores blur caused by hiding its activation preview. Slider label
+registration uses a plain server registry while retaining matching client signal
+allocation for hydration. NumberField handles singular/plural localized units,
+including unit-only Arabic forms, without silently parsing unsupported notation.
+
+Focused behavior and deliberate source-library exclusions are recorded in
+[Slider](slider-coverage.md), [NumberField](number-field-coverage.md),
+[PinInput](pin-input-coverage.md), [TagsInput](tags-input-coverage.md), and
+[Editable](editable-coverage.md). These notes do not claim every candidate in the
+research specs has shipped.
+
+
+## Final checks
+
+- Core: 238 tests. DOM: 152. Solid: 290. Shared jsdom suite: 640.
+- Chromium and WebKit browser conformance: 1,854 tests across 208 files.
+- Chromium and WebKit end-to-end: 84 tests, including all five families' SSR,
+  hydration, native associations, and canonical form submission.
+- Typecheck, lint, formatting, example build, and public subpath builds pass.
+- Final public-member audit: core 777 and Solid 992, with no missing comments.
+  All local TSDoc links resolve in core, DOM, and Solid.
+
+The pre-existing Select-only SSR unit fixture still emits Solid's SERVER_WRITE
+warning. It also appears in the saved pre-family regression log; the new numeric
+SSR fixture and the full end-to-end run emit no such warning. Its test passes.
