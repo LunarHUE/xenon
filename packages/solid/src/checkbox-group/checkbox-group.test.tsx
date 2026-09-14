@@ -215,3 +215,50 @@ describe('CheckboxGroup', () => {
     expect(form.checkValidity()).toBe(true)
   })
 })
+
+test('late window reset cancellation preserves uncontrolled group membership', async () => {
+  const view = render(() => (
+    <form>
+      <CheckboxGroup defaultValue={['a']}>
+        <Checkbox value="a" aria-label="A" />
+        <Checkbox value="b" aria-label="B" />
+      </CheckboxGroup>
+    </form>
+  ))
+  fireEvent.click(view.getByRole('checkbox', { name: 'B' }))
+  await settle()
+  const cancel = (event: Event) => event.preventDefault()
+  window.addEventListener('reset', cancel)
+  try {
+    view.container.querySelector('form')!.reset()
+    await settle()
+  } finally {
+    window.removeEventListener('reset', cancel)
+  }
+  expect(view.getByRole('checkbox', { name: 'B' })).toBeChecked()
+})
+
+test('required membership works through nested Fields and disabled children remain excluded from submission', async () => {
+  const view = render(() => (
+    <form>
+      <CheckboxGroup required name="choice">
+        <Field disabled>
+          <Field.Label>A</Field.Label>
+          <Checkbox value="a" disabled={false} />
+        </Field>
+        <Field>
+          <Field.Label>B</Field.Label>
+          <Checkbox value="b" />
+        </Field>
+      </CheckboxGroup>
+    </form>
+  ))
+  await settle()
+  const form = view.container.querySelector('form')!
+  expect(view.getByRole('checkbox', { name: 'A' })).toBeDisabled()
+  expect(form.checkValidity()).toBe(false)
+  fireEvent.click(view.getByRole('checkbox', { name: 'B' }))
+  await settle()
+  expect(form.checkValidity()).toBe(true)
+  expect(new FormData(form).getAll('choice')).toEqual(['b'])
+})

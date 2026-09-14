@@ -225,10 +225,19 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
           typeof own.as !== 'function'
         )
 
-  const describedBy = () =>
-    context === null
+  /** Merge raw ID readers before allocating one SSR marker for the complete attribute. */
+  const describedBy = () => {
+    if (group) {
+      const read = () =>
+        tokens(own['aria-describedby'], context?.describedBy(), group.field.describedBy())
+      return typeof own.as === 'function'
+        ? read()
+        : group.field.association('aria-describedby', read)
+    }
+    return context === null
       ? own['aria-describedby']
       : fieldDescribedBy(context, own['aria-describedby'], typeof own.as !== 'function')
+  }
 
   /** Gates selected author handlers, resolves Field associations, and wraps native changes for resync. */
   const merged = () => {
@@ -237,14 +246,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
     gate(out, () => result().state.interactive)
     write(out, 'aria-labelledby', labelledBy(state.host))
-    write(
-      out,
-      'aria-describedby',
-      tokens(
-        describedBy(),
-        group ? fieldDescribedBy(group.field, undefined, typeof own.as !== 'function') : undefined
-      )
-    )
+    write(out, 'aria-describedby', describedBy())
     if (context && out['id'] === undefined) out['id'] = context.ids.control
     if (state.host === 'input') {
       const key = changeKey(out)
@@ -291,15 +293,23 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const node = el
     if (!node) return
     const doc = node.ownerDocument
+    let disposed = false
     const restore = (event: Event) => {
       const form = owningForm()
       if (!form || event.target !== form || event.defaultPrevented) return
-      if (member()) group!.reset()
-      else if (own.checked === undefined) setInternal(fallback())
-      resync()
+      // Window and later document listeners can still cancel this reset.
+      queueMicrotask(() => {
+        if (disposed || event.defaultPrevented) return
+        if (member()) group!.reset()
+        else if (own.checked === undefined) setInternal(fallback())
+        resync()
+      })
     }
     doc.addEventListener('reset', restore)
-    return () => doc.removeEventListener('reset', restore)
+    return () => {
+      disposed = true
+      doc.removeEventListener('reset', restore)
+    }
   })
 
   /** Named non-input hosts render a native checkbox sibling for forms and validation. */
