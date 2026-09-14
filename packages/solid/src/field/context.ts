@@ -1,6 +1,8 @@
 import type { GlobalAttrs } from '@kit/core'
 import { createContext, useContext } from 'solid-js'
 
+import type { Association } from './server-associations'
+
 export interface FieldContextValue {
   ids: { control: string; label: string; description: string; error: string }
   disabled(): boolean
@@ -10,6 +12,7 @@ export interface FieldContextValue {
   name(): string | undefined
   labelledBy(): string | undefined
   describedBy(): string | undefined
+  association(name: Association, read: () => string | undefined): string | undefined
   labelIds(): string | undefined
   registerLabel(id: string | (() => string), element?: HTMLElement): () => void
   controlId(): string
@@ -55,11 +58,18 @@ export function fieldFlags(context: FieldContextValue): GlobalAttrs {
 export function fieldLabelledBy(
   context: FieldContextValue,
   own: unknown,
-  labelable: boolean
+  labelable: boolean,
+  defer = true
 ): string | undefined {
-  return tokens(own, labelable ? context.labelledBy() : context.labelIds())
+  const read = () => tokens(own, labelable ? context.labelledBy() : context.labelIds())
+  return defer ? context.association('aria-labelledby', read) : read()
 }
 
-export function fieldDescribedBy(context: FieldContextValue, own: unknown): string | undefined {
-  return tokens(own, context.describedBy())
+export function fieldDescribedBy(
+  context: FieldContextValue,
+  own: unknown,
+  defer = true
+): string | undefined {
+  const read = () => tokens(own, context.describedBy())
+  return defer ? context.association('aria-describedby', read) : read()
 }

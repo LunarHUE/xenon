@@ -116,11 +116,20 @@ server, Field uses synchronous registration and a fresh core calculation;
 `Field.Control` delays element construction through an untracked lazy memo until
 direct sibling metadata has registered. No user children are rendered twice.
 
-Known SSR limitation: a control inside a native wrapper before a description
-outside that wrapper is serialized too early to discover the later description.
-The exact desired accessible-description assertion is retained as an expected
-failure in `hydration.spec.ts`; it is not claimed as passing conformance.
-An explicit `aria-describedby` on that control, paired with an author ID on the
-description, works before JavaScript and has a passing assertion in the fixture.
-Hydration adds automatic references for the nested case. Fixing its server
-markup requires registration across native wrapper serialization boundaries.
+Native wrappers no longer prevent synchronous forward associations. Field
+finalizes its native association attributes after evaluating its subtree once,
+using escaped values from the completed registry. The original regression in
+`hydration.spec.ts` is an ordinary passing assertion. `field-associations.spec.ts`
+covers wrapped descriptions and errors, author-first ID order and escaping,
+missing descriptions, nested Field isolation, generic/native controls, and
+single component evaluation before and after hydration. The same fixture is
+checked with `renderToString` and awaited `renderToStream`; a further case
+exercises an asynchronous child inside Field.
+
+The transform is confined to native hosts. Custom `as` components receive real
+ARIA prop values so inspection and merging keep working; their forward
+references still need explicit `aria-describedby` and author description IDs.
+Metadata first introduced after an asynchronous boundary has already streamed
+also needs explicit IDs. The stream regression checks settled synchronous
+associations alongside asynchronous content, not retroactive edits to an
+already-emitted shell.

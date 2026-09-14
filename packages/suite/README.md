@@ -41,13 +41,12 @@ also include competing library APIs and unshipped features. Component scope note
 identify those explicitly; an unchecked bullet is not automatically a test gap
 in the shipped API. A client render is never proof of SSR or hydration.
 
-One known SSR failure is retained with Playwright's `test.fail`: a field control
-inside a native wrapper cannot automatically discover a description outside and
-after that wrapper before JavaScript runs. Explicit author `aria-describedby`
-and a matching description ID work, and hydration adds the automatic reference.
-The expected-failure marker follows successful infrastructure checks; a future
-fix makes this test unexpectedly pass so the marker must be removed. Details and
-an asserted workaround live in `src/field/README.md` and `e2e/hydration.spec.ts`.
+The nested native Field control regression now passes before JavaScript and
+through hydration. `e2e/field-associations.spec.ts` also checks nested Fields,
+author ID escaping and order, absent metadata, single child evaluation, native
+Checkbox/Switch integration, custom-host prop compatibility and asynchronous
+stream content. Custom hosts and metadata introduced after a streamed boundary
+still use explicit IDs for forward references; see `src/field/README.md`.
 
 The older Button, Checkbox, Switch, Toolbar and Composite placeholders are
 classified in each directory's `coverage.md`. Shipped behavior has runnable

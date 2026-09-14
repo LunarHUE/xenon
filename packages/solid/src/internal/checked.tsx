@@ -161,10 +161,17 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   const labelledBy = (host: CheckboxHost) =>
     context === null
       ? own['aria-labelledby']
-      : fieldLabelledBy(context, own['aria-labelledby'], host !== 'generic')
+      : fieldLabelledBy(
+          context,
+          own['aria-labelledby'],
+          host !== 'generic',
+          typeof own.as !== 'function'
+        )
 
   const describedBy = () =>
-    context === null ? own['aria-describedby'] : fieldDescribedBy(context, own['aria-describedby'])
+    context === null
+      ? own['aria-describedby']
+      : fieldDescribedBy(context, own['aria-describedby'], typeof own.as !== 'function')
 
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }

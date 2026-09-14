@@ -14,8 +14,11 @@ const vite = await createViteServer({
 const server = createServer((request, response) => {
   vite.middlewares(request, response, async () => {
     try {
-      const { render } = await vite.ssrLoadModule('/fixtures/entry-server.tsx')
-      const body = render() as string
+      const { render, renderStream } = await vite.ssrLoadModule('/fixtures/entry-server.tsx')
+      const query = new URL(request.url ?? '/', 'http://localhost').searchParams
+      const body = (
+        query.has('stream') ? await renderStream(query.has('async')) : render()
+      ) as string
       const template = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Hydration fixture</title></head><body><div id="app">${body}</div><script type="module" src="/fixtures/entry-client.tsx"></script></body></html>`
       response.setHeader('Content-Type', 'text/html')
       response.end(await vite.transformIndexHtml(request.url ?? '/', template))

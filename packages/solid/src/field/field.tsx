@@ -8,6 +8,7 @@ import { FieldContext, tokens } from './context'
 import type { FieldContextValue } from './context'
 import { FieldControl, FieldDescription, FieldError, FieldLabel } from './parts'
 import { spread } from '../spread'
+import { serverAssociations } from './server-associations'
 
 interface Own {
   id?: string
@@ -97,7 +98,10 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   const memo = createMemo(compute)
   const result = isServer ? compute : memo
 
+  const associations = isServer ? serverAssociations() : undefined
+
   const context: FieldContextValue = {
+    association: (name, read) => (associations ? associations.attribute(name, read) : read()),
     ids,
     disabled: () => result().state.disabled,
     required: () => result().state.required,
@@ -134,7 +138,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     own.ref?.(node)
   }
 
-  return (
+  const element = (
     <Dynamic
       component={(own.as ?? 'div') as ValidComponent}
       ref={ref}
@@ -143,6 +147,8 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
       {content()}
     </Dynamic>
   )
+  // eslint-disable-next-line solid/components-return-once -- server-only finalization; the environment never changes while mounted
+  return associations ? associations.finish(element) : element
 }
 
 export const Field = Object.assign(FieldRoot, {

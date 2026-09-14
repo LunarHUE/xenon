@@ -13,13 +13,20 @@ import {
   ToggleGroup,
   Toolbar,
 } from '@kit/solid'
-import { createSignal } from 'solid-js'
+import { Show, createSignal } from 'solid-js'
 
-export function RoundOne() {
+import { NestedFields } from './nested-fields'
+import { StreamingField } from './streaming-field'
+
+export function RoundOne(props: { asyncContent?: boolean } = {}) {
   const [count, setCount] = createSignal(0)
   return (
     <main>
       <h1>Server rendered components</h1>
+      <NestedFields />
+      <Show when={props.asyncContent}>
+        <StreamingField />
+      </Show>
       <Button onClick={() => setCount(count() + 1)}>Count {count()}</Button>
       <Field invalid>
         <Field.Label>Email</Field.Label>

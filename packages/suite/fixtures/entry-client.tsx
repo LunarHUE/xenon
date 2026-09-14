@@ -5,7 +5,7 @@ import { RoundOne } from './round-one'
 const root = document.getElementById('app')!
 const serverNodes = [...root.querySelectorAll('*')]
 const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
-hydrate(() => <RoundOne />, root)
+hydrate(() => <RoundOne asyncContent={new URLSearchParams(location.search).has('async')} />, root)
 flush()
 requestAnimationFrame(() => {
   root.dataset.preserved = String(serverNodes.every((node) => root.contains(node)))

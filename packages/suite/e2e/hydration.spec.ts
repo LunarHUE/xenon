@@ -205,11 +205,7 @@ test('a server control nested in a native wrapper references a later description
     const control = page.getByRole('textbox', { name: 'Nested', exact: true })
     await expect(control).toBeVisible()
     await expect(page.getByText('Nested help', { exact: true })).toBeVisible()
-    test.fail(
-      true,
-      'Solid serializes the native wrapper before the later description registers; requires registration across native wrapper boundaries'
-    )
-    await expect(control).toHaveAccessibleDescription('Nested help', { timeout: 100 })
+    await expect(control).toHaveAccessibleDescription('Nested help')
   } finally {
     await context.close()
   }

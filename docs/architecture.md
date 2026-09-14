@@ -215,8 +215,20 @@ Cross-cutting, and binding on everything built after this point.
   lazy memo whose view is untracked so direct sibling descriptions register
   before its attributes are serialized, including descriptions written after
   the control. The memo keeps the client input node stable as flags change.
-  A native wrapper around the control still serializes before a description
-  outside that wrapper; that SSR case needs an explicit author reference.
+- Native wrappers serialize their children before later siblings register.
+  Field therefore finalizes native `for`, `aria-labelledby` and
+  `aria-describedby` attributes at its own server boundary. Temporary random
+  markers are replaced with escaped references after one subtree evaluation;
+  absent references are removed. Markers are scoped to the Field and never
+  become element IDs or reach the browser. Solid's SSR template segments and
+  pending functions are preserved rather than reparsing the output or rendering
+  user children twice. This adapter depends on the installed Solid SSR node
+  representation and is covered by string, stream and hydration regressions.
+- Custom `as` components receive real association prop values, not markers,
+  because they may inspect or merge them. Their forward references, and metadata
+  introduced after an asynchronous boundary has already streamed, still require
+  explicit author IDs. This finalization applies to synchronously rendered
+  native hosts; it is not a general deferred-attribute API for Solid.
 
 ## Decisions taken for the toggle family
 

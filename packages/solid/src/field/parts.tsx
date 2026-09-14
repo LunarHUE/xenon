@@ -52,7 +52,11 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
   onSettled(() => context.registerLabel(() => own.id ?? context.ids.label, previous))
 
   const part = (): PartProps<'label'> => ({
-    attrs: { ...fieldFlags(context), id: own.id ?? context.ids.label, for: context.controlId() },
+    attrs: {
+      ...fieldFlags(context),
+      id: own.id ?? context.ids.label,
+      for: context.association('for', context.controlId),
+    },
     on: {
       click(event) {
         if (context.disabled()) return
@@ -192,8 +196,17 @@ export function FieldControl<T extends ValidComponent = 'input'>(
       'data-readonly': readonly() ? '' : undefined,
       'data-invalid': invalid() ? '' : undefined,
       id: own.id ?? context.ids.control,
-      'aria-labelledby': fieldLabelledBy(context, own['aria-labelledby'], isLabelable(tag())),
-      'aria-describedby': fieldDescribedBy(context, own['aria-describedby']),
+      'aria-labelledby': fieldLabelledBy(
+        context,
+        own['aria-labelledby'],
+        isLabelable(tag()),
+        typeof own.as !== 'function'
+      ),
+      'aria-describedby': fieldDescribedBy(
+        context,
+        own['aria-describedby'],
+        typeof own.as !== 'function'
+      ),
       'aria-invalid': invalid() ? 'true' : undefined,
       ...(nameable.has(tag()) ? { name: own.name ?? context.name() } : null),
       ...(disablable.has(tag())
