@@ -1,17 +1,26 @@
 import type { AnyPart } from '@tenon/core'
 
+/** Callable event shape used after erasing the core part's host-specific event type. */
 type Handler = (event: Event) => void
 
 /**
- * Turns a core PartProps plus the user's own props into one object for JSX
- * spread. Attributes: the user's win. Event handlers: the user's runs first,
- * and calling `preventDefault()` in it skips the core handler, which is the
- * same escape hatch Radix and Base UI give.
+ * Merges a core part with author props for JSX spread without mutating either input.
+ * Author attributes override core attributes, including explicit undefined values.
+ * For matching event props, the author handler runs first; the core handler runs
+ * only if the event default remains unprevented.
  *
- * Solid matches handler names case-insensitively after `on`, so a user's
- * `onKeyDown` and core's `keydown` are the same listener and must be merged
- * under one key or both would bind. Solid re-applies handlers on spread, so a
- * memoized part can be spread directly.
+ * @remarks
+ * Matches author keys beginning with lowercase `on` case-insensitively against
+ * core DOM event names, preserving the author's spelling. Use one spelling per
+ * event; duplicate case variants are not removed. Without a match, the core
+ * listener is copied to an `on`-prefixed prop without a cancellation wrapper.
+ *
+ * Matching author handlers and supplied core entries must be callable functions;
+ * this helper does not interpret tuples or guard undefined handlers. Recompute
+ * the merge when inputs change so Solid's JSX spread can apply new values.
+ * No DOM binding, event dispatch, or reactive subscription occurs in this helper.
+ *
+ * @returns A new shallow props object with composed handlers for matching events.
  */
 export function spread(
   part: AnyPart,
