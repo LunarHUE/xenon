@@ -49,3 +49,15 @@ Independent review and package lint passed. All 26 targeted files reviewed. 186 
 | Commit | Batch | Files |
 | --- | --- | --- |
 | `86fe984` | document attribute generator inputs and execution | `packages/core/scripts/attrs.overrides.ts`, `packages/core/scripts/gen-attrs.ts` |
+
+## DOM D1 complete
+
+Independent review and package lint passed. All five lifecycle modules reviewed. Follow-up focus-manager member documentation closes the peer-review coverage gap.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `47be2d9` | document layer dismissal and ownership | `packages/dom/src/layer/layer.ts` |
+| `23df829` | document focus scope lifecycle and restoration | `packages/dom/src/focus-scope/focus-scope.ts` |
+| `ef7d7ba` | document modal isolation and scroll ownership | `packages/dom/src/modal/modal.ts` |
+| `c2cd950` | document drawer gestures and exit waits | `packages/dom/src/drawer/drawer.ts`, `packages/dom/src/wait-for-exit/wait-for-exit.ts` |
+| `468d71e` | document shared focus manager contracts | `packages/dom/src/focus-scope/focus-scope.ts` |
