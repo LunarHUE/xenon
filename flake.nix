@@ -44,6 +44,18 @@
           bun
         ];
 
+        # Playwright checks apt-installed browser libraries with ldd from PATH.
+        # Nix's ldd can report those host libraries as missing on Debian/Ubuntu.
+        hostLdd = pkgs.writeShellScriptBin "ldd" ''
+          exec /usr/bin/ldd "$@"
+        '';
+
+        coreShellHook = pkgs.lib.optionalString pkgs.stdenv.isLinux ''
+          if [ -x /usr/bin/ldd ]; then
+            export PATH="${hostLdd}/bin:$PATH"
+          fi
+        '';
+
         # Interactive-only tooling. Kept out of ci so the CI closure stays small.
         devOnlyPackages = with pkgs; [
           bashInteractive
@@ -64,7 +76,7 @@
           BASH_COMPLETION_PATH =
             "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh";
 
-          shellHook = ''
+          shellHook = coreShellHook + ''
             echo "Nix devShell ready. bun $(bun --version 2>/dev/null)"
           '';
         };
@@ -75,6 +87,7 @@
 
           ci = pkgs.mkShell {
             packages = corePackages;
+            shellHook = coreShellHook;
           };
         };
       });

@@ -28,6 +28,11 @@ The dependency installation needs root privileges. The repository's Bun dev shel
 alone does not supply WebKit's GTK, GStreamer, and TLS libraries. Test runs do not
 need root once those dependencies are installed.
 
+On Debian/Ubuntu, the Nix dev and CI shells use `/usr/bin/ldd` for browser
+dependency checks so Playwright can find the host-installed libraries. After
+updating the flake, run `direnv reload`, or exit and re-enter `nix develop`.
+Browser test commands then work without a manual `PATH` prefix.
+
 WebKit is an engine target; this does not claim testing on shipping Safari or iOS.
 
 E2E launches a fresh production build and preview server on port 4173, plus a
