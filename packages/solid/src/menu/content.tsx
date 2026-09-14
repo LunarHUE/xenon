@@ -8,6 +8,7 @@ import {
   createMemo,
   createSignal,
   createUniqueId,
+  flush,
   omit,
   onCleanup,
   useContext,
@@ -193,6 +194,8 @@ export function MenuContent<T extends ValidComponent = 'div'>(
           while (root.parent) root = root.parent
           root.trigger()?.focus({ preventScroll: true })
           context.closeAll(false)
+          // Remove the menu's tab stop before the browser performs native Tab navigation.
+          flush()
         } else if (
           context.parent &&
           event.key === (context.dir() === 'rtl' ? 'ArrowRight' : 'ArrowLeft')
