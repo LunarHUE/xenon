@@ -22,69 +22,118 @@ import { serverAssociations } from '../field/server-associations'
 import { createPresence } from './presence'
 import { spread } from '../spread'
 
+/** Shared root options consumed by the dialog, alert dialog, and drawer adapters. */
 interface Own {
+  /** Controlled visibility while defined; undefined uses internal state. */
   open?: boolean
+  /** Initial uncontrolled visibility, read once at setup. Defaults to false. */
   defaultOpen?: boolean
+  /** Reports a different visibility request after updating uncontrolled state. Same-state requests and initialization are silent. */
   onOpenChange?: (open: boolean) => void
+  /** Use modal native presentation and focus containment by default. Alert dialogs always remain modal. */
   modal?: boolean
+  /** Retain closed content, hidden after exit, without an active native session. Defaults to false. */
   forceMount?: boolean
+  /** Allow Escape and native cancel dismissal requests. Defaults to true; native cancel is always prevented. */
   closeOnEscape?: boolean
+  /** Allow outside-pointer dismissal. Defaults to true for dialogs/drawers; alert dialogs always disable it. */
   closeOnOutside?: boolean
+  /** Focus target for each new native session; false skips scope placement, not native browser focus. Alerts otherwise prefer Cancel. */
   initialFocus?: HTMLElement | false
+  /** Preferred eligible focus target when the session ends; updates affect the current session. Otherwise restoration uses captured openers. */
   finalFocus?: HTMLElement
+  /** Cancelable layer Escape callback; preventDefault vetoes dismissal. Not called for native cancel or when Escape dismissal is disabled. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
+  /** Deferred outside-pointer callback; wrapper preventDefault vetoes dismissal without canceling the native pointer event. */
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
+  /** Fallback content ID, also used by trigger aria-controls. Registered content IDs take precedence in associations. */
   contentId?: string
+  /** Fallback title association when no title is registered; also the default rendered Title ID. Omission generates an ID only for the part. */
   titleId?: string
+  /** Fallback description association when none is registered; also the default Description ID. Omission generates an ID only for the part. */
   descriptionId?: string
+  /** Receives the rendered root wrapper, not the native dialog. */
   ref?: (el: HTMLElement) => void
 }
+/** Shared dialog root options combined with the selected wrapper host props. */
 export type DialogProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Root wrapper host, defaulting to div; content remains a native dialog. */
+    as?: T
+  }
+/** Dialog root props with modal and outside-dismissal options removed for alert policy. */
 export type AlertDialogProps<T extends ValidComponent = 'div'> = Omit<
   DialogProps<T>,
   'modal' | 'closeOnOutside'
 >
+/** Drawer placement and handle-drag options added to the shared root props. */
 interface DrawerOwn {
+  /** Physical edge used for state hooks and handle drag direction. Defaults to bottom. */
   side?: DrawerSide
   /** Percent of drag-axis size, pixels, or rem. Defaults to 25% of the drawer size, at least 40px. */
   dragThreshold?: DrawerDragThreshold
 }
+/** Shared dialog behavior plus drawer side and drag threshold options. */
 export type DrawerProps<T extends ValidComponent = 'div'> = DialogProps<T> & DrawerOwn
+/** Native dialog props; the adapter owns open and forwards the ref to the dialog element. */
 export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
+  /** Receives the native content after internal presence and controller refs are recorded. */
   ref?: (el: HTMLDialogElement) => void
 }
+/** {@link ButtonProps} for an opening trigger, including native/generic activation and disabled/pending gates. */
 export type DialogTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+/** {@link ButtonProps} for a closing action; an author handler can cancel dismissal. */
 export type DialogCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+/** Polymorphic title props; the rendered ID is registered for content naming. */
 export type DialogTitleProps<T extends ValidComponent = 'h2'> = ComponentProps<T> & {
+  /** Rendered text host, defaulting to h2. */
   as?: T
+  /** Receives the rendered text element. */
   ref?: (el: HTMLElement) => void
 }
+/** Polymorphic description props; the rendered ID is registered for content description. */
 export type DialogDescriptionProps<T extends ValidComponent = 'p'> = ComponentProps<T> & {
+  /** Rendered text host, defaulting to p. */
   as?: T
+  /** Receives the rendered text element. */
   ref?: (el: HTMLElement) => void
 }
+/** Family variant selecting alert focus/dismissal policy and drawer-specific consumers. */
 type Kind = 'dialog' | 'alert' | 'drawer'
+/** Root-owned reactive state, element refs, and cross-part ID registration. */
 interface Context {
+  /** Configured family variant, fixed when the root is created. */
   kind: Kind
+  /** Live author options read by content and family-specific adapters. */
   own: Own & DrawerOwn
+  /** Current core snapshot; server reads recompute to include registrations made during rendering. */
   result(): DialogResult
+  /** Request different visibility, storing only uncontrolled state before notifying the author. */
   change(open: boolean): void
+  /** Most recently attached native content; not cleared when it detaches. */
   content(): HTMLDialogElement | undefined
+  /** Record native content for presence observation and dependent adapters. */
   setContent(el: HTMLDialogElement): void
+  /** Append a live ID getter in registration order; return its removal callback for owner cleanup. */
   register(name: 'title' | 'description' | 'content', id: () => string): () => void
+  /** Resolve an explicit root ID option or the generated fallback for this part. */
   id(name: 'title' | 'description' | 'content'): string
+  /** Read a naming/description association now on the client, or defer its server attribute resolution. */
   association(
     name: 'aria-labelledby' | 'aria-describedby',
     read: () => string | undefined
   ): string | undefined
+  /** Most recently attached alert Cancel target; undefined until registered and not cleared on detach. */
   cancel(): HTMLElement | undefined
+  /** Record the alert Cancel element used as the default initial focus target. */
   setCancel(el: HTMLElement): void
 }
+/** Shared provider used by all three dialog families and their parts. */
 const DialogContext = createContext<Context>()
+/** Reads the nearest dialog-family context, throwing an error naming the consumer when absent. */
 export function useDialog(name: string): Context {
   const context = useContext(DialogContext)
   if (!context)
@@ -93,7 +142,17 @@ export function useDialog(name: string): Context {
 }
 export function createDialogRoot<T extends ValidComponent>(
   props: DialogProps<T>,
-  config: { kind: Kind; compute(options: DialogOptions & { side?: DrawerSide }): DialogResult }
+  config: {
+    /** Fixed family policy for content and specialized parts. */
+    kind: Kind
+    /** Core engine receiving resolved state and registered IDs; called again as reactive inputs change. */
+    compute(
+      options: DialogOptions & {
+        /** Optional drawer edge passed through from root props. */
+        side?: DrawerSide
+      }
+    ): DialogResult
+  }
 ): JSX.Element {
   const { kind } = config
   const own = props as Own & DrawerOwn & { as?: ValidComponent }
