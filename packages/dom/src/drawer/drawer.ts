@@ -1,6 +1,15 @@
-/** A nonnegative dismiss distance along the drawer's drag axis. */
+/**
+ * Dismiss distance with an explicit %, px, or rem suffix. Runtime parsing accepts
+ * nonnegative decimal strings without whitespace; malformed values use the default.
+ * The template-literal type alone does not enforce those parsing restrictions.
+ */
 export type DrawerDragThreshold = `${number}%` | `${number}px` | `${number}rem`
 
+/**
+ * Resolve against the gesture's captured axis extent and the content document's
+ * current root font size. Invalid syntax or nonfinite/negative results use
+ * max(40px, 25% of extent); explicit valid values have no 40px minimum.
+ */
 function resolveThreshold(value: unknown, extent: number, content: HTMLElement): number {
   const fallback = Math.max(40, extent * 0.25)
   if (typeof value !== 'string') return fallback
@@ -21,14 +30,47 @@ function resolveThreshold(value: unknown, extent: number, content: HTMLElement):
   return Number.isFinite(distance) && distance >= 0 ? distance : fallback
 }
 
+/** Physical drag direction, release threshold, and dismissal request. */
 export interface DrawerHandleOptions {
+  /** Outward dismissal direction; top/bottom measure height and left/right measure width. */
   side: 'top' | 'right' | 'bottom' | 'left'
-  /** Percent of drag-axis size, pixels, or root-font-relative distance. Defaults to 25%, at least 40px. */
+  /**
+   * Percent of axis size measured at pointerdown, CSS pixels, or root-font-relative
+   * distance resolved at release. Even zero requires positive outward movement
+   * and more than 5px movement on at least one axis. No velocity or duration threshold is used.
+   * @defaultValue 25% of the drag-axis extent, with a 40px minimum
+   */
   dragThreshold?: DrawerDragThreshold
+  /**
+   * Called synchronously once after an uncanceled release reaches the threshold
+   * with a positive drag-axis extent. Capture and swiping flags are cleared first, but
+   * the release offset remains available for exit CSS. This request does not hide
+   * the drawer; initialization, reset, cancellation, and disposal do not invoke it.
+   */
   onDismiss: () => void
 }
 
-/** A dedicated handle owns swipe gestures; scrolling content keeps native input. */
+/**
+ * Register outward swipe dismissal on a dedicated handle without listening on content.
+ *
+ * @remarks
+ * Sets handle touch-action to none and captures an accepted primary pointer when
+ * pointer capture is available. Only primary-button, non-Ctrl, unprevented starts
+ * on a handle without native or ARIA disabled state are accepted. Starting any
+ * pointerdown first resets the previous gesture. The drawer side and dimensions
+ * are captured at start; threshold and callback are read from current options at release.
+ *
+ * Movement beyond 5px on either axis sets data-swiping on both elements and writes
+ * a nonnegative outward pixel distance to --drawer-swipe-offset on content. CSS owns
+ * the visual transform. Moved events prevent default; an already-prevented release
+ * suppresses dismissal. Pointer cancellation and lost capture reset the gesture.
+ * A moved gesture suppresses the next nonzero-detail click in the capture phase,
+ * including propagation to later listeners; detail-zero activation is preserved.
+ *
+ * @param handle - Dedicated gesture element whose touch-action is temporarily owned.
+ * @param content - Drawer whose rectangle, CSS offset, and owner-document root font are used.
+ * @returns Operations for resetting, replacing options, and releasing listeners/styles.
+ */
 export function registerDrawerHandle(
   handle: HTMLElement,
   content: HTMLElement,
@@ -45,6 +87,10 @@ export function registerDrawerHandle(
   const previousTouchAction = handle.style.getPropertyValue('touch-action')
   const previousTouchPriority = handle.style.getPropertyPriority('touch-action')
   handle.style.setProperty('touch-action', 'none')
+  /**
+   * End capture and clear swiping flags. Restore the initially captured offset
+   * unless preserving the release position; click suppression state is retained.
+   */
   const reset = (preserveOffset = false) => {
     const id = drag?.id
     drag = undefined
@@ -121,13 +167,24 @@ export function registerDrawerHandle(
   handle.addEventListener('lostpointercapture', cancel)
   handle.addEventListener('click', click, true)
   return {
+    /**
+     * Cancel any gesture and restore the original offset value/priority, including
+     * after dismissal. Does not remove listeners or clear pending click suppression.
+     */
     reset() {
       reset()
     },
+    /** Replace all options. A changed side resets the gesture; other changes apply at release. */
     update(next: DrawerHandleOptions) {
       if (next.side !== options.side) reset()
       options = next
     },
+    /**
+     * Reset capture/offset and remove all listeners. Restore original touch-action
+     * and priority only if its current value is still none, preserving other author
+     * changes. Existing data-swiping values are removed, not restored. Stop using
+     * this registration after disposal; reset/update have no disposed-state guard.
+     */
     dispose() {
       reset()
       handle.removeEventListener('pointerdown', down)
