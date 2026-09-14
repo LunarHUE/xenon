@@ -6,20 +6,40 @@ import { createEffect, createMemo, omit } from 'solid-js'
 
 import { spread } from '../spread'
 
+/** Library-owned progress inputs, replacing matching host props. */
 interface Own {
+  /** Amount to display; missing/nonfinite means indeterminate. Finite values are clamped to the bounds. */
   value?: ProgressOptions['value']
+  /** Lower bound; missing/nonfinite falls back to zero. */
   min?: ProgressOptions['min']
+  /** Upper bound; missing/nonfinite falls back to 100, then is raised to min if necessary. */
   max?: ProgressOptions['max']
+  /** Accessible value formatter called during determinate recomputation. Defaults to rounded percentage text. */
   format?: ProgressOptions['format']
+  /** Receives the rendered host, which custom components must forward for percentage style updates. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic host props combined with numeric progress state and formatting. */
 export type ProgressProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Host or forwarding component, defaulting to div; progressbar semantics remain explicit. */
+    as?: T
+  }
 
+/**
+ * Render reactive progressbar semantics and publish --progress-percentage on the host.
+ *
+ * @remarks
+ * The client effect writes the unrounded numeric percentage without a percent
+ * suffix, or removes the custom property when indeterminate. It does not restore
+ * a prior value. Supply an accessible name and CSS/children for the visual fill.
+ * Remaining host attributes override core attributes through {@link spread}.
+ * See {@link progress} for range normalization and zero-width range behavior.
+ */
 export function Progress<T extends ValidComponent = 'div'>(props: ProgressProps<T>): JSX.Element {
   const own = props as Own & { as?: ValidComponent }
   const rest = omit(props as Record<string, unknown>, 'as', 'value', 'min', 'max', 'format', 'ref')
