@@ -1,5 +1,6 @@
 import { numberField, type NumberFieldOptions } from '@tenon/core/number-field'
-import type { ComponentProps, JSX } from '@solidjs/web'
+import { isServer, type ComponentProps, type JSX } from '@solidjs/web'
+import { serverAssociations } from '../field/server-associations'
 import {
   createContext,
   createEffect,
@@ -33,6 +34,7 @@ export interface NumberFieldProps extends Omit<
   class?: string
 }
 interface Context {
+  associations?: ReturnType<typeof serverAssociations>
   props: NumberFieldProps
   engine: () => ReturnType<typeof numberField>
   field: ReturnType<typeof useFieldContext>
@@ -49,6 +51,7 @@ function useNumberField() {
 /** Locale-aware numeric editing with a canonical hidden form value and silent native reset. */
 function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
   const field = useFieldContext()
+  const associations = isServer ? serverAssociations() : undefined
   const base = `tenon-number-field-${createUniqueId()}`
   const [internal, setInternal] = createSignal<number | null>(
     untrack(() => props.defaultValue ?? null)
@@ -112,6 +115,7 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
     return () => element.ownerDocument.removeEventListener('reset', reset)
   })
   const context: Context = {
+    associations,
     props,
     field,
     engine,
@@ -129,7 +133,7 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
     },
   }
   const content = createMemo(() => <Context value={context}>{props.children}</Context>)
-  return (
+  const element = (
     <div {...spread(engine().parts.root, { id: props.id, class: props.class })}>
       {content()}
       <input
@@ -141,6 +145,8 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
       />
     </div>
   )
+  // eslint-disable-next-line solid/components-return-once -- The server runtime is fixed.
+  return isServer ? associations!.finish(element) : element
 }
 /** Native input attributes, with numeric state and form name owned by Root. */
 export type NumberFieldInputProps = Omit<ComponentProps<'input'>, 'value' | 'name' | 'ref'> & {
@@ -151,8 +157,8 @@ export type NumberFieldInputProps = Omit<ComponentProps<'input'>, 'value' | 'nam
 function NumberFieldInput(props: NumberFieldInputProps): JSX.Element {
   const context = useNumberField()
   const rest = omit(props as Record<string, unknown>, 'ref', 'children')
+  // eslint-disable-next-line solid/reactivity -- Registry retains the live ID reader.
   onCleanup(context.registerId(() => (typeof props.id === 'string' ? props.id : undefined)))
-  // eslint-disable-next-line solid/reactivity -- Field retains the ID accessor.
   if (context.field) onCleanup(context.field.registerControl(context.id))
   return (
     <input
@@ -181,7 +187,13 @@ function NumberFieldIncrementTrigger(props: NumberFieldTriggerProps): JSX.Elemen
   const context = useNumberField()
   const rest = omit(props as Record<string, unknown>, 'children')
   return (
-    <button {...spread(context.engine().parts.incrementTrigger, { ...rest })}>
+    <button
+      {...spread(context.engine().parts.incrementTrigger, {
+        ...rest,
+        'aria-controls':
+          context.associations?.attribute('aria-controls', context.id) ?? context.id(),
+      })}
+    >
       {props.children}
     </button>
   )
@@ -191,7 +203,13 @@ function NumberFieldDecrementTrigger(props: NumberFieldTriggerProps): JSX.Elemen
   const context = useNumberField()
   const rest = omit(props as Record<string, unknown>, 'children')
   return (
-    <button {...spread(context.engine().parts.decrementTrigger, { ...rest })}>
+    <button
+      {...spread(context.engine().parts.decrementTrigger, {
+        ...rest,
+        'aria-controls':
+          context.associations?.attribute('aria-controls', context.id) ?? context.id(),
+      })}
+    >
       {props.children}
     </button>
   )
@@ -209,7 +227,7 @@ function NumberFieldLabel(props: NumberFieldLabelProps): JSX.Element {
   const context = useNumberField()
   const rest = omit(props as Record<string, unknown>, 'children')
   return (
-    <label {...rest} for={context.id()}>
+    <label {...rest} for={context.associations?.attribute('for', context.id) ?? context.id()}>
       {props.children}
     </label>
   )
