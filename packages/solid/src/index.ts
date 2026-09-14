@@ -28,6 +28,7 @@ export type {
   MenuTriggerProps,
   MenuContentProps,
   MenuPositionerProps,
+  MenuArrowProps,
   MenuChecked,
   MenuItemProps,
   MenuCheckboxItemProps,
@@ -44,3 +45,8 @@ export * from './number-field'
 export * from './pin-input'
 export * from './tags-input'
 export * from './editable'
+export * from './tooltip'
+export * from './hover-card'
+export * from './context-menu'
+export * from './menubar'
+export * from './navigation-menu'

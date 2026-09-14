@@ -124,6 +124,26 @@
     "./editable": {
       "types": "./src/editable/index.tsx",
       "default": "./src/editable/index.tsx"
+    },
+    "./tooltip": {
+      "types": "./src/tooltip/index.tsx",
+      "default": "./src/tooltip/index.tsx"
+    },
+    "./hover-card": {
+      "types": "./src/hover-card/index.tsx",
+      "default": "./src/hover-card/index.tsx"
+    },
+    "./context-menu": {
+      "types": "./src/context-menu/index.tsx",
+      "default": "./src/context-menu/index.tsx"
+    },
+    "./menubar": {
+      "types": "./src/menubar/index.tsx",
+      "default": "./src/menubar/index.tsx"
+    },
+    "./navigation-menu": {
+      "types": "./src/navigation-menu/index.tsx",
+      "default": "./src/navigation-menu/index.tsx"
     }
   },
   "scripts": {
