@@ -12,6 +12,18 @@
     "./*": {
       "types": "./src/*.tsx",
       "default": "./src/*.tsx"
+    },
+    "./dialog": {
+      "types": "./src/dialog/index.tsx",
+      "default": "./src/dialog/index.tsx"
+    },
+    "./alert-dialog": {
+      "types": "./src/alert-dialog/index.tsx",
+      "default": "./src/alert-dialog/index.tsx"
+    },
+    "./drawer": {
+      "types": "./src/drawer/index.tsx",
+      "default": "./src/drawer/index.tsx"
     }
   },
   "scripts": {
