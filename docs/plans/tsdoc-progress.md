@@ -74,3 +74,14 @@ Independent review and package lint passed. All nine implementation files review
 | `aa8f30e` | clarify deferred dialog pointer callbacks | `packages/dom/src/dialog/dialog.ts` |
 | `7358e26` | document floating layer hosting and focus contracts | `packages/dom/src/floating-layer/floating-layer.ts` |
 | `53fda76` | clarify floating pointer callback snapshots | `packages/dom/src/floating-layer/floating-layer.ts` |
+
+## Solid S1 complete
+
+Independent review and package lint passed. Shared props, event merging, controlled checked state and presence reviewed. Peer wording fixes distinguish caller tracking and handler dispatch from helper construction.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `6ab353c` | document prop merging and native helpers | `packages/solid/src/spread.ts`, `packages/solid/src/internal/gate.ts`, `packages/solid/src/internal/native.ts` |
+| `e4295a1` | document button props and checked control state | `packages/solid/src/button/button.tsx`, `packages/solid/src/internal/checked.tsx` |
+| `a5393d6` | document presence timing and disclosure activation | `packages/solid/src/internal/presence.tsx`, `packages/solid/src/internal/disclosure-trigger.ts` |
+| `e74d797` | clarify prop merge tracking context | `packages/solid/src/spread.ts` |
