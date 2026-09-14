@@ -294,3 +294,42 @@ test('Tooltip initially open anchors its trigger and scrolling that ancestor dis
   await settle(150)
   expect(m.queryByRole('tooltip')).toBeNull()
 })
+
+test('Tooltip hoverable false lets the underlying control receive a click through its visible wrapper', async () => {
+  let clicks = 0
+  const m = mount(() => (
+    <div>
+      <Tooltip openDelay={0} closeDelay={1000} hoverable={false} closeOnPress={false}>
+        <Tooltip.Trigger
+          style={{ position: 'fixed', left: '150px', top: '40px', width: '100px', height: '30px' }}
+        >
+          Explain overlay
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Positioner side="bottom" sideOffset={10} flip={false}>
+            <Tooltip.Content style={{ width: '160px', height: '70px', background: 'white' }}>
+              Visible explanation
+            </Tooltip.Content>
+          </Tooltip.Positioner>
+        </Tooltip.Portal>
+      </Tooltip>
+      <button
+        onClick={() => clicks++}
+        style={{ position: 'fixed', left: '120px', top: '80px', width: '160px', height: '70px' }}
+      >
+        Underlying control
+      </button>
+    </div>
+  ))
+  await userEvent.hover(m.getByRole('button', { name: 'Explain overlay' }))
+  await settle()
+  const content = m.getByRole('tooltip')
+  expect(content).toBeVisible()
+  const rect = content.getBoundingClientRect()
+  const underneath = m.getByRole('button', { name: 'Underlying control' })
+  expect(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)).toBe(
+    underneath
+  )
+  await userEvent.click(underneath)
+  expect(clicks).toBe(1)
+})
