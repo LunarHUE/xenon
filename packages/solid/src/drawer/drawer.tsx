@@ -5,6 +5,24 @@ import type { ButtonProps } from '../button/button'
 import { createEffect, createSignal, onCleanup } from 'solid-js'
 import { registerDrawerHandle } from '@tenon/dom'
 import type { DrawerProps } from '../internal/dialog'
+/**
+ * Accessible close button that also attaches outward-swipe dismissal to the drawer content.
+ *
+ * @remarks
+ * Defaults to a button labeled "Close drawer"; author props can replace that label.
+ * Click behavior follows DialogClose, including author cancellation and Button
+ * disabled handling. Once both refs exist, {@link registerDrawerHandle} owns pointer
+ * capture, touch-action, swipe hooks, offset writes, and post-drag click suppression.
+ * The root's dragThreshold follows {@link DrawerProps}; its explicit %, px, or rem
+ * distance is interpreted by the DOM controller. CSS owns the visual translation.
+ *
+ * Host/content replacement disposes the prior gesture controller. Reopening or an
+ * exited phase resets swipe offset; owner cleanup removes gesture listeners and
+ * restores owned styles. A dismissal proposal that leaves controlled open true
+ * resets the offset in a microtask, unless the controller has since changed.
+ * Custom hosts must forward props and ref; the public ref receives the handle.
+ * @throws If rendered outside the shared Dialog/AlertDialog/Drawer context.
+ */
 export function DrawerHandle<T extends ValidComponent = 'button'>(
   props: ButtonProps<T>
 ): JSX.Element {
@@ -14,6 +32,7 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
   let attached: HTMLElement | undefined
   let attachedContent: HTMLElement | undefined
   let wasOpen = false
+  /** Synchronizes gesture registration with current refs, side, threshold, and presence state. */
   createEffect(
     () => ({
       el: element(),
@@ -62,12 +81,24 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
     />
   )
 }
+/** Instantiates the shared dialog adapter with physical-side styling hooks. */
 function DrawerRoot<T extends ValidComponent = 'div'>(props: DrawerProps<T>): JSX.Element {
   return createDialogRoot(props, { kind: 'drawer', compute: drawer })
 }
+/**
+ * Dialog-based drawer root with shared dialog parts and a swipe-capable Handle.
+ *
+ * @remarks
+ * Side defaults to bottom; layout and transitions are supplied by the caller.
+ * Modality defaults to true but may be disabled, and shared dialog options govern
+ * controlled open state, focus, dismissal, and presence. Parts require this family's
+ * context, and Content renders the native dialog used by the handle's gestures.
+ */
 export const Drawer = Object.assign(DrawerRoot, {
+  /** Alias of Drawer with the same root options and context. */
   Root: DrawerRoot,
   ...dialogParts,
+  /** Close button with drag dismissal and a default accessible label. */
   Handle: DrawerHandle,
 })
 export type { DrawerProps } from '../internal/dialog'
