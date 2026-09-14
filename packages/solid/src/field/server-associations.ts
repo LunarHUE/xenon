@@ -2,7 +2,8 @@ import { escape, resolveSSRNode, ssrAttribute } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 
 /** Attribute names eligible for deferred Field ID-reference serialization. */
-export type Association = 'for' | 'aria-labelledby' | 'aria-describedby' | 'aria-controls'
+export type Association =
+  'for' | 'aria-labelledby' | 'aria-describedby' | 'aria-controls' | 'aria-activedescendant'
 
 /** Solid SSR node fields preserved while finalizing association markers. */
 interface ServerNode {
