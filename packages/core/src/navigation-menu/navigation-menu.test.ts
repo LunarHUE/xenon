@@ -17,7 +17,7 @@ test('navigation uses native disclosure semantics and never composite roles', ()
   expect(result.parts.link(true).attrs['aria-current']).toBe('page')
   result.parts
     .trigger('')
-    .on.click?.({ defaultPrevented: false } as MouseEvent & { currentTarget: HTMLButtonElement })
+    .on.click?.({ defaultPrevented: false } as PointerEvent & { currentTarget: HTMLButtonElement })
   expect(change).toHaveBeenCalledWith(null)
 })
 test('disabled and canceled activation are silent', () => {
@@ -25,10 +25,10 @@ test('disabled and canceled activation are silent', () => {
   const result = navigationMenu({ onValueChange: change })
   result.parts
     .trigger('x', true)
-    .on.click?.({ defaultPrevented: false } as MouseEvent & { currentTarget: HTMLButtonElement })
+    .on.click?.({ defaultPrevented: false } as PointerEvent & { currentTarget: HTMLButtonElement })
   result.parts
     .trigger('x')
-    .on.click?.({ defaultPrevented: true } as MouseEvent & { currentTarget: HTMLButtonElement })
+    .on.click?.({ defaultPrevented: true } as PointerEvent & { currentTarget: HTMLButtonElement })
   expect(change).not.toHaveBeenCalled()
   expect(result.state.value).toBeNull()
 })

@@ -192,7 +192,7 @@ test('author Escape and link selection cancellation keep navigation open', async
       </Nav.List>
       <Nav.Positioner>
         <Nav.Content value="a">
-          <Nav.Link href="#veto" onSelect={(event) => event.preventDefault()}>
+          <Nav.Link href="#veto" onSelect={(event: MouseEvent) => event.preventDefault()}>
             Veto
           </Nav.Link>
         </Nav.Content>
