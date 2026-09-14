@@ -16,7 +16,9 @@ research files are evidence and are not edited after they land.
 The id is `<component>.<subsection-slug>.<n>` and never changes once
 written; new bullets take the next number. Subsection slugs are fixed:
 `roles`, `keyboard`, `pointer`, `focus`, `state`, `forms`, `dismissal`,
-`positioning`, `animation`, `rtl`, `ssr`, `a11y`, `notes`. The checkbox is ticked when
+`positioning`, `animation`, `rtl`, `ssr`, `a11y`, `notes`. `cross-cutting.md`
+is the one exception: its sections are topics rather than components, so its
+ids are two segments, `<topic>.<n>`. The checkbox is ticked when
 `packages/suite` has a passing test for it.
 
 Subsections, in this order: Roles and attributes; Keyboard; Pointer; Focus
