@@ -2,10 +2,10 @@ import solid from '@solidjs/vite-plugin'
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vitest/config'
 
-const browsers = (process.env.KIT_BROWSERS ?? 'chromium').split(',')
+const browsers = (process.env.TENON_BROWSERS ?? 'chromium').split(',')
 for (const browser of browsers) {
   if (!['chromium', 'firefox', 'webkit'].includes(browser))
-    throw new Error(`Unknown KIT_BROWSERS entry: ${browser}`)
+    throw new Error(`Unknown TENON_BROWSERS entry: ${browser}`)
 }
 
 const setupFiles = ['./vitest-setup.ts']

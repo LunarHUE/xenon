@@ -12,7 +12,7 @@ import {
   Toggle,
   ToggleGroup,
   Toolbar,
-} from '@kit/solid'
+} from '@tenon/solid'
 import { Show, createSignal } from 'solid-js'
 
 import { NestedFields } from './nested-fields'

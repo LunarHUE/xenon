@@ -1,4 +1,4 @@
-import { ToggleGroup } from '@kit/solid'
+import { ToggleGroup } from '@tenon/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { describe, expect, test, vi } from 'vitest'
 

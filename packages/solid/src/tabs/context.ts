@@ -1,5 +1,5 @@
-import type { AnyPart } from '@kit/core'
-import type { TabsOrientation } from '@kit/core'
+import type { AnyPart } from '@tenon/core'
+import type { TabsOrientation } from '@tenon/core'
 import { createContext, useContext } from 'solid-js'
 
 export interface TabEntry {

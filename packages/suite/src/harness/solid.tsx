@@ -12,7 +12,7 @@ import {
   Toggle,
   ToggleGroup,
   Toolbar,
-} from '@kit/solid'
+} from '@tenon/solid'
 import { Dynamic, render } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'

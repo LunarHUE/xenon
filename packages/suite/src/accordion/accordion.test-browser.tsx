@@ -1,4 +1,4 @@
-import { Accordion } from '@kit/solid'
+import { Accordion } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { describe, expect, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

@@ -1,4 +1,4 @@
-import type { AnyPart } from '@kit/core'
+import type { AnyPart } from '@tenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'

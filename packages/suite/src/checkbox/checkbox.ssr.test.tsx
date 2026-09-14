@@ -1,4 +1,4 @@
-import { Checkbox, Field } from '@kit/solid'
+import { Checkbox, Field } from '@tenon/solid'
 import { screen } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect } from 'vitest'

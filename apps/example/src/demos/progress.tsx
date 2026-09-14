@@ -1,4 +1,4 @@
-import { Button, Progress } from '@kit/solid'
+import { Button, Progress } from '@tenon/solid'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

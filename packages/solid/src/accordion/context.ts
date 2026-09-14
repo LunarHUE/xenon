@@ -1,5 +1,5 @@
-import type { AnyPart, PresenceStatus } from '@kit/core'
-import type { CollapsibleIds } from '@kit/core'
+import type { AnyPart, PresenceStatus } from '@tenon/core'
+import type { CollapsibleIds } from '@tenon/core'
 import { createContext, useContext } from 'solid-js'
 
 export interface AccordionEntry {

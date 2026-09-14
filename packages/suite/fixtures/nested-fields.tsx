@@ -1,4 +1,4 @@
-import { Checkbox, Field, Switch } from '@kit/solid'
+import { Checkbox, Field, Switch } from '@tenon/solid'
 import { Show, omit } from 'solid-js'
 import type { ComponentProps } from '@solidjs/web'
 
@@ -94,7 +94,7 @@ export function NestedFields() {
           aria-describedby="author-help"
         />
       </Field>
-      <pre>{'aria-describedby="kit-field-authored" & <unchanged>'}</pre>
+      <pre>{'aria-describedby="tenon-field-authored" & <unchanged>'}</pre>
     </section>
   )
 }

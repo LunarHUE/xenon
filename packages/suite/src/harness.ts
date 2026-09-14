@@ -1,4 +1,4 @@
-import type { ButtonProps as SolidButtonProps } from '@kit/solid'
+import type { ButtonProps as SolidButtonProps } from '@tenon/solid'
 import type { JSX, ValidComponent } from '@solidjs/web'
 
 type Loose<P> = Omit<P, 'as'> & { as?: ValidComponent } & Record<string, unknown>

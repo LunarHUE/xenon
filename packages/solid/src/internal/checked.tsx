@@ -1,5 +1,5 @@
-import { checkbox, toggleSwitch } from '@kit/core'
-import type { CheckboxHost, CheckboxOptions } from '@kit/core'
+import { checkbox, toggleSwitch } from '@tenon/core'
+import type { CheckboxHost, CheckboxOptions } from '@tenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'

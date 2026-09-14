@@ -1,4 +1,4 @@
-import { Collapsible } from '@kit/solid'
+import { Collapsible } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { userEvent } from 'vitest/browser'
 import { describe, expect, vi } from 'vitest'

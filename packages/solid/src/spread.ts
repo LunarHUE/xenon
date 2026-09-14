@@ -1,4 +1,4 @@
-import type { AnyPart } from '@kit/core'
+import type { AnyPart } from '@tenon/core'
 
 type Handler = (event: Event) => void
 

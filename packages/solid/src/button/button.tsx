@@ -1,5 +1,5 @@
-import { button } from '@kit/core'
-import type { ButtonHost, ButtonOptions } from '@kit/core'
+import { button } from '@tenon/core'
+import type { ButtonHost, ButtonOptions } from '@tenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'

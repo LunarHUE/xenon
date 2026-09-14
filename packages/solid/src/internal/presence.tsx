@@ -1,6 +1,6 @@
-import { presence } from '@kit/core'
-import type { PartProps, PresenceStatus } from '@kit/core'
-import { waitForExit } from '@kit/dom'
+import { presence } from '@tenon/core'
+import type { PartProps, PresenceStatus } from '@tenon/core'
+import { waitForExit } from '@tenon/dom'
 import { createEffect, createMemo, createSignal } from 'solid-js'
 
 export interface PresenceSource {

@@ -349,7 +349,7 @@ nested in a dialog, and a combobox nested in a menu. Context menus live in
 
 ## Deferred
 
-- Framework-adapter plumbing (Vue template `as` prop arities, Svelte snippet props, Solid/Vue parity skips, `describeConformance`/`popupConformanceTests` suites, render-prop and `className`-as-function shapes) is adapter surface, not menu behavior. Kept out of the suite; the harness covers the equivalent for `@kit/solid`.
+- Framework-adapter plumbing (Vue template `as` prop arities, Svelte snippet props, Solid/Vue parity skips, `describeConformance`/`popupConformanceTests` suites, render-prop and `className`-as-function shapes) is adapter surface, not menu behavior. Kept out of the suite; the harness covers the equivalent for `@tenon/solid`.
 - Base UI's detached-trigger and `Menu.createHandle` architecture (`menu.state.22`–`menu.state.24`) is recorded but out of scope until the core controller grows a multi-trigger concept.
 - Base UI's `Menu.Viewport` morphing containers (`menu.animation.11`, `menu.animation.12`) and Ariakit's slide-navigation menu (`menu.positioning.10`) are library-specific presentation shells; deferred until we decide whether the controller owns a viewport.
 - Ariakit's positioning-pass (`data-placing`) focus deferral (`menu.roles.39`, `menu.focus.18`, `menu.focus.19`) depends on a custom `updatePosition` hook we do not yet have.

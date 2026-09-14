@@ -1,4 +1,4 @@
-import { Toolbar } from '@kit/solid'
+import { Toolbar } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { userEvent } from 'vitest/browser'
 import { describe, expect, onTestFinished } from 'vitest'

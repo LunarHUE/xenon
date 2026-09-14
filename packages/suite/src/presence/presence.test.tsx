@@ -1,5 +1,5 @@
 // Presence is internal to adapters. Exercise its DOM contract through the public disclosure.
-import { Collapsible } from '@kit/solid'
+import { Collapsible } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { describe, expect, vi } from 'vitest'

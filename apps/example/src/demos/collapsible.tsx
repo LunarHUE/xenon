@@ -1,4 +1,4 @@
-import { Collapsible } from '@kit/solid'
+import { Collapsible } from '@tenon/solid'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

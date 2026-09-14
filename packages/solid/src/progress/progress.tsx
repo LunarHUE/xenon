@@ -1,5 +1,5 @@
-import { progress } from '@kit/core'
-import type { ProgressOptions } from '@kit/core'
+import { progress } from '@tenon/core'
+import type { ProgressOptions } from '@tenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createEffect, createMemo, omit } from 'solid-js'

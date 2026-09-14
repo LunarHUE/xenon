@@ -1,4 +1,4 @@
-import { Field, Switch } from '@kit/solid'
+import { Field, Switch } from '@tenon/solid'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import axe from 'axe-core'

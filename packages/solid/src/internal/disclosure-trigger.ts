@@ -1,5 +1,5 @@
-import { button } from '@kit/core'
-import type { AnyPart } from '@kit/core'
+import { button } from '@tenon/core'
+import type { AnyPart } from '@tenon/core'
 
 /** Reuse button activation for disclosure triggers with a non-native host. */
 export function disclosureTrigger(part: AnyPart, native: boolean): AnyPart {

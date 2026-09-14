@@ -1,4 +1,4 @@
-import { Button, Checkbox, Switch } from '@kit/solid'
+import { Button, Checkbox, Switch } from '@tenon/solid'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

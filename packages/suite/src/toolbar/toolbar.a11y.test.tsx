@@ -1,4 +1,4 @@
-import { Toolbar } from '@kit/solid'
+import { Toolbar } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import axe from 'axe-core'
 import { describe, expect } from 'vitest'

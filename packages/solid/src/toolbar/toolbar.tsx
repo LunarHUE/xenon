@@ -1,5 +1,5 @@
-import { composite } from '@kit/core'
-import type { AnyPart, CompositeDirection } from '@kit/core'
+import { composite } from '@tenon/core'
+import type { AnyPart, CompositeDirection } from '@tenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled } from 'solid-js'

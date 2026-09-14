@@ -1,5 +1,5 @@
 {
-  "name": "@kit/suite",
+  "name": "@tenon/suite",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -12,17 +12,17 @@
     "spec:tick": "vitest run --project jsdom --reporter=json --outputFile=.vitest/results.json; bun scripts/tick-spec.ts .vitest/results.json",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
-    "test:browser:all": "KIT_BROWSERS=chromium,firefox,webkit vitest run --project browser"
+    "test:browser:all": "TENON_BROWSERS=chromium,firefox,webkit vitest run --project browser"
   },
   "dependencies": {
-    "@kit/core": "workspace:*",
-    "@kit/solid": "workspace:*",
+    "@tenon/core": "workspace:*",
+    "@tenon/solid": "workspace:*",
     "@solidjs/web": "catalog:",
     "solid-js": "catalog:"
   },
   "devDependencies": {
-    "@kit/eslint-config": "workspace:*",
-    "@kit/typescript-config": "workspace:*",
+    "@tenon/eslint-config": "workspace:*",
+    "@tenon/typescript-config": "workspace:*",
     "@solidjs/vite-plugin": "^3.0.0-next.43",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",

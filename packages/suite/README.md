@@ -2,17 +2,17 @@
 
 Run commands from `packages/suite`, or use `bun run --cwd packages/suite <script>`.
 
-| Command                                    | Coverage                                                            |
-| ------------------------------------------ | ------------------------------------------------------------------- |
-| `bun run test`                             | Conformance in jsdom                                                |
-| `bun run test:browser`                     | Conformance plus browser-only cases in Chromium                     |
-| `KIT_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
-| `bun run test:browser:all`                 | Chromium, Firefox and WebKit                                        |
-| `bun run test:e2e`                         | Full-page flows against the built example app in Chromium           |
-| `bunx playwright test --project webkit`    | Same E2E flows in WebKit                                            |
-| `bunx playwright test --project firefox`   | Same E2E flows in Firefox                                           |
-| `bun run test:e2e:all`                     | E2E in all three engines                                            |
-| `bun run spec:check`                       | Spec IDs with runnable tests, separate from TODO/skip registrations |
+| Command                                      | Coverage                                                            |
+| -------------------------------------------- | ------------------------------------------------------------------- |
+| `bun run test`                               | Conformance in jsdom                                                |
+| `bun run test:browser`                       | Conformance plus browser-only cases in Chromium                     |
+| `TENON_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
+| `bun run test:browser:all`                   | Chromium, Firefox and WebKit                                        |
+| `bun run test:e2e`                           | Full-page flows against the built example app in Chromium           |
+| `bunx playwright test --project webkit`      | Same E2E flows in WebKit                                            |
+| `bunx playwright test --project firefox`     | Same E2E flows in Firefox                                           |
+| `bun run test:e2e:all`                       | E2E in all three engines                                            |
+| `bun run spec:check`                         | Spec IDs with runnable tests, separate from TODO/skip registrations |
 
 Install the desired browser with `bunx playwright install chromium`, `firefox`,
 or `webkit`. CI Linux hosts may also need `bunx playwright install --with-deps chromium`.

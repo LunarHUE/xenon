@@ -1,5 +1,5 @@
 {
-  "name": "@kit/core",
+  "name": "@tenon/core",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -21,8 +21,8 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@kit/eslint-config": "workspace:*",
-    "@kit/typescript-config": "workspace:*",
+    "@tenon/eslint-config": "workspace:*",
+    "@tenon/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@typescript/native": "catalog:",
     "aria-attributes": "^2.0.1",

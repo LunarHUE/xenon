@@ -1,4 +1,4 @@
-import { Toggle } from '@kit/solid'
+import { Toggle } from '@tenon/solid'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

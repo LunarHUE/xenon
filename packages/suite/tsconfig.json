@@ -1,5 +1,5 @@
 {
-  "extends": "@kit/typescript-config/solid-library.json",
+  "extends": "@tenon/typescript-config/solid-library.json",
   "compilerOptions": {
     "types": ["vite/client", "bun"]
   },

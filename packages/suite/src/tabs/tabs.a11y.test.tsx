@@ -1,4 +1,4 @@
-import { Tabs } from '@kit/solid'
+import { Tabs } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { expect } from 'vitest'
 

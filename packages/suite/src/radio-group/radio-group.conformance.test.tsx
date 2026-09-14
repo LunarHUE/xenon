@@ -1,4 +1,4 @@
-import { RadioGroup } from '@kit/solid'
+import { RadioGroup } from '@tenon/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { describe, expect, test, vi } from 'vitest'
 import { Show, createSignal } from 'solid-js'

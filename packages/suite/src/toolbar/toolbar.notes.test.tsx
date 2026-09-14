@@ -1,4 +1,4 @@
-import { Toolbar } from '@kit/solid'
+import { Toolbar } from '@tenon/solid'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'

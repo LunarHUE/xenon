@@ -1,4 +1,4 @@
-import { Field } from '@kit/solid'
+import { Field } from '@tenon/solid'
 import { Loading } from '@solidjs/web'
 import { createMemo } from 'solid-js'
 

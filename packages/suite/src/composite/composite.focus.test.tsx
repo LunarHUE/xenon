@@ -1,4 +1,4 @@
-import { Toolbar } from '@kit/solid'
+import { Toolbar } from '@tenon/solid'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { Show, createSignal } from 'solid-js'

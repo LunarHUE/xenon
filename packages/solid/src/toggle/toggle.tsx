@@ -1,5 +1,5 @@
-import { toggle } from '@kit/core'
-import type { ToggleHost } from '@kit/core'
+import { toggle } from '@tenon/core'
+import type { ToggleHost } from '@tenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'

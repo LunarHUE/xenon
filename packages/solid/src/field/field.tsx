@@ -1,5 +1,5 @@
-import { field } from '@kit/core'
-import type { PartProps } from '@kit/core'
+import { field } from '@tenon/core'
+import type { PartProps } from '@tenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, untrack } from 'solid-js'

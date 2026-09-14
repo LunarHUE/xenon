@@ -1,5 +1,5 @@
 {
-  "name": "@kit/typescript-config",
+  "name": "@tenon/typescript-config",
   "version": "0.0.0",
   "private": true,
   "files": [

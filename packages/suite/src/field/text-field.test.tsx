@@ -1,4 +1,4 @@
-import { Field } from '@kit/solid'
+import { Field } from '@tenon/solid'
 import { screen } from '@testing-library/dom'
 import { describe, expect, vi } from 'vitest'
 

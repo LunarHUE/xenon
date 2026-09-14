@@ -11,13 +11,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kit/solid": "workspace:*",
+    "@tenon/solid": "workspace:*",
     "@solidjs/web": "catalog:",
     "solid-js": "catalog:"
   },
   "devDependencies": {
-    "@kit/eslint-config": "workspace:*",
-    "@kit/typescript-config": "workspace:*",
+    "@tenon/eslint-config": "workspace:*",
+    "@tenon/typescript-config": "workspace:*",
     "@solidjs/vite-plugin": "^3.0.0-next.43",
     "@typescript/native": "catalog:",
     "eslint": "catalog:",

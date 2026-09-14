@@ -1,4 +1,4 @@
-import { ToggleGroup, Toolbar } from '@kit/solid'
+import { ToggleGroup, Toolbar } from '@tenon/solid'
 import { within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { expect, vi } from 'vitest'

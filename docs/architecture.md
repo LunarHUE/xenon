@@ -10,12 +10,12 @@ rewrite. Solid is the only adapter for now and gets the idiomatic API.
 
 ## Layers
 
-- `@kit/core`. One function per component, from options to a `PartProps` per
+- `@tenon/core`. One function per component, from options to a `PartProps` per
   part. Pure: it may use DOM types but never DOM globals, enforced by eslint
   `no-restricted-globals` and by running its tests in Node. Everything that
   needs a live document (focus trap, dismiss, positioning, presence) goes in a
-  future `@kit/dom` package, also framework-free.
-- `@kit/solid`. Components that call core inside `createMemo` and spread the
+  future `@tenon/dom` package, also framework-free.
+- `@tenon/solid`. Components that call core inside `createMemo` and spread the
   result. Nothing from core shows up in the public API. Ark UI lets Zag's
   `connect` and `normalizeProps` leak into user code, and we treat that as the
   mistake to avoid.
@@ -314,7 +314,7 @@ reference shape.
   item cleanup can run inside the parent computation and must still unregister
   the removed item.
 
-## `@kit/dom`
+## `@tenon/dom`
 
 Framework-free browser logic that a React or Vue adapter would reuse, and the
 only package besides the adapters allowed to touch the DOM. It exists now
@@ -330,7 +330,7 @@ overridden to the same version because the rc range floats.
 
 ## Later
 
-- `@kit/dom` when the first floating component (popover) lands.
+- `@tenon/dom` when the first floating component (popover) lands.
 - A conformance suite written once against the DOM, run per adapter through a
   small mount harness. Spec source: WAI-ARIA Authoring Practices keyboard and
   role tables, then the React Aria, Radix, Zag and Ariakit suites.

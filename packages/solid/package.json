@@ -1,5 +1,5 @@
 {
-  "name": "@kit/solid",
+  "name": "@tenon/solid",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -20,16 +20,16 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@kit/core": "workspace:*",
-    "@kit/dom": "workspace:*"
+    "@tenon/core": "workspace:*",
+    "@tenon/dom": "workspace:*"
   },
   "peerDependencies": {
     "@solidjs/web": "^2.0.0-rc.8",
     "solid-js": "^2.0.0-rc.8"
   },
   "devDependencies": {
-    "@kit/eslint-config": "workspace:*",
-    "@kit/typescript-config": "workspace:*",
+    "@tenon/eslint-config": "workspace:*",
+    "@tenon/typescript-config": "workspace:*",
     "@solidjs/testing-library": "^1.0.0-beta.3",
     "@solidjs/vite-plugin": "^3.0.0-next.43",
     "@solidjs/web": "catalog:",
