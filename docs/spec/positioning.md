@@ -3,6 +3,16 @@ tooltip, hover card, menu and select point here for side and align resolution,
 offsets, collision handling, the arrow, the anchor, the CSS custom properties
 and the update triggers, and keep only the bullets that are their own.
 
+The implemented Tenon contract is documented in [positioning](../positioning.md).
+This checklist retains source observations and alternatives. Revalidation on
+2026-09-14 found that `.positioning.15` conflates Zag's width-only matching with
+Corvu's axis matching; `.positioning.16` conflates the viewport root boundary
+with ignoring clipping ancestors; `.state.2` overstates Zag's callback coverage;
+and `.notes.6` overlooks style writes inside Zag's size and arrow middleware.
+The malformed transform origins in `.notes.9` and `.notes.10` describe observed
+defects, not desired Tenon behavior. See the implementation document for the
+adopted defaults, source links, and deferred interaction-specific choices.
+
 ## positioning
 
 ### Roles and attributes

@@ -30,6 +30,7 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "tabbable": "^6.5.0"
+    "tabbable": "^6.5.0",
+    "@floating-ui/dom": "^1.8.0"
   }
 }
