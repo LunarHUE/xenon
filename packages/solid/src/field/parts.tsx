@@ -6,43 +6,74 @@ import { Show, createMemo, omit, onSettled, untrack } from 'solid-js'
 import { fieldDescribedBy, fieldFlags, fieldLabelledBy, isLabelable, useField } from './context'
 import { spread } from '../spread'
 
+/** Owned ref contract for the native label host. */
 interface LabelOwn {
+  /** Receives the label once per distinct element. */
   ref?: (el: HTMLLabelElement) => void
 }
 
+/** Shared ref contract for polymorphic descriptive text. */
 interface TextOwn {
+  /** Receives the rendered text host once per distinct element; custom hosts must forward it. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Owned control props merged with the enclosing Field state. */
 interface ControlOwn {
+  /** OR-combined with Field disabled. Native supported hosts receive disabled; other hosts receive aria-disabled only. */
   disabled?: boolean
+  /** OR-combined with Field required. Input/select/textarea receive required; other hosts receive aria-required. */
   required?: boolean
+  /** OR-combined with Field readonly. Input/textarea receive readonly; other hosts receive aria-readonly. */
   readonly?: boolean
+  /** OR-combined with Field invalid and exposed as ARIA/data state; does not perform validation. */
   invalid?: boolean
+  /** Overrides Field name for input/select/textarea. Other hosts receive no generated name or form mirror. */
   name?: string
+  /** Receives the rendered control once per distinct element; custom hosts must forward it. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Native label props; author id overrides the fallback and author for overrides the generated association. */
 export type FieldLabelProps = Omit<ComponentProps<'label'>, keyof LabelOwn> & LabelOwn
 
+/** Polymorphic text props; author id overrides the shared description fallback. */
 export type FieldDescriptionProps<T extends ValidComponent = 'p'> = Omit<
   ComponentProps<T>,
   keyof TextOwn | 'as'
 > &
-  TextOwn & { as?: T }
+  TextOwn & {
+    /** Text host, defaulting to p; custom hosts must forward association props and refs. */
+    as?: T
+  }
 
+/** Same host/ref props as {@link FieldDescriptionProps}, with the error ID fallback and invalid-only rendering. */
 export type FieldErrorProps<T extends ValidComponent = 'p'> = FieldDescriptionProps<T>
 
+/** Polymorphic control props with shared state and registered Field associations. */
 export type FieldControlProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
   keyof ControlOwn | 'as'
 > &
-  ControlOwn & { as?: T }
+  ControlOwn & {
+    /** Control host, defaulting to input. Native capabilities are inferred only from literal tag strings. */
+    as?: T
+  }
 
+/** Literal hosts receiving generated form name and native required attributes. */
 const nameable = new Set(['input', 'select', 'textarea'])
+/** Literal hosts receiving native disabled instead of ARIA-only state. */
 const disablable = new Set(['button', 'input', 'select', 'textarea'])
+/** Literal hosts receiving native readonly instead of aria-readonly. */
 const readable = new Set(['input', 'textarea'])
 
+/**
+ * Renders a label and registers its ID with the enclosing Field. For controls
+ * without a native labels property, uncanceled clicks focus the registered control
+ * unless the Field is disabled. Native label behavior is otherwise preserved.
+ * Author for overrides the rendered association but not the fallback click target.
+ * @throws If rendered outside a Field.
+ */
 export function FieldLabel(props: FieldLabelProps): JSX.Element {
   const own = props as LabelOwn & { id?: string }
   const rest = omit(props as Record<string, unknown>, 'ref', 'children', 'id')
@@ -86,6 +117,12 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
   return <>{element}</>
 }
 
+/**
+ * Renders and registers descriptive text for the enclosing Field. Its ID joins
+ * control aria-describedby while this component is registered. Author attributes
+ * pass through; assign distinct IDs to multiple descriptions.
+ * @throws If rendered outside a Field.
+ */
 export function FieldDescription<T extends ValidComponent = 'p'>(
   props: FieldDescriptionProps<T>
 ): JSX.Element {
@@ -117,6 +154,12 @@ export function FieldDescription<T extends ValidComponent = 'p'>(
   )
 }
 
+/**
+ * Registers an error ID and renders an alert only while the enclosing Field is
+ * invalid. Registration persists while its conditional host is absent; the Field
+ * includes error references only while invalid. An author role can override alert.
+ * @throws If rendered outside a Field.
+ */
 export function FieldError<T extends ValidComponent = 'p'>(props: FieldErrorProps<T>): JSX.Element {
   const own = props as TextOwn & { as?: ValidComponent; id?: string }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children', 'id')
@@ -151,6 +194,20 @@ export function FieldError<T extends ValidComponent = 'p'>(props: FieldErrorProp
   )
 }
 
+/**
+ * Renders a control with its Field's IDs, associations, and OR-combined state flags.
+ *
+ * @remarks
+ * Author id overrides the generated control ID. Author naming/describing IDs are
+ * combined with Field associations; remaining props use {@link spread} precedence.
+ * Native capabilities are chosen from the literal as tag, not a custom component's
+ * output. ARIA-only disabled/readonly states do not block events or edits; provide
+ * behavior in a custom host. This component adds no form mirror or state tracking.
+ * Labelable hosts use native label association; other hosts use label IDs for ARIA.
+ * Server association serialization waits for sibling registration for literal hosts;
+ * custom components receive associations read directly at their render time.
+ * @throws If rendered outside a Field.
+ */
 export function FieldControl<T extends ValidComponent = 'input'>(
   props: FieldControlProps<T>
 ): JSX.Element {

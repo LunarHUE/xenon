@@ -10,27 +10,47 @@ import { FieldControl, FieldDescription, FieldError, FieldLabel } from './parts'
 import { spread } from '../spread'
 import { serverAssociations } from './server-associations'
 
+/** Field-owned state and ID inputs inherited by the public root props. */
 interface Own {
+  /** Initial base for generated part IDs, captured once; not forwarded as the root element ID. Omission generates a unique base. */
   id?: string
+  /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
   disabled?: boolean
+  /** Shared required flag inherited by controls; defaults to false. Does not set a root required attribute. */
   required?: boolean
+  /** Shared readonly flag inherited by controls; defaults to false. */
   readonly?: boolean
+  /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
   invalid?: boolean
+  /** Default form name for controls that support it; a control name overrides it. */
   name?: string
+  /** Receives the root host once per distinct element; custom hosts must forward the ref. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic root props; owned field settings replace matching inherited host props. */
 export type FieldProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Root host, defaulting to div with group role. Literal fieldset uses native disabled semantics and omits that role. */
+    as?: T
+  }
 
+/** One registered part association, with optional DOM order information. */
 interface Entry {
+  /** Stable ID or deferred getter read when associations are computed. */
   id: string | (() => string)
+  /** Rendered element used to sort registrations in DOM order when both entries have elements. */
   element?: HTMLElement
 }
 
+/**
+ * Stores registrations and returns an idempotent removal for each entry. Client
+ * additions/removals publish a reactive list; server reads use the mutable list
+ * directly. Entries with elements are sorted when added, not observed for DOM moves.
+ */
 function registry(): [() => Entry[], (id: Entry['id'], element?: HTMLElement) => () => void] {
   const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   let current: Entry[] = []
@@ -50,10 +70,19 @@ function registry(): [() => Entry[], (id: Entry['id'], element?: HTMLElement) =>
   return [isServer ? () => current : entries, add]
 }
 
+/** Resolves the latest registered ID without caching deferred getters. */
 function entryId(entry: Entry): string {
   return typeof entry.id === 'function' ? entry.id() : entry.id
 }
 
+/**
+ * Provides field state and registered associations around the selected root host.
+ * IDs use the initial id base with control/label/description/error suffixes.
+ * The final control in registry order supplies label targeting. Description/error IDs
+ * follow registry order, with error references enabled only while invalid.
+ * Server associations are finalized after rendering descendants; client registries
+ * update through part lifecycle registration. No validation is performed here.
+ */
 function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.Element {
   const own = props as Own & { as?: ValidComponent }
   const rest = omit(
@@ -84,6 +113,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   const described = () => tokens(...descriptions().map(entryId))
   const errored = () => tokens(...errors().map(entryId))
 
+  /** Rebuilds core associations from currently registered description/error IDs and shared state. */
   const compute = () =>
     field({
       ids: { ...ids, description: described(), error: errored() },
@@ -122,6 +152,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     <FieldContext value={context}>{(props as { children?: JSX.Element }).children}</FieldContext>
   ))
 
+  /** Specializes only a literal fieldset host for native grouping and disabling. */
   const part = (): PartProps<'fieldset'> => {
     const { attrs } = result().parts.root
     if (own.as !== 'fieldset') return { attrs, on: {} }
@@ -151,9 +182,19 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   return associations ? associations.finish(element) : element
 }
 
+/**
+ * Field root with label, description, conditional error, and associated control parts.
+ * Parts require this context. Native host props pass through {@link spread}; custom
+ * hosts must forward their props and refs. Supply unique part IDs when rendering
+ * multiple parts of the same kind, since each kind otherwise shares one fallback ID.
+ */
 export const Field = Object.assign(FieldRoot, {
+  /** Native label associated with the registered control; see {@link FieldLabel}. */
   Label: FieldLabel,
+  /** Registered descriptive text; see {@link FieldDescription}. */
   Description: FieldDescription,
+  /** Alert text rendered while invalid; see {@link FieldError}. */
   Error: FieldError,
+  /** Control with merged field state and associations; see {@link FieldControl}. */
   Control: FieldControl,
 })
