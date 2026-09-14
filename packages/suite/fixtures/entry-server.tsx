@@ -1,6 +1,11 @@
 import { generateHydrationScript, renderToStream, renderToString } from '@solidjs/web'
 import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
+import { PositioningFixture } from './positioning'
+
+export function renderPositioning() {
+  return generateHydrationScript() + renderToString(() => <PositioningFixture />)
+}
 
 export function renderDialogs() {
   return generateHydrationScript() + renderToString(() => <Dialogs />)

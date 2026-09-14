@@ -2,13 +2,21 @@ import { hydrate } from '@solidjs/web'
 import { flush } from 'solid-js'
 import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
+import { PositioningFixture } from './positioning'
 
 const root = document.getElementById('app')!
 const serverNodes = [...root.querySelectorAll('*')]
 const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
-  () => (query.has('dialogs') ? <Dialogs /> : <RoundOne asyncContent={query.has('async')} />),
+  () =>
+    query.has('positioning') ? (
+      <PositioningFixture />
+    ) : query.has('dialogs') ? (
+      <Dialogs />
+    ) : (
+      <RoundOne asyncContent={query.has('async')} />
+    ),
   root
 )
 flush()
