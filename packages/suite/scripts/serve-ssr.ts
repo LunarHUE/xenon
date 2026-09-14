@@ -31,9 +31,15 @@ const vite = await createViteServer({
 const server = createServer((request, response) => {
   vite.middlewares(request, response, async () => {
     try {
-      const { render, renderStream, renderDialogs, renderPositioning, renderPopups } =
-        await vite.ssrLoadModule('/fixtures/entry-server.tsx')
-      /** Presence-based flags; priority is popups, positioning, dialogs, stream, then the default fixture. */
+      const {
+        render,
+        renderStream,
+        renderDialogs,
+        renderPositioning,
+        renderPopups,
+        renderFloating,
+      } = await vite.ssrLoadModule('/fixtures/entry-server.tsx')
+      /** Presence-based flags; priority is floating, popups, positioning, dialogs, stream, then the default fixture. */
       const query = new URL(request.url ?? '/', 'http://localhost').searchParams
       /**
        * Buffer the full rendered string before sending a response, including renderStream.
@@ -41,15 +47,17 @@ const server = createServer((request, response) => {
        * Menu affects only popups; async affects only the server's stream branch.
        */
       const body = (
-        query.has('popups')
-          ? renderPopups(query.has('menu'))
-          : query.has('positioning')
-            ? renderPositioning()
-            : query.has('dialogs')
-              ? renderDialogs()
-              : query.has('stream')
-                ? await renderStream(query.has('async'))
-                : render()
+        query.has('floating')
+          ? renderFloating()
+          : query.has('popups')
+            ? renderPopups(query.has('menu'))
+            : query.has('positioning')
+              ? renderPositioning()
+              : query.has('dialogs')
+                ? renderDialogs()
+                : query.has('stream')
+                  ? await renderStream(query.has('async'))
+                  : render()
       ) as string
       /**
        * Hydrate #app using the client entry's matching fixture priority. For RoundOne,

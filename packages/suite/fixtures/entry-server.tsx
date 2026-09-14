@@ -3,6 +3,7 @@ import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
 import { PositioningFixture } from './positioning'
 import { Popups } from './popups'
+import { FloatingFixture } from './floating'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -46,4 +47,9 @@ export async function renderStream(asyncContent = false) {
   })
   if (errors.length) throw new AggregateError(errors, 'SSR stream failed')
   return generateHydrationScript() + html
+}
+
+/** Render the floating-family hydration fixture with matching hydration markers. */
+export function renderFloating() {
+  return generateHydrationScript() + renderToString(() => <FloatingFixture />)
 }

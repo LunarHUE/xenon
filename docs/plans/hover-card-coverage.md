@@ -83,8 +83,13 @@ The following candidate behavior is not claimed:
 - Automatic immediate reentry throughout an exit animation: `animation.5`.
 - Backdrop rendering: `dismissal.11`; no HoverCard backdrop is provided.
 
+The shared floating fixture and `packages/suite/e2e/floating.spec.ts` check closed
+server rendering, preserved element identity and IDs through hydration, and hydrated
+HoverCard focus opening, content association, Escape closure, and focus return in
+Chromium and WebKit.
+
 Nested hover-card pointer retention and dismissal, shadow-root pointer behavior,
-scroll-wheel persistence, direct text selection, SSR/hydration, and all exact
-upstream polygon edge cases need dedicated checks. In particular, `pointer.24`,
+scroll-wheel persistence, direct text selection, and all exact upstream polygon edge
+cases need dedicated checks. In particular, `pointer.24`,
 `pointer.26` through `pointer.28`, and `dismissal.6`, `dismissal.8` are not marked
 covered merely because the underlying layers support nested overlays.

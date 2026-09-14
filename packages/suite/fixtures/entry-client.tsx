@@ -1,7 +1,7 @@
 /**
  * Hydrates the existing #app fixture on module evaluation, then flushes Solid.
- * Requires matching server markup and query flags: popups takes precedence over
- * positioning, then dialogs, then the default fixture. menu applies to popups;
+ * Requires matching server markup and query flags: floating takes precedence over
+ * popups, positioning, dialogs, then the default fixture. menu applies to popups;
  * async applies to the default fixture. Flags are tested for presence, not value.
  *
  * @packageDocumentation
@@ -12,6 +12,7 @@ import { RoundOne } from './round-one'
 import { Dialogs } from './dialogs'
 import { PositioningFixture } from './positioning'
 import { Popups } from './popups'
+import { FloatingFixture } from './floating'
 
 const root = document.getElementById('app')!
 /** Pre-hydration descendant elements; excludes the root and text/comment nodes. */
@@ -21,7 +22,9 @@ const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>
-    query.has('popups') ? (
+    query.has('floating') ? (
+      <FloatingFixture />
+    ) : query.has('popups') ? (
       <Popups menuOpen={query.has('menu')} />
     ) : query.has('positioning') ? (
       <PositioningFixture />
