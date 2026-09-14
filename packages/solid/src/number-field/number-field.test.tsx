@@ -1,0 +1,88 @@
+import { cleanup, render } from '@solidjs/testing-library'
+import { createSignal, flush } from 'solid-js'
+import { afterEach, expect, test, vi } from 'vitest'
+import { NumberField } from './index'
+import { Field } from '../field'
+afterEach(cleanup)
+function type(input: HTMLInputElement, value: string) {
+  input.value = value
+  input.dispatchEvent(new InputEvent('input', { bubbles: true }))
+  flush()
+}
+function key(input: HTMLInputElement, value: string) {
+  input.dispatchEvent(new KeyboardEvent('keydown', { key: value, bubbles: true, cancelable: true }))
+  flush()
+}
+test('draft preserves trailing decimal, commits on Enter, and resets canonical form value silently', async () => {
+  const changed = vi.fn()
+  const view = render(() => (
+    <form>
+      <NumberField name="quantity" defaultValue={2} onValueChange={changed}>
+        <NumberField.Input aria-label="Quantity" />
+      </NumberField>
+    </form>
+  ))
+  const input = view.getByRole('spinbutton') as HTMLInputElement
+  const form = view.container.querySelector('form')!
+  type(input, '3.')
+  expect(input.value).toBe('3.')
+  expect(new FormData(form).get('quantity')).toBe('2')
+  key(input, 'Enter')
+  expect(input.value).toBe('3')
+  expect(new FormData(form).get('quantity')).toBe('3')
+  form.reset()
+  await Promise.resolve()
+  flush()
+  expect(input.value).toBe('2')
+  expect(changed).toHaveBeenCalledTimes(1)
+})
+test('field flags and labels reach the input, and readonly steppers remain discoverable', () => {
+  const view = render(() => (
+    <Field readonly required>
+      <Field.Label>Quantity</Field.Label>
+      <NumberField defaultValue={2}>
+        <NumberField.Input />
+        <NumberField.IncrementTrigger>+</NumberField.IncrementTrigger>
+      </NumberField>
+    </Field>
+  ))
+  const input = view.getByRole('spinbutton', { name: 'Quantity' }) as HTMLInputElement
+  expect(input.readOnly).toBe(true)
+  expect(input.required).toBe(true)
+  const increase = view.getByRole('button', { name: 'Increase' }) as HTMLButtonElement
+  expect(increase.disabled).toBe(false)
+  expect(increase.getAttribute('aria-disabled')).toBe('true')
+})
+test('canceled author handlers prevent steps and controlled null accepts an editable draft', () => {
+  const changed = vi.fn()
+  const view = render(() => (
+    <NumberField value={null} onValueChange={changed}>
+      <NumberField.Input aria-label="Quantity" onKeyDown={(event) => event.preventDefault()} />
+      <NumberField.IncrementTrigger />
+    </NumberField>
+  ))
+  const input = view.getByRole('spinbutton') as HTMLInputElement
+  key(input, 'ArrowUp')
+  expect(changed).not.toHaveBeenCalled()
+  type(input, '4')
+  view.getByRole('button').click()
+  flush()
+  expect(changed).toHaveBeenCalledWith(5)
+})
+test('external values update the existing input and author IDs update stepper controls', () => {
+  const [value, setValue] = createSignal(2)
+  const [id, setId] = createSignal('first')
+  const view = render(() => (
+    <NumberField value={value()}>
+      <NumberField.Input id={id()} aria-label="Quantity" />
+      <NumberField.IncrementTrigger />
+    </NumberField>
+  ))
+  const input = view.getByRole('spinbutton')
+  setValue(5)
+  setId('second')
+  flush()
+  expect(view.getByRole('spinbutton')).toBe(input)
+  expect((input as HTMLInputElement).value).toBe('5')
+  expect(view.getByRole('button').getAttribute('aria-controls')).toBe('second')
+})
