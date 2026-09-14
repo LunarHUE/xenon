@@ -210,3 +210,46 @@ test('author Escape and link selection cancellation keep navigation open', async
   await settle()
   expect(m.getByRole('button', { name: 'A' })).toHaveAttribute('aria-expanded', 'true')
 })
+
+test('panel navigation preserves native text editing keys', async () => {
+  const m = mount(() => (
+    <Nav openOnHover={false}>
+      <Nav.List>
+        <Nav.Item value="a">
+          <Nav.Trigger>Edit</Nav.Trigger>
+        </Nav.Item>
+      </Nav.List>
+      <Nav.Positioner>
+        <Nav.Content value="a">
+          <input aria-label="Search studies" value="notes" />
+          <textarea aria-label="Draft">field notes</textarea>
+          <div contentEditable="true" tabindex="0" aria-label="Editable text">
+            A note
+          </div>
+          <Nav.Link href="#next">Next</Nav.Link>
+        </Nav.Content>
+      </Nav.Positioner>
+    </Nav>
+  ))
+  m.getByRole('button', { name: 'Edit' }).focus()
+  await userEvent.keyboard('{ArrowDown}')
+  await settle()
+  const input = m.getByRole('textbox', { name: 'Search studies' }) as HTMLInputElement
+  input.setSelectionRange(3, 3)
+  await userEvent.keyboard('{ArrowLeft}')
+  expect(input.selectionStart).toBe(2)
+  expect(input).toHaveFocus()
+  await userEvent.keyboard('{Home}')
+  expect(input.selectionStart).toBe(0)
+  expect(input).toHaveFocus()
+  const textarea = m.getByRole('textbox', { name: 'Draft' }) as HTMLTextAreaElement
+  textarea.focus()
+  textarea.setSelectionRange(2, 2)
+  await userEvent.keyboard('{ArrowRight}')
+  expect(textarea.selectionStart).toBe(3)
+  expect(textarea).toHaveFocus()
+  const editable = m.getByLabelText('Editable text')
+  editable.focus()
+  await userEvent.keyboard('{End}')
+  expect(editable).toHaveFocus()
+})

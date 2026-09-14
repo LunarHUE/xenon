@@ -19,14 +19,16 @@ opens horizontal navigation and focuses the first panel tab stop after positioni
 Vertical navigation uses ArrowRight, or ArrowLeft for RTL. This selects the
 keyboard.4 alternative; keyboard.3 applies only to click/Enter/Space. Lists retain
 all native tab stops; arrows and Home/End offer shortcuts through buttons and
-native links. Panel arrows and Home/End do not wrap. Tab enters a portaled panel,
+native links. Panel arrows and Home/End do not wrap and leave native input, textarea, select,
+and contenteditable editing keys untouched. Tab enters a portaled panel,
 Shift+Tab from its first stop returns to the trigger, and Tab from its final stop
 moves to the next native stop after the trigger and closes. Escape from content
 returns focus to the active trigger; deliberate outside focus remains untouched.
 
 Mouse hover opens after openDelay, default 200ms. An already open navigation
 switches immediately. Leaving a trigger or panel starts closeDelay, default 150ms;
-entering content cancels it. Touch does not start hover timers. openOnHover=false
+entering content cancels it. Touch does not start hover timers. Pending opens recheck mounted triggers, disabled
+state and hover policy before selecting a panel. openOnHover=false
 retains click and keyboard opening. Native link navigation is preserved; uncanceled
 clicks close, and onClick/onSelect preventDefault veto closure. Positioner anchors
 to the selected trigger and uses fixed native manual-popover hosting. Shared

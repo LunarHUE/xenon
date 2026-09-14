@@ -1,5 +1,5 @@
 import { cleanup, render } from '@solidjs/testing-library'
-import { flush } from 'solid-js'
+import { Show, createSignal, flush } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'
 import { NavigationMenu as Nav } from './navigation-menu'
 afterEach(cleanup)
@@ -107,6 +107,57 @@ test('hover timers honor delays, cancel sweeps, switch instantly, and ignore tou
     enter('B')
     flush()
     expect(m.getByText('B')).toHaveAttribute('aria-expanded', 'true')
+  } finally {
+    vi.useRealTimers()
+  }
+})
+
+test('delayed hover rechecks trigger lifetime, disabled state and hover policy', () => {
+  vi.useFakeTimers()
+  try {
+    const [visible, setVisible] = createSignal(true)
+    const [disabled, setDisabled] = createSignal(false)
+    const [hover, setHover] = createSignal(true)
+    const change = vi.fn()
+    const m = render(() => (
+      <Nav openDelay={100} openOnHover={hover()} onValueChange={change}>
+        <Nav.List>
+          <Show when={visible()}>
+            <Nav.Item value="a">
+              <Nav.Trigger disabled={disabled()}>A</Nav.Trigger>
+            </Nav.Item>
+          </Show>
+        </Nav.List>
+      </Nav>
+    ))
+    const enter = () => {
+      const event = new Event('pointerenter')
+      Object.defineProperty(event, 'pointerType', { value: 'mouse' })
+      m.getByText('A').dispatchEvent(event)
+      flush()
+    }
+    enter()
+    setDisabled(true)
+    flush()
+    vi.advanceTimersByTime(101)
+    flush()
+    expect(change).not.toHaveBeenCalled()
+    setDisabled(false)
+    flush()
+    enter()
+    setHover(false)
+    flush()
+    vi.advanceTimersByTime(101)
+    flush()
+    expect(change).not.toHaveBeenCalled()
+    setHover(true)
+    flush()
+    enter()
+    setVisible(false)
+    flush()
+    vi.advanceTimersByTime(101)
+    flush()
+    expect(change).not.toHaveBeenCalled()
   } finally {
     vi.useRealTimers()
   }

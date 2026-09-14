@@ -26,7 +26,9 @@ import type { FloatingViewportProps } from '../internal/floating-viewport'
 
 /** Polymorphic host attributes. Custom components must forward attributes and refs. */
 type Host<T extends ValidComponent> = ComponentProps<T> & {
+  /** Host tag or forwarding component; defaults depend on the part. */
   as?: T
+  /** Receives the native host used for registration and geometry. */
   ref?: (element: HTMLElement) => void
 }
 type DismissPolicy = Pick<
@@ -63,6 +65,7 @@ export type NavigationMenuProps<T extends ValidComponent = 'nav'> = Omit<
     closeDelay?: number
   }
 interface Entry {
+  disabled(): boolean
   value(): string
   element?: HTMLElement
 }
@@ -197,7 +200,17 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       cancel()
       if (item === undefined || own.openOnHover === false) return
       if (value() !== null) change(item)
-      else timer = setTimeout(() => change(item), own.openDelay ?? 200)
+      else
+        timer = setTimeout(() => {
+          const entry = entries.find((candidate) => candidate.value() === item)
+          if (
+            own.openOnHover !== false &&
+            entry?.element?.isConnected &&
+            !entry.disabled() &&
+            !entry.element.matches(':disabled')
+          )
+            change(item)
+        }, own.openDelay ?? 200)
     },
     leave() {
       cancel()
@@ -335,7 +348,7 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
   const item = useContext(ItemContext)
   if (!item) throw new Error('NavigationMenu.Trigger must be rendered inside NavigationMenu.Item')
   const own = props as Host<'button'>
-  const entry: Entry = { value: item }
+  const entry: Entry = { value: item, disabled: () => !!own.disabled }
   if (own.id) context.claim('trigger', item(), own.id)
   onCleanup(context.register(entry))
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
@@ -427,6 +440,7 @@ export function NavigationMenuLink<T extends ValidComponent = 'a'>(
 }
 /** Panel attributes. Supply value when placing panels together outside their Item, such as inside Viewport. */
 export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Host<T> & {
+  /** Panel identity; omit only when inheriting an enclosing Item value. */
   value?: string
 }
 /** Kept-mounted panel, hidden while unselected. Arrow keys walk panel tab stops without wrapping; Tab retains logical trigger order across portals. */
@@ -464,6 +478,12 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
       }
       return
     }
+    const target = event.target as HTMLElement
+    if (
+      target.matches('input,textarea,select') ||
+      target.closest('[contenteditable]:not([contenteditable="false"])')
+    )
+      return
     let next = index
     if (
       event.key === 'ArrowDown' ||
