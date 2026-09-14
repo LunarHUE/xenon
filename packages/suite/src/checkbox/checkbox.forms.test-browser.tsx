@@ -73,7 +73,11 @@ describe('checkbox forms in a browser', () => {
     expect(el.willValidate).toBe(true)
 
     const invalid = vi.fn()
-    el.addEventListener('invalid', (event) => invalid(event.cancelable))
+    el.addEventListener('invalid', (event) => {
+      invalid(event.cancelable)
+      // Keep reportValidity's popup from intercepting input in the next test.
+      event.preventDefault()
+    })
     expect(el.checkValidity()).toBe(false)
     expect(invalid).toHaveBeenCalledWith(true)
     expect(el.reportValidity()).toBe(false)
@@ -109,6 +113,9 @@ describe('checkbox forms in a browser', () => {
     const submitter = submitButton(form)
     const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
     form.addEventListener('submit', submit)
+    // Suppress the native validation popup, which can intercept the next click in Firefox.
+    // Canceling invalid leaves validation and submission blocking intact.
+    inputHost(m.container).addEventListener('invalid', (event) => event.preventDefault())
 
     await userEvent.click(submitter)
     await m.settle()

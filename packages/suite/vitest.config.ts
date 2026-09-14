@@ -27,6 +27,8 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'browser',
+          // Concurrent pages compete for native focus and pointer input in Firefox.
+          fileParallelism: false,
           include: ['src/**/*.test.tsx', 'src/**/*.test-browser.tsx'],
           setupFiles,
           browser: {
