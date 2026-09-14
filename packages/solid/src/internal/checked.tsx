@@ -4,6 +4,9 @@ import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
+import { useCheckboxGroup } from '../checkbox-group/context'
+import { tokens } from '../field/context'
+
 import { gate } from './gate'
 import { fieldDescribedBy, fieldLabelledBy, useFieldContext } from '../field/context'
 import type { FieldContextValue } from '../field/context'
@@ -133,17 +136,23 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     'aria-describedby'
   )
 
-  const context = useFieldContext()
+  const inherited = useFieldContext()
+  const candidate = useCheckboxGroup()
+  const group = kind === 'checkbox' ? candidate : null
+  const member = () => group !== null && typeof own.value === 'string'
+  const context = inherited === group?.field ? null : inherited
   if (isServer) context?.registerControl(() => own.id ?? context.ids.control)
   onSettled(() => context?.registerControl(() => own.id ?? context.ids.control))
   /** Field truthy flags take precedence over a local false; absence of a Field preserves the local value. */
   const flag = (value: boolean | undefined, read: (field: FieldContextValue) => boolean) =>
     context === null ? value : (value ?? false) || read(context)
-  const name = () => own.name ?? context?.name()
+  const name = () => own.name ?? group?.field.name() ?? context?.name()
+  const form = () => own.form ?? group?.form()
 
   const [internal, setInternal] = createSignal(untrack(() => own.defaultChecked ?? false))
-  const controlled = () => own.checked !== undefined
-  const current = () => own.checked ?? internal()
+  const controlled = () => member() || own.checked !== undefined
+  const current = () =>
+    member() ? group!.current().includes(own.value as string) : (own.checked ?? internal())
   const indeterminate = createMemo(() =>
     kind === 'checkbox' ? (own.indeterminate ?? false) : undefined
   )
@@ -151,6 +160,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   /** Updates only uncontrolled state, then notifies the current callback. */
   const change = (next: boolean) => {
     if (!untrack(controlled)) setInternal(next)
+    if (member()) group!.change(own.value as string, next)
     own.onCheckedChange?.(next)
   }
 
@@ -158,13 +168,15 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const options: CheckboxOptions = {
       host: hostOf(own.as),
       checked: current(),
-      disabled: flag(own.disabled, (field) => field.disabled()),
-      readonly: flag(own.readonly, (field) => field.readonly()),
-      required: flag(own.required, (field) => field.required()),
-      invalid: flag(own.invalid, (field) => field.invalid()),
+      disabled: flag(own.disabled, (field) => field.disabled()) || group?.field.disabled(),
+      readonly: flag(own.readonly, (field) => field.readonly()) || group?.field.readonly(),
+      required:
+        flag(own.required, (field) => field.required()) ||
+        (group?.field.required() && group.current().length === 0),
+      invalid: flag(own.invalid, (field) => field.invalid()) || group?.field.invalid(),
       name: name(),
       value: own.value,
-      form: own.form,
+      form: form(),
       autofocus: own.autofocus,
       onCheckedChange: change,
     }
@@ -225,7 +237,14 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
     gate(out, () => result().state.interactive)
     write(out, 'aria-labelledby', labelledBy(state.host))
-    write(out, 'aria-describedby', describedBy())
+    write(
+      out,
+      'aria-describedby',
+      tokens(
+        describedBy(),
+        group ? fieldDescribedBy(group.field, undefined, typeof own.as !== 'function') : undefined
+      )
+    )
     if (context && out['id'] === undefined) out['id'] = context.ids.control
     if (state.host === 'input') {
       const key = changeKey(out)
@@ -246,7 +265,10 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   }
 
   /** Reset/defaultChecked value; a supplied defaultChecked takes precedence over controlled checked. */
-  const fallback = () => own.defaultChecked ?? own.checked ?? false
+  const fallback = () =>
+    member()
+      ? group!.fallback().includes(own.value as string)
+      : (own.defaultChecked ?? own.checked ?? false)
 
   createEffect(
     () => indeterminate(),
@@ -272,7 +294,8 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const restore = (event: Event) => {
       const form = owningForm()
       if (!form || event.target !== form || event.defaultPrevented) return
-      if (own.checked === undefined) setInternal(fallback())
+      if (member()) group!.reset()
+      else if (own.checked === undefined) setInternal(fallback())
       resync()
     }
     doc.addEventListener('reset', restore)
@@ -301,7 +324,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
           required={result().state.required}
           name={name()}
           {...(own.value === undefined ? null : { value: own.value })}
-          form={own.form}
+          form={form()}
         />
       </Show>
     </>
