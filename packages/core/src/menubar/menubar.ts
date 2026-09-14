@@ -97,8 +97,17 @@ export function menubar<T>(options: MenubarOptions<T>) {
   }
   return {
     /** Resolved top-level navigation and open identity. */
-    state: { ...navigation.state, value: options.value },
+    state: {
+      ...navigation.state,
+      /** Captured open top-level identity; undefined means every popup is closed. */
+      value: options.value,
+    },
     /** Container and top-level trigger bindings. Popup parts use Menu. */
-    parts: { root, trigger },
+    parts: {
+      /** Persistent menubar role and orientation attributes. */
+      root,
+      /** Factory for a top-level menuitem's roving, opening, and disclosure bindings. */
+      trigger,
+    },
   }
 }

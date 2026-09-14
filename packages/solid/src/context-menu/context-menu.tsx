@@ -1,6 +1,6 @@
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
-import { createMemo, createUniqueId, omit, onCleanup } from 'solid-js'
+import { createMemo, createUniqueId, omit, onCleanup, onSettled, untrack } from 'solid-js'
 import { contextMenu } from '@tenon/core/context-menu'
 import type { ContextMenuPoint } from '@tenon/core/context-menu'
 import { MenuRoot } from '../menu/root'
@@ -27,7 +27,13 @@ export function ContextMenuRoot<Payload = unknown>(props: ContextMenuProps<Paylo
   const rest = omit(props as unknown as Record<string, unknown>, 'children')
   return <MenuRoot {...rest} children={props.children} />
 }
-/** Opens at client coordinates, keyboard region center, or a 500ms touch hold. Movement beyond 10px, release, cancellation, and scrolling cancel a pending hold. */
+/**
+ * Opens at client coordinates, keyboard region center, or a 500ms touch hold.
+ * Movement beyond 10px, release, cancellation, and scrolling cancel a pending hold.
+ * The click produced by releasing a completed hold is suppressed; a fresh pointer
+ * press restores ordinary click-to-close behavior. Initial anchor publication waits
+ * until settling so closed force-mounted content retains its server DOM on hydration.
+ */
 export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
   props: ContextMenuTriggerProps<T>
 ): JSX.Element {
@@ -41,8 +47,12 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
     payload: () => undefined,
   }
   onCleanup(context.registerTrigger(entry))
+  onSettled(() => {
+    if (entry.element && !untrack(context.trigger)) context.setTrigger(entry.element)
+  })
   let timer: ReturnType<typeof setTimeout> | undefined
   let start: ContextMenuPoint | undefined
+  let suppressReleaseClick = false
   let removeListeners: (() => void) | undefined
   function cancel() {
     clearTimeout(timer)
@@ -64,6 +74,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
     context.activate(entry, 'content')
   }
   function hold(event: PointerEvent) {
+    suppressReleaseClick = false
     if (event.pointerType !== 'touch' || entry.disabled()) return
     if (start || !event.isPrimary) {
       cancel()
@@ -89,7 +100,10 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       doc.removeEventListener('pointercancel', cancel)
       doc.removeEventListener('scroll', cancel, true)
     }
-    timer = setTimeout(() => open(start), 500)
+    timer = setTimeout(() => {
+      open(start)
+      suppressReleaseClick = true
+    }, 500)
   }
   onCleanup(cancel)
   const part = () => {
@@ -104,7 +118,12 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       on: {
         ...engine.parts.trigger.on,
         pointerdown: hold,
-        click() {
+        click(event: MouseEvent) {
+          if (suppressReleaseClick) {
+            suppressReleaseClick = false
+            event.preventDefault()
+            return
+          }
           if (context.open()) context.closeAll(false)
         },
       },
@@ -117,7 +136,6 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       {...spread(part(), { tabindex: 0, ...rest, id: entry.id() })}
       ref={(element: HTMLElement) => {
         entry.element = element
-        context.setTrigger(element)
         own.ref?.(element)
       }}
     >

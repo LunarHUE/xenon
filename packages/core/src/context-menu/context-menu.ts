@@ -40,5 +40,14 @@ export function contextMenu<T>(options: ContextMenuOptions<T>) {
       },
     },
   }
-  return { state: shared.state, parts: { ...shared.parts, trigger } }
+  return {
+    /** Captured shared Menu visibility, active identity, and wrapping policy. */
+    state: shared.state,
+    /** Region opening gestures and the shared Menu content/item bindings. */
+    parts: {
+      ...shared.parts,
+      /** Region semantics with cancellable secondary-click and keyboard opening. */
+      trigger,
+    },
+  }
 }

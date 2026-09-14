@@ -16,7 +16,8 @@ is introduced.
   Keyboard ContextMenu and Shift+F10 open at the region's center.
 - Touch hold uses 500ms, choosing `context-menu.pointer.23` over `.24`.
   Movement beyond 10px, release, cancellation, a second touch, scrolling, and
-  disposal cancel pending work. Small movements retain the original point.
+  disposal cancel pending work. Small movements retain the original point. A completed hold suppresses its
+  release click, so lifting the finger does not immediately close the menu.
 - Opening focuses the surface, with no item highlighted. ArrowDown/Home enter at
   the first item; ArrowUp/End enter at the last. Reopening resets descendants,
   updates geometry even at identical coordinates, and preserves root visibility.
@@ -64,6 +65,6 @@ The following remain deferred rather than being silently treated as passing:
   extra platform-specific conformance fixtures.
 
 These are library-specific parity candidates or extensions to shared Menu. Their
-source spec checkboxes stay unchanged. Native pointer and keyboard behavior is
-verified in Chromium and WebKit; touch cancellation currently has adapter tests,
+source spec checkboxes stay unchanged. Native pointer and keyboard behavior, plus server-node retention and hydrated
+keyboard input, are verified in Chromium and WebKit; touch cancellation currently has adapter tests,
 not a physical mobile-browser gesture test.

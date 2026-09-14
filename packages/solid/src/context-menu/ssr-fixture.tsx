@@ -1,5 +1,6 @@
 import { renderToString } from '@solidjs/web'
 import { ContextMenu } from './index'
+/** Serialize a controlled menu fixture to verify server roles and ID associations. */
 export function renderFixture(open: boolean) {
   return renderToString(() => (
     <ContextMenu open={open}>
