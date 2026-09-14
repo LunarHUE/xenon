@@ -63,9 +63,11 @@ export interface FocusScopeHandle {
 type FocusTarget = HTMLElement | SVGElement
 /** Internal registration state retained by handles, including disposed parent history. */
 type Scope = {
+  /** Primary region root; its owner document owns all listeners and restoration targets. */
   container: HTMLElement
   /** Fixed logical ancestry; disposal leaves this reference available to descendants. */
   parent?: Scope
+  /** Copied at registration and replaced on update; parent identity lives in the separate parent field. */
   options: FocusScopeOptions
   /** Reference counts for extra region roots in first-registration order. */
   branches: Map<Element, number>
@@ -75,6 +77,7 @@ type Scope = {
   last: Element | null
   /** Tracks focus ownership for loss recovery; deliberate focus outside clears it except at body. */
   hadFocus: boolean
+  /** Prevents further handle mutations and recursive recovery after logical closure. */
   disposed: boolean
   /** Region roots captured before disposal so descendant restoration can avoid closed parent regions. */
   closedRoots?: Element[]
@@ -83,10 +86,15 @@ type Scope = {
 }
 /** Shared listeners, observer, and registration order for one owner document. */
 type Manager = {
+  /** Active registrations in creation order; the last containing entry owns trapping. */
   scopes: Scope[]
+  /** Rebuilds document and open-shadow observation after region membership changes. */
   refresh(): void
+  /** Recovers unusable or escaped focus only if the top containing scope previously owned focus. */
   reconcile(): void
+  /** Synchronously tries remembered focus, the first tab stop, then the container unless disposed or reentering. */
   recover(scope: Scope): void
+  /** Disconnects observation and listeners and removes the document manager; called after its final scope is removed. */
   destroy(): void
 }
 /** One manager per document, removed when its final scope is disposed. */
