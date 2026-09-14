@@ -1,3 +1,4 @@
+import type { DrawerDragThreshold } from '@tenon/solid/drawer'
 import { Drawer } from '@tenon/solid/drawer'
 import { render } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
@@ -5,7 +6,7 @@ import { expect, onTestFinished, test, vi } from 'vitest'
 
 function fixture(controlled = false) {
   const [open, setOpen] = createSignal(true)
-  const [dragThreshold, setDragThreshold] = createSignal<number>()
+  const [dragThreshold, setDragThreshold] = createSignal<DrawerDragThreshold>()
   const changed = vi.fn()
   const style = document.createElement('style')
   style.textContent = `
@@ -59,7 +60,7 @@ function fixture(controlled = false) {
 
 test('root dragThreshold updates the handle without leaking onto the DOM', async () => {
   const m = fixture()
-  m.setDragThreshold(150)
+  m.setDragThreshold('150px')
   flush()
   expect(m.container.firstElementChild).not.toHaveAttribute('dragthreshold')
   m.pointer('pointerdown', 0)
@@ -67,7 +68,7 @@ test('root dragThreshold updates the handle without leaking onto the DOM', async
   flush()
   expect(m.changed).not.toHaveBeenCalled()
   expect(m.content.open).toBe(true)
-  m.setDragThreshold(100)
+  m.setDragThreshold('25%')
   flush()
   m.pointer('pointerdown', 0)
   m.pointer('pointerup', 100)

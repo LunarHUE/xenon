@@ -1,6 +1,6 @@
 import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@tenon/core'
 import { createDialogController } from '@tenon/dom'
-import type { LayerPointerOutsideEvent } from '@tenon/dom'
+import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@tenon/dom'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -50,8 +50,8 @@ export type AlertDialogProps<T extends ValidComponent = 'div'> = Omit<
 >
 interface DrawerOwn {
   side?: DrawerSide
-  /** Dismiss distance in pixels. Defaults to 25% of the drawer size, at least 40px. */
-  dragThreshold?: number
+  /** Percent of drag-axis size, pixels, or rem. Defaults to 25% of the drawer size, at least 40px. */
+  dragThreshold?: DrawerDragThreshold
 }
 export type DrawerProps<T extends ValidComponent = 'div'> = DialogProps<T> & DrawerOwn
 export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {

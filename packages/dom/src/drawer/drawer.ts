@@ -1,7 +1,30 @@
+/** A nonnegative dismiss distance along the drawer's drag axis. */
+export type DrawerDragThreshold = `${number}%` | `${number}px` | `${number}rem`
+
+function resolveThreshold(value: unknown, extent: number, content: HTMLElement): number {
+  const fallback = Math.max(40, extent * 0.25)
+  if (typeof value !== 'string') return fallback
+  const match = /^(\d+(?:\.\d+)?|\.\d+)(%|px|rem)$/.exec(value)
+  if (!match) return fallback
+  const amount = Number(match[1])
+  const unit = match[2]
+  const root = content.ownerDocument.documentElement
+  const distance =
+    unit === '%'
+      ? (amount / 100) * extent
+      : unit === 'rem'
+        ? amount *
+          Number.parseFloat(
+            content.ownerDocument.defaultView?.getComputedStyle(root).fontSize ?? ''
+          )
+        : amount
+  return Number.isFinite(distance) && distance >= 0 ? distance : fallback
+}
+
 export interface DrawerHandleOptions {
   side: 'top' | 'right' | 'bottom' | 'left'
-  /** Dismiss distance in pixels; invalid values use the default 25% / 40px minimum. */
-  dragThreshold?: number
+  /** Percent of drag-axis size, pixels, or root-font-relative distance. Defaults to 25%, at least 40px. */
+  dragThreshold?: DrawerDragThreshold
   onDismiss: () => void
 }
 
@@ -75,11 +98,7 @@ export function registerDrawerHandle(
     if (!drag || event.pointerId !== drag.id) return
     const canceled = event.defaultPrevented
     move(event)
-    const supplied = options.dragThreshold
-    const threshold =
-      supplied !== undefined && Number.isFinite(supplied) && supplied >= 0
-        ? supplied
-        : Math.max(40, drag.extent * 0.25)
+    const threshold = resolveThreshold(options.dragThreshold, drag.extent, content)
     const reached = drag.extent > 0 && moved && offset > 0 && offset >= threshold
     const dismiss = options.onDismiss
     // Exit keyframes need the release position after the gesture itself ends.

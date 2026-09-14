@@ -72,10 +72,13 @@ During a drag, content exposes `--drawer-swipe-offset` (positive pixels away fro
 the chosen edge) and content/handle expose `data-swiping`. Apply the offset to
 your transform, reversing its sign for top and left. Releasing after at least
 25% of the drawer's relevant dimension, with a minimum of 40px, requests close.
-Set `dragThreshold` on the root to override that distance in pixels, for example
-`<Drawer dragThreshold={120}>`. It applies to height for top/bottom drawers and
-width for left/right drawers. Non-finite or negative values use the default.
-Zero still requires an outward drag beyond the handle's movement tolerance;
+Set `dragThreshold` on the root to override that distance with an explicit unit:
+`<Drawer dragThreshold="25%">`, `"120px"`, or `"1rem"`. Percentages use height for
+top/bottom drawers and width for left/right drawers, measured when the drag starts.
+Rem units use the root font size in the drawer's document at release. Explicit
+nonnegative distances override the default's 40px minimum. Bare numbers, negative
+values, unsupported units, and non-finite distances use the default.
+A zero distance still requires an outward drag beyond the handle's movement tolerance;
 an ordinary tap keeps its existing button behavior. Keyboard and closing-button
 activation do not depend on this threshold.
 The release offset stays available through the exit animation, so its starting

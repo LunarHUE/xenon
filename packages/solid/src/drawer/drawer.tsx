@@ -71,3 +71,4 @@ export const Drawer = Object.assign(DrawerRoot, {
   Handle: DrawerHandle,
 })
 export type { DrawerProps } from '../internal/dialog'
+export type { DrawerDragThreshold } from '@tenon/dom'

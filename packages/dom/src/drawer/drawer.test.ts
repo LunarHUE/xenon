@@ -1,4 +1,5 @@
 import { afterEach, expect, test, vi } from 'vitest'
+import type { DrawerDragThreshold } from './drawer'
 import { registerDrawerHandle } from './drawer'
 
 const cleanups: (() => void)[] = []
@@ -61,7 +62,7 @@ test.each(['bottom', 'right'] as const)(
   'custom pixel thresholds override size-based defaults for %s drawers',
   (side) => {
     const m = setup(side)
-    m.controller.update({ side, dragThreshold: 150, onDismiss: m.dismiss })
+    m.controller.update({ side, dragThreshold: '150px', onDismiss: m.dismiss })
     const release = (distance: number) => {
       m.pointer('pointerdown', 0, 0)
       m.pointer('pointerup', side === 'right' ? distance : 0, side === 'bottom' ? distance : 0)
@@ -70,16 +71,20 @@ test.each(['bottom', 'right'] as const)(
     expect(m.dismiss).not.toHaveBeenCalled()
     release(150)
     expect(m.dismiss).toHaveBeenCalledOnce()
-    m.controller.update({ side, dragThreshold: 20, onDismiss: m.dismiss })
+    m.controller.update({ side, dragThreshold: '20px', onDismiss: m.dismiss })
     release(20)
     expect(m.dismiss).toHaveBeenCalledTimes(2)
   }
 )
-test.each([-1, NaN, Infinity])(
+test.each([-1, 25, NaN, Infinity, '-1px', 'NaN%', 'Infinityrem', '20em', '', '2pxjunk'])(
   'invalid threshold %s uses the existing default',
   (dragThreshold) => {
     const m = setup()
-    m.controller.update({ side: 'bottom', dragThreshold, onDismiss: m.dismiss })
+    m.controller.update({
+      side: 'bottom',
+      dragThreshold: dragThreshold as DrawerDragThreshold,
+      onDismiss: m.dismiss,
+    })
     m.pointer('pointerdown', 0, 0)
     m.pointer('pointerup', 0, 99)
     expect(m.dismiss).not.toHaveBeenCalled()
@@ -90,7 +95,7 @@ test.each([-1, NaN, Infinity])(
 )
 test('a zero threshold still requires an outward drag', () => {
   const m = setup()
-  m.controller.update({ side: 'bottom', dragThreshold: 0, onDismiss: m.dismiss })
+  m.controller.update({ side: 'bottom', dragThreshold: '0px', onDismiss: m.dismiss })
   m.pointer('pointerdown', 0, 0)
   m.pointer('pointerup', 0, 0)
   m.pointer('pointerdown', 0, 0)
@@ -160,4 +165,42 @@ test('disposal restores the author offset after a dismissing swipe', () => {
   controller.dispose()
   expect(content.style.getPropertyValue('--drawer-swipe-offset')).toBe('2px')
   expect(content.style.getPropertyPriority('--drawer-swipe-offset')).toBe('important')
+})
+
+test.each(['top', 'right', 'bottom', 'left'] as const)(
+  'percentage thresholds follow the %s drag axis and override the minimum',
+  (side) => {
+    const m = setup(side)
+    m.controller.update({ side, dragThreshold: '10%', onDismiss: m.dismiss })
+    const threshold = side === 'top' || side === 'bottom' ? 40 : 20
+    const release = (distance: number) => {
+      m.pointer('pointerdown', 0, 0)
+      m.pointer(
+        'pointerup',
+        side === 'left' ? -distance : side === 'right' ? distance : 0,
+        side === 'top' ? -distance : side === 'bottom' ? distance : 0
+      )
+    }
+    release(threshold - 1)
+    expect(m.dismiss).not.toHaveBeenCalled()
+    release(threshold)
+    expect(m.dismiss).toHaveBeenCalledOnce()
+  }
+)
+test('rem thresholds use the current root font size in the content document', () => {
+  const m = setup()
+  const frame = document.createElement('iframe')
+  document.body.append(frame)
+  const foreign = frame.contentDocument!
+  foreign.body.append(m.content)
+  foreign.documentElement.style.fontSize = '24px'
+  m.content.style.fontSize = '100px'
+  m.controller.update({ side: 'bottom', dragThreshold: '1.5rem', onDismiss: m.dismiss })
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 0, 35)
+  expect(m.dismiss).not.toHaveBeenCalled()
+  foreign.documentElement.style.fontSize = '20px'
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 0, 30)
+  expect(m.dismiss).toHaveBeenCalledOnce()
 })
