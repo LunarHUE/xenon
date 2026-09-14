@@ -101,7 +101,9 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
   toolbar lands on the last active item.
 - Button gating suppresses user keydown and keyup only for Enter and Space
   while not interactive; arrows and the rest always reach the user handler.
-- Separators always emit the perpendicular `aria-orientation` explicitly.
+- Separators take the perpendicular orientation of their toolbar, and emit
+  `aria-orientation` only when that works out to vertical. Round one's rule 5
+  narrowed this; it originally emitted the attribute unconditionally.
 - Not this round: grid, virtual focus, typeahead, selection, PageUp/Down,
   nested composites.
 
@@ -134,6 +136,78 @@ Cross-cutting, and binding on everything built after this point.
   prefix, such as `--collapsible-panel-height`.
 - Exit timing comes from the Web Animations API. Where `getAnimations` is
   missing, as in jsdom, the element leaves immediately.
+
+## Decisions taken for collapsible and accordion
+
+- The Solid presence primitive keeps `status` in a writable memo derived from
+  `open`, not in a signal an effect writes. A close therefore reaches
+  `exiting` in the same computation that flips `open`, so `present` never
+  dips false and the content element survives the exit. Effects only push the
+  phase forward: a frame for `entering` to reach `entered`, `waitForExit` for
+  `exiting` to reach `exited`. A reopen mid-exit cancels the wait through the
+  effect's cleanup and the same element enters again.
+- An accordion is not a composite widget. It takes the composite engine's
+  arrow, Home and End handling but drops its roving `tabindex`, so every
+  trigger stays its own tab stop, as `accordion.keyboard.5` requires.
+- `role="region"` on panels is opt-out, through `region={false}`. The APG
+  advises against it once an accordion has more than roughly six panels and no
+  library makes it conditional, so the escape hatch has to be explicit.
+- A part-level `id` on a trigger, content or panel is registered back to its
+  root, so `aria-controls` and `aria-labelledby` follow the author's id rather
+  than pointing at a generated one the element no longer carries.
+- The collapsible trigger does not gate the author's own handlers the way
+  button and checkbox do. A disabled native button dispatches no click, and
+  the trigger has no key handler to suppress.
+- The content size custom properties are written by the adapter on every
+  status change: pixel values while entering or exiting, `auto` once entered,
+  and nothing at all while exited.
+
+## Decisions taken for the field family
+
+- The root owns the engine call and publishes a context; the parts build
+  their own attributes from the four flags it exposes. Only the root spreads
+  a core part, because the label, description and error need ids the root
+  cannot know until they register.
+- `Field.Label` is always a real `label` element and takes no `as`. Native
+  first: `label[for]` names and focuses every labelable control, which is
+  every host we ship except the generic one. A label that is not a `label`
+  would have to tell the control to name itself through `aria-labelledby`,
+  and the context has no channel for that.
+- A control decides its own naming. Labelable hosts (`button`, `input`,
+  `meter`, `output`, `progress`, `select`, `textarea`) rely on the label's
+  `for`; anything else adds `aria-labelledby` pointing at the label id. The
+  author's own value always leads the merge.
+- Clicking a label focuses a non-labelable control, because the browser only
+  does it for a real `label[for]` pointing at a real form control. A disabled
+  field skips it and focus stays where it was.
+- `registerDescription` and `registerError` take the id the part actually
+  rendered, so an author id on a description still reaches the control's
+  `aria-describedby`. Several descriptions list every id; the error id joins
+  only while invalid.
+- A field-aware control merges the field's values with its own: the control's
+  prop wins, except `disabled`, `required`, `readonly` and `invalid`, which
+  are OR-ed, so a disabled field disables its control and a control can never
+  escape it. Outside a field the control behaves exactly as before.
+- `as="fieldset"` drops `role="group"` and carries the native `disabled`
+  attribute instead.
+
+## Three Solid traps every compound adapter hits
+
+All three produce an infinite loop or a thrown context error, and all three
+have now bitten more than one component. `packages/solid/src/toolbar` is the
+reference shape.
+
+- A root's `children` must not ride in the attribute spread. The spread
+  recomputes, which re-creates the whole subtree, which re-registers every
+  item, which writes the registry signal, which recomputes the spread. Pull
+  children out with `omit` and render them as their own expression.
+- A context provider inside `Dynamic` needs a `createMemo` around it, and the
+  memo has to produce the provider, not the children. Without it `Dynamic`'s
+  own spread re-creates the provider; with the memo around the wrong thing,
+  items resolve their context outside the provider and throw.
+- Registering from `onSettled` with a setter's updater form re-triggers the
+  same `onSettled`. Keep a plain array beside the signal, sort that, and pass
+  the new array to the setter.
 
 ## `@kit/dom`
 
