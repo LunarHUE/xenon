@@ -48,7 +48,12 @@ export type AlertDialogProps<T extends ValidComponent = 'div'> = Omit<
   DialogProps<T>,
   'modal' | 'closeOnOutside'
 >
-export type DrawerProps<T extends ValidComponent = 'div'> = DialogProps<T> & { side?: DrawerSide }
+interface DrawerOwn {
+  side?: DrawerSide
+  /** Dismiss distance in pixels. Defaults to 25% of the drawer size, at least 40px. */
+  dragThreshold?: number
+}
+export type DrawerProps<T extends ValidComponent = 'div'> = DialogProps<T> & DrawerOwn
 export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
   ref?: (el: HTMLDialogElement) => void
 }
@@ -65,7 +70,7 @@ export type DialogDescriptionProps<T extends ValidComponent = 'p'> = ComponentPr
 type Kind = 'dialog' | 'alert' | 'drawer'
 interface Context {
   kind: Kind
-  own: Own & { side?: DrawerSide }
+  own: Own & DrawerOwn
   result(): DialogResult
   change(open: boolean): void
   content(): HTMLDialogElement | undefined
@@ -91,7 +96,7 @@ export function createDialogRoot<T extends ValidComponent>(
   config: { kind: Kind; compute(options: DialogOptions & { side?: DrawerSide }): DialogResult }
 ): JSX.Element {
   const { kind } = config
-  const own = props as Own & { as?: ValidComponent; side?: DrawerSide }
+  const own = props as Own & DrawerOwn & { as?: ValidComponent }
   const rest = omit(
     props as Record<string, unknown>,
     'as',
@@ -111,7 +116,8 @@ export function createDialogRoot<T extends ValidComponent>(
     'contentId',
     'titleId',
     'descriptionId',
-    'side'
+    'side',
+    'dragThreshold'
   )
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultOpen ?? false))

@@ -5,6 +5,7 @@ import { expect, onTestFinished, test, vi } from 'vitest'
 
 function fixture(controlled = false) {
   const [open, setOpen] = createSignal(true)
+  const [dragThreshold, setDragThreshold] = createSignal<number>()
   const changed = vi.fn()
   const style = document.createElement('style')
   style.textContent = `
@@ -18,6 +19,7 @@ function fixture(controlled = false) {
   const unmount = render(
     () => (
       <Drawer
+        dragThreshold={dragThreshold()}
         open={open()}
         forceMount
         onOpenChange={(next) => {
@@ -52,8 +54,31 @@ function fixture(controlled = false) {
         cancelable: true,
       })
     )
-  return { content, handle, pointer, setOpen, changed }
+  return { content, handle, pointer, setOpen, changed, setDragThreshold, container }
 }
+
+test('root dragThreshold updates the handle without leaking onto the DOM', async () => {
+  const m = fixture()
+  m.setDragThreshold(150)
+  flush()
+  expect(m.container.firstElementChild).not.toHaveAttribute('dragthreshold')
+  m.pointer('pointerdown', 0)
+  m.pointer('pointerup', 120)
+  flush()
+  expect(m.changed).not.toHaveBeenCalled()
+  expect(m.content.open).toBe(true)
+  m.setDragThreshold(100)
+  flush()
+  m.pointer('pointerdown', 0)
+  m.pointer('pointerup', 100)
+  flush()
+  expect(m.changed).toHaveBeenCalledExactlyOnceWith(false)
+  await expect.poll(() => m.content.hasAttribute('data-ending-style')).toBe(true)
+  const animation = m.content.getAnimations()[0]!
+  animation.pause()
+  animation.currentTime = 0
+  expect(new DOMMatrix(getComputedStyle(m.content).transform).m42).toBe(100)
+})
 
 test('drawer exit starts at the release position and clears it after exit and reopen', async () => {
   const m = fixture()

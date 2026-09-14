@@ -19,13 +19,15 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
       el: element(),
       content: context.content(),
       side: context.own.side ?? 'bottom',
+      dragThreshold: context.own.dragThreshold,
       open: context.result().state.open,
       status: context.result().state.status,
     }),
-    ({ el, content, side, open, status }) => {
+    ({ el, content, side, dragThreshold, open, status }) => {
       if (!el || !content) return
       const options = {
         side,
+        dragThreshold,
         onDismiss: () => {
           context.change(false)
           // Controlled roots may refuse the request without producing an update.

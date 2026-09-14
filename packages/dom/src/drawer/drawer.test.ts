@@ -57,6 +57,49 @@ test('short drags and pointercancel reset without closing', () => {
   expect(m.dismiss).not.toHaveBeenCalled()
   expect(m.content.style.getPropertyValue('--drawer-swipe-offset')).toBe('')
 })
+test.each(['bottom', 'right'] as const)(
+  'custom pixel thresholds override size-based defaults for %s drawers',
+  (side) => {
+    const m = setup(side)
+    m.controller.update({ side, dragThreshold: 150, onDismiss: m.dismiss })
+    const release = (distance: number) => {
+      m.pointer('pointerdown', 0, 0)
+      m.pointer('pointerup', side === 'right' ? distance : 0, side === 'bottom' ? distance : 0)
+    }
+    release(149)
+    expect(m.dismiss).not.toHaveBeenCalled()
+    release(150)
+    expect(m.dismiss).toHaveBeenCalledOnce()
+    m.controller.update({ side, dragThreshold: 20, onDismiss: m.dismiss })
+    release(20)
+    expect(m.dismiss).toHaveBeenCalledTimes(2)
+  }
+)
+test.each([-1, NaN, Infinity])(
+  'invalid threshold %s uses the existing default',
+  (dragThreshold) => {
+    const m = setup()
+    m.controller.update({ side: 'bottom', dragThreshold, onDismiss: m.dismiss })
+    m.pointer('pointerdown', 0, 0)
+    m.pointer('pointerup', 0, 99)
+    expect(m.dismiss).not.toHaveBeenCalled()
+    m.pointer('pointerdown', 0, 0)
+    m.pointer('pointerup', 0, 100)
+    expect(m.dismiss).toHaveBeenCalledOnce()
+  }
+)
+test('a zero threshold still requires an outward drag', () => {
+  const m = setup()
+  m.controller.update({ side: 'bottom', dragThreshold: 0, onDismiss: m.dismiss })
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 0, 0)
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 10, 0)
+  expect(m.dismiss).not.toHaveBeenCalled()
+  m.pointer('pointerdown', 0, 0)
+  m.pointer('pointerup', 0, 10)
+  expect(m.dismiss).toHaveBeenCalledOnce()
+})
 test.each([
   ['top', 0, -110],
   ['right', 60, 0],

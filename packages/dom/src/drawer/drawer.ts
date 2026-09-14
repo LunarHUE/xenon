@@ -1,5 +1,7 @@
 export interface DrawerHandleOptions {
   side: 'top' | 'right' | 'bottom' | 'left'
+  /** Dismiss distance in pixels; invalid values use the default 25% / 40px minimum. */
+  dragThreshold?: number
   onDismiss: () => void
 }
 
@@ -73,7 +75,12 @@ export function registerDrawerHandle(
     if (!drag || event.pointerId !== drag.id) return
     const canceled = event.defaultPrevented
     move(event)
-    const reached = drag.extent > 0 && offset >= Math.max(40, drag.extent * 0.25)
+    const supplied = options.dragThreshold
+    const threshold =
+      supplied !== undefined && Number.isFinite(supplied) && supplied >= 0
+        ? supplied
+        : Math.max(40, drag.extent * 0.25)
+    const reached = drag.extent > 0 && moved && offset > 0 && offset >= threshold
     const dismiss = options.onDismiss
     // Exit keyframes need the release position after the gesture itself ends.
     reset(!canceled && reached)
