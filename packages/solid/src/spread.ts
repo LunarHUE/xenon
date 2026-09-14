@@ -18,7 +18,8 @@ type Handler = (event: Event) => void
  * Matching author handlers and supplied core entries must be callable functions;
  * this helper does not interpret tuples or guard undefined handlers. Recompute
  * the merge when inputs change so Solid's JSX spread can apply new values.
- * No DOM binding, event dispatch, or reactive subscription occurs in this helper.
+ * This helper creates no reactive computation and binds no DOM listeners. Call it
+ * from a tracked scope when its inputs are reactive.
  *
  * @returns A new shallow props object with composed handlers for matching events.
  */
