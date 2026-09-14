@@ -48,6 +48,45 @@ function checked(item: HTMLElement, value: boolean) {
   else expect(item).toHaveAttribute('aria-checked', String(value))
 }
 
+// Native navigation belongs to the browser: compare focus and selection with
+// plain radios instead of imposing the composite engine's wrap/RTL rules.
+async function expectNativeNavigation(container: HTMLElement, start: HTMLElement, keys: string[]) {
+  const items = [...container.querySelectorAll<HTMLInputElement>('input[type="radio"]')]
+  const baseline = document.createElement('div')
+  baseline.dir = getComputedStyle(start).direction
+  const radios = items.map((item) => {
+    const radio = document.createElement('input')
+    radio.type = 'radio'
+    radio.name = 'native-radio-navigation-baseline'
+    radio.disabled = item.disabled
+    radio.checked = item.checked
+    baseline.append(radio)
+    return radio
+  })
+  document.body.append(baseline)
+  try {
+    radios[items.indexOf(start as HTMLInputElement)]!.focus()
+    const expected = []
+    for (const key of keys) {
+      await userEvent.keyboard(key)
+      expected.push({
+        focus: radios.indexOf(document.activeElement as HTMLInputElement),
+        checked: radios.map((radio) => radio.checked),
+      })
+    }
+    start.focus()
+    for (const [index, key] of keys.entries()) {
+      await userEvent.keyboard(key)
+      expect({
+        focus: items.indexOf(document.activeElement as HTMLInputElement),
+        checked: items.map((item) => item.checked),
+      }).toEqual(expected[index])
+    }
+  } finally {
+    baseline.remove()
+  }
+}
+
 const hosts = ['input', 'button', 'div'] as const
 
 describe('radio group browser interactions', () => {
@@ -109,6 +148,11 @@ describe('radio group browser interactions', () => {
   spec('radio-group.keyboard.4', async () => {
     for (const as of hosts) {
       const m = setup({ defaultValue: 'pickup' }, as)
+      if (as === 'input') {
+        await expectNativeNavigation(m.container, m.pickup, ['{ArrowDown}', '{ArrowUp}'])
+        m.unmount()
+        continue
+      }
       m.pickup.focus()
       await userEvent.keyboard('{ArrowDown}')
       await m.settle()
@@ -158,6 +202,11 @@ describe('radio group browser interactions', () => {
       const scope = within(m.container)
       const first = scope.getByRole('radio', { name: 'A' })
       const last = scope.getByRole('radio', { name: 'D' })
+      if (as === 'input') {
+        await expectNativeNavigation(m.container, first, ['{ArrowDown}', '{ArrowDown}'])
+        m.unmount()
+        continue
+      }
       first.focus()
       await userEvent.keyboard('{ArrowDown}')
       await m.settle()
@@ -226,6 +275,11 @@ describe('radio group browser interactions', () => {
     for (const as of hosts) {
       const m = setup({ dir: 'rtl', orientation: 'horizontal', defaultValue: 'standard' }, as)
       expect(within(m.container).getByRole('radiogroup')).toHaveAttribute('dir', 'rtl')
+      if (as === 'input') {
+        await expectNativeNavigation(m.container, m.standard, ['{ArrowLeft}', '{ArrowRight}'])
+        m.unmount()
+        continue
+      }
       m.standard.focus()
       await userEvent.keyboard('{ArrowLeft}')
       await m.settle()
@@ -385,10 +439,6 @@ describe('radio group browser interactions', () => {
       else document.body.setAttribute('dir', previous)
     })
     const m = setup({ orientation: 'horizontal' })
-    m.standard.focus()
-    await userEvent.keyboard('{ArrowLeft}')
-    await m.settle()
-    expect(m.express).toHaveFocus()
-    checked(m.express, true)
+    await expectNativeNavigation(m.container, m.standard, ['{ArrowLeft}', '{ArrowRight}'])
   })
 })

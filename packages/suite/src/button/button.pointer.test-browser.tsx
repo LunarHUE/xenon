@@ -55,7 +55,9 @@ describe('button pointer in a browser', () => {
     })
     await enabled.settle()
     expect(seen).toHaveLength(1)
-    expect(window.location.href).toBe(url)
+    // Synthetic auxclick can navigate in WebKit. Native navigation is covered
+    // by E2E; reset the URL before asserting that disabled links cannot navigate.
+    window.history.replaceState(null, '', url)
     enabled.unmount()
 
     const accessiblyDisabled = mount('button', {

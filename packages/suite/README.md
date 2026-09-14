@@ -16,6 +16,18 @@ Run commands from `packages/suite`, or use `bun run --cwd packages/suite <script
 
 Install the desired browser with `bunx playwright install chromium`, `firefox`,
 or `webkit`. CI Linux hosts may also need `bunx playwright install --with-deps chromium`.
+On Ubuntu, install WebKit's system libraries as well as its browser binary:
+
+```sh
+bunx playwright install --with-deps webkit
+TENON_BROWSERS=webkit bun run test:browser
+bunx playwright test --project webkit
+```
+
+The dependency installation needs root privileges. The repository's Bun dev shell
+alone does not supply WebKit's GTK, GStreamer, and TLS libraries. Test runs do not
+need root once those dependencies are installed.
+
 WebKit is an engine target; this does not claim testing on shipping Safari or iOS.
 
 E2E launches a fresh production build and preview server on port 4173, plus a
@@ -54,3 +66,9 @@ assertions; unshipped dependencies, rejected alternatives, framework-specific
 contracts and browser research rules have explicit dispositions. Removing a
 TODO registration does not claim that research behavior was implemented.
 `e2e/legacy-hydration.spec.ts` covers their applicable server behavior.
+
+Browser assertions follow native host behavior where Tenon delegates to the
+platform. Validation messages, native radio traversal, and implicit submission
+are compared with plain HTML controls in the same engine. Browser-owned timing
+uses eventual assertions, and synthetic pointer tests do not claim native
+navigation coverage. The full-page E2E suite owns that coverage.

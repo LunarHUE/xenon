@@ -33,7 +33,12 @@ describe('button browser backlog', () => {
     const invalid = vi.fn((event: Event) => expect(event.cancelable).toBe(true))
     m.el.addEventListener('invalid', invalid)
     m.el.setCustomValidity('Pick one\r\nfirst')
-    expect(m.el.validationMessage).toBe('Pick one\nfirst')
+    const native = document.createElement('button')
+    native.type = 'submit'
+    native.setCustomValidity('Pick one\r\nfirst')
+    // The host owns validation-message line endings.
+    expect(m.el.validationMessage).toBe(native.validationMessage)
+    expect(m.el.validationMessage.replaceAll('\r\n', '\n')).toBe('Pick one\nfirst')
     expect(m.el.checkValidity()).toBe(false)
     expect(m.el.reportValidity()).toBe(false)
     expect(invalid).toHaveBeenCalledTimes(2)
@@ -290,7 +295,7 @@ describe('button browser backlog', () => {
     expect(document.activeElement).toBe(host)
     expect(shadow.activeElement).toBe(m.el)
   })
-  spec('button.focus.17', () => {
+  spec('button.focus.17', async () => {
     const m = fixture()
     const viewport = document.createElement('div')
     viewport.style.cssText =
@@ -304,6 +309,6 @@ describe('button browser backlog', () => {
     expect(viewport.scrollTop).toBe(0)
     m.el.blur()
     m.el.focus()
-    expect(viewport.scrollTop).toBeGreaterThan(0)
+    await expect.poll(() => viewport.scrollTop).toBeGreaterThan(0)
   })
 })

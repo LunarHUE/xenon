@@ -80,7 +80,11 @@ describe('checkbox forms in a browser', () => {
 
     el.setCustomValidity('Pick one\r\nfirst')
     expect(el.validity.customError).toBe(true)
-    expect(el.validationMessage).toBe('Pick one\nfirst')
+    const native = document.createElement('input')
+    native.type = 'checkbox'
+    native.setCustomValidity('Pick one\r\nfirst')
+    expect(el.validationMessage).toBe(native.validationMessage)
+    expect(el.validationMessage.replaceAll('\r\n', '\n')).toBe('Pick one\nfirst')
     el.setCustomValidity('')
 
     const flags = [
@@ -167,8 +171,22 @@ describe('checkbox forms in a browser', () => {
       await userEvent.keyboard('{Enter}')
       await m.settle()
       if (mode === 'disabled-with-fallback') {
-        expect(submit).toHaveBeenCalledTimes(1)
-        expect(submit.mock.calls[0]?.[0].submitter).toBe(form.querySelector('button:last-of-type'))
+        const native = document.createElement('input')
+        native.type = 'checkbox'
+        native.name = 'agree'
+        const baseline = formWith(native)
+        submitButton(baseline).disabled = true
+        const later = submitButton(baseline, 'Later submitter')
+        const nativeSubmit = vi.fn((event: SubmitEvent) => event.preventDefault())
+        baseline.addEventListener('submit', nativeSubmit)
+        native.focus()
+        await userEvent.keyboard('{Enter}')
+        expect(submit).toHaveBeenCalledTimes(nativeSubmit.mock.calls.length)
+        for (const [event] of nativeSubmit.mock.calls) expect(event.submitter).toBe(later)
+        for (const [event] of submit.mock.calls)
+          expect(event.submitter).toBe(form.querySelector('button:last-of-type'))
+        expect(native).not.toBeChecked()
+        baseline.remove()
       } else expect(submit, mode).not.toHaveBeenCalled()
       expect(inputHost(m.container)).not.toBeChecked()
       if (mode === 'ancestor') expect(defaults).toEqual([false])
