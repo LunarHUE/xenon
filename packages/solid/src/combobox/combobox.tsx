@@ -23,6 +23,7 @@ import { createPresence } from '../internal/presence'
 import { SelectionPopup, useSelectionPositioner } from '../internal/selection-popup'
 import type { SelectionPopupProps, SelectionPopupSource } from '../internal/selection-popup'
 import { spread } from '../spread'
+import { OverlayPortal } from '../internal/overlay-portal'
 
 /** Editable single-selection root options. Items remain available while the popup is closed. */
 export interface ComboboxProps {
@@ -535,8 +536,26 @@ function ComboboxArrow(props: ComponentProps<'div'>): JSX.Element {
   )
 }
 
+/** Native div attributes, including children, ref, role, and event handlers. */
+export type ComboboxViewportProps = ComponentProps<'div'>
+/**
+ * Optional scrolling wrapper inside Content. Content retains its listbox role;
+ * options remain descendants and focus stays on the owning control. CSS supplies
+ * scrolling styles. This div adds no role or tab stop by default.
+ */
+export function ComboboxViewport(props: ComboboxViewportProps): JSX.Element {
+  const context = useCombobox()
+  return (
+    <div data-part="viewport" data-state={context.source.open() ? 'open' : 'closed'} {...props} />
+  )
+}
+
 /** Editable single-selection root and its independently rendered compound parts. */
 export const Combobox = Object.assign(ComboboxRoot, {
+  /** Portal popup parts while the form mirror stays at Root. */
+  Portal: OverlayPortal,
+  /** Optional scrolling wrapper for options inside Content. */
+  Viewport: ComboboxViewport,
   /** Text input retaining DOM focus. */
   Input: ComboboxInput,
   /** Optional pointer toggle. */

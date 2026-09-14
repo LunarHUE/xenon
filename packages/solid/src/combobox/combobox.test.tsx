@@ -259,3 +259,67 @@ test('arrow forwards its measured element to the author ref', () => {
   expect(ref.mock.calls[0]![0]).toBeInstanceOf(HTMLDivElement)
   expect(ref.mock.calls[0]![0]).toHaveAttribute('data-part', 'arrow')
 })
+
+test('Combobox Portal and Viewport preserve input focus, listbox semantics, and form reset', async () => {
+  const mount = document.createElement('div')
+  document.body.append(mount)
+  let viewport: HTMLDivElement | undefined
+  const scrolled = vi.fn()
+  const change = vi.fn()
+  const view = render(() => (
+    <form>
+      <Combobox items={items} name="fruit" required onValueChange={change}>
+        <Combobox.Input aria-label="Portaled fruit" />
+        <Combobox.Portal container={mount}>
+          <Combobox.Positioner>
+            <Combobox.Content>
+              <Combobox.Viewport
+                ref={(el) => {
+                  viewport = el
+                }}
+                role="presentation"
+                onScroll={scrolled}
+              >
+                <Combobox.Item value="a">Apple</Combobox.Item>
+                <Combobox.Item value="c">Cherry</Combobox.Item>
+              </Combobox.Viewport>
+            </Combobox.Content>
+          </Combobox.Positioner>
+        </Combobox.Portal>
+      </Combobox>
+    </form>
+  ))
+  try {
+    const form = view.container.querySelector('form')!
+    const input = view.getByRole('combobox') as HTMLInputElement
+    const native = form.querySelector('select')!
+    expect(native.form).toBe(form)
+    expect(form.checkValidity()).toBe(false)
+    input.focus()
+    type(input, 'ch')
+    const listbox = mount.querySelector('[role="listbox"]')!
+    expect(listbox).not.toBeNull()
+    expect(viewport?.parentElement).toBe(listbox)
+    expect(viewport).toHaveAttribute('data-state', 'open')
+    expect(viewport).toHaveAttribute('role', 'presentation')
+    expect(viewport).not.toHaveAttribute('tabindex')
+    viewport!.dispatchEvent(new Event('scroll'))
+    expect(scrolled).toHaveBeenCalledOnce()
+    expect(mount.querySelector('select')).toBeNull()
+    expect(input).toHaveFocus()
+    press(input, 'ArrowDown')
+    press(input, 'Enter')
+    expect(new FormData(form).get('fruit')).toBe('c')
+    expect(form.checkValidity()).toBe(true)
+    form.reset()
+    await Promise.resolve()
+    flush()
+    expect(input.value).toBe('')
+    expect(new FormData(form).get('fruit')).toBe('')
+    expect(form.checkValidity()).toBe(false)
+    expect(change).toHaveBeenCalledTimes(1)
+  } finally {
+    view.unmount()
+    mount.remove()
+  }
+})

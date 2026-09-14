@@ -25,6 +25,37 @@ import type { ButtonProps } from '../button/button'
 import { serverAssociations } from '../field/server-associations'
 import { createPresence } from '../internal/presence'
 import { spread } from '../spread'
+import {
+  attachOverlayHandle,
+  createOverlayHandle,
+  getOverlayHandleContext,
+} from '../internal/overlay-handle'
+import type { OverlayHandle } from '../internal/overlay-handle'
+import { OverlayPortal } from '../internal/overlay-portal'
+import { FloatingViewport } from '../internal/floating-viewport'
+import type { FloatingViewportProps } from '../internal/floating-viewport'
+
+/** A handle connecting detached triggers to one mounted popover root. */
+export type PopoverHandle<Payload = unknown> = OverlayHandle<Payload, Context>
+/** Live values passed to a popover root's render callback. Read properties within JSX. */
+export interface PopoverRenderState<Payload = unknown> {
+  /** Root-controlled logical visibility. */
+  readonly open: boolean
+  /** ID of the selected trigger, when one exists. */
+  readonly triggerId: string | undefined
+  /** Payload selected by a trigger or an imperative opening request. */
+  readonly payload: Payload | undefined
+}
+/** Create a reusable handle; commands without a mounted root are ignored. */
+export function createPopoverHandle<Payload = unknown>(): PopoverHandle<Payload> {
+  return createOverlayHandle<Payload, Context>()
+}
+
+interface TriggerEntry {
+  element?: HTMLElement
+  id(): string
+  payload(): unknown
+}
 
 /** Root-owned visibility, dismissal, focus, and association inputs. */
 interface Own {
@@ -64,13 +95,17 @@ interface Own {
   ref?: (el: HTMLElement) => void
 }
 /** Polymorphic root props with library-owned visibility and dismissal policies. */
-export type PopoverProps<T extends ValidComponent = 'div'> = Omit<
+export type PopoverProps<T extends ValidComponent = 'div', Payload = unknown> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  keyof Own | 'as' | 'children'
 > &
   Own & {
     /** Root host, defaulting to div; custom components must forward props and refs. */
     as?: T
+    /** Connect detached triggers and commands. Keep this handle stable for the mounted root. */
+    handle?: PopoverHandle<Payload>
+    /** Static parts or a callback receiving live open, trigger, and payload getters. */
+    children?: JSX.Element | ((state: PopoverRenderState<Payload>) => JSX.Element)
   }
 /** Dialog content host props. Requires Popover.Positioner; author aria-label suppresses generated title naming. */
 export type PopoverContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
@@ -80,7 +115,15 @@ export type PopoverContentProps<T extends ValidComponent = 'div'> = ComponentPro
   ref?: (el: HTMLElement) => void
 }
 /** {@link ButtonProps} for a registered trigger; the active trigger controls expansion and default anchoring. */
-export type PopoverTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+export type PopoverTriggerProps<
+  T extends ValidComponent = 'button',
+  Payload = unknown,
+> = ButtonProps<T> & {
+  /** Use a mounted root outside the trigger's Solid ancestry. */
+  handle?: PopoverHandle<Payload>
+  /** Payload supplied to the root when this trigger opens or replaces content. */
+  payload?: NoInfer<Payload>
+}
 /** {@link ButtonProps} for requesting closure; aria-label defaults to Close popover. */
 export type PopoverCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
 /** Title host props; author id overrides the fallback and contributes to content naming. */
@@ -122,11 +165,16 @@ interface Context {
   trigger(): HTMLElement | undefined
   /** Selects the trigger host without changing logical visibility. */
   setTrigger(el: HTMLElement | undefined): void
+  /** Selected trigger identity for render state and viewport transitions. */
+  triggerId(): string | undefined
+  /** Payload selected by the latest opener. */
+  payload(): unknown
+  /** Observe existing content synchronously before an open popover switches items. */
+  beforeChange(listener: () => void): () => void
+  /** Select a registered trigger and request opening or toggling. */
+  activate(entry: TriggerEntry, toggle: boolean): void
   /** Registers a trigger identity. Removal replaces an active removed trigger with the first remaining entry on the client. */
-  registerTrigger(entry: {
-    /** Visible trigger host assigned by its forwarded ref. */
-    element?: HTMLElement
-  }): () => void
+  registerTrigger(entry: TriggerEntry): () => void
   /** Tests the selected host, or the first registered entry when no host has been selected. */
   activeTrigger(entry: {
     /** Visible trigger host compared with the selected trigger. */
@@ -138,7 +186,7 @@ interface Context {
   setAnchor(el: HTMLElement | undefined): void
 }
 /** Nearest popover root state; absent outside a provider. */
-const PopoverContext = createContext<Context>()
+const PopoverContext = createContext<Context | null>(null)
 /**
  * Reads the enclosing popover root in the current Solid owner.
  * @param name - Part name included in the missing-provider error.
@@ -161,13 +209,16 @@ export function usePopover(name: string): Context {
  * {@link createPresence} keeps exit content mounted and cancels stale exit waits on
  * reopening. The Positioner owns the native hosting session for that lifetime.
  */
-function PopoverRoot<T extends ValidComponent = 'div'>(props: PopoverProps<T>): JSX.Element {
+function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
+  props: PopoverProps<T, Payload>
+): JSX.Element {
   const own = props as Own & { as?: ValidComponent }
   const rest = omit(
     props as Record<string, unknown>,
     'as',
     'ref',
     'children',
+    'handle',
     'open',
     'defaultOpen',
     'onOpenChange',
@@ -191,7 +242,30 @@ function PopoverRoot<T extends ValidComponent = 'div'>(props: PopoverProps<T>): 
   const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
     ownedWrite: true,
   })
-  let triggers: { element?: HTMLElement }[] = []
+  let triggers: TriggerEntry[] = []
+  const [payload, setPayload] = createSignal<unknown>(undefined, { ownedWrite: true })
+  const listeners = new Set<() => void>()
+  const triggerId = () => {
+    revision()
+    const active = trigger()
+    return triggers.find((entry) => entry.element === active)?.id()
+  }
+  const select = (entry: TriggerEntry | undefined, nextPayload: unknown) => {
+    const nextTrigger = entry?.element ?? untrack(trigger)
+    if (
+      untrack(open) &&
+      (nextTrigger !== untrack(trigger) || !Object.is(nextPayload, untrack(payload)))
+    ) {
+      for (const listener of listeners) listener()
+    }
+    setTrigger(nextTrigger)
+    setPayload(() => nextPayload)
+  }
+  const activate = (entry: TriggerEntry, toggle: boolean) => {
+    const same = untrack(trigger) === entry.element
+    select(entry, entry.payload())
+    change(toggle && same ? !untrack(open) : true)
+  }
   const [anchor, setAnchor] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
@@ -238,10 +312,19 @@ function PopoverRoot<T extends ValidComponent = 'div'>(props: PopoverProps<T>): 
     content,
     trigger,
     setTrigger,
+    triggerId,
+    payload,
+    activate,
+    beforeChange(listener) {
+      listeners.add(listener)
+      return () => listeners.delete(listener)
+    },
     registerTrigger(entry) {
       triggers.push(entry)
+      if (!isServer) setRevision(++version)
       return () => {
         triggers = triggers.filter((item) => item !== entry)
+        if (!isServer) setRevision(++version)
         if (!isServer && untrack(trigger) === entry.element) setTrigger(triggers[0]?.element)
       }
     },
@@ -265,9 +348,47 @@ function PopoverRoot<T extends ValidComponent = 'div'>(props: PopoverProps<T>): 
     },
     association: (name, read) => (associations ? associations.attribute(name, read) : read()),
   }
+  const handle = untrack(() => props.handle)
+  if (handle) {
+    onCleanup(
+      attachOverlayHandle(handle, {
+        context,
+        readOpen: open,
+        dispatch(command) {
+          if (command.type === 'close') {
+            change(false)
+            return
+          }
+          const entry =
+            command.type === 'open' && command.triggerId !== undefined
+              ? triggers.find((candidate) => candidate.id() === command.triggerId)
+              : (triggers.find((candidate) => candidate.element === untrack(trigger)) ??
+                triggers[0])
+          if (command.type === 'open' && command.triggerId !== undefined && !entry) return
+          if (!entry?.element && !untrack(anchor)) return
+          select(entry, command.type === 'payload' ? command.payload : entry?.payload())
+          change(true)
+        },
+      })
+    )
+  }
+  const state: PopoverRenderState<Payload> = {
+    get open() {
+      return open()
+    },
+    get triggerId() {
+      return triggerId()
+    },
+    get payload() {
+      return payload() as Payload | undefined
+    },
+  }
   const inner = createMemo(() => (
     <PopoverContext value={context}>
-      {(props as { children?: JSX.Element }).children}
+      {(() => {
+        const children = props.children
+        return typeof children === 'function' ? children(state) : children
+      })()}
     </PopoverContext>
   ))
   const element = (
@@ -310,48 +431,61 @@ function buttonProps(part: AnyPart, props: Record<string, unknown>) {
  * components receive the current association directly and must forward props/ref.
  * @throws If rendered outside Popover.
  */
-export function PopoverTrigger<T extends ValidComponent = 'button'>(
-  props: ButtonProps<T>
+export function PopoverTrigger<T extends ValidComponent = 'button', Payload = unknown>(
+  props: PopoverTriggerProps<T, Payload>
 ): JSX.Element {
-  const context = usePopover('Popover.Trigger')
-  let element: HTMLElement | undefined
-  const entry: { element?: HTMLElement } = {}
-  onCleanup(context.registerTrigger(entry))
-  onSettled(() => {
-    if (element && !untrack(context.trigger)) context.setTrigger(element)
-  })
-  const rest = omit(props as Record<string, unknown>, 'ref', 'children')
+  const inherited = useContext(PopoverContext)
+  const handle = untrack(() => props.handle)
+  const context = () => (handle ? getOverlayHandleContext(handle) : inherited)
+  if (!handle && !inherited)
+    throw new Error('Popover.Trigger must be rendered inside a <Popover> or receive a handle')
+  const generatedId = createUniqueId()
+  const own = props as PopoverTriggerProps<'button', Payload>
+  const entry: TriggerEntry = {
+    id: () => own.id || generatedId,
+    payload: () => props.payload,
+  }
+  if (handle) {
+    createEffect(context, (value) => {
+      if (!value) return
+      const release = value.registerTrigger(entry)
+      if (entry.element && !untrack(value.trigger)) value.setTrigger(entry.element)
+      return release
+    })
+  } else {
+    onCleanup(inherited!.registerTrigger(entry))
+    onSettled(() => {
+      if (entry.element && !untrack(inherited!.trigger)) inherited!.setTrigger(entry.element)
+    })
+  }
+  const rest = omit(props as Record<string, unknown>, 'ref', 'children', 'handle', 'payload', 'id')
   const part = () => {
-    const original = context.result().parts.trigger
-    const active = context.activeTrigger(entry)
+    const root = context()
+    const original = root?.result().parts.trigger
+    const active = root?.activeTrigger(entry) ?? false
     return {
       attrs: {
-        ...original.attrs,
-        'aria-expanded': context.result().state.open && active ? 'true' : 'false',
+        ...original?.attrs,
+        id: entry.id(),
+        'aria-haspopup': 'dialog',
+        'aria-expanded': root?.result().state.open && active ? 'true' : 'false',
         'aria-controls':
-          typeof (props as { as?: ValidComponent }).as === 'function'
-            ? active
-              ? original.attrs['aria-controls']
-              : undefined
-            : context.association('aria-controls', () =>
-                context.activeTrigger(entry)
-                  ? context.result().parts.trigger.attrs['aria-controls']
-                  : undefined
-              ),
+          root && active
+            ? typeof (props as { as?: ValidComponent }).as === 'function'
+              ? original?.attrs['aria-controls']
+              : root.association('aria-controls', () =>
+                  root.activeTrigger(entry)
+                    ? root.result().parts.trigger.attrs['aria-controls']
+                    : undefined
+                )
+            : undefined,
       },
-      on: {
-        click: () => {
-          const same = context.trigger() === element
-          if (element) context.setTrigger(element)
-          context.change(same ? !context.result().state.open : true)
-        },
-      },
+      on: { click: () => context()?.activate(entry, true) },
     } as AnyPart
   }
   return (
     <Button
       ref={(el: HTMLElement) => {
-        element = el
         entry.element = el
         ;(props as { ref?: (el: HTMLElement) => void }).ref?.(el)
       }}
@@ -736,6 +870,29 @@ export function PopoverDescription<T extends ValidComponent = 'p'>(
   )
 }
 
+/** Native div attributes for the optional popup transition viewport. */
+export type PopoverViewportProps = Omit<FloatingViewportProps, 'source'>
+/**
+ * Place inside Content to retain inert previous content during trigger or payload
+ * transitions. CSS supplies animation and scrolling; this wrapper adds no tab stop.
+ */
+export function PopoverViewport(props: PopoverViewportProps): JSX.Element {
+  const context = usePopover('Popover.Viewport')
+  return (
+    <FloatingViewport
+      {...props}
+      data-part="viewport"
+      data-state={context.result().state.open ? 'open' : 'closed'}
+      source={{
+        open: () => context.result().state.open,
+        trigger: context.trigger,
+        content: context.content,
+        beforeChange: context.beforeChange,
+      }}
+    />
+  )
+}
+
 /**
  * Popover root and associated parts. Place Content and Arrow inside Positioner;
  * other parts require the root context. Root is also available as Popover.Root.
@@ -743,6 +900,12 @@ export function PopoverDescription<T extends ValidComponent = 'p'>(
 export const Popover = Object.assign(PopoverRoot, {
   /** Root state, associations, and presence provider. */
   Root: PopoverRoot,
+  /** Create a typed handle for detached triggers and imperative commands. */
+  createHandle: createPopoverHandle,
+  /** Move popup content while preserving Solid context and native modal ancestry. */
+  Portal: OverlayPortal,
+  /** Optional content transition and scrolling wrapper inside Content. */
+  Viewport: PopoverViewport,
   /** Registered opener with shared active-trigger selection. */
   Trigger: PopoverTrigger,
   /** Named dialog and focus/exit region inside Positioner. */

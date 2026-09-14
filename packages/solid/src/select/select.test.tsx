@@ -233,3 +233,67 @@ describe('Select', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
   })
 })
+
+test('Select Portal and Viewport preserve listbox semantics and native form ownership', async () => {
+  const mount = document.createElement('div')
+  document.body.append(mount)
+  let viewport: HTMLDivElement | undefined
+  const scrolled = vi.fn()
+  const change = vi.fn()
+  const view = render(() => (
+    <form>
+      <Select items={items} name="fruit" required onValueChange={change}>
+        <Select.Trigger aria-label="Portaled fruit">
+          <Select.Value placeholder="Choose" />
+        </Select.Trigger>
+        <Select.Portal container={mount}>
+          <Select.Positioner>
+            <Select.Content>
+              <Select.Viewport
+                ref={(el) => {
+                  viewport = el
+                }}
+                role="presentation"
+                onScroll={scrolled}
+              >
+                <Select.Item value="a" />
+                <Select.Item value="c" />
+              </Select.Viewport>
+            </Select.Content>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select>
+    </form>
+  ))
+  try {
+    const form = view.container.querySelector('form')!
+    const native = form.querySelector('select')!
+    expect(native.form).toBe(form)
+    expect(form.checkValidity()).toBe(false)
+    const trigger = view.getByRole('combobox')
+    trigger.click()
+    flush()
+    const listbox = mount.querySelector('[role="listbox"]')!
+    expect(listbox).not.toBeNull()
+    expect(viewport?.parentElement).toBe(listbox)
+    expect(viewport).toHaveAttribute('data-state', 'open')
+    expect(viewport).toHaveAttribute('role', 'presentation')
+    expect(viewport).not.toHaveAttribute('tabindex')
+    viewport!.dispatchEvent(new Event('scroll'))
+    expect(scrolled).toHaveBeenCalledOnce()
+    expect(mount.querySelector('select')).toBeNull()
+    ;(mount.querySelector('[role="option"]') as HTMLElement).click()
+    flush()
+    expect(new FormData(form).get('fruit')).toBe('a')
+    expect(form.checkValidity()).toBe(true)
+    form.reset()
+    await Promise.resolve()
+    flush()
+    expect(new FormData(form).get('fruit')).toBe('')
+    expect(form.checkValidity()).toBe(false)
+    expect(change).toHaveBeenCalledTimes(1)
+  } finally {
+    view.unmount()
+    mount.remove()
+  }
+})

@@ -21,6 +21,7 @@ import { createPresence } from '../internal/presence'
 import { SelectionPopup, useSelectionPositioner } from '../internal/selection-popup'
 import type { SelectionPopupProps } from '../internal/selection-popup'
 import { spread } from '../spread'
+import { OverlayPortal } from '../internal/overlay-portal'
 import { serverAssociations } from '../field/server-associations'
 
 /** Wrapper-free single-value select with metadata available before the popup mounts. */
@@ -477,8 +478,24 @@ export function SelectArrow(props: ComponentProps<'div'>): JSX.Element {
     />
   )
 }
+/** Native div attributes, including children, ref, role, and event handlers. */
+export type SelectViewportProps = ComponentProps<'div'>
+/**
+ * Optional scrolling wrapper inside Content. Content retains its listbox role;
+ * options remain descendants and focus stays on the owning control. CSS supplies
+ * scrolling styles. This div adds no role or tab stop by default.
+ */
+export function SelectViewport(props: SelectViewportProps): JSX.Element {
+  const context = useSelect('Select.Viewport')
+  return <div data-part="viewport" data-state={context.open() ? 'open' : 'closed'} {...props} />
+}
+
 /** Select-only combobox with wrapper-free state and compound presentation parts. */
 export const Select = Object.assign(SelectRoot, {
+  /** Portal popup parts while the form mirror stays at Root. */
+  Portal: OverlayPortal,
+  /** Optional scrolling wrapper for options inside Content. */
+  Viewport: SelectViewport,
   /** Alias of the wrapper-free state and native-form provider. */
   Root: SelectRoot,
   /** Select-only combobox focus anchor and opening button. */
