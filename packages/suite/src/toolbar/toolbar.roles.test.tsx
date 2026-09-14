@@ -180,7 +180,24 @@ describe('toolbar roles and attributes', () => {
       ),
     })
     const el = within(root(m.container)).getByRole('separator')
-    expect(el).toHaveAttribute('role', 'separator')
+    expect(el.tagName).toBe('HR')
+    expect(el).not.toHaveAttribute('role')
+    m.unmount()
+
+    const divided = mount('toolbar', {
+      'aria-label': 'Format',
+      children: () => (
+        <>
+          <Toolbar.Button>Bold</Toolbar.Button>
+          <Toolbar.Separator as="div" />
+          <Toolbar.Button>Italic</Toolbar.Button>
+        </>
+      ),
+    })
+    expect(within(root(divided.container)).getByRole('separator')).toHaveAttribute(
+      'role',
+      'separator'
+    )
   })
 
   spec('toolbar.roles.9', () => {
@@ -211,10 +228,9 @@ describe('toolbar roles and attributes', () => {
         </>
       ),
     })
-    expect(within(root(vertical.container)).getByRole('separator')).toHaveAttribute(
-      'aria-orientation',
-      'horizontal'
-    )
+    const el = within(root(vertical.container)).getByRole('separator')
+    expect(el).toHaveAttribute('data-orientation', 'horizontal')
+    expect(el).not.toHaveAttribute('aria-orientation')
   })
 
   spec('toolbar.roles.10', () => {
@@ -228,9 +244,25 @@ describe('toolbar roles and attributes', () => {
         </>
       ),
     })
-    expect(within(root(m.container)).getByRole('separator')).toHaveAttribute(
+    const el = within(root(m.container)).getByRole('separator')
+    expect(el).toHaveAttribute('data-orientation', 'horizontal')
+    expect(el).not.toHaveAttribute('aria-orientation')
+    m.unmount()
+
+    const upright = mount('toolbar', {
+      'aria-label': 'Format',
+      orientation: 'vertical',
+      children: () => (
+        <>
+          <Toolbar.Button>Bold</Toolbar.Button>
+          <Toolbar.Separator orientation="vertical" />
+          <Toolbar.Button>Italic</Toolbar.Button>
+        </>
+      ),
+    })
+    expect(within(root(upright.container)).getByRole('separator')).toHaveAttribute(
       'aria-orientation',
-      'horizontal'
+      'vertical'
     )
   })
 
@@ -272,25 +304,9 @@ describe('toolbar roles and attributes', () => {
 
   spec.todo('toolbar.roles.17')
 
-  spec('toolbar.roles.18', () => {
-    const m = mount('toolbar', {
-      'aria-label': 'Format',
-      orientation: 'vertical',
-      children: () => (
-        <>
-          <Toolbar.Button>Bold</Toolbar.Button>
-          <Toolbar.Separator />
-          <Toolbar.Button>Italic</Toolbar.Button>
-        </>
-      ),
-    })
-    const el = within(root(m.container)).getByRole('separator')
-    expect(el.getAttribute('aria-orientation')).toBe('horizontal')
-  })
-
   spec.skip(
-    'toolbar.roles.19',
-    'separators always state their orientation, see toolbar.roles.18',
+    'toolbar.roles.18',
+    'a redundant aria-orientation is never written, see toolbar.roles.19',
     () => {
       const m = mount('toolbar', {
         'aria-label': 'Format',
@@ -304,7 +320,23 @@ describe('toolbar roles and attributes', () => {
         ),
       })
       const el = within(root(m.container)).getByRole('separator')
-      expect(el).not.toHaveAttribute('aria-orientation')
+      expect(el.getAttribute('aria-orientation')).toBe('horizontal')
     }
   )
+
+  spec('toolbar.roles.19', () => {
+    const m = mount('toolbar', {
+      'aria-label': 'Format',
+      orientation: 'vertical',
+      children: () => (
+        <>
+          <Toolbar.Button>Bold</Toolbar.Button>
+          <Toolbar.Separator />
+          <Toolbar.Button>Italic</Toolbar.Button>
+        </>
+      ),
+    })
+    const el = within(root(m.container)).getByRole('separator')
+    expect(el).not.toHaveAttribute('aria-orientation')
+  })
 })
