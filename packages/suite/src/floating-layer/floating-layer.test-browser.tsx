@@ -129,6 +129,20 @@ test('outside pointer dismissal preserves the clicked target focus', async () =>
   expect(m.wrapper.matches(':popover-open')).toBe(false)
 })
 
+test('closing a hidden parent before its child restores the parent trigger rather than its original opener', async () => {
+  const parent = setup({ open: false, active: false })
+  parent.trigger.blur()
+  parent.controller.update({ ...parent.options, open: true, active: true })
+  await settle()
+  const child = setup({}, parent.content)
+  await settle()
+  parent.wrapper.hidden = true
+  parent.controller.update({ ...parent.options, open: false, active: false })
+  child.controller.update({ ...child.options, open: false, active: false })
+  await settle()
+  expect(parent.trigger).toHaveFocus()
+})
+
 test('outside focus cancellation keeps the layer open without stealing focus', async () => {
   const onFocusOutside = vi.fn((event: { preventDefault(): void }) => event.preventDefault())
   const m = setup({ onFocusOutside })

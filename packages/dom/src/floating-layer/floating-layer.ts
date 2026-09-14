@@ -40,6 +40,7 @@ export interface FloatingLayer {
 interface Session {
   wrapper: HTMLElement
   opener: Element | null
+  returnFocus: Element | null | undefined
   parent?: Session
   layer: LayerHandle
   disposed: boolean
@@ -169,7 +170,7 @@ export function createFloatingLayer(
     let ancestor = ending.parent
     while (ancestor) {
       if (!usable(target) || (ancestor.disposed && contains(ancestor.wrapper, target)))
-        target = ancestor.opener
+        target = usable(ancestor.returnFocus) ? ancestor.returnFocus : ancestor.opener
       ancestor = ancestor.parent
     }
     if (usable(target)) target.focus({ preventScroll: true })
@@ -184,7 +185,14 @@ export function createFloatingLayer(
       ...layerOptions(),
       parent: options.parent ?? parent?.layer,
     })
-    session = { wrapper, opener, parent, layer, disposed: false }
+    session = {
+      wrapper,
+      opener,
+      returnFocus: options.finalFocus ?? options.trigger ?? opener,
+      parent,
+      layer,
+      disposed: false,
+    }
     stack.push(session)
     sessions.set(document, stack)
     restore = true
@@ -292,6 +300,7 @@ export function createFloatingLayer(
           ? session!.layer.registerBranch(options.trigger)
           : undefined
       }
+      session!.returnFocus = options.finalFocus ?? options.trigger ?? session!.opener
       if (options.positioned && !scope) {
         scope = registerFocusScope(options.content, {
           contain: options.modal ?? false,
