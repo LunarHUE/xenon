@@ -1,6 +1,7 @@
 import { navigationMenu } from '@tenon/core/navigation-menu'
 import type { AnyPart } from '@tenon/core'
 import { createFloatingLayer } from '@tenon/dom/floating-layer'
+import type { FloatingLayerOptions } from '@tenon/dom/floating-layer'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -16,6 +17,7 @@ import {
   useContext,
 } from 'solid-js'
 import { spread } from '../spread'
+import { serverAssociations } from '../field/server-associations'
 import { createPositioner } from '../positioning/positioning'
 import type { Positioner, PositionerOptions } from '../positioning/positioning'
 import { OverlayPortal } from '../internal/overlay-portal'
@@ -27,33 +29,47 @@ type Host<T extends ValidComponent> = ComponentProps<T> & {
   as?: T
   ref?: (element: HTMLElement) => void
 }
+type DismissPolicy = Pick<
+  FloatingLayerOptions,
+  | 'closeOnEscape'
+  | 'closeOnOutside'
+  | 'closeOnFocusOutside'
+  | 'onEscapeKeyDown'
+  | 'onPointerOutside'
+  | 'onFocusOutside'
+>
+
 /** Root navigation policy. Null closes controlled selection; undefined selects uncontrolled state. */
 export type NavigationMenuProps<T extends ValidComponent = 'nav'> = Omit<
   Host<T>,
   'onValueChange' | 'defaultValue'
-> & {
-  /** Selected item, or null for closed. */
-  value?: string | null
-  /** Initial selection, read once and defaulting to null. */
-  defaultValue?: string | null
-  /** Reports different selection requests after uncontrolled state updates. */
-  onValueChange?: (value: string | null) => void
-  /** Axis for list arrows, defaulting to horizontal. */
-  orientation?: 'horizontal' | 'vertical'
-  /** Horizontal direction; otherwise sampled from the root's nearest dir attribute. */
-  dir?: 'ltr' | 'rtl'
-  /** Enable mouse-hover opening, defaulting to true. Touch never starts hover timers. */
-  openOnHover?: boolean
-  /** Initial hover delay in milliseconds, defaulting to 200. Open panels switch immediately. */
-  openDelay?: number
-  /** Delay after leaving a trigger or panel, defaulting to 150 milliseconds. */
-  closeDelay?: number
-}
+> &
+  DismissPolicy & {
+    /** Selected item, or null for closed. */
+    value?: string | null
+    /** Initial selection, read once and defaulting to null. */
+    defaultValue?: string | null
+    /** Reports different selection requests after uncontrolled state updates. */
+    onValueChange?: (value: string | null) => void
+    /** Axis for list arrows, defaulting to horizontal. */
+    orientation?: 'horizontal' | 'vertical'
+    /** Horizontal direction; otherwise sampled from the root's nearest dir attribute. */
+    dir?: 'ltr' | 'rtl'
+    /** Enable mouse-hover opening, defaulting to true. Touch never starts hover timers. */
+    openOnHover?: boolean
+    /** Initial hover delay in milliseconds, defaulting to 200. Open panels switch immediately. */
+    openDelay?: number
+    /** Delay after leaving a trigger or panel, defaulting to 150 milliseconds. */
+    closeDelay?: number
+  }
 interface Entry {
   value(): string
   element?: HTMLElement
 }
 interface Context {
+  dismissPolicy(): DismissPolicy
+  association(read: () => string | undefined): string | undefined
+  direction(): 'ltr' | 'rtl'
   value(): string | null
   change(value: string | null): void
   result(): ReturnType<typeof navigationMenu>
@@ -68,6 +84,7 @@ interface Context {
   leave(): void
   cancel(): void
   focus(value: string, last?: boolean): void
+  flushFocus(): void
   navigate(event: KeyboardEvent): void
   beforeChange(listener: () => void): () => void
 }
@@ -108,6 +125,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
   const ids = new Map<string, string>()
   const base = createUniqueId()
   const before = new Set<() => void>()
+  let pendingFocus: { item: string; last: boolean } | undefined
   let timer: ReturnType<typeof setTimeout> | undefined
   const cancel = () => {
     clearTimeout(timer)
@@ -122,6 +140,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
   const change = (next: string | null) => {
     cancel()
     if (next === untrack(value)) return
+    pendingFocus = undefined
     before.forEach((listener) => listener())
     if (own.value === undefined) setInternal(next)
     own.onValueChange?.(next)
@@ -133,7 +152,18 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       ids: { trigger: (item) => id('trigger', item), content: (item) => id('content', item) },
       onValueChange: change,
     })
+  const associations = isServer ? serverAssociations() : undefined
   const context: Context = {
+    dismissPolicy: () => ({
+      closeOnEscape: own.closeOnEscape,
+      closeOnOutside: own.closeOnOutside,
+      closeOnFocusOutside: own.closeOnFocusOutside,
+      onEscapeKeyDown: own.onEscapeKeyDown,
+      onPointerOutside: own.onPointerOutside,
+      onFocusOutside: own.onFocusOutside,
+    }),
+    direction: () => own.dir ?? ambient(),
+    association: (read) => (associations ? associations.attribute('aria-controls', read) : read()),
     value,
     change,
     result,
@@ -175,10 +205,23 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
     },
     focus(item, last = false) {
       change(item)
-      onSettled(() => {
-        const elements = stops(context.panel(item))
-        ;(last ? elements.at(-1) : elements[0])?.focus()
-      })
+      pendingFocus = { item, last }
+      onSettled(() => context.flushFocus())
+    },
+    flushFocus() {
+      if (!pendingFocus || value() !== pendingFocus.item) return
+      const panel = context.panel(pendingFocus.item)
+      if (
+        !panel ||
+        panel.ownerDocument.defaultView?.getComputedStyle(panel).visibility === 'hidden'
+      )
+        return
+      const elements = stops(panel)
+      const target = pendingFocus.last ? elements.at(-1) : elements[0]
+      if (target) {
+        target.focus()
+        pendingFocus = undefined
+      }
     },
     navigate(event) {
       if (
@@ -227,10 +270,16 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
     'orientation',
     'openOnHover',
     'openDelay',
-    'closeDelay'
+    'closeDelay',
+    'closeOnEscape',
+    'closeOnOutside',
+    'closeOnFocusOutside',
+    'onEscapeKeyDown',
+    'onPointerOutside',
+    'onFocusOutside'
   )
   const children = createMemo(() => <Context value={context}>{own.children}</Context>)
-  return (
+  const element = (
     <Dynamic
       component={own.as ?? 'nav'}
       ref={(el: HTMLElement) => {
@@ -242,6 +291,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       {children()}
     </Dynamic>
   )
+  return associations ? associations.finish(element) : element
 }
 /** Native list with optional arrow and Home/End shortcuts. Every native tab stop remains tabbable. */
 export function NavigationMenuList<T extends ValidComponent = 'ul'>(props: Host<T>): JSX.Element {
@@ -291,7 +341,12 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
   const part = () => {
     const original = context.result().parts.trigger(item(), !!own.disabled)
     return {
-      attrs: original.attrs,
+      attrs: {
+        ...original.attrs,
+        'aria-controls': context.association(
+          () => context.result().parts.trigger(item(), !!own.disabled).attrs['aria-controls']
+        ),
+      },
       on: {
         ...original.on,
         pointerenter(event: PointerEvent) {
@@ -304,8 +359,12 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
           if (own.disabled || event.altKey || event.ctrlKey || event.metaKey || event.isComposing)
             return
           if (
-            event.key === 'ArrowDown' &&
-            context.result().parts.root.attrs['data-orientation'] !== 'vertical'
+            event.key ===
+            (context.result().parts.root.attrs['data-orientation'] === 'vertical'
+              ? context.direction() === 'rtl'
+                ? 'ArrowLeft'
+                : 'ArrowRight'
+              : 'ArrowDown')
           ) {
             event.preventDefault()
             context.focus(item())
@@ -405,8 +464,16 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
       return
     }
     let next = index
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next++
-    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next--
+    if (
+      event.key === 'ArrowDown' ||
+      event.key === (context.direction() === 'rtl' ? 'ArrowLeft' : 'ArrowRight')
+    )
+      next++
+    else if (
+      event.key === 'ArrowUp' ||
+      event.key === (context.direction() === 'rtl' ? 'ArrowRight' : 'ArrowLeft')
+    )
+      next--
     else if (event.key === 'Home') next = 0
     else if (event.key === 'End') next = elements.length - 1
     else return
@@ -458,7 +525,26 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
     floating: element,
     arrow,
     enabled: () => open() && shown(),
-    options: () => ({ ...props, strategy: 'fixed' }),
+    options: () => ({
+      strategy: 'fixed',
+      side: props.side,
+      align: props.align,
+      sideOffset: props.sideOffset,
+      alignOffset: props.alignOffset,
+      collisionBoundary: props.collisionBoundary,
+      collisionPadding: props.collisionPadding,
+      flip: props.flip,
+      shift: props.shift,
+      tether: props.tether,
+      fallbackPlacements: props.fallbackPlacements,
+      hideWhenDetached: props.hideWhenDetached,
+      matchAnchorSize: props.matchAnchorSize,
+      arrowPadding: props.arrowPadding,
+      autoUpdate: props.autoUpdate,
+      onPositioned: props.onPositioned,
+      onError: props.onError,
+      dir: props.dir,
+    }),
   })
   let controller: ReturnType<typeof createFloatingLayer> | undefined
   createEffect(
@@ -468,10 +554,12 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       trigger: context.trigger(),
       root: context.root(),
       positioned: positioner.state().positioned,
+      policy: context.dismissPolicy(),
     }),
     (state) => {
       if (!state.element) return
       const options = {
+        ...state.policy,
         content: state.element,
         open: state.open,
         active: state.open,
@@ -492,6 +580,7 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       if (!controller) controller = createFloatingLayer(state.element, options)
       else controller.update(options)
       setShown(controller.isShown())
+      if (state.positioned && state.open) context.flushFocus()
     }
   )
   onCleanup(() => controller?.dispose())
@@ -532,16 +621,20 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       hidden={!open()}
       data-part="positioner"
       data-state={open() ? 'open' : 'closed'}
-      style={{
-        margin: '0',
-        inset: 'auto',
-        border: '0',
-        padding: '0',
-        background: 'transparent',
-        overflow: 'visible',
-        ...(typeof props.style === 'object' ? props.style : {}),
-        ...positioner.positionerProps().style,
-      }}
+      style={
+        typeof props.style === 'string'
+          ? `margin:0;inset:auto;border:0;padding:0;background:transparent;overflow:visible;${props.style};visibility:${positioner.positionerProps().style.visibility};pointer-events:${positioner.positionerProps().style['pointer-events']}`
+          : {
+              margin: '0',
+              inset: 'auto',
+              border: '0',
+              padding: '0',
+              background: 'transparent',
+              overflow: 'visible',
+              ...props.style,
+              ...positioner.positionerProps().style,
+            }
+      }
     >
       {children()}
     </div>
