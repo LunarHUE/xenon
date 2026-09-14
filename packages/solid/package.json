@@ -24,6 +24,10 @@
     "./drawer": {
       "types": "./src/drawer/index.tsx",
       "default": "./src/drawer/index.tsx"
+    },
+    "./positioning": {
+      "types": "./src/positioning/index.ts",
+      "default": "./src/positioning/index.ts"
     }
   },
   "scripts": {
