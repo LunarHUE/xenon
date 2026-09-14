@@ -330,6 +330,9 @@ overridden to the same version because the rc range floats.
 
 ## Later
 
+- Calendar and date picker [date adapters](plans/date-adapters.md). Proposed
+  separation of calendar behavior from date representation, with a native `Date`
+  default and provider-level configuration.
 - `@tenon/dom` when the first floating component (popover) lands.
 - A conformance suite written once against the DOM, run per adapter through a
   small mount harness. Spec source: WAI-ARIA Authoring Practices keyboard and
