@@ -15,6 +15,8 @@ import {
 } from '@tenon/solid'
 import { Show, createSignal } from 'solid-js'
 
+import { NumericFixture } from './numeric'
+
 import { NestedFields } from './nested-fields'
 import { StreamingField } from './streaming-field'
 
@@ -24,6 +26,7 @@ export function RoundOne(props: { asyncContent?: boolean } = {}) {
     <main>
       <h1>Server rendered components</h1>
       <NestedFields />
+      <NumericFixture />
       <Show when={props.asyncContent}>
         <StreamingField />
       </Show>

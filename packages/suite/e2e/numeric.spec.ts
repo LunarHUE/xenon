@@ -1,0 +1,60 @@
+import { expect, test } from 'playwright/test'
+const url = 'http://127.0.0.1:4174'
+
+test('numeric server markup retains custom associations and canonical form values before hydration', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto(url)
+  const fixture = page.locator('#numeric-fixture')
+  await expect(fixture.getByRole('spinbutton', { name: 'Server amount' })).toHaveValue('2,5')
+  await expect(fixture.getByRole('button', { name: 'Increase' })).toHaveAttribute(
+    'aria-controls',
+    'server-number-input'
+  )
+  await expect(fixture.locator('label').filter({ hasText: 'Server verification' })).toHaveAttribute(
+    'for',
+    'server-pin-input'
+  )
+  await expect(fixture.locator('#server-pin-input')).toHaveAccessibleDescription(
+    'Enter the received code'
+  )
+  await expect(fixture.getByRole('slider', { name: 'Server volume' })).toHaveValue('25')
+  await context.close()
+})
+
+test('numeric and text-entry SSR hydrate without replacing nodes and remain editable', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => errors.push(error.message))
+  await page.goto(url)
+  await expect(page.locator('#app')).toHaveAttribute('data-hydrated', 'true')
+  await expect(page.locator('#app')).toHaveAttribute('data-preserved', 'true')
+  const fixture = page.locator('#numeric-fixture')
+  const amount = fixture.getByRole('spinbutton', { name: 'Server amount' })
+  await amount.press('ArrowUp')
+  await expect(amount).toHaveValue('3')
+  await fixture.locator('#server-pin-input').fill('9')
+  await expect(fixture.locator('#server-pin-input')).toHaveValue('9')
+  const slider = fixture.getByRole('slider', { name: 'Server volume' })
+  await slider.press('ArrowRight')
+  await expect(slider).toHaveValue('26')
+  await fixture.getByRole('textbox', { name: 'Server labels' }).fill('beta')
+  await fixture.getByRole('textbox', { name: 'Server labels' }).press('Enter')
+  await fixture.getByRole('button', { name: 'Edit server title' }).click()
+  await fixture.getByRole('textbox', { name: 'Server title label' }).fill('Updated title')
+  await fixture.getByRole('button', { name: 'Save server title' }).click()
+  expect(
+    await fixture.locator('form').evaluate((form) => [...new FormData(form as HTMLFormElement)])
+  ).toEqual([
+    ['amount', '3'],
+    ['otp', '92'],
+    ['volume', '26'],
+    ['labels', 'alpha'],
+    ['labels', 'beta'],
+    ['title', 'Updated title'],
+  ])
+  expect(errors).toEqual([])
+})
