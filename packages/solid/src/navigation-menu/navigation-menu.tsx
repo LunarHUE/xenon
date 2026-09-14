@@ -219,7 +219,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
     focus(item, last = false) {
       change(item)
       pendingFocus = { item, last }
-      onSettled(() => context.flushFocus())
+      onSettled(() => untrack(context.flushFocus))
     },
     flushFocus() {
       if (!pendingFocus || value() !== pendingFocus.item) return
@@ -602,7 +602,7 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       if (!controller) controller = createFloatingLayer(state.element, options)
       else controller.update(options)
       setShown(controller.isShown())
-      if (state.positioned && state.open) context.flushFocus()
+      if (state.positioned && state.open) untrack(context.flushFocus)
     }
   )
   onCleanup(() => controller?.dispose())
