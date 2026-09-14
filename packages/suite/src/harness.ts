@@ -1,4 +1,9 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps as SolidButtonProps } from '@kit/solid'
+import type { ValidComponent } from '@solidjs/web'
+
+type Loose<P> = Omit<P, 'as'> & { as?: ValidComponent } & Record<string, unknown>
+
+export type ButtonProps = Loose<SolidButtonProps>
 
 export interface Components {
   button: ButtonProps

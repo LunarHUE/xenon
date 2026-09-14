@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps } from '../harness'
 import { describe, expect } from 'vitest'
 
 import { expectNoViolations } from '../a11y'

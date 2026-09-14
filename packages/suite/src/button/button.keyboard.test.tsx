@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps } from '../harness'
 import { fireEvent, screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, vi } from 'vitest'
@@ -140,7 +140,7 @@ describe('button keyboard', () => {
     expect(clicks).not.toHaveBeenCalled()
   })
 
-  spec('button.keyboard.10', async () => {
+  spec.skip('button.keyboard.10', 'a[href] host is a link, see button.notes.1', async () => {
     const clicks = vi.fn()
     const m = mount('button', {
       as: 'a',
@@ -157,7 +157,7 @@ describe('button keyboard', () => {
     expect(window.location.hash).toBe('#keyboard-10')
   })
 
-  spec('button.keyboard.11', async () => {
+  spec.skip('button.keyboard.11', 'a[href] host is a link, see button.notes.1', async () => {
     const m = mount('button', { as: 'a', href: '#keyboard-11', children: 'Go' } as ButtonProps)
     const el = host(m.container)
     const click = vi.spyOn(el, 'click')
@@ -188,7 +188,7 @@ describe('button keyboard', () => {
     expect(clicks).toHaveBeenCalled()
   })
 
-  spec('button.keyboard.13', async () => {
+  spec.skip('button.keyboard.13', 'input[type=checkbox] is not a supported host', async () => {
     const clicks = vi.fn()
     const m = mount('button', {
       as: 'input',

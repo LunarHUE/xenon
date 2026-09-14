@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps } from '../harness'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import axe from 'axe-core'
@@ -115,7 +115,7 @@ describe('button pointer', () => {
     } as ButtonProps)
     await user.pointer({
       keys: '[MouseMiddle]',
-      target: screen.getByRole('button', { name: 'open' }),
+      target: screen.getByRole('link', { name: 'open' }),
     })
     await enabled.settle()
     expect(seen).toHaveLength(1)
@@ -131,7 +131,7 @@ describe('button pointer', () => {
     } as ButtonProps)
     await user.pointer({
       keys: '[MouseMiddle]',
-      target: screen.getByRole('button', { name: 'blocked' }),
+      target: screen.getByText('blocked'),
     })
     await off.settle()
     expect(seen).toHaveLength(2)

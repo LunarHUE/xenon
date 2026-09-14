@@ -1,59 +1,128 @@
-import type { TagAttrs } from './attrs.generated'
+import type { GlobalAttrs, TagAttrs } from './attrs.generated'
 import type { PartProps } from './part'
 
+export type ButtonHost = 'button' | 'input' | 'link' | 'generic'
+
 export interface ButtonOptions {
-  native?: boolean
+  host?: ButtonHost
   disabled?: TagAttrs['button']['disabled']
+  focusableWhenDisabled?: boolean
+  pending?: boolean
   type?: TagAttrs['button']['type']
+  autofocus?: GlobalAttrs['autofocus']
 }
 
-export function button(options?: ButtonOptions & { native?: true }): PartProps<'button'>
-export function button(options: ButtonOptions & { native: false }): PartProps<'div'>
-export function button(options: ButtonOptions): PartProps<'button'> | PartProps<'div'>
-export function button(options: ButtonOptions = {}): PartProps<'button'> | PartProps<'div'> {
-  const native = options.native ?? true
+export interface ButtonState {
+  host: ButtonHost
+  disabled: boolean
+  pending: boolean
+  interactive: boolean
+}
+
+export interface ButtonResult<R> {
+  state: ButtonState
+  parts: { root: R }
+}
+
+export type ButtonAny =
+  | ButtonResult<PartProps<'button'>>
+  | ButtonResult<PartProps<'input'>>
+  | ButtonResult<PartProps<'a'>>
+  | ButtonResult<PartProps<'div'>>
+
+type Activation = KeyboardEvent & { currentTarget: HTMLElement }
+
+function activate(event: Activation) {
+  const { currentTarget, shiftKey, ctrlKey, altKey, metaKey } = event
+  const view = currentTarget.ownerDocument.defaultView
+  const Ctor = view?.MouseEvent ?? MouseEvent
+  currentTarget.dispatchEvent(
+    new Ctor('click', {
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+      shiftKey,
+      ctrlKey,
+      altKey,
+      metaKey,
+    })
+  )
+}
+
+function isActivationKey(key: string) {
+  return key === 'Enter' || key === ' '
+}
+
+export function button(
+  options?: ButtonOptions & { host?: 'button' }
+): ButtonResult<PartProps<'button'>>
+export function button(options: ButtonOptions & { host: 'input' }): ButtonResult<PartProps<'input'>>
+export function button(options: ButtonOptions & { host: 'link' }): ButtonResult<PartProps<'a'>>
+export function button(options: ButtonOptions & { host: 'generic' }): ButtonResult<PartProps<'div'>>
+export function button(options: ButtonOptions): ButtonAny
+export function button(options: ButtonOptions = {}): ButtonAny {
+  const host = options.host ?? 'button'
   const disabled = options.disabled ?? false
-  const dataDisabled = disabled ? '' : undefined
+  const pending = options.pending ?? false
+  const focusable = !disabled || (options.focusableWhenDisabled ?? false)
+  const interactive = !disabled && !pending
+  const state: ButtonState = { host, disabled, pending, interactive }
+  const inert = disabled || pending ? 'true' : undefined
 
-  if (native) {
-    const part: PartProps<'button'> = {
+  const common = {
+    'data-disabled': disabled ? '' : undefined,
+    'data-pending': pending ? '' : undefined,
+    'data-autofocus': options.autofocus ? '' : undefined,
+    autofocus: options.autofocus || undefined,
+  }
+
+  const block = (event: Event) => {
+    if (!interactive) event.preventDefault()
+  }
+
+  if (host === 'button' || host === 'input') {
+    const root: PartProps<'button'> = {
       attrs: {
+        ...common,
         type: options.type ?? 'button',
-        disabled: disabled || undefined,
-        'data-disabled': dataDisabled,
+        disabled: disabled && !focusable ? true : undefined,
+        'aria-disabled': (disabled && focusable) || pending ? 'true' : undefined,
+        tabindex: disabled && focusable ? 0 : undefined,
       },
-      on: {},
+      on: { click: block },
     }
-    return part
+    return { state, parts: { root } }
   }
 
-  const part: PartProps<'div'> = {
-    attrs: {
-      role: 'button',
-      tabindex: disabled ? undefined : 0,
-      'aria-disabled': disabled ? 'true' : undefined,
-      'data-disabled': dataDisabled,
-    },
-    on: disabled
-      ? {}
-      : {
-          keydown(event) {
-            // Enter activates on keydown; Space activates on keyup, and its
-            // keydown is only cancelled so the page does not scroll.
-            if (event.key === 'Enter') {
-              event.preventDefault()
-              event.currentTarget.click()
-            } else if (event.key === ' ') {
-              event.preventDefault()
-            }
-          },
-          keyup(event) {
-            if (event.key === ' ') {
-              event.preventDefault()
-              event.currentTarget.click()
-            }
-          },
-        },
+  if (host === 'link') {
+    const root: PartProps<'a'> = {
+      attrs: { ...common, 'aria-disabled': inert },
+      on: { click: block },
+    }
+    return { state, parts: { root } }
   }
-  return part
+
+  const root: PartProps<'div'> = {
+    attrs: {
+      ...common,
+      role: 'button',
+      tabindex: focusable ? 0 : undefined,
+      'aria-disabled': inert,
+    },
+    on: {
+      click: block,
+      keydown(event) {
+        if (!isActivationKey(event.key)) return
+        event.preventDefault()
+        if (event.repeat || !interactive) return
+        if (event.key === 'Enter') activate(event)
+      },
+      keyup(event) {
+        if (event.key !== ' ') return
+        event.preventDefault()
+        if (interactive) activate(event)
+      },
+    },
+  }
+  return { state, parts: { root } }
 }

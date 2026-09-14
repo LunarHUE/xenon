@@ -4,71 +4,117 @@ import { button } from './button'
 
 type HostKeyboardEvent = KeyboardEvent & { currentTarget: HTMLDivElement }
 
-function key(name: string) {
-  const event = { key: name, preventDefault: vi.fn(), currentTarget: { click: vi.fn() } }
-  return event as unknown as HostKeyboardEvent & typeof event
+class FakeMouseEvent {
+  type: string
+  init: MouseEventInit
+  constructor(type: string, init: MouseEventInit) {
+    this.type = type
+    this.init = init
+  }
+}
+
+function key(name: string, init: Partial<KeyboardEvent> = {}) {
+  const dispatched: FakeMouseEvent[] = []
+  const currentTarget = {
+    dispatchEvent: vi.fn((e: FakeMouseEvent) => dispatched.push(e)),
+    ownerDocument: { defaultView: { MouseEvent: FakeMouseEvent } },
+  }
+  const event = { key: name, repeat: false, preventDefault: vi.fn(), currentTarget, ...init }
+  return Object.assign(event as unknown as HostKeyboardEvent & typeof event, { dispatched })
 }
 
 describe('button', () => {
   test('native: defaults type to button and sets nothing else', () => {
-    expect(button()).toEqual({
-      attrs: { type: 'button', disabled: undefined, 'data-disabled': undefined },
-      on: {},
-    })
+    const { state, parts } = button()
+    expect(state).toEqual({ host: 'button', disabled: false, pending: false, interactive: true })
+    expect(parts.root.attrs).toMatchObject({ type: 'button', disabled: undefined })
   })
 
   test('native: disabled sets the attribute and a data hook', () => {
-    expect(button({ disabled: true }).attrs).toMatchObject({ disabled: true, 'data-disabled': '' })
-  })
-
-  test('non-native: role, tab stop, no aria-disabled', () => {
-    expect(button({ native: false }).attrs).toEqual({
-      role: 'button',
-      tabindex: 0,
-      'aria-disabled': undefined,
-      'data-disabled': undefined,
+    expect(button({ disabled: true }).parts.root.attrs).toMatchObject({
+      disabled: true,
+      'data-disabled': '',
     })
   })
 
-  test('non-native disabled: aria-disabled, removed from tab order, no handlers', () => {
-    const part = button({ native: false, disabled: true })
-    expect(part.attrs).toMatchObject({ 'aria-disabled': 'true', tabindex: undefined })
-    expect(part.on).toEqual({})
+  test('native: focusable when disabled swaps the attribute for aria-disabled', () => {
+    const { attrs } = button({ disabled: true, focusableWhenDisabled: true }).parts.root
+    expect(attrs).toMatchObject({ disabled: undefined, 'aria-disabled': 'true', tabindex: 0 })
   })
 
-  test('non-native: Enter clicks on keydown', () => {
-    const event = key('Enter')
-    button({ native: false }).on.keydown?.(event)
+  test('pending is not interactive and blocks the click default', () => {
+    const { state, parts } = button({ pending: true })
+    expect(state.interactive).toBe(false)
+    expect(parts.root.attrs).toMatchObject({ 'aria-disabled': 'true', 'data-pending': '' })
+    const event = { preventDefault: vi.fn() } as unknown as PointerEvent & {
+      currentTarget: HTMLButtonElement
+    }
+    parts.root.on.click?.(event)
     expect(event.preventDefault).toHaveBeenCalled()
-    expect(event.currentTarget.click).toHaveBeenCalledOnce()
   })
 
-  test('non-native: Space cancels keydown and clicks on keyup', () => {
-    const part = button({ native: false })
+  test('link: no role and no tab stop', () => {
+    const { attrs, on } = button({ host: 'link' }).parts.root
+    expect(attrs).not.toHaveProperty('role')
+    expect(attrs).not.toHaveProperty('tabindex')
+    expect(on.keydown).toBeUndefined()
+  })
+
+  test('generic: role, tab stop, no aria-disabled', () => {
+    expect(button({ host: 'generic' }).parts.root.attrs).toMatchObject({
+      role: 'button',
+      tabindex: 0,
+      'aria-disabled': undefined,
+    })
+  })
+
+  test('generic disabled: aria-disabled and removed from tab order', () => {
+    const { attrs } = button({ host: 'generic', disabled: true }).parts.root
+    expect(attrs).toMatchObject({ 'aria-disabled': 'true', tabindex: undefined })
+  })
+
+  test('generic: Enter clicks on keydown with modifier state', () => {
+    const event = key('Enter', { shiftKey: true })
+    button({ host: 'generic' }).parts.root.on.keydown?.(event)
+    expect(event.preventDefault).toHaveBeenCalled()
+    expect(event.dispatched).toHaveLength(1)
+    expect(event.dispatched[0]).toMatchObject({ type: 'click', init: { shiftKey: true } })
+  })
+
+  test('generic: Space cancels keydown and clicks on keyup', () => {
+    const part = button({ host: 'generic' }).parts.root
     const down = key(' ')
     part.on.keydown?.(down)
     expect(down.preventDefault).toHaveBeenCalled()
-    expect(down.currentTarget.click).not.toHaveBeenCalled()
-
+    expect(down.dispatched).toHaveLength(0)
     const up = key(' ')
     part.on.keyup?.(up)
-    expect(up.currentTarget.click).toHaveBeenCalledOnce()
+    expect(up.dispatched).toHaveLength(1)
   })
 
-  test('attrs are typed per tag', () => {
-    const native = button()
-    expectTypeOf(native.attrs.type).toEqualTypeOf<'button' | 'submit' | 'reset' | undefined>()
-    expectTypeOf(native.attrs).not.toHaveProperty('href')
-
-    const host = button({ native: false })
-    expectTypeOf(host.attrs).not.toHaveProperty('type')
-    expectTypeOf(host.attrs).not.toHaveProperty('disabled')
-    expectTypeOf(host.on.keydown).parameter(0).toHaveProperty('currentTarget')
+  test('generic: key repeat and non-interactive states do not activate', () => {
+    const repeat = key('Enter', { repeat: true })
+    button({ host: 'generic' }).parts.root.on.keydown?.(repeat)
+    expect(repeat.dispatched).toHaveLength(0)
+    const pending = key('Enter')
+    button({ host: 'generic', pending: true }).parts.root.on.keydown?.(pending)
+    expect(pending.dispatched).toHaveLength(0)
   })
 
-  test('non-native: other keys are ignored', () => {
+  test('generic: other keys are ignored', () => {
     const event = key('a')
-    button({ native: false }).on.keydown?.(event)
+    button({ host: 'generic' }).parts.root.on.keydown?.(event)
     expect(event.preventDefault).not.toHaveBeenCalled()
+  })
+
+  test('attrs are typed per host', () => {
+    const native = button()
+    expectTypeOf(native.parts.root.attrs.type).toEqualTypeOf<
+      'button' | 'submit' | 'reset' | undefined
+    >()
+    expectTypeOf(native.parts.root.attrs).not.toHaveProperty('href')
+    const generic = button({ host: 'generic' })
+    expectTypeOf(generic.parts.root.attrs).not.toHaveProperty('type')
+    expectTypeOf(generic.parts.root.attrs).not.toHaveProperty('disabled')
   })
 })

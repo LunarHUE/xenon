@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps } from '../harness'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, vi } from 'vitest'
@@ -80,7 +80,7 @@ describe('button state', () => {
 
   spec('button.state.6', () => {
     const m = mount('button', { as: 'a', href: '#state-6', children: 'Save' } as ButtonProps)
-    const el = screen.getByRole('button')
+    const el = screen.getByRole('link')
     expect(el).toHaveAttribute('href', '#state-6')
 
     m.setProps({ pending: true } as Partial<ButtonProps>)

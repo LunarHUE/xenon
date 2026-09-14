@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@kit/solid'
+import type { ButtonProps } from '../harness'
 import { screen } from '@testing-library/dom'
 import axe from 'axe-core'
 import { describe, expect } from 'vitest'
