@@ -61,3 +61,16 @@ Independent review and package lint passed. All five lifecycle modules reviewed.
 | `ef7d7ba` | document modal isolation and scroll ownership | `packages/dom/src/modal/modal.ts` |
 | `c2cd950` | document drawer gestures and exit waits | `packages/dom/src/drawer/drawer.ts`, `packages/dom/src/wait-for-exit/wait-for-exit.ts` |
 | `468d71e` | document shared focus manager contracts | `packages/dom/src/focus-scope/focus-scope.ts` |
+
+## DOM D2 and package closeout complete
+
+Independent review and package lint passed. All nine implementation files reviewed; 146 tests pass, all exported symbols have docs, six TSDoc links resolve, and nine barrels are plain re-exports. Deferred callback snapshot wording was corrected after peer review.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `b873dbf` | document native dialog session lifecycle | `packages/dom/src/dialog/dialog.ts` |
+| `e1ca302` | document positioning options and state | `packages/dom/src/positioning/types.ts` |
+| `363bf1b` | document positioning measurements and subscriptions | `packages/dom/src/positioning/positioning.ts` |
+| `aa8f30e` | clarify deferred dialog pointer callbacks | `packages/dom/src/dialog/dialog.ts` |
+| `7358e26` | document floating layer hosting and focus contracts | `packages/dom/src/floating-layer/floating-layer.ts` |
+| `53fda76` | clarify floating pointer callback snapshots | `packages/dom/src/floating-layer/floating-layer.ts` |
