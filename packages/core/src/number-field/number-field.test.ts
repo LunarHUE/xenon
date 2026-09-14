@@ -46,3 +46,29 @@ describe('numberField', () => {
     expect(change).not.toHaveBeenCalled()
   })
 })
+
+test('long unit formatting parses singular and plural forms', () => {
+  const codec = createNumberFieldFormat('en-US', {
+    style: 'unit',
+    unit: 'hour',
+    unitDisplay: 'long',
+  })
+  expect(codec.parse(codec.format(1))).toBe(1)
+  expect(codec.parse(codec.format(2))).toBe(2)
+  expect(codec.parse(codec.format(-1))).toBe(-1)
+})
+
+test('unsupported exponential and compact display modes fail explicitly', () => {
+  expect(() => createNumberFieldFormat('en-US', { notation: 'compact' })).toThrow(RangeError)
+  expect(() => createNumberFieldFormat('en-US', { notation: 'scientific' })).toThrow(RangeError)
+  expect(() => createNumberFieldFormat('en-US', { notation: 'engineering' })).toThrow(RangeError)
+})
+
+test('unit-only singular and dual Arabic phrases retain their numeric meaning', () => {
+  const codec = createNumberFieldFormat('ar-EG', {
+    style: 'unit',
+    unit: 'hour',
+    unitDisplay: 'long',
+  })
+  for (const value of [-2, -1, 1, 2, 5]) expect(codec.parse(codec.format(value))).toBe(value)
+})

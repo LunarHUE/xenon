@@ -40,6 +40,8 @@ Locale defaults to en-US for stable SSR. Parsing recognizes localized digits,
 grouping, decimal marks, currency/unit/percent tokens, and accounting parentheses.
 Percent display units convert back to numeric fractions. Parsing requires a
 complete finite decimal after token removal; scientific notation is not accepted.
+Compact, scientific, and engineering notation options throw RangeError explicitly.
+Long unit and currency names recognize singular and plural token variants.
 Grouping placement is permissive. Malformed drafts remain editable and invalid
 until commit, rather than blocking printable keys and interfering with IME.
 

@@ -18,7 +18,7 @@ export interface NumberFieldOptions {
   largeStep?: number
   /** BCP 47 locale used for formatting and parsing. Defaults to en-US for stable SSR. */
   locale?: string
-  /** Intl formatting options, also used to recognize currency and percent tokens. */
+  /** Intl formatting options for decimal, currency, percent, and unit styles. Nonstandard notation throws RangeError. */
   formatOptions?: Intl.NumberFormatOptions
   /** Blocks all edits and form participation. */
   disabled?: boolean
@@ -36,32 +36,63 @@ export interface NumberFieldOptions {
   onValueCommit?: (value: number | null) => void
 }
 
-/** Creates locale-aware formatting and strict finite parsing without browser APIs. */
+/**
+ * Creates locale-aware formatting and strict finite parsing without browser APIs.
+ * Only standard notation is supported; compact, scientific, and engineering modes
+ * throw RangeError because their abbreviated display cannot be parsed as decimals.
+ * Display rounding follows Intl options and never changes untouched numeric state.
+ */
 export function createNumberFieldFormat(locale = 'en-US', options: Intl.NumberFormatOptions = {}) {
+  if (options.notation !== undefined && options.notation !== 'standard')
+    throw new RangeError('NumberField supports only standard number notation')
   const formatter = new Intl.NumberFormat(locale, options)
   const parts = formatter.formatToParts(-12345.6)
   const decimal =
     new Intl.NumberFormat(locale).formatToParts(1.1).find((p) => p.type === 'decimal')?.value ?? '.'
   const groups = new Set(parts.filter((p) => p.type === 'group').map((p) => p.value))
+  const tokenParts =
+    options.style === 'unit' || options.currencyDisplay === 'name'
+      ? [-12345.6, -2, -1, 0, 1, 2, 3, 4, 5, 6, 11, 21, 100, 101, 1.1, 2.1].flatMap((value) =>
+          formatter.formatToParts(value)
+        )
+      : parts
   const tokens = new Set(
-    parts
+    tokenParts
       .filter((p) => ['currency', 'unit', 'percentSign', 'literal'].includes(p.type))
       .map((p) => p.value)
   )
+  const implicitUnits = new Map<string, number>()
+  if (options.style === 'unit') {
+    for (const amount of [0, 1, 2]) {
+      const unitParts = formatter.formatToParts(amount)
+      if (!unitParts.some((part) => part.type === 'integer'))
+        implicitUnits.set(formatter.format(amount).trim(), amount)
+    }
+  }
   const digits = new Intl.NumberFormat(locale, { useGrouping: false })
   return {
     /** Formats a finite number, or returns empty text for null. */
     format(value: number | null): string {
-      return value === null ? '' : formatter.format(value)
+      if (value === null) return ''
+      const text = formatter.format(value)
+      // Some Arabic unit forms omit both the number and its sign. Retain the
+      // negative number explicitly so formatting cannot reverse its meaning.
+      return options.style === 'unit' &&
+        value < 0 &&
+        !formatter.formatToParts(value).some((part) => part.type === 'integer')
+        ? `${digits.format(value)} ${text}`
+        : text
     },
     /** Returns null for empty, NaN for invalid text, and a number for valid localized text. */
     parse(text: string): number | null {
       let normalized = text.trim()
       if (!normalized) return null
+      if (implicitUnits.has(normalized)) return implicitUnits.get(normalized)!
       const negative = normalized.startsWith('(') && normalized.endsWith(')')
       if (negative && options.currencySign === 'accounting') normalized = normalized.slice(1, -1)
       for (let i = 0; i < 10; i++) normalized = normalized.split(digits.format(i)).join(String(i))
-      for (const token of [...groups, ...tokens]) normalized = normalized.split(token).join('')
+      for (const token of [...groups, ...tokens].sort((a, b) => b.length - a.length))
+        normalized = normalized.split(token).join('')
       normalized = normalized
         .replace(/[\u061c\u200e\u200f]/g, '')
         .split(decimal)
