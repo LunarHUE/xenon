@@ -14,24 +14,26 @@ export function PopoverDemo() {
         <Popover>
           <Popover.Trigger class="btn">Edit note</Popover.Trigger>
           <Popover.Positioner side="top" align="start" sideOffset={12} collisionPadding={16}>
-            <Popover.Content class="overlay-sheet demo-popover">
+            <Popover.Content class="demo-popover">
               <Popover.Arrow class="demo-popover__arrow" />
-              <Popover.Title class="overlay-sheet__title">A note for later.</Popover.Title>
-              <Popover.Description class="overlay-sheet__description">
-                Keep it short enough to remember.
-              </Popover.Description>
-              <label class="overlay-field">
-                Note
-                <input
-                  class="input"
-                  value={note()}
-                  onInput={(event) => setNote(event.currentTarget.value)}
-                />
-              </label>
-              <div class="overlay-actions">
-                <Popover.Close class="btn" aria-label="Done with note">
-                  Done
-                </Popover.Close>
+              <div class="overlay-sheet demo-popover__surface">
+                <Popover.Title class="overlay-sheet__title">A note for later.</Popover.Title>
+                <Popover.Description class="overlay-sheet__description">
+                  Keep it short enough to remember.
+                </Popover.Description>
+                <label class="overlay-field">
+                  Note
+                  <input
+                    class="input"
+                    value={note()}
+                    onInput={(event) => setNote(event.currentTarget.value)}
+                  />
+                </label>
+                <div class="overlay-actions">
+                  <Popover.Close class="btn" aria-label="Done with note">
+                    Done
+                  </Popover.Close>
+                </div>
               </div>
             </Popover.Content>
           </Popover.Positioner>

@@ -73,6 +73,12 @@ CSS supplies the arrow artwork. Content exposes the resolved `data-side`,
 the wrapper. Multiple triggers track the active trigger for expansion,
 positioning, and focus restoration.
 
+For an arrow that tucks behind the panel border, the example gives animated
+Content `isolation: isolate` and renders the arrow beside an inner panel surface.
+The surface owns the background and border. This keeps the diamond behind the
+panel during opacity animations as well as after they finish; putting a negative
+z-index arrow directly inside an animated opaque panel changes that paint order.
+
 ## Menu
 
 ```tsx

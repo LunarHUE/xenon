@@ -1048,7 +1048,8 @@ body::before {
 /* ---------- dialogs and anchored panels ---------- */
 
 .overlay-sheet {
-  width: min(30rem, calc(100vw - 2rem));
+  /* width: min(30rem, calc(100vw - 2rem)); */
+  width: 100vw;
   max-height: calc(100dvh - 2rem);
   overflow: auto;
   padding: 2rem;
@@ -1065,6 +1066,7 @@ body::before {
 }
 
 .overlay-sheet[data-ending-style],
+.demo-popover[data-ending-style],
 .demo-menu[data-ending-style] {
   animation: overlay-out 140ms ease-in;
 }
@@ -1168,7 +1170,15 @@ body::before {
 .demo-popover {
   width: min(22rem, calc(100vw - 2rem));
   overflow: visible;
+  /* Keep the arrow behind the separate panel surface while opacity animates. */
+  isolation: isolate;
+  animation: overlay-in 160ms ease-out;
+}
+
+.demo-popover__surface {
+  width: 100%;
   padding: 1.5rem;
+  animation: none;
 }
 
 .demo-popover__arrow {
