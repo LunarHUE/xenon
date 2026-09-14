@@ -10,24 +10,39 @@ import type { TabEntry, TabsContextValue } from './context'
 import { TabsList, TabsPanel, TabsTab } from './parts'
 import { spread } from '../spread'
 
+/** Library-owned selection and navigation policy for a Tabs root. */
 interface Own {
+  /** Controlled selection when defined. Unknown client values normalize to the first enabled tab, then the first tab. */
   value?: string
+  /** Initial uncontrolled selection, read once; omission lets the core choose the first enabled tab. */
   defaultValue?: string
+  /** Synchronously reports a different selection after updating uncontrolled state. Initialization is silent; controlled callers must supply the next value. */
   onValueChange?: (value: string) => void
+  /** Automatic selection during navigation by default; manual mode waits for tab activation. */
   activationMode?: TabsActivationMode
+  /** Arrow-navigation axis and orientation hooks. Defaults to horizontal. */
   orientation?: TabsOrientation
+  /** Explicit horizontal arrow direction; omission samples the nearest dir attribute after settling, starting at ltr. */
   dir?: CompositeDirection
+  /** Wrap arrow navigation at enabled ends. Defaults to true. */
   loop?: boolean
+  /** Disable all tab buttons and exclude them from keyboard destinations. Defaults to false. */
   disabled?: boolean
+  /** Receives the root host, used for ambient direction lookup; custom hosts must forward it. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic root props with controlled/uncontrolled selection and navigation settings. */
 export type TabsProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Root host or forwarding component, defaulting to div. */
+    as?: T
+  }
 
+/** Sorts entries with known hosts by DOM position; missing hosts compare equally. */
 function byDomOrder(a: TabEntry, b: TabEntry): number {
   if (!a.el || !b.el) return 0
   const relation = a.el.compareDocumentPosition(b.el)
@@ -36,6 +51,17 @@ function byDomOrder(a: TabEntry, b: TabEntry): number {
   return 0
 }
 
+/**
+ * Owns tab registrations, paired IDs, selection, and the separately focused value.
+ *
+ * @remarks
+ * Controlled mode is checked whenever value is read. Navigation schedules DOM
+ * focus after settling; leaving the list clears the focused value so the selected
+ * tab regains the tab stop. Ambient direction is sampled after settling without
+ * observing later ancestor changes. Author root attributes override core hooks.
+ * Server reads rebuild from registrations collected so far. Generated tab/panel
+ * IDs share a stable per-value ordinal; explicit IDs are claimed only on the client.
+ */
 function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.Element {
   const own = props as Own & { as?: ValidComponent }
   const rest = omit(
@@ -63,6 +89,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
 
   const base = createUniqueId()
   const ordinals = new Map<string, number>()
+  /** Assigns an ordinal once per encountered value and retains it until root disposal. */
   const ordinalOf = (value: string) => {
     let ordinal = ordinals.get(value)
     if (ordinal === undefined) {
@@ -71,6 +98,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     }
     return ordinal
   }
+  /** Uses a retained author claim before generating the paired part ID. */
   const idFor = (part: 'tab' | 'panel', value: string) =>
     claimed()[`${part}:${value}`] ?? `${base}-${part}-${ordinalOf(value)}`
 
@@ -85,6 +113,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
   const entryOf = (value: string) =>
     (isServer ? registered : entries()).find((entry) => entry.value() === value)
 
+  /** Filters disabled entries only without an explicit selection, and includes that selection before its tab registers. */
   const serverItems = () => {
     const selected = current()
     const values = registered
@@ -120,6 +149,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     })
   const result = createMemo(build)
   const engine = () => (isServer ? build() : result())
+  /** Sorts on addition and removes by identity; DOM-only reordering does not re-sort the registry. */
   const register = (entry: TabEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
     if (!isServer) setEntries(registered)
@@ -177,8 +207,12 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
   )
 }
 
+/** Tabs root with List, Tab, and Panel parts that require its context. Panels stay mounted while inactive. */
 export const Tabs = Object.assign(TabsRoot, {
+  /** Tablist semantics and focus-leave reporting. Supply its accessible name. */
   List: TabsList,
+  /** Registered button selecting the panel with the same value. */
   Tab: TabsTab,
+  /** Persistently mounted panel with selection-driven hidden state and focusability probing. */
   Panel: TabsPanel,
 })

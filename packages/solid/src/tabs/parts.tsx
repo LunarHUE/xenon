@@ -9,41 +9,68 @@ import { Button } from '../button'
 import type { ButtonProps } from '../button'
 import { spread } from '../spread'
 
+/** Library-owned tablist ref. */
 interface ListOwn {
+  /** Receives the rendered list host. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Selection identity and disabled state for one tab. */
 interface TabOwn {
+  /** Unique string key shared with the associated panel. */
   value: string
+  /** OR-combined with root disabled state to block button activation and skip keyboard destinations. Defaults to false; composite focus reporting is not gated. */
   disabled?: boolean
+  /** Receives the tab host used for registration order and deferred focus. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Panel identity and the ref used for descendant probing. */
 interface PanelOwn {
+  /** Key matching its tab; keep stable while mounted because the observer captures it after settling. */
   value: string
+  /** Receives the panel host inspected by the focusability observer. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Polymorphic tablist props; remaining attributes and handlers merge over the core part. */
 export type TabsListProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof ListOwn | 'as'
 > &
-  ListOwn & { as?: T }
+  ListOwn & {
+    /** List host or forwarding component, defaulting to div. */
+    as?: T
+  }
 
+/** Polymorphic tab props; explicit host IDs are reflected in associations after client settling. */
 export type TabsTabProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
   keyof TabOwn | 'as'
 > &
-  TabOwn & { as?: T }
+  TabOwn & {
+    /** Host forwarded to Button, defaulting to button; custom components must forward props/ref. */
+    as?: T
+  }
 
+/** Polymorphic panel props; author attributes may override generated hidden/tabindex values. */
 export type TabsPanelProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof PanelOwn | 'as'
 > &
-  PanelOwn & { as?: T }
+  PanelOwn & {
+    /** Panel host or forwarding component, defaulting to div. */
+    as?: T
+  }
 
+/** Attributes that trigger a new structural focusability probe; child-list changes are also observed. */
 const WATCHED = ['contenteditable', 'disabled', 'href', 'tabindex', 'type']
 
+/**
+ * Renders tablist role/orientation and resets the navigation target when focus leaves.
+ * Author handlers run first and can prevent the core focus-leave handler through spread.
+ * @throws If rendered outside Tabs.
+ */
 export function TabsList<T extends ValidComponent = 'div'>(props: TabsListProps<T>): JSX.Element {
   const own = props as ListOwn & { as?: ValidComponent }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
@@ -63,6 +90,17 @@ export function TabsList<T extends ValidComponent = 'div'>(props: TabsListProps<
   )
 }
 
+/**
+ * Registers a tab and composes core navigation/selection with Button activation.
+ *
+ * @remarks
+ * Registers during SSR and after client settling, with client cleanup on disposal.
+ * A supplied ID is forwarded immediately but claimed for linked attributes only
+ * after client settling; claims remain until the root is disposed. Author handlers
+ * precede core handlers and can cancel navigation or selection. Disabled state is
+ * inherited from the root and forwarded to Button after author-prop merging.
+ * @throws If rendered outside Tabs.
+ */
 export function TabsTab<T extends ValidComponent = 'button'>(props: TabsTabProps<T>): JSX.Element {
   const own = props as TabOwn & { as?: ValidComponent; id?: string }
   const rest = omit(props as Record<string, unknown>, 'value', 'disabled', 'ref')
@@ -92,6 +130,20 @@ export function TabsTab<T extends ValidComponent = 'button'>(props: TabsTabProps
   return <Button {...merged()} ref={ref} />
 }
 
+/**
+ * Keeps a panel mounted and hides it while unselected, unless author props override hidden.
+ *
+ * @remarks
+ * After client settling, claims any author ID and probes descendants with
+ * {@link hasFocusable}. A selected panel gets tabindex=0 only when that probe is
+ * false. A MutationObserver reruns it for child-list changes and WATCHED attributes
+ * throughout the subtree, then disconnects on cleanup. It does not observe layout,
+ * visibility changes, or shadow content. SSR starts without a probe result.
+ * The observer captures value at setup; use a stable panel value. ID claims and
+ * cached probe results remain in the root after cleanup. Custom hosts must forward
+ * props/ref for probing and associations to work.
+ * @throws If rendered outside Tabs.
+ */
 export function TabsPanel<T extends ValidComponent = 'div'>(props: TabsPanelProps<T>): JSX.Element {
   const own = props as PanelOwn & { as?: ValidComponent; id?: string }
   const rest = omit(props as Record<string, unknown>, 'as', 'value', 'ref', 'children')
