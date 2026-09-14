@@ -1,4 +1,12 @@
 import type { JSX } from '@solidjs/web'
+import { Tooltip } from '@tenon/solid/tooltip'
+import {
+  TooltipDemo,
+  HoverCardDemo,
+  ContextMenuDemo,
+  MenubarDemo,
+  NavigationMenuDemo,
+} from './demos/floating-interactions'
 
 import { AccordionDemo } from './demos/accordion'
 import { AlertDialogDemo } from './demos/alert-dialog'
@@ -36,53 +44,60 @@ export function App(): JSX.Element {
         <span class="masthead__meta masthead__meta--end">solid 2.0.0-rc.8</span>
       </header>
 
-      <main>
-        <section class="hero">
-          <h1 class="hero__title">
-            Twenty-four studies,
-            <br />
-            <em>no opinions</em> about
-            <br />
-            how they look.
-          </h1>
-          <div class="hero__aside">
-            <p class="hero__lede">
-              Every component on this page is the same one you would import. Nothing is wrapped for
-              the demo and nothing is styled by the library. The rules live in a plain TypeScript
-              core, the adapter spreads what it returns onto the element you chose, and the CSS in
-              this app reads state off data attributes.
-            </p>
-            <p class="hero__hint">
-              Put the mouse down and use the keyboard. That is where the difference is.
-            </p>
-          </div>
-        </section>
+      <Tooltip.Provider openDelay={500} closeDelay={120} skipDelay={350}>
+        <main>
+          <section class="hero">
+            <h1 class="hero__title">
+              Twenty-nine studies,
+              <br />
+              <em>no opinions</em> about
+              <br />
+              how they look.
+            </h1>
+            <div class="hero__aside">
+              <p class="hero__lede">
+                Every component on this page is the same one you would import. Nothing is wrapped
+                for the demo and nothing is styled by the library. The rules live in a plain
+                TypeScript core, the adapter spreads what it returns onto the element you chose, and
+                the CSS in this app reads state off data attributes.
+              </p>
+              <p class="hero__hint">
+                Put the mouse down and use the keyboard. That is where the difference is.
+              </p>
+            </div>
+          </section>
 
-        <ButtonDemo />
-        <CheckboxDemo />
-        <SwitchDemo />
-        <ToolbarDemo />
-        <FormDemo />
-        <ToggleDemo />
-        <ToggleGroupDemo />
-        <RadioGroupDemo />
-        <CollapsibleDemo />
-        <AccordionDemo />
-        <TabsDemo />
-        <FieldDemo />
-        <ProgressDemo />
-        <SeparatorDemo />
-        <DialogDemo />
-        <AlertDialogDemo />
-        <DrawerDemo />
-        <PopoverDemo />
-        <MenuDemo />
-        <NumberFieldDemo />
-        <PinInputDemo />
-        <SliderDemo />
-        <TagsInputDemo />
-        <EditableDemo />
-      </main>
+          <ButtonDemo />
+          <CheckboxDemo />
+          <SwitchDemo />
+          <ToolbarDemo />
+          <FormDemo />
+          <ToggleDemo />
+          <ToggleGroupDemo />
+          <RadioGroupDemo />
+          <CollapsibleDemo />
+          <AccordionDemo />
+          <TabsDemo />
+          <FieldDemo />
+          <ProgressDemo />
+          <SeparatorDemo />
+          <DialogDemo />
+          <AlertDialogDemo />
+          <DrawerDemo />
+          <PopoverDemo />
+          <MenuDemo />
+          <NumberFieldDemo />
+          <PinInputDemo />
+          <SliderDemo />
+          <TagsInputDemo />
+          <EditableDemo />
+          <TooltipDemo />
+          <HoverCardDemo />
+          <ContextMenuDemo />
+          <MenubarDemo />
+          <NavigationMenuDemo />
+        </main>
+      </Tooltip.Provider>
 
       <footer class="colophon">
         <p>
