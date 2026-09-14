@@ -98,27 +98,6 @@ describe('switch keyboard', () => {
     }
   })
 
-  spec.todo('switch.keyboard.5')
-
-  spec.todo('switch.keyboard.6')
-
-  spec.skip(
-    'switch.keyboard.7',
-    'Enter never toggles a switch; switch.keyboard.8 is adopted',
-    async () => {
-      const user = userEvent.setup()
-      const onCheckedChange = vi.fn()
-      const m = mount('switch', { as: 'button', children: 'Lights', onCheckedChange })
-      const el = host(m.container)
-      el.focus()
-
-      await user.keyboard('{Enter}')
-      await m.settle()
-      expect(el).toHaveAttribute('aria-checked', 'true')
-      expect(onCheckedChange).toHaveBeenCalledWith(true)
-    }
-  )
-
   spec('switch.keyboard.8', async () => {
     const user = userEvent.setup()
     for (const base of hosts) {

@@ -1,3 +1,5 @@
+import { Checkbox, Field } from '@kit/solid'
+import { fieldContract } from '../field/contract'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, vi } from 'vitest'
 
@@ -41,14 +43,6 @@ function formWith(...containers: HTMLElement[]): HTMLFormElement {
   const form = createForm()
   for (const container of containers) form.appendChild(container)
   return form
-}
-
-function submitButton(form: HTMLFormElement, text = 'Save'): HTMLButtonElement {
-  const button = document.createElement('button')
-  button.type = 'submit'
-  button.textContent = text
-  form.appendChild(button)
-  return button
 }
 
 function keys(form: HTMLFormElement): string[] {
@@ -223,77 +217,6 @@ describe('checkbox forms', () => {
     expect(el.form).toBe(null)
   })
 
-  spec.skip('checkbox.forms.9', 'jsdom does not normalize CRLF in setCustomValidity', () => {
-    const m = mount('checkbox', { name: 'agree', required: true })
-    formWith(m.container)
-    const el = inputHost(m.container)
-    expect(el.willValidate).toBe(true)
-
-    const invalid = vi.fn()
-    el.addEventListener('invalid', (event) => invalid(event.cancelable))
-    expect(el.checkValidity()).toBe(false)
-    expect(invalid).toHaveBeenCalledWith(true)
-    expect(el.reportValidity()).toBe(false)
-
-    el.setCustomValidity('Pick one\r\nfirst')
-    expect(el.validity.customError).toBe(true)
-    expect(el.validationMessage).toBe('Pick one\nfirst')
-    el.setCustomValidity('')
-
-    const flags = [
-      'valueMissing',
-      'typeMismatch',
-      'patternMismatch',
-      'tooLong',
-      'tooShort',
-      'rangeUnderflow',
-      'rangeOverflow',
-      'stepMismatch',
-      'badInput',
-      'customError',
-      'valid',
-    ]
-    for (const flag of flags) expect(flag in el.validity).toBe(true)
-  })
-
-  spec.skip('checkbox.forms.10', 'jsdom ignores formnovalidate on the submitter', async () => {
-    const user = userEvent.setup()
-    const m = mount('checkbox', { name: 'agree', required: true })
-    const form = formWith(m.container)
-    const submitter = submitButton(form)
-    const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
-    form.addEventListener('submit', submit)
-
-    await user.click(submitter)
-    await m.settle()
-    expect(submit).not.toHaveBeenCalled()
-
-    form.noValidate = true
-    await user.click(submitter)
-    await m.settle()
-    expect(submit).toHaveBeenCalledTimes(1)
-
-    form.noValidate = false
-    submitter.formNoValidate = true
-    await user.click(submitter)
-    await m.settle()
-    expect(submit).toHaveBeenCalledTimes(2)
-  })
-
-  spec.skip('checkbox.forms.11', 'jsdom does not implement :user-invalid', async () => {
-    const user = userEvent.setup()
-    const m = mount('checkbox', { name: 'agree', required: true, defaultChecked: true })
-    formWith(m.container)
-    const el = inputHost(m.container)
-    expect(el.matches(':invalid')).toBe(false)
-    expect(el.matches(':user-invalid')).toBe(false)
-
-    await user.click(el)
-    await m.settle()
-    expect(el.matches(':invalid')).toBe(true)
-    expect(el.matches(':user-invalid')).toBe(true)
-  })
-
   spec('checkbox.forms.12', () => {
     const native = mount('checkbox', { name: 'native' })
     const custom = mount('checkbox', { as: 'div' })
@@ -306,8 +229,6 @@ describe('checkbox forms', () => {
     expect('form' in customEl).toBe(false)
     expect(nativeEl.form).toBe(form)
   })
-
-  spec.todo('checkbox.forms.13')
 
   spec('checkbox.forms.14', () => {
     const plain = mount('checkbox', { name: 'agree', defaultChecked: true })
@@ -360,11 +281,7 @@ describe('checkbox forms', () => {
     expect(keys(enclosing)).toEqual([])
   })
 
-  spec.todo('checkbox.forms.18')
-
-  spec.todo('checkbox.forms.19')
-
-  spec.todo('checkbox.forms.20')
+  spec('checkbox.forms.20', () => fieldContract('checkbox'))
 
   spec('checkbox.forms.22', () => {
     const m = mount('checkbox', { as: 'button', name: 'agree', defaultChecked: true })
@@ -400,70 +317,20 @@ describe('checkbox forms', () => {
     expect(el.indeterminate).toBe(true)
   })
 
-  spec.todo('checkbox.forms.24')
-
-  spec.todo('checkbox.forms.25')
-
-  spec.todo('checkbox.forms.26')
-
-  spec.todo('checkbox.forms.27')
-
-  spec.todo('checkbox.forms.28')
-
-  spec.todo('checkbox.forms.29')
-
-  spec.todo('checkbox.forms.30')
-
-  spec.todo('checkbox.forms.31')
-
-  spec.todo('checkbox.forms.32')
-
-  spec.skip(
-    'checkbox.forms.35',
-    'core owns the host type; a checkbox is never a submit control',
-    async () => {
-      const user = userEvent.setup()
-      const onCheckedChange = vi.fn()
-      const m = mount('checkbox', { as: 'button', type: 'button', onCheckedChange })
-      const form = formWith(m.container)
-      const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
-      form.addEventListener('submit', submit)
-      const el = host(m.container)
-
-      el.focus()
-      await user.keyboard('{Enter}')
-      await m.settle()
-      expect(onCheckedChange).not.toHaveBeenCalled()
-      expect(submit).not.toHaveBeenCalled()
-
-      m.setProps({ type: 'submit', checked: true })
-      await m.settle()
-      el.focus()
-      await user.keyboard('{Enter}')
-      await m.settle()
-      expect(submit).toHaveBeenCalledTimes(1)
-      expect(el).toHaveAttribute('aria-checked', 'true')
-    }
-  )
-
-  spec.todo('checkbox.forms.36')
-
-  spec.skip(
-    'checkbox.forms.37',
-    'uncheckedValue is not adopted: an unchecked box contributes nothing',
-    () => {
-      const m = mount('checkbox', { name: 'agree', uncheckedValue: 'off' })
-      const disabled = mount('checkbox', {
-        name: 'terms',
-        uncheckedValue: 'off',
-        disabled: true,
-      })
-      const form = formWith(m.container, disabled.container)
-
-      expect(new FormData(form).get('agree')).toBe('off')
-      expect(new FormData(form).get('terms')).toBe(null)
-    }
-  )
+  spec('checkbox.forms.26', async () => {
+    const m = mount('field', {
+      name: 'account',
+      children: () => (
+        <>
+          <Field.Label>Account</Field.Label>
+          <Checkbox as="button" />
+        </>
+      ),
+    })
+    await m.settle()
+    expect(m.container.querySelector('[role="checkbox"]')).not.toHaveAttribute('name')
+    expect(m.container.querySelector('input')).toHaveAttribute('name', 'account')
+  })
 
   spec('checkbox.forms.38', async () => {
     const user = userEvent.setup()
@@ -491,22 +358,6 @@ describe('checkbox forms', () => {
     const native = mount('checkbox', { name: 'agree' })
     expect(native.container.querySelectorAll('input')).toHaveLength(1)
   })
-
-  spec.skip('checkbox.forms.40', 'the hidden input is rendered only when a name is given', () => {
-    const m = mount('checkbox', { as: 'button' })
-    expect(backingInput(m.container).type).toBe('checkbox')
-  })
-
-  spec.skip(
-    'checkbox.forms.41',
-    'native hosts carry the real disabled attribute, not aria-disabled',
-    () => {
-      const m = mount('checkbox', { disabled: true })
-      const el = inputHost(m.container)
-      expect(el).toHaveAttribute('aria-disabled', 'true')
-      expect(el).not.toHaveAttribute('disabled')
-    }
-  )
 
   spec('checkbox.forms.42', () => {
     const native = mount('checkbox', { name: 'agree', defaultChecked: true, disabled: true })

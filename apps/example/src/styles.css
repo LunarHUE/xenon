@@ -958,10 +958,6 @@ body::before {
   color: var(--danger);
 }
 
-.fieldset__error::before {
-  content: '\2717  ';
-}
-
 .input {
   width: 100%;
   padding: 0.55rem 0.7rem;

@@ -1,3 +1,5 @@
+import { Checkbox, Field } from '@kit/solid'
+import { fieldContract, descriptionLifecycle } from '../field/contract'
 import type { CheckboxProps } from '../harness'
 import { screen } from '@testing-library/dom'
 import axe from 'axe-core'
@@ -302,12 +304,6 @@ describe('checkbox roles and attributes', () => {
     expect(box).toHaveAttribute('data-state', 'indeterminate')
   })
 
-  spec.todo('checkbox.roles.19')
-
-  spec.todo('checkbox.roles.20')
-
-  spec.todo('checkbox.roles.21')
-
   spec('checkbox.roles.22', () => {
     const native = mount('checkbox', { 'aria-label': 'Agree', value: 'yes' })
     const el = input(native.container)
@@ -323,8 +319,6 @@ describe('checkbox roles and attributes', () => {
     })
     expect(hidden(generic.container)).toHaveAttribute('value', 'yes')
   })
-
-  spec.todo('checkbox.roles.23')
 
   spec('checkbox.roles.24', () => {
     const m = mount('checkbox', {
@@ -349,19 +343,33 @@ describe('checkbox roles and attributes', () => {
     expect(screen.queryByRole('checkbox')).toBeNull()
   })
 
-  spec.todo('checkbox.roles.26')
+  spec('checkbox.roles.27', async () => {
+    const m = mount('field', {
+      children: () => (
+        <>
+          <Field.Label id="first-label">First</Field.Label>
+          <Field.Label id="second-label">Second</Field.Label>
+          <Field.Description id="first-description">One</Field.Description>
+          <Field.Description id="second-description">Two</Field.Description>
+          <Checkbox as="div" />
+        </>
+      ),
+    })
+    await m.settle()
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'aria-labelledby',
+      'first-label second-label'
+    )
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'aria-describedby',
+      'first-description second-description'
+    )
+    expect(screen.getByRole('checkbox')).toHaveAccessibleName('First Second')
+  })
 
-  spec.todo('checkbox.roles.27')
+  spec('checkbox.roles.29', () => descriptionLifecycle('checkbox'))
 
-  spec.todo('checkbox.roles.28')
-
-  spec.todo('checkbox.roles.29')
-
-  spec.todo('checkbox.roles.30')
-
-  spec.todo('checkbox.roles.31')
-
-  spec.todo('checkbox.roles.32')
+  spec('checkbox.roles.32', () => fieldContract('checkbox'))
 
   spec('checkbox.roles.33', () => {
     const m = mount('checkbox', {
@@ -376,23 +384,4 @@ describe('checkbox roles and attributes', () => {
     expect(hidden(m.container)).toHaveAttribute('aria-hidden', 'true')
     expect(screen.getAllByRole('checkbox')).toEqual([el])
   })
-
-  spec.skip(
-    'checkbox.roles.34',
-    'the rendered control keeps the semantics, see checkbox.roles.33',
-    () => {
-      const m = mount('checkbox', {
-        as: 'div',
-        children: 'Agree',
-        name: 'agree',
-        defaultChecked: true,
-      })
-      const el = host(m.container)
-      expect(el).toHaveAttribute('aria-hidden', 'true')
-      const box = hidden(m.container)
-      expect(box).not.toHaveAttribute('aria-hidden')
-      expect(box.checked).toBe(true)
-      expect(screen.getByRole('checkbox')).toBe(box)
-    }
-  )
 })

@@ -67,10 +67,6 @@ describe('checkbox notes', () => {
     }
   })
 
-  spec.todo('checkbox.notes.3')
-
-  spec.todo('checkbox.notes.4')
-
   spec('checkbox.notes.5', async () => {
     const refs: string[] = []
     const m = mount('checkbox', {
@@ -159,26 +155,4 @@ describe('checkbox notes', () => {
       ['lights', 'on'],
     ])
   })
-
-  spec.skip(
-    'checkbox.notes.9',
-    'the hidden input mirrors props without emitting change events',
-    async () => {
-      const m = mount('checkbox', { as: 'button', name: 'agree', value: 'yes' })
-      const backing = backingInput(m.container)
-      const changes = vi.fn()
-      backing.addEventListener('change', changes)
-
-      m.setProps({ value: 'no' })
-      await m.settle()
-      expect(backing.value).toBe('no')
-      expect(changes).toHaveBeenCalledTimes(1)
-
-      m.setProps({ name: 'terms', disabled: true, required: true })
-      await m.settle()
-      expect(backing.name).toBe('terms')
-      expect(backing.disabled).toBe(true)
-      expect(backing.required).toBe(true)
-    }
-  )
 })

@@ -1,3 +1,4 @@
+import { fieldContract } from '../field/contract'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, vi } from 'vitest'
 
@@ -210,21 +211,7 @@ describe('switch forms', () => {
     expect(fixed.checked).toBe(true)
   })
 
-  spec.todo('switch.forms.8')
-
-  spec.todo('switch.forms.9')
-
-  spec.todo('switch.forms.10')
-
-  spec.todo('switch.forms.11')
-
-  spec.todo('switch.forms.12')
-
-  spec.todo('switch.forms.13')
-
-  spec.todo('switch.forms.14')
-
-  spec.todo('switch.forms.15')
+  spec('switch.forms.9', () => fieldContract('switch'))
 
   spec('switch.forms.17', async () => {
     const user = userEvent.setup()
@@ -255,13 +242,4 @@ describe('switch forms', () => {
       named.unmount()
     }
   })
-
-  spec.skip(
-    'switch.forms.19',
-    'the hidden input is rendered only when a name is given; switch.forms.18 is adopted',
-    () => {
-      const m = mount('switch', { as: 'button', children: 'Lights' })
-      expect(hidden(m.container)).toBeInstanceOf(HTMLInputElement)
-    }
-  )
 })

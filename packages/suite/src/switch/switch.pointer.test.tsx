@@ -177,8 +177,6 @@ describe('switch pointer', () => {
     }
   })
 
-  spec.todo('switch.pointer.7')
-
   spec('switch.pointer.8', async () => {
     const user = userEvent.setup()
     const onCheckedChange = vi.fn()
@@ -229,54 +227,6 @@ describe('switch pointer', () => {
     }
   })
 
-  spec.skip(
-    'switch.pointer.10',
-    'a programmatic checked change dispatches no synthetic change event on the hidden input',
-    () => {
-      const ancestor = vi.fn()
-      const change = vi.fn()
-      const m = mount('switch', {
-        as: 'button',
-        children: 'Lights',
-        name: 'lights',
-        checked: false,
-      })
-      const form = document.createElement('form')
-      document.body.appendChild(form)
-      form.appendChild(m.container)
-      form.addEventListener('click', ancestor)
-      form.addEventListener('change', (event) => {
-        const target = event.target
-        change(target instanceof HTMLInputElement ? target.checked : null)
-      })
-      extras.add(form)
-
-      m.setProps({ checked: true })
-      expect(ancestor).not.toHaveBeenCalled()
-      expect(change).toHaveBeenCalledWith(true)
-    }
-  )
-
-  spec.skip(
-    'switch.pointer.11',
-    'the hidden input mirrors state one way; it drives nothing when clicked',
-    async () => {
-      const user = userEvent.setup()
-      const onCheckedChange = vi.fn()
-      const m = mount('switch', {
-        as: 'button',
-        children: 'Lights',
-        name: 'lights',
-        onCheckedChange,
-      })
-
-      await user.click(hidden(m.container))
-      await m.settle()
-      expect(onCheckedChange).toHaveBeenCalledWith(true)
-      expect(host(m.container)).toBeChecked()
-    }
-  )
-
   spec('switch.pointer.12', async () => {
     const onCheckedChange = vi.fn()
     const m = mount('switch', { as: 'button', children: 'Lights', name: 'lights', onCheckedChange })
@@ -291,6 +241,4 @@ describe('switch pointer', () => {
     expect(host(m.container)).not.toBeChecked()
     expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false')
   })
-
-  spec.todo('switch.pointer.13')
 })

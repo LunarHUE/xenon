@@ -1,4 +1,4 @@
-import userEvent from '@testing-library/user-event'
+import { userEvent } from 'vitest/browser'
 import { afterEach, describe, expect, vi } from 'vitest'
 
 import { mount } from '../harness/solid'
@@ -41,7 +41,6 @@ function submitButton(form: HTMLFormElement, text = 'Save'): HTMLButtonElement {
 
 describe('checkbox forms in a browser', () => {
   spec('checkbox.forms.21', async () => {
-    const user = userEvent.setup()
     const m = mount('checkbox', { name: 'agree' })
     const form = formWith(m.container)
     const button = submitButton(form)
@@ -58,7 +57,7 @@ describe('checkbox forms in a browser', () => {
 
     const el = inputHost(m.container)
     el.focus()
-    await user.keyboard('{Enter}')
+    await userEvent.keyboard('{Enter}')
     await m.settle()
 
     expect(submits).toBe(1)
@@ -67,34 +66,114 @@ describe('checkbox forms in a browser', () => {
     expect(el).not.toBeChecked()
   })
 
-  spec.todo('checkbox.forms.33')
+  spec('checkbox.forms.9', () => {
+    const m = mount('checkbox', { name: 'agree', required: true })
+    formWith(m.container)
+    const el = inputHost(m.container)
+    expect(el.willValidate).toBe(true)
 
-  spec.skip(
-    'checkbox.forms.34',
-    'our button host is type="button", so Enter on it never submits',
-    async () => {
-      const user = userEvent.setup()
-      const readonly = mount('checkbox', { name: 'agree', readonly: true })
-      const form = formWith(readonly.container)
-      const button = mount('checkbox', { as: 'button', name: 'terms' })
-      form.appendChild(button.container)
-      submitButton(form)
+    const invalid = vi.fn()
+    el.addEventListener('invalid', (event) => invalid(event.cancelable))
+    expect(el.checkValidity()).toBe(false)
+    expect(invalid).toHaveBeenCalledWith(true)
+    expect(el.reportValidity()).toBe(false)
 
-      let submits = 0
-      form.addEventListener('submit', (event) => {
-        event.preventDefault()
-        submits++
+    el.setCustomValidity('Pick one\r\nfirst')
+    expect(el.validity.customError).toBe(true)
+    expect(el.validationMessage).toBe('Pick one\nfirst')
+    el.setCustomValidity('')
+
+    const flags = [
+      'valueMissing',
+      'typeMismatch',
+      'patternMismatch',
+      'tooLong',
+      'tooShort',
+      'rangeUnderflow',
+      'rangeOverflow',
+      'stepMismatch',
+      'badInput',
+      'customError',
+      'valid',
+    ]
+    for (const flag of flags) expect(flag in el.validity).toBe(true)
+  })
+
+  spec('checkbox.forms.10', async () => {
+    const m = mount('checkbox', { name: 'agree', required: true })
+    const form = formWith(m.container)
+    const submitter = submitButton(form)
+    const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
+    form.addEventListener('submit', submit)
+
+    await userEvent.click(submitter)
+    await m.settle()
+    expect(submit).not.toHaveBeenCalled()
+
+    form.noValidate = true
+    await userEvent.click(submitter)
+    await m.settle()
+    expect(submit).toHaveBeenCalledTimes(1)
+
+    form.noValidate = false
+    submitter.formNoValidate = true
+    await userEvent.click(submitter)
+    await m.settle()
+    expect(submit).toHaveBeenCalledTimes(2)
+  })
+
+  spec('checkbox.forms.11', async () => {
+    const m = mount('checkbox', { name: 'agree', required: true, defaultChecked: true })
+    formWith(m.container)
+    const el = inputHost(m.container)
+    expect(el.matches(':invalid')).toBe(false)
+    expect(el.matches(':user-invalid')).toBe(false)
+
+    await userEvent.click(el)
+    await m.settle()
+    expect(el.matches(':invalid')).toBe(true)
+    expect(el.matches(':user-invalid')).toBe(true)
+  })
+
+  spec('checkbox.forms.33', async () => {
+    for (const mode of [
+      'control',
+      'ancestor',
+      'missing',
+      'disabled',
+      'disabled-with-fallback',
+    ] as const) {
+      const m = mount('checkbox', {
+        name: 'agree',
+        ...(mode === 'control'
+          ? { onKeyDown: (event: KeyboardEvent) => event.preventDefault() }
+          : {}),
       })
-
-      inputHost(readonly.container).focus()
-      await user.keyboard('{Enter}')
-      await readonly.settle()
-      expect(submits).toBe(1)
-
-      host(button.container).focus()
-      await user.keyboard('{Enter}')
-      await button.settle()
-      expect(submits).toBe(2)
+      const form = formWith(m.container)
+      const submit = vi.fn((event: SubmitEvent) => event.preventDefault())
+      form.addEventListener('submit', submit)
+      const defaults: boolean[] = []
+      if (mode === 'ancestor')
+        form.addEventListener('keydown', (event) => {
+          defaults.push(event.defaultPrevented)
+          event.preventDefault()
+        })
+      if (mode !== 'missing') {
+        const first = submitButton(form)
+        first.disabled = mode === 'disabled' || mode === 'disabled-with-fallback'
+        if (mode === 'disabled-with-fallback') submitButton(form, 'Later submitter')
+      }
+      inputHost(m.container).focus()
+      await userEvent.keyboard('{Enter}')
+      await m.settle()
+      if (mode === 'disabled-with-fallback') {
+        expect(submit).toHaveBeenCalledTimes(1)
+        expect(submit.mock.calls[0]?.[0].submitter).toBe(form.querySelector('button:last-of-type'))
+      } else expect(submit, mode).not.toHaveBeenCalled()
+      expect(inputHost(m.container)).not.toBeChecked()
+      if (mode === 'ancestor') expect(defaults).toEqual([false])
+      m.unmount()
+      form.remove()
     }
-  )
+  })
 })

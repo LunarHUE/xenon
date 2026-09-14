@@ -96,17 +96,4 @@ describe('switch focus management', () => {
     expect(el).toHaveFocus()
     expect(el).toBeChecked()
   })
-
-  spec.todo('switch.focus.4')
-
-  spec.skip(
-    'switch.focus.5',
-    'no excludeFromTabOrder prop; an author passes tabindex through instead',
-    () => {
-      const m = mount('switch', { as: 'div', children: 'Lights', excludeFromTabOrder: true })
-      expect(host(m.container)).toHaveAttribute('tabindex', '-1')
-    }
-  )
-
-  spec.todo('switch.focus.6')
 })

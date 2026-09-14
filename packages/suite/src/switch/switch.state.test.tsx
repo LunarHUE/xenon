@@ -119,44 +119,6 @@ describe('switch state', () => {
     }
   })
 
-  spec.todo('switch.state.6')
-
-  spec.todo('switch.state.7')
-
-  spec.skip(
-    'switch.state.8',
-    'onCheckedChange returns void; the checked prop decides the next state',
-    async () => {
-      const user = userEvent.setup()
-      const onCheckedChange = vi.fn(() => false)
-      const m = mount('switch', { 'aria-label': 'Lights', onCheckedChange })
-      const el = host(m.container)
-
-      await user.click(el)
-      await m.settle()
-      expect(onCheckedChange).toHaveBeenCalledTimes(1)
-      expect(el).not.toBeChecked()
-    }
-  )
-
-  spec.skip(
-    'switch.state.9',
-    'onCheckedChange receives the next value alone, with no event details',
-    async () => {
-      const user = userEvent.setup()
-      const onCheckedChange = vi.fn()
-      const m = mount('switch', { 'aria-label': 'Lights', onCheckedChange })
-
-      await user.keyboard('{Shift>}')
-      await user.click(host(m.container))
-      await user.keyboard('{/Shift}')
-      await m.settle()
-
-      expect(onCheckedChange).toHaveBeenCalledTimes(1)
-      expect(onCheckedChange.mock.calls[0]?.[1]).toMatchObject({ shiftKey: true })
-    }
-  )
-
   spec('switch.state.10', async () => {
     const user = userEvent.setup()
     const onCheckedChange = vi.fn()

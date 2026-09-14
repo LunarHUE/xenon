@@ -1,6 +1,6 @@
 import { checkbox, toggleSwitch } from '@kit/core'
 import type { CheckboxHost, CheckboxOptions } from '@kit/core'
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
@@ -94,6 +94,8 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   )
 
   const context = useFieldContext()
+  if (isServer) context?.registerControl(() => own.id ?? context.ids.control)
+  onSettled(() => context?.registerControl(() => own.id ?? context.ids.control))
   const flag = (value: boolean | undefined, read: (field: FieldContextValue) => boolean) =>
     context === null ? value : (value ?? false) || read(context)
   const name = () => own.name ?? context?.name()

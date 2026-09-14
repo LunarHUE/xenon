@@ -145,8 +145,6 @@ describe('checkbox focus management', () => {
     expect(box).toBeChecked()
   })
 
-  spec.todo('checkbox.focus.6')
-
   spec('checkbox.focus.7', async () => {
     const user = userEvent.setup()
     const seen: string[] = []
@@ -172,8 +170,4 @@ describe('checkbox focus management', () => {
     expect(changes).toHaveBeenCalledTimes(2)
     expect(box).not.toBeChecked()
   })
-
-  spec.todo('checkbox.focus.8')
-
-  spec.todo('checkbox.focus.9')
 })

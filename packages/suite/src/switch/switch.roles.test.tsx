@@ -1,3 +1,4 @@
+import { Field, Switch } from '@kit/solid'
 import { screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import axe from 'axe-core'
@@ -250,7 +251,25 @@ describe('switch roles and attributes', () => {
     expect(results.violations.map((v) => v.id)).toEqual([])
   })
 
-  spec.todo('switch.roles.15')
+  spec('switch.roles.15', async () => {
+    const m = mount('field', {
+      as: 'fieldset',
+      'aria-describedby': 'group-help',
+      children: () => (
+        <>
+          <legend>Notifications</legend>
+          <p id="group-help">Choose channels</p>
+          <Switch id="email-switch" aria-label="Email" />
+          <Switch id="sms-switch" aria-label="SMS" />
+        </>
+      ),
+    })
+    await m.settle()
+    expect(screen.getByRole('group', { name: 'Notifications' })).toHaveAccessibleDescription(
+      'Choose channels'
+    )
+    expect(screen.getAllByRole('switch')).toHaveLength(2)
+  })
 
   spec('switch.roles.16', () => {
     const custom = mount('switch', { as: 'div', 'aria-label': 'Lights' })
@@ -290,22 +309,6 @@ describe('switch roles and attributes', () => {
     expect(el).toHaveAttribute('aria-errormessage', 'switch-roles-17')
   })
 
-  spec.todo('switch.roles.18')
-
-  spec.todo('switch.roles.19')
-
-  spec.skip(
-    'switch.roles.20',
-    'an author tabindex passes through unchanged, as it does on button',
-    () => {
-      const m = mount('switch', { as: 'div', 'aria-label': 'Lights', tabindex: -1 })
-      expect(host(m.container)).toHaveAttribute('tabindex', '0')
-
-      m.setProps({ tabindex: 2 })
-      expect(host(m.container)).toHaveAttribute('tabindex', '2')
-    }
-  )
-
   spec('switch.roles.21', () => {
     const button = mount('switch', { as: 'button', children: 'Lights' })
     expect(host(button.container)).toHaveAttribute('type', 'button')
@@ -318,28 +321,39 @@ describe('switch roles and attributes', () => {
     }
   })
 
-  spec.todo('switch.roles.22')
+  spec('switch.roles.24', async () => {
+    const m = mount('field', {
+      children: () => (
+        <>
+          <Field.Error>Invalid</Field.Error>
+          <Switch aria-label="Account" />
+        </>
+      ),
+    })
+    await m.settle()
+    expect(screen.getByRole('switch')).not.toHaveAttribute('aria-describedby')
+    expect(screen.queryByText('Invalid')).toBeNull()
+  })
 
-  spec.todo('switch.roles.23')
-
-  spec.todo('switch.roles.24')
-
-  spec.todo('switch.roles.25')
-
-  spec.skip(
-    'switch.roles.26',
-    'no synthesized aria-labelledby; a native label[for] names the input host directly',
-    () => {
-      const m = mount('switch', { id: 'switch-roles-26' })
-      labelFor('switch-roles-26', 'Lights')
-      expect(host(m.container)).toHaveAttribute('aria-labelledby')
-      expect(host(m.container)).toHaveAccessibleName('Lights')
-
-      labelFor('switch-roles-26-moved', 'Lamps')
-      m.setProps({ id: 'switch-roles-26-moved' })
-      expect(host(m.container)).toHaveAccessibleName('Lamps')
+  spec('switch.roles.25', async () => {
+    for (const first of [true, false]) {
+      const m = mount('field', {
+        children: () => (
+          <>
+            {first && <Field.Label>Visible name</Field.Label>}
+            {first && <Field.Description>Helpful text</Field.Description>}
+            <Switch as="button">Internal text</Switch>
+            {!first && <Field.Label>Visible name</Field.Label>}
+            {!first && <Field.Description>Helpful text</Field.Description>}
+          </>
+        ),
+      })
+      await m.settle()
+      expect(screen.getByRole('switch')).toHaveAccessibleName('Visible name')
+      expect(screen.getByRole('switch')).toHaveAccessibleDescription('Helpful text')
+      m.unmount()
     }
-  )
+  })
 
   spec('switch.roles.27', () => {
     const m = mount('switch', { as: 'div', 'aria-label': 'Lights', role: 'checkbox' })
@@ -370,10 +384,6 @@ describe('switch roles and attributes', () => {
     expect(onCheckedChange).toHaveBeenCalledWith(true)
     expect(el).toHaveAttribute('aria-checked', 'true')
   })
-
-  spec.todo('switch.roles.29')
-
-  spec.todo('switch.roles.30')
 
   spec('switch.roles.31', () => {
     for (const as of ['button', 'div'] as const) {

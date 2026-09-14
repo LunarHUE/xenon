@@ -24,14 +24,6 @@ function backingInput(container: HTMLElement): HTMLInputElement {
 }
 
 describe('checkbox state', () => {
-  spec.todo('checkbox.state.1')
-
-  spec.todo('checkbox.state.2')
-
-  spec.todo('checkbox.state.3')
-
-  spec.todo('checkbox.state.4')
-
   spec('checkbox.state.5', async () => {
     const plain = mount('checkbox', {})
     expect(inputHost(plain.container).indeterminate).toBe(false)
@@ -166,8 +158,6 @@ describe('checkbox state', () => {
     expect(el).not.toHaveAttribute('data-checked')
   })
 
-  spec.todo('checkbox.state.12')
-
   spec('checkbox.state.13', async () => {
     const user = userEvent.setup()
     const onCheckedChange = vi.fn()
@@ -244,25 +234,4 @@ describe('checkbox state', () => {
     expect(el.checked).toBe(false)
     expect(el.indeterminate).toBe(true)
   })
-
-  spec.skip(
-    'checkbox.state.16',
-    'indeterminate is a sticky flag, not the third value in the cycle',
-    async () => {
-      const user = userEvent.setup()
-      const onIndeterminateChange = vi.fn()
-      const m = mount('checkbox', { as: 'button', indeterminate: true, onIndeterminateChange })
-      const el = host(m.container)
-      expect(el).toHaveAttribute('data-state', 'indeterminate')
-
-      await user.click(el)
-      await m.settle()
-      expect(onIndeterminateChange).toHaveBeenCalledWith(false)
-      expect(el).toHaveAttribute('data-state', 'checked')
-
-      await user.click(el)
-      await m.settle()
-      expect(el).toHaveAttribute('data-state', 'unchecked')
-    }
-  )
 })

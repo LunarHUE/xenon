@@ -1,6 +1,6 @@
 import { field } from '@kit/core'
 import type { PartProps } from '@kit/core'
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, untrack } from 'solid-js'
 
@@ -26,22 +26,31 @@ export type FieldProps<T extends ValidComponent = 'div'> = Omit<
   Own & { as?: T }
 
 interface Entry {
-  id: string
+  id: string | (() => string)
+  element?: HTMLElement
 }
 
-function registry(): [() => Entry[], (id: string) => () => void] {
-  const [entries, setEntries] = createSignal<Entry[]>([])
+function registry(): [() => Entry[], (id: Entry['id'], element?: HTMLElement) => () => void] {
+  const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   let current: Entry[] = []
-  const add = (id: string) => {
-    const entry = { id }
+  const add = (id: Entry['id'], element?: HTMLElement) => {
+    const entry = { id, element }
     current = [...current, entry]
-    setEntries(current)
+    current.sort((a, b) => {
+      if (!a.element || !b.element) return 0
+      return a.element.compareDocumentPosition(b.element) & 4 ? -1 : 1
+    })
+    if (!isServer) setEntries(current)
     return () => {
       current = current.filter((other) => other !== entry)
-      setEntries(current)
+      if (!isServer) setEntries(current)
     }
   }
-  return [entries, add]
+  return [isServer ? () => current : entries, add]
+}
+
+function entryId(entry: Entry): string {
+  return typeof entry.id === 'function' ? entry.id() : entry.id
 }
 
 function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.Element {
@@ -67,12 +76,14 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     error: `${base}-error`,
   }
 
+  const [labels, registerLabel] = registry()
+  const [controls, registerControl] = registry()
   const [descriptions, registerDescription] = registry()
   const [errors, registerError] = registry()
-  const described = () => tokens(...descriptions().map((entry) => entry.id))
-  const errored = () => tokens(...errors().map((entry) => entry.id))
+  const described = () => tokens(...descriptions().map(entryId))
+  const errored = () => tokens(...errors().map(entryId))
 
-  const result = createMemo(() =>
+  const compute = () =>
     field({
       ids: { ...ids, description: described(), error: errored() },
       disabled: own.disabled,
@@ -83,7 +94,8 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
       hasDescription: described() !== undefined,
       hasError: errored() !== undefined,
     })
-  )
+  const memo = createMemo(compute)
+  const result = isServer ? compute : memo
 
   const context: FieldContextValue = {
     ids,
@@ -94,6 +106,10 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     name: () => result().state.name,
     labelledBy: () => result().parts.control.attrs['aria-labelledby'],
     describedBy: () => result().parts.control.attrs['aria-describedby'],
+    labelIds: () => tokens(...labels().map(entryId)),
+    registerLabel,
+    controlId: () => (controls().length ? entryId(controls().at(-1)!) : ids.control),
+    registerControl,
     registerDescription,
     registerError,
   }
@@ -111,7 +127,12 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     }
   }
 
-  const ref = (node: HTMLElement) => own.ref?.(node)
+  let previous: HTMLElement | undefined
+  const ref = (node: HTMLElement) => {
+    if (previous === node) return
+    previous = node
+    own.ref?.(node)
+  }
 
   return (
     <Dynamic

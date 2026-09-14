@@ -1,3 +1,4 @@
+import { fieldContract } from '../field/contract'
 import { fireEvent, screen } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, vi } from 'vitest'
@@ -73,8 +74,6 @@ describe('switch notes and edge cases', () => {
     expect(onCheckedChange).not.toHaveBeenCalled()
   })
 
-  spec.todo('switch.notes.4')
-
   spec('switch.notes.5', () => {
     const onCheckedChange = vi.fn()
     const m = mount('switch', { 'aria-label': 'Lights', checked: false, onCheckedChange })
@@ -82,7 +81,7 @@ describe('switch notes and edge cases', () => {
     expect(onCheckedChange).not.toHaveBeenCalled()
   })
 
-  spec.todo('switch.notes.6')
+  spec('switch.notes.6', () => fieldContract('switch'))
 
   spec('switch.notes.7', async () => {
     const user = userEvent.setup()

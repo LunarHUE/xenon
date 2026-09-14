@@ -28,7 +28,9 @@ export function FieldDemo(): JSX.Element {
             value={address()}
             onInput={(event) => setAddress(event.currentTarget.value)}
           />
-          <Field.Error class="fieldset__error">That address is missing its @.</Field.Error>
+          <Field.Error class="fieldset__error">
+            <span aria-hidden="true">✗ </span>That address is missing its @.
+          </Field.Error>
         </Field>
         <p class="prose">
           Type something without an <code>@</code>. The error element is not hidden while valid, it

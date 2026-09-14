@@ -10,8 +10,12 @@ export interface FieldContextValue {
   name(): string | undefined
   labelledBy(): string | undefined
   describedBy(): string | undefined
-  registerDescription(id: string): () => void
-  registerError(id: string): () => void
+  labelIds(): string | undefined
+  registerLabel(id: string | (() => string), element?: HTMLElement): () => void
+  controlId(): string
+  registerControl(id: string | (() => string), element?: HTMLElement): () => void
+  registerDescription(id: string | (() => string), element?: HTMLElement): () => void
+  registerError(id: string | (() => string), element?: HTMLElement): () => void
 }
 
 export const FieldContext = createContext<FieldContextValue | null>(null)
@@ -53,7 +57,7 @@ export function fieldLabelledBy(
   own: unknown,
   labelable: boolean
 ): string | undefined {
-  return tokens(own, labelable ? context.labelledBy() : context.ids.label)
+  return tokens(own, labelable ? context.labelledBy() : context.labelIds())
 }
 
 export function fieldDescribedBy(context: FieldContextValue, own: unknown): string | undefined {

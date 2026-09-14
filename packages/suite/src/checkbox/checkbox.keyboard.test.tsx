@@ -136,10 +136,6 @@ describe('checkbox keyboard', () => {
     expect(changes).not.toHaveBeenCalled()
   })
 
-  spec.todo('checkbox.keyboard.5')
-
-  spec.todo('checkbox.keyboard.6')
-
   spec('checkbox.keyboard.7', async () => {
     const user = userEvent.setup()
     for (const as of ['button', 'div'] as const) {
@@ -158,22 +154,5 @@ describe('checkbox keyboard', () => {
       expect(changes).not.toHaveBeenCalled()
       m.unmount()
     }
-  })
-
-  spec.skip('checkbox.keyboard.8', 'Enter never toggles, see checkbox.keyboard.7', async () => {
-    const user = userEvent.setup()
-    const changes = vi.fn()
-    const m = mount('checkbox', {
-      as: 'button',
-      children: 'Agree',
-      defaultChecked: false,
-      onCheckedChange: changes,
-    })
-    const el = screen.getByRole('checkbox')
-    el.focus()
-    await user.keyboard('{Enter}')
-    await m.settle()
-    expect(el).toHaveAttribute('aria-checked', 'true')
-    expect(changes).toHaveBeenCalledWith(true)
   })
 })

@@ -256,25 +256,6 @@ describe('checkbox pointer', () => {
     expect(hidden(m.container).checked).toBe(true)
   })
 
-  spec.todo('checkbox.pointer.9')
-
-  spec.skip(
-    'checkbox.pointer.10',
-    'the hidden input mirrors state but is not wired for direct clicks',
-    async () => {
-      const user = userEvent.setup()
-      const m = mount('checkbox', {
-        as: 'div',
-        children: 'Agree',
-        name: 'agree',
-        defaultChecked: false,
-      })
-      await user.click(hidden(m.container))
-      await m.settle()
-      expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'true')
-    }
-  )
-
   spec('checkbox.pointer.11', async () => {
     const user = userEvent.setup()
     const changes = vi.fn()
