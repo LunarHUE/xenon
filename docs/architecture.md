@@ -160,7 +160,9 @@ Cross-cutting, and binding on everything built after this point.
   the trigger has no key handler to suppress.
 - The content size custom properties are written by the adapter on every
   status change: pixel values while entering or exiting, `auto` once entered,
-  and nothing at all while exited.
+  and nothing at all while exited. Transitioning to `auto` needs
+  `interpolate-size: allow-keywords` in the consumer's CSS; without it the
+  height jumps rather than animating, which the example app hit first.
 
 ## Decisions taken for the field family
 
@@ -195,7 +197,9 @@ Cross-cutting, and binding on everything built after this point.
 
 - Toggle has no link host. `aria-pressed` on `role="link"` is a critical axe
   failure, so `as="a"` resolves to the generic host and gets `role="button"`.
-  It is the one place toggle does not inherit the whole button host set.
+  It is the one place toggle does not inherit the whole button host set, and
+  because that silently hides an anchor's navigation, a toggle that renders a
+  linked anchor warns in development.
 - `data-state` carries `on` or `off` and a bare `data-pressed` rides with it
   while pressed. The two library camps are not exclusive and the pair matches
   what checkbox already emits.

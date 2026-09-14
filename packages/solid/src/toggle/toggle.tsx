@@ -2,7 +2,7 @@ import { toggle } from '@kit/core'
 import type { ToggleHost } from '@kit/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
-import { createMemo, createSignal, omit, untrack } from 'solid-js'
+import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
 import { gate } from '../internal/gate'
 import { spread } from '../spread'
@@ -64,7 +64,20 @@ export function Toggle<T extends ValidComponent = 'button'>(props: ToggleProps<T
     return out
   }
 
-  const ref = (node: HTMLElement) => own.ref?.(node)
+  let el: HTMLElement | undefined
+  const ref = (node: HTMLElement) => {
+    el = node
+    own.ref?.(node)
+  }
+
+  onSettled(() => {
+    if (!import.meta.env.DEV) return
+    if (el instanceof HTMLAnchorElement && el.hasAttribute('href')) {
+      console.error(
+        'Toggle: a link cannot be a toggle. This anchor now reports role="button", which hides its navigation from assistive technology. Use Button with as="a" for a link, or drop the href.'
+      )
+    }
+  })
 
   return (
     <Dynamic

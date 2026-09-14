@@ -90,6 +90,19 @@ describe('<Toggle />', () => {
     expect(el).toHaveAttribute('aria-pressed', 'false')
   })
 
+  test('a link host warns, because role="button" would hide its navigation', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    render(() => (
+      <Toggle as="a" href="#somewhere">
+        Mute
+      </Toggle>
+    ))
+    flush()
+    expect(error).toHaveBeenCalledOnce()
+    expect(error.mock.calls[0]?.[0]).toContain('a link cannot be a toggle')
+    error.mockRestore()
+  })
+
   test('ref and unconsumed props land on the host', () => {
     let el: HTMLElement | undefined
     const { getByRole } = render(() => (
