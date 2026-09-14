@@ -31,3 +31,4 @@ export type {
   MenuRadioGroupProps,
   MenuGroupProps,
 } from './menu'
+export * from './checkbox-group'

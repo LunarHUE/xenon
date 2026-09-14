@@ -23,3 +23,4 @@ export * from './popover'
 
 export { menu } from './menu'
 export type { MenuOptions } from './menu'
+export * from './checkbox-group'

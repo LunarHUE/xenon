@@ -88,6 +88,10 @@
     "./spread": {
       "types": "./src/spread.ts",
       "default": "./src/spread.ts"
+    },
+    "./checkbox-group": {
+      "types": "./src/checkbox-group/index.tsx",
+      "default": "./src/checkbox-group/index.tsx"
     }
   },
   "scripts": {
