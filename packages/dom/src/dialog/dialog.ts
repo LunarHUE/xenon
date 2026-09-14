@@ -28,6 +28,7 @@ interface Session {
   opener: Element | null
   parent?: Session
   disposed: boolean
+  hadFocus: boolean
 }
 const sessions = new WeakMap<Document, Session[]>()
 
@@ -101,7 +102,13 @@ export function createDialogController(
   })
   const activate = () => {
     const entries = stack()
-    session = { element, opener: activeElement(document), parent: entries.at(-1), disposed: false }
+    session = {
+      element,
+      opener: activeElement(document),
+      parent: entries.at(-1),
+      disposed: false,
+      hadFocus: false,
+    }
     sessionModal = options.modal !== false
     entries.push(session)
     sessions.set(document, entries)
@@ -123,7 +130,12 @@ export function createDialogController(
     }
     const ending = session
     const active = activeElement(document)
-    const restore = top() && (contains(element, active) || active === document.body || !active)
+    const restore =
+      top() &&
+      (contains(element, active) ||
+        active === document.body ||
+        !active ||
+        (!element.open && ending.hadFocus && active === ending.opener))
     ending.disposed = true
     // Focus restoration belongs here, after inertness is released.
     scope?.dispose()
@@ -169,6 +181,12 @@ export function createDialogController(
     requestClose()
     if (session && options.active) show()
   }
+  const trackFocus = () => {
+    // close() can restore native focus before dispatching its queued close event.
+    // Preserve prior ownership during that interval, but track deliberate moves while open.
+    if (session && element.open) session.hadFocus = contains(element, activeElement(document))
+  }
+  document.addEventListener('focusin', trackFocus, true)
   element.addEventListener('cancel', cancel)
   element.addEventListener('close', nativeClose)
   const controller: DialogController = {
@@ -188,6 +206,7 @@ export function createDialogController(
       if (disposed) return
       disposed = true
       deactivate()
+      document.removeEventListener('focusin', trackFocus, true)
       element.removeEventListener('cancel', cancel)
       element.removeEventListener('close', nativeClose)
     },

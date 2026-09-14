@@ -134,3 +134,39 @@ test('an SSR open attribute is promoted into the native top layer', () => {
   expect(button).toHaveFocus()
   expect(element.hasAttribute('tabindex')).toBe(false)
 })
+
+test.each([true, false])(
+  'accepted external closure restores final focus with modal=%s',
+  async (modal) => {
+    const opener = node('button', 'Original opener')
+    const finalFocus = node('button', 'Final focus destination')
+    opener.focus()
+    const current = dialog({ finalFocus, modal })
+    current.controller.update({
+      ...current.options,
+      onOpenChange(open) {
+        current.controller.update({ ...current.options, open, active: open })
+      },
+    })
+    current.element.close()
+    await settled()
+    await expect.poll(() => document.activeElement).toBe(finalFocus)
+  }
+)
+
+test('external nonmodal closure preserves deliberate outside focus', async () => {
+  const opener = node('button', 'Original opener')
+  const finalFocus = node('button', 'Final focus destination')
+  opener.focus()
+  const current = dialog({ modal: false, finalFocus })
+  current.controller.update({
+    ...current.options,
+    onOpenChange(open) {
+      current.controller.update({ ...current.options, open, active: open })
+    },
+  })
+  opener.focus()
+  current.element.close()
+  await settled()
+  expect(opener).toHaveFocus()
+})
