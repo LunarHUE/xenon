@@ -5,6 +5,8 @@ import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
 import { gate } from './gate'
+import { fieldDescribedBy, fieldLabelledBy, useFieldContext } from '../field/context'
+import type { FieldContextValue } from '../field/context'
 import { spread } from '../spread'
 
 export interface CheckedOwn {
@@ -22,7 +24,13 @@ export interface CheckedOwn {
   ref?: (el: HTMLElement) => void
 }
 
-type Own = CheckedOwn & { as?: ValidComponent; indeterminate?: boolean }
+type Own = CheckedOwn & {
+  as?: ValidComponent
+  indeterminate?: boolean
+  id?: string
+  'aria-labelledby'?: string
+  'aria-describedby'?: string
+}
 
 type Handler = (event: Event) => void
 
@@ -51,6 +59,11 @@ function withoutBlankValue(attrs: Record<string, unknown>): Record<string, unkno
   return attrs
 }
 
+function write(props: Record<string, unknown>, key: string, value: string | undefined): void {
+  if (value === undefined) delete props[key]
+  else props[key] = value
+}
+
 function changeKey(props: Record<string, unknown>): string {
   for (const key of Object.keys(props)) {
     if (key.toLowerCase() === 'onchange') return key
@@ -75,8 +88,15 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     'form',
     'autofocus',
     'indeterminate',
-    'ref'
+    'ref',
+    'aria-labelledby',
+    'aria-describedby'
   )
+
+  const context = useFieldContext()
+  const flag = (value: boolean | undefined, read: (field: FieldContextValue) => boolean) =>
+    context === null ? value : (value ?? false) || read(context)
+  const name = () => own.name ?? context?.name()
 
   const [internal, setInternal] = createSignal(untrack(() => own.defaultChecked ?? false))
   const controlled = () => own.checked !== undefined
@@ -94,11 +114,11 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const options: CheckboxOptions = {
       host: hostOf(own.as),
       checked: current(),
-      disabled: own.disabled,
-      readonly: own.readonly,
-      required: own.required,
-      invalid: own.invalid,
-      name: own.name,
+      disabled: flag(own.disabled, (field) => field.disabled()),
+      readonly: flag(own.readonly, (field) => field.readonly()),
+      required: flag(own.required, (field) => field.required()),
+      invalid: flag(own.invalid, (field) => field.invalid()),
+      name: name(),
       value: own.value,
       form: own.form,
       autofocus: own.autofocus,
@@ -136,11 +156,22 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     })
   }
 
+  const labelledBy = (host: CheckboxHost) =>
+    context === null
+      ? own['aria-labelledby']
+      : fieldLabelledBy(context, own['aria-labelledby'], host !== 'generic')
+
+  const describedBy = () =>
+    context === null ? own['aria-describedby'] : fieldDescribedBy(context, own['aria-describedby'])
+
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }
     const { state } = result()
     // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
     gate(out, () => result().state.interactive)
+    write(out, 'aria-labelledby', labelledBy(state.host))
+    write(out, 'aria-describedby', describedBy())
+    if (context && out['id'] === undefined) out['id'] = context.ids.control
     if (state.host === 'input') {
       const key = changeKey(out)
       const user = out[key]
@@ -191,7 +222,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     return () => doc.removeEventListener('reset', restore)
   })
 
-  const mirrored = () => result().state.host !== 'input' && own.name !== undefined
+  const mirrored = () => result().state.host !== 'input' && name() !== undefined
 
   return (
     <>
@@ -210,7 +241,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
           checked={result().state.checked}
           disabled={result().state.disabled}
           required={result().state.required}
-          name={own.name}
+          name={name()}
           {...(own.value === undefined ? null : { value: own.value })}
           form={own.form}
         />
