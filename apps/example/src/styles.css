@@ -1048,8 +1048,7 @@ body::before {
 /* ---------- dialogs and anchored panels ---------- */
 
 .overlay-sheet {
-  /* width: min(30rem, calc(100vw - 2rem)); */
-  width: 100vw;
+  width: min(30rem, calc(100vw - 2rem));
   max-height: calc(100dvh - 2rem);
   overflow: auto;
   padding: 2rem;
