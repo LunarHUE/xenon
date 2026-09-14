@@ -520,9 +520,19 @@ function ComboboxTrigger(props: ComponentProps<'button'>): JSX.Element {
 
 /** Measured arrow box; children provide the arrow artwork. */
 function ComboboxArrow(props: ComponentProps<'div'>): JSX.Element {
+  const rest = omit(props, 'ref')
   const positioning = useSelectionPositioner()
   onCleanup(() => positioning.setArrow(undefined))
-  return <div {...positioning.arrowProps()} {...props} ref={(el) => positioning.setArrow(el)} />
+  return (
+    <div
+      {...positioning.arrowProps()}
+      {...rest}
+      ref={(el) => {
+        positioning.setArrow(el)
+        if (typeof props.ref === 'function') props.ref(el)
+      }}
+    />
+  )
 }
 
 /** Editable single-selection root and its independently rendered compound parts. */

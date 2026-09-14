@@ -242,3 +242,20 @@ describe('Combobox', () => {
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 })
+
+test('arrow forwards its measured element to the author ref', () => {
+  const ref = vi.fn()
+  render(() => (
+    <Combobox items={[{ value: 'a', label: 'Apple' }]} defaultOpen>
+      <Combobox.Input aria-label="Fruit" />
+      <Combobox.Positioner>
+        <Combobox.Content />
+        <Combobox.Arrow ref={ref} />
+      </Combobox.Positioner>
+    </Combobox>
+  ))
+  flush()
+  expect(ref).toHaveBeenCalledTimes(1)
+  expect(ref.mock.calls[0]![0]).toBeInstanceOf(HTMLDivElement)
+  expect(ref.mock.calls[0]![0]).toHaveAttribute('data-part', 'arrow')
+})

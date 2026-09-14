@@ -290,7 +290,9 @@ export function SelectRoot(props: SelectProps): JSX.Element {
 }
 /** Polymorphic trigger props. Custom hosts must forward attributes and ref. */
 export type SelectTriggerProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {
+  /** Host tag or forwarding component, defaulting to the native host. */
   as?: T
+  /** Receives the rendered host after internal registration. */
   ref?: (el: HTMLElement) => void
 }
 /** Keeps DOM focus while aria-activedescendant identifies the highlighted option. */
@@ -363,7 +365,10 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
   )
 }
 /** Displayed selection; placeholder defaults to empty text. */
-export type SelectValueProps = ComponentProps<'span'> & { placeholder?: JSX.Element }
+export type SelectValueProps = ComponentProps<'span'> & {
+  /** Content shown when no matching selected metadata exists. */
+  placeholder?: JSX.Element
+}
 /** Renders the metadata label even when options have never mounted. */
 export function SelectValue(props: SelectValueProps): JSX.Element {
   const context = useSelect('Select.Value')
@@ -393,7 +398,9 @@ export function SelectPositioner(props: SelectPositionerProps): JSX.Element {
 }
 /** Polymorphic popup surface attributes. */
 export type SelectContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Host tag or forwarding component, defaulting to the native host. */
   as?: T
+  /** Receives the rendered host after internal registration. */
   ref?: (el: HTMLElement) => void
 }
 /** Renders the listbox surface and presence/placement hooks inside Positioner. */
@@ -432,7 +439,9 @@ export function SelectContent<T extends ValidComponent = 'div'>(
 }
 /** Option identity must exist in the root metadata; children may contain custom presentation. */
 export type SelectItemProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Host tag or forwarding component, defaulting to div. */
   as?: T
+  /** Nonempty root metadata identity, stable for this option lifetime. */
   value: string
 }
 /** Option with explicit selection and disabled state; author handlers can cancel interaction. */
@@ -453,11 +462,12 @@ export function SelectOption<T extends ValidComponent = 'div'>(
 }
 /** Decorative arrow sized and positioned by the shared positioning controller. */
 export function SelectArrow(props: ComponentProps<'div'>): JSX.Element {
+  const rest = omit(props, 'ref')
   const positioning = useSelectionPositioner()
   onCleanup(() => positioning.setArrow(undefined))
   return (
     <div
-      {...props}
+      {...rest}
       {...positioning.arrowProps()}
       ref={(el) => {
         positioning.setArrow(el)
@@ -469,12 +479,19 @@ export function SelectArrow(props: ComponentProps<'div'>): JSX.Element {
 }
 /** Select-only combobox with wrapper-free state and compound presentation parts. */
 export const Select = Object.assign(SelectRoot, {
+  /** Alias of the wrapper-free state and native-form provider. */
   Root: SelectRoot,
+  /** Select-only combobox focus anchor and opening button. */
   Trigger: SelectTrigger,
+  /** Selected metadata label or placeholder. */
   Value: SelectValue,
+  /** Native top-layer wrapper owning geometry and dismissal. */
   Positioner: SelectPositioner,
+  /** Listbox surface with presence and placement hooks. */
   Content: SelectContent,
+  /** Option presentation and pointer selection. */
   Item: SelectOption,
+  /** Measured decorative arrow box. */
   Arrow: SelectArrow,
 })
 export type { SelectItem } from '@tenon/core/select'
