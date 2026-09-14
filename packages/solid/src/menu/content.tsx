@@ -18,13 +18,50 @@ import type { Positioner, PositionerOptions } from '../positioning'
 import { spread } from '../spread'
 import { useMenu } from './context'
 
+/**
+ * Native wrapper props and {@link PositionerOptions}, with fixed positioning strategy.
+ * Menu context owns direction: the inherited dir option is ignored here; set dir
+ * on Menu instead. Default placement is bottom/start for a root and right/start
+ * for an LTR submenu or left/start for an RTL submenu.
+ */
 export type MenuPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions | 'ref'> &
-  Omit<PositionerOptions, 'strategy'> & { ref?: (el: HTMLDivElement) => void }
+  Omit<PositionerOptions, 'strategy'> & {
+    /** Receives the manual-popover wrapper after its internal element ref is recorded. */
+    ref?: (el: HTMLDivElement) => void
+  }
+/** Polymorphic menu surface props; the surrounding Positioner owns native presentation. */
 export type MenuContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Rendered menu host, defaulting to div; custom components must forward props and ref. */
   as?: T
+  /** Receives the content host after the menu context records it. */
   ref?: (el: HTMLElement) => void
 }
+/** Positioner controller supplied to its descendant content for resolved placement hooks. */
 const PositionContext = createContext<Positioner>()
+/**
+ * Renders a fixed-position manual-popover wrapper while menu presence requires it.
+ *
+ * @remarks
+ * Anchors to the current menu trigger and defaults placement according to root or
+ * submenu context. {@link createPositioner} owns coordinates and observation;
+ * calculation is enabled only after native showing and while open or exiting.
+ * {@link createFloatingLayer} owns native presentation and dismissal, creating
+ * its focus scope only once positioned. Initial focus comes from the menu's
+ * requested edge or content fallback; final focus targets its trigger according
+ * to the menu's current restoration policy.
+ *
+ * Escape requests closure of this menu. Other layer dismissals close the entire
+ * menu chain without restoring focus. Native presentation and positioning remain
+ * active during exit. Physical unmount disposes the layer; replacing the wrapper
+ * ref disposes its previous controller. Closed force-mounted wrappers remain
+ * rendered without an active native layer.
+ *
+ * The wrapper is always a div with popover=manual. Author styles override the
+ * native-popover baseline, but managed visibility and pointer-events win. Generated
+ * positioning props, direction, popover mode, state, and ref override overlapping
+ * wrapper props. Supply visual menu styling on Content as appropriate.
+ * @throws If rendered outside Menu or Menu.Sub.
+ */
 export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
   const context = useMenu('Menu.Positioner')
   const rest = omit(
@@ -50,8 +87,10 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     'onPositioned',
     'onError'
   )
+  /** Own one physical wrapper lifetime and the positioner context for its children. */
   function Mounted(): JSX.Element {
     const [element, setElement] = createSignal<HTMLDivElement>()
+    /** Native-show result prevents measuring the wrapper while it is still hidden. */
     const [shown, setShown] = createSignal(false)
     const positioning = createPositioner({
       anchor: context.trigger,
@@ -111,6 +150,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
       }
     )
     onCleanup(() => controller?.dispose())
+    /** Reset native popover defaults, retain author styling, then enforce positioning visibility. */
     const wrapperStyle = () => {
       const baseline = {
         margin: '0',
@@ -154,6 +194,28 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     </Show>
   )
 }
+/**
+ * Renders the menu surface inside a Menu.Positioner belonging to a menu context.
+ *
+ * @remarks
+ * Registers a live content-ID getter until owner cleanup. The ref records the
+ * content for focus, presence, and layer behavior before invoking the author ref.
+ * Attributes combine core menu semantics, presence hooks, and resolved placement.
+ * Generated aria-labelledby uses the trigger ID unless aria-label is truthy;
+ * explicit author attributes may override generated associations and semantics.
+ *
+ * Keyboard handling ignores canceled events, composition, and events whose
+ * nearest role=menu ancestor is another surface. Tab, including Shift+Tab, focuses
+ * the root trigger, requests closure of the whole chain without restoration, and
+ * flushes pending updates before native tab navigation. It does not prevent Tab's
+ * default. Item navigation and activation are implemented by the item handlers.
+ *
+ * In submenus, ArrowLeft closes this menu and focuses its trigger; RTL uses
+ * ArrowRight. This back key prevents default and stops propagation. Pointer entry
+ * cancels pending hover closure for this menu and its ancestors; submenu pointer
+ * leave starts the context's 200ms grace delay for crossing the trigger/content gap.
+ * @throws If no menu context or enclosing Menu.Positioner is available.
+ */
 export function MenuContent<T extends ValidComponent = 'div'>(
   props: MenuContentProps<T>
 ): JSX.Element {
@@ -170,6 +232,7 @@ export function MenuContent<T extends ValidComponent = 'div'>(
   const id = createUniqueId()
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
   onCleanup(context.setContentId(() => own.id ?? id))
+  /** Compose surface attributes and boundary-level keyboard/hover handlers for spread. */
   const part = () => ({
     ...context.engine().parts.content,
     attrs: {
