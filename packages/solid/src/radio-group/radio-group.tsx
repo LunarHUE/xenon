@@ -10,28 +10,47 @@ import type { RadioGroupContextValue, RadioGroupEntry } from './context'
 import { RadioGroupItem } from './item'
 import { spread } from '../spread'
 
+/** Selection, navigation, and form options owned by the group adapter. */
 interface Own {
+  /** Controlled selection while defined; undefined uses internal state. Values retain their string or number type. */
   value?: RadioValue
+  /** Initial uncontrolled selection, read once at setup; its current value is used again on form reset. */
   defaultValue?: RadioValue
+  /** Synchronous request for a different selection, after updating uncontrolled state. Initialization and reset are silent. */
   onValueChange?: (value: RadioValue) => void
+  /** Shared native radio name. Omission generates a name for native items but creates no custom-host mirrors. */
   name?: string
+  /** Explicit form ID for native items and custom-host mirrors; omission uses form ancestry. */
   form?: string
+  /** Custom-host navigation axis and group orientation. Defaults to vertical. */
   orientation?: RadioGroupOrientation
+  /** Horizontal navigation direction. Omission uses LTR initially, then reads ancestor/document dir on settlement. */
   dir?: CompositeDirection
+  /** Whether custom-host arrow navigation wraps. Defaults to true. */
   loop?: boolean
+  /** Disables every item and removes their tab stops. Defaults to false. */
   disabled?: boolean
+  /** Blocks selection while retaining custom-host arrow focus movement. Defaults to false. */
   readonly?: boolean
+  /** Adds required group semantics and native validation attributes to radios/mirrors. Defaults to false. */
   required?: boolean
+  /** Author-supplied invalid state for the group and items; no validation is performed. Defaults to false. */
   invalid?: boolean
+  /** Receives the rendered group element. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Group options combined with the selected host's props; owned options take precedence in the type. */
 export type RadioGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Rendered group host; defaults to div. */
+    as?: T
+  }
 
+/** Compare mounted hosts for registration order; missing hosts compare equally. */
 function byDomOrder(a: RadioGroupEntry, b: RadioGroupEntry): number {
   if (!a.el || !b.el) return 0
   const relation = a.el.compareDocumentPosition(b.el)
@@ -40,6 +59,23 @@ function byDomOrder(a: RadioGroupEntry, b: RadioGroupEntry): number {
   return 0
 }
 
+/**
+ * Provides selection and item registration around a radiogroup host.
+ *
+ * @remarks
+ * Item registration is sorted by DOM order when added; later DOM moves are not
+ * observed. Custom-host navigation schedules focus on settlement; selection
+ * callbacks run synchronously. Native input keys remain browser-owned.
+ *
+ * A document reset listener uses the first registered input's owning form. If
+ * its reset has not been canceled when observed, uncontrolled state returns to
+ * the current defaultValue and native checked state is repaired on settlement.
+ * Controlled state remains authoritative. Listener cleanup follows the owner.
+ *
+ * Supply the accessible group name and any Field associations explicitly; this
+ * adapter does not consume Field context. Group aria-describedby is also appended
+ * to each item's description IDs. Author host attributes override core attributes.
+ */
 function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps<T>): JSX.Element {
   const own = props as Own & { as?: ValidComponent; 'aria-describedby'?: string }
   const rest = omit(
@@ -73,6 +109,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
   const current = () => own.value ?? internal()
   const entryFor = (value: RadioValue) => entries().find((entry) => entry.value() === value)
 
+  /** Store an uncontrolled request before notifying the author. */
   const change = (next: RadioValue) => {
     if (!untrack(controlled)) setInternal(next)
     own.onValueChange?.(next)
@@ -100,6 +137,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
     })
   )
 
+  /** Repair browser-mutated checked properties after controlled or canceled changes. */
   const resync = () => {
     onSettled(() => {
       const value = result().state.value
@@ -144,6 +182,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
     own.ref?.(node)
   }
 
+  /** Use the first registered native radio or mirror, including a null form owner. */
   const owningForm = (): HTMLFormElement | null => {
     for (const entry of entries()) if (entry.input) return entry.input.form
     return null
@@ -178,4 +217,8 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
   )
 }
 
-export const RadioGroup = Object.assign(RadioGroupRoot, { Item: RadioGroupItem })
+/** Radio group root with a required-context Item component. See {@link RadioGroupProps}. */
+export const RadioGroup = Object.assign(RadioGroupRoot, {
+  /** Native radio by default, or a custom host with radio semantics and optional form mirror. */
+  Item: RadioGroupItem,
+})

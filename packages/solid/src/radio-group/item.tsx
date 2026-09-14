@@ -9,26 +9,57 @@ import { gate } from '../internal/gate'
 import { changeKey, hiddenStyle } from '../internal/native'
 import { spread } from '../spread'
 
+/** Identity and local state owned by one radio item. */
 interface Own {
+  /** Unique group identity; string and number values are not coerced into one another. */
   value: RadioValue
+  /** Combine with group disabled state; disabled items cannot select and leave the navigation ring. Defaults to false. */
   disabled?: boolean
+  /** Receives the visible host, not its optional native form mirror. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Author change callback with its event type erased during prop merging. */
 type Handler = (event: Event) => void
 
+/** Item options and selected host props. Group name/form defaults may be overridden on the visible host; form mirrors use group values. */
 export type RadioGroupItemProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Rendered host; defaults to a native radio input. */
+    as?: T
+  }
 
+/** Classify literal input/button hosts; custom components use generic radio semantics. */
 function hostOf(as: ValidComponent | undefined): RadioItemHost {
   if (as === undefined || as === 'input') return 'input'
   if (as === 'button') return 'button'
   return 'generic'
 }
 
+/**
+ * Renders a radio item inside a radio group.
+ *
+ * @remarks
+ * Native inputs select on change and leave keyboard behavior to the browser.
+ * Buttons and generic hosts use axis arrows, Home, and End for focus/selection;
+ * Space keyup activates, while Enter does not select. Readonly groups retain
+ * custom-host navigation but suppress selection. Enabled author handlers run
+ * before core handlers and can cancel them; {@link gate} suppresses supported
+ * author activation handlers when the item is disabled or the group is readonly.
+ *
+ * Non-input hosts add an inaccessible, untabbable radio mirror only when the
+ * group has an explicit name. Native inputs and mirrors carry group form and
+ * required options. Their defaultChecked follows the current group defaultValue,
+ * falling back to its controlled value; native change events schedule checked
+ * repair even when the author cancels selection.
+ *
+ * Registration occurs on settlement and unregisters with the owner. Item
+ * description IDs precede group IDs. Other author host attributes override core
+ * attributes. This component does not independently consume Field context.
+ */
 export function RadioGroupItem<T extends ValidComponent = 'input'>(
   props: RadioGroupItemProps<T>
 ): JSX.Element {
@@ -74,6 +105,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
     }
   )
 
+  /** Gate author activation and wrap native change before composing core handlers. */
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }
     gate(out, interactive)
