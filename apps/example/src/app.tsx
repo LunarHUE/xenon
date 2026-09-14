@@ -19,6 +19,13 @@ import { TabsDemo } from './demos/tabs'
 import { ToggleDemo } from './demos/toggle'
 import { ToggleGroupDemo } from './demos/toggle-group'
 import { ToolbarDemo } from './demos/toolbar'
+import {
+  NumberFieldDemo,
+  PinInputDemo,
+  SliderDemo,
+  TagsInputDemo,
+  EditableDemo,
+} from './demos/structured-inputs'
 
 export function App(): JSX.Element {
   return (
@@ -32,7 +39,7 @@ export function App(): JSX.Element {
       <main>
         <section class="hero">
           <h1 class="hero__title">
-            Eighteen components,
+            Twenty-four studies,
             <br />
             <em>no opinions</em> about
             <br />
@@ -70,6 +77,11 @@ export function App(): JSX.Element {
         <DrawerDemo />
         <PopoverDemo />
         <MenuDemo />
+        <NumberFieldDemo />
+        <PinInputDemo />
+        <SliderDemo />
+        <TagsInputDemo />
+        <EditableDemo />
       </main>
 
       <footer class="colophon">
