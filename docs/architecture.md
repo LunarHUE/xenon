@@ -345,6 +345,14 @@ See [Popover and Menu](popover-menu.md) for API and keyboard decisions.
 
 ## Toolchain
 
+Every Solid component has an explicit public subpath, such as
+`import { Button } from '@tenon/solid/button'`. Use these imports in examples
+and consumer code. The root barrel remains available. Positioning and spread
+also have dedicated entry points; internal files are not public exports.
+`bun run --cwd packages/solid test:exports` builds every public subpath and
+checks that Button-only builds exclude unrelated components with either import
+style.
+
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
 `tsc` with the 6.x API kept for typescript-eslint, eslint 10, prettier,
 vitest. Solid 2 release candidate, pinned exact with `@solidjs/signals`

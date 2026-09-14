@@ -9,36 +9,89 @@
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     },
-    "./*": {
-      "types": "./src/*.tsx",
-      "default": "./src/*.tsx"
-    },
-    "./dialog": {
-      "types": "./src/dialog/index.tsx",
-      "default": "./src/dialog/index.tsx"
+    "./accordion": {
+      "types": "./src/accordion/index.tsx",
+      "default": "./src/accordion/index.tsx"
     },
     "./alert-dialog": {
       "types": "./src/alert-dialog/index.tsx",
       "default": "./src/alert-dialog/index.tsx"
     },
+    "./button": {
+      "types": "./src/button/index.tsx",
+      "default": "./src/button/index.tsx"
+    },
+    "./checkbox": {
+      "types": "./src/checkbox/index.tsx",
+      "default": "./src/checkbox/index.tsx"
+    },
+    "./collapsible": {
+      "types": "./src/collapsible/index.tsx",
+      "default": "./src/collapsible/index.tsx"
+    },
+    "./dialog": {
+      "types": "./src/dialog/index.tsx",
+      "default": "./src/dialog/index.tsx"
+    },
     "./drawer": {
       "types": "./src/drawer/index.tsx",
       "default": "./src/drawer/index.tsx"
     },
-    "./positioning": {
-      "types": "./src/positioning/index.ts",
-      "default": "./src/positioning/index.ts"
+    "./field": {
+      "types": "./src/field/index.tsx",
+      "default": "./src/field/index.tsx"
+    },
+    "./menu": {
+      "types": "./src/menu/index.tsx",
+      "default": "./src/menu/index.tsx"
     },
     "./popover": {
       "types": "./src/popover/index.tsx",
       "default": "./src/popover/index.tsx"
     },
-    "./menu": {
-      "types": "./src/menu/index.tsx",
-      "default": "./src/menu/index.tsx"
+    "./positioning": {
+      "types": "./src/positioning/index.ts",
+      "default": "./src/positioning/index.ts"
+    },
+    "./progress": {
+      "types": "./src/progress/index.tsx",
+      "default": "./src/progress/index.tsx"
+    },
+    "./radio-group": {
+      "types": "./src/radio-group/index.tsx",
+      "default": "./src/radio-group/index.tsx"
+    },
+    "./separator": {
+      "types": "./src/separator/index.tsx",
+      "default": "./src/separator/index.tsx"
+    },
+    "./switch": {
+      "types": "./src/switch/index.tsx",
+      "default": "./src/switch/index.tsx"
+    },
+    "./tabs": {
+      "types": "./src/tabs/index.tsx",
+      "default": "./src/tabs/index.tsx"
+    },
+    "./toggle": {
+      "types": "./src/toggle/index.tsx",
+      "default": "./src/toggle/index.tsx"
+    },
+    "./toggle-group": {
+      "types": "./src/toggle-group/index.tsx",
+      "default": "./src/toggle-group/index.tsx"
+    },
+    "./toolbar": {
+      "types": "./src/toolbar/index.tsx",
+      "default": "./src/toolbar/index.tsx"
+    },
+    "./spread": {
+      "types": "./src/spread.ts",
+      "default": "./src/spread.ts"
     }
   },
   "scripts": {
+    "test:exports": "node scripts/check-exports.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
