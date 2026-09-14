@@ -1,6 +1,11 @@
 import type { JSX } from '@solidjs/web'
 
 import { AccordionDemo } from './demos/accordion'
+import { AlertDialogDemo } from './demos/alert-dialog'
+import { DialogDemo } from './demos/dialog'
+import { DrawerDemo } from './demos/drawer'
+import { MenuDemo } from './demos/menu'
+import { PopoverDemo } from './demos/popover'
 import { ButtonDemo } from './demos/button'
 import { CheckboxDemo } from './demos/checkbox'
 import { CollapsibleDemo } from './demos/collapsible'
@@ -27,7 +32,7 @@ export function App(): JSX.Element {
       <main>
         <section class="hero">
           <h1 class="hero__title">
-            Thirteen components,
+            Eighteen components,
             <br />
             <em>no opinions</em> about
             <br />
@@ -60,6 +65,11 @@ export function App(): JSX.Element {
         <FieldDemo />
         <ProgressDemo />
         <SeparatorDemo />
+        <DialogDemo />
+        <AlertDialogDemo />
+        <DrawerDemo />
+        <PopoverDemo />
+        <MenuDemo />
       </main>
 
       <footer class="colophon">

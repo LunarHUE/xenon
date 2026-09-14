@@ -1,4 +1,4 @@
-import { Toolbar } from '@tenon/solid'
+import { Toolbar } from '@tenon/solid/toolbar'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

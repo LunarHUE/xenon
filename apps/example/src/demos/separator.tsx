@@ -1,4 +1,4 @@
-import { Separator } from '@tenon/solid'
+import { Separator } from '@tenon/solid/separator'
 import type { JSX } from '@solidjs/web'
 
 import { Bench, Section } from '../ui'

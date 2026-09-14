@@ -1,4 +1,4 @@
-import { Checkbox } from '@tenon/solid'
+import { Checkbox } from '@tenon/solid/checkbox'
 import type { JSX } from '@solidjs/web'
 import { For, createSignal } from 'solid-js'
 

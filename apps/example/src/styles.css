@@ -1045,6 +1045,242 @@ body::before {
   align-self: stretch;
 }
 
+/* ---------- dialogs and anchored panels ---------- */
+
+.overlay-sheet {
+  width: min(30rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: 2rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 8px 8px 0 rgb(27 25 22 / 12%);
+  font: 400 0.8rem/1.6 var(--mono);
+  animation: overlay-in 160ms ease-out;
+}
+
+.overlay-sheet::backdrop {
+  background: rgb(27 25 22 / 45%);
+}
+
+.overlay-sheet[data-ending-style],
+.demo-menu[data-ending-style] {
+  animation: overlay-out 140ms ease-in;
+}
+
+.overlay-sheet__eyebrow {
+  margin: 0 0 1rem;
+  color: var(--accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.overlay-sheet__title {
+  margin: 0 0 0.8rem;
+  font: 400 2.2rem/1.1 var(--serif);
+  letter-spacing: -0.025em;
+}
+
+.overlay-sheet__description {
+  margin: 0 0 1.5rem;
+  color: var(--ink-70);
+}
+
+.overlay-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.overlay-field .input {
+  width: 100%;
+  min-width: 0;
+}
+
+.overlay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.overlay-actions--start {
+  justify-content: flex-start;
+  margin-top: 0;
+}
+
+.btn--quiet {
+  background: transparent;
+}
+
+.btn--danger {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.overlay-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.demo-drawer {
+  inset: auto 0 0;
+  margin: 0 auto;
+  width: min(42rem, 100%);
+  padding-top: 0.5rem;
+  box-shadow: 0 -8px 32px rgb(27 25 22 / 12%);
+  transform: translateY(var(--drawer-swipe-offset, 0px));
+  animation: drawer-in 220ms ease-out;
+}
+
+.demo-drawer[data-ending-style] {
+  animation: drawer-out 180ms ease-in;
+}
+
+.demo-drawer__handle {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 2rem;
+  margin-bottom: 1rem;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.demo-drawer__handle span {
+  width: 3rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ink-45);
+}
+
+.demo-drawer__handle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.demo-popover {
+  width: min(22rem, calc(100vw - 2rem));
+  overflow: visible;
+  padding: 1.5rem;
+}
+
+.demo-popover__arrow {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.demo-menu {
+  width: min(17rem, calc(100vw - 2rem));
+  max-height: min(28rem, var(--positioner-available-height, calc(100dvh - 2rem)));
+  overflow-y: auto;
+  padding: 0.4rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 5px 5px 0 rgb(27 25 22 / 12%);
+  animation: overlay-in 120ms ease-out;
+}
+
+.demo-menu__label {
+  padding: 0.6rem 0.7rem 0.35rem;
+  color: var(--ink-70);
+  font: 400 0.6rem/1.5 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.demo-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.65rem 0.7rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: 400 0.72rem/1.4 var(--mono);
+  text-align: left;
+  cursor: pointer;
+}
+
+.demo-menu__item[data-highlighted] {
+  background: var(--ink);
+  color: var(--paper);
+  outline: none;
+}
+
+.demo-menu__item[data-disabled] {
+  color: var(--ink-45);
+  cursor: not-allowed;
+}
+
+.demo-menu__item[data-disabled][data-highlighted] {
+  background: var(--paper-sunk);
+}
+
+.demo-menu__indicator {
+  width: 0.9rem;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+}
+
+.demo-menu__end {
+  margin-left: auto;
+}
+
+.demo-menu__separator {
+  margin: 0.4rem 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes drawer-out {
+  from {
+    transform: translateY(var(--drawer-swipe-offset, 0px));
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
 /* ---------- colophon ---------- */
 
 .colophon {

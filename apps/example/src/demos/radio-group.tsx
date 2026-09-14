@@ -1,4 +1,4 @@
-import { RadioGroup } from '@tenon/solid'
+import { RadioGroup } from '@tenon/solid/radio-group'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

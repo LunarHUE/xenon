@@ -1,4 +1,4 @@
-import { Collapsible } from '@tenon/solid'
+import { Collapsible } from '@tenon/solid/collapsible'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 
@@ -11,7 +11,7 @@ export function CollapsibleDemo(): JSX.Element {
     <Section
       index="09"
       title="Collapsible"
-      blurb="One trigger, one panel, and the only piece of this page that needs a real transition.
+      blurb="One trigger and one panel, with room for an exit animation.
         The panel is out of the DOM while closed and stays in it until its animation finishes."
     >
       <Bench caption="Open and close" note="data-starting-style · data-ending-style">

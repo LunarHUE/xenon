@@ -1,4 +1,4 @@
-import { Switch } from '@tenon/solid'
+import { Switch } from '@tenon/solid/switch'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

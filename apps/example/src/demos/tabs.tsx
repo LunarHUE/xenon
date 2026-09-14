@@ -1,4 +1,4 @@
-import { Tabs } from '@tenon/solid'
+import { Tabs } from '@tenon/solid/tabs'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 
