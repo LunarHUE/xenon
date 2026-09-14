@@ -682,14 +682,24 @@ export function NavigationMenuArrow(props: Host<'div'>): JSX.Element {
 }
 /** Site navigation parts using nav, ul, li, buttons and native anchors. Content stays mounted and hidden while closed. */
 export const NavigationMenu = Object.assign(NavigationMenuRoot, {
+  /** Navigation landmark, selection provider and interaction policy. */
   Root: NavigationMenuRoot,
+  /** Native list with optional arrow and Home/End shortcuts. */
   List: NavigationMenuList,
+  /** Native list item providing a string identity to its descendants. */
   Item: NavigationMenuItem,
+  /** Disclosure button with mouse hover and keyboard opening. */
   Trigger: NavigationMenuTrigger,
+  /** Native anchor preserving navigation and supporting cancellable selection. */
   Link: NavigationMenuLink,
+  /** Retained panel hidden while inactive and named by its trigger. */
   Content: NavigationMenuContent,
+  /** Moves popup hosts while preserving Solid context and native modal ancestry. */
   Portal: OverlayPortal,
+  /** Fixed native popup host anchored to the selected trigger. */
   Positioner: NavigationMenuPositioner,
+  /** Measures shared content and retains inert outgoing snapshots for CSS transitions. */
   Viewport: NavigationMenuViewport,
+  /** Registers presentation-only arrow geometry within Positioner. */
   Arrow: NavigationMenuArrow,
 })

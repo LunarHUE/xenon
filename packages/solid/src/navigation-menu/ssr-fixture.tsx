@@ -1,5 +1,6 @@
 import { renderToString } from '@solidjs/web'
 import { NavigationMenu as Nav } from './navigation-menu'
+/** Serialize controlled navigation with custom IDs for server association checks. */
 export function renderNavigation(open: boolean) {
   return renderToString(() => (
     <Nav value={open ? 'a' : null}>
