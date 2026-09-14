@@ -48,8 +48,9 @@ Core stays pure. Solid will own refs, reactive registration updates, and open
 state. A dismissal is a request: a controlled owner can keep its layer open.
 Dispose when logically closed even if presence keeps exit content mounted.
 
-This engine does not yet implement focus-outside dismissal, focus containment or
-restoration, scroll locking, background inertness, CSS stacking, portals, or
+Focus containment and restoration use the separate [focus scope](focus-scope.md)
+handle. This engine does not yet implement focus-outside dismissal,
+scroll locking, background inertness, CSS stacking, portals, or
 native dialog synchronization. Those have separate lifetimes and platform
 decisions. Native dialog `cancel` routing must be settled before connecting this
 Escape listener to `<dialog>`, so one key cannot close two layers.

@@ -28,5 +28,8 @@
     "jsdom": "^30.0.1",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "dependencies": {
+    "tabbable": "^6.5.0"
   }
 }
