@@ -133,3 +133,14 @@ Independent review and package lint passed. Overlay options and lifecycle batche
 | `964859e` | document dialog family exports and drawer handles | `packages/solid/src/dialog/dialog.tsx`, `packages/solid/src/alert-dialog/alert-dialog.tsx`, `packages/solid/src/drawer/drawer.tsx` |
 | `2f029ab` | document dialog rendering and controller lifecycle | `packages/solid/src/internal/dialog.tsx` |
 | `5ffba57` | document popover parts and hosted overlay lifecycle | `packages/solid/src/popover/popover.tsx` |
+
+## Solid S6 and package closeout complete
+
+Independent review and package lint passed. Independent menu review passed. All 45 implementation files plus the export checker are covered; 19 remaining source barrels contain only re-exports. Public-member audit: 185 exports, 592 reachable members, no missing docs. All 59 documentation links resolve. Solid tests: 172 passed across 21 files. Every public subpath builds and both Button import styles exclude unrelated modules. Existing root-trigger ArrowUp/Down behavior is distinguished from disabled Button activation gating.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `f9f307b` | document menu exports and subpath build checks | `packages/solid/src/menu/index.tsx`, `packages/solid/scripts/check-exports.mjs` |
+| `85b9283` | document menu hosting and keyboard boundaries | `packages/solid/src/menu/content.tsx` |
+| `a3f4781` | document menu state and registration contracts | `packages/solid/src/menu/context.ts`, `packages/solid/src/menu/root.tsx` |
+| `0753d52` | document menu triggers and selection parts | `packages/solid/src/menu/trigger.tsx`, `packages/solid/src/menu/items.tsx` |
