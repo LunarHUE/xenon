@@ -3,6 +3,13 @@ import type { Page } from 'playwright/test'
 
 const url = 'http://127.0.0.1:4174'
 
+/**
+ * Checks initial disclosure presence and tab selection, visibility, and paired ID associations.
+ * Requires an already-loaded unchanged initial RoundOne fixture.
+ * Works on JavaScript-disabled server markup or after hydration; the caller owns
+ * navigation, hydration readiness, and page/context cleanup. Performs no interaction
+ * and does not itself prove DOM preservation across hydration.
+ */
 async function expectInitialDisclosureAndTabs(page: Page) {
   const chosen = page.getByRole('tab', { name: 'Chosen controlled page', exact: true })
   const panel = page.getByRole('tabpanel', { name: 'Chosen controlled page', exact: true })

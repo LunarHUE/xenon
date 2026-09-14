@@ -3,6 +3,13 @@ import type { Page } from 'playwright/test'
 
 const url = 'http://127.0.0.1:4174'
 
+/**
+ * Checks native/generic button host attributes and link semantics in the shared fixture.
+ * Requires an already-loaded RoundOne fixture containing the Button host matrix region.
+ * Works on JavaScript-disabled server markup or after hydration; the caller owns
+ * navigation, hydration readiness, and page/context cleanup. Performs no interaction
+ * and does not itself prove DOM preservation across hydration.
+ */
 async function expectButtonHosts(page: Page) {
   const matrix = page.getByRole('region', { name: 'Button host matrix' })
   for (const [name, type] of [

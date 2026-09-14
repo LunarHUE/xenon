@@ -1,6 +1,13 @@
 import { expect, test } from 'playwright/test'
 import type { Page } from 'playwright/test'
 
+/**
+ * Checks nested Field associations, escaped IDs, custom-host merging, and removal of SSR markers.
+ * Requires an already-loaded RoundOne fixture containing the Nested field associations region.
+ * Works on JavaScript-disabled server markup or after hydration; the caller owns
+ * navigation, hydration readiness, and page/context cleanup. Performs no interaction
+ * and does not itself prove DOM preservation across hydration.
+ */
 async function expectAssociations(page: Page) {
   const region = page.getByRole('region', { name: 'Nested field associations' })
   const outer = region.getByRole('textbox', { name: 'Wrapped control', exact: true })
