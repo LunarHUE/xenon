@@ -40,3 +40,12 @@ Independent review and package lint passed. Overlay docs distinguish pure core a
 | --- | --- | --- |
 | `f1c13a7` | document dialog alert dialog and drawer contracts | `packages/core/src/dialog/dialog.ts`, `packages/core/src/alert-dialog/alert-dialog.ts`, `packages/core/src/drawer/drawer.ts` |
 | `107dd58` | document collapsible separator and progress behavior | `packages/core/src/collapsible/collapsible.ts`, `packages/core/src/separator/separator.ts`, `packages/core/src/progress/progress.ts` |
+| `6543b0e` | document popover and menu contracts | `packages/core/src/popover/popover.ts`, `packages/core/src/menu/menu.ts` |
+
+## Core C4 and package closeout complete
+
+Independent review and package lint passed. All 26 targeted files reviewed. 186 tests pass; 32 TSDoc links resolve, 63 inherited property hovers and 34 public call signatures expose documentation. All 22 barrels are plain re-exports; generated attributes remain unchanged.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `86fe984` | document attribute generator inputs and execution | `packages/core/scripts/attrs.overrides.ts`, `packages/core/scripts/gen-attrs.ts` |
