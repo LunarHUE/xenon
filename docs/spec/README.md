@@ -10,8 +10,12 @@ research files are evidence and are not edited after they land.
 ```
 ## <component>
 ### <subsection>
-- Given <setup>, when <action>, then <result>. [apg, react-aria, radix, base-ui, zag, ariakit, headlessui, kobalte, corvu, reka, melt, bits]
+- [ ] `button.keyboard.3` Given <setup>, when <action>, then <result>. [apg, react-aria, radix, base-ui, zag, ariakit, headlessui, kobalte, corvu, reka, melt, bits]
 ```
+
+The id is `<component>.<subsection-slug>.<n>` and never changes once
+written; new bullets take the next number. The checkbox is ticked when
+`packages/suite` has a passing test for it.
 
 Subsections, in this order: Roles and attributes; Keyboard; Pointer; Focus
 management; State; Forms; Dismissal and layering; Positioning; Animation and
@@ -19,8 +23,11 @@ presence; RTL and i18n; SSR and hydration; Accessibility tooling; Notes and
 edge cases.
 
 A bullet tagged `[apg]` is normative. A bullet tagged by one library only is a
-candidate and says so with `(candidate)`. Browser quirks keep the browser
-name in the bullet.
+candidate and says so with `(candidate)`. Where sources disagree, each side
+is its own bullet prefixed `Divergence:` and tagged `(decision needed)` until
+we pick. Browser quirks keep the browser name in the bullet. Tests that only
+a real engine can observe say `(browser-only)`; ones only one engine can
+observe name it, e.g. `(safari-only)`.
 
 ## Where tests live
 
