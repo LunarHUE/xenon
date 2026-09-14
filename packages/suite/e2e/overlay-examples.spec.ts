@@ -34,7 +34,8 @@ test('example alert defaults to Cancel and the archive action can be reset', asy
 test('example drawer keeps its preference and closes through its handle', async ({ page }) => {
   const trigger = page.getByRole('button', { name: 'Notification settings', exact: true })
   await trigger.click()
-  const drawer = page.getByRole('dialog', { name: 'Less noise. Your choice.' })
+  const viewport = page.getByRole('dialog', { name: 'Less noise. Your choice.' })
+  const drawer = viewport.locator(':scope > .demo-drawer')
   await expect(drawer).toHaveCSS('width', `${page.viewportSize()!.width}px`)
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(drawer).toHaveCSS('width', '390px')
@@ -89,4 +90,44 @@ test('example menu retains choices and exports through the keyboard submenu', as
   await expect(trigger).toBeFocused()
   await expect(page.locator('#menu .readout')).toContainText('PDF export selected')
   await expect(page.locator('#menu .readout')).toContainText('compact')
+})
+
+test('shared example popover retains its popup and animates between note payloads', async ({
+  page,
+}) => {
+  const reading = page.getByRole('button', { name: 'Reading note', exact: true })
+  const workshop = page.getByRole('button', { name: 'Workshop note', exact: true })
+  await reading.click()
+  const initial = page.getByRole('dialog', { name: 'Reading note', exact: true })
+  await expect(initial).toBeVisible()
+  const original = await initial.elementHandle()
+  const viewport = initial.locator('.demo-popover__viewport')
+  const firstWidth = (await viewport.boundingBox())!.width
+  // Observe the outgoing frame at insertion so the assertion does not race its short CSS exit.
+  await viewport.evaluate((node) => {
+    const observer = new MutationObserver(() => {
+      const previous = node.querySelector('[data-previous]')
+      if (previous) {
+        node.setAttribute('data-test-retained', previous.textContent ?? '')
+        node.setAttribute('data-test-retained-inert', String(previous.hasAttribute('inert')))
+        observer.disconnect()
+      }
+    })
+    observer.observe(node, { childList: true })
+  })
+  await workshop.click()
+  const switched = page.getByRole('dialog', { name: 'Workshop note', exact: true })
+  await expect(switched).toBeVisible()
+  expect(await switched.evaluate((node, original) => node === original, original)).toBe(true)
+  const switchedViewport = switched.locator('.demo-popover__viewport')
+  await expect(switchedViewport).toHaveAttribute('data-test-retained', /Reading note/)
+  await expect(switchedViewport).toHaveAttribute('data-test-retained-inert', 'true')
+  await expect
+    .poll(async () => (await switchedViewport.boundingBox())!.width)
+    .toBeGreaterThan(firstWidth)
+  await expect(switchedViewport.locator('[data-previous]')).toHaveCount(0)
+  await expect(workshop).toHaveAttribute('aria-expanded', 'true')
+  await expect(reading).toHaveAttribute('aria-expanded', 'false')
+  await page.getByRole('button', { name: 'Close shared note', exact: true }).click()
+  await expect(workshop).toBeFocused()
 })

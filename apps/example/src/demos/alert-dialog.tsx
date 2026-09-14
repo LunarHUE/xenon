@@ -18,28 +18,32 @@ export function AlertDialogDemo() {
             <AlertDialog.Trigger class="btn" disabled={archived()}>
               Archive project
             </AlertDialog.Trigger>
-            <AlertDialog.Content class="overlay-sheet">
-              <p class="overlay-sheet__eyebrow">Project / Field notes</p>
-              <AlertDialog.Title class="overlay-sheet__title">
-                Archive this project?
-              </AlertDialog.Title>
-              <AlertDialog.Description class="overlay-sheet__description">
-                It will leave your active project list. This demo changes only the status shown
-                below.
-              </AlertDialog.Description>
-              <div class="overlay-actions">
-                <AlertDialog.Action
-                  class="btn btn--danger"
-                  aria-label="Confirm archive"
-                  onClick={() => setArchived(true)}
-                >
-                  Confirm archive
-                </AlertDialog.Action>
-                <AlertDialog.Cancel class="btn" aria-label="Keep project">
-                  Keep project
-                </AlertDialog.Cancel>
-              </div>
-            </AlertDialog.Content>
+            <AlertDialog.Portal>
+              <AlertDialog.Viewport class="overlay-viewport">
+                <AlertDialog.Content class="overlay-sheet">
+                  <p class="overlay-sheet__eyebrow">Project / Field notes</p>
+                  <AlertDialog.Title class="overlay-sheet__title">
+                    Archive this project?
+                  </AlertDialog.Title>
+                  <AlertDialog.Description class="overlay-sheet__description">
+                    It will leave your active project list. This demo changes only the status shown
+                    below.
+                  </AlertDialog.Description>
+                  <div class="overlay-actions">
+                    <AlertDialog.Action
+                      class="btn btn--danger"
+                      aria-label="Confirm archive"
+                      onClick={() => setArchived(true)}
+                    >
+                      Confirm archive
+                    </AlertDialog.Action>
+                    <AlertDialog.Cancel class="btn" aria-label="Keep project">
+                      Keep project
+                    </AlertDialog.Cancel>
+                  </div>
+                </AlertDialog.Content>
+              </AlertDialog.Viewport>
+            </AlertDialog.Portal>
           </AlertDialog>
           <Button
             ref={(el) => {
