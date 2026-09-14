@@ -48,8 +48,21 @@ function checked(item: HTMLElement, value: boolean) {
   else expect(item).toHaveAttribute('aria-checked', String(value))
 }
 
-// Native navigation belongs to the browser: compare focus and selection with
-// plain radios instead of imposing the composite engine's wrap/RTL rules.
+/**
+ * Compares native radio focus/selection with a plain-radio baseline in this browser.
+ * Copies item order, disabled/checked state, and the starting host's computed
+ * direction. Replays the same keyboard sequence on the baseline and real group,
+ * comparing each step rather than imposing custom composite wrap or RTL rules.
+ *
+ * @param container - Mounted native-radio group; its radio inputs define the comparison order.
+ * @param start - Focusable radio input included in container, used as the initial item.
+ * @param keys - Vitest browser keyboard sequences replayed in order on both groups.
+ * @remarks
+ * Requires real browser keyboard handling. A temporary group appended to body uses
+ * the fixed name native-radio-navigation-baseline; keep that name otherwise unused.
+ * The temporary group is removed even on failure. Real group focus/selection remain
+ * changed; caller owns its mounting and cleanup and must await this helper.
+ */
 async function expectNativeNavigation(container: HTMLElement, start: HTMLElement, keys: string[]) {
   const items = [...container.querySelectorAll<HTMLInputElement>('input[type="radio"]')]
   const baseline = document.createElement('div')

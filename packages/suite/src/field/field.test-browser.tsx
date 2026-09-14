@@ -6,6 +6,13 @@ import { describe, expect } from 'vitest'
 import { mount } from '../harness/solid'
 import { spec } from '../spec'
 
+/**
+ * Asserts label-click focus for an enabled Field control and its suppression when disabled.
+ * Runs real browser pointer interaction against a harness-mounted fixture using
+ * global screen queries. Requires no other Account text in the document. Await
+ * completion before caller-owned harness cleanup; the fixture remains registered.
+ * @param kind - Native text host or generic focusable host to exercise.
+ */
 async function labelFocus(kind: 'input' | 'textarea' | 'div') {
   const m = mount('field', {
     children: () => (
@@ -26,6 +33,13 @@ async function labelFocus(kind: 'input' | 'textarea' | 'div') {
   expect(control).not.toHaveFocus()
 }
 
+/**
+ * Asserts native Field form data, edited value reset, and disabled exclusion.
+ * Uses browser input interaction and FormData with an input or textarea fixture.
+ * Global screen queries require an otherwise isolated textbox. Await completion
+ * before caller-owned harness cleanup; this helper leaves its fixture registered.
+ * @param kind - Native text-control host whose browser form behavior is checked.
+ */
 async function nativeForm(kind: 'input' | 'textarea') {
   const m = mount('field', {
     name: 'account',
