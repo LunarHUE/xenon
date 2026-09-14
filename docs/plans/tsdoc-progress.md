@@ -120,3 +120,16 @@ Independent review and package lint passed. Disclosures independently reviewed, 
 | `fd3e479` | clarify tabs disabled navigation contract | `packages/solid/src/tabs/context.ts` |
 | `187f8a8` | document tabs parts and selection lifecycle | `packages/solid/src/tabs/tabs.tsx`, `packages/solid/src/tabs/parts.tsx` |
 | `951bac6` | clarify native tabs focusout cancellation | `packages/solid/src/tabs/parts.tsx` |
+
+## Solid S5 complete
+
+Independent review and package lint passed. Overlay options and lifecycle batches independently reviewed against shared DOM controllers and existing tests. Checked focus publication order, controlled dismissal, retained exit sessions, drawer threshold units, trigger and arrow ownership, SSR associations and compound aliases.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `5364b1f` | document reactive positioning ownership and props | `packages/solid/src/positioning/positioning.ts` |
+| `83a64d1` | document shared dialog option and context contracts | `packages/solid/src/internal/dialog.tsx` |
+| `576da6f` | document popover options and positioning contracts | `packages/solid/src/popover/popover.tsx` |
+| `964859e` | document dialog family exports and drawer handles | `packages/solid/src/dialog/dialog.tsx`, `packages/solid/src/alert-dialog/alert-dialog.tsx`, `packages/solid/src/drawer/drawer.tsx` |
+| `2f029ab` | document dialog rendering and controller lifecycle | `packages/solid/src/internal/dialog.tsx` |
+| `5ffba57` | document popover parts and hosted overlay lifecycle | `packages/solid/src/popover/popover.tsx` |
