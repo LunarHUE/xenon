@@ -2,10 +2,16 @@ import solid from '@solidjs/vite-plugin'
 import { playwright } from '@vitest/browser-playwright'
 import { defineConfig } from 'vitest/config'
 
+const browsers = (process.env.KIT_BROWSERS ?? 'chromium').split(',')
+for (const browser of browsers) {
+  if (!['chromium', 'firefox', 'webkit'].includes(browser))
+    throw new Error(`Unknown KIT_BROWSERS entry: ${browser}`)
+}
+
 const setupFiles = ['./vitest-setup.ts']
 
 export default defineConfig({
-  plugins: [solid()],
+  plugins: [solid({ refresh: { disabled: true } })],
   test: {
     projects: [
       {
@@ -27,7 +33,9 @@ export default defineConfig({
             enabled: true,
             headless: true,
             provider: playwright(),
-            instances: [{ browser: 'chromium' }, { browser: 'firefox' }, { browser: 'webkit' }],
+            instances: browsers.map((browser) => ({
+              browser: browser as 'chromium' | 'firefox' | 'webkit',
+            })),
           },
         },
       },

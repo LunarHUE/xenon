@@ -1,11 +1,39 @@
-import { Button, Checkbox, Switch, Toolbar } from '@kit/solid'
+import {
+  Accordion,
+  Button,
+  Checkbox,
+  Collapsible,
+  Field,
+  Progress,
+  RadioGroup,
+  Separator,
+  Switch,
+  Tabs,
+  Toggle,
+  ToggleGroup,
+  Toolbar,
+} from '@kit/solid'
 import { Dynamic, render } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'
 
 import type { ComponentName, Components, Harness, Mounted } from '../harness'
 
-const components = { button: Button, checkbox: Checkbox, switch: Switch, toolbar: Toolbar }
+const components = {
+  button: Button,
+  checkbox: Checkbox,
+  switch: Switch,
+  toolbar: Toolbar,
+  field: Field,
+  toggle: Toggle,
+  'toggle-group': ToggleGroup,
+  'radio-group': RadioGroup,
+  collapsible: Collapsible,
+  accordion: Accordion,
+  tabs: Tabs,
+  progress: Progress,
+  separator: Separator,
+}
 
 const mounted = new Set<() => void>()
 

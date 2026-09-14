@@ -31,11 +31,26 @@ export interface ToolbarProps extends Record<string, unknown> {
   dir?: 'ltr' | 'rtl'
   loop?: boolean
   disabled?: boolean
-  children?: () => JSX.Element
+  children?: JSX.Element | (() => JSX.Element)
+  ref?: (el: HTMLElement) => void
+}
+
+export type CompoundProps = Record<string, unknown> & {
+  as?: ValidComponent
+  children?: JSX.Element | (() => JSX.Element)
   ref?: (el: HTMLElement) => void
 }
 
 export interface Components {
+  field: CompoundProps
+  toggle: CompoundProps
+  'toggle-group': CompoundProps
+  'radio-group': CompoundProps
+  collapsible: CompoundProps
+  accordion: CompoundProps
+  tabs: CompoundProps
+  progress: CompoundProps
+  separator: CompoundProps
   button: ButtonProps
   checkbox: CheckboxProps
   switch: SwitchProps
