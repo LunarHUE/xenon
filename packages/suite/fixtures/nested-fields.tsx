@@ -2,6 +2,10 @@ import { Checkbox, Field, Switch } from '@tenon/solid'
 import { Show, omit } from 'solid-js'
 import type { ComponentProps } from '@solidjs/web'
 
+/**
+ * Custom input host that forwards remaining props and appends its own help ID.
+ * The data marker records whether the incoming description was truthy before appending.
+ */
 function CustomInput(props: ComponentProps<'input'>) {
   const rest = omit(props, 'aria-describedby')
   return (
@@ -13,8 +17,10 @@ function CustomInput(props: ComponentProps<'input'>) {
   )
 }
 
+/** Exercises nested field ownership, wrapped controls, custom hosts, and escaped association IDs across SSR and hydration. */
 export function NestedFields() {
   let constructions = 0
+  /** Counts constructions of the wrapped control to expose duplicate construction during rendering. */
   function CountedControl() {
     constructions++
     return <Field.Control id="wrapped-control" aria-describedby="author-help" />
