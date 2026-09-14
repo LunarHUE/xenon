@@ -26,63 +26,112 @@ import { serverAssociations } from '../field/server-associations'
 import { createPresence } from '../internal/presence'
 import { spread } from '../spread'
 
+/** Root-owned visibility, dismissal, focus, and association inputs. */
 interface Own {
+  /** Controlled logical visibility when defined; undefined uses internal state. */
   open?: boolean
+  /** Initial uncontrolled visibility, defaulting to false; later changes are ignored. */
   defaultOpen?: boolean
+  /** Reports a changed visibility request after updating uncontrolled state. Requests equal to current visibility and initialization are silent. */
   onOpenChange?: (open: boolean) => void
+  /** Isolate outside content, lock scrolling, and contain focus while active. Defaults to false; changing modality restarts DOM hosting. */
   modal?: boolean
+  /** Keep closed content mounted. Closed non-exiting positioners remain hidden and inactive. Defaults to false. */
   forceMount?: boolean
+  /** Allow Escape dismissal while open, defaulting to true. False still consumes Escape at the layer. */
   closeOnEscape?: boolean
+  /** Allow eligible outside-pointer dismissal while open, defaulting to true. The active trigger counts as an inside branch. */
   closeOnOutside?: boolean
+  /** Allow deferred outside-focus dismissal for a positioned nonmodal popover. Defaults to true; modal popovers ignore this policy. */
   closeOnFocusOutside?: boolean
+  /** Deferred outside-focus hook; wrapper preventDefault vetoes dismissal. Only runs for eligible nonmodal focus changes. */
   onFocusOutside?: FloatingLayerOptions['onFocusOutside']
+  /** Focus target inside content, or false to skip initial placement. Applied when the positioned session first creates its focus scope. */
   initialFocus?: HTMLElement | false
+  /** Preferred focus return target. Unusable targets fall back to active trigger, opener, then ancestor openers; deliberate outside focus is preserved. */
   finalFocus?: HTMLElement
+  /** Synchronous Escape hook; preventDefault vetoes dismissal. Not invoked when Escape dismissal is disabled or while exiting closed. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
+  /** Deferred outside-pointer hook; wrapper preventDefault vetoes dismissal. See {@link LayerPointerOutsideEvent}. */
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
+  /** Fallback content ID, otherwise generated. Registered content IDs take precedence in trigger associations. */
   contentId?: string
+  /** Fallback title ID and explicit naming reference when no title is registered. Registered title IDs take precedence. */
   titleId?: string
+  /** Fallback description ID and explicit description reference when no description is registered. Registered IDs take precedence. */
   descriptionId?: string
+  /** Receives the root wrapper, separate from the positioner and content hosts. */
   ref?: (el: HTMLElement) => void
 }
+/** Polymorphic root props with library-owned visibility and dismissal policies. */
 export type PopoverProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Root host, defaulting to div; custom components must forward props and refs. */
+    as?: T
+  }
+/** Dialog content host props. Requires Popover.Positioner; author aria-label suppresses generated title naming. */
 export type PopoverContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Rendered host, defaulting to div; custom components must forward props and refs. */
   as?: T
+  /** Receives the content host used for focus scope and exit observation. */
   ref?: (el: HTMLElement) => void
 }
+/** {@link ButtonProps} for a registered trigger; the active trigger controls expansion and default anchoring. */
 export type PopoverTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+/** {@link ButtonProps} for requesting closure; aria-label defaults to Close popover. */
 export type PopoverCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+/** Title host props; author id overrides the fallback and contributes to content naming. */
 export type PopoverTitleProps<T extends ValidComponent = 'h2'> = ComponentProps<T> & {
+  /** Rendered host, defaulting to h2; custom components must forward props and refs. */
   as?: T
+  /** Receives the rendered title host. */
   ref?: (el: HTMLElement) => void
 }
+/** Description host props; author id contributes to content aria-describedby. */
 export type PopoverDescriptionProps<T extends ValidComponent = 'p'> = ComponentProps<T> & {
+  /** Rendered host, defaulting to p; custom components must forward props and refs. */
   as?: T
+  /** Receives the rendered description host. */
   ref?: (el: HTMLElement) => void
 }
+/** Root-owned live state and registries consumed by the popover parts. */
 interface Context {
+  /** Current root prop view supplying DOM dismissal and focus settings. */
   own: Own
+  /** Current core state and parts; server reads recompute associations from registrations. */
   result(): PopoverResult
+  /** Ignores equal visibility, updates uncontrolled state, then notifies the root callback. */
   change(open: boolean): void
+  /** Most recently attached content host; retained until another content ref replaces it. */
   content(): HTMLElement | undefined
+  /** Records content for both DOM hosting and presence animation observation. */
   setContent(el: HTMLElement): void
+  /** Adds a live ID getter and returns removal. Joined IDs retain registration order; caller owns cleanup. */
   register(name: 'title' | 'description' | 'content', id: () => string): () => void
+  /** Root-supplied ID or generated fallback for this part kind. */
   id(name: 'title' | 'description' | 'content'): string
+  /** Reads directly on the client or records an SSR marker finalized after descendant serialization. */
   association(
     name: 'aria-labelledby' | 'aria-describedby' | 'aria-controls',
     read: () => string | undefined
   ): string | undefined
+  /** Current trigger host used for default anchoring, dismissal branching, and focus return. */
   trigger(): HTMLElement | undefined
+  /** Selects the trigger host without changing logical visibility. */
   setTrigger(el: HTMLElement | undefined): void
+  /** Registers a trigger identity. Removal replaces an active removed trigger with the first remaining entry on the client. */
   registerTrigger(entry: { element?: HTMLElement }): () => void
+  /** Tests the selected host, or the first registered entry when no host has been selected. */
   activeTrigger(entry: { element?: HTMLElement }): boolean
+  /** Explicit anchor host, preferred over the active trigger for positioning. */
   anchor(): HTMLElement | undefined
+  /** Replaces or clears the single explicit anchor; no stack of previous anchors is retained. */
   setAnchor(el: HTMLElement | undefined): void
 }
+/** Nearest popover root state; absent outside a provider. */
 const PopoverContext = createContext<Context>()
 export function usePopover(name: string): Context {
   const context = useContext(PopoverContext)
@@ -283,11 +332,23 @@ export function PopoverClose<T extends ValidComponent = 'button'>(
     />
   )
 }
+/** Positioning state and the single arrow slot for one mounted positioner. */
 const PositionerContext = createContext<
-  Positioner & { setArrow(el: HTMLElement | undefined): void }
+  Positioner & {
+    /** Replaces or clears the measured arrow host; prior arrows are not stacked. */
+    setArrow(el: HTMLElement | undefined): void
+  }
 >()
+/**
+ * Div host props and {@link PositionerOptions}, with strategy fixed to fixed.
+ * Anchor, arrow, and enabled state come from popover context. Author styles override
+ * the wrapper baseline, but controller visibility/pointer-events take precedence.
+ */
 export type PopoverPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions | 'ref'> &
-  Omit<PositionerOptions, 'strategy'> & { ref?: (el: HTMLDivElement) => void }
+  Omit<PositionerOptions, 'strategy'> & {
+    /** Receives the native manual-popover wrapper, separate from the content ref. */
+    ref?: (el: HTMLDivElement) => void
+  }
 export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
   const context = usePopover('Popover.Positioner')
   const rest = omit(
@@ -468,8 +529,11 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
     </Dynamic>
   )
 }
+/** Explicit geometry-anchor host props. The registered anchor takes priority over the active trigger. */
 export type PopoverAnchorProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+  /** Rendered host, defaulting to div; custom components must forward props and refs. */
   as?: T
+  /** Receives the rendered host; custom hosts must forward this ref. */
   ref?: (el: HTMLElement) => void
 }
 export function PopoverAnchor<T extends ValidComponent = 'div'>(
@@ -498,6 +562,11 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
     </Dynamic>
   )
 }
+/**
+ * Polymorphic arrow host props, sharing the shape of {@link PopoverAnchorProps}.
+ * Its ref identifies the measured arrow, not the geometry anchor. Requires a
+ * Positioner ancestor; provide artwork inside a square layout box.
+ */
 export type PopoverArrowProps<T extends ValidComponent = 'div'> = PopoverAnchorProps<T>
 export function PopoverArrow<T extends ValidComponent = 'div'>(
   props: PopoverArrowProps<T>
