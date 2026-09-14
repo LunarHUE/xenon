@@ -1,12 +1,31 @@
 import type { ValidComponent, JSX } from '@solidjs/web'
-import { createMemo, createUniqueId, onCleanup, onSettled, omit } from 'solid-js'
+import {
+  createEffect,
+  createMemo,
+  createUniqueId,
+  omit,
+  onCleanup,
+  onSettled,
+  untrack,
+} from 'solid-js'
 import { Button } from '../button/button'
 import type { ButtonProps } from '../button/button'
 import { spread } from '../spread'
 import { useMenu } from './context'
+import type { MenuTriggerEntry } from './context'
+import { getOverlayHandleContext } from '../internal/overlay-handle'
+import type { MenuHandle } from './root'
 
 /** Opening trigger props inherited from Button, including host, disabled/pending gates, and author handlers. */
-export type MenuTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+export type MenuTriggerProps<
+  T extends ValidComponent = 'button',
+  Payload = unknown,
+> = ButtonProps<T> & {
+  /** Connect a detached trigger to its menu root. */
+  handle?: MenuHandle<Payload>
+  /** Data selected when this trigger opens the shared menu. */
+  payload?: Payload
+}
 /**
  * Renders a Button that opens the menu and supplies its default positioning/focus target.
  *
@@ -21,31 +40,70 @@ export type MenuTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<
  * Custom hosts must forward Button props/ref; the author ref receives the trigger.
  * @throws If rendered outside Menu.
  */
-export function MenuTrigger<T extends ValidComponent = 'button'>(
-  props: MenuTriggerProps<T>
+export function MenuTrigger<T extends ValidComponent = 'button', Payload = unknown>(
+  props: MenuTriggerProps<T, Payload>
 ): JSX.Element {
-  const context = useMenu('Menu.Trigger')
+  const inherited = untrack(() => props.handle) ? undefined : useMenu('Menu.Trigger')
+  const context = () => (props.handle ? getOverlayHandleContext(props.handle) : inherited)
   const id = createUniqueId()
-  let element: HTMLElement | undefined
-  onSettled(() => {
-    if (element) context.setTrigger(element)
-  })
-  const own = props as { id?: string; ref?: (el: HTMLElement) => void }
-  const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children')
-  onCleanup(context.setTriggerId(() => own.id ?? id))
-  /** Composes core opening handlers, then canonicalizes click casing for Button's interaction gate. */
+  const own = props as {
+    id?: string
+    ref?: (el: HTMLElement) => void
+    disabled?: boolean
+    pending?: boolean
+    children?: JSX.Element
+  }
+  const entry: MenuTriggerEntry = {
+    id: () => own.id ?? id,
+    payload: () => props.payload,
+    disabled: () => !!own.disabled || !!own.pending,
+  }
+  if (inherited) {
+    onCleanup(inherited.registerTrigger(entry))
+    onSettled(() => {
+      if (entry.element && !untrack(inherited.trigger)) inherited.setTrigger(entry.element)
+    })
+  } else {
+    createEffect(context, (value) => value?.registerTrigger(entry))
+  }
+  const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children', 'handle', 'payload')
+  /** Only the active opener reports expansion; detached handles remain harmless before attachment. */
   const merged = () => {
-    const part = context.engine().parts.trigger
+    const value = context()
+    const active = value?.activeTrigger(entry) ?? false
+    const expanded = active && !!value?.open()
     const result = spread(
       {
-        ...part,
         attrs: {
-          ...part.attrs,
-          'aria-controls': context.association('aria-controls', () =>
-            context.open() ? context.contentId() : undefined
+          ...value?.engine().parts.trigger.attrs,
+          type: 'button',
+          'aria-haspopup': 'menu',
+          'aria-expanded': expanded ? 'true' : 'false',
+          'data-state': expanded ? 'open' : 'closed',
+          'aria-controls': value?.association('aria-controls', () =>
+            value.open() && value.activeTrigger(entry) ? value.contentId() : undefined
           ),
         },
-      },
+        on: {
+          click() {
+            value?.activate(entry, 'first', true)
+          },
+          keydown(event: KeyboardEvent) {
+            if (
+              entry.disabled() ||
+              event.isComposing ||
+              event.altKey ||
+              event.ctrlKey ||
+              event.metaKey
+            )
+              return
+            if (['ArrowUp', 'ArrowDown', 'Enter', ' '].includes(event.key)) {
+              event.preventDefault()
+              value?.activate(entry, event.key === 'ArrowUp' ? 'last' : 'first')
+            }
+          },
+        },
+      } as import('@tenon/core').PartProps<'button'>,
       { ...rest }
     )
     for (const key of Object.keys(result)) {
@@ -56,13 +114,13 @@ export function MenuTrigger<T extends ValidComponent = 'button'>(
     }
     return result
   }
-  const children = createMemo(() => (props as { children?: JSX.Element }).children)
+  const children = createMemo(() => own.children)
   return (
     <Button
       {...merged()}
-      id={own.id ?? id}
+      id={entry.id()}
       ref={(el) => {
-        element = el
+        entry.element = el
         own.ref?.(el)
       }}
     >

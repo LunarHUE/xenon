@@ -1,3 +1,4 @@
+import { isServer } from '@solidjs/web'
 import { createFloatingLayer } from '@tenon/dom/floating-layer'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
@@ -11,12 +12,16 @@ import {
   flush,
   omit,
   onCleanup,
+  onSettled,
+  untrack,
   useContext,
 } from 'solid-js'
 import { createPositioner } from '../positioning'
 import type { Positioner, PositionerOptions } from '../positioning'
 import { spread } from '../spread'
 import { useMenu } from './context'
+import { FloatingViewport } from '../internal/floating-viewport'
+import type { FloatingViewportProps } from '../internal/floating-viewport'
 
 /**
  * Native wrapper props and {@link PositionerOptions}, with fixed positioning strategy.
@@ -118,6 +123,26 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
         dir: context.dir(),
       }),
     })
+    let focusedRevision = 0
+    createEffect(
+      () => ({
+        positioned: positioning.state().positioned,
+        open: context.open(),
+        revision: context.focusRevision(),
+      }),
+      (state) => {
+        if (!state.positioned || !state.open || state.revision === focusedRevision) return
+        onSettled(() =>
+          untrack(() => {
+            if (!positioning.state().positioned || !context.open()) return
+            const target = context.initial()
+            target?.focus({ preventScroll: true })
+            if (target && target.ownerDocument.activeElement === target)
+              focusedRevision = state.revision
+          })
+        )
+      }
+    )
     let controller: ReturnType<typeof createFloatingLayer> | undefined
     let attached: HTMLElement | undefined
     createEffect(
@@ -125,7 +150,9 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
         element: element(),
         options: {
           content: context.content(),
+          parent: context.parent?.layer(),
           trigger: context.trigger(),
+          branches: context.triggerElements(),
           open: context.open(),
           active: context.open() || context.life.status() === 'exiting',
           positioned: positioning.state().positioned,
@@ -146,10 +173,14 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
           attached = value.element
           controller = createFloatingLayer(value.element, options)
         } else controller?.update(options)
+        context.setLayer(controller?.layer)
         setShown(controller?.isShown() ?? false)
       }
     )
-    onCleanup(() => controller?.dispose())
+    onCleanup(() => {
+      controller?.dispose()
+      if (!isServer) context.setLayer(undefined)
+    })
     /** Reset native popover defaults, retain author styling, then enforce positioning visibility. */
     const wrapperStyle = () => {
       const baseline = {
@@ -290,4 +321,16 @@ export function MenuContent<T extends ValidComponent = 'div'>(
       {children()}
     </Dynamic>
   )
+}
+
+/** Transition surface props; the enclosing menu provides lifecycle and trigger snapshots. */
+export type MenuViewportProps = Omit<FloatingViewportProps, 'source'>
+/**
+ * Place inside Content to retain an inert DOM snapshot during trigger or payload
+ * changes. Clones never register menu items or create Solid owners. See
+ * {@link FloatingViewport} for CSS dimension variables and the sizing recipe.
+ */
+export function MenuViewport(props: MenuViewportProps): JSX.Element {
+  const source = useMenu('Menu.Viewport')
+  return <FloatingViewport {...props} source={source} />
 }

@@ -13,12 +13,38 @@ import {
 } from 'solid-js'
 import { createPresence } from '../internal/presence'
 import { MenuContext } from './context'
-import type { MenuContextValue, MenuEntry } from './context'
+import type { MenuContextValue, MenuEntry, MenuTriggerEntry } from './context'
+import { attachOverlayHandle, createOverlayHandle } from '../internal/overlay-handle'
+import type { OverlayHandle } from '../internal/overlay-handle'
+import type { LayerHandle } from '@tenon/dom'
+
+/** Connects detached menu triggers and imperative requests to one mounted root. */
+export type MenuHandle<Payload = unknown> = OverlayHandle<Payload, MenuContextValue>
+/**
+ * Create a typed handle for one mounted menu Root. Detached commands are ignored
+ * without queuing. Opening requires an enabled registered trigger host;
+ * openWithPayload uses the active or first registered trigger and preserves the
+ * supplied data. Visibility requests still follow the Root's controlled policy.
+ */
+export function createMenuHandle<Payload = unknown>(): MenuHandle<Payload> {
+  return createOverlayHandle<Payload, MenuContextValue>()
+}
+/** Live root render state. Read properties in JSX to retain Solid reactivity. */
+export interface MenuRenderState<Payload = unknown> {
+  /** Effective popup visibility. */
+  readonly open: boolean
+  /** Active opener ID. */
+  readonly triggerId: string
+  /** Active trigger's data or an imperative payload. */
+  readonly payload: Payload | undefined
+}
 
 /** Shared logical root/submenu props; neither component renders a wrapper host. */
-export interface MenuProps {
-  /** Menu parts rendered beneath this provider. */
-  children?: JSX.Element
+export interface MenuProps<Payload = unknown> {
+  /** Static menu parts or a callback receiving live open, triggerId, and payload getters. Read callback state within JSX. */
+  children?: JSX.Element | ((state: MenuRenderState<Payload>) => JSX.Element)
+  /** Shares this root with detached triggers. One root may attach at a time. */
+  handle?: MenuHandle<Payload>
   /** Controlled local visibility when defined; undefined uses internal state. Submenus also require their parent to be open. */
   open?: boolean
   /** Initial uncontrolled local visibility, defaulting to false; subsequent changes are ignored. */
@@ -37,7 +63,7 @@ export interface MenuProps {
  * Controlled mode is determined from open on each read. Presence and timers belong
  * to this owner; rendering, hosting, and item behavior are supplied by child parts.
  */
-export function MenuRoot(props: MenuProps): JSX.Element {
+export function MenuRoot<Payload = unknown>(props: MenuProps<Payload>): JSX.Element {
   return createMenu(props)
 }
 /**
@@ -46,7 +72,7 @@ export function MenuRoot(props: MenuProps): JSX.Element {
  * without a callback; a controlled true prop can reopen when its parent reopens.
  * @throws If rendered outside a Menu provider.
  */
-export function MenuSub(props: MenuProps): JSX.Element {
+export function MenuSub<Payload = unknown>(props: MenuProps<Payload>): JSX.Element {
   const parent = useContext(MenuContext)
   if (!parent) throw new Error('Menu.Sub must be rendered inside <Menu>')
   return createMenu(props, parent)
@@ -64,22 +90,37 @@ export function MenuSub(props: MenuProps): JSX.Element {
  * changes publish a revision. This provider itself neither restores focus nor
  * installs dismissal listeners; content consumes the shared policies.
  */
-function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
+function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValue): JSX.Element {
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => props.defaultOpen ?? false))
-  const [trigger, setTrigger] = createSignal<HTMLElement>()
-  const [content, setContent] = createSignal<HTMLElement>()
+  const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [payload, setPayload] = createSignal<unknown>()
+  const [selectedTrigger, setSelectedTrigger] = createSignal<MenuTriggerEntry | undefined>(
+    undefined,
+    {
+      ownedWrite: true,
+    }
+  )
+  const [layer, setLayer] = createSignal<LayerHandle | undefined>(undefined, { ownedWrite: true })
+  let triggers: MenuTriggerEntry[] = []
+  const listeners = new Set<() => void>()
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const [entries, setEntries] = createSignal<MenuEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<MenuEntry>()
   const [search, setSearch] = createSignal('')
   const [restore, setRestore] = createSignal(true)
+  const [focusRevision, setFocusRevision] = createSignal(0)
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
   let triggerRead = () => `${base}-trigger`
   let contentRead = () => `${base}-content`
   const triggerId = () => {
     revision()
-    return triggerRead()
+    return selectedTrigger()?.id() ?? triggers[0]?.id() ?? triggerRead()
   }
   const contentId = () => {
     revision()
@@ -144,6 +185,47 @@ function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
   const memo = createMemo(compute)
   const engine = isServer ? compute : memo
   const context: MenuContextValue = {
+    payload,
+    focusRevision,
+    triggerElements() {
+      revision()
+      return triggers.flatMap((entry) => (entry.element ? [entry.element] : []))
+    },
+    layer,
+    setLayer,
+    beforeChange(listener) {
+      listeners.add(listener)
+      return () => listeners.delete(listener)
+    },
+    registerTrigger(entry) {
+      triggers.push(entry)
+      if (entry.element && !untrack(trigger)) setTrigger(entry.element)
+      if (!isServer) setRevision(++version)
+      return () => {
+        triggers = triggers.filter((other) => other !== entry)
+        if (untrack(selectedTrigger) === entry) {
+          setSelectedTrigger(undefined)
+          setTrigger(triggers[0]?.element)
+        }
+        if (!isServer) setRevision(++version)
+      }
+    },
+    activeTrigger: (entry) => (selectedTrigger() ?? triggers[0]) === entry,
+    activate(entry, requested, toggle = false) {
+      if (entry.disabled() || !entry.element) return
+      const same = context.activeTrigger(entry)
+      const wasOpen = untrack(open)
+      if (wasOpen && (!same || entry.payload() !== untrack(payload)))
+        for (const listener of listeners) listener()
+      setSelectedTrigger(entry)
+      setTrigger(entry.element)
+      setPayload(() => entry.payload())
+      if (toggle && same && wasOpen) change(false)
+      else {
+        change(true, requested)
+        if (wasOpen) setFocusRevision((value) => value + 1)
+      }
+    },
     parent,
     open,
     change,
@@ -217,7 +299,51 @@ function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
     clearTimeout(searchTimer)
     clearTimeout(hoverTimer)
   })
-  const inner = createMemo(() => <MenuContext value={context}>{props.children}</MenuContext>)
+  const handle = untrack(() => props.handle)
+  if (handle)
+    onCleanup(
+      attachOverlayHandle(handle, {
+        context,
+        readOpen: open,
+        dispatch(command) {
+          if (command.type === 'close') {
+            context.closeAll()
+            return
+          }
+          if (command.type === 'open') {
+            const entry =
+              command.triggerId === undefined
+                ? (untrack(selectedTrigger) ?? triggers[0])
+                : triggers.find((candidate) => candidate.id() === command.triggerId)
+            if (entry) context.activate(entry)
+            return
+          }
+          const entry = untrack(selectedTrigger) ?? triggers[0]
+          if (!entry?.element || entry.disabled()) return
+          if (untrack(open)) for (const listener of listeners) listener()
+          setSelectedTrigger(entry)
+          setTrigger(entry.element)
+          setPayload(() => command.payload)
+          change(true)
+        },
+      })
+    )
+  const state: MenuRenderState<Payload> = {
+    get open() {
+      return open()
+    },
+    get triggerId() {
+      return triggerId()
+    },
+    get payload() {
+      return payload() as Payload | undefined
+    },
+  }
+  const renderChildren = () => {
+    const children = props.children
+    return typeof children === 'function' ? children(state) : children
+  }
+  const inner = createMemo(() => <MenuContext value={context}>{renderChildren()}</MenuContext>)
   const element = <>{inner()}</>
   return associations ? associations.finish(element) : element
 }

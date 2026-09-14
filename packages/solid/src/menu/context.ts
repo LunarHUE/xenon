@@ -1,6 +1,19 @@
 import type { menu } from '@tenon/core/menu'
 import { createContext, useContext } from 'solid-js'
 import type { Presence } from '../internal/presence'
+import type { LayerHandle } from '@tenon/dom'
+
+/** One locally rendered or detached trigger with live author metadata. */
+export interface MenuTriggerEntry {
+  /** Current button host, absent before ref attachment. */
+  element?: HTMLElement
+  /** Stable author or generated trigger ID. */
+  id(): string
+  /** Value provided to the root render callback when activated. */
+  payload(): unknown
+  /** Whether imperative and pointer activation are blocked. */
+  disabled(): boolean
+}
 
 /** Stable registered menu-item identity and live typeahead/activation state. */
 export interface MenuEntry {
@@ -15,6 +28,24 @@ export interface MenuEntry {
 }
 /** Root/submenu state, focus helpers, registration, and delayed-close policies. */
 export interface MenuContextValue {
+  /** Current trigger-specific data. */
+  payload(): unknown
+  /** Increments when an open menu requests focus after switching its trigger or data. */
+  focusRevision(): number
+  /** Every mounted trigger is an inside branch, including inactive openers. */
+  triggerElements(): HTMLElement[]
+  /** Register a possible opener without changing the active trigger. */
+  registerTrigger(entry: MenuTriggerEntry): () => void
+  /** Select an opener, its data, and optional initial edge. Same-trigger click can toggle. */
+  activate(entry: MenuTriggerEntry, edge?: 'first' | 'last', toggle?: boolean): void
+  /** Whether this trigger owns the currently open popup. */
+  activeTrigger(entry: MenuTriggerEntry): boolean
+  /** Subscribe to snapshots before trigger/data replacement in an open menu. */
+  beforeChange(listener: () => void): () => void
+  /** Native layer identity, used when a submenu is portaled outside physical ancestry. */
+  layer(): LayerHandle | undefined
+  /** Publish the current hosting layer or clear it on cleanup. */
+  setLayer(layer: LayerHandle | undefined): void
   /** Logical parent supplied by Menu.Sub; absent for an independent Menu root. */
   parent?: MenuContextValue
   /** Effective visibility, gated by every parent before controlled/uncontrolled local state. */

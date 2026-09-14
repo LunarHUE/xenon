@@ -21,6 +21,10 @@ export * from './popover'
 export { Menu } from './menu'
 export type {
   MenuProps,
+  MenuHandle,
+  MenuRenderState,
+  MenuViewportProps,
+  MenuPortalProps,
   MenuTriggerProps,
   MenuContentProps,
   MenuPositionerProps,

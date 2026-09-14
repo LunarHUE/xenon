@@ -1,6 +1,7 @@
-import { MenuRoot, MenuSub } from './root'
+import { OverlayPortal } from '../internal/overlay-portal'
+import { MenuRoot, MenuSub, createMenuHandle } from './root'
 import { MenuTrigger } from './trigger'
-import { MenuContent, MenuPositioner } from './content'
+import { MenuContent, MenuPositioner, MenuViewport } from './content'
 import {
   MenuItem,
   MenuCheckboxItem,
@@ -22,6 +23,12 @@ import {
 export const Menu = Object.assign(MenuRoot, {
   /** Alias of the wrapper-free menu state provider. */
   Root: MenuRoot,
+  /** Links detached triggers to one mounted root. */
+  createHandle: createMenuHandle,
+  /** Mounts contents outside layout ancestry while preserving native modal containment. */
+  Portal: OverlayPortal,
+  /** Retains visual content snapshots during a trigger switch. */
+  Viewport: MenuViewport,
   /** Button that opens the menu and selects the initial focus edge. */
   Trigger: MenuTrigger,
   /** Native manual-popover wrapper owning geometry and dismissal. */
@@ -49,9 +56,9 @@ export const Menu = Object.assign(MenuRoot, {
   /** Parent-menu item that opens its enclosing Sub on activation or delayed hover. */
   SubTrigger: MenuSubTrigger,
 })
-export type { MenuProps } from './root'
+export type { MenuProps, MenuHandle, MenuRenderState } from './root'
 export type { MenuTriggerProps } from './trigger'
-export type { MenuContentProps, MenuPositionerProps } from './content'
+export type { MenuContentProps, MenuPositionerProps, MenuViewportProps } from './content'
 export type {
   MenuChecked,
   MenuItemProps,
@@ -60,3 +67,4 @@ export type {
   MenuRadioGroupProps,
   MenuGroupProps,
 } from './items'
+export type { OverlayPortalProps as MenuPortalProps } from '../internal/overlay-portal'
