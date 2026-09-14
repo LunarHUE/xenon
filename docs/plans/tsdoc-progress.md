@@ -144,3 +144,13 @@ Independent review and package lint passed. Independent menu review passed. All 
 | `85b9283` | document menu hosting and keyboard boundaries | `packages/solid/src/menu/content.tsx` |
 | `a3f4781` | document menu state and registration contracts | `packages/solid/src/menu/context.ts`, `packages/solid/src/menu/root.tsx` |
 | `0753d52` | document menu triggers and selection parts | `packages/solid/src/menu/trigger.tsx`, `packages/solid/src/menu/items.tsx` |
+
+## Suite T1 complete
+
+Independent review and package lint passed. Reusable mounting, spec-registration, accessibility and Field assertion contracts independently reviewed. Public-member audit covers 18 exports and 62 reachable members with no missing docs; all documentation links resolve. Cleanup and settling limitations are explicit.
+
+| Commit | Batch | Files |
+| --- | --- | --- |
+| `5819ce2` | document reusable field assertions and cleanup | `packages/suite/src/field/contract.tsx` |
+| `d1bd9c9` | document spec registration and accessibility scans | `packages/suite/src/spec.ts`, `packages/suite/src/a11y.ts` |
+| `7cf20d4` | document harness inputs and fixture lifetimes | `packages/suite/src/harness.ts`, `packages/suite/src/harness/solid.tsx` |
