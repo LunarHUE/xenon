@@ -4,6 +4,7 @@ import { Dynamic } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
+import { gate } from './gate'
 import { spread } from '../spread'
 
 export interface CheckedOwn {
@@ -24,16 +25,6 @@ export interface CheckedOwn {
 type Own = CheckedOwn & { as?: ValidComponent; indeterminate?: boolean }
 
 type Handler = (event: Event) => void
-
-const gated = [
-  'onClick',
-  'onAuxClick',
-  'onDblClick',
-  'onKeyDown',
-  'onKeyUp',
-  'onPointerDown',
-  'onMouseDown',
-] as const
 
 const hiddenStyle: JSX.CSSProperties = {
   position: 'absolute',
@@ -90,7 +81,9 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   const [internal, setInternal] = createSignal(untrack(() => own.defaultChecked ?? false))
   const controlled = () => own.checked !== undefined
   const current = () => own.checked ?? internal()
-  const indeterminate = () => (kind === 'checkbox' ? (own.indeterminate ?? false) : undefined)
+  const indeterminate = createMemo(() =>
+    kind === 'checkbox' ? (own.indeterminate ?? false) : undefined
+  )
 
   const change = (next: boolean) => {
     if (!untrack(controlled)) setInternal(next)
@@ -128,7 +121,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
 
   const sibling = () => (mirror?.isConnected ? mirror : undefined)
 
-  const writeIndeterminate = (value = indeterminate()) => {
+  const writeIndeterminate = (value = untrack(indeterminate)) => {
     if (value === undefined) return
     if (el instanceof HTMLInputElement) el.indeterminate = value
   }
@@ -146,14 +139,8 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }
     const { state } = result()
-    for (const name of gated) {
-      const user = out[name]
-      if (typeof user !== 'function') continue
-      // eslint-disable-next-line solid/reactivity -- event handler, re-applied by spread on change
-      out[name] = (event: Event) => {
-        if (result().state.interactive) (user as Handler)(event)
-      }
-    }
+    // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
+    gate(out, () => result().state.interactive)
     if (state.host === 'input') {
       const key = changeKey(out)
       const user = out[key]

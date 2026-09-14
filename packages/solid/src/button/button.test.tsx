@@ -52,6 +52,41 @@ describe('<Button />', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
+  test('a disabled button gates Enter and Space but lets other keys through', () => {
+    const onKeyDown = vi.fn()
+    const onKeyUp = vi.fn()
+    const onClick = vi.fn()
+    const { getByRole } = render(() => (
+      <Button
+        disabled
+        focusableWhenDisabled
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        onClick={onClick}
+      >
+        Go
+      </Button>
+    ))
+    const el = getByRole('button')
+
+    for (const key of ['Enter', ' ']) {
+      fireEvent.keyDown(el, { key })
+      fireEvent.keyUp(el, { key })
+    }
+    expect(onKeyDown).not.toHaveBeenCalled()
+    expect(onKeyUp).not.toHaveBeenCalled()
+
+    for (const key of ['ArrowRight', 'ArrowLeft', 'Home', 'End', 'Tab']) {
+      fireEvent.keyDown(el, { key })
+      fireEvent.keyUp(el, { key })
+    }
+    expect(onKeyDown).toHaveBeenCalledTimes(5)
+    expect(onKeyUp).toHaveBeenCalledTimes(5)
+
+    fireEvent.click(el)
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
   test('user attributes win over core attributes', () => {
     const { getByRole } = render(() => <Button type="submit">Go</Button>)
     expect(getByRole('button')).toHaveAttribute('type', 'submit')

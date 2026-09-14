@@ -4,6 +4,7 @@ import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
 
+import { gate } from '../internal/gate'
 import { spread } from '../spread'
 
 interface Own {
@@ -20,16 +21,6 @@ export type ButtonProps<T extends ValidComponent = 'button'> = Omit<
   keyof Own | 'as'
 > &
   Own & { as?: T }
-
-const gated = [
-  'onClick',
-  'onAuxClick',
-  'onDblClick',
-  'onKeyDown',
-  'onKeyUp',
-  'onPointerDown',
-  'onMouseDown',
-] as const
 
 function hostOf(as: ValidComponent | undefined, href: unknown): ButtonHost {
   if (as === undefined || as === 'button') return 'button'
@@ -71,14 +62,8 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }
     const { state } = result()
-    for (const name of gated) {
-      const user = out[name]
-      if (typeof user !== 'function') continue
-      // eslint-disable-next-line solid/reactivity -- event handler, re-applied by spread on change
-      out[name] = (event: Event) => {
-        if (result().state.interactive) (user as (e: Event) => void)(event)
-      }
-    }
+    // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
+    gate(out, () => result().state.interactive)
     if (state.host === 'link' && !state.interactive) out.href = undefined
     return out
   }
