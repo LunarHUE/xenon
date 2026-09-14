@@ -104,6 +104,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@tenon/core": "workspace:*",
+        "@tenon/dom": "workspace:*",
         "@tenon/solid": "workspace:*",
         "@solidjs/web": "catalog:",
         "solid-js": "catalog:",
