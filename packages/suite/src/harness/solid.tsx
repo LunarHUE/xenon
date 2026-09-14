@@ -1,13 +1,18 @@
-import { Button, Checkbox, Switch } from '@kit/solid'
+import { Button, Checkbox, Switch, Toolbar } from '@kit/solid'
 import { Dynamic, render } from '@solidjs/web'
-import type { ValidComponent } from '@solidjs/web'
-import { createSignal, flush } from 'solid-js'
+import type { JSX, ValidComponent } from '@solidjs/web'
+import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'
 
 import type { ComponentName, Components, Harness, Mounted } from '../harness'
 
-const components = { button: Button, checkbox: Checkbox, switch: Switch }
+const components = { button: Button, checkbox: Checkbox, switch: Switch, toolbar: Toolbar }
 
 const mounted = new Set<() => void>()
+
+function renderChildren(value: unknown): JSX.Element {
+  if (typeof value !== 'function') return value as JSX.Element
+  return untrack(() => (value as () => JSX.Element)())
+}
 
 function raf(): Promise<void> {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()))
@@ -19,7 +24,16 @@ export const harness: Harness = {
     document.body.appendChild(container)
     const [props, setProps] = createSignal<Record<string, unknown>>({ ...(initial as object) })
     const component = components[name] as ValidComponent
-    const dispose = render(() => <Dynamic component={component} {...props()} />, container)
+    const attrs = createMemo(() => omit(props(), 'children'))
+    const children = createMemo(() => props()['children'])
+    const dispose = render(
+      () => (
+        <Dynamic component={component} {...attrs()}>
+          {renderChildren(children())}
+        </Dynamic>
+      ),
+      container
+    )
     flush()
     const unmount = () => {
       if (!mounted.has(unmount)) return

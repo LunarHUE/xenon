@@ -1,5 +1,5 @@
 import type { ButtonProps as SolidButtonProps } from '@kit/solid'
-import type { ValidComponent } from '@solidjs/web'
+import type { JSX, ValidComponent } from '@solidjs/web'
 
 type Loose<P> = Omit<P, 'as'> & { as?: ValidComponent } & Record<string, unknown>
 
@@ -25,10 +25,21 @@ export type CheckboxProps = CheckedProps & { indeterminate?: boolean } & Record<
 
 export type SwitchProps = CheckedProps & Record<string, unknown>
 
+export interface ToolbarProps extends Record<string, unknown> {
+  as?: ValidComponent
+  orientation?: 'horizontal' | 'vertical'
+  dir?: 'ltr' | 'rtl'
+  loop?: boolean
+  disabled?: boolean
+  children?: () => JSX.Element
+  ref?: (el: HTMLElement) => void
+}
+
 export interface Components {
   button: ButtonProps
   checkbox: CheckboxProps
   switch: SwitchProps
+  toolbar: ToolbarProps
 }
 
 export type ComponentName = keyof Components
