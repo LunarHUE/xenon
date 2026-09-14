@@ -35,7 +35,7 @@ an implicit animation relationship between independent roots.
 
 Keep focus return, outside dismissal, scroll locking, author cancellation, SSR,
 and tree-shaking checks in scope. Commit working slices with their documentation.
-Existing Content naming remains the working convention pending the user's choice.
+The user confirmed Content naming; no Popup rename is planned.
 
 ## References
 
@@ -47,4 +47,80 @@ Existing Content naming remains the working convention pending the user's choice
   content transitions, distinct from submenu ownership.
 
 Base UI's Select does not currently expose a Viewport part. A Tenon selection
-viewport would be our own consistent list-scrolling API, not a copied Base UI part.
+viewport is our own consistent list-scrolling API.
+
+## Delivered API
+
+`Content` remains the visible panel name throughout. Dialog, AlertDialog, and
+Drawer share this anatomy:
+
+```tsx
+<Dialog.Portal>
+  <Dialog.Viewport>
+    <Dialog.Content>...</Dialog.Content>
+  </Dialog.Viewport>
+</Dialog.Portal>
+```
+
+The Viewport is the native dialog host and owns its accessible role/name. Content
+is the inner panel used for focus, outside-hit testing, and drawer drag geometry.
+Existing standalone Content remains supported as a native dialog. Content refs
+use `HTMLElement` to cover both forms.
+
+Popover and Menu use the anchored anatomy:
+
+```tsx
+<Popover.Portal>
+  <Popover.Positioner>
+    <Popover.Content>
+      <Popover.Viewport>...</Popover.Viewport>
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover.Portal>
+```
+
+Dialog, AlertDialog, Drawer, Popover, and Menu expose `createHandle<Payload>()`.
+Detached triggers receive `handle` and `payload`; the root receives the same
+handle. A root child callback exposes reactive `open`, `triggerId`, and `payload`
+getters. Handle commands are `open(triggerId?)`, `openWithPayload(payload)`, and
+`close()`, with reactive `isOpen`. Each handle can attach to one root at a time.
+Anchored overlays need a mounted trigger before imperative opening can position
+content. Mounting and commands issued without an attached root do not replay an
+open request later.
+
+A floating Viewport retains an inert DOM snapshot of outgoing content, rather
+than a second live component tree. It removes duplicate IDs and form participation
+from that snapshot. Current and previous wrappers expose `data-current` and
+`data-previous`; `data-transitioning` and `data-activation-direction` describe a
+switch. Size hooks include `--viewport-width`, `--viewport-height`, `--popup-width`,
+and `--popup-height`. Measurements use untransformed layout dimensions. Consumer
+CSS opts into width/height and position transitions; the example app demonstrates
+these with Reading note and Workshop note sharing one popover. Keep the current
+wrapper intrinsically sized while animating its enclosing viewport. Finite Web
+Animations determine snapshot lifetime, with immediate cleanup when unavailable.
+
+Every registered trigger belongs to the shared popup's layer, so switching to an
+inactive trigger does not schedule outside dismissal. Menu waits for positioning
+visibility before moving focus into replacement content. Portaled submenus retain
+an explicit logical parent layer.
+
+Select and Combobox also expose Portal and Viewport. Their Viewport is an optional
+list wrapper for scrolling, without trigger-switch snapshots or detached handles.
+Their form-owning root remains outside Portal.
+
+Portal defaults to the document body, except within a native modal where it
+inherits the inner Content mount. This keeps nested nonmodal overlays inside the
+native modal's interactive subtree. An explicit `container` overrides that mount.
+Solid Portal emits no server HTML; its children mount on the client. Existing
+nonportaled SSR content remains supported, including default-open Menu trigger
+associations.
+
+## Verification
+
+- Root unit and jsdom tests, typecheck, lint, and formatting pass.
+- Public subpath builds pass; importing Button excludes unrelated components.
+- Chromium and WebKit browser conformance: 1,818 tests across 196 files.
+- Chromium and WebKit end-to-end: 80 tests pass, including SSR/hydration and
+  shared-popup transitions.
+- Public TSDoc member audit: core 635, DOM 144, Solid 900, with no missing comments.
+  Local TSDoc links resolve across all three packages.

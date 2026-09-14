@@ -256,3 +256,13 @@ it is not a plain export barrel. The final core and Solid audits report no
 missing owned public members and no unresolved local TSDoc links. Detailed API
 scope and test evidence are recorded in `selection-and-forms.md` and
 `listbox-coverage.md` beside this ledger.
+
+## Overlay standardization follow-up
+
+Portal, Viewport, typed handles, shared-trigger Menu/Popover, and native dialog
+hosting were documented with their implementation slices. A final comments audit
+clarified client-only Portal rendering, inherited modal mounts, root-owned handle
+commands, Content refs, and untransformed viewport sizing. The member inventory
+reports core 635, DOM 144, Solid 900 with zero missing comments. All local links
+resolve: core 32, DOM 6, Solid 60. API and validation notes are recorded in
+`overlay-standardization.md`.
