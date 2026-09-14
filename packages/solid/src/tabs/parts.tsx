@@ -68,7 +68,8 @@ const WATCHED = ['contenteditable', 'disabled', 'href', 'tabindex', 'type']
 
 /**
  * Renders tablist role/orientation and resets the navigation target when focus leaves.
- * Author handlers run first and can prevent the core focus-leave handler through spread.
+ * Author handlers run first; spread skips core only when defaultPrevented is true.
+ * Native focusout is not cancelable, so preventDefault normally cannot suppress this handler.
  * @throws If rendered outside Tabs.
  */
 export function TabsList<T extends ValidComponent = 'div'>(props: TabsListProps<T>): JSX.Element {
