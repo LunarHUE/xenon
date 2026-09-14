@@ -165,6 +165,7 @@ export function createFloatingLayer(
       node.isConnected &&
       isFocusable(node, { getShadowRoot: true })
     let target: Element | null | undefined = options.finalFocus ?? options.trigger ?? ending.opener
+    if (!usable(target)) target = usable(options.trigger) ? options.trigger : ending.opener
     let ancestor = ending.parent
     while (ancestor) {
       if (!usable(target) || (ancestor.disposed && contains(ancestor.wrapper, target)))

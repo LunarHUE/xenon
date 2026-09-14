@@ -82,6 +82,14 @@ test('initialFocus false leaves the opener focused and explicit closing restores
   expect(m.trigger).toHaveFocus()
 })
 
+test('an unavailable finalFocus falls back to the live trigger', async () => {
+  const unavailable = document.createElement('button')
+  const m = setup({ finalFocus: unavailable })
+  await settle()
+  m.controller.update({ ...m.options, open: false, active: false })
+  expect(m.trigger).toHaveFocus()
+})
+
 test('repeated Escape closes the child before its parent and restores each opener', async () => {
   const parent = setup()
   await settle()
