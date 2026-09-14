@@ -10,28 +10,67 @@ import type {
 } from '@tenon/dom/positioning'
 import { createEffect, createSignal, onCleanup, untrack } from 'solid-js'
 
+/** Geometry and observer options; element refs and enabled state come from separate source accessors. */
 export type PositionerOptions = Omit<PositioningOptions, 'anchor' | 'arrow' | 'enabled'>
 
+/** Reactive inputs read inside the positioner's owned effect. */
 export interface PositionerSource {
+  /** Current DOM or virtual anchor. Null/undefined suspends the DOM controller's measurements. */
   anchor: () => PositioningAnchor | null | undefined
+  /** Floating host to position; replacing or removing it disposes its previous controller. */
   floating: () => HTMLElement | null | undefined
+  /** Optional square arrow layout box inside the floating host. */
   arrow?: () => HTMLElement | null | undefined
+  /** Whether positioning is enabled, defaulting to true. False retains the controller but resets its state and owned DOM values. */
   enabled?: () => boolean
+  /** Current replacement options, with omitted members using DOM defaults. Read once untracked for initial state, then reactively. */
   options?: () => PositionerOptions
 }
 
+/** Reactive placement and rendering helpers, disposed with the Solid owner. */
 export interface Positioner {
+  /** Latest published snapshot; read in a reactive scope and treat the returned object as immutable. */
   state: () => Readonly<PositioningState>
+  /** Request a measurement; resolves immediately without a controller. Current explicit measurement failures reject the promise. */
   reposition: () => Promise<void>
-  /** Initial visibility only; the DOM controller owns coordinates and CSS variables. */
+  /** Visibility and hit-testing props; the DOM controller owns coordinates and CSS variables. Hidden before positioning and while a detached reference is configured to hide. */
   positionerProps: () => {
+    /** Structural hook for the measured floating host. */
     'data-part': 'positioner'
-    style: { visibility: 'hidden' | 'visible'; 'pointer-events': 'none' | 'auto' }
+    /** Only visibility and pointer events; merge without replacing controller-owned coordinates. */
+    style: {
+      /** Hidden until measurement, or while hideWhenDetached suppresses the reference. */
+      visibility: 'hidden' | 'visible'
+      /** Prevent hit testing whenever this helper hides the positioner. */
+      'pointer-events': 'none' | 'auto'
+    }
   }
-  arrowProps: () => { 'data-part': 'arrow'; 'aria-hidden': 'true'; role: 'presentation' }
+  /** Presentational arrow props; does not render artwork or attach the arrow ref. */
+  arrowProps: () => {
+    /** Structural hook for the arrow layout box. */
+    'data-part': 'arrow'
+    /** Excludes decorative arrow content from the accessibility tree. */
+    'aria-hidden': 'true'
+    /** Marks the arrow box as presentational. */
+    role: 'presentation'
+  }
 }
 
-/** Bind positioning to reactive element accessors. Call inside a Solid owner. */
+/**
+ * Bind the DOM positioner to reactive accessors inside a Solid owner.
+ *
+ * @remarks
+ * No DOM controller is created until a floating host exists. Replacing that host
+ * disposes the old controller; changing other inputs updates it in place. Removing
+ * the host resets the signal to an unpositioned snapshot without invoking the
+ * author's onPositioned callback. Accepted controller publications update the
+ * signal before invoking the callback. Replaced/disposed controller callbacks
+ * cannot publish into this owner.
+ *
+ * Owner cleanup disposes DOM subscriptions and restores controller-owned values.
+ * The caller renders the floating/arrow elements, supplies their refs, and merges
+ * the returned props. This helper supplies no portal, presence, or dismissal layer.
+ */
 export function createPositioner(source: PositionerSource): Positioner {
   const [state, setState] = createSignal<Readonly<PositioningState>>(
     untrack(() => initialPositioningState(source.options?.())),
