@@ -291,6 +291,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       {children()}
     </Dynamic>
   )
+  // eslint-disable-next-line solid/components-return-once -- Server associations finalize one synchronous render.
   return associations ? associations.finish(element) : element
 }
 /** Native list with optional arrow and Home/End shortcuts. Every native tab stop remains tabbable. */
