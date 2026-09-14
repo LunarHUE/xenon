@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
+import { log } from 'node:console'
 import { readFile } from 'node:fs/promises'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 import solid from '@solidjs/vite-plugin'
 import { build } from 'vite'
 
@@ -55,4 +56,4 @@ for (const source of ['@tenon/solid/button', '@tenon/solid']) {
   )
   assert.deepEqual(unrelated, [], `${source} retains unrelated component modules`)
 }
-console.log('All public subpaths build; Button imports exclude unrelated components.')
+log('All public subpaths build; Button imports exclude unrelated components.')
