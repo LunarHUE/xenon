@@ -55,7 +55,9 @@ export interface DialogControllerOptions {
   onEscapeKeyDown?: (event: KeyboardEvent) => void
   /**
    * Deferred outside-pointer callback; wrapper preventDefault vetoes dismissal.
-   * Only runs while open and outside dismissal is enabled. See {@link LayerPointerOutsideEvent}.
+   * Eligibility and callbacks are captured at pointerup. Pending callbacks can still
+   * run after a policy update; the final close request checks the latest open state.
+   * See {@link LayerPointerOutsideEvent}.
    */
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
 }
