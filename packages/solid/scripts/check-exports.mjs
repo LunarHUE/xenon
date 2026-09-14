@@ -1,3 +1,8 @@
+/**
+ * Build every public Solid subpath and verify Button-only imports discard selected
+ * unrelated component families. Run with test:exports from this package. Builds
+ * are in memory; failures reject or assert and make the script exit unsuccessfully.
+ */
 import assert from 'node:assert/strict'
 import { log } from 'node:console'
 import { readFile } from 'node:fs/promises'
@@ -9,6 +14,12 @@ const root = fileURLToPath(new URL('..', import.meta.url))
 const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 const id = '\0tenon-export-check'
 
+/**
+ * Compile a virtual consumer as a minified ES library using this package's resolver
+ * and Solid transform, with refresh disabled. Returns emitted JavaScript chunks,
+ * including export and retained-module metadata; emits no files to disk.
+ * @param source - Consumer module source, typically a public-subpath re-export.
+ */
 async function bundle(source) {
   const result = await build({
     root,
