@@ -70,7 +70,7 @@ function registry(): [() => Entry[], (id: Entry['id'], element?: HTMLElement) =>
   return [isServer ? () => current : entries, add]
 }
 
-/** Resolves the latest registered ID without caching deferred getters. */
+/** Resolves a registered ID without caching deferred getters. */
 function entryId(entry: Entry): string {
   return typeof entry.id === 'function' ? entry.id() : entry.id
 }
