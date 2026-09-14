@@ -1,5 +1,5 @@
 import { render } from '@solidjs/testing-library'
-import { createSignal, flush } from 'solid-js'
+import { createRoot, createSignal, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Tabs } from './tabs'
@@ -211,8 +211,32 @@ describe('<Tabs />', () => {
   })
 
   test('parts outside a root throw', () => {
-    expect(() => render(() => <Tabs.List />)).toThrow(/Tabs/)
-    expect(() => render(() => <Tabs.Tab value="one" />)).toThrow(/Tabs/)
-    expect(() => render(() => <Tabs.Panel value="one" />)).toThrow(/Tabs/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Tabs.List({})
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Tabs/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Tabs.Tab({ value: 'one' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Tabs/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Tabs.Panel({ value: 'one' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Tabs/)
   })
 })

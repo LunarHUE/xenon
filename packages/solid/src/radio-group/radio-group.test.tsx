@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@solidjs/testing-library'
-import { flush } from 'solid-js'
+import { createRoot, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { RadioGroup } from './radio-group'
@@ -338,6 +338,14 @@ describe('<RadioGroup />', () => {
   })
 
   test('items outside a group throw', () => {
-    expect(() => render(() => <RadioGroup.Item value="red" />)).toThrow(/RadioGroup/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return RadioGroup.Item({ value: 'red' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/RadioGroup/)
   })
 })

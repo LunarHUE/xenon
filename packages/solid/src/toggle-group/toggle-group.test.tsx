@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@solidjs/testing-library'
-import { createSignal, flush } from 'solid-js'
+import { createRoot, createSignal, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { ToggleGroup } from './toggle-group'
@@ -213,8 +213,14 @@ describe('<ToggleGroup />', () => {
   })
 
   test('an item outside a group throws', () => {
-    expect(() => render(() => <ToggleGroup.Item value="bold">bold</ToggleGroup.Item>)).toThrow(
-      /ToggleGroup/
-    )
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return ToggleGroup.Item({ value: 'bold', children: 'bold' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/ToggleGroup/)
   })
 })

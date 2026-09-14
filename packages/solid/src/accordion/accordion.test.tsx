@@ -1,5 +1,5 @@
 import { render } from '@solidjs/testing-library'
-import { For, flush } from 'solid-js'
+import { createRoot, For, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Accordion } from './accordion'
@@ -159,11 +159,23 @@ describe('<Accordion />', () => {
   })
 
   test('parts name the ancestor they need', () => {
-    expect(() => render(() => <Accordion.Trigger>one</Accordion.Trigger>)).toThrow(
-      /Accordion.Trigger must be rendered inside an <Accordion.Item>/
-    )
-    expect(() => render(() => <Accordion.Item value="one">body</Accordion.Item>)).toThrow(
-      /Accordion.Item must be rendered inside an <Accordion>/
-    )
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Accordion.Trigger({ children: 'one' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Accordion.Trigger must be rendered inside an <Accordion.Item>/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Accordion.Item({ value: 'one', children: 'body' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Accordion.Item must be rendered inside an <Accordion>/)
   })
 })

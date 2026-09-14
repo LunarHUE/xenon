@@ -1,5 +1,5 @@
 import { render } from '@solidjs/testing-library'
-import { Show, createSignal, flush } from 'solid-js'
+import { createRoot, Show, createSignal, flush } from 'solid-js'
 import { describe, expect, test } from 'vitest'
 
 import { Toolbar } from './toolbar'
@@ -210,8 +210,24 @@ describe('<Toolbar />', () => {
   })
 
   test('items outside a toolbar throw', () => {
-    expect(() => render(() => <Toolbar.Button>bold</Toolbar.Button>)).toThrow(/Toolbar/)
-    expect(() => render(() => <Toolbar.Separator />)).toThrow(/Toolbar/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Toolbar.Button({ children: 'bold' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Toolbar/)
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Toolbar.Separator({})
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Toolbar/)
   })
 
   test('user handlers run before the item handlers', () => {

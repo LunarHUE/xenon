@@ -1,5 +1,5 @@
 import { render } from '@solidjs/testing-library'
-import { createSignal, flush } from 'solid-js'
+import { createRoot, createSignal, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Collapsible } from './collapsible'
@@ -114,8 +114,14 @@ describe('<Collapsible />', () => {
   })
 
   test('a part without its root names the missing context', () => {
-    expect(() => render(() => <Collapsible.Trigger>more</Collapsible.Trigger>)).toThrow(
-      /Collapsible.Trigger must be rendered inside a <Collapsible>/
-    )
+    expect(() =>
+      createRoot((dispose) => {
+        try {
+          return Collapsible.Trigger({ children: 'more' })
+        } finally {
+          dispose()
+        }
+      })
+    ).toThrow(/Collapsible.Trigger must be rendered inside a <Collapsible>/)
   })
 })
