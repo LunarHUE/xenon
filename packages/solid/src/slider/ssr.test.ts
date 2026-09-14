@@ -1,6 +1,6 @@
 import solid from '@solidjs/vite-plugin'
 import { createServer } from 'vite'
-import { expect, test } from 'vitest'
+import { expect, test, vi } from 'vitest'
 
 test('SSR emits native values, actual output target IDs, and forward Field descriptions', async () => {
   const server = await createServer({
@@ -13,6 +13,19 @@ test('SSR emits native values, actual output target IDs, and forward Field descr
   try {
     const fixture = (await server.ssrLoadModule('/src/slider/ssr-fixture.tsx')) as {
       renderSlider(): string
+      renderSliderLabel(): string
+    }
+    const warn = vi.spyOn(console, 'warn')
+    const error = vi.spyOn(console, 'error')
+    try {
+      const labeled = new DOMParser().parseFromString(fixture.renderSliderLabel(), 'text/html')
+      expect(labeled.querySelector('input')?.getAttribute('aria-labelledby')).toBe('slider-label')
+      expect([...warn.mock.calls, ...error.mock.calls].flat().join(' ')).not.toContain(
+        'SERVER_WRITE'
+      )
+    } finally {
+      warn.mockRestore()
+      error.mockRestore()
     }
     const doc = new DOMParser().parseFromString(fixture.renderSlider(), 'text/html')
     const inputs = Array.from(doc.querySelectorAll('input'))

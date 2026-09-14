@@ -17,3 +17,15 @@ export function renderSlider(): string {
     </Field>
   ))
 }
+
+/** Registers a shared Slider.Label during server rendering without a signal write. */
+export function renderSliderLabel(): string {
+  return renderToString(() => (
+    <Slider defaultValue={[25]}>
+      <Slider.Label id="slider-label">Volume</Slider.Label>
+      <Slider.Control>
+        <Slider.Thumb />
+      </Slider.Control>
+    </Slider>
+  ))
+}

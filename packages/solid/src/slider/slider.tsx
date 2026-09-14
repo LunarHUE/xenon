@@ -1,6 +1,7 @@
 import { slider } from '@tenon/core/slider'
 import type { SliderOptions, SliderResult } from '@tenon/core/slider'
 import type { GlobalAttrs } from '@tenon/core'
+import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {
   createContext,
@@ -111,7 +112,15 @@ function SliderRoot(props: SliderProps): JSX.Element {
   const [direction, setDirection] = createSignal<'ltr' | 'rtl'>('ltr')
   const [dragging, setDragging] = createSignal(false, { ownedWrite: true })
   const [focused, setFocus] = createSignal(false, { ownedWrite: true })
-  const [label, setLabel] = createSignal<string | undefined>(undefined, { ownedWrite: true })
+  const [labelSignal, setLabelSignal] = createSignal<string | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  let registeredLabel: string | undefined
+  const label = () => (isServer ? registeredLabel : labelSignal())
+  const setLabel = (value: string | undefined) => {
+    registeredLabel = value
+    if (!isServer) setLabelSignal(value)
+  }
   const result = createMemo(() =>
     slider({
       min: props.min,
