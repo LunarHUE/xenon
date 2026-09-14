@@ -1,6 +1,6 @@
 # TSDoc pass
 
-Status: proposed for review. Implementation documentation has not started.
+Status: approved and in progress. See tsdoc-progress.md for reviewed batches.
 
 The working tree was committed before this plan. The latest behavior change is
 `2bcb35a`, which makes Drawer thresholds explicit `%`, `px`, or `rem` strings.
