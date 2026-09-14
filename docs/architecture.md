@@ -53,6 +53,34 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
   element focusable with `aria-disabled` and stop user handlers from running.
 - Not adopted: a runtime `focusable` flag, `input[type=checkbox]` as a host.
 
+## Decisions taken for checkbox and switch
+
+- The component is the control. The default host is a native
+  `input[type=checkbox]`, because the browser then supplies form
+  participation, label association, `fieldset` disabling, reset, constraint
+  validation and `:indeterminate` for free. `as="button"` and any other
+  element get `role="checkbox"` (or `role="switch"`), `aria-checked` and a
+  hidden sibling input that exists only when `name` is set. There are no
+  indicator, control, label or thumb parts this round; visuals are CSS on the
+  element or a sibling, driven by `data-state`.
+- Space toggles on every host. Enter never toggles a checkbox or a switch.
+  On the native host Enter is the form's implicit submission, and adding a
+  toggle there would make one key do both. The APG lists Enter as optional
+  for switch; we take the option not to.
+- `indeterminate` is a controlled, sticky flag independent of `checked`. It
+  wins for `aria-checked="mixed"` and `data-state`. Activation proposes
+  `!checked` through `onCheckedChange` and does not clear it; the adapter
+  rewrites the `indeterminate` property after every activation because the
+  browser clears it on click.
+- `disabled` is the native attribute on `input` and `button` hosts and
+  `aria-disabled` without a tab stop on generic hosts. `readonly` keeps the
+  control focusable, sets `aria-readonly` and blocks activation.
+- Unchecked contributes nothing to a form, as native HTML does. Not adopted:
+  `uncheckedValue`, an always-rendered hidden input, `aria-disabled`-only
+  disabling.
+- Core is pure: uncontrolled state (`defaultChecked`) lives in the adapter,
+  and core always receives the current `checked`.
+
 ## Toolchain
 
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
