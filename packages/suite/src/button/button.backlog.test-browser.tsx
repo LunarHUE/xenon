@@ -305,7 +305,15 @@ describe('button browser backlog', () => {
     document.body.append(viewport)
     viewport.append(spacer, m.container)
     onTestFinished(() => viewport.remove())
+    // Finish preceding focus/layout work before testing this focus request.
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    )
     m.el.focus({ preventScroll: true })
+    expect(m.el).toHaveFocus()
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    )
     expect(viewport.scrollTop).toBe(0)
     m.el.blur()
     m.el.focus()
