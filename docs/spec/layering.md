@@ -1,4 +1,3 @@
-
 The overlay primitives every overlay component composes: outside interaction,
 Escape, focus containment and restoration, hiding the rest of the page,
 scroll locking, portals, and the order nested layers unwind in. Component

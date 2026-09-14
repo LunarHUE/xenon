@@ -2816,7 +2816,7 @@
 - Given the focused but closed trigger, when Enter is pressed, then the content becomes visible. (zag: e2e/select.e2e.ts: "focused / open > should open the select with enter key")
 - Given the focused but closed trigger, when Space is pressed, then the content becomes visible. (zag: e2e/select.e2e.ts: "focused / open > should open the select with space key")
 - Given the focused but closed trigger, when ArrowDown is pressed, then the content opens with the first item `Andorra` highlighted. (zag: e2e/select.e2e.ts: "focused / open > should open with down arrow keys + highlight first option")
-- Given the focused but closed trigger, when ArrowUp is pressed, then the content opens with the last item `Zimbabwe` highlighted. (zag: e2e/select.e2e.ts: "focused / open > should open with up arrow keys  + highlight last option")
+- Given the focused but closed trigger, when ArrowUp is pressed, then the content opens with the last item `Zimbabwe` highlighted. (zag: e2e/select.e2e.ts: "focused / open > should open with up arrow keys + highlight last option")
 - Given the focused closed trigger with no value, when ArrowLeft is pressed, then the last option `Zimbabwe` is selected without opening the dropdown. (zag: e2e/select.e2e.ts: "closed state + keyboard selection > should select last option on arrow left")
 - Given the focused closed trigger with no value, when ArrowRight is pressed, then the first option `Andorra` is selected without opening. (zag: e2e/select.e2e.ts: "closed state + keyboard selection > should select first option on arrow right")
 - Given the focused closed trigger, when ArrowRight is pressed three times, then the selection steps `Andorra`, `United Arab Emirates`, `Afghanistan` in collection order. (zag: e2e/select.e2e.ts: "closed state + keyboard selection > should select next options on arrow right")
@@ -4745,7 +4745,7 @@
 - Given the hotkey "ğ" and a Turkish Q event where ğ comes from the physical BracketLeft key with no modifier, when matchesHotkey runs, then it matches through the logical key, because ğ is a Unicode letter and so takes the strict non-symbol path. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches Turkish-specific ğ character via its physical key")
 - Given the hotkey "I" (code "KeyI") and a Turkish Q event where the physical KeyI produces the dotless "ı", when matchesHotkey runs, then it matches through the physical code. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "Turkish İ/I dotless handling: letters on different physical keys")
 - Given the hotkeys "@" and "\\" and Swedish/Nordic AltGr events (AltGr+2 producing "@" on code Digit2, AltGr++ producing "\\" on code Minus), when matchesHotkey runs, then each matches. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches @ produced via AltGr+2 on Swedish layout"; zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches \\ produced via AltGr++ on Nordic layout")
-- Given the hotkeys "|" and "~" on mac and macOS Spanish events produced with Option (Option+1 giving "|", Option+N giving "~") where only altKey is set and AltGraph is not reported, when matchesHotkey runs, then each matches; this is the platform split that makes the AltGraph guard require ctrlKey, since macOS Firefox reports AltGraph for a plain Option press. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches | produced via Option+1 on macOS Spanish layout"; zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches ~ produced via Option+N on macOS"; zag: packages/utilities/hotkeys/src/parser.ts)
+- Given the hotkeys "|" and "~~" on mac and macOS Spanish events produced with Option (Option+1 giving "|", Option+N giving "~~") where only altKey is set and AltGraph is not reported, when matchesHotkey runs, then each matches; this is the platform split that makes the AltGraph guard require ctrlKey, since macOS Firefox reports AltGraph for a plain Option press. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches | produced via Option+1 on macOS Spanish layout"; zag: packages/utilities/hotkeys/tests/matching.test.ts: "matches ~ produced via Option+N on macOS"; zag: packages/utilities/hotkeys/src/parser.ts)
 - Given the hotkey "Alt+/" on mac and an event for "/" with Alt not pressed, when matchesHotkey runs, then it does not match, so the lenient Option handling never waives an explicitly declared Alt. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "Alt+/ explicitly defined still requires Alt")
 - Given a dead key event (key "Dead", produced by accent and compose keys on international layouts), when isHotKey is asked about "[" or about "Shift+'", then it returns false, so a compose keystroke can never trigger a shortcut. (zag: packages/utilities/hotkeys/tests/matching.test.ts: "isHotKey returns false for dead key events"; zag: packages/utilities/hotkeys/tests/matching.test.ts: "isHotKey returns false for dead key with modifiers")
 - Given a store dispatching a keydown with key "Dead", when executeMatchingCommands runs, then it returns immediately, so the dead key is neither matched nor added to pressedKeys. (zag: packages/utilities/hotkeys/src/store.ts)
@@ -4776,7 +4776,7 @@
 - Given the empty string, when formatHotkey renders it, then the result is the empty string rather than an error. (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / empty string")
 - Given the single key "A", when formatHotkey renders it, then the output is "A". (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / single key A")
 - Given the single key "Enter", when formatHotkey renders it, then the output is the ↵ glyph under the default mixed style. (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / single key Enter")
-- Given the hotkey string "  Control+S  " with surrounding whitespace, when formatHotkey renders it, then the output is "Ctrl S", so leading and trailing whitespace is trimmed. (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / whitespace")
+- Given the hotkey string " Control+S " with surrounding whitespace, when formatHotkey renders it, then the output is "Ctrl S", so leading and trailing whitespace is trimmed. (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / whitespace")
 - Given no platform option at all, when formatHotkey renders "Control+S", then it does not throw and returns a string, because platform defaults to "auto" and falls back to runtime detection. (zag: packages/utilities/hotkeys/tests/format.test.ts: "edge cases / auto platform detection")
 - Given useShortNames false on windows, mac or linux, when formatHotkey renders "Control+S", then the output is still "Ctrl S" on windows and linux and "⌃ S" on mac, so useShortNames has no observable effect for Control on these platforms; the option is asserted only in this degenerate form. (zag: packages/utilities/hotkeys/tests/format.test.ts: "Control+S"; zag: packages/utilities/hotkeys/tests/format.test.ts: "useShortNames / default")
 - Given platform "linux" against platform "windows", when formatHotkey renders "meta+K", then linux shows "Super" and windows shows "Win". (zag: packages/utilities/hotkeys/tests/format.test.ts: "should use Super for Meta on linux")
@@ -5188,6 +5188,7 @@
 ### Page-object models, method by method
 
 ### e2e/models/switch.model.ts
+
 - `goto(url = "/switch/basic")` - navigates to the switch example route.
 - `root` / `label` / `control` / `input` - locators for `[data-scope='switch'][data-part='...']` and the input nested inside root.
 - `checkAccessibility()` - runs axe over the default root part selector.
@@ -5202,6 +5203,7 @@
 - `expectBlurCount(count)` - asserts the recorded blur count.
 
 ### e2e/models/radio-group.model.ts
+
 - `goto(url = "/radio-group/basic")` - navigates to the radio-group example.
 - `root` / `label` - locators for the scoped root and label parts.
 - `getRadio(value)` - returns the `radio`, `label`, `input` and `control` locators for one option, resolved by `data-testid` (`radio-<value>`, `label-<value>`, `input-<value>`, `control-<value>`).
@@ -5218,6 +5220,7 @@
 - `seeRootHasLabelledBy()` - reads the label's generated id and asserts root's `aria-labelledby` matches it.
 
 ### e2e/models/toggle-group.model.ts
+
 - `__item(item)` - private locator resolving "bold" | "italic" | "underline" to the nth `[data-part=item]`.
 - `clickItem(item)` - clicks that item.
 - `outsideButton` - private locator for the `button` named "Outside" used as the external tab stop.
@@ -5228,6 +5231,7 @@
 - `seeItemIsSelected(items[])` / `seeItemIsNotSelected(items[])` - asserts the on/off state for a list of items in parallel.
 
 ### e2e/models/slider.model.ts
+
 - `goto(url = "/slider/basic")` - navigates to the slider example.
 - `getThumb(index = 0)` - locator for `[data-part='thumb'][data-index='<i>']`.
 - `control` / `track` / `output` - locators for the control, track and `value-text` parts.
@@ -5239,6 +5243,7 @@
 - `seeThumbIsFocused(index = 0)` - asserts a thumb has focus.
 
 ### e2e/models/angle-slider.model.ts
+
 - `goto(url = "/angle-slider/basic")` - navigates to the angle-slider example.
 - `thumb` / `control` / `output` - scoped locators for those parts.
 - `focusThumb()` - focuses the thumb.
@@ -5248,6 +5253,7 @@
 - `dragThumbFromEdgeToAngle(targetAngle)` - presses at 80 percent width / 20 percent height of the thumb box (deliberately off-center), drags to the computed target angle point and releases, to prove the grab offset is preserved.
 
 ### e2e/models/rating-group.model.ts
+
 - `goto()` - navigates to `/rating-group/basic`.
 - `control` / `hiddenInput` / `label` - locators for the control part, the `hidden-input` testid and the label part.
 - `getRating(value)` - locator for the nth `[data-part=item]`, one-based.
@@ -5263,6 +5269,7 @@
 - `seeAllRatingsAreDisabled()` / `seeAllRatingsAreReadonly()` - evaluates across all items and asserts every one has `dataset.disabled === ""` or `dataset.readonly === ""`.
 
 ### e2e/models/clipboard.model.ts
+
 - `goto()` - navigates to `/clipboard/basic`.
 - `checkAccessibility(selector?)` - axe over the given selector.
 - `getTrigger()` - locator for the trigger part.
@@ -5272,6 +5279,7 @@
 - `seeContent(text)` / `dontSeeContent(text)` - asserts the indicator text is or is not hidden, using `isHidden()` rather than visibility so the swapped indicator variant is checked.
 
 ### e2e/models/number-input.model.ts
+
 - `goto()` - navigates to `/number-input/basic`.
 - `input` / `incButton` / `decButton` / `scrubber` - private locators resolved by testid (`input`, `inc-button`, `dec-button`, `scrubber`).
 - `type(value, options?)` - focuses the input then either `fill(value)` (atomic set) or `pressSequentially` when a delay option is given; the distinction matters because `fill` bypasses per-key machine handling.
@@ -5287,6 +5295,7 @@
 - `mousedownInc()` / `mousedownDec()` - hovers the trigger and holds the mouse down without releasing, to start a spin.
 
 ### e2e/models/pin-input.model.ts
+
 - `goto(url = "/pin-input/basic")` - navigates to a pin-input example.
 - `getInput(index)` - private locator for the testid `input-<index>` (one-based).
 - `clearButton` / `allInputs` - locators for the `clear-button` testid and all `[data-part=input]` elements.
@@ -5305,6 +5314,7 @@
 - `clickButton(testId)` - clicks any button by testid, used for the controlled example's set and reset buttons.
 
 ### e2e/models/editable.model.ts
+
 - `goto()` - navigates to `/editable/basic`.
 - `preview` / `input` / `submitTrigger` / `editTrigger` / `cancelTrigger` - locators by testid (`preview`, `input`, `save-button`, `edit-button`, `cancel-button`).
 - `focusPreview()` - focuses the preview and then waits for `input:focus`, encoding the expectation that focusing the preview hands focus to the input.
@@ -5317,6 +5327,7 @@
 - `seePreviewHasText(text)` - asserts the committed preview text.
 
 ### e2e/models/password-input.model.ts
+
 - `goto(url = "/password-input/basic")` - navigates to the password-input example.
 - `input` / `visibilityTrigger` - scoped locators for `[data-scope=password-input]` input and visibility-trigger parts.
 - `clickVisibilityTrigger()` - clicks the visibility toggle.
@@ -5325,6 +5336,7 @@
 - `caretIsAt(start, end = start)` - reads `selectionStart`/`selectionEnd` from the input and asserts both, used to prove the caret survives a type swap.
 
 ### e2e/models/tags-input.model.ts
+
 - `goto(url = "/tags-input/basic")` - navigates to a tags-input example.
 - `input` / `clearTrigger` - the `input` testid and the `[data-part=clear-trigger]` element.
 - `getTagElements()` - all `[data-part=item]` elements, used for counting.
@@ -5347,6 +5359,7 @@
 - `seeClearTriggerIsFocused()` - asserts focus on the clear trigger.
 
 ### e2e/models/autoresize.model.ts
+
 - `goto(url = "/autoresize/basic")` - navigates with `waitUntil: "networkidle"` and waits for the textarea to be visible, so height measurements are stable.
 - `textarea` / `clearButton` / `valueOutput` - the first textarea, the button named /clear/i, and the `value` testid element.
 - `focusTextarea()` - clicks the textarea and asserts it took focus.
@@ -5359,6 +5372,7 @@
 - `seeTextareaGrew(fromHeight, minDelta = 5)` - polls the height for up to 5s and asserts it exceeded the baseline by more than minDelta.
 
 ### e2e/models/file-upload.model.ts
+
 - `goto()` - navigates to `/file-upload/basic`.
 - `getDropzone()` / `getTrigger()` / `getHiddenInput()` / `getItem()` / `getDeleteTrigger()` - locators for the dropzone, trigger, `input` testid, first item and first item-delete-trigger parts.
 - `focusDropzone()` / `focusTrigger()` / `clickTrigger()` - basic interactions.
@@ -5378,6 +5392,7 @@
 - `seeNoFiles()` - asserts the first item is not visible.
 
 ### e2e/models/accordion.model.ts
+
 - `constructor(page)` - extends the shared `Model` base with the Playwright page, inheriting console-message capture and the generic key/click helpers.
 - `goto()` - navigates to `/accordion/basic`.
 - `checkAccessibility(selector?)` - runs the axe helper over `selector`, defaulting to `[data-part=root]`, with the color-contrast rule disabled, and asserts zero violations.
@@ -5390,6 +5405,7 @@
 - `dontSeeContent(id)` - asserts that item's content is not visible.
 
 ### e2e/models/dialog.model.ts
+
 - `constructor(page, id)` - extends `Model`; the `id` selects which dialog instance in the nested story this model drives, by suffixing every test id.
 - `checkAccessibility()` - runs axe over `[role=dialog]` with the color-contrast rule disabled and asserts zero violations.
 - `goto(url = "/dialog/nested")` - navigates to the nested dialog story by default, or any other dialog story URL.
@@ -5404,6 +5420,7 @@
 - `seeTriggerIsFocused()` - asserts the trigger is the focused element, used for focus-restore assertions.
 
 ### e2e/models/drawer.model.ts
+
 - `constructor(page)` - extends `Model`; all locators are part-based (`[data-part=...]`) rather than test-id based, so one model works across every drawer story.
 - `checkAccessibility()` - runs axe over `[data-part=content]` with the color-contrast and `scrollable-region-focusable` rules disabled and asserts zero violations.
 - `goto(url = "/drawer/basic")` - navigates to the basic drawer story by default, or to `/drawer/draggable-false`, `/drawer/snap-points`, `/drawer/swipe-area`, `/drawer/indent-effect` and so on.
@@ -5442,6 +5459,7 @@
 - `waitForVisibleHeightNear(targetHeight, tolerance = 4, timeout = 2000)` - polls `getContentVisibleHeight()` until its absolute difference from `targetHeight` is at most `tolerance`, failing after `timeout` ms.
 
 ### e2e/models/popover.model.ts
+
 - `goto()` - navigates to `/popover/basic`.
 - `trigger` / `content` / `closeTrigger` - scoped locators for `[data-scope=popover][data-part=...]`.
 - `buttonBefore` / `buttonAfter` / `link` / `plainText` - testid locators for the surrounding tab stops and the focusable link inside the content, used to prove tab order.
@@ -5450,6 +5468,7 @@
 - `seeLinkIsFocused()` / `seeTriggerIsFocused()` / `seeContentIsFocused()` / `seeContentIsNotFocused()` / `seeButtonAfterIsFocused()` / `seeButtonBeforeIsFocused()` - focus assertions naming each candidate element.
 
 ### e2e/models/tooltip.model.ts
+
 - `checkAccessibility()` - runs axe over `main` rather than the root part, since a tooltip has no single root.
 - `goto(url = "/tooltip/basic")` - navigates to the example.
 - `getTrigger(id)` / `getContent(id)` - private locators built from `<id>-trigger` and `<id>-tooltip` testids, so several tooltips can be addressed.
@@ -5462,6 +5481,7 @@
 - `seeTriggerIsFocused(id)` - focus assertion per trigger.
 
 ### e2e/models/toast.model.ts
+
 - `goto(type)` - navigates to `/toast/stacked` or `/toast/overlap`.
 - `region` - private locator for the `group` part.
 - `getCloseButton(num)` - the nth `close-trigger` part.
@@ -5481,6 +5501,7 @@
 - `seeToastsStacked()` - asserts every toast has `data-stack=""`.
 
 ### e2e/models/tour.model.ts
+
 - `goto()` - navigates to `/tour/basic`.
 - `checkSelection()` - reads `window.getSelection().toString()` for the preventInteraction cases.
 - `content` / `title` / `target` / `spotlight` - locators for the content part, the title inside it, the element carrying `[data-tour-highlighted]`, and the spotlight part.
@@ -5500,6 +5521,7 @@
 - `seeTitle(title)` - asserts the content title text.
 
 ### e2e/models/floating-panel.model.ts
+
 - `goto(url = "/floating-panel/basic")` - navigates to basic, controlled or stacking examples.
 - `checkAccessibility()` - axe over `[role=dialog]`.
 - `trigger` / `content` / `dragTrigger` / `closeTrigger` / `body` - scoped part locators.
@@ -5517,6 +5539,7 @@
 - `seeTriggerIsFocused()` / `seeContentIsFocused()` - focus assertions.
 
 ### e2e/models/menu.model.ts
+
 - `checkAccessibility()` - runs axe over `main` instead of the root part, because the menu content is portalled.
 - `goto(url = "/menu/basic")` - navigates to a menu example (basic, options, nested, overflow, multiple-trigger, conditional-portal).
 - `trigger` / `contextTrigger` / `content` - private scoped locators for the trigger, context-trigger and content parts.
@@ -5539,6 +5562,7 @@
 - `seeMenuIsPositionedNear(point, tolerance = 24)` - polls for up to 2s asserting the positioner's box is within tolerance of the touch point.
 
 ### e2e/models/navigation-menu.model.ts
+
 - `goto(id?)` - navigates to `/navigation-menu/basic` or `/navigation-menu/viewport`.
 - `checkAccessibility(selector?)` - axe over the given selector.
 - `getTrigger(value)` / `getContent(value)` / `getLink(value)` - scoped locators filtered by `data-value`.
@@ -5552,6 +5576,7 @@
 - `wait(ms)` - raw timeout used to let hover open delays elapse.
 
 ### e2e/models/tabs.model.ts
+
 - `checkAccessibility()` - runs the axe helper over the page, overriding the base method with no selector argument so it always scans `[data-part=root]`.
 - `goto()` - navigates to `/tabs/basic`.
 - `getTabTrigger(id)` - private locator for `[data-testid="<id>-tab"]`.
@@ -5570,6 +5595,7 @@
 - `waitForIndicatorToUpdate(tabId)` - polls in the page until the indicator's x is within 2px of the tab's x, then awaits every running animation on the indicator via `getAnimations()`.
 
 ### e2e/models/pagination.model.ts
+
 - `checkAccessibility()` - runs the axe helper over the page, overriding the base method's optional selector.
 - `goto(url = "/pagination/basic")` - navigates to the pagination page, with the URL overridable for variant pages.
 - `getItem(text)` - locator for `[data-scope=pagination][data-testid=item-<text>]`.
@@ -5584,6 +5610,7 @@
 - `seeOutputContains(text)` - asserts the output element's text contains the given substring, used to check the reported page number.
 
 ### e2e/models/tree-view.model.ts
+
 - `goto()` - navigates to `/tree-view/basic`.
 - `item(name)` - private locator by the `treeitem` role and accessible name, so it matches both leaves and branches.
 - `tree` - private getter for the `[role="tree"]` locator.
@@ -5608,6 +5635,7 @@
 - `seeItemIsTabbable(name)` - asserts that tree item has `tabindex="0"`.
 
 ### e2e/models/select.model.ts
+
 - `constructor(page)` - stores the Playwright page and inherits the base `Model` console/pageerror capture.
 - `checkAccessibility()` - runs `a11y(page, ".select")`, an axe scan scoped to the example's `.select` container with `color-contrast` disabled.
 - `goto(url = "/select/basic")` - navigates to the select example route.
@@ -5639,6 +5667,7 @@
 - `autofill(value)` - in-page script that finds `[data-scope='select'] select[aria-hidden]`, throws `Hidden select not found` if absent, sets its `value` and dispatches a bubbling `change` event, simulating browser autofill.
 
 ### e2e/models/listbox.model.ts
+
 - `constructor(page)` - stores the page and inherits the base `Model`.
 - `checkAccessibility()` - runs `a11y(page)` with the default `[data-part=root]` include selector.
 - `goto(url = "/listbox/basic")` - navigates to the listbox example route.
@@ -5656,6 +5685,7 @@
 - `seeItemInViewport(text)` - asserts via `isInViewport(content, item)` that the item is fully inside the content viewport.
 
 ### e2e/models/cascade-select.model.ts
+
 - `constructor(page)` - stores the page and inherits the base `Model`.
 - `checkAccessibility()` - runs `a11y(page, ".cascade-select")`, an axe scan scoped to the example container.
 - `goto(url = "/cascade-select/basic")` - navigates to the cascade-select example route.
@@ -5688,6 +5718,7 @@
 - `seeClearTrigger()` / `dontSeeClearTrigger()` - assert the clear-trigger part is or is not visible.
 
 ### e2e/models/combobox.model.ts
+
 - `goto(url = "/combobox/basic")` - navigates to a combobox example (basic, form, multiple, async, controlled-ignore, external-value-change).
 - `input` / `trigger` / `clearTrigger` / `content` - private locators for those parts.
 - `items` - locator for `[data-part=item]:not([data-disabled])`, so counts ignore disabled options.
@@ -5709,6 +5740,7 @@
 - `submitCount` / `lastSubmit` / `seeSubmitCount(count)` / `seeLastSubmit(value)` - form example readouts used to prove whether Enter submitted.
 
 ### e2e/models/carousel.model.ts
+
 - `goto(url = "/carousel/basic")` - navigates to the carousel example.
 - `checkAccessibility(selector?)` - axe over the given selector.
 - `getItem(index)` / `getIndicator(index)` - nth item and indicator parts.
@@ -5727,6 +5759,7 @@
 - `seeIndicatorIsActive(index)` / `seeIndicatorIsInactive(index)` - asserts `data-current` presence or absence.
 
 ### e2e/models/datepicker.model.ts
+
 - `checkAccessibility()` - runs axe over the picker.
 - `getDate({ day, month, year })` - builds a date relative to today and returns both the date object and its formatted string, so specs can assert locale-formatted values without hardcoding them.
 - `goto(url = "/date-picker/basic")` - navigates to one of the many date-picker examples (basic, min-max, range, inline, month, year, month-range, year-range, month-inline, year-inline, multi-month, open-control, custom-calendar).
@@ -5761,6 +5794,7 @@
 - `getDayCellByValue(value)` / `seeDayCellIsFocused(value)` - day cells addressed by ISO value rather than rendered text, used by the range specs.
 
 ### e2e/models/date-input.model.ts
+
 - `goto(url = "/date-input/basic")` - navigates to a date-input example (basic, range, hour-cycle, timezone, min-max).
 - `checkAccessibility(selector?, disableRules?)` - axe over the given selector with optional rule exclusions.
 - `root` / `label` / `control` - scoped part locators.
@@ -5785,6 +5819,7 @@
 - `seeEditingValue(value)` / `seeNoEditingValue()` - asserts the output's "Editing:" line, exposing the internal editing accumulator that holds partial segment entry.
 
 ### e2e/models/color-picker.model.ts
+
 - `goto()` / `gotoInline()` - navigates to `/color-picker/basic` or `/color-picker/inline`.
 - `trigger` / `content` - private locators for those parts.
 - `hexInput` / `alphaInput` - the channel inputs inside the control, addressed by `[data-channel=hex]` and `[data-channel=alpha]`.
@@ -5802,6 +5837,7 @@
 - `dragAreaToPoint(point)` - presses at the area thumb's center, moves to the given page point in 10 steps and releases, used to prove a scrub ending outside the picker does not dismiss it.
 
 ### e2e/models/image-cropper.model.ts
+
 - `goto(url = "/image-cropper/basic")` - navigates to basic, fixed or circle examples.
 - `checkAccessibility()` - axe over the cropper.
 - `viewport` / `image` / `selection` / `overlay` - scoped part locators.

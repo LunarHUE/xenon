@@ -268,6 +268,7 @@ Conventions:
 ## toggle
 
 ### Roles and attributes
+
 - Given a default reka Toggle with an `aria-label`, when rendered, then the button has `data-state="off"`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given default Toggle > should not be toggled yet")
 - Given a reka Toggle with `disabled: true`, when rendered, then the button has `data-state="off"`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given disabled Toggle > should not be toggled yet")
 - Given a reka Toggle with `disabled: true`, when the button is inspected after a click attempt, then it has `data-disabled=""` and `disabled=""`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given disabled Toggle > try toggling > should render disable attributes")
@@ -275,35 +276,42 @@ Conventions:
 - Given a bits toggle with `disabled: true`, when rendered, then the root has the `data-disabled` attribute and reports disabled. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should be disabled then the `disabled` prop is set to true")
 
 ### Keyboard
+
 - Given a default bits toggle with the root focused, when `Enter` is pressed, then `data-state` becomes `on` and `aria-pressed` becomes `"true"`. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should toggle when the `{Enter}` key is pressed")
 - Given a default bits toggle with the root focused, when `Space` is pressed, then `data-state` becomes `on` and `aria-pressed` becomes `"true"`. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should toggle when the `{ }` key is pressed")
 
 ### Pointer
+
 - Given a default reka Toggle, when the button is clicked, then `data-state` becomes `on`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given default Toggle > after toggling > should be toggled on")
 - Given a reka Toggle that was clicked on, when the button is clicked again, then `data-state` returns to `off`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given default Toggle > after toggling > after toggling again > should be toggled off")
 - Given a reka Toggle with `disabled: true`, when the button is clicked, then `data-state` stays `off`. (reka: packages/core/src/Toggle/Toggle.test.ts: "given disabled Toggle > try toggling > should be toggled off")
 - Given a default bits toggle, when the root is clicked, then `data-state` goes from `off` to `on` and `aria-pressed` goes from `"false"` to `"true"`. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should toggle when clicked")
 
 ### State and controlled/uncontrolled
+
 - Given a bits toggle with `onPressedChange`, when the root is clicked, then the callback receives `true`. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should fire the `onChange` callback when changing")
 - Given a bits toggle with `bind:pressed`, when an external button flips the bound value, then the printed binding goes from "false" to "true" and the root gets `data-state="on"`. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should respect binding to the `pressed` prop")
 
 ### Forms
+
 - Given a reka Toggle with `name="test"` inside a form, when rendered, then a hidden `[type="checkbox"]` input exists. (reka: packages/core/src/Toggle/Toggle.test.ts: "given Toggle in a form > should have hidden input field")
 - Given a reka Toggle inside a form, when rendered, then the hidden input is not nested inside the button, so `button input` matches nothing. (reka: packages/core/src/Toggle/Toggle.test.ts: "given Toggle in a form > should not nest the hidden input inside the interactive control")
 
 ### Accessibility tooling
+
 - Given a default reka Toggle with an `aria-label`, when the button element is checked with axe, then there are no violations. (reka: packages/core/src/Toggle/Toggle.test.ts: "given default Toggle > should pass axe accessibility tests")
 - Given a reka Toggle with `disabled: true`, when the button element is checked with axe, then there are no violations. (reka: packages/core/src/Toggle/Toggle.test.ts: "given disabled Toggle > should pass axe accessibility tests")
 - Given a reka Toggle inside a form, when checked with axe, then there are no violations. (reka: packages/core/src/Toggle/Toggle.test.ts: "given Toggle in a form > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given the reka Toggle tests, when the component is mounted, then `aria-label` is passed through `attrs` rather than as a declared prop, so it reaches the rendered button by Vue attribute fallthrough. (reka: packages/core/src/Toggle/Toggle.test.ts: "given default Toggle > should pass axe accessibility tests")
 - Given the bits toggle, when state is asserted, then `data-state` uses `on` and `off` (not `checked`/`unchecked`) and the ARIA state is `aria-pressed`, matching reka's Toggle and differing from the checkbox and switch primitives. (bits: tests/src/tests/toggle/toggle.browser.test.ts: "toggle > should toggle when clicked")
 
 ## toggle-group
 
 ### Roles and attributes
+
 - Given a bits `ToggleGroup.Root` of type single with items, when rendered, then the root has `data-toggle-group-root` and each item has `data-toggle-group-item`. (bits: tests/src/tests/toggle-group/toggle-group.browser.test.ts: "Toggle Group > should have bits data attrs")
 - Given a reka single ToggleGroup with `defaultValue: "center"`, when rendered, then the three items have `data-state` values `off`, `on`, `off`. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > should have active toggle=center")
 - Given a reka multiple ToggleGroup with `modelValue: ["center", "right"]`, when rendered, then the three items have `data-state` values `off`, `on`, `on`. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given multiple value Toggle Group > should have active toggle=center")
@@ -312,6 +320,7 @@ Conventions:
 - Given a melt toggle group of type multiple with `defaultValue: [items[1], items[2]]`, when rendered, then the second and third items have `aria-pressed="true"` and the first does not. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > defaultValue is respected in multiple mode")
 
 ### Keyboard
+
 - Given a reka single ToggleGroup with the middle item focused, when `ArrowRight` is pressed, then the third item becomes the active element. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after triggering ArrowRight > should received focus for the next toggle")
 - Given a reka single ToggleGroup with the last item focused and active, when `ArrowRight` is pressed, then the first item becomes the active element, so focus loops. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after triggering ArrowRight > after toggling > after triggering ArrowRight again > should received focus for the first toggle")
 - Given a reka single ToggleGroup with the middle item focused, when `ArrowLeft` is pressed, then the first item becomes the active element. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after triggering ArrowLeft > should received focus for the next toggle")
@@ -332,6 +341,7 @@ Conventions:
 - Given a bits single toggle group with `loop: false`, when `ArrowLeft` is pressed on the first item and `ArrowRight` on the fourth, then focus stays on the same item in both cases. (bits: tests/src/tests/toggle-group/toggle-group.browser.test.ts: "Toggle Group > should respect the loop prop")
 
 ### Pointer
+
 - Given a reka single ToggleGroup whose middle item is active, when that item is clicked, then all three items become `data-state="off"`, so clicking the active item deselects it. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after toggling current active > should deselect pre-existing value")
 - Given a reka single ToggleGroup where `ArrowRight` moved focus to the third item, when that item is clicked, then the items read `off`, `off`, `on`. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after triggering ArrowRight > after toggling > should have next active value")
 - Given a reka single ToggleGroup where `ArrowLeft` moved focus to the first item, when that item is clicked, then the items read `on`, `off`, `off`. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > after triggering ArrowLeft > after toggling > should have next active value")
@@ -341,10 +351,12 @@ Conventions:
 - Given a bits toggle group of type multiple, when all four items are clicked on and then off in order, then the bound value grows "1,2" to "1,2,3" to "1,2,3,4" and shrinks back through "2,3,4", "3,4", "4" to "". (bits: tests/src/tests/toggle-group/toggle-group.browser.test.ts: "Toggle Group > should allow multiple items to be selected when `kind` is `'multiple'`")
 
 ### Focus management
+
 - Given a melt single toggle group with focus on a button before the group, when `Tab` is pressed, then the first item receives focus, so the group is a single tab stop. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > toggle group focusable when in single mode")
 - Given a melt multiple toggle group with focus on a button before the group, when `Tab` is pressed, then the first item receives focus. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > toggle group focusable when in multiple mode")
 
 ### State and controlled/uncontrolled
+
 - Given a melt single toggle group with `defaultValue: items[0]` and a `value` store holding `items[1]`, when rendered, then the store wins and only the second item has `aria-checked="true"`. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > value prop overrides defaultValue - single")
 - Given a melt multiple toggle group with `defaultValue: [items[0]]` and a `value` store holding the second and third items, when rendered, then the store wins and those two items have `aria-pressed="true"`. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > value prop overrides defaultValue - multiple")
 - Given a melt single toggle group bound to a `value` store holding `items[1]`, when the store is set to `items[0]` and a tick passes, then `aria-checked="true"` moves to the first item. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > value prop programmatically updates - single")
@@ -355,11 +367,13 @@ Conventions:
 - Given a bits single toggle group with `bind:value`, when an external button sets the bound value to "4", then the printed binding becomes "4" and item 4 has `aria-checked="true"` and `data-state="on"`. (bits: tests/src/tests/toggle-group/toggle-group.browser.test.ts: "Toggle Group > should respect binding to the `value` prop")
 
 ### Accessibility tooling
+
 - Given a reka single ToggleGroup with `defaultValue: "center"`, when checked with axe, then there are no violations. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > should pass axe accessibility tests")
 - Given a reka multiple ToggleGroup with `modelValue: ["center", "right"]`, when checked with axe, then there are no violations. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given multiple value Toggle Group > should pass axe accessibility tests")
 - Given a melt toggle group with `aria-label` on the root, when checked with axe, then there are no violations. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given a reka multiple ToggleGroup, when it is mounted for these tests, then it is driven as a controlled component with `modelValue` plus an `onUpdate:modelValue` handler that calls `wrapper.setProps`, so the parent owns the array and the group only emits. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given multiple value Toggle Group > should have active toggle=center")
 - Given the reka ToggleGroup story fixture, when props reach the root, then they are passed through `useForwardPropsEmits(props, emits)`, so both `defaultValue` and the controlled `modelValue` form work through the same fixture. (reka: packages/core/src/ToggleGroup/ToggleGroup.test.ts: "given default Toggle Group > should have active toggle=center")
 - Given melt's toggle group, when the type is single the items expose `aria-checked` and when the type is multiple they expose `aria-pressed`, so the ARIA state attribute depends on the group type. (melt: src/tests/toggle-group/ToggleGroup.spec.ts: "Toggle Group > multiple items can be selected in multiple mode")
@@ -368,6 +382,7 @@ Conventions:
 ## checkbox
 
 ### Roles and attributes
+
 - Given a default bits `Checkbox.Root`, when rendered, then the root element has the `data-checkbox-root` attribute. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Single Checkbox > Accessibility and Structure > should have bits data attrs")
 - Given a bits `Checkbox.Group` with a `Checkbox.GroupLabel`, when rendered, then the group has `data-checkbox-group` and the label has `data-checkbox-group-label`. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Checkbox Group > Accessibility and Structure > should have bits data attrs")
 - Given a reka Checkbox with `modelValue="indeterminate"`, when rendered, then the trigger button and the indicator span both have `data-state="indeterminate"`. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given value as \"indeterminate\" > should have [data-state] of \"indeterminate\"")
@@ -382,6 +397,7 @@ Conventions:
 - Given a reka `CheckboxRoot` with an `id` but no `aria-label`, when mounted and one tick has passed, then `document.querySelector` is called with `[for="without-label"]` to find the associated label. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a Checkbox with an explicit aria-label > should query for the associated label when no aria-label is given")
 
 ### Keyboard
+
 - Given a melt checkbox defaulting to `indeterminate` and focused, when `Space` is pressed, then `data-state` becomes `checked`, and pressing `Space` again makes it `unchecked`. (melt: src/tests/checkbox/Checkbox.spec.ts: "Checkbox > Should trigger on space keydown")
 - Given a melt checkbox defaulting to `indeterminate` and focused, when `Enter` is pressed, then `data-state` stays `indeterminate`. (melt: src/tests/checkbox/Checkbox.spec.ts: "Checkbox > Should not trigger on Enter keydown")
 - Given a default bits checkbox with the root focused, when `Space` is pressed, then the root goes from `data-state="unchecked"`/`aria-checked="false"` to `data-state="checked"`/`aria-checked="true"` and the hidden input becomes checked. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Single Checkbox > State and Interaction > should toggle when the `Space` key is pressed")
@@ -394,6 +410,7 @@ Conventions:
 - Given a readonly bits checkbox group with `value: []`, when `Space` is pressed on focused items "a" and then "b", then both stay unchecked and the bound value stays empty. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Checkbox Group > Readonly Behavior > should prevent keyboard interaction when group is readonly")
 
 ### Pointer
+
 - Given a default reka Checkbox, when the button is clicked, then an indicator span is rendered. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a default Checkbox > when clicking the checkbox > should render a visible indicator")
 - Given a reka Checkbox that has been clicked once, when the button is clicked again, then the indicator span is removed. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a default Checkbox > when clicking the checkbox again > should remove the indicator")
 - Given a reka CheckboxGroup, when the first checkbox is clicked, then an indicator span is rendered. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given CheckboxGroup > when clicking the checkbox > should render a visible indicator")
@@ -410,11 +427,13 @@ Conventions:
 - Given a bits checkbox group with `readonlyItems: ["a"]`, when "a" is clicked it stays unchecked while clicking "b" and "c" checks them. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Checkbox Group > Readonly Behavior > should handle individual checkbox readonly with non-readonly group")
 
 ### Focus management
+
 - Given a bits checkbox with a `name`, when rendered, then the hidden input has `tabindex="-1"` and stays out of the tab order. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Single Checkbox > Accessibility and Structure > should not have input as part of tab order")
 - Given a readonly bits checkbox, when the root is focused programmatically, then it holds focus. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Single Checkbox > Props and Events > should still be focusable when readonly")
 - Given a readonly bits checkbox group, when items "a" and "b" are focused in turn, then each one receives focus. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Checkbox Group > Readonly Behavior > should still allow checkboxes to be focusable when group is readonly")
 
 ### State and controlled/uncontrolled
+
 - Given a melt checkbox with `defaultChecked: true`, when rendered, then `data-state` is `checked`. (melt: src/tests/checkbox/Checkbox.spec.ts: "Checkbox > Should be checked when checked prop is true")
 - Given a melt checkbox with `defaultChecked: false`, when rendered, then `data-state` is `unchecked`. (melt: src/tests/checkbox/Checkbox.spec.ts: "Checkbox > Should be unchecked when checked prop is false")
 - Given a bits checkbox with `onCheckedChange`, when the root is clicked twice, then the callback receives `true` then `false`. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Single Checkbox > Props and Events > should fire the \"onCheckedChange\" callback when changing")
@@ -431,6 +450,7 @@ Conventions:
 - Given a bits checkbox group with `value: ["a", "b"]`, when it is re-rendered with `readonly: true` and the same value, then "a" and "b" stay checked, "c" stays unchecked, every checkbox gains `aria-readonly="true"`, and clicking "a" or "c" does not change their state. (bits: tests/src/tests/checkbox/checkbox.browser.test.ts: "Checkbox Group > Readonly Behavior > should preserve existing checked state when becoming readonly")
 
 ### Forms
+
 - Given a required reka Checkbox inside a form, when rendered, then the button has `aria-required="true"` and the hidden `[type="checkbox"]` input has the `required` attribute. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a required Checkbox > should have [aria-required] of \"true\"")
 - Given a reka Checkbox inside a form, when rendered, then a hidden `[type="checkbox"]` input exists. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given checkbox in a form > should have hidden input field")
 - Given a reka Checkbox inside a form, when rendered, then the hidden input is not nested inside the button, so `button input` matches nothing. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given checkbox in a form > should not nest the hidden input inside the interactive control")
@@ -450,6 +470,7 @@ Conventions:
 - Given a melt hidden input with a `change` listener, when the `value` store is updated, then exactly one change event is emitted. (melt: src/tests/hidden-input/HiddenInput.spec.ts: "Hidden Input > When value is changed, an event is emitted")
 
 ### Accessibility tooling
+
 - Given a default reka Checkbox, when checked with axe (the `label` and `nested-interactive` rules disabled), then there are no violations. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a default Checkbox > should pass axe accessibility tests")
 - Given a reka CheckboxGroup, when checked with axe (the `label` rule disabled), then there are no violations. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given CheckboxGroup > should pass axe accessibility tests")
 - Given a reka Checkbox with `disabled: true`, when checked with axe (the `label` and `nested-interactive` rules disabled), then there are no violations. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a disabled Checkbox > should have no accessibility violations")
@@ -458,6 +479,7 @@ Conventions:
 - Given a melt checkbox, when checked with axe, then there are no violations. (melt: src/tests/checkbox/Checkbox.spec.ts: "Checkbox > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given a default reka Checkbox, when mounted, then the root element exists, which is the bare smoke check for the component. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given a default Checkbox > should render checkbox")
 - Given a reka CheckboxGroup, when mounted, then the root element exists, which is the bare smoke check for the group. (reka: packages/core/src/Checkbox/Checkbox.test.ts: "given CheckboxGroup > should render checkbox")
 - Given melt's `createHiddenInput` builder, when it is used behind `createCheckbox`, `createSwitch` and `createRadioGroup`, then all of those share the same hidden input element and its `value`, `name`, `disabled` and `required` store wiring, so the hidden input tests cover form mirroring for every melt toggle builder. (melt: src/tests/hidden-input/HiddenInput.spec.ts: "Hidden Input > It has the correct attributes")
@@ -468,6 +490,7 @@ Conventions:
 ## radio-group
 
 ### Roles and attributes
+
 - Given a bits `RadioGroup.Root` with one item, when rendered, then the root has `data-radio-group-root` and the item has `data-radio-group-item`. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Data Attributes > should have bits data attrs")
 - Given a reka RadioGroup whose model value matches the first item, when rendered, then the first `[role=radio]` has `data-state="checked"`. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > should have default selected")
 - Given a reka RadioGroup, when rendered, then the first radio contains an indicator span. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > should render icons")
@@ -482,6 +505,7 @@ Conventions:
 - Given a bits radio group with `readonly: false`, when rendered, then the root has no `aria-readonly` attribute. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Readonly Behavior > should not have aria-readonly on root when readonly prop is false")
 
 ### Keyboard
+
 - Given a reka RadioGroup with the first radio focused, when `ArrowDown` is pressed, then the third `RadioGroupItem` component emits a `select` event. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > on keyboard navigation > should emit `select` event")
 - Given a reka vertical RadioGroup whose second item is disabled and the first radio focused, when `ArrowDown` is pressed, then the second item stays `data-state="unchecked"` and the third item is the active element, so the disabled item is skipped. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > on keyboard navigation > should skip disabled item")
 - Given a reka vertical RadioGroup with the first radio focused, when `ArrowDown` is pressed, then the first item becomes `data-state="unchecked"`, the third becomes `data-state="checked"`, and the third is the active element, so arrow navigation also selects. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > on keyboard navigation > should select next item on keydown")
@@ -498,6 +522,7 @@ Conventions:
 - Given a bits radio group with `readonly: true` and `value: "b"`, when arrow keys are pressed from the first item, then focus still moves down to the second and third items and back up to the second. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Readonly Behavior > should allow keyboard navigation when readonly")
 
 ### Pointer
+
 - Given a reka RadioGroup with `disabled: true`, when the first item is clicked, then it stays `data-state="checked"`. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given disabled RadioGroup > should not select any item" case `[0, 'checked']`)
 - Given a reka RadioGroup with `disabled: true`, when the second item is clicked, then it stays `data-state="unchecked"`. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given disabled RadioGroup > should not select any item" case `[1, 'unchecked']`)
 - Given a reka RadioGroup with `disabled: true`, when the third item is clicked, then it stays `data-state="unchecked"`. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given disabled RadioGroup > should not select any item" case `[2, 'unchecked']`)
@@ -509,6 +534,7 @@ Conventions:
 - Given a bits radio group with `readonly: true` and `value: "b"`, when the label for item "a" is clicked, then the "b" indicator stays "true" and the "a" indicator stays "false". (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Readonly Behavior > should not change value when readonly and label is clicked")
 
 ### Focus management
+
 - Given a bits radio group with `value: "b"`, when item "a" is focused programmatically, then "a" holds focus while the "b" indicator stays "true" and the "a" indicator stays "false", so focus alone does not select. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Value Changes > should not change the value when an unselected item receives focus without keyboard navigation")
 - Given a bits radio group with no value, when `Tab` moves focus into the group, then the first item receives focus. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Focus Management > should focus the first item when no value is set and focus enters the group")
 - Given a bits radio group with `value: "b"`, when `Tab` moves focus into the group, then item "b" receives focus. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Focus Management > should focus the selected item when a value is set and focus enters the group")
@@ -518,10 +544,12 @@ Conventions:
 - Given a bits radio group with `readonly: true` and `value: "b"`, when `Tab` is pressed, then item "b" receives focus. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Readonly Behavior > should allow focus when readonly")
 
 ### State and controlled/uncontrolled
+
 - Given a melt radio group with no `defaultValue`, when rendered, then the printed value store is `undefined`. (melt: src/tests/radio-group/RadioGroup.spec.ts: "Radio Group > doesnt require a default value")
 - Given a bits radio group with `value: "b"` and `bind:value`, when an external button sets the bound value to the first item's value, then the printed binding goes from "b" to "a", the "b" indicator becomes "false" and the "a" indicator becomes "true". (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Value Changes > should respect the value prop & binding")
 
 ### Forms
+
 - Given a reka `Radio` with `name="test"` and `value="true"` inside a form, when rendered, then a hidden input matching `[type="Radio"]` exists. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given radio in a form > should have hidden input field")
 - Given a reka `Radio` inside a form, when rendered, then the hidden input is not nested inside the button, so `button input` matches nothing. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given radio in a form > should not nest the hidden input inside the interactive control")
 - Given a reka `Radio` with `name="test"` and `value="true"` inside a form, when the button is clicked and the form is submitted, then the handler runs once and the form data is `{ test: "true" }`. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given radio in a form > after clicking submit button > should trigger submit once")
@@ -534,15 +562,18 @@ Conventions:
 - Given a bits radio group with `disabled: true` and a `name`, when rendered, then the hidden input has the `disabled` attribute. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Input Behavior > should make the input disabled if the radio group is disabled")
 
 ### Positioning
+
 - Given a bits radio group with a `name` rendered inside nested overflow containers, when the window is scrolled to a large offset across three animation frames, then `window.scrollY` stays at the baseline and the document scroll height stays within one pixel of the viewport height, so the hidden input adds no page scroll. (bits: tests/src/tests/radio-group/radio-group.browser.test.ts: "Scroll Behavior > should not make the page scrollable when rendering a named input in nested overflow containers")
 
 ### Accessibility tooling
+
 - Given a default reka RadioGroup, when checked with axe, then there are no violations. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > should pass axe accessibility tests")
 - Given a reka RadioGroup with `disabled: true`, when checked with axe, then there are no violations. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given disabled RadioGroup > should pass axe accessibility tests")
 - Given a reka `Radio` inside a form, when checked with axe, then there are no violations. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given radio in a form > should pass axe accessibility tests")
 - Given a melt radio group, when checked with axe, then there are no violations. (melt: src/tests/radio-group/RadioGroup.spec.ts: "Radio Group > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given the reka RadioGroup story fixture, when it is mounted, then the group is vertical with `:loop="false"` and its second item disabled, which is why arrow navigation in those tests moves from item 1 to item 3 and never wraps. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > on keyboard navigation > should skip disabled item")
 - Given the reka RadioGroup tests, when arrow navigation is exercised, then each assertion waits with `sleep(0)` after the `keydown`, so selection and focus move asynchronously rather than within the same tick. (reka: packages/core/src/RadioGroup/RadioGroup.test.ts: "given a default RadioGroup > on keyboard navigation > should select next item on keydown")
 - Given the melt radio group builder, when destructured, then it returns `elements: { root, item, hiddenInput }` and `states: { value }`, with `item` a function taking `{ value, disabled }`. (melt: src/tests/radio-group/RadioGroup.spec.ts: "Radio Group > allows changing value by clicking on a radio button")
@@ -551,12 +582,14 @@ Conventions:
 ## switch
 
 ### Roles and attributes
+
 - Given a default bits `Switch.Root` with a `Switch.Thumb`, when rendered, then the root has `data-switch-root` and the thumb has `data-switch-thumb`. (bits: tests/src/tests/switch/switch.browser.test.ts: "should have bits data attrs")
 - Given a bits switch with `disabled: true`, when rendered, then the root has the `data-disabled` attribute, the root reports disabled, and the hidden input is disabled. (bits: tests/src/tests/switch/switch.browser.test.ts: "should be disabled then the `disabled` prop is set to true")
 - Given a bits switch with `required: true`, when rendered, then the root has `aria-required="true"` and the hidden input is required. (bits: tests/src/tests/switch/switch.browser.test.ts: "should be required then the `required` prop is set to true")
 - Given a reka Switch, when rendered, then the `SwitchThumb` element is present and findable by its test id. (reka: packages/core/src/Switch/Switch.test.ts: "test switch functionalities > thumb can render")
 
 ### Keyboard
+
 - Given a reka Switch with the root button focused by the event target, when `Enter` is pressed on the button, then the printed state flips from "unchecked" to "checked", and a second `Enter` flips it back. (reka: packages/core/src/Switch/Switch.test.ts: "test switch functionalities > keydown enter root will toggle value")
 - Given a melt switch that has focus, when `Space` is pressed, then `data-state` becomes `checked` and `aria-checked` becomes `"true"`, and pressing `Space` again returns them to `unchecked` and `"false"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > toggles on enter/space")
 - Given a melt switch that has focus, when `Enter` is pressed, then `data-state` becomes `checked` and `aria-checked` becomes `"true"`, and pressing `Enter` again returns them to `unchecked` and `"false"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > toggles on enter/space")
@@ -564,16 +597,19 @@ Conventions:
 - Given a default bits switch with the root focused, when `Space` is pressed, then `data-state` becomes `checked`, `aria-checked` becomes `"true"`, and the hidden input becomes checked. (bits: tests/src/tests/switch/switch.browser.test.ts: "should toggle when the `{ }` key is pressed")
 
 ### Pointer
+
 - Given a reka Switch printing its bound value, when the root button is clicked, then the text goes from "unchecked" to "checked", and a second click returns it to "unchecked". (reka: packages/core/src/Switch/Switch.test.ts: "test switch functionalities > clicking thumb will toggle value")
 - Given a melt switch, when it is clicked, then `data-state` is `checked` with `aria-checked="true"`, and a second click gives `data-state="unchecked"` with `aria-checked="false"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > toggles when clicked")
 - Given a melt switch with `disabled: true`, when it is clicked, then `data-state` stays `unchecked` and `aria-checked` stays `"false"`, and calling `focus()` on it does not give it focus. (melt: src/tests/switch/Switch.spec.ts: "Switch > does not toggle when disabled")
 - Given a default bits switch, when the root is clicked, then `data-state` goes from `unchecked` (with no `data-checked` attribute) to `checked` with `aria-checked="true"` and the hidden input becomes checked. (bits: tests/src/tests/switch/switch.browser.test.ts: "should toggle when clicked")
 
 ### Focus management
+
 - Given a melt switch with `disabled: true`, when `focus()` is called on it, then it does not receive focus. (melt: src/tests/switch/Switch.spec.ts: "Switch > does not focus when disabled")
 - Given a bits switch with a `name` and the root focused, when `Tab` is pressed, then the hidden input does not receive focus and it has `tabindex="-1"`. (bits: tests/src/tests/switch/switch.browser.test.ts: "should not focus the hidden input")
 
 ### State and controlled/uncontrolled
+
 - Given a melt switch with `defaultChecked: true`, when rendered, then `data-state` is `checked` and `aria-checked` is `"true"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > respects the defaultChecked prop")
 - Given a melt switch with a `checked` store holding `true`, when rendered, then `data-state` is `checked` and `aria-checked` is `"true"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > respects the checked store prop")
 - Given a melt switch with both `defaultChecked: true` and a `checked` store holding `false`, when rendered, then the store wins and `data-state` is `unchecked` with `aria-checked="false"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > favors the checked store value over the defaultChecked value")
@@ -583,6 +619,7 @@ Conventions:
 - Given a bits switch with `bind:checked`, when an external button flips the bound value, then the printed binding goes from "false" to "true", the root gets `data-state="checked"`, and the hidden input becomes checked. (bits: tests/src/tests/switch/switch.browser.test.ts: "should respect binding to the `checked` prop")
 
 ### Forms
+
 - Given a melt switch with `name: "test"`, when rendered, then the hidden input has `name="test"`. (melt: src/tests/switch/Switch.spec.ts: "Switch > applies the name prop to the input")
 - Given a melt switch with `required: true`, when rendered, then the hidden input has the `required` attribute. (melt: src/tests/switch/Switch.spec.ts: "Switch > applies the required prop to the input")
 - Given a reka Switch inside a form, when rendered, then a hidden `[type="checkbox"]` input exists. (reka: packages/core/src/Switch/Switch.test.ts: "given switch in a form > should have hidden input field")
@@ -594,11 +631,13 @@ Conventions:
 - Given a bits switch with `name: "switch-input"`, when rendered, then the hidden input is present in the document. (bits: tests/src/tests/switch/switch.browser.test.ts: "should render the input when the `name` prop is passed")
 
 ### Accessibility tooling
+
 - Given a reka Switch, when checked with axe (the `label` and `nested-interactive` rules disabled), then there are no violations. (reka: packages/core/src/Switch/Switch.test.ts: "test switch functionalities > should pass axe accessibility tests")
 - Given a reka Switch inside a form, when checked with axe using default rules, then there are no violations. (reka: packages/core/src/Switch/Switch.test.ts: "given switch in a form > should pass axe accessibility tests")
 - Given a melt switch inside a form with a label, when checked with axe, then there are no violations. (melt: src/tests/switch/Switch.spec.ts: "Switch > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given the melt switch builder, when destructured, then it returns `elements: { root, input }`, so the trigger and the hidden form input are separate elements applied with `use:melt`. (melt: src/tests/switch/Switch.spec.ts: "Switch > applies the name prop to the input")
 - Given the melt switch, when a `checked` store is passed, then the store is the single source of truth and can be written from outside the component, which is melt's controlled pattern in place of a `bind:` directive. (melt: src/tests/switch/Switch.spec.ts: "Switch > allows programmatically setting the checked state via the store")
 - Given the reka Switch story fixture, when it is mounted, then the checked state is a local `ref` passed as `v-model` to `SwitchRoot`, and the rendered text outside the switch is what the tests read to observe state. (reka: packages/core/src/Switch/Switch.test.ts: "test switch functionalities > clicking thumb will toggle value")
@@ -606,6 +645,7 @@ Conventions:
 ## slider
 
 ### Roles and attributes
+
 - Given a default Slider with model value `[50]`, when rendered, then the thumb has `aria-valuenow="50"`. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider > should have default value")
 - Given a Slider with `disabled: true`, when rendered, then the element with `role="slider"` has `data-disabled=""`, `aria-valuemin="0"`, `aria-valuemax="100"` and `aria-valuenow="50"`. (reka: packages/core/src/Slider/Slider.test.ts: "when disabled > should disable the thumb")
 - Given a Slider with `value=[5]`, `min=0`, `max=10`, `step=1`, when rendered, then 11 tick elements exist. (melt: src/tests/slider/Slider.spec.ts: "Slider (value=[5], min=0, max=10, step=1) > 11 ticks are rendered")
@@ -641,6 +681,7 @@ Conventions:
 - Given a Slider with `showTickLabels` and `showThumbLabels` both enabled, when rendered, then at least one tick label and at least one thumb label exist. (bits: tests/src/tests/slider/slider.browser.test.ts: "labels > labels visibility > should render both types of labels when both are enabled")
 
 ### Keyboard
+
 - Given a default Slider at `50`, when `ArrowRight` is pressed on the thumb, then `aria-valuenow` becomes `51`, a change of `+1`. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider > after pressing navigation key > arrowRight should increase by 1")
 - Given a default Slider at `50`, when `ArrowLeft` is pressed on the thumb, then `aria-valuenow` becomes `49`, a change of `-1`. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider > after pressing navigation key > arrowLeft should decrease by 1")
 - Given a default Slider at `50`, when `ArrowUp` is pressed on the thumb, then `aria-valuenow` becomes `51`. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider > after pressing navigation key > arrowUp should increase by 1")
@@ -723,9 +764,9 @@ Conventions:
 - Given a range Slider at `[49,51]`, when the first thumb is focused and `ArrowUp` is pressed three times, then the values become `51` and `52` and the second thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should swap handler places when they overlap pressing {ArrowUp} (going up)")
 - Given a range Slider at `[49,51]`, when the last thumb is focused and `ArrowLeft` is pressed three times, then the values become `48` and `49` and the first thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should swap handler places when they overlap pressing {ArrowLeft} (going down)")
 - Given a range Slider at `[49,51]`, when the last thumb is focused and `ArrowDown` is pressed three times, then the values become `48` and `49` and the first thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should swap handler places when they overlap pressing {ArrowDown} (going down)")
-- Given a range Slider at `[20,80]`, when the first thumb is focused and `Home` is pressed, then the values become `0` and `80`. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb to 0  to minimum when pressing Home")
-- Given a range Slider at `[20,80]`, when the last thumb is focused and `End` is pressed, then the values become `20` and `100`. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb 1  to maximum when pressing End")
-- Given a range Slider at `[20,80]`, when the last thumb is focused and `Home` is pressed, then the values become `0` and `20` and the first thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb 1  to minimum when pressing Home (thumbs swap places)")
+- Given a range Slider at `[20,80]`, when the first thumb is focused and `Home` is pressed, then the values become `0` and `80`. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb to 0 to minimum when pressing Home")
+- Given a range Slider at `[20,80]`, when the last thumb is focused and `End` is pressed, then the values become `20` and `100`. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb 1 to maximum when pressing End")
+- Given a range Slider at `[20,80]`, when the last thumb is focused and `Home` is pressed, then the values become `0` and `20` and the first thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb 1 to minimum when pressing Home (thumbs swap places)")
 - Given a range Slider at `[20,80]`, when the first thumb is focused and `End` is pressed, then the values become `80` and `100` and the second thumb holds focus. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should bring thumb 0 to maximum when pressing End (thumbs swap places)")
 - Given a Slider with `value=[0.5]`, `min=0`, `max=1`, `step=0.01`, when the thumb is focused and `ArrowRight` is pressed, then the thumb sits at `51%`. (bits: tests/src/tests/slider/slider.browser.test.ts: "small min, max, step > should change by 1% when pressing {ArrowRight}")
 - Given a Slider with `value=[0.5]`, `min=0`, `max=1`, `step=0.01`, when the thumb is focused and `ArrowUp` is pressed, then the thumb sits at `51%`. (bits: tests/src/tests/slider/slider.browser.test.ts: "small min, max, step > should change by 1% when pressing {ArrowUp}")
@@ -742,12 +783,14 @@ Conventions:
 - Given a Slider with thumb labels at `[49,51]` and `autoSort: false`, when the first thumb is focused and `ArrowRight` is pressed three times, then label 0 reads `data-value="52"` and label 1 reads `data-value="51"`, so labels stay bound to their original thumb index. (bits: tests/src/tests/slider/slider.browser.test.ts: "labels > thumb labels > should maintain correct labels when thumbs swap positions (autoSort=false)")
 
 ### Pointer
+
 - Given a default Slider, when `pointerdown` at `clientX: 10` then `pointermove` to `clientX: 50` then `pointerup` occur on the slider impl element, then the root emits `valueCommit` once with a single argument. (reka: packages/core/src/Slider/Slider.test.ts: "after pointerdown event on slider-impl > after pointermove > after pointerup > should emit valueCommit on wrapper")
 - Given a default Slider, when a pointer press starts on the slider impl element, then `slideStart` would be emitted. (reka: packages/core/src/Slider/Slider.test.ts: "after pointerdown event on slider-impl > should emit slideStart") [skipped]
 - Given a pressed Slider, when the pointer moves, then `slideMove` would be emitted. (reka: packages/core/src/Slider/Slider.test.ts: "after pointermove > should emit slideMove") [skipped]
 - Given a dragged Slider, when the pointer is released, then `slideEnd` would be emitted. (reka: packages/core/src/Slider/Slider.test.ts: "after pointerup > should emit slideEnd") [skipped]
 
 ### State and controlled/uncontrolled
+
 - Given a Slider with an `onValueChange` callback, when `ArrowRight` is pressed on the thumb, then the callback receives `[31]`. (bits: tests/src/tests/slider/slider.browser.test.ts: "should call onValueChange when the value changes")
 - Given a range Slider at `[49,51]` with `onValueChange`, when the first thumb is pressed `ArrowRight` three times, then the callback receives `[50,51]`, then `[51,51]`, then `[51,52]` across the overlap and swap. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should call onValueChange when handlers swap places when they overlap pressing {ArrowRight} (going up)")
 - Given a range Slider at `[49,51]` with `onValueChange`, when the first thumb is pressed `ArrowUp` three times, then the callback receives `[50,51]`, then `[51,51]`, then `[51,52]`. (bits: tests/src/tests/slider/slider.browser.test.ts: "range > should call onValueChange when handlers swap places when they overlap pressing {ArrowUp} (going up)")
@@ -756,15 +799,17 @@ Conventions:
 - Given a Slider with 11 ticks, when `step` is changed to `2` after mount, then 6 ticks are rendered. (melt: src/tests/slider/Slider.spec.ts: "Slider changing options after building > Changing step")
 - Given a Slider with 11 ticks, when `min` is changed to `2` via rerender, then 9 ticks are rendered. (bits: tests/src/tests/slider/slider.browser.test.ts: "slider changing options after building > should change the min")
 - Given a Slider with 11 ticks, when `max` is changed to `8` via rerender, then 9 ticks are rendered. (bits: tests/src/tests/slider/slider.browser.test.ts: "slider changing options after building > should change the max")
-- Given a Slider with 11 ticks, when `step` is changed to `2` via rerender, then 6 ticks are rendered. (bits: tests/src/tests/slider/slider.browser.test.ts: "slider changing options after building > should change the  step")
+- Given a Slider with 11 ticks, when `step` is changed to `2` via rerender, then 6 ticks are rendered. (bits: tests/src/tests/slider/slider.browser.test.ts: "slider changing options after building > should change the step")
 - Given a Slider with tick labels at `[25]`, `step=25`, when the value is rerendered to `[75]`, then tick labels 0 through 3 gain `data-bounded` and label 4 still has none. (bits: tests/src/tests/slider/slider.browser.test.ts: "labels > tick labels > should update bounded state when value changes")
 
 ### Forms
+
 - Given a Slider named `slider` inside a form, when rendered, then a hidden input with `type="number"` exists. (reka: packages/core/src/Slider/Slider.test.ts: "given slider in a form > should have hidden input field")
 - Given a Slider named `slider` at `50` inside a form, when the form is submitted, then the submit handler runs once and the form data is `{ 'slider[0]': '50' }`. (reka: packages/core/src/Slider/Slider.test.ts: "given slider in a form > after clicking submit button > should trigger submit once")
 - Given a submitted Slider form, when the thumb is focused, `ArrowRight` is pressed and the form is submitted again, then the handler has run twice and the second form data is `{ 'slider[0]': '51' }`. (reka: packages/core/src/Slider/Slider.test.ts: "given slider in a form > after uncheck and click submit button again > should trigger submit once")
 
 ### Positioning
+
 - Given a Slider at `[30]`, when rendered, then the thumb's `style.left` is `30%`. (melt: src/tests/slider/Slider.spec.ts: "Slider (Default) > Has a thumb positioned at 30% of the container")
 - Given a Slider at `[30]`, when rendered, then the range's `style.left` is `0%` and `style.right` is `70%`. (melt: src/tests/slider/Slider.spec.ts: "Slider (Default) > Has a range that covers from 0 to 30%")
 - Given a range Slider at `[20,80]`, when rendered, then the two thumbs' `style.left` values are `20%` and `80%`. (melt: src/tests/slider/Slider.spec.ts: "Slider (Range) > Has a thumb positioned at 20% of the container and one at 80%")
@@ -782,11 +827,13 @@ Conventions:
 - Given a Slider with thumb labels and `thumbLabelPosition: "bottom"`, when rendered, then the thumb label has `data-position="bottom"` and `style.top` of `100%`. (bits: tests/src/tests/slider/slider.browser.test.ts: "labels > thumb labels > should position thumb labels correctly with different positions")
 
 ### Accessibility tooling
+
 - Given a default Slider, when audited with axe (with the `label` and `nested-interactive` rules disabled), then no violations are reported. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider > should pass axe accessibility tests")
 - Given a default Slider, when audited with axe, then no violations are reported. (melt: src/tests/slider/Slider.spec.ts: "Slider (Default) > No accessibility violations")
 - Given a range Slider, when audited with axe, then no violations are reported. (melt: src/tests/slider/Slider.spec.ts: "Slider (Range) > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given a Slider with `min=0`, `max=100`, `step=30` and `value=[40]`, which is off the step grid, when rendered, then the value is autocorrected down to `30`, placing the thumb at `30%`. (melt: src/tests/slider/Slider.spec.ts: "Slider (min=0, max=100, step=30) > Autocorrects value outside of steps")
 - Given reka's Slider root, when used with `v-model`, then the value is an array and the hidden inputs are named `slider[0]` per thumb index. (reka: packages/core/src/Slider/Slider.test.ts: "given slider in a form > after clicking submit button > should trigger submit once")
 - Given reka's Slider test setup, when mounted in jsdom, then `ResizeObserver`, `scrollIntoView`, `hasPointerCapture`, `setPointerCapture` and `releasePointerCapture` must all be stubbed for pointer math to run at all. (reka: packages/core/src/Slider/Slider.test.ts: "given default Slider")
@@ -797,6 +844,7 @@ Conventions:
 ## number-field
 
 ### Roles and attributes
+
 - Given a NumberField with `disabled: true`, when rendered, then the root has `data-disabled=""` and the input has `data-disabled=""`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should not be changed when disabled")
 - Given a NumberField with `readonly: true`, when rendered, then the root has `data-readonly=""` and the input has `data-readonly=""`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should not be changed when readonly")
 - Given a NumberField with `max: 10`, `step: 3`, `stepSnapping: true` and `defaultValue: 8`, when rendered, then the increment button has no `disabled` attribute because `9` is still reachable. (reka: packages/core/src/NumberField/NumberField.test.ts: "given step alignment near min/max boundaries > should keep increment enabled when an off-grid value can still align below max")
@@ -805,6 +853,7 @@ Conventions:
 - Given a NumberField with `min: 2`, `step: 3`, `stepSnapping: true` and `defaultValue: 2`, when rendered, then the decrement button has the `disabled` attribute. (reka: packages/core/src/NumberField/NumberField.test.ts: "given step alignment near min/max boundaries > should disable decrement once the next aligned value cannot go below min")
 
 ### Keyboard
+
 - Given a NumberField with `defaultValue: 0`, `min: 0`, `max: 10`, when `ArrowUp` is pressed on the input, then the input value is `1`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on keyboard navigation on input")
 - Given a NumberField at `1`, when `ArrowDown` is pressed on the input, then the input value is `0`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on keyboard navigation on input")
 - Given a NumberField with `max: 10`, when `End` is pressed on the input, then the input value is `10`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on keyboard navigation on input")
@@ -819,6 +868,7 @@ Conventions:
 - Given a NumberField showing `13 mi`, when `Backspace` is pressed twice more, then the input value is `13 `. (reka: packages/core/src/NumberField/NumberField.test.ts: "with different formatOptions > should allow backspacing through the unit suffix")
 
 ### Pointer
+
 - Given a NumberField with `defaultValue: 10`, when the increment button is clicked twice, then the input value goes `11` then `12`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on default step")
 - Given a NumberField at `12`, when the decrement button is clicked twice, then the input value goes `11` then `10`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on default step")
 - Given a NumberField with `defaultValue: 0` and `step: 3`, when the increment button is clicked twice, then the input value goes `3` then `6`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should increase and decrease based on given step")
@@ -838,11 +888,13 @@ Conventions:
 - Given a NumberField with `defaultValue: 5` whose input has been cleared, when the increment button is clicked after clicking away, then the input value is `0`, so an empty field restarts from zero. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should restart from 0 when clearing the value")
 
 ### Focus management
+
 - Given a readonly NumberField, when `Tab` moves focus, then the input is `document.activeElement`, so readonly does not remove the field from the tab order. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should be be focusable when readonly")
 - Given a NumberField with `focusOnChange: true`, when the increment button is clicked, then the input has focus. (reka: packages/core/src/NumberField/NumberField.test.ts: "given focusOnChange prop > should focus input when clicking increment by default")
 - Given a NumberField with `focusOnChange: false`, when the increment button is clicked, then the input does not have focus. (reka: packages/core/src/NumberField/NumberField.test.ts: "given focusOnChange prop > should not focus input when clicking increment if focusOnChange is false")
 
 ### State and controlled/uncontrolled
+
 - Given a NumberField with `defaultValue: 5`, when rendered, then the input value is `5`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should show a default value if provided")
 - Given a NumberField with `modelValue: 10`, when rendered, then the input value is `10`. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should show modelValue if provided")
 - Given a NumberField with `modelValue: -10`, when rendered, then the input value is `-10`, keeping the negative sign. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should show negative sign if less than 0")
@@ -853,11 +905,13 @@ Conventions:
 - Given a NumberField whose input `value` was set to `0`, when decrement is clicked, then the input value is `-1`. (reka: packages/core/src/NumberField/NumberField.test.ts: "given setting the input value manually > should it increase/decrease the value appropriately")
 
 ### Forms
+
 - Given a NumberField named `test` with `defaultValue: 5` inside a form, when rendered, then an input with `type="text"` exists. (reka: packages/core/src/NumberField/NumberField.test.ts: "given checkbox in a form > should have hidden input field")
 - Given a NumberField named `test` at `5` inside a form, when the form is submitted, then the submit handler runs once and the form data is `{ test: '5' }`. (reka: packages/core/src/NumberField/NumberField.test.ts: "given checkbox in a form > after clicking submit button > should trigger submit once")
 - Given a submitted NumberField form, when the increment button is clicked and the form is submitted again, then the handler has run twice and the second form data is `{ test: '6' }`. (reka: packages/core/src/NumberField/NumberField.test.ts: "given checkbox in a form > after changing value and click submit button again > should trigger submit once")
 
 ### RTL and i18n
+
 - Given a NumberField with `defaultValue: 10` and `formatOptions` of `signDisplay: 'exceptZero'` plus `minimumFractionDigits: 1`, when rendered, then the input value is `+10.0`. (reka: packages/core/src/NumberField/NumberField.test.ts: "with different formatOptions > should show decimal point")
 - Given a NumberField with `defaultValue: 0.05`, `step: 0.01` and `formatOptions.style: 'percent'`, when rendered, then the input value is `5%`. (reka: packages/core/src/NumberField/NumberField.test.ts: "with different formatOptions > should show percentage")
 - Given a NumberField with `defaultValue: 5` and currency `formatOptions` of `EUR` with `currencyDisplay: 'code'` and `currencySign: 'accounting'`, when rendered, then the input value is `EUR 5.00`. (reka: packages/core/src/NumberField/NumberField.test.ts: "with different formatOptions > should show currency")
@@ -865,9 +919,11 @@ Conventions:
 - Given a NumberField formatted as `EUR 5.00`, when `formatOptions.currency` is rerendered to `USD`, then the input value becomes `USD 5.00`. (reka: packages/core/src/NumberField/NumberField.test.ts: "with different formatOptions > should change format based on reactive options")
 
 ### Accessibility tooling
+
 - Given a default NumberField, when audited with axe, then no violations are reported. (reka: packages/core/src/NumberField/NumberField.test.ts: "numberField > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given a focused NumberField, when a cancelable `beforeinput` event carrying `あ` is dispatched with `isComposing: true`, then the event is not prevented, so IME composition is never blocked. (reka: packages/core/src/NumberField/NumberField.test.ts: "handle IME composition > should not block beforeinput during IME composition")
 - Given a focused NumberField, when a cancelable `beforeinput` event carrying `abc` is dispatched with `isComposing: false`, then the event is prevented, so non-numeric text is rejected outside composition. (reka: packages/core/src/NumberField/NumberField.test.ts: "handle IME composition > should block invalid beforeinput when NOT composing")
 - Given a NumberField with `defaultValue: 0`, `min: 0`, `max: 10`, when `ArrowUp` and `End` are pressed with `isComposing: true`, then the input value stays `0`, and a subsequent non-composing `ArrowUp` moves it to `1`. (reka: packages/core/src/NumberField/NumberField.test.ts: "handle IME composition > should not step the value during composition (arrow keys are IME candidate navigation)")
@@ -877,6 +933,7 @@ Conventions:
 ## pin-input
 
 ### Roles and attributes
+
 - Given a 5 cell PinInput with `placeholder="*"` and the first input focused, when rendered, then the first input's `placeholder` is the empty string and inputs 2 through 5 each have `placeholder` `*`. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > should display input placeholders")
 - Given a 5 cell PinInput with the first input focused, when rendered, then the focused input shows no placeholder and every unfocused empty input shows `*`. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > render placeholder > should render correct placeholder")
 - Given a PinInput filled with `test` and then `next`, when all five cells hold a character, then the root element has `data-complete=""`. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after user input > after user continue to input > should complete and stop at the last input and populate remaining change")
@@ -888,6 +945,7 @@ Conventions:
 - Given a PinInput, when each of `1` through `6` is typed in turn, then `data-active` moves from cell 0 to cell 5 one cell per keystroke, leaving the previous cell without it. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should set the appropriate `isActive` prop on each cell")
 
 ### Keyboard
+
 - Given a PinInput with the first input focused, when `test` is typed, then the cell values are `t`, `e`, `s`, `t`, empty. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after user input > should populate the word in each box")
 - Given a PinInput already holding `test`, when `next` is typed, then the cells read `t`, `e`, `s`, `t`, `t`, focus stops on the last input and the overflow characters are dropped. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after user input > after user continue to input > should complete and stop at the last input and populate remaining change")
 - Given a PinInput where `a` was typed then the first input refocused with the caret at offset 0, when `b` is typed, then the cells read `b`, empty, empty, empty, empty and focus is on the second input. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > caret handling > should handle caret at the start of the input")
@@ -918,6 +976,7 @@ Conventions:
 - Given a bits PinInput with `pattern: REGEXP_ONLY_DIGITS`, when `1$` is typed, then the value is `1`, so only the matching character is accepted. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should ignore keys that do not match the pattern")
 
 ### Pointer
+
 - Given a PinInput with the first input focused, when `test` is pasted, then the cells read `t`, `e`, `s`, `t`, empty. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after user paste 'test' > should populate the word in each box")
 - Given a PinInput with the second input focused, when `test` is pasted, then the cells read empty, `t`, `e`, `s`, `t`, so the paste starts at the focused cell. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after user paste 'test' at 2nd input > should populate the word in correct box")
 - Given a numeric PinInput, when `test` is pasted, then all cells stay empty. (reka: packages/core/src/PinInput/PinInput.test.ts: "give PinInput type=number > after user paste non-numeric word > should not populate the word")
@@ -931,10 +990,12 @@ Conventions:
 - Given a bits PinInput with `maxlength: 6`, a hyphen stripping `pasteTransformer` and `toCopy: "1-2-3-4-5-6"`, when the 11 character text is pasted, then `onComplete` is called once with `123456`, so the transformer runs before the length check. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should allow pasting more than the max-length if transformation is provided")
 
 ### Focus management
+
 - Given an OTP PinInput (`otp: true`) with empty cells, when the second input is focused programmatically, then `document.activeElement` is the first input, so focus is pulled back to the first empty cell. (reka: packages/core/src/PinInput/PinInput.test.ts: "give OTP PinInput > should disable later inputs if there are empty inputs before them")
 - Given a bits PinInput exposing `inputRef`, when a button calls `inputRef.focus()`, then the hidden input has focus. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should focus the hidden input when `inputRef.focus()` is called")
 
 ### State and controlled/uncontrolled
+
 - Given a 5 cell PinInput, when `apple` is typed, then the root emits `complete` with `['a','p','p','l','e']`. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after completing input > should emit 'complete' with the result")
 - Given a completed PinInput, when the reset button sets the bound value back to an empty array, then inputs 1 through 4 show the `*` placeholder again. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > after resetting value > should display input placeholders")
 - Given a numeric PinInput, when `a1b2c3d4e5` is pasted, then the root emits `complete` with the numbers `[1,2,3,4,5]` rather than strings. (reka: packages/core/src/PinInput/PinInput.test.ts: "give PinInput type=number > after user paste mixed text with enough numeric characters > should emit 'complete' with the result")
@@ -948,6 +1009,7 @@ Conventions:
 - Given a bits PinInput with `onComplete`, when the sixth character is typed, then `onComplete` has been called exactly once. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should set the appropriate `isActive` prop on each cell")
 
 ### Forms
+
 - Given a melt PinInput, when rendered, then the hidden input is not visible. (melt: src/tests/pin-input/PinInput.spec.ts: "PIN Input > doesn't display the hidden input")
 - Given a melt PinInput with `name: 'test'`, when rendered, then the hidden input has `name="test"`. (melt: src/tests/pin-input/PinInput.spec.ts: "PIN Input > syncs the `name` prop to the hidden input")
 - Given a melt PinInput with value `['0','1','1','3','4']`, when rendered, then the hidden input's value is the joined string `01134`. (melt: src/tests/pin-input/PinInput.spec.ts: "PIN Input > syncs the `value` prop to the hidden input")
@@ -955,11 +1017,13 @@ Conventions:
 - Given a bits PinInput with `value: "123456"`, when rendered, then the hidden input's value is `123456`. (bits: tests/src/tests/pin-input/pin-input.browser.test.ts: "should sync the `value` prop to the hidden input")
 
 ### Accessibility tooling
+
 - Given a default PinInput, when audited with axe, then no violations are reported. (reka: packages/core/src/PinInput/PinInput.test.ts: "given default PinInput > should pass axe accessibility tests")
 - Given a numeric PinInput, when audited with axe, then no violations are reported. (reka: packages/core/src/PinInput/PinInput.test.ts: "give PinInput type=number > should pass axe accessibility tests")
 - Given a melt PinInput, when audited with axe, then no violations are reported. (melt: src/tests/pin-input/PinInput.spec.ts: "PIN Input > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given a PinInput with the first input focused and composition started, when an `input` event carrying `1` is fired with `isComposing: true`, then focus stays on the first input and its value is still empty. (reka: packages/core/src/PinInput/PinInput.test.ts: "handle IME composition > should not shift focus during composition")
 - Given a PinInput mid composition, when the input's value is set to `5` and `compositionend` fires with `data: '5'`, then the first cell reads `5` and focus moves to the second input. (reka: packages/core/src/PinInput/PinInput.test.ts: "handle IME composition > should process the committed value after compositionend")
 - Given a PinInput mid composition, when `ArrowRight` is pressed with `isComposing: true`, then focus stays on the first input. (reka: packages/core/src/PinInput/PinInput.test.ts: "handle IME composition > should not move between inputs with arrow keys during composition")
@@ -977,6 +1041,7 @@ Conventions:
 ## progress
 
 ### Roles and attributes
+
 - Given a Progress with a starting value of `0`, when rendered, then the markup contains `data-value="0"`. (reka: packages/core/src/Progress/Progress.test.ts: "given a default Progress > should contain correct value")
 - Given a default Progress, when rendered, then the root has the `data-progress-root` attribute. (bits: tests/src/tests/progress/progress.browser.test.ts: "should have bits data attrs")
 - Given a default Progress, when rendered, then the root has `role="progressbar"`. (bits: tests/src/tests/progress/progress.browser.test.ts: "should have role='progressbar'")
@@ -990,18 +1055,22 @@ Conventions:
 - Given a Progress with no `max` prop, when rendered, then the root has `aria-valuemax="100"`. (bits: tests/src/tests/progress/progress.browser.test.ts: "should have a default max of 100")
 
 ### State and controlled/uncontrolled
+
 - Given a Progress whose bound value is raised to `50` by a timeout after 200ms, when that time has elapsed, then the markup contains `data-value="50"`. (reka: packages/core/src/Progress/Progress.test.ts: "given a default Progress > after 200ms > should contain correct value")
 - Given a Progress bound to a parent variable starting at `0`, when a button sets that variable to `50`, then the displayed binding text reads `50` and the root's `aria-valuenow` becomes `50`. (bits: tests/src/tests/progress/progress.browser.test.ts: "should react to updates to the value prop")
 
 ### Accessibility tooling
+
 - Given a default Progress, when audited with axe, then no violations are reported. (reka: packages/core/src/Progress/Progress.test.ts: "given a default Progress > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given reka's Progress story fixture, when the value changes, then `ProgressIndicator` is positioned by a consumer-supplied inline `transform: translateX(-${100 - value}%)` rather than by the primitive itself. (reka: packages/core/src/Progress/Progress.test.ts: "given a default Progress > after 200ms > should contain correct value")
 
 ## meter
 
 ### Roles and attributes
+
 - Given a default Meter, when rendered, then the root has the `data-meter-root` attribute. (bits: tests/src/tests/meter/meter.browser.test.ts: "should have bits data attrs")
 - Given a default Meter, when rendered, then the root has `role="meter"`. (bits: tests/src/tests/meter/meter.browser.test.ts: "should have role='meter'")
 - Given a Meter with `aria-labelledby="label"` and `aria-valuetext="value"` passed in, when rendered, then both attributes appear verbatim on the root. (bits: tests/src/tests/meter/meter.browser.test.ts: "should forward `aria-labelledby` and `aria-valuetext`")
@@ -1012,14 +1081,17 @@ Conventions:
 - Given a Meter with no `max` prop, when rendered, then the root has `aria-valuemax="100"`. (bits: tests/src/tests/meter/meter.browser.test.ts: "should have a default max of 100")
 
 ### State and controlled/uncontrolled
+
 - Given a Meter bound to a parent variable starting at `0`, when a button sets that variable to `50`, then the displayed binding text reads `50` and the root's `aria-valuenow` becomes `50`. (bits: tests/src/tests/meter/meter.browser.test.ts: "should react to updates to the value prop")
 
 ### Notes and edge cases
+
 - Given bits' Meter, when compared with bits' Progress, then it has no indeterminate mode: there is no `value: null` case and no `data-indeterminate` attribute in its suite. (bits: tests/src/tests/meter/meter.browser.test.ts: "should respect the value prop")
 
 ## rating-group
 
 ### Roles and attributes
+
 - Given a Rating with `defaultValue: 1`, `length: 3` and `orientation: 'vertical'`, when rendered, then the first `role="radio"` item has `data-state="active"` and items 2 and 3 have no `data-state`. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > should have default selected")
 - Given a disabled Rating with `defaultValue: 1` and `length: 3`, when rendered, then the first item has `data-state="active"`. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should have default selected")
 - Given a disabled Rating with `length: 3`, when rendered, then item 1 has both `disabled=""` and `data-disabled=""`. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should have disabled attribute on item")
@@ -1039,6 +1111,7 @@ Conventions:
 - Given a RatingGroup with `max: 5` and `value: 0`, when rendered, then the root has `aria-valuenow="0"` and `aria-valuetext="0 out of 5"`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Value Display > should update aria-valuenow and aria-valuetext when value changes")
 
 ### Keyboard
+
 - Given a vertical Rating with `defaultValue: 1` and `length: 3`, when the first item is focused and `ArrowDown` is pressed, then items 1 and 2 both have `data-state="active"` and focus has moved to item 2. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > on keyboard navigation > should select next item on keydown")
 - Given a vertical Rating advanced to `2` by `ArrowDown`, when `ArrowUp` is pressed, then item 1 is `active` and item 3 has no `data-state`. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > on keyboard navigation > on arrow up > should select the first item again")
 - Given a RatingGroup with `value: 2` and the root focused, when `ArrowRight` is pressed then `ArrowUp`, then the value goes `3` then `4`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Keyboard Navigation > should increment value with arrow right/up keys")
@@ -1058,6 +1131,7 @@ Conventions:
 - Given a RatingGroup with `allowHalf: true` and `max: 5` under fake timers, when the sequence `2.5` is typed into the root and pending timers run, then the value is `2.5`, so a decimal point is buffered across keystrokes. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Decimal Input Sequences > should handle typing '2.5' sequence for half ratings")
 
 ### Pointer
+
 - Given a disabled Rating with `defaultValue: 1`, when item 1 is clicked, then it stays `data-state="active"`. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should not select any item")
 - Given a disabled Rating with `defaultValue: 1`, when item 2 is clicked, then it still has no `data-state`. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should not select any item")
 - Given a disabled Rating with `defaultValue: 1`, when item 3 is clicked, then it still has no `data-state`. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should not select any item")
@@ -1085,10 +1159,12 @@ Conventions:
 - Given a RatingGroup with `value: 1`, `min: 0` and `allowHalf: true`, when the first item is clicked, then the resulting value is either `0` or `0.5` depending on the horizontal click offset. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Clear Functionality > should clear with allowHalf when clicking left side of first item")
 
 ### Focus management
+
 - Given a RatingGroup, when item 3 is clicked, then the root receives focus. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Value Changes > should focus the root after clicking an item")
 - Given a RatingGroup with `value: 1` and `min: 0`, when the first item is clicked to clear the value, then the root receives focus. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Clear Functionality > should focus root after clearing")
 
 ### State and controlled/uncontrolled
+
 - Given a vertical Rating with `defaultValue: 1`, when the first item is focused and `ArrowDown` is pressed, then `RatingRoot` emits `update:modelValue` with `2`. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > on keyboard navigation > should emit `update:modelValue` on keyboard navigation")
 - Given a RatingGroup with `allowHalf: true`, when a button sets the bound value to `2.5`, then the value display reads `2.5` and item states read `active`, `active`, `partial`, `inactive`, `inactive`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Value Changes > should handle half ratings when allowHalf is true")
 - Given a RatingGroup with an `onValueChange` callback, when item 2 is clicked, then the callback receives `3`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Value Changes > should call onValueChange when value changes")
@@ -1100,6 +1176,7 @@ Conventions:
 - Given a RatingGroup with `min: 1`, `max: 5` and an initial `value: 0`, when rendered, then the value is clamped up to `1`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Min Value > should clamp values to min bound")
 
 ### Forms
+
 - Given a RatingGroup with no `name` prop, when rendered, then no `input` element exists in the container. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Input Behavior > should not render an input if the `name` prop isn't passed")
 - Given a RatingGroup with `name: "rating"`, when rendered, then an `input` element exists. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Input Behavior > should render an input if the `name` prop is passed")
 - Given a RatingGroup with `name: "rating"`, when item 2 is clicked, then the hidden input's value is `3`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Input Behavior > should sync the input's value with the rating group value")
@@ -1109,6 +1186,7 @@ Conventions:
 - Given a RatingGroup with `value: 1`, `min: 0` and `name: "rating"`, when the first item is clicked to clear, then the hidden input's value goes from `1` to `0`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Clear Functionality > should update hidden input value when clearing")
 
 ### RTL and i18n
+
 - Given a RatingGroup whose root has `direction: rtl` and `max: 5`, when item 2 is clicked, then the value becomes `3`, so click mapping is unaffected by direction. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "RTL Behavior > should handle click behavior in RTL mode")
 - Given an RTL RatingGroup with `value: 2`, when `ArrowLeft` is pressed then `ArrowRight`, then the value goes `3` then back to `2`, so the horizontal arrows are flipped. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "RTL Behavior > should handle keyboard navigation in RTL mode")
 - Given an RTL RatingGroup at `2`, when `ArrowUp` is pressed then `ArrowDown`, then the value goes `3` then back to `2`, so the vertical arrows are not flipped. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "RTL Behavior > should handle keyboard navigation in RTL mode")
@@ -1122,10 +1200,12 @@ Conventions:
 - Given an RTL RatingGroup with `value: 1` and `min: 0`, when the already active first item is clicked, then the value clears to `0`. (bits: tests/src/tests/rating-group/rating-group.browser.test.ts: "Clear Functionality > should work in RTL mode")
 
 ### Accessibility tooling
+
 - Given a vertical Rating with `defaultValue: 1` and `length: 3`, when audited with axe, then no violations are reported. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > should pass axe accessibility tests")
 - Given a disabled Rating with `defaultValue: 1` and `length: 3`, when audited with axe, then no violations are reported. (reka: packages/core/src/Rating/Rating.test.ts: "given disabled Rating > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given reka's Rating, when rendered, then the root is `role="radiogroup"` and each item is `role="radio"`, in contrast to bits' single `role="slider"` root with `role="presentation"` items. (reka: packages/core/src/Rating/Rating.test.ts: "given a hoverable Rating > should preview the hovered rating")
 - Given reka's Rating fixture, when `RatingRoot`'s default slot is used, then it yields `items`, `RatingItem` yields `steps`, and each `RatingItemIndicator` is positioned with the CSS custom properties `--reka-rating-item-step-width`, `--reka-rating-item-step-opacity` and `--reka-rating-item-step-z-index`. (reka: packages/core/src/Rating/Rating.test.ts: "given a default Rating > should have default selected")
 - Given reka's Rating, when the hover preview is exercised, then it is opt in behind a `hoverable` prop, whereas bits' `hoverPreview` defaults to on and must be explicitly disabled. (reka: packages/core/src/Rating/Rating.test.ts: "given a hoverable Rating > should preview the hovered rating")
@@ -1135,6 +1215,7 @@ Conventions:
 ## tabs
 
 ### Roles and attributes
+
 - Given a default Tabs with two triggers and two contents, when rendered, then an element with `role="tabpanel"` exists in the tree. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > should render tab's content")
 - Given a Tabs whose `TabsList` holds two triggers and no `TabsContent` is rendered at all, when rendered, then neither trigger has an `aria-controls` attribute. (reka: packages/core/src/Tabs/Tabs.test.ts: "given Tabs without TabsContent > should not render aria-controls on TabsTrigger")
 - Given a Tabs with two triggers but only a `TabsContent` for `tab1`, when rendered, then the `tab1` trigger has `aria-controls` defined and the `tab2` trigger has no `aria-controls`. (reka: packages/core/src/Tabs/Tabs.test.ts: "given Tabs without TabsContent > should render aria-controls only for TabsTrigger with matching TabsContent")
@@ -1146,6 +1227,7 @@ Conventions:
 - Given a Tabs whose content is passed `tabindex={-1}`, when the first trigger is clicked, then the active content has `tabindex="-1"`. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should allow skipping the panel when its first content is focusable")
 
 ### Keyboard
+
 - Given a default Tabs with the first trigger focused, when `ArrowRight` is pressed, then the second trigger becomes `document.activeElement`. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > after changing tab > should focus on next tab")
 - Given a default Tabs with the first trigger focused, when `ArrowRight` is pressed, then the second panel is rendered and its text "Change your password" is in the markup, so activation is automatic on focus move. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > after changing tab > should render it's content")
 - Given a Tabs with five tabs and the first trigger focused, when `ArrowRight` is pressed repeatedly, then focus advances one trigger per press through all five in order. (melt: src/tests/tabs/Tabs.spec.ts: "can navigate tabs with arrow keys")
@@ -1164,31 +1246,37 @@ Conventions:
 - Given a vertical Tabs, when `ArrowUp` is pressed from trigger 3 and then from trigger 2, then focus moves to trigger 2 then trigger 1 and the matching content becomes visible at each step. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should navigate using up & down when orientation is vertical")
 
 ### Pointer
+
 - Given a Tabs with three items, when trigger 2 is clicked, then content 2 is visible and contents 1 and 3 are not visible. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should switch tabs on click")
 - Given a Tabs with three items, when trigger 3 is clicked, then content 3 is visible and contents 1 and 2 are not visible. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should switch tabs on click")
 - Given a Tabs with three items and tab 3 active, when trigger 1 is clicked, then content 1 is visible again and contents 2 and 3 are not visible. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should switch tabs on click")
 
 ### Focus management
+
 - Given a Tabs whose content starts with non-focusable text (`contentLayout: "text"`), when trigger 1 is clicked and `Tab` is pressed, then the content panel itself receives focus. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should tab to the panel when its first content is not focusable (text)")
 - Given a Tabs whose content starts with text followed by a button (`contentLayout: "text-button"`), when trigger 1 is clicked and `Tab` is pressed, then the content panel itself receives focus. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should tab to the panel when its first content is not focusable (text-button)")
 - Given a Tabs whose content holds only a focusable button and the content is given `tabindex={-1}`, when trigger 1 is clicked and `Tab` is pressed, then focus lands on the button inside the panel rather than on the panel. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should allow skipping the panel when its first content is focusable")
 - Given focus on the button inside the active panel, when `Shift+Tab` is pressed, then focus returns to trigger 1. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should allow skipping the panel when its first content is focusable")
 
 ### State and controlled/uncontrolled
+
 - Given a Tabs with `:default-value="1"` matching the first trigger and content, when rendered, then the first panel is the one shown and its text "Make changes" is in the markup. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > should render tab's content")
 - Given a bits Tabs mounted with `bind:value` defaulting to `"1"`, when rendered, then content 1 is visible and contents 2 and 3 are not. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should switch tabs on click")
 
 ### SSR and hydration
+
 - Given a Tabs rendered by `createSSRApp` under a `ConfigProvider` supplying a counting `useId`, when `renderToString` runs with `app.config.idPrefix = "v-1"`, then the markup contains `id="reka-tabs-nuxt-1-trigger-account"`. (reka: packages/core/src/Tabs/Tabs.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given the same server render, when inspecting the output, then the markup contains `id="reka-tabs-nuxt-1-content-account"`, so the trigger and content ids derive from one shared base id. (reka: packages/core/src/Tabs/Tabs.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given server markup produced with `idPrefix = "v-1"`, when a client app with `idPrefix = "v-0"` hydrates the same container, then the `[role="tab"]` id and the `[role="tabpanel"]` id are unchanged from the server values. (reka: packages/core/src/Tabs/Tabs.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given hydration with mismatched Vue app id prefixes, when hydration completes, then `console.warn` never receives "Hydration attribute mismatch" and `console.error` never receives "Hydration completed but contains mismatches". (reka: packages/core/src/Tabs/Tabs.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 
 ### Accessibility tooling
+
 - Given a default Tabs with its first trigger focused, when run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > should pass axe accessibility tests")
 - Given a default Tabs, when run through `axe`, then there are no accessibility violations. (melt: src/tests/tabs/Tabs.spec.ts: "has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given the reka story fixture, when mounted, then tab values mix types (`:value="1"` as a number for the first tab, `value="tab2"` as a string for the second) and matching still works. (reka: packages/core/src/Tabs/Tabs.test.ts: "given default Tabs > should render tab's content")
 - Given the melt builder, when `createTabs` is destructured, then it returns `elements` holding `root`, `list`, `trigger`, and `content`, where `trigger` and `content` are per-value functions applied with `use:melt={$trigger(tab)}`. (melt: src/tests/tabs/Tabs.spec.ts: "tablist renders tabs")
 - Given the bits fixture, when rendered, then `Tabs.Root` takes `bind:value` plus spread rest props and a sibling button resets the bound value to `"1"`, so the binding is observable outside the component. (bits: tests/src/tests/tabs/tabs.browser.test.ts: "should switch tabs on click")
@@ -1197,6 +1285,7 @@ Conventions:
 ## accordion
 
 ### Roles and attributes
+
 - Given a single-type Accordion with item 1 disabled, when rendered, then the first item and first trigger both have `data-state="closed"` and neither has `data-disabled`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Expansion Behavior > should have expected data attributes")
 - Given a single-type Accordion with item 1 disabled, when the first trigger is clicked, then the first item and trigger have `data-state="open"` while the disabled item and its trigger both have `data-disabled`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Expansion Behavior > should have expected data attributes")
 - Given an isolated Accordion, when rendered, then the root has `data-accordion-root`, the item `data-accordion-item`, the header `data-accordion-header`, the content `data-accordion-content`, and the trigger `data-accordion-trigger`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "Shared Behavior > should have bits data attrs")
@@ -1211,6 +1300,7 @@ Conventions:
 - Given a melt Accordion rendered with `disabled: true`, when rendered, then the item has `data-state="closed"`. (melt: src/tests/accordion/Accordion.spec.ts: "does not expand item when disabled")
 
 ### Keyboard
+
 - Given a single-type reka Accordion with the first trigger focused, when `ArrowDown` is pressed, then the second trigger becomes `document.activeElement`. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > on `ArrowDown` > should move focus to the next trigger")
 - Given a single-type reka Accordion with the last of four triggers focused, when `ArrowDown` is pressed, then focus wraps to the first trigger. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > on `ArrowDown` > should move focus to the first item if at the end")
 - Given a single-type reka Accordion with the third trigger focused, when `ArrowUp` is pressed, then the second trigger becomes `document.activeElement`. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > on `ArrowUp` > should move focus to the previous trigger")
@@ -1249,6 +1339,7 @@ Conventions:
 - Given a single-type bits Accordion with item 1 disabled and the first trigger clicked with `force`, when `ArrowDown` is pressed, then trigger 1 does not receive focus and trigger 2 does. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Props and Bindings > should respect the `disabled` prop for items")
 
 ### Pointer
+
 - Given a single-type reka Accordion, when the first trigger is clicked, then the "Content One" element is present in the document markup. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > when clicking a trigger > should show the content")
 - Given a single-type reka Accordion with the first item already open, when the same trigger is clicked again, then "Content One" stays in the markup, so a single Accordion without `collapsible` cannot be closed by its own trigger. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > then clicking the trigger again > should not close the content")
 - Given a single-type reka Accordion with the first item open, when the second trigger is clicked, then "Content Two" appears in the markup. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > then clicking another trigger > should show the new content")
@@ -1271,6 +1362,7 @@ Conventions:
 - Given a multiple-type bits Accordion with `disabled: true` on the root, when rendered, then triggers 0, 1, and 2 each have `data-state="closed"` and `data-disabled`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='multiple' > Props and Bindings > should disable everything when the `disabled` prop is true")
 
 ### State and controlled/uncontrolled
+
 - Given a single-type reka Accordion, when the first trigger is clicked, then `update:modelValue` is emitted with the string `"One"`. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > when clicking a trigger > should call update:modelValue")
 - Given a single-type reka Accordion with the first item open, when its trigger is clicked again, then the total count of `update:modelValue` emissions stays at 1. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > then clicking the trigger again > should not call update:modelValue")
 - Given a single-type reka Accordion with the first item open, when the second trigger is clicked, then the second `update:modelValue` emission carries `"Two"`. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > then clicking another trigger > should call update:modelValue")
@@ -1290,6 +1382,7 @@ Conventions:
 - Given the same Accordion with only `item-0` open, when `ArrowUp` then `Enter` are pressed, then `onValueChange` receives the empty array `[]`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='multiple' > Props and Bindings > should call `onValueChange` with the new value when an item is expanded/collapsed")
 
 ### Animation and presence
+
 - Given a single-type bits Accordion whose contents use `forceMount` with a `child` snippet, when rendered with all items closed, then every item's content element is visible in the document. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Props and Bindings > should forceMount the content when `forceMount` is true")
 - Given a force-mounted single-type bits Accordion with a mutation observer on the first content, when the first trigger is clicked, then at some point the content carries `data-starting-style`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Props and Bindings > should apply transition attrs to content during open and close")
 - Given the same observed content now open, when the first trigger is clicked again, then at some point the content carries `data-ending-style`. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Props and Bindings > should apply transition attrs to content during open and close")
@@ -1297,17 +1390,20 @@ Conventions:
 - Given the same Accordion, when the first trigger is clicked, then the first item's content element exists and is visible while the second item's content element still does not exist. (bits: tests/src/tests/accordion/accordion.browser.test.ts: "type='single' > Props and Bindings > works properly when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 
 ### SSR and hydration
+
 - Given a single-type collapsible Accordion rendered by `createSSRApp` under a `ConfigProvider` with a counting `useId`, when `renderToString` runs with `app.config.idPrefix = "v-1"`, then the markup contains `id="reka-accordion-trigger-nuxt-1"`. (reka: packages/core/src/Accordion/Accordion.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given the same server render, when inspecting the output, then the markup contains `id="reka-collapsible-content-nuxt-2"`, so the content id comes from the collapsible layer and uses the next id from the provider. (reka: packages/core/src/Accordion/Accordion.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given server markup produced with `idPrefix = "v-1"`, when a client app with `idPrefix = "v-0"` hydrates the same container, then the first `button` id and the `[role="region"]` id are unchanged from the server values. (reka: packages/core/src/Accordion/Accordion.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 - Given hydration with mismatched Vue app id prefixes, when hydration completes, then `console.warn` never receives "Hydration attribute mismatch" and `console.error` never receives "Hydration completed but contains mismatches". (reka: packages/core/src/Accordion/Accordion.test.ts: "ssr hydration > uses ConfigProvider ids when Vue app id prefixes differ")
 
 ### Accessibility tooling
+
 - Given a single-type reka Accordion with four items, when run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > should pass axe accessibility tests")
 - Given a multiple-type reka Accordion with four items, when run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a multiple Accordion > should pass axe accessibility tests")
 - Given a melt Accordion rendered with no items, when run through `axe`, then there are no accessibility violations. (melt: src/tests/accordion/Accordion.spec.ts: "has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given the reka story fixture, when mounted, then `AccordionRoot` receives emit handlers via `useEmitAsProps(emits)` and each `AccordionItem` renders its `AccordionContent` inside a `v-for`, so an item can hold more than one content node. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > when clicking a trigger > should show the content")
 - Given the reka single-type story, when its `type` prop is left at the default, then `type: "single"` is used without `collapsible`, which is why re-clicking an open trigger neither closes it nor emits. (reka: packages/core/src/Accordion/Accordion.test.ts: "given a single Accordion > then clicking the trigger again > should not close the content")
 - Given the melt builder, when `createAccordion` is destructured, then it returns `elements` holding `root`, `item`, `trigger`, and `content` plus `helpers` holding `isSelected`, and the fixture uses `$isSelected(id)` to decide whether to render content at all. (melt: src/tests/accordion/Accordion.spec.ts: "displays content when item is expanded")
@@ -1317,6 +1413,7 @@ Conventions:
 ## collapsible
 
 ### Roles and attributes
+
 - Given a default closed reka Collapsible, when rendered, then a `[hidden]` content element exists and its text content is empty. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a default Collapsible > should have hidden content")
 - Given a reka Collapsible with `unmountOnHide: false`, when rendered closed, then the content's `hidden` attribute is the empty string under jsdom. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a Collapsible with `unmountOnHide:false` > should have hidden attribute")
 - Given a reka Collapsible with `unmountOnHide: false` that was opened and closed again, when the content is inspected, then it has `data-state="closed"`, `hidden=""`, and its markup is still present in the tree. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a Collapsible with `unmountOnHide:false` > and clicking the trigger again > should close the content")
@@ -1326,6 +1423,7 @@ Conventions:
 - Given a bits Collapsible with `hiddenUntilFound: true`, when the trigger is clicked twice to open and close it, then the content again has `hidden="until-found"` rather than a plain `hidden`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Hidden Until Found Behavior > should maintain hidden='until-found' after closing when hiddenUntilFound is true")
 
 ### Pointer
+
 - Given a default closed reka Collapsible, when the trigger is clicked, then the content text "Content" is rendered inside the component. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a default Collapsible > when clicking the trigger > should open the content")
 - Given an open reka Collapsible, when the trigger is clicked again, then the content markup is no longer in the rendered text, so the content unmounts by default. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a default Collapsible > and clicking the trigger again > should close the content")
 - Given a reka Collapsible with `unmountOnHide: false`, when the trigger is clicked, then the content text "Content" is rendered. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a Collapsible with `unmountOnHide:false` > when clicking the trigger > should open the content")
@@ -1335,6 +1433,7 @@ Conventions:
 - Given a closed bits Collapsible, when the trigger is clicked, then the content becomes visible, and clicking again makes it not visible. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "State and Interaction > should toggle the `open` state when clicked")
 
 ### State and controlled/uncontrolled
+
 - Given a reka Collapsible with `defaultOpen: true`, when rendered, then the content text is present without any interaction. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given an open uncontrolled Collapsible > should open the content by default")
 - Given a reka Collapsible wrapper that forwards props and emits, when `update:open` is emitted with `false`, then the first emission payload is `false`. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given an open uncontrolled Collapsible > should call `update:open` prop with `false` value")
 - Given a melt Collapsible with `defaultOpen: true`, when rendered, then the content is visible. (melt: src/stories/Collapsible/Collapsible.spec.ts: "Should be open when open prop is true")
@@ -1348,6 +1447,7 @@ Conventions:
 - Given a bits Collapsible with an `onOpenChange` mock, when the trigger is clicked, then the callback is called with `true`, and on a second click with `false`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Props and Events > should call `onOpenChange` when the open state changes")
 
 ### Animation and presence
+
 - Given a bits Collapsible whose content uses `forceMount` with a `child` snippet that ignores the snippet `open` prop, when rendered closed, then the content element is visible. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Force Mount Behavior > should forceMount the content when `forceMount` is true")
 - Given a force-mounted bits Collapsible with a mutation observer on the content, when the trigger is clicked to open, then at some point the content carries `data-starting-style`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Force Mount Behavior > should apply transition attrs to content during open and close")
 - Given the same observed content now open, when the trigger is clicked to close, then at some point the content carries `data-ending-style`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Force Mount Behavior > should apply transition attrs to content during open and close")
@@ -1355,11 +1455,13 @@ Conventions:
 - Given the same Collapsible, when the trigger is clicked, then the content element exists and is visible. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Force Mount Behavior > should forceMount the content when `forceMount` is true and the `open` snippet prop is used")
 
 ### Accessibility tooling
+
 - Given a default closed reka Collapsible, when run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a default Collapsible > should pass axe accessibility tests")
 - Given a reka Collapsible with `unmountOnHide: false`, when run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Collapsible/Collapsible.test.ts: "given a Collapsible with `unmountOnHide:false` > should pass axe accessibility tests")
 - Given a default melt Collapsible, when run through `axe`, then there are no accessibility violations. (melt: src/stories/Collapsible/Collapsible.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given a bits Collapsible with `open: false` and `hiddenUntilFound: true`, when a `beforematch` event is dispatched on the content, then the bound `open` value display changes to `true`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Hidden Until Found Behavior > should open collapsible when beforematch event is triggered")
 - Given a bits Collapsible with `hiddenUntilFound: true` and an `onOpenChange` mock, when a `beforematch` event is dispatched on the content, then the callback is called with `true`. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Hidden Until Found Behavior > should call onOpenChange when beforematch event opens the collapsible")
 - Given a bits Collapsible already `open: true` with `hiddenUntilFound: true` and an `onOpenChange` mock, when a `beforematch` event is dispatched on the content, then the callback is never called. (bits: tests/src/tests/collapsible/collapsible.browser.test.ts: "Hidden Until Found Behavior > should not trigger open change when already open and beforematch is fired")
@@ -1370,11 +1472,13 @@ Conventions:
 ## stepper
 
 ### Roles and attributes
+
 - Given a reka Stepper mounted with `modelValue: 2`, when rendered, then the second step item has `aria-current="true"`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > respects a default value if provided")
 - Given a linear reka Stepper with step 2 active, when the third item is inspected, then it does not have `data-disabled=""`, so the step after the current one is enabled. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > enables the next step for linear steppers")
 - Given a linear reka Stepper after step 3 is selected, when the fourth item is inspected, then it does not have `data-disabled=""`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > enables the next step for linear steppers")
 
 ### Keyboard
+
 - Given a five-step reka Stepper with the first trigger focused by click, when `ArrowRight` is pressed, then the second trigger has focus, and a following `ArrowLeft` returns focus to the first. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > navigates horizontally using the keyboard")
 - Given a reka Stepper with `orientation: "vertical"` and the first trigger focused by click, when `ArrowDown` is pressed, then the second trigger has focus, and a following `ArrowUp` returns focus to the first. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > navigates vertically using the keyboard")
 - Given a reka Stepper with `linear: true` and the first trigger focused, when `ArrowRight` is pressed, then the second trigger has focus. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > prevents navigation to other elements if linear is true")
@@ -1384,24 +1488,29 @@ Conventions:
 - Given a reka Stepper with the first trigger clicked and `ArrowRight` pressed, when `Space` is pressed, then the second item has `aria-current="true"`, and repeating `ArrowRight` plus `Space` makes the third item `aria-current="true"`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > selects a step using the { } key")
 
 ### Pointer
+
 - Given a five-step reka Stepper, when the second trigger is clicked, then the second item has `aria-current="true"`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > selects a step on click")
 - Given a reka Stepper with `linear: true` and step 1 active, when the third trigger is clicked, then it does not receive focus, so non-adjacent steps cannot be reached by pointer. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > prevents navigation to other elements if linear is true")
 - Given a reka Stepper with `linear: false`, when the fourth trigger is clicked, then it receives focus. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > allows navigation to other elements if linear is false")
 - Given a linear reka Stepper, when the second trigger is clicked, then the second item has `aria-current="true"`, and clicking the third trigger then makes the third item `aria-current="true"`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > enables the next step for linear steppers")
 
 ### Focus management
+
 - Given a five-step reka Stepper, when the first trigger is clicked, then that trigger has focus. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > navigates horizontally using the keyboard")
 
 ### State and controlled/uncontrolled
+
 - Given a reka Stepper rendering five triggers and exposing `totalSteps` through the root's default slot, when mounted, then the displayed total reads `5`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > keeps the total step count in sync when triggers unmount and remount")
 - Given the same Stepper, when it is re-rendered with only three visible steps, then the displayed total reads `3`. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > keeps the total step count in sync when triggers unmount and remount")
 - Given the same Stepper reduced to three steps, when it is re-rendered back to five, then the displayed total reads `5` rather than drifting upward. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > keeps the total step count in sync when triggers unmount and remount")
 - Given repeated toggling of the visible step count, when the Stepper is re-rendered with one step and then five again, then the displayed total reads `1` and then `5`, so no stale trigger elements leak into the registered set. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > keeps the total step count in sync when triggers unmount and remount")
 
 ### Accessibility tooling
+
 - Given a default reka Stepper, when its root element is run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Stepper/Stepper.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given the reka Stepper setup helper, when the component renders, then the element with `data-testid="stepper"` is visible before any other assertion runs. (reka: packages/core/src/Stepper/Stepper.test.ts: "should pass axe accessibility tests")
 - Given the reka Stepper fixture, when mounted, then each `StepperItem` wraps a `StepperTrigger` holding `StepperIndicator`, `StepperTitle`, and `StepperDescription`, and a `StepperSeparator` is rendered for every step except the last. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > selects a step on click")
 - Given the dynamic reka Stepper fixture, when `StepperRoot` is used with `v-slot="{ totalSteps }"`, then the root exposes the live trigger count to its slot. (reka: packages/core/src/Stepper/Stepper.test.ts: "stepper > keeps the total step count in sync when triggers unmount and remount")
@@ -1409,6 +1518,7 @@ Conventions:
 ## dialog
 
 ### Roles and attributes
+
 - Given a Dialog with `unmountOnHide=false`, when opened then closed with Escape, then the content element is still matched by `[role="dialog"]`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should keep content in DOM when closed after being opened")
 - Given a Dialog with `unmountOnHide=false` that has been opened and closed, when inspecting the page, then `document.body` has no `aria-hidden` attribute. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should not apply aria-hidden to body after open then close")
 - Given an open Dialog, when the overlay is located, then it carries `data-state="open"` and is a `div` with no `role` attribute. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when clicking the overlay > should close the content")
@@ -1422,6 +1532,7 @@ Conventions:
 - Given a Dialog built from a Melt builder with custom `ids` for content, title and description, when rendered, then each element's `id` equals the supplied value. (melt: src/tests/dialog/Dialog.spec.ts: "Dialog > Applies custom ids when provided")
 
 ### Keyboard
+
 - Given an open Dialog with `unmountOnHide=false`, when `Escape` is pressed, then the content's inline `display` becomes `none`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should keep content in DOM when closed after being opened")
 - Given an open non-modal Dialog with `unmountOnHide=false`, when `Escape` is pressed, then the content's inline `display` becomes `none`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a non-modal Dialog with unmountOnHide=false > should keep content in DOM when closed after being opened")
 - Given an open Dialog, when `Escape` is pressed, then the close button's markup is no longer in `document.body`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when pressing escape > should close the content")
@@ -1437,6 +1548,7 @@ Conventions:
 - Given a bits Dialog containing a dropdown menu and a popover, when `Escape` is pressed with the dropdown open, then only the dropdown closes and the dialog stays open; the same holds for the popover, and a final `Escape` closes the dialog. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "Integration with other components > should allow opening nested floating components within the dialog")
 
 ### Pointer
+
 - Given an open Dialog, when `pointerdown` fires on the overlay, then the close button's markup is removed from `document.body`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when clicking the overlay > should close the content")
 - Given an open Dialog, when `pointerdown` fires on the overlay, then focus returns to the trigger. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when clicking the overlay > should focus trigger")
 - Given a Dialog whose content is nested inside the overlay, when `pointerdown` with `button: 0` is dispatched on a text input inside the content, then the event's `defaultPrevented` is `false`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with content nested inside the overlay > when pressing down on a control inside the content > should not prevent the default pointerdown action")
@@ -1464,6 +1576,7 @@ Conventions:
 - Given the docs dialog page on a touch device with the dialog open and the "View code" button positioned under the overlay but not under the content, when the overlay is tapped at that button's centre coordinates, then the content becomes hidden and the "View code" button's `data-state` is still `unchecked`. (melt: e2e/dialog.spec.ts: "dialog > touch device > doesn't leak events when tapping overlay")
 
 ### Focus management
+
 - Given a Dialog with `unmountOnHide=false` that is force-mounted but closed, when the page mounts, then `document.activeElement` is `document.body` and no focus is pulled into the hidden content. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should not pull focus into the content while closed on mount")
 - Given a Dialog with `unmountOnHide=false`, when the trigger is clicked, then the close button becomes `document.activeElement`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should focus the close button on open")
 - Given a Dialog with `unmountOnHide=false` that has been opened, closed with Escape and reopened, when it reopens, then the close button is focused again, so focus is re-applied on each `present` false to true transition rather than only on physical mount. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should re-focus the content when reopened")
@@ -1500,10 +1613,12 @@ Conventions:
 - Given a bits nested Dialog fixture with the first dialog open, when `Tab` is pressed repeatedly, then focus cycles between the first close button and the second dialog's trigger; pressing `Enter` on that trigger opens the second dialog and focuses its close button, and `Enter` again closes it and returns focus to the second trigger. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "Nested Dialogs > should handle focus scoping correctly")
 
 ### State and controlled/uncontrolled
+
 - Given a bits Dialog bound to `open`, when the trigger is clicked then `Escape` pressed, then the binding text reads `true` then `false`, and clicking the external toggle re-opens the content. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "should respect binding to the `open` prop")
 - Given a Dialog with `unmountOnHide=false` and an `openAutoFocus` handler, when the component mounts closed, then the handler has been called zero times, and it is called exactly once after the trigger click. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false, openAutoFocus > should not emit openAutoFocus while closed and emit once per open")
 
 ### Dismissal and layering
+
 - Given two Dialogs with `unmountOnHide=false` where a hidden non-modal one mounted after the open modal one, when `Escape` is pressed, then the first content's inline `display` becomes `none` and focus returns to its trigger, so the hidden later layer does not swallow Escape. (reka: packages/core/src/Dialog/Dialog.test.ts: "given two Dialogs with unmountOnHide=false > should close the open dialog on Escape even though a hidden one mounted after it")
 - Given two Dialogs with `unmountOnHide=false` both closed, when `pointerdown` fires on `document.body` after the outside-listener `setTimeout(0)` window, then the closed keep-mounted dialog's `interactOutside` handler is not called. (reka: packages/core/src/Dialog/Dialog.test.ts: "given two Dialogs with unmountOnHide=false > should not emit interactOutside on a closed keep-mounted dialog")
 - Given a modal Dialog with no explicit prop and no overlay, when it opens, then `document.body.style.pointerEvents` is `none`. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a modal Dialog (#2677) > should lock body pointer-events by default")
@@ -1539,6 +1654,7 @@ Conventions:
 - Given a bits Dialog on a page whose `html` sets `scrollbar-gutter: stable` and is 200vh tall, when the dialog opens, then `document.body.style.paddingRight` is unchanged from before opening, so no scrollbar compensation padding is added. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "Scroll Lock > should not add padding when scrollbar-gutter: stable is applied")
 
 ### Positioning
+
 - Given an open Melt dialog with no `portal` prop, when the portalled element is inspected, then its `parentElement` is `document.body`. (melt: src/tests/dialog/Dialog.spec.ts: "Dialog > Portalled el attaches dialog to body")
 - Given an open Melt dialog with `portal: '#portal-target'`, when the portalled element is inspected, then its `parentElement` is the portal target element. (melt: src/tests/dialog/Dialog.spec.ts: "Dialog > Attaches portal el to the portal target if prop provided")
 - Given an open Melt dialog with `portal: null`, when the portalled element is inspected, then its `parentElement` is the in-place `main` element. (melt: src/tests/dialog/Dialog.spec.ts: "Dialog > Does not portal if `null` is passed as portal prop")
@@ -1550,9 +1666,11 @@ Conventions:
 - Given an open bits Dialog with `portalProps.to: '#portalTarget'`, when the content is inspected, then its `parentElement` is the portal target element. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "Portal Behavior > should portal to the target if passed as a prop")
 
 ### Animation and presence
+
 - Given a force-mounted bits Dialog, when the trigger is clicked, then both content and overlay pass through a state with `data-starting-style` present, and after `Escape` both pass through a state with `data-ending-style` present. (bits: tests/src/tests/dialog/dialog.browser.test.ts: "Data Attributes > should apply transition attrs to content and overlay during open and close")
 
 ### Accessibility tooling
+
 - Given a default Dialog, when axe is run on `document.body` both closed and after the trigger is clicked, then there are no violations. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > should pass axe accessibility tests")
 - Given an open Dialog with `unmountOnHide=false`, when axe is run on `document.body`, then there are no violations. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a Dialog with unmountOnHide=false > should pass axe accessibility tests when open")
 - Given a rendered Melt dialog, when axe is run on the container, then there are no violations. (melt: src/tests/dialog/Dialog.spec.ts: "Dialog > No accessibility violations")
@@ -1560,6 +1678,7 @@ Conventions:
 - Given a rendered Melt dialog with transitions, when axe is run on the container, then there are no violations. (melt: src/tests/dialog/DialogTransitions.spec.ts: "Dialog with Transitions > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given an open Dialog whose content has no description, when it opens, then `console.warn` is called exactly once. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when no description has been provided > should warn to the console")
 - Given a Dialog with neither a title nor a description, when the trigger is clicked, then `console.warn` is called exactly once. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when no title has been provided > should warn to the console")
 - Given a Dialog with a title and `:aria-describedby="undefined"` on the content, when the trigger is clicked, then `console.warn` is not called, so passing `undefined` explicitly opts out of the missing-description warning. (reka: packages/core/src/Dialog/Dialog.test.ts: "given a default Dialog > after clicking the trigger > when aria-describedby is set to undefined > should not warn to the console")
@@ -1573,6 +1692,7 @@ Conventions:
 ## alert-dialog
 
 ### Roles and attributes
+
 - Given an open Alert Dialog, when the content is located by role, then it is found via `role="alertdialog"`. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > after clicking the trigger > should keep content interactive while body pointer events are locked")
 - Given an open Alert Dialog, when the trigger is clicked, then the document contains the title text `Title`. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > after clicking the trigger > should open the content")
 - Given an open bits Alert Dialog, when inspecting trigger, overlay, cancel, title, description and content, then each carries its own `data-alert-dialog-<part>` attribute. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Data Attributes > should have bits data attrs")
@@ -1582,15 +1702,18 @@ Conventions:
 - Given an open bits Alert Dialog whose title is given `level: 3`, when inspecting the title, then it has `aria-level="3"`. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "ARIA Attributes > should allow setting a custom level for the `AlertDialog.Title` element")
 
 ### Keyboard
+
 - Given an open bits Alert Dialog, when `Escape` is pressed, then the content is removed and the trigger has focus. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Open/Close Behavior > should close when the `Escape` key is pressed")
 - Given an open bits Alert Dialog with `escapeKeydownBehavior: 'ignore'`, when `Escape` is pressed, then the content remains and the trigger does not have focus. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should respect the `escapeKeydownBehavior: 'ignore'` prop")
 
 ### Pointer
+
 - Given a closed bits Alert Dialog, when the trigger is clicked, then the content exists in the DOM. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Open/Close Behavior > should open when the trigger is clicked")
 - Given an open bits Alert Dialog, when the cancel button is clicked, then the content is removed. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Open/Close Behavior > should close when the cancel button is clicked")
 - Given an open bits Alert Dialog, when the content is clicked, then the content stays in the DOM. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Open/Close Behavior > should not close when content is clicked")
 
 ### Focus management
+
 - Given an open Alert Dialog, when it opens, then the last element whose text is `Cancel` is `document.activeElement`. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > after clicking the trigger > should focus the cancel button")
 - Given an open bits Alert Dialog, when it opens, then the content element itself has focus so screen readers announce the alert. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Focus Management > should focus the alert dialog content when opened to ensure screen readers announce the 'alert'")
 - Given a force-mounted bits Alert Dialog with `withOpenCheck` true, when it opens, then the content element has focus. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Focus Management > should focus the alert dialog content when opened to ensure screen readers announce the 'alert' (force mount) > true")
@@ -1605,33 +1728,40 @@ Conventions:
 - Given an open bits Alert Dialog whose `onCloseAutoFocus` overrides focus, when `Escape` is pressed, then `#close-focus-override` has focus. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Focus Management > should respect `onCloseAutoFocus` prop")
 
 ### State and controlled/uncontrolled
+
 - Given a bits Alert Dialog bound to `open`, when the trigger is clicked then `Escape` pressed, then the binding text reads `true` then `false`, and clicking the external toggle re-opens the content. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should respect binding to the `open` prop")
 
 ### Dismissal and layering
+
 - Given an open Alert Dialog with a modal overlay, when the content is inspected, then `document.body.style.pointerEvents` is `none` while the content's own `style.pointerEvents` is `auto`. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > after clicking the trigger > should keep content interactive while body pointer events are locked")
 - Given an open bits Alert Dialog, when the overlay is clicked, then the content is still visible, so an alert dialog does not dismiss on outside click by default. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Open/Close Behavior > should not close when the overlay is clicked")
 - Given an open bits Alert Dialog with `interactOutsideBehavior: 'ignore'`, when the overlay is clicked, then the content stays in the DOM. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should respect the `interactOutsideBehavior: 'ignore'` prop")
 - Given an open bits Alert Dialog with `interactOutsideBehavior: 'close'` and an `onInteractOutside` spy, when the overlay is clicked, then the spy is called and the content is removed. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should respect the `interactOutsideBehavior: 'close'` prop")
 
 ### Positioning
+
 - Given an open bits Alert Dialog using the portal element, when the content is inspected, then its `parentElement` is `document.body`. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Portal Behavior > should attach to body when using portal element")
 - Given an open bits Alert Dialog with `portalProps.disabled` true, when the content is inspected, then its `parentElement` is not `document.body`. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Portal Behavior > should attach to body when portal is disabled")
 - Given an open bits Alert Dialog with `portalProps.to: '#portalTarget'`, when the content is inspected, then its `parentElement` is the portal target element. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Portal Behavior > should portal to the target if passed as a prop")
 
 ### Animation and presence
+
 - Given a bits Alert Dialog whose content and overlay set `forceMount` true, when nothing has been clicked, then both the overlay and the content are already in the document. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should forceMount the content and overlay when their `forceMount` prop is true")
 - Given a bits Alert Dialog with `forceMount` true plus the `open` snippet prop (`withOpenCheck`), when nothing has been clicked, then neither overlay nor content exists, and both appear after the trigger is clicked. (bits: tests/src/tests/alert-dialog/alert-dialog.browser.test.ts: "Props and Rendering > should forceMount the content and overlay when their `forceMount` prop is true and the `open` snippet prop is used")
 
 ### Accessibility tooling
+
 - Given a default Alert Dialog, when axe is run on `document.body` both closed and after the trigger is clicked, then there are no violations. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given reka's Alert Dialog suite, when each test tears down, then it unmounts the wrapper and clears both `document.body.innerHTML` and `document.body.style.cssText`, because the modal scroll/pointer lock writes inline styles onto `body`. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog")
 - Given reka's Alert Dialog story fixture, when it renders, then it uses `v-model:open` on `AlertDialogRoot` with `AlertDialogPortal`, `AlertDialogOverlay`, `AlertDialogTitle`, `AlertDialogDescription`, `AlertDialogCancel` and `AlertDialogAction`, and contains an extra plain `button` before the cancel/action pair. (reka: packages/core/src/AlertDialog/AlertDialog.test.ts: "given a default Dialog > after clicking the trigger > should focus the cancel button")
 
 ## drawer
 
 ### Roles and attributes
+
 - Given a default Drawer, when the trigger is clicked, then an element matching `[role="dialog"]` exists in the document. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should have role=\"dialog\" on content")
 - Given an open Drawer with a `DrawerTitle`, when the content is inspected, then its `aria-labelledby` is a non-empty id whose element's `textContent` is the title text. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should have aria-labelledby pointing to title")
 - Given an open Drawer with a `DrawerDescription`, when the content is inspected, then its `aria-describedby` is a non-empty id whose element's `textContent` is the description text. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should have aria-describedby pointing to description")
@@ -1641,9 +1771,11 @@ Conventions:
 - Given a drag in progress on the element the composable is attached to, when two pointer moves have been processed, then `data-swiping` is not set on that element because the marker is written by the consumer rather than the composable. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — releases the popup never sees > treats a move with no button held as the missing pointerup")
 
 ### Keyboard
+
 - Given an open Drawer, when `Escape` is pressed on the active element, then the title text is no longer in `document.body`. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should close on Escape key")
 
 ### Pointer
+
 - Given a default Drawer, when the trigger is clicked, then the title element is contained in `document.body`. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should show drawer content")
 - Given an open Drawer, when the close button is clicked, then the close text is no longer in `document.body`. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should close when close button is clicked")
 - Given a Drawer with two snap points `[0.5, 1]` open at snap `0.5`, when a pointer drag upward past the snap threshold is released, then `--drawer-swipe-movement-y` and `--drawer-swipe-movement-x` are both `0px`. (reka: packages/core/src/Drawer/Drawer.snap.test.ts: "drawer snap points — integration > swipe release does not leave stale movement var > clears --drawer-swipe-movement-y after snap-to-snap release")
@@ -1654,9 +1786,11 @@ Conventions:
 - Given a `down`-dismiss harness where one gesture drags down 60px, reverses to +15px to latch the cancel state and never receives a `pointerup`, when a fresh press with a new `pointerId` drags down 70px and releases, then `onDismiss` is called once and `onCancel` is not called. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — releases the popup never sees > does not leak state from an unfinished gesture into the next one")
 
 ### Focus management
+
 - Given a Drawer trigger clicked, when `Escape` is dispatched on `document.activeElement`, then that active element is inside the opened drawer, so opening the drawer moved focus into the content. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > after clicking the trigger > should close on Escape key")
 
 ### State and controlled/uncontrolled
+
 - Given a Drawer with an `update:open` listener, when the trigger is clicked, then the handler is called with `true` and `{ reason: 'trigger-press' }`. (reka: packages/core/src/Drawer/Drawer.test.ts: "update:open change event details > emits trigger-press reason on trigger click")
 - Given an open Drawer with an `update:open` listener, when the close button is clicked, then the handler is called with `false` and `{ reason: 'close-press' }`. (reka: packages/core/src/Drawer/Drawer.test.ts: "update:open change event details > emits close-press reason on close click")
 - Given an open modal Drawer, when the trigger is clicked a second time, then `update:open` is called with `false` and `{ reason: 'trigger-press' }`. (reka: packages/core/src/Drawer/Drawer.test.ts: "update:open change event details > closes on a second trigger click (toggle)")
@@ -1680,6 +1814,7 @@ Conventions:
 - Given a swipe harness with a timed drag past threshold anchored to `performance.now()`, when the pointer is released, then `onRelease` is called once with a velocity object whose `x` and `y` are numbers and whose `y` is greater than 0. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — dismiss vs cancel CSS var clearing > fires onRelease with the measured velocity vector")
 
 ### Dismissal and layering
+
 - Given a drag in progress with a movement var already written, when a `pointermove` arrives with `buttons: 0`, then `onCancel` is called once and `--drawer-swipe-movement-y` becomes `0px`, treating the buttonless move as the missing `pointerup`. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — releases the popup never sees > treats a move with no button held as the missing pointerup")
 - Given a drag in progress on the popup, when `pointerup` is dispatched on `document.body` rather than the popup, then `onCancel` is called once and `--drawer-swipe-movement-y` becomes `0px`. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — releases the popup never sees > finishes on a pointerup that only reaches the document")
 - Given a drag in progress, when a `blur` event fires on `window`, then `onCancel` is called once and `--drawer-swipe-movement-y` becomes `0px`. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — releases the popup never sees > finishes when the window loses focus mid-drag")
@@ -1692,6 +1827,7 @@ Conventions:
 - Given a `right`-dismiss drawer where a vertical scroll won a gesture that never received a `touchend`, when a fresh `touchstart` followed by an 80px horizontal drag occurs, then that `touchmove` is `defaultPrevented` and `onDismiss` fires once, so the previous verdict is not inherited. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — cross-axis scroll arbitration > starts clean after a gesture whose end was never seen")
 
 ### Animation and presence
+
 - Given a Drawer with snap points `[0.5, 1]`, a mocked 800px popup height and `window.innerHeight` 800, when it is opened at snap `0.5`, then `--drawer-snap-point-offset` on the content is `400px` (`800 - round(0.5 * 800)`). (reka: packages/core/src/Drawer/Drawer.snap.test.ts: "drawer snap points — integration > mount-time snap offset write (reopen bug) > writes --drawer-snap-point-offset on initial open for snap=0.5")
 - Given a Drawer with snap points that has already been opened once and closed (so `popupHeight` is cached on the root context), when it is reopened, then `--drawer-snap-point-offset` is `400px` again rather than staying unset at `0px`, because the offset is written explicitly in `onMounted` instead of by a lazy watcher. (reka: packages/core/src/Drawer/Drawer.snap.test.ts: "drawer snap points — integration > mount-time snap offset write (reopen bug) > writes --drawer-snap-point-offset on REOPEN after close (lazy-watcher bug)")
 - Given a Drawer opened at snap `0.5`, closed and reopened after a snap transition, when it reopens, then `--drawer-snap-point-offset` reflects the current active snap point and is `400px`. (reka: packages/core/src/Drawer/Drawer.snap.test.ts: "drawer snap points — integration > mount-time snap offset write (reopen bug) > writes --drawer-snap-point-offset on REOPEN after snap transition + close")
@@ -1702,10 +1838,12 @@ Conventions:
 - Given a drawer whose allowed directions are `['down', 'up']` (the snap-point configuration), when the pointer pulls up 100px, then `--drawer-swipe-movement-y` is `-100px` with no damping. (reka: packages/core/src/Drawer/composables/useSwipeDismiss.test.ts: "useSwipeDismiss — non-dismissable direction (elastic pull) > leaves an allowed direction undamped when both axes directions are allowed")
 
 ### Accessibility tooling
+
 - Given a closed default Drawer, when axe is run on `document.body`, then there are no violations. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > should pass axe accessibility tests when closed")
 - Given an open default Drawer, when axe is run on `document.body`, then there are no violations. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > should pass axe accessibility tests when open")
 
 ### Notes and edge cases
+
 - Given a Drawer whose content has no `DrawerTitle`, when the trigger is clicked, then `console.warn` is called. (reka: packages/core/src/Drawer/Drawer.test.ts: "given a default Drawer > when no title is provided > should warn to the console")
 - Given `getDisplacement`, when called as `('down', 0, 50)`, `('up', 0, -50)`, `('right', 50, 0)` and `('left', -50, 0)`, then each returns `50`, so movement in the dismiss direction is positive. (reka: packages/core/src/Drawer/utils.test.ts: "getDisplacement > returns positive when moving in the dismiss direction")
 - Given `getDisplacement`, when called as `('down', 0, -50)` and `('up', 0, 50)`, then each returns `-50`. (reka: packages/core/src/Drawer/utils.test.ts: "getDisplacement > returns negative when moving against the dismiss direction")
@@ -1728,6 +1866,7 @@ Conventions:
 ## popover
 
 ### Roles and attributes
+
 - Given a closed Popover, when rendered, then the trigger button has no `aria-controls` attribute at all. (reka: packages/core/src/Popover/Popover.test.ts: "should only render aria-controls while open")
 - Given a Popover, when the trigger is clicked open, then the trigger's `aria-controls` value resolves to an element that exists in the document. (reka: packages/core/src/Popover/Popover.test.ts: "should only render aria-controls while open")
 - Given an open Popover, when rendered, then the `trigger`, `content`, `close`, and `arrow` elements each carry a `data-popover-<part>` attribute. (bits: tests/src/tests/popover/popover.browser.test.ts: "should have bits data attrs")
@@ -1740,6 +1879,7 @@ Conventions:
 - Given an open Popover overlay rendered through the `child` snippet, when rendered, then the child element carries `data-popover-overlay`. (bits: tests/src/tests/popover/popover.browser.test.ts: "should render overlay with child snippet")
 
 ### Keyboard
+
 - Given a focused Popover trigger, when `Enter` is pressed, then the content is mounted. (bits: tests/src/tests/popover/popover.browser.test.ts: "should open on enter")
 - Given a focused Popover trigger, when `Space` is pressed, then the content is mounted. (bits: tests/src/tests/popover/popover.browser.test.ts: "should open on space")
 - Given an open Popover, when `Escape` is pressed, then the content is removed. (bits: tests/src/tests/popover/popover.browser.test.ts: "should close on escape keydown by default")
@@ -1750,6 +1890,7 @@ Conventions:
 - Given an open Popover with a button inside that calls `stopPropagation` on `Escape` keydown, when that button is focused and `Escape` is pressed, then the content stays visible. (melt: src/tests/popover/Popover.spec.ts: "Doesn't deactivate focus trap on escape that is intercepted")
 
 ### Pointer
+
 - Given a closed Popover, when the trigger is clicked, then the content becomes visible. (melt: src/tests/popover/Popover.spec.ts: "Opens on click")
 - Given a closed Popover, when the trigger is clicked, then the content is mounted. (bits: tests/src/tests/popover/popover.browser.test.ts: "should open on click")
 - Given an open Popover, when the trigger is clicked again, then the content becomes not visible. (melt: src/tests/popover/Popover.spec.ts: "Toggles open state on trigger click")
@@ -1799,6 +1940,7 @@ Conventions:
 - Given a force-mounted Popover closed by a second trigger click during hover cooldown, when the trigger is clicked a third time, then the content text reappears. (bits: tests/src/tests/popover/popover.browser.test.ts: "openOnHover with forceMount > should allow click to explicitly reopen while in cooldown")
 
 ### Focus management
+
 - Given an open Popover with `openFocus` returning the `#openFocus` element, when the popover opens, then that element holds focus. (melt: src/tests/popover/Popover.spec.ts: "Respects `openFocus` prop")
 - Given an open Popover with `closeFocus` returning the `#closeFocus` element, when `Escape` closes it, then that element holds focus. (melt: src/tests/popover/Popover.spec.ts: "Respects `closeFocus` prop")
 - Given an open Popover, when `open` is flipped to false from a button inside the content, then focus returns to the trigger. (melt: src/tests/popover/Popover.spec.ts: "Returns focus to trigger when manually setting `open` state to false")
@@ -1810,11 +1952,13 @@ Conventions:
 - Given a Popover with three triggers sharing one content, when each trigger opens it and `Escape` closes it, then focus returns to the specific trigger that opened it. (bits: tests/src/tests/popover/popover.browser.test.ts: "should restore focus to the trigger that opened the popover")
 
 ### State and controlled/uncontrolled
+
 - Given a Popover with `bind:open`, when the popover is opened the binding reads `true`, `Escape` sets it to `false`, and clicking the binding button reopens it to `true`. (bits: tests/src/tests/popover/popover.browser.test.ts: "should allow binding the `open` prop")
 - Given a force-mounted Popover overlay with `child` snippet, when open and then closed by `Escape`, then the child's `data-open` reads `true` then the child unmounts. (bits: tests/src/tests/popover/popover.browser.test.ts: "should pass open snippet prop to overlay child")
 - Given a force-mounted Popover overlay rendered via `child`, when closed then opened, then the child's `data-open` goes from `"false"` to `"true"`. (bits: tests/src/tests/popover/popover.browser.test.ts: "should pass open snippet prop to overlay children")
 
 ### Dismissal and layering
+
 - Given an open Popover, when an outside element is clicked, then `onInteractOutside` fires exactly once. (bits: tests/src/tests/popover/popover.browser.test.ts: "should close on outside click")
 - Given an open Popover, when an outside element is clicked, then the content becomes not visible. (melt: src/tests/popover/Popover.spec.ts: "Closes when click outside content")
 - Given an open Popover whose `onOutsideClick` calls `preventDefault`, when outside elements are clicked twice, then the content remains visible. (melt: src/tests/popover/Popover.spec.ts: "doesnt close when preventDefault called in `onOutsideClick`")
@@ -1825,6 +1969,7 @@ Conventions:
 - Given a closed Popover whose overlay has `forceMount: true`, when rendered, then the overlay element exists. (bits: tests/src/tests/popover/popover.browser.test.ts: "should forceMount overlay when forceMount is true")
 
 ### Positioning
+
 - Given an open Popover with default portal settings, when rendered, then the content's floating wrapper is a direct child of `document.body`. (bits: tests/src/tests/popover/popover.browser.test.ts: "should portal to the body by default")
 - Given an open Popover with `portalProps.to: "#portal-target"`, when rendered, then the content's floating wrapper is a child of that target element. (bits: tests/src/tests/popover/popover.browser.test.ts: "should portal to a custom element if specified")
 - Given an open Popover with `portalProps.disabled: true`, when rendered, then the content's floating wrapper stays inside the `main` element in the component tree. (bits: tests/src/tests/popover/popover.browser.test.ts: "should not portal if `disabled` is passed to the portal")
@@ -1834,16 +1979,19 @@ Conventions:
 - Given an open Popover whose trigger sits in a tab panel positioned beyond 100px from the viewport origin, when an outside tab click hides the trigger, then the content unmounts and the open binding reads `false` without the wrapper ever being visible at a position within 20px of the viewport top-left. (bits: tests/src/tests/popover/popover.browser.test.ts: "should close before content visibly jumps to viewport origin when outside interaction hides the trigger")
 
 ### Animation and presence
+
 - Given a Popover whose content and overlay both use `forceMount`, when the trigger is clicked open, then both elements gain `data-starting-style` at some point, and when clicked closed both gain `data-ending-style`. (bits: tests/src/tests/popover/popover.browser.test.ts: "should apply transition attrs to content and overlay during open and close")
 - Given a Popover content with `forceMount: true`, when rendered while closed, then the content element exists. (bits: tests/src/tests/popover/popover.browser.test.ts: "should forceMount the content when `forceMount` is true")
 - Given a Popover content with `forceMount: true` that also gates rendering on the `open` snippet prop, when closed the content is absent and after the trigger is clicked the content exists. (bits: tests/src/tests/popover/popover.browser.test.ts: "should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 
 ### Accessibility tooling
+
 - Given a closed Popover, when axe runs over the mounted wrapper, then no violations are reported. (reka: packages/core/src/Popover/Popover.test.ts: "given default Popover > should pass axe accessibility tests")
 - Given a Popover opened by clicking the trigger, when axe runs over `document.body` with the `aria-dialog-name` rule disabled, then no violations are reported. (reka: packages/core/src/Popover/Popover.test.ts: "after opening popover > should pass axe accessibility tests")
 - Given a closed Popover, when axe runs over the render container, then no violations are reported. (melt: src/tests/popover/Popover.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given reka's Popover tests, when they run, then `globalThis.ResizeObserver` must be stubbed with no-op `observe`/`unobserve`/`disconnect` because jsdom lacks it, which is what the positioning layer depends on. (reka: packages/core/src/Popover/Popover.test.ts: "given default Popover")
 - Given melt's `createPopover`, when destructured in the test fixture, then it yields `elements` (`trigger`, `content`, `arrow`, `close`) and `states.open`, and the fixture flips `open` via `open.update` to exercise programmatic close. (melt: src/tests/popover/Popover.spec.ts: "Returns focus to trigger when manually setting `open` state to false")
 - Given bits' Popover tests, when a content locator is opened, then the suite waits on the global `bitsDismissableLayers` registry via `waitForDismissibleLayer` before asserting dismissal, so outside-click listeners are known to be attached. (bits: tests/src/tests/popover/popover.browser.test.ts: "should close on outside click")
@@ -1851,18 +1999,21 @@ Conventions:
 ## hover-card
 
 ### Roles and attributes
+
 - Given an open HoverCard, when rendered, then the `trigger` and `content` elements each carry a `data-link-preview-<part>` attribute. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should have bits data attrs")
 - Given a default HoverCard, when a touch `pointerup` is dispatched on the anchor trigger, then the trigger keeps `data-state="closed"` 100ms later. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "a touch tap on the trigger > should not open the hover card by default")
 - Given a LinkPreview created with explicit `ids`, when rendered, then `trigger.id` is `id-trigger` and `content.id` is `id-content`. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Custom ids are applied when provided")
 - Given an open HoverCard with a `style` object on content, when rendered, then the content element's inline `background-color` is `rgb(255, 0, 0)`. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should apply custom style prop to content")
 
 ### Keyboard
+
 - Given a HoverCard opened by hover and clicked, when `Escape` is pressed, then the content becomes not visible. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Closes on escape")
 - Given a HoverCard with `escapeBehavior: "ignore"`, when `Escape` is pressed after opening, then the content stays visible. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Respects the `escapeBehavior` prop")
 - Given an open HoverCard, when the content is clicked and `Escape` is pressed, then the `onEscapeKeydown` handler fires exactly once. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should close on escape keydown")
 - Given an open HoverCard with `escapeKeydownBehavior: "ignore"`, when the content is clicked and `Escape` is pressed, then the content stays mounted. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should respect the `escapeKeydownBehavior` prop")
 
 ### Pointer
+
 - Given a LinkPreview with `openDelay: 0`, when the trigger is hovered, then the content becomes visible and stays visible after clicking it. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Opens on hover")
 - Given a closed HoverCard, when the trigger is hovered, then the content is mounted and stays mounted after being clicked. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should open on hover")
 - Given an open LinkPreview, when the pointer hovers an element outside the trigger and content, then the content becomes not visible. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Closes when pointer moves outside")
@@ -1874,31 +2025,38 @@ Conventions:
 - Given an open LinkPreview, when an outside element is clicked, then the content becomes not visible. (melt: src/tests/link-preview/LinkPreview.spec.ts: "Closes on outside click by default") [skipped]
 
 ### Focus management
+
 - Given a closed HoverCard, when the trigger element is focused programmatically the content is mounted, and when it is blurred the content is removed. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should open on focus and close on blur")
 
 ### State and controlled/uncontrolled
+
 - Given an open HoverCard with `interactOutsideBehavior: "ignore"` and `bind:open`, when the binding is read it is `true`, `Escape` sets it to `false` and unmounts the content, and clicking the binding button sets it back to `true` and remounts the content. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should respect binding the open prop")
 - Given a force-mounted HoverCard gated on the `open` snippet prop, when the trigger is hovered the binding reads `true`, hovering outside sets it to `false` and unmounts content, and hovering the trigger again sets it back to `true`. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should reopen on hover after closing via hover out with forceMount")
 
 ### Dismissal and layering
+
 - Given an open HoverCard with `interactOutsideBehavior: "ignore"`, when the content is clicked and then an outside element is clicked, then the content stays mounted. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should respect the `interactOutsideBehavior` prop")
 
 ### Positioning
+
 - Given an open HoverCard with default portal settings, when rendered, then the content's grandparent is `document.body`. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should portal to the body by default")
 - Given an open HoverCard with `portalProps.to: "#portal-target"`, when rendered, then the content's grandparent is that target element. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should portal to a custom element if specified")
 - Given an open HoverCard with `portalProps.disabled: true`, when rendered, then the content's grandparent is the `main` element. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should not portal if `disabled` is passed as portal prop")
 
 ### Animation and presence
+
 - Given a HoverCard content with `forceMount: true`, when rendered while closed, then the content element exists. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should forceMount the content when `forceMount` is true")
 - Given a force-mounted HoverCard, when the trigger is hovered the content gains `data-starting-style`, and when the pointer moves outside it gains `data-ending-style`. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should apply transition attrs to content during open and close")
 - Given a HoverCard content with `forceMount: true` gated on the `open` snippet prop, when closed the content is absent and after hovering the trigger the content exists. (bits: tests/src/tests/link-preview/link-preview.browser.test.ts: "should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 
 ### Accessibility tooling
+
 - Given a closed HoverCard, when axe runs over the mounted wrapper, then no violations are reported. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "given a default HoverCard > should pass axe accessibility tests")
 - Given a HoverCard with `openDelay: 100`, when `mouseenter` fires on the anchor trigger and 100ms pass, then axe over `document.body` reports no violations. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "after mouse enter for a 100ms > should pass axe accessibility tests")
 - Given a closed LinkPreview, when axe runs over the render container, then no violations are reported. (melt: src/tests/link-preview/LinkPreview.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given reka's HoverCard fixture, when mounted, then the trigger is an `<a href>` with `target="_blank"`, so the trigger role under test is a link rather than a button. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "given a default HoverCard")
 - Given reka's HoverCard fixture, when the content is rendered with `as-child` inside a `<Transition>`, then the exit animation wrapper and the arrow with `:width="8"` are part of the tree axe scans. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "after mouse enter for a 100ms > should pass axe accessibility tests")
 - Given reka's HoverCard tests, when they run, then `globalThis.ResizeObserver` is stubbed with no-ops in both describe blocks. (reka: packages/core/src/HoverCard/HoverCard.test.ts: "given a HoverCard with enableTouch")
@@ -1907,6 +2065,7 @@ Conventions:
 ## tooltip
 
 ### Roles and attributes
+
 - Given an open Tooltip, when rendered, then the `trigger` and `content` elements each carry a `data-tooltip-<part>` attribute. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should have bits data attrs")
 - Given an open Tooltip, when rendered, then the content has a non-empty `id` and the trigger's `aria-describedby` equals that id. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should render an id on the content and reference it via aria-describedby on the trigger")
 - Given a Tooltip whose `Root` sets no delay but whose `Provider` sets `delayDuration={0}`, when rendered, then the trigger has `data-delay-duration="0"`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should use provider delay duration if provided and the tooltip.root did not provide one")
@@ -1926,10 +2085,12 @@ Conventions:
 - Given a singleton Tooltip with two triggers, when the first is hovered then the second, then `aria-describedby` pointing at the content id is present only on the currently active trigger and absent on the other. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "singleton edge: should keep aria-describedby only on active trigger")
 
 ### Keyboard
+
 - Given a Tooltip opened by hover, when `Escape` is pressed, then the content is removed. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should close on escape keydown")
 - Given a Tooltip with `escapeKeydownBehavior: "ignore"`, when the content is clicked and `Escape` is pressed, then the content stays mounted. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should allow ignoring escapeKeydownBehavior")
 
 ### Pointer
+
 - Given a closed Tooltip, when the trigger is hovered, then the content is mounted and stays visible after being clicked. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should open on hover")
 - Given a closed Tooltip with `openDelay: 0` and `closeDelay: 0`, when the trigger is hovered the content becomes visible, and when the pointer leaves the trigger it becomes not visible. (melt: src/tests/tooltip/Tooltip.spec.ts: "It opens when hovered, and closes when left")
 - Given an open Tooltip, when the pointer moves to an outside element, then the content is removed. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should close when pointer moves outside the trigger and content")
@@ -1950,6 +2111,7 @@ Conventions:
 - Given a tether with two sibling triggers, when the left trigger emits `pointerleave` and a document `pointermove` idles in the gap for 260ms, then the content is removed and the open binding reads `false`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "tether: should close when pointer idles in the sibling gap")
 
 ### Focus management
+
 - Given a closed Tooltip, when the trigger is focused, then `document.body.innerHTML` contains the content text `Add to library`. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "should open when focus")
 - Given a Tooltip, when `document.body` is focused instead of the trigger, then the content text `Add to library` is not present. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "after focusing out > should close the tooltip")
 - Given a closed Tooltip, when the trigger element is focused the content is mounted, and when it is blurred the content is removed. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should open on focus and close on blur")
@@ -1960,6 +2122,7 @@ Conventions:
 - Given a tethered singleton Tooltip with detached triggers, when the top trigger is focused the payload reads `Top` and the trigger binding reads `trigger-top`, when the bottom trigger is focused they read `Bottom` and `trigger-bottom`, and when it is blurred the content is removed. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "singleton: should work with detached triggers through tether")
 
 ### State and controlled/uncontrolled
+
 - Given a Tooltip with `bind:open`, when opened by hover the binding reads `true`, `Escape` sets it to `false` and unmounts content, and clicking the binding button sets it to `true` and remounts content. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should respect binding the open prop")
 - Given a disabled Tooltip, when the trigger is focused, then the content text `Add to library` is not present. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "disabled tooltip > should not be open when focus")
 - Given an open Tooltip, when a `TOOLTIP_OPEN` `CustomEvent` is dispatched on `document`, then the content text `Add to library` is removed, so one open tooltip closes another via the document broadcast. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "should close when another tooltip broadcasts that it opened")
@@ -1978,9 +2141,11 @@ Conventions:
 - Given a tethered singleton Tooltip open from the top trigger, when a detached disabled trigger is hovered, then the content is removed and the open binding reads `false`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "singleton: should close when hovering a detached disabled trigger")
 
 ### Dismissal and layering
+
 - Given a trigger that is both a Tooltip trigger and a Popover trigger, when it is hovered the tooltip content appears, and when it is clicked the popover content appears and the tooltip content is removed. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should open when composed with another floating trigger")
 
 ### Positioning
+
 - Given an open Tooltip with default portal settings, when rendered, then the content's floating wrapper is a child of `document.body`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should portal to the body by default")
 - Given an open Tooltip with `portalProps.to: "#portal-target"`, when rendered, then the content's floating wrapper is a child of that target. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should portal to a custom element if specified")
 - Given an open Tooltip with `portalProps.disabled: true`, when rendered, then the content's floating wrapper stays inside the `main` element. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should not portal if `disabled` is passed to the portal")
@@ -1988,6 +2153,7 @@ Conventions:
 - Given a Tooltip fixture that accepts a `customAnchor` element, when the trigger is hovered, then the content is mounted and the `customAnchor` prop type-checks against `Tooltip.Content`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should use the custom anchor element when `customAnchor` is provided")
 
 ### Animation and presence
+
 - Given a Tooltip content with `forceMount: true`, when rendered while closed, then the content is visible. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should forceMount the content when `forceMount` is true")
 - Given a force-mounted Tooltip, when the trigger is hovered the content gains `data-starting-style`, and when the pointer moves outside it gains `data-ending-style`. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should apply transition attrs to content during open and close")
 - Given a force-mounted Tooltip gated on the `open` snippet prop, when closed the content is absent and after hovering the trigger the content exists and is visible. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
@@ -2000,9 +2166,11 @@ Conventions:
 - Given a force-mounted singleton Tooltip gated on `open`, when the first trigger is hovered the content node mounts with payload `Alpha`, and hovering outside unmounts it. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "singleton forceMount: should support open-check conditional rendering")
 
 ### Accessibility tooling
+
 - Given a closed Tooltip, when axe runs over the mounted wrapper and again over `document.body` after the trigger is focused, then no violations are reported in either pass. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "given default Tooltip > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given 80 Tooltip instances rendered at once, when `window.addEventListener` calls are counted, then exactly one `scroll` listener is registered, so the scroll-to-close handler is shared rather than per instance. (bits: tests/src/tests/tooltip/tooltip.browser.test.ts: "should not add a scroll listener per tooltip instance")
 - Given reka's Tooltip provider test, when mounting, then the `teleport` component is stubbed to a plain `<div><slot /></div>` so the portalled content is findable inside the wrapper markup. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "given tooltip within TooltipProvider > should use the provider content values")
 - Given reka's Tooltip fixture, when mounted, then open state is driven by `v-model:open` on `TooltipRoot` and the content sets `:side-offset="5"` with animation classes keyed on `data-[state=delayed-open]` and `data-[side=*]`. (reka: packages/core/src/Tooltip/Tooltip.test.ts: "should open when focus")
@@ -2012,25 +2180,31 @@ Conventions:
 ## toast
 
 ### Roles and attributes
+
 - Given a `Toast` opened from its trigger, when the toast appears, then the `li` wrapping the toast text has `tabindex="0"`, so the visible toast is focusable. (reka: packages/core/src/Toast/Toast.test.ts: "should have visible toast that is focusable")
 - Given an open toast with a title and description, when two animation frames have passed, then a `[role="alert"][aria-live]` live region exists whose text contains `Scheduled: Catch up` and contains none of the characters `[`, `]`, or `"`, guarding against Vue JSON-stringifying the `announceTextContent` array. (reka: packages/core/src/Toast/Toast.test.ts: "should announce title and description as plain text (not JSON)")
 
 ### Keyboard
+
 - Given an open toast, when Escape is pressed on the active element, then the toast content is removed from the document. (reka: packages/core/src/Toast/Toast.test.ts: "when pressing escape > should close the content")
 
 ### Pointer
+
 - Given a default `Toast`, when the trigger is clicked, then the close button's markup is present in the document. (reka: packages/core/src/Toast/Toast.test.ts: "after clicking the trigger > should open the content")
 - Given an open toast, when the close button is clicked, then the close button's markup is gone from the document. (reka: packages/core/src/Toast/Toast.test.ts: "when clicking close button > should close the content")
 
 ### Animation and presence
+
 - Given an open toast that registered pause and resume listeners on the shared `ol` viewport, when the toast is dismissed, then `removeEventListener` is called with both the viewport pause and the viewport resume event names, so the detached toast and its listeners can be collected. (reka: packages/core/src/Toast/Toast.test.ts: "should remove viewport event listeners when the toast is dismissed")
 
 ### Accessibility tooling
+
 - Given the document before any toast is open and again after the trigger is clicked, when audited with axe both times, then there are no violations in either state. (reka: packages/core/src/Toast/Toast.test.ts: "should pass axe accessibility tests")
 
 ## menu
 
 ### Roles and attributes
+
 - Given a Menu rendered from four `MenuGroup` blocks, when rendered, then four elements expose `role="group"`. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > should have all the groups")
 - Given the first group of a default Menu, when queried, then it contains five elements with `role="menuitem"`. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > should render item in group")
 - Given a default Menu, when the first `menuitem` receives DOM focus, then the markup around that item contains `data-highlighted`. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > after focusing on item > should have highlighted state")
@@ -2046,6 +2220,7 @@ Conventions:
 - Given an open menu with a disabled item, when the disabled item is rendered, then it is marked `data-disabled` by the fixture and is never focusable by arrow navigation. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Focus when opened with click")
 
 ### Keyboard
+
 - Given a menu opened by click, when `ArrowDown` is pressed, then the first item receives focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Focus when opened with click")
 - Given focus on the first item, when `ArrowDown` is pressed again, then the disabled second item is skipped and the first checkbox item receives focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Focus when opened with click")
 - Given a `forceVisible` menu opened by click, when `ArrowDown` is pressed, then the first item receives focus, and a second `ArrowDown` skips the disabled item and focuses the first checkbox item. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (forceVisible) > Focus when opened with click")
@@ -2090,6 +2265,7 @@ Conventions:
 - Given focus on a context menu sub trigger, when `Enter` then `ArrowRight` are pressed, then `onSelect` is called once more for each key. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should respect the `onSelect` prop on SubTrigger")
 
 ### Pointer
+
 - Given a Menu with a submenu, when a `pointermove` with `pointerType: "mouse"` is dispatched on the sub trigger, then the sub trigger gains the `data-highlighted` attribute. (reka: packages/core/src/Menu/Menu.test.ts: "given a Menu with submenu > should highlight sub trigger on pointermove")
 - Given a `pointermove` on the sub trigger, when it is handled, then the sub trigger also receives DOM focus. (reka: packages/core/src/Menu/Menu.test.ts: "given a Menu with submenu > should keep the submenu open when the pointer moves within its focused trigger")
 - Given a sub trigger hovered for 100ms of fake timers, when the timers advance, then `aria-expanded` on the sub trigger becomes `"true"`. (reka: packages/core/src/Menu/Menu.test.ts: "given a Menu with submenu > should keep the submenu open when the pointer moves within its focused trigger")
@@ -2107,12 +2283,14 @@ Conventions:
 - Given an open menu in a scroll-padded page, when one item is hovered and then a second item is hovered, then `HTMLElement.focus` is called with `{ preventScroll: true }` on both items and on the content element, and `window.scrollY` is unchanged. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should call `focus` with `preventScroll: true` on hover and item-leave so `scroll-padding` does not scroll the page")
 
 ### Focus management
+
 - Given a default Menu, when the first item is focused and then clicked, then a single `select` event is emitted. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > after selecting the item > should emit select")
-- Given content whose `onOpenAutoFocus` calls `preventDefault`, when the menu is opened with the keyboard, then the first item does not have focus. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should allow preventing autofocusing first item with `onOpenAutoFocus`  prop")
+- Given content whose `onOpenAutoFocus` calls `preventDefault`, when the menu is opened with the keyboard, then the first item does not have focus. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should allow preventing autofocusing first item with `onOpenAutoFocus` prop")
 - Given content whose `onOpenAutoFocus` prevents default and focuses a custom element, when the context menu opens, then the content does not have focus and the custom override element does. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should respect the `onOpenAutoFocus` prop")
 - Given content whose `onCloseAutoFocus` prevents default and focuses a custom element, when `Escape` closes the context menu, then the custom override element has focus. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should respect the `onCloseAutoFocus` prop")
 
 ### State and controlled/uncontrolled
+
 - Given a menu opened with `Enter`, when the checkbox items are rendered, then the default-checked item shows its indicator and the default-unchecked item shows none. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Displays proper initial checked state for checkbox items")
 - Given a default-checked checkbox item focused via `ArrowDown`, when `Enter` is pressed twice, then its indicator is removed (checked becomes false). (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Toggles checked to false for default checked checkbox items")
 - Given a default-unchecked checkbox item focused via two `ArrowDown` presses, when `Enter` is pressed twice, then its indicator appears (checked becomes true). (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Toggles checked to true for default unchecked checkbox items")
@@ -2145,6 +2323,7 @@ Conventions:
 - Given a sub item with an `onSelect` handler, when the sub item is clicked, then `onSelect` is called. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should call `onSelect` on the sub item when the sub item is selected")
 
 ### Dismissal and layering
+
 - Given an open menu, when the first `menuitem` is clicked, then the `[role="menu"]` element is removed from the DOM. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > after opening the dropdown > after selecting the first item > should close the modal")
 - Given an open menu, when the first `menuitem` is clicked, then exactly one `select` event is emitted. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > after opening the dropdown > after selecting the first item > should emit select event")
 - Given a sub item with `closeOnSelect: true`, when it is clicked, then the sub content is removed. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should respect the `closeOnSelect=true` prop on the sub item")
@@ -2166,6 +2345,7 @@ Conventions:
 - Given a context menu whose `onOutsideClick` calls `preventDefault`, when an outside element is clicked, then the menu remains visible. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > Doesn't close on outsideClick if defaultPrevented in onOutsideClick")
 
 ### Positioning
+
 - Given no `portal` prop, when the menu opens, then the content wrapper's parent is `document.body`. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should portal to the body if a `portal` prop is not passed")
 - Given `portalProps.to: "#portal-target"`, when the menu opens, then the content wrapper's parent is the portal target element. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should portal to the portal target if a valid `portal` prop is passed")
 - Given `portalProps.disabled: true`, when the menu opens, then the content wrapper's parent is the original in-tree container and not `document.body`. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should not portal if `disabled` is passed to the portal")
@@ -2178,18 +2358,21 @@ Conventions:
 - Given context menu `contentProps.style` with `backgroundColor: "rgb(255, 0, 0)"`, when the menu opens, then the content element's inline `style.backgroundColor` is `rgb(255, 0, 0)`. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should apply custom style prop to content")
 
 ### Animation and presence
+
 - Given `forceMount` content, when the component renders without the menu being opened, then the content already exists in the DOM. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should forceMount the content when `forceMount` is true")
 - Given `forceMount` content plus the `open` snippet prop guarding rendering, when the trigger is clicked, then the content appears, and before the click it does not exist. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 - Given `forceMount` context menu content, when the component renders, then the content already exists in the DOM. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should forceMount the content when `forceMount` is true")
 - Given `forceMount` context menu content with the `open` snippet check, when the trigger is right-clicked, then the content appears, and before the right-click it does not exist. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 
 ### Accessibility tooling
+
 - Given a default open Menu, when `axe` runs against `document.body`, then no violations are reported. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > should pass axe accessibility tests")
 - Given a menu whose items, separators, checkbox items, radio group and arrow are rendered, when `axe` runs on the container, then no violations are reported. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > No accessibility violations")
 - Given a `forceVisible` menu, when `axe` runs on the container, then no violations are reported. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (forceVisible) > No accessibility violations")
 - Given a context menu fixture, when `axe` runs on the container, then no violations are reported. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given a Melt menu built by `createDropdownMenu`, when the returned builder is destructured, then `elements` supplies `trigger`, `menu`, `item`, `separator` and `arrow`, and `builders` supplies `createSubmenu`, `createMenuRadioGroup` and `createCheckboxItem`. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > No accessibility violations")
 - Given a radio group builder with `defaultValue`, when items are rendered through `$radioItem({ value })`, then the `isChecked` helper marks only the matching item. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Arrow right when subtrigger hover focuses first item in submenu")
 - Given the reka Menu item, when it is clicked, then the fixture re-emits the component's `select` event upward, so `select` payload counting works through `MenuItem`. (reka: packages/core/src/Menu/Menu.test.ts: "given a default Menu > after selecting the item > should emit select")
@@ -2199,6 +2382,7 @@ Conventions:
 ## dropdown-menu
 
 ### Roles and attributes
+
 - Given a default DropdownMenu, when rendered, then a `button` trigger element exists. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > should render trigger button")
 - Given a default DropdownMenu, when the trigger is clicked, then an element with `role="menu"` exists. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > after opening the dropdown > should render the menu")
 - Given an open dropdown menu, when each part is inspected, then `content`, `trigger`, `group`, `group-heading`, `separator`, `sub-trigger`, `item`, `checkbox-item`, `radio-group`, `radio-item` and `checkbox-group` each carry the attribute `data-dropdown-menu-<part>`. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should have bits data attrs")
@@ -2210,6 +2394,7 @@ Conventions:
 - Given a focused filter input, when `ArrowDown` highlights the first item, then the input's `aria-activedescendant` equals that item's `id`. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > after opening the dropdown > should sync aria-activedescendant with highlighted item")
 
 ### Keyboard
+
 - Given a focused trigger, when `Enter` is pressed, then the menu becomes visible and the first item has focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Opens when {Enter} is pressed")
 - Given a focused trigger, when `ArrowDown` is pressed, then the menu becomes visible and the first item has focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Opens when {ArrowDown} is pressed")
 - Given a focused trigger, when `Space` is pressed, then the menu becomes visible and the first item has focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Opens when { } is pressed")
@@ -2235,6 +2420,7 @@ Conventions:
 - Given a trigger pressed with `ArrowDown`, when the menu opens, then the menu item named "About Melt UI" is focused without a further key press. (melt: e2e/dropdown.spec.ts: "first menu item > should not be focused on arrow down after keyed open") [skipped]
 
 ### Pointer
+
 - Given a closed menu, when the trigger is clicked, then the menu becomes visible, and when the trigger is clicked a second time the menu becomes not visible. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Opens when trigger is clicked")
 - Given a closed `forceVisible` menu, when the trigger is clicked, then the menu element is added to the DOM, and clicking the trigger again removes it. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (forceVisible) > Opens when trigger is clicked")
 - Given a closed menu whose `open` binding reads `false`, when the trigger is clicked, then the content exists and the binding text reads `true`. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should open when clicked & respects binding")
@@ -2242,6 +2428,7 @@ Conventions:
 - Given a trigger opened by click, when the menu renders, then the first menu item is not focused. (melt: e2e/dropdown.spec.ts: "first menu item > should not be focused on click open") [skipped]
 
 ### Focus management
+
 - Given a menu opened by clicking the trigger, when the content renders, then the first item does not have focus until `ArrowDown` is pressed. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Focus when opened with click")
 - Given a `forceVisible` menu opened by clicking the trigger, when the content renders, then the first item does not have focus. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (forceVisible) > Focus when opened with click")
 - Given a menu opened by click, when `Escape` closes it, then the menu is not visible and the trigger has focus again. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Refocuses the trigger when menu closed with keyboard")
@@ -2257,13 +2444,16 @@ Conventions:
 - Given dropdown 1 opened with `Enter` and closed with `Escape`, when `Tab` moves focus to trigger 2 and `Enter` opens then `Escape` closes dropdown 2, then trigger 2 has focus and trigger 1 does not. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "should maintain correct focus when opening dropdown via keyboard")
 
 ### State and controlled/uncontrolled
+
 - Given the filter input, when text is typed and an `input` event fires, then the component's bound `filterText` updates to that text. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > after opening the dropdown > should update modelValue when typing")
 - Given four `menuitem` elements and the filter text `"New"`, when the filter input fires `input`, then only two items remain and they read "New Tab" and "New Window". (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > after opening the dropdown > should filter menu items based on input")
 
 ### Dismissal and layering
+
 - Given two dropdowns where the first is open with its dismissible layer attached, when the second trigger is clicked, then content 2 exists, content 1 is removed, and a following `ArrowDown` does not bring content 1 back. (bits: tests/src/tests/dropdown-menu/dropdown-menu.browser.test.ts: "keyboard navigation should not cause unwanted jumps between menus")
 
 ### RTL and i18n
+
 - Given a filter input during an IME composition session, when text is set and `input` fires before `compositionend`, then the rendered item count stays at the pre-composition baseline. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > handle IME composition > should not update search during IME composition")
 - Given a filter input that received `compositionstart` and the text `"zzzzz"`, when `compositionend` fires with that data, then the filter applies and zero `menuitem` elements remain. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > handle IME composition > should update search after composition ends")
 - Given a non-Android user agent and a plain-text preedit composition (`compositionupdate` with `"xiang"`), when `input` fires, then `filterText` stays empty and the item count stays at baseline. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > handle IME composition > should not update search during plain-text composition off Android (desktop Pinyin preedit)")
@@ -2272,10 +2462,12 @@ Conventions:
 - Given a filter input mid-composition, when `ArrowDown` is dispatched with `isComposing: true`, then no `menuitem` gains `data-highlighted` and `document.activeElement` stays the filter input; after `compositionend` a further `ArrowDown` does highlight an item. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > handle IME composition > should not navigate items during IME composition (arrow keys are IME candidate navigation)")
 
 ### Accessibility tooling
+
 - Given a closed default DropdownMenu, when `axe` runs on the wrapper element, then no violations are reported. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > should pass axe accessibility tests")
 - Given an open DropdownMenu, when `axe` runs on the wrapper element, then no violations are reported. (reka: packages/core/src/DropdownMenu/DropdownMenu.test.ts: "given default DropdownMenu > after opening the dropdown > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given explicit `ids` for the menu and trigger plus separate `ids` for the submenu, when the submenu is opened by hover, then the trigger, menu, sub trigger and submenu elements carry exactly the supplied ids. (melt: src/tests/dropdown-menu/DropdownMenu.spec.ts: "Dropdown Menu (Default) > Applies custom ids if provided")
 - Given the reka filter fixture, when the content is portalled with `to: "#filter-test"`, then the filter input and items are found via `document.querySelector` outside the wrapper root. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > after opening the dropdown > should render filter input")
 - Given the reka filter fixture exposing `filterText` through `defineExpose`, when tests read `wrapper.vm.filterText`, then the `v-model` value on `DropdownMenuFilter` is observable from the parent component. (reka: packages/core/src/DropdownMenu/DropdownMenuFilter.test.ts: "given DropdownMenu with Filter > after opening the dropdown > should update modelValue when typing")
@@ -2283,12 +2475,14 @@ Conventions:
 ## context-menu
 
 ### Roles and attributes
+
 - Given a default ContextMenu, when rendered, then the trigger area's text "Right click here" is present in the markup. (reka: packages/core/src/ContextMenu/ContextMenu.test.ts: "given default ContextMenu > should render trigger area")
 - Given a ContextMenu trigger, when it is right-clicked, then an element with `role="menu"` exists in `document.body`. (reka: packages/core/src/ContextMenu/ContextMenu.test.ts: "given default ContextMenu > when RightClick > should render the menu")
 - Given an open context menu, when each part is inspected, then `content`, `trigger`, `group`, `group-heading`, `separator`, `sub-trigger`, `item`, `checkbox-item`, `radio-group`, `radio-item` and `checkbox-group` each carry the attribute `data-context-menu-<part>`. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should have bits data attrs")
 - Given an open context menu, when the sub trigger is clicked, then the sub content carries `data-context-menu-sub-content`. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should have bits data attrs")
 
 ### Pointer
+
 - Given a closed context menu, when the trigger receives a `MouseRight` pointer sequence, then the menu is added to the DOM and is visible. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > Opens when trigger is right-clicked")
 - Given a closed context menu whose `open` binding reads `false`, when the trigger is right-clicked, then the content exists and the binding text reads `true`. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should open when right-clicked & respects binding")
 - Given an open context menu, when the trigger is left-clicked with `force`, then the content is removed. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should close when the trigger is left clicked and the menu is open")
@@ -2299,10 +2493,12 @@ Conventions:
 - Given an open context menu with nested submenus, when the sub trigger is hovered and then the sub-sub trigger is hovered, then the sub content, sub-sub content and sub-sub item all exist. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should open nested submenus in context menu")
 
 ### Focus management
+
 - Given a context menu opened by right-click, when the content renders, then the first item does not have focus until `ArrowDown` is pressed, which focuses it. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > Focus when opened")
 - Given a context menu opened by right-click, when the content renders, then the first item does not have focus, and pressing `ArrowDown` gives it focus. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should manage focus correctly when opened with pointer")
 
 ### Dismissal and layering
+
 - Given a dialog open with a context menu trigger inside it, when the trigger is right-clicked and then the dialog content is force-clicked, then the dialog stays open and only the context menu content is removed. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should open inside of a dialog")
 - Given a dialog open with a context menu trigger inside it, when that trigger is left-clicked, then the dialog keeps `data-state="open"` and no context menu content appears. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should not close the dialog when the context menu trigger is left clicked")
 - Given a popover open with a context menu trigger inside it, when that trigger is left-clicked, then the popover keeps `data-state="open"` and no context menu content appears. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should not close the popover when the context menu trigger is left clicked")
@@ -2311,19 +2507,23 @@ Conventions:
 - Given one select open inside a context menu trigger region, when a sibling select trigger is clicked, then the first select content is removed and the second appears. (bits: tests/src/tests/context-menu/context-menu.browser.test.ts: "should close the first nested select when opening the sibling select inside the same context menu trigger")
 
 ### Accessibility tooling
+
 - Given a ContextMenu opened by right-click, when `axe` runs on `document.body`, then no violations are reported. (reka: packages/core/src/ContextMenu/ContextMenu.test.ts: "given default ContextMenu > when RightClick > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given explicit `ids` for the menu and trigger plus separate `ids` for the submenu, when the context menu and submenu are opened, then the trigger, menu, sub trigger and submenu elements carry exactly the supplied ids. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > Applies custom ids if provided")
 - Given a melt context menu fixture that gates the menu behind `{#if $open}` with a `transition:fade`, when tests need rendered content, then `requestAnimationFrame` is stubbed to a 16ms timeout so transitions resolve. (melt: src/tests/context-menu/ContextMenu.spec.ts: "Context Menu > Opens when trigger is right-clicked")
 
 ## menubar
 
 ### Roles and attributes
+
 - Given a default Menubar with four menus, when rendered, then four `button` trigger elements exist. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > should render all trigger button")
 - Given a Menubar trigger that received `pointerdown` with `button: 0` and `ctrlKey: false`, when the menu opens, then an element with `role="menu"` exists. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > after opening the dropdown > should render the menu")
 
 ### Keyboard
+
 - Given focus on the first menubar trigger, when `ArrowRight` is pressed repeatedly, then focus moves to triggers 2, 3 and 4 and then wraps back to trigger 1. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should navigate triggers within the menubar using arrow keys")
 - Given `loop: false` and focus on the first trigger, when `ArrowRight` is pressed past the last trigger, then focus stays on trigger 4. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should respect `loop: false`")
 - Given focus on trigger 1 and `ArrowDown` having opened menu 1, when `ArrowRight` is pressed, then content 2 exists and content 1 is removed; a following `ArrowLeft` restores content 1 and removes content 2. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should navigate between menus when using the arrow keys and focus is within a menu")
@@ -2333,31 +2533,38 @@ Conventions:
 - Given focus on a menubar sub trigger, when `ArrowRight` is pressed, then the sub trigger's `onSelect` is called a third time. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should respect the `onSelect` prop on SubTrigger")
 
 ### Pointer
+
 - Given a menubar menu opened from trigger 1, when its sub trigger is clicked, then the sub trigger's `onSelect` handler is called. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should respect the `onSelect` prop on SubTrigger")
 
 ### Focus management
+
 - Given menu 1 opened with `ArrowDown` from its focused trigger, when `Escape` closes it, then focus returns to that menu's trigger. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should return focus to the menu trigger when closed via `ESC`") [skipped]
 
 ### State and controlled/uncontrolled
+
 - Given each of the four menubar menus with an `onOpenChange` callback, when a trigger is clicked, then that menu's callback is called once with `true` and the content exists. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should call the menus `onOpenChange` callback when the menu is opened or closed")
 - Given an open menubar menu with an `onOpenChange` callback, when `Escape` closes it, then the callback is called a second time with `false` and the content is removed. (bits: tests/src/tests/menubar/menubar.browser.test.ts: "should call the menus `onOpenChange` callback when the menu is opened or closed")
 
 ### Dismissal and layering
+
 - Given an open menubar menu, when its first `menuitem` is clicked, then the `[role="menu"]` element is removed from the DOM. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > after opening the dropdown > after selecting the first item > should close the modal")
 - Given an open menubar menu, when its first `menuitem` is clicked, then exactly one `select` event is emitted. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > after opening the dropdown > after selecting the first item > should emit select event")
 
 ### Accessibility tooling
+
 - Given a closed default Menubar, when `axe` runs on the wrapper element, then no violations are reported. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > should pass axe accessibility tests")
 - Given a Menubar with its first menu open, when `axe` runs on the wrapper element, then no violations are reported. (reka: packages/core/src/Menubar/Menubar.test.ts: "given default Menubar > after opening the dropdown > should pass axe accessibility tests")
 
 ## navigation-menu
 
 ### Roles and attributes
+
 - Given a navigation menu content rendered without a viewport, when the content opens and then closes, then `data-starting-style` is observed on the content during opening and `data-ending-style` during closing. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should apply transition attrs to content during open and close without a viewport")
 - Given a navigation menu with a viewport and indicator, when a trigger is hovered and then the pointer leaves, then both the viewport and the indicator are observed with `data-starting-style` while opening and `data-ending-style` while closing. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should apply transition attrs to viewport and indicator during open and close")
 - Given two navigation menu triggers, when the pointer leaves the first and moves onto the second, then the second trigger has `data-state="open"`. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > switching triggers keeps menu open")
 
 ### Keyboard
+
 - Given an open navigation menu content, when `Tab` is pressed, then the first `a` link inside the content receives focus. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "after clicking on button to open menu > after pressing tab > should focus on the first item in menu")
 - Given an open navigation menu content, when `ArrowDown` is pressed on the active element, then the first `a` link inside the content receives focus. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "after clicking on button to open menu > after pressing down key > should focus on the first item in menu")
 - Given focus on the first link inside open content, when `ArrowDown` is pressed once per link, then the last `a` link receives focus. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "after clicking on button to open menu > after pressing down key > should focus on the last item in menu")
@@ -2372,6 +2579,7 @@ Conventions:
 - Given content opened with `Enter` from a focused trigger, when `ArrowDown` is pressed, then the first button inside the content receives focus. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should focus next on content with down arrow when opened")
 
 ### Pointer
+
 - Given a default navigation menu, when a trigger button is clicked, then the dismissable-layer content element exists. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > should open menu on click by default")
 - Given a default navigation menu, when a trigger receives `pointermove` with `pointerType: "mouse"`, then the dismissable-layer content element exists. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > should open menu on hover by default")
 - Given `disableClickTrigger: true`, when the trigger is clicked, then no content element is rendered. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > should not trigger content on click")
@@ -2390,28 +2598,34 @@ Conventions:
 - Given a trigger is hovered, when the content opens, then the indicator element exists. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should show indicator when hovering trigger")
 
 ### State and controlled/uncontrolled
+
 - Given `unmountOnHide` disabled, when trigger one is clicked, then the model value text reads `one`. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "keeps active content open when clicking inside with unmountOnHide disabled")
 - Given content one still mounted but inactive, when trigger two is clicked, then the model value text reads `two`. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "keeps active content open when clicking inside with unmountOnHide disabled")
 - Given content two active and content one mounted but inactive, when `pointerdown` fires inside content two, then the model value stays `two` because content one's dismiss handler returns early. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "keeps active content open when clicking inside with unmountOnHide disabled")
 
 ### Dismissal and layering
+
 - Given an open navigation menu, when `pointerdown` fires on `document.body`, then the content element is removed. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "after clicking on button to open menu > after interacting outside > should close the content") [skipped]
 
 ### Positioning
+
 - Given `noViewport: true`, when a trigger is hovered, then the content is rendered inside its own navigation menu item element and no viewport element exists. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should render content without viewport")
 - Given `noSubViewport: true`, when a sub trigger is hovered, then the sub content is rendered inside its own sub item element and no sub viewport element exists. (bits: tests/src/tests/navigation-menu/navigation-menu.browser.test.ts: "should render subcontent without subviewport")
 
 ### Accessibility tooling
+
 - Given a closed default NavigationMenu, when `axe` runs on the wrapper element, then no violations are reported. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "given default NavigationMenu > should pass axe accessibility tests")
 - Given a NavigationMenu with content opened by clicking a trigger, when `axe` runs on `document.body`, then no violations are reported. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "after clicking on button to open menu > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given `useDebounceFn` from `@vueuse/core` mocked to call through synchronously, when open and close behavior is asserted, then the hover delay is bypassed for most tests, while the trigger-switching and content-leave tests restore the real debounce together with fake timers. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > switching triggers keeps menu open")
 - Given the reka navigation menu content, when it is located in tests, then it is found by the `[data-dismissable-layer]` attribute and triggers by `[data-navigation-menu-trigger]`. (reka: packages/core/src/NavigationMenu/NavigationMenu.test.ts: "menu triggers > leaving content closes menu")
 
 ## select
 
 ### Roles and attributes
+
 - Given a default Select with no value, when rendered, then the value box contains the placeholder text `Please select a fruit`. (reka: packages/core/src/Select/Select.test.ts: "given default Select > should show placeholder")
 - Given a default Select with no value, when rendered, then the trigger is `role="combobox"` and carries `data-placeholder=""`. (reka: packages/core/src/Select/Select.test.ts: "given default Select > should show placeholder")
 - Given a closed Select, when rendered, then the trigger has no `aria-controls` attribute. (reka: packages/core/src/Select/Select.test.ts: "should only render aria-controls while open")
@@ -2436,6 +2650,7 @@ Conventions:
 - Given a Select whose content receives `style: { backgroundColor: "rgb(255, 0, 0)" }`, when opened, then the content element's inline `backgroundColor` is `rgb(255, 0, 0)`. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should apply custom style prop to content")
 
 ### Keyboard
+
 - Given a focused Melt select trigger, when `Enter` is pressed, then the menu becomes visible. (melt: src/tests/select/Select.spec.ts: "Opens when Enter is pressed")
 - Given a focused Melt select trigger, when `Space` is pressed, then the menu becomes visible. (melt: src/tests/select/Select.spec.ts: "Opens when Space is pressed")
 - Given an open Melt select, when `Escape` is pressed, then the menu is no longer visible. (melt: src/tests/select/Select.spec.ts: "Closes on escape keydown")
@@ -2464,6 +2679,7 @@ Conventions:
 - Given an open Select where items were hovered with the mouse, when `ArrowDown` is pressed, then highlight moves from the hovered item to the next item rather than restarting. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should start keyboard navigation at the highlighted item even if hovered with mouse")
 
 ### Pointer
+
 - Given a default Select, when the trigger receives `pointerdown` with `button: 0` and `ctrlKey: false`, then the content mounts and contains `Apple`. (reka: packages/core/src/Select/Select.test.ts: "given default Select > opening the modal > should show the modal content")
 - Given a Select opened by `pointerdown`, when the option `Banana` is focused and receives two `pointerup` events, then the value box shows `Banana`. (reka: packages/core/src/Select/Select.test.ts: "given default Select > after selecting a value > should show value correctly")
 - Given a Select trigger that received `pointerdown` followed by a browser-style `mousedown`, when a window-level capturing `mousedown` listener is attached, then that listener is still called and the `mousedown` event is `defaultPrevented`. (reka: packages/core/src/Select/Select.test.ts: "trigger mouse interop > should not suppress window mousedown listeners when opening (#1773)")
@@ -2482,6 +2698,7 @@ Conventions:
 - Given a `multiple` Select with `disabled: true`, when the trigger is force-clicked, then no content mounts. (bits: tests/src/tests/select/select.browser.test.ts: "select - multiple > should not open when disabled on mouse/pointer devices")
 
 ### Focus management
+
 - Given a closed Select, when the trigger receives a bare `click` with no preceding `pointerdown`, then `trigger.focus()` is called. (reka: packages/core/src/Select/Select.test.ts: "trigger mouse interop > should focus the trigger on click without a preceding pointerdown")
 - Given a Select already opened by `pointerdown`, when the follow-up `click` fires on the trigger, then `trigger.focus()` is not called again. (reka: packages/core/src/Select/Select.test.ts: "trigger mouse interop > should not re-focus the trigger on click after opening via pointerdown")
 - Given a Select opened with a full mouse click sequence of `pointerdown`, `mousedown`, `mouseup` and `click`, when the content is shown, then `document.activeElement` is not the trigger. (reka: packages/core/src/Select/Select.test.ts: "trigger mouse interop > should not leave focus on the trigger after opening via mouse click")
@@ -2489,6 +2706,7 @@ Conventions:
 - Given an open Select, when `Escape` closes it, then focus returns to the trigger. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should allow navigating after navigating to the bottom, closing, and reopening the menu")
 
 ### State and controlled/uncontrolled
+
 - Given a single-value Select, when an option is selected by pointer, then the content closes and no `role="group"` remains in the tree. (reka: packages/core/src/Select/Select.test.ts: "given default Select > after selecting a value > should close the modal")
 - Given a `multiple` Select, when an option is selected by pointer, then the `role="group"` content remains in the tree, so the popup stays open. (reka: packages/core/src/Select/Select.test.ts: "given Select with multiple props > after selecting a value > should close the modal")
 - Given a `multiple` Select with `Banana` selected, when a second option is selected, then the value box contains both `Banana` and `Blueberry`. (reka: packages/core/src/Select/Select.test.ts: "given Select with multiple props > after selecting another value > should show value correctly")
@@ -2511,6 +2729,7 @@ Conventions:
 - Given a disabled Select whose `Select.Value` `child` snippet guards on the exposed `disabled` flag, when the set-value button is clicked, then `disabled` reads `true`, the selection stays `none` with the placeholder label, and the hidden input value stays empty. (bits: tests/src/tests/select/select.browser.test.ts: "select - value > should pass disabled state to value snippets so consumers can block setValue")
 
 ### Forms
+
 - Given a Select with `name="test"` rendered in a form, when inspected, then a native `select` element exists in the DOM as the hidden form control. (reka: packages/core/src/Select/Select.test.ts: "given Select in a form > should have hidden input field")
 - Given a Select with `name="test"` and `nullable-value="null"` and a nullish value, when inspected, then the first `option` of the hidden `select` has value `null`. (reka: packages/core/src/Select/Select.test.ts: "should use the nullableValue for the hidden select when the value is nullish")
 - Given a Select in a form with `Banana` selected, when the form is submitted, then the submit handler runs once and the collected form data is `{ test: 'Banana' }`. (reka: packages/core/src/Select/Select.test.ts: "given Select in a form > after selecting option and clicking submit button > should trigger submit once")
@@ -2529,12 +2748,14 @@ Conventions:
 - Given a `multiple` Select whose `name` is not `themes` and nothing selected, when the form is submitted, then the form data for `themes` is empty. (bits: tests/src/tests/select/select.browser.test.ts: "select - multiple > should not submit an array with a single empty string when the `name` prop is passed but no items are selected")
 
 ### Dismissal and layering
+
 - Given a Melt select created with `closeOnOutsideClick: false`, when an element outside the menu is clicked, then the menu stays visible. (melt: src/tests/select/Select.spec.ts: "Respects the `closeOnOutsideClick` prop")
 - Given a Melt select whose `onOutsideClick` calls `preventDefault`, when an element outside the menu is clicked, then the menu stays visible. (melt: src/tests/select/Select.spec.ts: "doesn't close when preventDefault called in `onOutsideClick`")
 - Given an open Select, when an element outside the content is clicked, then the content unmounts. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should close on outside click")
 - Given an open `multiple` Select, when an element outside the content is clicked, then the content unmounts. (bits: tests/src/tests/select/select.browser.test.ts: "select - multiple > should close on outside click")
 
 ### Positioning
+
 - Given a Select with default portal props, when opened, then the content's grandparent element is `document.body`. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should portal to the body by default")
 - Given a Select with `portalProps: { to: "#portal-target" }`, when opened, then the content's grandparent is the custom portal target element. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should portal to a custom element if specified")
 - Given a Select with `portalProps: { disabled: true }`, when opened, then the content's grandparent is the in-tree `main` element. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should not portal if `disabled` is passed as portal prop")
@@ -2547,12 +2768,14 @@ Conventions:
 - Given a 60-item Select with `value: "55"`, when opened, then the selected item's bounding rect lies fully inside the viewport's bounding rect. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should still scroll the selected item into view when opening")
 
 ### Animation and presence
+
 - Given a force-mounted Select content observed for transition attributes, when the trigger is clicked, then `data-starting-style` appears at some point in the mutation history, and after an outside click `data-ending-style` appears. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should apply transition attrs to content during open and close")
 - Given a Select content with `forceMount` and no `open` guard, when rendered closed, then the content is visible. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should forceMount the content when `forceMount` is true")
 - Given a Select content with `forceMount` whose `child` snippet gates on `props.open`, when rendered closed, then no content exists, and clicking the trigger makes it exist. (bits: tests/src/tests/select/select.browser.test.ts: "select - single > should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 - Given an open Select that is then closed, when the whole `SelectRoot` is unmounted while the delayed presence timers are still pending, then `clearTimeout` is called and the pending timer count drops below the count observed right after closing. (reka: packages/core/src/Select/Select.test.ts: "given SelectContent cleanup > should clear delayed presence updates when unmounted after closing")
 
 ### Accessibility tooling
+
 - Given a closed default Select, when audited with axe, then there are no violations. (reka: packages/core/src/Select/Select.test.ts: "given default Select > should pass axe accessibility tests")
 - Given an open default Select, when audited with axe with the `aria-required-children` rule disabled, then there are no violations. (reka: packages/core/src/Select/Select.test.ts: "given default Select > opening the modal > should pass axe accessibility tests")
 - Given a closed `multiple` Select, when audited with axe, then there are no violations. (reka: packages/core/src/Select/Select.test.ts: "given Select with multiple props > should pass axe accessibility tests")
@@ -2560,6 +2783,7 @@ Conventions:
 - Given a rendered Melt select, when audited with `jest-axe`, then there are no violations. (melt: src/tests/select/Select.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given a Melt select, when a disabled option is present, then the assertion that a disabled select cannot be opened is declared but not implemented. (melt: src/tests/select/Select.spec.ts: "Disabled select cannot be opened") [skipped]
 - Given a Melt select, when the `loop` prop is set, then the assertion that options loop is declared but not implemented. (melt: src/tests/select/Select.spec.ts: "Options loop when loop prop is set") [skipped]
 - Given the reka Select tests, when an option is activated, then two `pointerup` events are required because `SelectContentImpl` suppresses the first one as an accidental pointerup after opening. (reka: packages/core/src/Select/Select.test.ts: "given default Select > after selecting a value")
@@ -2574,6 +2798,7 @@ Conventions:
 ## listbox
 
 ### Roles and attributes
+
 - Given a default Listbox, when rendered, then `ListboxContent` is `role="listbox"` and each `ListboxItem` is `role="option"`. (reka: packages/core/src/Listbox/Listbox.test.ts: "given default Listbox")
 - Given a default Listbox whose content just received focus, when the first item is inspected, then it has `data-highlighted=""`. (reka: packages/core/src/Listbox/Listbox.test.ts: "when focus on content > should have highlighted state on first item")
 - Given a focused Listbox, when the third item is clicked, then it has `aria-selected="true"` and `data-state="checked"`. (reka: packages/core/src/Listbox/Listbox.test.ts: "when focus on content > should highlight and select item when clicked")
@@ -2591,6 +2816,7 @@ Conventions:
 - Given a horizontal Listbox with the first item selected, when `Enter` is pressed again, then that item reads `aria-selected="false"` with `data-state="unchecked"` while keeping `data-highlighted=""`. (reka: packages/core/src/Listbox/Listbox.test.ts: "given horizontal Listbox > should deselect after pressing `Enter`")
 
 ### Keyboard
+
 - Given a focused Listbox with the first item highlighted, when `Enter` is pressed, then that item becomes selected. (reka: packages/core/src/Listbox/Listbox.test.ts: "after pressing `Enter` > should select the highlighted item")
 - Given a focused Listbox, when `ArrowDown` is pressed twice, then highlight moves from the first item to the third. (reka: packages/core/src/Listbox/Listbox.test.ts: "after selecting other item and press `Enter` > should select the third item")
 - Given a focused Listbox, when the letter `b` is typed on the content, then `document.activeElement` is the first item whose text starts with `B`, so typeahead moves focus. (reka: packages/core/src/Listbox/Listbox.test.ts: "when typing letter > should highlight text starting with B")
@@ -2600,6 +2826,7 @@ Conventions:
 - Given a horizontal Listbox with item 0 selected, when `ArrowRight` is pressed twice and then `Enter`, then selection moves to the third item, so horizontal orientation uses the left and right arrows. (reka: packages/core/src/Listbox/Listbox.test.ts: "given horizontal Listbox > after selecting other item and press `Enter` > should select the third item")
 
 ### Pointer
+
 - Given a focused Listbox, when an item is clicked, then it becomes both highlighted and selected. (reka: packages/core/src/Listbox/Listbox.test.ts: "when focus on content > should highlight and select item when clicked")
 - Given a `ListboxRoot` with `highlightOnHover: true`, when each item receives `pointermove`, then the last `highlight` payload is `{ ref: <item element>, value: <item text> }` and the content's `querySelectorAll` is never called. (reka: packages/core/src/Listbox/Listbox.test.ts: "given a Listbox with hover highlighting > emits the highlighted item without querying the collection")
 - Given a `ListboxRoot` with `highlightOnHover: true` and an item already highlighted, when the same item receives `pointermove` again, then no additional `highlight` event is emitted and `querySelectorAll` is still not called. (reka: packages/core/src/Listbox/Listbox.test.ts: "given a Listbox with hover highlighting > emits the highlighted item without querying the collection")
@@ -2609,6 +2836,7 @@ Conventions:
 - Given a `multiple` Listbox with `selectionBehavior: 'replace'` and item 0 selected, when item 1 is clicked, then focus moves to item 1. (reka: packages/core/src/Listbox/Listbox.test.ts: "given multiple `true` Listbox > when selection behavior `replace` > should select and replace another item")
 
 ### Focus management
+
 - Given a default Listbox, when the `role="listbox"` content receives `focus`, then `document.activeElement` becomes the first item. (reka: packages/core/src/Listbox/Listbox.test.ts: "when focus on content > should pass the focus to the first item")
 - Given a freshly mounted Listbox, when the immediate highlight watcher settles, then the first item has `data-highlighted=""` but `scrollIntoView` was never called and `document.activeElement` is not that item. (reka: packages/core/src/Listbox/Listbox.test.ts: "given a Listbox on initial mount > should highlight the first item without scrolling the page or stealing focus")
 - Given a freshly mounted Listbox, when the content receives `focus`, then the first item becomes `document.activeElement` and `scrollIntoView` is called. (reka: packages/core/src/Listbox/Listbox.test.ts: "given a Listbox on initial mount > should focus and scroll once the user interacts")
@@ -2618,6 +2846,7 @@ Conventions:
 - Given a horizontal Listbox, when the content receives `focus`, then `document.activeElement` becomes the first item. (reka: packages/core/src/Listbox/Listbox.test.ts: "given horizontal Listbox > when focus on content > should pass the focus to the first item")
 
 ### State and controlled/uncontrolled
+
 - Given a default Listbox, when the content receives `focus`, then a `highlight` event is emitted with a truthy payload. (reka: packages/core/src/Listbox/Listbox.test.ts: "when focus on content > should emit `highlight` event")
 - Given a focused Listbox, when `Enter` selects the first item, then `update:modelValue` is emitted with that item's text. (reka: packages/core/src/Listbox/Listbox.test.ts: "after pressing `Enter` > should emit `update:modelValue` event")
 - Given a `multiple` Listbox with `selectionBehavior: 'toggle'`, when `Enter`, `ArrowDown`, `Enter`, `ArrowUp` and `Enter` are pressed, then `update:modelValue` emits `[item0]`, then `[item0, item1]`, then `[item1]`, so the third press toggles item 0 back off. (reka: packages/core/src/Listbox/Listbox.test.ts: "given multiple `true` Listbox > should emit `update:modelValue` event")
@@ -2626,20 +2855,24 @@ Conventions:
 - Given a horizontal Listbox, when `Enter` selects the first item, then `update:modelValue` is emitted with that item's text. (reka: packages/core/src/Listbox/Listbox.test.ts: "given horizontal Listbox > after pressing `Enter` > should emit `update:modelValue` event")
 
 ### Forms
+
 - Given a Listbox with `name="test"` and `default-value="Afghanistan"` inside a form, when rendered, then an `input[data-hidden]` element exists. (reka: packages/core/src/Listbox/Listbox.test.ts: "given Listbox in a form > should have hidden input field")
 - Given a Listbox in a form with its default value selected, when the form is submitted, then the handler runs once and the collected data is `{ test: <first item text> }`. (reka: packages/core/src/Listbox/Listbox.test.ts: "given Listbox in a form > after selecting option and clicking submit button > should trigger submit once")
 - Given the same form Listbox with the fifth option clicked, when the form is submitted again, then the handler has run twice and the second submission is `{ test: <fifth item text> }`. (reka: packages/core/src/Listbox/Listbox.test.ts: "given Listbox in a form > after selecting other option and click submit button again > should trigger submit once")
 
 ### RTL and i18n
+
 - Given a `ListboxFilter` on a non-Android user agent, when a plain-text composition fires `compositionstart`, `compositionupdate` with `xiang` and `input`, then no `update:modelValue` is emitted during the preedit. (reka: packages/core/src/Listbox/Listbox.test.ts: "should not update modelValue during plain-text composition off Android (desktop Pinyin preedit)")
 - Given a `ListboxFilter` on an Android user agent, when a plain-text autocorrect composition fires `compositionupdate` with `Br` and `input`, then `update:modelValue` is emitted live with `Br`. (reka: packages/core/src/Listbox/Listbox.test.ts: "should update modelValue live during plain-text (autocorrect) composition on Android")
 - Given a `ListboxFilter` on an Android user agent, when a CJK IME composition fires `compositionupdate` with `かんじ` and `input`, then nothing is emitted until `compositionend`, at which point `update:modelValue` is emitted once with `かんじ`. (reka: packages/core/src/Listbox/Listbox.test.ts: "should not update modelValue during CJK IME composition on Android until compositionend")
 
 ### Accessibility tooling
+
 - Given a default Listbox, when audited with axe, then there are no violations. (reka: packages/core/src/Listbox/Listbox.test.ts: "given default Listbox > should pass axe accessibility tests")
 - Given a horizontal Listbox, when audited with axe, then there are no violations. (reka: packages/core/src/Listbox/Listbox.test.ts: "given horizontal Listbox > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given the reka Listbox test environment, when the suites boot, then `releasePointerCapture`, `hasPointerCapture` and `scrollIntoView` are stubbed on `HTMLElement.prototype` because jsdom lacks them, and `scrollIntoView` is re-spied per suite to assert scroll behavior. (reka: packages/core/src/Listbox/Listbox.test.ts: "given default Listbox")
 - Given the reka Listbox story fixture, when it renders, then `ListboxContent` carries `aria-label="options"` and the first 50 entries of a country list are rendered as items, with `data-highlighted`, `data-state=checked` and `data-disabled` driving the visual states. (reka: packages/core/src/Listbox/Listbox.test.ts: "given default Listbox")
 - Given a virtualized Listbox under jsdom, when mounted, then `getBoundingClientRect` must be stubbed to a non-zero 200 by 200 rect and `scrollTo` plus `ResizeObserver` must be stubbed, otherwise `@tanstack/virtual-core` renders no rows. (reka: packages/core/src/Listbox/Listbox.test.ts: "given a virtualized Listbox on initial mount")
@@ -2651,6 +2884,7 @@ Conventions:
 ## combobox
 
 ### Roles and attributes
+
 - Given a default Combobox, when rendered, then the markup contains the input placeholder text `Placeholder...`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > should show placeholder")
 - Given a default Combobox, when the trigger button is clicked, then the popup markup contains the option text `Apple`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > should show the popup content")
 - Given a Combobox where an option was selected and the popup reopened, when that option is inspected, then it has `data-state="checked"`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > after selecting a value > after opening the modal again > should focus on the selected value")
@@ -2673,6 +2907,7 @@ Conventions:
 - Given an open multiple Combobox with a selected item, when the item is inspected, then it has `data-selected`, `aria-selected="true"`, and a rendered indicator element. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should select items when clicked")
 
 ### Keyboard
+
 - Given an open Combobox with `resetSearchTermOnBlur: true` and text typed in the input, when `Escape` is pressed on the input, then the input value becomes the empty string. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > should reset searchTerm when close")
 - Given an open Combobox with `resetSearchTermOnBlur: false` and the text `Testing` in the input, when `Escape` is pressed on the input, then the input value stays `Testing`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > should not reset searchTerm when close")
 - Given a Combobox inside a form with the search term `B` typed, when `Enter` is pressed on the input, then the input value becomes `Banana`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox in a form > after selecting an option via keyboard > should show value correctly")
@@ -2702,6 +2937,7 @@ Conventions:
 - Given an open multiple Combobox filtered by typing `b`, when `Enter` is pressed, then the input value becomes `B` and a single hidden input holds `2`. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should select the highlighted filtered item with Enter after typing")
 
 ### Pointer
+
 - Given an open Combobox, when the second option is clicked, then the input value becomes `Banana`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > after selecting a value > should show value correctly")
 - Given an open Combobox, when the second option is clicked, then the `role="group"` element no longer exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > after selecting a value > should close the popup")
 - Given an open Combobox with `multiple`, when the second option is clicked, then the input value stays the empty string. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with multiple prop > opening the popup > after selecting a value > should not show searchTerm value")
@@ -2728,6 +2964,7 @@ Conventions:
 - Given an open multiple Combobox with items 1 and 2 selected, when item 1 is clicked again, then item 1 becomes unselected and the input value becomes `A`. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should not update the input value when the item is deselected")
 
 ### Focus management
+
 - Given a Combobox with `openOnFocus`, when the input receives focus, then the `role="group"` element exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with openOnFocus > should open when input is focused")
 - Given a Combobox with `openOnFocus` opened by focusing the input, when the trigger button is focused and clicked to close, then `document.activeElement` stays the trigger button rather than returning to the input. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with openOnFocus > should not restore focus to input when closing")
 - Given a Combobox with `openOnFocus` opened by focusing the input, when focus moves to an external button, then after a `requestAnimationFrame` the `role="group"` element no longer exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with openOnFocus > should close content when focus moves to an element outside")
@@ -2740,6 +2977,7 @@ Conventions:
 - Given an open Combobox closed with `Escape`, when the content unmounts, then focus is on the input. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - single > should allow navigating after navigating to the bottom, closing, and reopening the menu")
 
 ### State and controlled/uncontrolled
+
 - Given an open Combobox, when the second option is clicked, then `update:modelValue` is emitted with that option's text. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > after selecting a value > should emit `update:modelValue` event")
 - Given an open Combobox with `multiple`, when the second option is clicked, then `update:modelValue` is emitted with an array containing that option's text. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with multiple prop > opening the popup > after selecting a value > should emit `update:modelValue` event")
 - Given a virtualized Combobox whose model is owned by an inner `defineComponent`, when a mounted option is clicked, then the outer wrapper emits no `update:modelValue` because the update is handled internally. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a virtualized Combobox > should handle model update internally when a visible item is clicked")
@@ -2771,6 +3009,7 @@ Conventions:
 - Given an open multiple Combobox with `inputProps.clearOnDeselect: true`, when the only selected item is deselected, then the input value becomes the empty string and no hidden inputs remain; selecting items 2 and 3 produces hidden inputs `2` and `3`, deselecting 3 leaves `2`, and deselecting 2 empties the input. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should clear the input when the last item is deselected when `clearOnDeselect` is `true`")
 
 ### Forms
+
 - Given a Combobox inside a form, when rendered, then an `input[data-hidden]` element exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox in a form > should have hidden input field")
 - Given a Combobox inside a form with `name="test"`, when the second option is selected and the form is submitted, then the submit handler runs once with `{ test: 'Banana' }`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox in a form > after selecting option and clicking submit button > should trigger submit once")
 - Given the same form after a second selection, when the fifth option is selected and the form is submitted again, then the submit handler has run twice and the second result is `{ test: 'Pineapple' }`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox in a form > after selecting other option and click submit button again > should trigger submit once")
@@ -2787,6 +3026,7 @@ Conventions:
 - Given a multiple Combobox with `name: "themes"` and nothing selected, when the submit button is clicked, then `FormData.getAll("themes")` has length 0. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should submit an empty array when the user submits the form without selecting any items")
 
 ### Dismissal and layering
+
 - Given an open Combobox and a `<label for="combobox-input">` pointing at the combobox input, when `pointerdown` is dispatched on that label, then the `role="group"` element still exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox with an associated label > should not dismiss when interacting with a label tied to a control inside")
 - Given an open Combobox and an unrelated `<label>` outside it, when `pointerdown` is dispatched on that label, then the `role="group"` element no longer exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "given combobox with an associated label > should dismiss when interacting with an unrelated label")
 - Given an open Combobox with `onOutsideClick` calling `preventDefault`, when an outside element is clicked, then the menu stays visible. (melt: src/tests/combobox/Combobox.spec.ts: "Combobox > Doesn't close on outside click if defaultPrevented on `onOutsideClick` handler")
@@ -2810,6 +3050,7 @@ Conventions:
 - Given an open multiple Combobox with `portalProps.disabled: true`, when the content is inspected, then its grandparent element is the enclosing `form`. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - multiple > should not portal if `disabled` is passed as portal prop")
 
 ### Positioning
+
 - Given a popper Combobox with 60 options, when the trigger is clicked and the stubbed `ResizeObserver` fires twice, then the content default slot has rendered 3 times, and after one macrotask it has rendered 4 times rather than once per position update. (reka: packages/core/src/Combobox/Combobox.test.ts: "comboboxContent with popper positioning > does not rerender option slot content after popper position updates")
 - Given an open popper Combobox listing `Option 0` through `Option 59`, when `Option 59` is typed into the input, then the text contains `Option 59` and no longer contains `Option 1`. (reka: packages/core/src/Combobox/Combobox.test.ts: "comboboxContent with popper positioning > updates visible options when filtering while popper content is open")
 - Given a popper Combobox opened by the trigger with no input, when the highlighted option is focused, then it is focused with `{ preventScroll: true }` and never with no argument, no `scrollIntoView` runs before `placed`, and exactly one `scrollIntoView` runs after `placed`. (reka: packages/core/src/Combobox/Combobox.test.ts: "combobox highlight scrolling with popper positioning > prevents trigger-only option focus from scrolling before placement")
@@ -2823,10 +3064,12 @@ Conventions:
 - Given a Combobox with `position="inline"` content, when the input is filtered to `a`, then the highlight is `Alpha` and `scrollIntoView` is called immediately with `{ block: 'nearest' }`. (reka: packages/core/src/Combobox/Combobox.test.ts: "combobox highlight scrolling with popper positioning > leaves inline Combobox highlight scrolling immediate")
 
 ### Animation and presence
+
 - Given a Combobox with `forceMount` on the content, when rendered without opening, then the content is visible. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - single > should forceMount the content when `forceMount` is true")
 - Given a Combobox with `forceMount` whose `child` snippet gates on `props.open`, when rendered, then the content is absent, and after the trigger is clicked it is present. (bits: tests/src/tests/combobox/combobox.browser.test.ts: "combobox - single > should forceMount the content when `forceMount` is true and the `open` snippet prop is used to conditionally render the content")
 
 ### RTL and i18n
+
 - Given a Combobox mid IME composition, when `input` fires with the value `xiang`, then no `role="listbox"` element exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "handle IME composition > should not update filter during IME composition")
 - Given a Combobox mid IME composition with the value `zzzzz`, when `compositionend` fires, then the `role="listbox"` element exists and carries `data-empty`. (reka: packages/core/src/Combobox/Combobox.test.ts: "handle IME composition > should update filter after composition ends")
 - Given a non-Android user agent and a `compositionupdate` carrying plain-text preedit `xiang`, when `input` fires, then no `role="listbox"` element exists. (reka: packages/core/src/Combobox/Combobox.test.ts: "handle IME composition > should not update filter during plain-text composition off Android (desktop Pinyin preedit)")
@@ -2834,12 +3077,14 @@ Conventions:
 - Given an Android user agent and a `compositionupdate` carrying CJK text `かんじ`, when `input` fires, then no `role="listbox"` exists until `compositionend`, after which the listbox exists with `data-empty`. (reka: packages/core/src/Combobox/Combobox.test.ts: "handle IME composition > on Android soft keyboard > should not update filter during CJK IME composition until compositionend")
 
 ### Accessibility tooling
+
 - Given a default closed Combobox, when axe runs on the root element, then there are no violations. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > should pass axe accessibility tests")
 - Given an open Combobox with the `aria-required-children` rule disabled (hidden icon children), when axe runs, then there are no violations. (reka: packages/core/src/Combobox/Combobox.test.ts: "given default Combobox > opening the popup > should pass axe accessibility tests")
 - Given a rendered Combobox, when `jest-axe` runs on the container, then there are no violations. (melt: src/tests/combobox/Combobox.spec.ts: "Combobox > No accessibility violations")
 - Given a rendered `forceVisible` Combobox, when `jest-axe` runs on the container, then there are no violations. (melt: src/tests/combobox/Combobox.spec.ts: "Combobox (forceVisible) > No accessibility violations")
 
 ### Notes and edge cases
+
 - Given an open Combobox over object options, when `Du` is typed into the input, then exactly one `role="option"` remains and its markup contains `Dur`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a Combobox with object > opening the popup > after keypress input > should filter with the searchTerm (Dur)")
 - Given a virtualized Combobox rendered open with 100 options and a 200px viewport, when the options mount, then the number of `role="option"` elements is greater than 0 and fewer than 100. (reka: packages/core/src/Combobox/Combobox.test.ts: "given a virtualized Combobox > should mount only a subset of the 100 options (virtualization working)")
 - Given a Combobox with `TagsInput` and `addOnBlur: true` and the filter text `a`, when the input blurs with the `Apple` option as `relatedTarget` and that option is clicked, then the tag list contains `Apple` and not the raw text `a`. (reka: packages/core/src/Combobox/Combobox.test.ts: "given Combobox with TagsInput and addOnBlur > should select the combobox item instead of adding raw input text as tag")
@@ -2856,6 +3101,7 @@ Conventions:
 ## autocomplete
 
 ### Roles and attributes
+
 - Given a default Autocomplete, when rendered, then the markup contains the input placeholder text `Placeholder...`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > should show placeholder")
 - Given a default Autocomplete, when rendered, then the input value is the empty string. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > should have empty modelValue initially")
 - Given an Autocomplete opened by clicking the trigger, when rendered, then the markup contains the option text `Apple`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > should show the popup content")
@@ -2864,24 +3110,29 @@ Conventions:
 - Given an open Autocomplete showing `data-empty` after typing `zzzzz`, when the input is changed to `App`, then `data-empty` is removed from the content. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > data-empty attribute on content > should remove data-empty when items match again")
 
 ### Keyboard
+
 - Given an open Autocomplete with default `resetSearchTermOnBlur` (false) and the typed text `Testing`, when `Escape` is pressed, then the input value stays `Testing`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > should keep input text on close (resetSearchTermOnBlur defaults to false)")
 - Given an open Autocomplete with `resetSearchTermOnBlur: true` and the typed text `Testing`, when `Escape` is pressed, then after 50ms the input value is still `Testing` because the typed text is the model value and reset only clears internal filter state. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > should keep typed text as modelValue even when resetSearchTermOnBlur is true")
 - Given an open Autocomplete with the free-form text `Custom text` typed, when `Escape` is pressed, then the input value stays `Custom text`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > typing free-form text > should keep the typed text after closing")
 
 ### Pointer
+
 - Given an open Autocomplete, when the second option is clicked, then the input value becomes `Banana`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > after selecting a value > should fill the input with the selected item text")
 - Given an open Autocomplete, when the second option is clicked, then the `role="group"` element no longer exists. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > after selecting a value > should close the popup")
 - Given an Autocomplete where `Banana` was selected, when the trigger is clicked to reopen the popup, then the input still shows `Banana`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > after selecting a value > after opening the popup again > should still show the selected text in the input")
 
 ### State and controlled/uncontrolled
+
 - Given an open Autocomplete, when the second option is clicked, then `update:modelValue` is emitted with the string `Banana`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > after selecting a value > should emit `update:modelValue` with the text value")
 - Given an open Autocomplete, when `Custom text` is typed into the input, then the last `update:modelValue` payload is `Custom text`, so typing writes the model value directly. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > typing free-form text > should emit `update:modelValue` with the typed text")
 
 ### Forms
+
 - Given an Autocomplete inside a form, when rendered, then an `input[data-hidden]` element exists. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given autocomplete in a form > should have hidden input field")
 - Given an Autocomplete inside a form with `name="test"`, when the second option is selected and the form is submitted, then the submit handler runs once with `{ test: 'Banana' }`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given autocomplete in a form > after selecting option and clicking submit button > should trigger submit once")
 
 ### RTL and i18n
+
 - Given an open Autocomplete mid IME composition, when `input` fires with the value `x`, then the content has no `data-empty` attribute and at least one `role="option"` remains visible. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > handle IME composition > should not filter during composition")
 - Given an open Autocomplete mid composition with the final value `zzzzz`, when `compositionend` fires, then the content gains the `data-empty` attribute. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > handle IME composition > should filter after composition ends")
 - Given an open Autocomplete mid IME composition, when `input` fires with the value `x`, then the number of `update:modelValue` emissions is unchanged. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > handle IME composition > should not update modelValue during composition")
@@ -2891,16 +3142,19 @@ Conventions:
 - Given an Android user agent and a `compositionupdate` carrying CJK text `かんじ`, when `input` fires, then the content has no `data-empty` and no new `update:modelValue` is emitted, and after `compositionend` the content has `data-empty` and the last payload is `かんじ`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > handle IME composition > on Android soft keyboard > should not filter during CJK IME composition until compositionend")
 
 ### Accessibility tooling
+
 - Given a default closed Autocomplete, when axe runs on the root element, then there are no violations. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > should pass axe accessibility tests")
 - Given an open Autocomplete with the `aria-required-children` rule disabled, when axe runs, then there are no violations. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given an `_Autocomplete.vue` fixture with `AutocompleteEmpty`, three `AutocompleteGroup`s (Fruits, Vegetables, Chinese) and an `AutocompleteSeparator`, when items are filtered to nothing, then the empty state and `data-empty` come from the primitive's own filtering rather than a consumer-derived list, unlike Combobox in bits. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > data-empty attribute on content > should have data-empty when no items match the filter")
 - Given an Autocomplete where typing sets the model value directly, when text is typed and the popup closed, then the input keeps the typed text instead of snapping back to a selected option label, which is the behavioral split from `ComboboxRoot`. (reka: packages/core/src/Autocomplete/Autocomplete.test.ts: "given default Autocomplete > opening the popup > typing free-form text > should keep the typed text after closing")
 
 ## command
 
 ### Roles and attributes
+
 - Given a default Command with two groups of items, when rendered, then the first item `Introduction` has the `data-selected` attribute. (bits: tests/src/tests/command/command.browser.test.ts: "should select the first item by default")
 - Given a Command with `value: "Introduction"`, when rendered, then `Introduction` has `data-selected`. (bits: tests/src/tests/command/command.browser.test.ts: "should allow forcing the selected value")
 - Given a Command with `value: "Radio Group"` (an item in the second group), when rendered, then `Radio Group` has `data-selected` and `Introduction` does not. (bits: tests/src/tests/command/command.browser.test.ts: "should respect initial value when it's not the first item")
@@ -2909,6 +3163,7 @@ Conventions:
 - Given a grid Command with `value: "Introduction"`, when rendered, then `Introduction` has `data-selected`. (bits: tests/src/tests/command/command-grid.browser.test.ts: "should allow forcing the selected value")
 
 ### Keyboard
+
 - Given a default Command, when `d` is typed into the input, then the input value is `d`, `Delegation` has `data-selected`, and it is the first child of the first group's items container. (bits: tests/src/tests/command/command.browser.test.ts: "should restore original order when search is cleared")
 - Given a Command filtered by `d`, when `Backspace` clears the input, then the input value is the empty string, `Introduction` has `data-selected`, and it is the first child of the first group's items container again. (bits: tests/src/tests/command/command.browser.test.ts: "should restore original order when search is cleared")
 - Given a grid Command, when `d` is typed into the input, then `Delegation` has `data-selected` and is the first child of the first group's items container. (bits: tests/src/tests/command/command-grid.browser.test.ts: "should restore original order when search is cleared")
@@ -2919,6 +3174,7 @@ Conventions:
 - Given a grid Command with `Delegation` selected in column 2, when `ArrowDown` is pressed, then `Radio Group` (column 2 of the next row) becomes selected. (bits: tests/src/tests/command/command-grid.browser.test.ts: "should navigate to the correct column in the next row")
 
 ### State and controlled/uncontrolled
+
 - Given a default Command with an empty search, when the separator is inspected, then it exists, and after `a` is typed into the input it is removed. (bits: tests/src/tests/command/command.browser.test.ts: "should render the separator when search is empty and remove it when search is not empty")
 - Given a Command whose separator has `forceMount: true`, when `a` is typed into the input, then the separator still exists. (bits: tests/src/tests/command/command.browser.test.ts: "should always render the separator when forceMount")
 - Given a default Command, when no search is entered, then the empty state element is absent, and after typing `zzzzzzzz` into the focused input it exists. (bits: tests/src/tests/command/command.browser.test.ts: "should show empty state when no items are found")
@@ -2929,12 +3185,14 @@ Conventions:
 - Given a grid Command, when `radio` is typed into the input, then the first group is not visible, the second group is visible, and `Radio Group` has `data-selected`. (bits: tests/src/tests/command/command-grid.browser.test.ts: "should hide the group if all items are filtered out")
 
 ### Positioning
+
 - Given a Command whose viewport is capped at 150px with 40px items and `value: "Popover"` (the last item), when rendered and 150ms elapse, then the selected item's bounding rect sits within the viewport rect, allowing 1px tolerance on each edge. (bits: tests/src/tests/command/command-scroll.browser.test.ts: "should scroll initial value into view when it's not the first item")
 - Given the same scrollable Command with `value: "Radio Group"` (a mid-list item), when rendered and 150ms elapse, then the selected item's bounding rect sits within the viewport rect within 1px. (bits: tests/src/tests/command/command-scroll.browser.test.ts: "should scroll initial value in the middle of the list into view")
 - Given a scrollable Command with `value: "Popover"` and `disableInitialScroll: true`, when rendered and 150ms elapse, then `viewport.scrollTop` is 0. (bits: tests/src/tests/command/command-scroll.browser.test.ts: "should respect disableInitialScroll prop and not scroll")
 - Given a scrollable Command with `value: "Introduction"` (the first item), when rendered and 150ms elapse, then `viewport.scrollTop` is 0. (bits: tests/src/tests/command/command-scroll.browser.test.ts: "should not scroll when initial value is the first item")
 
 ### Notes and edge cases
+
 - Given `computeCommandScore`, when the value and search are identical (`"test"`, `"test"`), then the score is exactly 1. (bits: tests/src/tests/command/compute-command-score.test.ts: "computeCommandScore > returns 1 for exact matches")
 - Given `computeCommandScore`, when case differs (`"Test"` or `"TEST"` against `"test"`), then the score is close to 0.9999. (bits: tests/src/tests/command/compute-command-score.test.ts: "computeCommandScore > handles case insensitive matches")
 - Given `computeCommandScore`, when `"test"` is scored against the prefix `"te"` versus the interior `"es"`, then the prefix score is greater. (bits: tests/src/tests/command/compute-command-score.test.ts: "computeCommandScore > scores prefix matches higher")
@@ -2951,10 +3209,12 @@ Conventions:
 ## tags-input
 
 ### Roles and attributes
+
 - Given a default `TagsInput` story, when rendered, then the first `[data-reka-collection-item]` contains the initial tag text `Test`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should render the initial tags")
 - Given `defaultTags: ['svelte','ts']`, when rendered, then each `tag-<i>` element exists and contains its tag text. (melt: src/tests/tags-input/TagsInput.spec.ts: "Default tags are present")
 
 ### Keyboard
+
 - Given a focused input with tags already added, when ArrowLeft is pressed, then the last tag gets `data-state="active"`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should select the last tags")
 - Given the last tag active, when ArrowLeft is pressed again, then the last tag becomes `inactive` and the one before it becomes `active`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should select the previous tag when press ArrowLeft")
 - Given a tag is active, when Home is pressed, then the first tag becomes `active` and the last becomes `inactive`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should select the first item when press Home")
@@ -2970,9 +3230,11 @@ Conventions:
 - Given only a disabled tag remains, when Backspace is pressed twice more, then the disabled tag is still present. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "does not remove the disabled tag when it is the only remaining tag")
 
 ### Pointer
+
 - Given `addOnBlur: true` and a typed value, when the input blurs, then the value becomes a new tag. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should add value on blur")
 
 ### State and controlled/uncontrolled
+
 - Given a focused input, when two tags are added in sequence, then the root emits `addTag` with `'123'` and then `'Asd'`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should emit `addTag` event")
 - Given two tags added, when the DOM settles, then the new tag text appears in the markup at the expected index. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should add a new tag")
 - Given a tag was just added, when the DOM settles, then the input is still `document.activeElement`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should have focus on input")
@@ -2986,10 +3248,12 @@ Conventions:
 - Given an `allowed` list plus a custom trimming `add` function, when the disallowed and then the allowed value are submitted with trailing spaces, then only the allowed one is accepted. (melt: src/tests/tags-input/TagsInput.spec.ts: "Respect allowed list with custom add")
 
 ### Accessibility tooling
+
 - Given a default `TagsInput`, when audited with axe, then there are no violations. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should pass axe accessibility tests")
 - Given a default melt tags input, when audited with axe, then there are no violations. (melt: src/tests/tags-input/TagsInput.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given `displayValue: item => 'Person: ' + item.name` and object values, when rendered, then the tags read `Person: Durward Reynolds` and `Person: Kenton Towne`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should display the initial tags")
 - Given `convertValue` turning a string into `{ name, id }`, when a new tag is typed and Enter pressed, then the last tag reads `Person: Moriah Stanton` and the bound array holds objects with numeric `id` and string `name`. (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should update the tags")
 - Given object values with `displayValue` but no `convertValue`, when a tag is submitted, then the app error handler is called exactly once with the message "You must provide a `convertValue` function when using objects as values." (reka: packages/core/src/TagsInput/TagsInput.test.ts: "should throw an error if props are not ok")
@@ -3004,10 +3268,12 @@ Conventions:
 ## editable
 
 ### Keyboard
+
 - Given `submitMode: 'enter'` and a controlled `modelValue`, when text is typed into the input and Enter is pressed, then the preview is visible with the new text and the submit callback receives it. (reka: packages/core/src/Editable/Editable.test.ts: "submits the value when pressing enter")
 - Given `submitMode: 'both'`, when text is typed and Enter is pressed, then the preview shows the new text. (reka: packages/core/src/Editable/Editable.test.ts: "submits the value when pressing enter if submitMode is both")
 
 ### Pointer
+
 - Given a default `Editable`, when the preview is clicked, then the edit trigger becomes visible. (reka: packages/core/src/Editable/Editable.test.ts: "changes to editable mode when clicking on the preview")
 - Given a default `Editable`, when the edit button is clicked, then the input becomes visible. (reka: packages/core/src/Editable/Editable.test.ts: "changes to editable mode when clicking on the edit button")
 - Given `activationMode: 'dblclick'`, when the preview is double-clicked, then the input becomes visible. (reka: packages/core/src/Editable/Editable.test.ts: "changes to editable mode when double clicking on the preview")
@@ -3015,9 +3281,11 @@ Conventions:
 - Given `submitMode: 'both'`, when the same blur sequence runs, then the preview shows the new text. (reka: packages/core/src/Editable/Editable.test.ts: "submits the value on blur if submitMode is both")
 
 ### Focus management
+
 - Given `defaultValue: 'Default Value'` and `selectOnFocus: true`, when the input is clicked, then it has focus, its value is the default, and both `selectionStart` and `selectionEnd` equal the value length. (reka: packages/core/src/Editable/Editable.test.ts: "selects the input value when entering edit mode and selectOnFocus is true")
 
 ### State and controlled/uncontrolled
+
 - Given `defaultValue: 'Default Value'`, when rendered, then the preview shows that text. (reka: packages/core/src/Editable/Editable.test.ts: "respects a default value if provided")
 - Given `modelValue: 'Default Value'`, when rendered, then the preview shows that text, so the controlled prop also seeds the preview. (reka: packages/core/src/Editable/Editable.test.ts: "respects a default value if provided - `modelValue`")
 - Given `placeholder: 'Enter text...'` with no value, when rendered, then the preview shows the placeholder. (reka: packages/core/src/Editable/Editable.test.ts: "sets the placeholder value if any value isn't set")
@@ -3027,18 +3295,22 @@ Conventions:
 - Given `maxLength: 10`, when a 26-character string is typed, then the input's value is truncated to `lorem ipsu`. (reka: packages/core/src/Editable/Editable.test.ts: "should prevent user input text more than given `maxLength`")
 
 ### Animation and presence
+
 - Given `autoResize: true`, when rendered in preview mode the input has `visibility: hidden`, and after the edit button is clicked the preview has `visibility: hidden`, so both nodes stay in the layout and swap visibility. (reka: packages/core/src/Editable/Editable.test.ts: "uses the proper styles when autoResize is true")
 
 ### Accessibility tooling
+
 - Given a default `Editable`, when audited with axe, then there are no violations. (reka: packages/core/src/Editable/Editable.test.ts: "should pass axe accessibility tests")
 
 ## tree
 
 ### Roles and attributes
+
 - Given a default `Tree` with `selectionBehavior: 'toggle'`, when snapshotted, then the root is a `ul` with `role="tree"`, `tabindex="0"`, `data-orientation="vertical"`, `dir="ltr"`, and `outline: none`, and each `li` has `role="treeitem"`, `tabindex="-1"`, `data-reka-collection-item=""`, `aria-setsize="3"`, a 1-based `aria-posinset`, `aria-selected="false"`, `aria-level="1"`, `data-indent="1"`, and `margin-left: 1rem`, with collapsible rows additionally carrying `aria-expanded="false"`. (reka: packages/core/src/Tree/Tree.test.ts: "should render snapshot")
 - Given one item marked `disabled`, when rendered, then it has `aria-disabled="true"` and `data-disabled=""` while an enabled sibling has neither attribute. (reka: packages/core/src/Tree/Tree.test.ts: "should set aria-disabled and data-disabled attributes")
 
 ### Keyboard
+
 - Given a collapsed folder row, when ArrowRight is pressed on it, then its first child row is revealed. (reka: packages/core/src/Tree/Tree.test.ts: "should expand the item, revealing it's item")
 - Given an expanded folder row, when ArrowLeft is pressed on it, then the children are hidden and the next row is the following sibling. (reka: packages/core/src/Tree/Tree.test.ts: "should close when press ArrowLeft")
 - Given focus on a child row, when ArrowLeft is pressed, then focus moves to the parent row. (reka: packages/core/src/Tree/Tree.test.ts: "should focus on parent when press ArrowLeft on child item")
@@ -3051,6 +3323,7 @@ Conventions:
 - Given the same custom structure, when the nested folder is expanded, then its first file row is revealed. (reka: packages/core/src/Tree/Tree.test.ts: "given a Tree with a custom children structure > when expand nested item > should expand the nested item, revealing it's item")
 
 ### Pointer
+
 - Given `selectionBehavior: 'toggle'`, when a row is clicked twice, then `aria-selected` goes `true` then `false`. (reka: packages/core/src/Tree/Tree.test.ts: "should select and deselect item")
 - Given `selectionBehavior: 'replace'`, when the same row is clicked twice, then `aria-selected` stays `true`. (reka: packages/core/src/Tree/Tree.test.ts: "when selection behavior `replace` > should not toggle off the selected value")
 - Given `selectionBehavior: 'replace'`, when a second row is clicked, then the first becomes `false` and the second becomes `true`. (reka: packages/core/src/Tree/Tree.test.ts: "when selection behavior `replace` > should select and replace another item")
@@ -3063,6 +3336,7 @@ Conventions:
 - Given `disabled` on the tree root, when rendered every row has `aria-disabled="true"`, and when the first row is clicked it stays unselected. (reka: packages/core/src/Tree/Tree.test.ts: "should disable all items when root is disabled")
 
 ### Focus management
+
 - Given a text input rendered inside a tree item and focused, when ArrowRight is dispatched on it, then the event is not `defaultPrevented`, focus stays on the input, and the row count is unchanged. (reka: packages/core/src/Tree/Tree.test.ts: "leaves ArrowRight to the caret instead of walking the tree")
 - Given the same input focused, when ArrowLeft is dispatched, then the event is not prevented, focus stays on the input, and no row collapses. (reka: packages/core/src/Tree/Tree.test.ts: "leaves ArrowLeft to the caret instead of jumping to the parent row")
 - Given the same input focused, when the character `c` is dispatched, then focus stays on the input even though two rows start with `c`, so typeahead is suppressed inside text fields. (reka: packages/core/src/Tree/Tree.test.ts: "does not run typeahead while typing")
@@ -3070,6 +3344,7 @@ Conventions:
 - Given an expanded folder row with no form control focused, when ArrowLeft is dispatched on the row itself, then the visible row count decreases, so tree navigation still works outside inputs. (reka: packages/core/src/Tree/Tree.test.ts: "still walks the tree when the key lands on the item itself")
 
 ### Accessibility tooling
+
 - Given a default `Tree`, when audited with axe, then there are no violations. (reka: packages/core/src/Tree/Tree.test.ts: "given default Tree > should pass axe accessibility tests")
 - Given a `Tree` with one folder expanded, when audited with axe, then there are no violations. (reka: packages/core/src/Tree/Tree.test.ts: "when expand item by press ArrowRight > should pass axe accessibility tests")
 - Given a `Tree` with a nested folder expanded, when audited with axe, then there are no violations. (reka: packages/core/src/Tree/Tree.test.ts: "when expand nested item > should pass axe accessibility tests")
@@ -3077,10 +3352,12 @@ Conventions:
 ## avatar
 
 ### Roles and attributes
+
 - Given an `Avatar` with a root, image, and fallback, when rendered, then the three parts carry `data-avatar-root`, `data-avatar-image`, and `data-avatar-fallback`. (bits: tests/src/tests/avatar/avatar.browser.test.ts: "Data Attributes > should have bits data attrs")
 - Given an `Avatar` whose image has `alt="Colm Tuite"`, when rendered, then an element is findable by that alt text. (reka: packages/core/src/Avatar/Avatar.test.ts: "should have alt text on the image")
 
 ### State and controlled/uncontrolled
+
 - Given an `Avatar` with a mocked `Image` that loads after 350ms, when first rendered, then the fallback text `CT` is in the markup. (reka: packages/core/src/Avatar/Avatar.test.ts: "should render the fallback initially")
 - Given the same avatar, when first rendered, then the `img` element exists but carries `display: none`. (reka: packages/core/src/Avatar/Avatar.test.ts: "should render the image, but show `display:none` initially")
 - Given an `Avatar` with `delay: 300`, when first rendered, then the fallback text is absent, so the fallback itself is delayed rather than shown immediately. (reka: packages/core/src/Avatar/Avatar.test.ts: "should not render a fallback immediately")
@@ -3098,20 +3375,24 @@ Conventions:
 - Given `delayMs: 100` with `load` already fired, when the component unmounts and further events arrive, then no status change is reported. (bits: tests/src/tests/avatar/avatar.browser.test.ts: "cancels image work on destroy (load already fired: true)")
 
 ### Animation and presence
+
 - Given the pre-load state, when snapshotted, then the recorded HTML has the `img` with `style="display: none;"` and a sibling fallback `span` containing `CT`. (reka: packages/core/src/Avatar/Avatar.test.ts: "should match before image loaded snapshot")
 - Given the post-load state after the fallback is removed from the DOM, when snapshotted, then the recorded HTML has the `img` with an empty `style` attribute and `<!--v-if-->` where the fallback used to be. (reka: packages/core/src/Avatar/Avatar.test.ts: "should match after image loaded snapshot")
 
 ### Accessibility tooling
+
 - Given a default `Avatar`, when audited with axe, then there are no violations. (reka: packages/core/src/Avatar/Avatar.test.ts: "should pass axe accessibility tests")
 
 ## pagination
 
 ### Roles and attributes
+
 - Given a default `Pagination` over 10 pages, when rendered, then `[aria-label="Page 1"]` has `data-selected="true"` and `[aria-label="Page 2"]` has no `data-selected`. (reka: packages/core/src/Pagination/Pagination.test.ts: "given default Pagination > should have first page selected by default")
 - Given `total: 13` with a default page size, when rendered, then exactly two `[data-type="page"]` buttons exist. (reka: packages/core/src/Pagination/Pagination.test.ts: "given small total value > should have only 2 page button")
 - Given `showEdges: true` on page 5, when rendered, then exactly one `[data-type="ellipsis"]` element exists. (reka: packages/core/src/Pagination/Pagination.test.ts: "should have right ellipsis")
 
 ### Pointer
+
 - Given a default `Pagination` on page 1, when Next Page is clicked, then page 1 loses `data-selected` and page 2 gains `data-selected="true"`. (reka: packages/core/src/Pagination/Pagination.test.ts: "after clicking on Next Page trigger > should have set to page 2")
 - Given a default `Pagination`, when the Page 3 button is clicked, then page 3 becomes the selected page. (reka: packages/core/src/Pagination/Pagination.test.ts: "after clicking on Page 3 trigger > should have set to page 2")
 - Given a default `Pagination`, when Last Page is clicked, then page 10 is selected and the Page 1 button no longer exists in the window. (reka: packages/core/src/Pagination/Pagination.test.ts: "after clicking on Last Page trigger > should have set to page 10")
@@ -3130,6 +3411,7 @@ Conventions:
 - Given `count: 100` with a page size of 10, when rendered the range reads 1 to 10, and when next is clicked it reads 11 to 20. (bits: tests/src/tests/pagination/pagination.browser.test.ts: "should display the correct range of items being displayed")
 
 ### State and controlled/uncontrolled
+
 - Given `showEdges: true`, when rendered, then page 1 is selected by default and page 2 is not. (reka: packages/core/src/Pagination/Pagination.test.ts: "given show-edges Pagination > should have first page selected by default")
 - Given `showEdges: true`, when rendered, then both the Page 1 and Page 2 buttons exist. (reka: packages/core/src/Pagination/Pagination.test.ts: "should always show Page 1 & Page 10")
 - Given `total: 13`, when rendered, then page 1 is selected by default. (reka: packages/core/src/Pagination/Pagination.test.ts: "given small total value > should have first page selected by default")
@@ -3140,6 +3422,7 @@ Conventions:
 - Given the same disabled state, when any non-selected page button is clicked, then the selection stays on page 2. (reka: packages/core/src/Pagination/Pagination.test.ts: "should ignore clicking on any non-selected page")
 
 ### Accessibility tooling
+
 - Given a default `Pagination`, when audited with axe, then there are no violations. (reka: packages/core/src/Pagination/Pagination.test.ts: "given default Pagination > should pass axe accessibility tests")
 - Given a `Pagination` whose First, Previous, page item, Next, and Last parts are all rendered `as="a"`, when audited with axe, then there are no violations. (reka: packages/core/src/Pagination/Pagination.test.ts: "given Pagination with <a> as buttons > should pass axe accessibility tests")
 - Given the `as="a"` pagination with the root disabled, when audited with axe, then there are no violations. (reka: packages/core/src/Pagination/Pagination.test.ts: "given Pagination with <a> as buttons and disabled > should pass axe accessibility tests")
@@ -3149,6 +3432,7 @@ Conventions:
 - Given a rendered pagination, when audited with axe, then there are no violations. (melt: src/tests/pagination/cmp.spec.ts: "No accessibility violations")
 
 ### Notes and edge cases
+
 - Given 100 total pages and no explicit page, when `getPageItems` runs, then the window is `1,2,3,4,...,100`. (melt: src/tests/pagination/helpers.spec.ts: "getPageItems totalPages 100 page undefined siblingCount undefined")
 - Given 100 pages and page 3, when `getPageItems` runs, then the window is `1,2,3,4,...,100`. (melt: src/tests/pagination/helpers.spec.ts: "getPageItems totalPages 100 page 3")
 - Given 100 pages and page 4, when `getPageItems` runs, then a leading ellipsis appears: `1,...,3,4,5,...,100`. (melt: src/tests/pagination/helpers.spec.ts: "getPageItems totalPages 100 page 4")
@@ -3176,10 +3460,12 @@ Conventions:
 ## splitter
 
 ### Roles and attributes
+
 - Given a `SplitterPanel` with `size-unit="px"`, `collapsible`, `collapsed-size` 80, `default-size` 300 and `min-size` 150 in a 923px group, when the layout initializes, then the panel's `data-state` is `expanded`. (reka: packages/core/src/Splitter/Splitter.test.ts: "nested px SplitterGroup layout re-initialization (issue #2509) > should set data-state=\"collapsed\" for a collapsed px panel")
 - Given that same px panel, when `collapse()` is called through the panel's exposed API, then its `data-state` becomes `collapsed` despite the px-to-percent conversion leaving the panel size a float epsilon off `collapsedSize`. (reka: packages/core/src/Splitter/Splitter.test.ts: "nested px SplitterGroup layout re-initialization (issue #2509) > should set data-state=\"collapsed\" for a collapsed px panel")
 
 ### State and controlled/uncontrolled
+
 - Given a horizontal `SplitterGroup` whose container reports only 3.45px before its panels register, when the container later resizes to 923px, then the last emitted `layout` event has the px sidebar at approximately 200px (its `default-size`) and the percent content panel above 50. (reka: packages/core/src/Splitter/Splitter.test.ts: "nested px SplitterGroup layout re-initialization (issue #2509) > should re-initialize layout when container grows from a tiny initial size")
 - Given a percent panel with `onResize`, when `callPanelCallbacks` runs with layout `[50]` and a 1000px group, then `onResize` is called with `(50, undefined)` and the size map records `50`. (reka: packages/core/src/Splitter/utils/callPanelCallbacks.test.ts: "callPanelCallbacks > onResize > should call onResize with percentage values for percent-based panels")
 - Given a px panel with `onResize`, when `callPanelCallbacks` runs with layout `[20]` and a 1000px group, then `onResize` is called with `(200, undefined)` and the size map records `200`. (reka: packages/core/src/Splitter/utils/callPanelCallbacks.test.ts: "callPanelCallbacks > onResize > should convert percentage to pixels for px-based panels")
@@ -3200,6 +3486,7 @@ Conventions:
 - Given a collapsible px panel with `collapsedSize` 48 cycled 200px, 48px, 200px, 48px, when `callPanelCallbacks` runs each time, then `onExpand` fires twice, `onCollapse` fires twice, and `onResize` fires four times with `(200, undefined)`, `(48, 200)`, `(200, 48)` and `(48, 200)`. (reka: packages/core/src/Splitter/utils/callPanelCallbacks.test.ts: "callPanelCallbacks > edge cases > should handle collapse/expand cycle correctly for pixel panels")
 
 ### Positioning
+
 - Given panels where none declares `sizeUnit: 'px'`, when `hasPixelSizedPanel` is called, then it returns `false`. (reka: packages/core/src/Splitter/utils/units.test.ts: "hasPixelSizedPanel > should return false when no panels use px")
 - Given panels where at least one declares `sizeUnit: 'px'`, when `hasPixelSizedPanel` is called, then it returns `true`. (reka: packages/core/src/Splitter/utils/units.test.ts: "hasPixelSizedPanel > should return true when at least one panel uses px")
 - Given a percent panel with `minSize` 10, `maxSize` 80 and `defaultSize` 50, when `convertPanelConstraintsToPercent` runs against a 1000px group, then the constraints come back unchanged with `sizeUnit` `'%'`. (reka: packages/core/src/Splitter/utils/units.test.ts: "convertPanelConstraintsToPercent > should return constraints as-is for percent panels")
@@ -3214,9 +3501,11 @@ Conventions:
 - Given three all-px panels at equal thirds resizing from 900px to 901px, when `recalculateLayoutForPixelPanels` runs, then the returned values sum to 100 within 1e-9. (reka: packages/core/src/Splitter/utils/units.test.ts: "recalculateLayoutForPixelPanels > should normalise when three all-px panels produce fractional remainders")
 
 ### Accessibility tooling
+
 - Given the splitter story with a horizontal group containing a nested vertical group and a `max-size="20"` panel, when axe is run on the mounted element with the `label` and `nested-interactive` rules disabled, then there are no violations. (reka: packages/core/src/Splitter/Splitter.test.ts: "test splitter functionalities > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given an empty layout and empty panel constraints, when `validatePanelGroupLayout` is called, then it returns `[]` and `console.warn` is not called. (reka: packages/core/src/Splitter/utils/validation.test.ts: "validatePanelGroupLayout > should validate an empty group silently")
 - Given a layout of `[50, 50]` with zero panel constraints, when `validatePanelGroupLayout` is called, then it throws an error containing `Invalid 0 panel layout`. (reka: packages/core/src/Splitter/utils/validation.test.ts: "validatePanelGroupLayout > should throw when the layout length does not match the panel constraints")
 - Given the nested-px regression suite, when it runs, then it stubs `ResizeObserver` with a mock that records callbacks so the test can fire a synthetic `contentRect` width, replicating the browser timing where an inner group is measured at 3.45px before the outer group finishes laying out. (reka: packages/core/src/Splitter/Splitter.test.ts: "nested px SplitterGroup layout re-initialization (issue #2509)")
@@ -3225,6 +3514,7 @@ Conventions:
 ## scroll-area
 
 ### Roles and attributes
+
 - Given a `ScrollArea` with root, viewport, both scrollbars, both thumbs, and a corner, when rendered with `type: "always"`, then the parts carry `data-scroll-area-root`, `data-scroll-area-viewport`, `data-scroll-area-scrollbar` (both axes), `data-scroll-area-thumb` (both axes), and `data-scroll-area-corner`. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should have bits data attrs")
 - Given a default `ScrollArea`, when rendered, then the root and viewport elements are in the document. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should render the root and viewport elements")
 - Given a default `ScrollArea` with mocked 500px offsets over 2000px scroll content, when rendered, then the snapshot records the content and the HTML contains no `data-orientation="vertical"`, so no scrollbar is mounted before interaction. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given default ScrollArea > should render content, but not scrollbar")
@@ -3232,9 +3522,11 @@ Conventions:
 - Given `type="scroll"` with `scrollTop` mocked at 20, when rendered, then the snapshot records the content and the HTML still contains no `data-orientation="vertical"`. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given prop:type=\"scroll\" ScrollArea > should render content and scrollbar")
 
 ### Keyboard
+
 - Given a bits scroll area with overflowing content, when the viewport is clicked and ArrowDown, PageDown, End, and Home are pressed, then `scrollTop` increases for the first three and returns to `0` for Home. Skipped on WebKit by an early return. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should handle keyboard navigation")
 
 ### Pointer
+
 - Given a default `ScrollArea`, when `pointerenter` fires on the root and 100ms pass, then the snapshot records a mounted scrollbar. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given default ScrollArea > on hover > should render scrollbar")
 - Given `type="scroll"`, when `scrollTop` changes to 40 and a `scroll` event fires on `[data-reka-scroll-area-viewport]`, then after 10ms the HTML contains `data-orientation="vertical"` and the snapshot records the visible scrollbar. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given prop:type=\"scroll\" ScrollArea > on scroll > should render scrollbar")
 - Given `type="hover"` with both scrollbars and a corner, and a ResizeObserver mock that fires its callback immediately on `observe`, when the pointer enters, leaves after 700ms, and enters again, then the corner content exists, is removed, and exists again, which is the regression for issue 2669. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "keeps the corner in sync with the scrollbars across repeated hover cycles")
@@ -3252,6 +3544,7 @@ Conventions:
 - Given `type: "always"` and a visible vertical scrollbar, when a `pointerdown` is dispatched on the scrollbar then `body.style.webkitUserSelect` is `none`, and when `lostpointercapture` is dispatched instead of `pointerup` then it is restored to the empty string. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should restore webkitUserSelect when pointer capture is lost without pointerup")
 
 ### State and controlled/uncontrolled
+
 - Given `type: 'always'`, when rendered, then both the x and y scrollbars are visible. (melt: src/tests/scroll-area/ScrollArea.spec.ts: "Displays the scrollbars when `type` is \"always\"")
 - Given `type: 'always'` and a 10px width, when rendered, then the x scrollbar is visible. (melt: src/tests/scroll-area/ScrollArea.spec.ts: "Displays the x scrollbar when `type` is \"auto\" and content overflows")
 - Given `type: 'always'` and a 10px height, when rendered, then the y scrollbar is visible. (melt: src/tests/scroll-area/ScrollArea.spec.ts: "Displays the y scrollbar when `type` is \"auto\" and content overflows")
@@ -3262,20 +3555,24 @@ Conventions:
 - Given a 400px-tall area holding 20 paragraphs with no scrollbar, when the height input is set to 100, then hovering the root reveals the vertical scrollbar. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should respond to size changes")
 
 ### RTL and i18n
+
 - Given `dir: "rtl"` with non-wrapping content, when the viewport is clicked and ArrowLeft is pressed, then `scrollLeft` changes from its initial value while the horizontal scrollbar exists. Skipped on WebKit. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should handle RTL direction")
 
 ### Accessibility tooling
+
 - Given a default `ScrollArea`, when audited with axe, then there are no violations. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given default ScrollArea > should pass axe accessibility tests")
 - Given `type="always"`, when audited with axe, then there are no violations. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given prop:type=\"always\" ScrollArea > should pass axe accessibility tests")
 - Given `type="scroll"`, when audited with axe, then there are no violations. (reka: packages/core/src/ScrollArea/ScrollArea.test.ts: "given prop:type=\"scroll\" ScrollArea > should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given `type: "always"` and a stubbed `ResizeObserver` whose callbacks are fired manually, when the observers fire and the component then unmounts, then no `setTimeout` with a 10ms delay is scheduled and no `derived_inert` warning is logged within the following 20ms. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should not schedule resize work that can outlive a always ScrollArea")
 - Given `type: "auto"` and the same stubbed observer, when the observers fire and the component unmounts, then no 10ms timer survives and no `derived_inert` warning is logged. (bits: tests/src/tests/scroll-area/scroll-area.browser.test.ts: "should not schedule resize work that can outlive a auto ScrollArea")
 
 ## calendar
 
 ### Roles and attributes
+
 - Given a Calendar with `modelValue` set to a `CalendarDate` of 1980-01-20, when rendered, then the single `[data-selected]` cell reads `20` and the heading reads `January 1980`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > respects a default value if provided - `CalendarDate`")
 - Given a Calendar with `modelValue` set to a `CalendarDateTime` of 1980-01-20T12:30, when rendered, then the `[data-selected]` cell reads `20` and the heading reads `January 1980`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > respects a default value if provided - `CalendarDateTime`")
 - Given a Calendar with `modelValue` set to a `ZonedDateTime` in `America/New_York`, when rendered, then the `[data-selected]` cell reads `20` and the heading reads `January 1980`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > respects a default value if provided - `ZonedDateTime`")
@@ -3352,6 +3649,7 @@ Conventions:
 - Given selects limited to `months: [6]` and `years: [2020]` with a June 2020 placeholder, when rendered, then each select has exactly one option and both carry the `selected` attribute. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "Calendar Select Components > Integration > should handle edge cases with limited month/year arrays")
 
 ### Keyboard
+
 - Given a Calendar with the selected January 20 cell focused, when `Enter` is pressed, then the value is cleared and no `[data-selected]` element remains. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > allows deselection with %s key" with `{Enter}`)
 - Given a Calendar with the selected January 20 cell focused, when `Space` is pressed, then the value is cleared and no `[data-selected]` element remains. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > allows deselection with %s key" with `{Space}`)
 - Given a Calendar whose `placeholder` is a `ZonedDateTime` in January 1980, when the January 2 cell is focused and `Enter` is pressed, then the `[data-selected]` cell reads `2`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > allows selection with %s key" with `{Enter}`)
@@ -3382,6 +3680,7 @@ Conventions:
 - Given a Bits multiple-selection calendar whose only selected date January 3 is disabled, when `Tab` is pressed three times from the body, then focus goes prev button, next button, then the January 1 day. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "type='multiple' > Availability and Interaction > should not allow focusing on disabled dates, even if selected, falling back to first available date")
 
 ### Pointer
+
 - Given a Calendar showing January 1980, when the next button is clicked once per month across a year, then the heading walks `January 1980` through `December 1980` and ends at `January 1981`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > navigates the months forward using the next button")
 - Given a Calendar showing January 1980, when the prev button is clicked repeatedly, then the heading walks `December 1979` back through `February 1979` and ends at `January 1979`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > navigates the months backwards using the prev button")
 - Given a Calendar with `prevPage` set to subtract 10 years, when the plain prev button is clicked, then the heading reads `January 1970`. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > navigates 10 years into the past when setting the `prevPage` function to subtract 10 years")
@@ -3411,7 +3710,7 @@ Conventions:
 - Given a Melt calendar with `minValue` 1979-11-25, when the prev button is clicked a third time, then the heading stays `November 1979`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > calendar does not navigate before minValue")
 - Given a Melt calendar with `maxValue` 1980-04-01, when the next button is clicked a fourth time, then the heading stays `April 1980`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > calendar does not navigate after maxValue")
 - Given a Melt multiple-selection calendar with two selected dates and default `preventDeselect`, when the first selected day is clicked, then one selected cell remains and it reads `5`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > multiple select - prevent deselect false (default)")
-- Given a Melt multiple-selection calendar with two selected dates and `preventDeselect: true`, when the first selected day is clicked, then both selected cells remain, reading `2` and `5`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > multiple select -  prevent deselect true")
+- Given a Melt multiple-selection calendar with two selected dates and `preventDeselect: true`, when the first selected day is clicked, then both selected cells remain, reading `2` and `5`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > multiple select - prevent deselect true")
 - Given a Melt calendar with an unavailable January 3, when that cell is clicked, then it does not gain `data-selected`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > unavailable dates behavior")
 - Given a Melt calendar with `disabled: true`, when the January 1 cell is clicked, then it does not receive focus. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > disabled prop prevents calendar focus & interaction")
 - Given a Melt calendar with `readonly: true`, when the January 1 cell is clicked, then it receives focus but gains no `data-selected`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > readonly prop prevents selecting dates but allows focus")
@@ -3439,10 +3738,12 @@ Conventions:
 - Given a Bits calendar whose `Calendar.MonthSelect` offers January through April, when February and then April are selected, then the `option[selected]` reads `February` and then `April`. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "Calendar Select Components > Integration > should maintain selections when switching between months")
 
 ### Focus management
+
 - Given a Calendar with no selected date whose placeholder month contains no `[data-today]` cell, when `handleCalendarInitialFocus` is called on the calendar element, then the January 1 cell receives focus. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar - edge cases > handles initial focus when no date is selected and today is out of view")
 - Given a Melt calendar with `disabled: true`, when the first day of the month is clicked, then it does not have focus. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > disabled prop prevents calendar focus & interaction")
 
 ### State and controlled/uncontrolled
+
 - Given a multiple-selection Calendar whose `modelValue` holds 1980-01-02 and 1980-05-05, when rendered, then the heading reads `May 1980` (the placeholder follows the last value) and only one selected cell is visible in that month. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar - `multiple` > sets placeholder to last value in `value` prop")
 - Given a Melt calendar with a `value` store holding a `CalendarDate`, when rendered, then the `[data-selected]` cell reads `20` and the heading reads `January 1980`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > populated with controlled value - CalendarDate")
 - Given a Melt calendar with a `value` store holding a `CalendarDateTime`, when rendered, then the `[data-selected]` cell reads `20` and the heading reads `January 1980`. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > populated with controlled value - CalendarDateTime")
@@ -3469,6 +3770,7 @@ Conventions:
 - Given a Bits multiple-selection calendar whose values are 1980-01-02 and 1980-05-05, when rendered, then only one selected day is visible and the heading reads `May 1980`, so the placeholder follows the last value. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "type='multiple' > Value Handling > should set placeholder to last value in `value` prop")
 
 ### RTL and i18n
+
 - Given a Bits calendar with `weekStartsOn: 2` and `weekdayFormat: 'short'`, when rendered, then the first head cell reads exactly `Tue`. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "type='single' > Rendering Options > should respect the `weekStartsOn` prop")
 - Given a Bits calendar with `weekStartsOn: 2`, `weekdayFormat: 'short'` and `locale: 'fr'`, when rendered, then the first head cell reads `mar.`, so the explicit `weekStartsOn` beats the locale default. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "type='single' > Rendering Options > should respect the `weekStartsOn` prop regardless of locale")
 - Given a Bits calendar with `locale: 'fr'`, `weekdayFormat: 'short'` and no `weekStartsOn`, when rendered, then the first head cell reads `lun.`, so the locale's first weekday is used. (bits: tests/src/tests/calendar/calendar.browser.test.ts: "type='single' > Rendering Options > should default the first day of the week to the locale's first day of the week if `weekStartsOn` is not provided")
@@ -3527,10 +3829,12 @@ Conventions:
 - Given `createFormatter('en-US')`, when `dayPeriod` is called for noon and midnight, then it returns `PM` and `AM`; this is a unit test of the date helpers. (melt: src/lib/internal/helpers/date/tests/formatter.spec.ts: "Formatter > should properly format day period")
 
 ### Accessibility tooling
+
 - Given a default Calendar, when the calendar element is run through `axe`, then there are no accessibility violations. (reka: packages/core/src/Calendar/Calendar.test.ts: "should pass axe accessibility tests")
 - Given a default Melt calendar, when the container is run through `axe`, then there are no accessibility violations. (melt: src/tests/calendar/Calendar.spec.ts: "Calendar > Accessibility > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given a Calendar with `numberOfMonths: 2`, when the next button is clicked, then the previously rendered January 12 cell is removed from the document and reappears with the same `data-value` when prev is clicked once, so month grids are re-keyed rather than reused. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > displays multiple months when `numberOfMonths` is greater than 1")
 - Given the Reka fixture, when `numberOfMonths` is greater than 1, then day test ids are prefixed by grid index (`date-<gridIndex>-<month>-<day>`) while single-month fixtures use `date-<month>-<day>`, so cross-grid focus assertions distinguish the two grids for the same date. (reka: packages/core/src/Calendar/Calendar.test.ts: "numberOfMonths > 1 > handles minValue correctly using arrow keys")
 - Given the Reka Vue fixture, when the controlled pattern is exercised, then the test wires `update:modelValue` to `rerender({ modelValue: data })`, and deselection tests depend on that round trip. (reka: packages/core/src/Calendar/Calendar.test.ts: "calendar > allows dates to be deselected by clicking the selected date")
@@ -3545,6 +3849,7 @@ Conventions:
 ## range-calendar
 
 ### Roles and attributes
+
 - Given a RangeCalendar with `modelValue` of the `CalendarDate` range 1980-01-20 to 1980-01-25, when rendered, then six `[data-selected]` cells exist and the heading reads `January 1980`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > respects a default value if provided - `CalendarDate`")
 - Given a RangeCalendar with a `CalendarDateTime` range, when rendered, then six `[data-selected]` cells exist and the heading reads `January 1980`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > respects a default value if provided - `CalendarDateTime`")
 - Given a RangeCalendar with a `ZonedDateTime` range in `America/New_York`, when rendered, then six `[data-selected]` cells exist and the heading reads `January 1980`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > respects a default value if provided - `ZonedDateTime`")
@@ -3598,6 +3903,7 @@ Conventions:
 - Given a Bits range calendar with the January 5 to 8 range, when January 12 is clicked, then the old endpoints lose `data-selected` and January 12 gains `data-selected` and `data-selection-start` without `data-selection-end`. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "range selection data attributes > should handle range reset correctly when selecting new dates")
 
 ### Keyboard
+
 - Given a RangeCalendar with a selected range where January 5 has been clicked as a new start, when `Escape` is pressed, then the original range is restored with `[data-selection-start]` reading `20` and `[data-selection-end]` reading `25`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > resets range selection when pressing Escape")
 - Given a RangeCalendar with `maxValue` 1980-03-31 and January 1 focused, when `ArrowDown` is pressed repeatedly, then focus steps through January 8, 15, 22, 29, February 5 (heading `February 1980`), February 12, 19, 26, March 4 (heading `March 1980`), March 11, 18, 25, and the next press keeps focus on March 25. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > does not navigate after `maxValue` (with keyboard)")
 - Given a RangeCalendar with `minValue` 1979-12-01 and January 1 focused, when `ArrowUp` is pressed, then focus moves to December 25 1979 with heading `December 1979`, then December 18, 11 and 4, and the next press keeps focus on December 4. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > does not navigate before `minValue` (with keyboard)")
@@ -3614,6 +3920,7 @@ Conventions:
 - Given a Bits range calendar whose selected range is the single disabled date January 3, when `Tab` is pressed three times from the body, then focus goes prev button, next button, then the January 1 day. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "should not allow focusing on disabled dates, even if they are the only selected date, it should fallback to the first available date within the view")
 
 ### Pointer
+
 - Given a RangeCalendar showing January 1980, when the next button is clicked once per month across a year, then the heading walks `January 1980` through `December 1980` and ends at `January 1981`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > navigates the months forward using the next button")
 - Given a RangeCalendar showing January 1980, when the prev button is clicked repeatedly, then the heading walks back through 1979 and ends at `January 1979`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > navigates the months backwards using the prev button")
 - Given a RangeCalendar with `placeholder` 1980-01-15 and `minValue` 1980-01-01 whose prev button renders `as="div"`, when the prev button is clicked, then the heading stays `January 1980`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > does not navigate when prev is disabled and rendered as div")
@@ -3684,6 +3991,7 @@ Conventions:
 - Given a Bits range calendar navigated to March through the month select, when March 5 and March 10 are clicked, then both have `data-selected`. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "RangeCalendar Select Components > Integration with Range Selection > should allow selecting new ranges after navigation")
 
 ### State and controlled/uncontrolled
+
 - Given a RangeCalendar rendered with `modelValue: undefined`, when the prop is later set to a `ZonedDateTime` range, then the heading reads `January 1980`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > respects programmatically updated value")
 - Given a RangeCalendar rendered with `modelValue: null`, when rendered and then updated to a `ZonedDateTime` range, then it starts with zero selected cells, does not throw, and ends with six selected cells. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > does not crash when modelValue is null")
 - Given a Melt range calendar with a `value` store holding a `CalendarDate` range, when rendered, then six `[data-selected]` cells exist and the heading reads `January 1980`. (melt: src/tests/range-calendar/RangeCalendar.spec.ts: "Range Calendar > populated with controlled value - CalendarDate")
@@ -3699,18 +4007,21 @@ Conventions:
 - Given a Bits range calendar with only `maxValue` set two years in the past, when rendered with no value, then the heading shows November of that year, so the default placeholder is clamped down to `maxValue`. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "should set default placeholder lower than `maxValue`")
 
 ### RTL and i18n
+
 - Given a Bits range calendar with `weekStartsOn: 2`, `weekdayFormat: 'short'` and `locale: 'fr'`, when rendered, then the first head cell reads `mar.`. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "should respect the `weekStartsOn` prop regardless of locale")
 - Given a Bits range calendar with `locale: 'fr'`, `weekdayFormat: 'short'` and no `weekStartsOn`, when rendered, then the first head cell reads `lun.`. (bits: tests/src/tests/range-calendar/range-calendar.browser.test.ts: "should default the first day of the week to the locale's first day of the week if `weekStartsOn` is not provided")
 - Given a Melt range calendar with default options, when the `weekStartsOn` option store is advanced by one, then the weekday row rotates left by one. (melt: src/tests/range-calendar/RangeCalendar.spec.ts: "Range Calendar > dynamically change weekStartsOn option")
 - Given a Melt range calendar whose first weekday label is `S`, when the `locale` option store is set to `it`, then the first weekday label becomes `L`. (melt: src/tests/range-calendar/RangeCalendar.spec.ts: "Range Calendar > dynamically changing the locale option also update weekStartsOn")
 
 ### Accessibility tooling
+
 - Given a mounted default RangeCalendar, when the root element is run through `axe`, then there are no accessibility violations. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "should pass axe accessibility tests")
 - Given a RangeCalendar with the January 20 to 25 range, when the calendar is run through `axe`, then there are no accessibility violations. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "handles maximumDays > a11y > should pass axe accessibility tests when closed")
 - Given a RangeCalendar with no props, when the calendar element is clicked and run through `axe`, then there are no accessibility violations. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "handles maximumDays > a11y > should pass axe accessibility tests when open")
 - Given a default Melt range calendar, when the container is run through `axe`, then there are no accessibility violations. (melt: src/tests/range-calendar/RangeCalendar.spec.ts: "Range Calendar > Accessibility > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given the Reka range fixture, when `numberOfMonths` is greater than 1, then day test ids gain a grid-index prefix (`date-<gridIndex>-<month>-<day>`), and cross-grid arrow assertions rely on the same date existing in two grids. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "numberOfMonths > 1 > handles minValue correctly using arrow keys")
 - Given a Reka `RangeCalendarPrev` rendered with `as="div"`, when it is disabled by `minValue`, then the click is inert even though a `div` has no native `disabled`, so the disabled behavior does not depend on the `button` element. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > does not navigate when prev is disabled and rendered as div")
 - Given the Reka range tests, when hover previews are asserted, then some use `fireEvent.mouseEnter` plus `waitFor` and others use `user.hover`, and `maximumDays` capping is asserted through `data-highlighted-start`, `data-highlighted` and `data-highlighted-end`. (reka: packages/core/src/RangeCalendar/RangeCalendar.test.ts: "rangeCalendar > caps highlighted range to maximumDays (forward)")
@@ -3724,6 +4035,7 @@ Conventions:
 ## date-field
 
 ### Roles and attributes
+
 - Given a date field with `modelValue` of `CalendarDate(1980, 1, 20)`, when rendered, then the `month`, `day`, and `year` segments show `1`, `20`, and `1980`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > populates segment with value - `CalendarDate`")
 - Given a date field with `modelValue` of `CalendarDateTime(1980, 1, 20, 12, 30, 0, 0)`, when rendered, then the `month`, `day`, `year`, `hour`, and `minute` segments show `1`, `20`, `1980`, `12`, and `30`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > populates segment with value - `CalendarDateTime`")
 - Given a date field with a `ZonedDateTime` in `America/New_York`, when rendered, then the `dayPeriod` segment shows `PM` and the `timeZoneName` segment shows `EST`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > populates segment with value - `ZonedDateTime`")
@@ -3749,6 +4061,7 @@ Conventions:
 - Given a bits date field with a time granularity and no value, when rendered, then the `hour` segment shows the time placeholder `––`. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should not allow changing the dayPeriod without a value")
 
 ### Keyboard
+
 - Given a date field with a `ZonedDateTime` and `granularity` of `second`, when `ArrowUp` is pressed on each of `day`, `month`, `year`, `minute`, and `second`, then that segment shows the value cycled up by one. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > increments segment on arrow up")
 - Given a date field whose `hour` shows `12` in a 12-hour cycle, when `ArrowUp` is pressed on `hour`, then the `hour` segment shows `1`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > increments segment on arrow up")
 - Given a date field with a `ZonedDateTime` and `granularity` of `second`, when `ArrowDown` is pressed on each of `day`, `month`, `year`, `hour`, `minute`, and `second`, then that segment shows the value cycled down by one. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > decrements segment on arrow down")
@@ -3824,6 +4137,7 @@ Conventions:
 - Given a bits date field with `value` of October 12, 2023, when `Backspace` is pressed on the `year` segment, then `day` still shows `12` and `month` still shows `10`. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should not affect day/month segments when backspacing the year")
 
 ### Pointer
+
 - Given a date field with a `ZonedDateTime`, when each of `day`, `month`, `year`, `hour`, `minute`, `dayPeriod`, `timeZoneName` is clicked, then that segment receives focus. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > focuses segments on click")
 - Given a `disabled` date field, when each segment is clicked, then no segment receives focus. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > prevents interaction when `disabled`")
 - Given a melt date field, when the `month` segment is clicked, then it receives focus. (melt: src/tests/date-field/DateField.spec.ts: "DateField > focuses first segment on click")
@@ -3832,11 +4146,13 @@ Conventions:
 - Given a `disabled` bits date field, when a click is attempted on each segment, then the click is rejected as not actionable. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should prevent interaction when `disabled`")
 
 ### Focus management
+
 - Given a date field with a `Label` bound by `for`/`id`, when the label is clicked, then the first child of the input container receives focus. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > focuses first segment on label click")
 - Given a melt date field, when the label is clicked, then the `month` segment receives focus. (melt: src/tests/date-field/DateField.spec.ts: "DateField > clicking the label focuses the first segment")
 - Given a bits date field, when the label is clicked, then the `month` segment receives focus. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should focus first segment on label click")
 
 ### State and controlled/uncontrolled
+
 - Given a date field with a `ZonedDateTime`, when `modelValue` is rerendered as `undefined`, then `month`, `day`, and `year` revert to `mm`, `dd`, `yyyy`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > should clear all segment when `modelValue` is set to nullish")
 - Given a date field with a `ZonedDateTime` and `granularity` of `second`, when the `month` segment is clicked and `3` typed, then the segment fully replaces the old value rather than appending. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > fully overwrites on first click and type - `month`")
 - Given the `day` segment showing `20`, when it is clicked and `1` typed, then it shows `1`. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > fully overwrites on first click and type - `day`")
@@ -3859,11 +4175,13 @@ Conventions:
 - Given a bits date field bound with `bind:value`, when an external reset button sets the value to `undefined`, then `day`, `month`, `year` revert to `dd`, `mm`, `yyyy`. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should reset the segment values when the value is reset")
 
 ### Forms
+
 - Given a bits date field with a `name` prop, when rendered, then a hidden `input` exists with `name="date-field"` and `aria-hidden="true"`. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should render a hidden input if the `name` prop is passed")
 - Given a bits date field without a `name` prop, when rendered, then no `input` element exists in the container. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should not render a hidden input if the name prop isn't passed")
 - Given a bits date field with a `name` and a `CalendarDateTime` value, when rendered, then the hidden input's value is the date string; pressing `ArrowUp` on `year` updates it to the value plus one year. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should keep the value of the hidden input in sync with the fields value")
 
 ### RTL and i18n
+
 - Given a date field with `locale` of `en-UK`, when rendered, then the first, third, and fifth children of the input show `dd`, `mm`, `yyyy` (the even indices are literal separators). (reka: packages/core/src/DateField/DateField.test.ts: "dateField > changes segment positioning based on `locale`")
 - Given a date field with `locale` of `en-UK` and a `CalendarDateTime`, when rendered, then no `dayPeriod` segment is in the document. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > doesnt show the day period for locales that don't use them")
 - Given a date field with the default locale and a `CalendarDateTime`, when rendered, then a `dayPeriod` segment is in the document. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > does show the day period for locales that do use them")
@@ -3879,10 +4197,12 @@ Conventions:
 - Given a bits date field with `locale` of `sv-SE` and an 18:30 value, when rendered, then `hour` shows `18` with no `dayPeriod` segment; typing `20` shows `20` and `ArrowDown` shows `19`; the assertion is skipped under WebKit. (bits: tests/src/tests/date-field/date-field.browser.test.ts: "date field > should display and allow typing hours > 12 with sv-SE locale (24-hour format)")
 
 ### Accessibility tooling
+
 - Given a default date field, when the container is run through `axe`, then no accessibility violations are reported. (reka: packages/core/src/DateField/DateField.test.ts: "should pass axe accessibility tests")
 - Given a default melt date field, when the container is run through `axe`, then no accessibility violations are reported. (melt: src/tests/date-field/DateField.spec.ts: "DateField > Accessibility > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given a date field with `granularity` of `day` and a `CalendarDateTime` value, when rendered, then `hour`, `minute`, `second`, `dayPeriod` are absent and `month`, `day`, `year` are visible. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > overrides the default displayed segments with the `granularity` prop - `day`")
 - Given a date field with `granularity` of `minute`, when rendered, then `second` is absent while `month`, `day`, `year`, `hour`, `minute`, `dayPeriod` are visible. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > overrides the default displayed segments with the `granularity` prop - `minute`")
 - Given a date field with `modelValue` of `now('America/Los_Angeles')`, when rendered, then the `timeZoneName` segment shows `PDT` during daylight saving time and `PST` otherwise. (reka: packages/core/src/DateField/DateField.test.ts: "dateField > displays correct timezone with ZonedDateTime value - `now`")
@@ -3935,6 +4255,7 @@ Conventions:
 ## date-range-field
 
 ### Roles and attributes
+
 - Given a date range field with `modelValue` of start 2022-01-01 and end 2022-03-01, when rendered, then the start `month`, `day`, `year` show `1`, `1`, `2022` and the end ones show `3`, `1`, `2022`. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > populates segment with value - `CalendarDate`")
 - Given a date range field with `CalendarDateTime` values and `granularity` of `second`, when rendered, then both the start and end `month`, `day`, `year`, `hour`, `minute`, `second` segments show the corresponding parts of each endpoint. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > populates segment with value - `CalendarDateTime`")
 - Given a date range field with `ZonedDateTime` values in `America/New_York` and `granularity` of `second`, when rendered, then both start and end `month`, `day`, `year`, `hour`, `minute`, `second` segments show the local wall-clock parts of each endpoint. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > populates segment with value - `ZonedDateTime`")
@@ -3948,6 +4269,7 @@ Conventions:
 - Given a bits date range field with a `ZonedDateTime` range and `granularity` of `second`, when rendered, then both endpoints' segments show the local wall-clock parts and the value readouts show each endpoint's string. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should populate segment with value - `ZonedDateTime`")
 
 ### Keyboard
+
 - Given a date range field with a `CalendarDate` range, when `ArrowRight` is pressed repeatedly from `start-month`, then focus walks `start-day`, `start-year`, `end-month`, `end-day`, `end-year` in order. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > navigates between the fields")
 - Given a date range field, when `Tab` is pressed repeatedly from `start-month`, then focus walks `start-day`, `start-year`, `end-month`, `end-day`, `end-year` in order. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > navigates between the fields")
 - Given focus on `end-year`, when `ArrowLeft` is pressed repeatedly, then focus walks `end-day`, `end-month`, `start-year`, `start-day`, `start-month`. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > navigates between the fields - right to left")
@@ -3970,32 +4292,40 @@ Conventions:
 - Given a bits date range field prepopulated with end 2025-05-31, when `end-day` is focused and `ArrowDown` is pressed, then it shows `30`. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should allow valid days in end month when a value is prepopulated")
 
 ### Pointer
+
 - Given a bits date range field with a `CalendarDate` range, when `start-month` is clicked and `2` typed, then the start value becomes `2022-02-01` while the end value is unchanged. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should respect `bind:value` to the value")
 
 ### Focus management
+
 - Given a melt date range field, when the label is clicked, then `start-month` receives focus. (melt: src/tests/date-range-field/DateRangeField.spec.ts: "DateField > clicking the label focuses the first segment")
 
 ### State and controlled/uncontrolled
+
 - Given a melt date range field whose `onValueChange` returns a fixed override range, when `ArrowDown` is pressed on `start-day`, then both the `start-value` and `end-value` readouts show the override range rather than the decremented start. (melt: src/tests/date-range-field/DateRangeField.spec.ts: "DateField > overridable store functions as expected")
 
 ### Forms
+
 - Given a bits date range field with `startProps.name` of `start-hidden-input` and `endProps.name` of `end-hidden-input`, when rendered, then an `input` with each of those names is in the document. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should render an input for the start and end")
 
 ### RTL and i18n
+
 - Given a date range field with `dir` of `rtl`, when `2` is typed in `start-month`, then focus moves to `start-day`; typing `19` moves to `start-year`; typing `1980` moves focus to `end-month` (DOM order, not visual order). (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > advances focus through segments in DOM order when typing in RTL")
 - Given a bits date range field with `locale` of `en-GB`, a start in a 30-day month and an end in a 31-day month, when `31` is typed into `end-day`, then `end-day` shows `31`, the end value is `2026-08-31`, and the start value stays `2024-11-01`. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should allow valid days in the end month with a day-first locale")
 
 ### Accessibility tooling
+
 - Given a default date range field, when the container is run through `axe`, then no accessibility violations are reported. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "should pass axe accessibility tests")
 - Given a default melt date range field, when the container is run through `axe`, then no accessibility violations are reported. (melt: src/tests/date-range-field/DateRangeField.spec.ts: "DateField > Accessibility > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given a reka `DateRangeFieldInput`, when it is rendered, then it requires a `type` prop of `start` or `end` to bind the segment to the matching endpoint, and `literal` parts are rendered as non-interactive segments. (reka: packages/core/src/DateRangeField/DateRangeField.test.ts: "dateField > populates segment with value - `CalendarDate`")
 - Given a bits `DateRangeField.Root`, when rendered, then each `DateRangeField.Input` takes a `type` of `start` or `end` and exposes its `segments` through a `children` snippet. (bits: tests/src/tests/date-range-field/date-range-field.browser.test.ts: "should populate segment with value - `CalendarDate`")
 
 ## time-field
 
 ### Roles and attributes
+
 - Given a time field with `modelValue` of `Time(9, 15, 29)`, when rendered, then the `hour` segment shows `9`. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > populates segment with value - `Time`")
 - Given a time field with `modelValue` of `CalendarDateTime(1980, 1, 20, 12, 30, 0, 0)`, when rendered, then `hour` shows `12` and `minute` shows `30`. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > populates segment with value - `CalendarDateTime`")
 - Given a time field with a `ZonedDateTime` in `America/New_York`, when rendered, then `hour` shows `12`, `minute` shows `30`, `dayPeriod` shows `PM`, and `timeZoneName` shows `EST`. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > populates segment with value - `ZonedDateTime`")
@@ -4013,6 +4343,7 @@ Conventions:
 - Given a bits time field with `hideTimeZone` false and a `ZonedDateTime`, when rendered, then a `timeZoneName` segment exists. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should show timezone when hideTimeZone is false")
 
 ### Keyboard
+
 - Given a time field with a `ZonedDateTime` at 12:30:00 PM and `granularity` of `second`, when `ArrowUp` is pressed on `hour`, then `hour` shows `1`; `minute` and `second` each show their cycled-up value. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > increments segment on arrow up")
 - Given the same field, when `ArrowDown` is pressed on `hour`, `minute`, and `second`, then each shows its cycled-down value. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > decrements segment on arrow down")
 - Given a time field with `step` of `{ minute: 2, second: 2 }`, when `ArrowDown` then `ArrowUp` are pressed on `hour`, then the hour moves by one (the step does not apply to `hour`). (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > increase/decrease segments with step")
@@ -4095,16 +4426,19 @@ Conventions:
 - Given a bits time field with no value, when `ArrowUp` is pressed twice on `dayPeriod`, then it shows `AM` and `hour` still shows the `––` placeholder. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should not adjust the hour when the day period is changed")
 
 ### Pointer
+
 - Given a time field with a `ZonedDateTime`, when each of `hour`, `minute`, `dayPeriod`, `timeZoneName` is clicked, then that segment receives focus. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > focuses segments on click")
 - Given a `disabled` time field, when each segment is clicked, then none receives focus. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > prevents interaction when `disabled`")
 - Given a bits time field with a `ZonedDateTime`, when each of `hour`, `minute`, `dayPeriod`, `timeZoneName` is clicked, then that segment receives focus. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should focus segments on click")
 - Given a `disabled` bits time field, when each segment is force-clicked, then none receives focus. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should prevent interaction when `disabled`")
 
 ### Focus management
+
 - Given a time field with a `Label` bound by `for`/`id`, when the label is clicked, then the first child of the input container receives focus. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > focuses first segment on label click")
 - Given a bits time field, when the label is clicked, then the `hour` segment receives focus. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should focus first segment on label click")
 
 ### State and controlled/uncontrolled
+
 - Given a time field with `hour` showing `12`, when it is clicked and `3` typed, then the segment fully replaces its value with `3`. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > fully overwrites on first click and type - `hour`")
 - Given a bits `hour` segment showing `12`, when clicked and `1` typed, then it shows `1`. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should overwrite on first click and type - `hour`")
 - Given a bits `minute` segment showing `30`, when clicked and `1` typed, then it shows `1`. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should overwrite on first click and type - `minute`")
@@ -4115,11 +4449,13 @@ Conventions:
 - Given a bits time field whose `value` is a `ZonedDateTime`, when `ArrowUp` changes the hour, then `onValueChange` receives a `ZonedDateTime` instance with defined `hour` and `timeZone`. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should type the onValueChange callback with the type of the provided value (ZonedDateTime)")
 
 ### Forms
+
 - Given a bits time field with a `name` prop, when rendered, then a hidden input exists with `name="time-field"` and `aria-hidden="true"`. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should render a hidden input if the `name` prop is passed")
 - Given a bits time field without a `name` prop, when rendered, then no `input[aria-hidden]` element exists. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should not render a hidden input if the name prop isn't passed")
 - Given a bits time field with a `name` and a `CalendarDateTime` value, when rendered, then the hidden input's value is the extracted `Time` string; `ArrowUp` on `hour` updates it to the time plus one hour. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should keep the value of the hidden input in sync with the fields value")
 
 ### RTL and i18n
+
 - Given a time field with `dir` of `rtl`, when `11` is typed into `hour`, then focus advances to `minute` (DOM order, not visual order). (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > advances focus through segments in DOM order when typing in RTL")
 - Given a time field with `locale` of `en-UK` and a `CalendarDateTime`, when rendered, then no `dayPeriod` segment is in the document. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > doesn't show the day period for locales that don't use them")
 - Given a time field with the default locale and a `CalendarDateTime`, when rendered, then a `dayPeriod` segment is in the document. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > does show the day period for locales that do use them")
@@ -4129,9 +4465,11 @@ Conventions:
 - Given a bits time field with `locale` of `en-UK` and a value of 13:30, when rendered, then `hour` shows `13` (24-hour clock by default for that locale); the assertion is skipped under WebKit. (bits: tests/src/tests/time-field/time-field.browser.test.ts: "should default to a 24 hour clock for locales that use it")
 
 ### Accessibility tooling
+
 - Given a default time field, when the container is run through `axe`, then no accessibility violations are reported. (reka: packages/core/src/TimeField/TimeField.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given a time field with `granularity` of `hour`, when rendered, then `minute` and `second` are absent and `hour` is visible. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > overrides the default displayed segments with the `granularity` prop - `hour`")
 - Given a time field with `granularity` of `minute`, when rendered, then `second` is absent and `hour`, `minute`, `dayPeriod` are visible. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > overrides the default displayed segments with the `granularity` prop - `minute`")
 - Given a time field with `modelValue` of `now('America/Los_Angeles')`, when rendered, then `timeZoneName` shows `PDT` in daylight saving time and `PST` otherwise. (reka: packages/core/src/TimeField/TimeField.test.ts: "timeField > displays correct timezone with ZonedDateTime value - `now`")
@@ -4160,6 +4498,7 @@ Conventions:
 ## time-range-field
 
 ### Roles and attributes
+
 - Given a time range field with `modelValue` of start 09:15:29 and end 17:45 and `locale` of `en-GB`, when rendered, then `start-hour` shows `09` and `end-hour` shows `17`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > populates segment with value - `Time`")
 - Given a time range field with `CalendarDateTime` endpoints and `locale` of `en-GB`, when rendered, then `start-hour` shows `9`, `start-minute` shows `15`, `end-hour` shows `17`, and `end-minute` shows `45`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > populates segment with value - `CalendarDateTime`")
 - Given a time range field with `ZonedDateTime` endpoints, `locale` of `en-US`, and `hourCycle` of `12`, when rendered, then `start-hour` shows `9` with `start-dayPeriod` of `AM`, `end-hour` shows `5` with `end-dayPeriod` of `PM`, and both `start-timeZoneName` and `end-timeZoneName` show `EST`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > populates segment with value - `ZonedDateTime`")
@@ -4171,6 +4510,7 @@ Conventions:
 - Given a bits time range field with `ZonedDateTime` endpoints and `granularity` of `second`, when rendered, then both endpoints' segments match the local wall clock, both `dayPeriod` segments show `PM`, and both `timeZoneName` segments show `EST`. (bits: tests/src/tests/time-range-field/time-range-field.browser.test.ts: "should populate segment with value - `ZonedDateTime`")
 
 ### Keyboard
+
 - Given a time range field with `locale` of `en-GB`, when `ArrowRight` is pressed repeatedly from `start-hour`, then focus walks `start-minute`, `end-hour`, `end-minute`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > navigates between the fields")
 - Given the same field, when `Tab` is pressed repeatedly from `start-hour`, then focus walks `start-minute`, `end-hour`, `end-minute`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > navigates between the fields")
 - Given focus on `end-minute`, when `ArrowLeft` is pressed repeatedly, then focus walks `end-hour`, `start-minute`, `start-hour`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > navigates between the fields - right to left")
@@ -4193,21 +4533,27 @@ Conventions:
 - Given a bits time range field, when `1`, `2` are typed into `start-hour`, then focus advances to `start-minute`; `3`, `4` there advance focus to `start-dayPeriod`; `P` then `ArrowRight` moves focus to `end-hour`; `1`, `2`, `3`, `5` fill the end hour and minute and advance to `end-dayPeriod`, leaving the start value `12:34:00` and the end value `12:35:00`. (bits: tests/src/tests/time-range-field/time-range-field.browser.test.ts: "should populate calendar date with keyboard")
 
 ### Pointer
+
 - Given a `disabled` time range field, when each of `start-hour`, `start-minute`, `end-hour`, `end-minute` is clicked, then none receives focus. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > prevents interaction when disabled")
 
 ### Focus management
+
 - Given a time range field with a `Label` bound by `for`/`id`, when the label is clicked, then `start-hour` receives focus. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > focuses first segment on label click")
 
 ### Forms
+
 - Given a bits time range field with `startProps.name` of `start-hidden-input` and `endProps.name` of `end-hidden-input`, when rendered, then an `input` with each of those names is in the document. (bits: tests/src/tests/time-range-field/time-range-field.browser.test.ts: "should render an input for the start and end")
 
 ### RTL and i18n
+
 - Given a time range field with `dir` of `rtl` and `locale` of `en-GB`, when `11` is typed into `start-hour`, then focus moves to `start-minute`; typing `45` moves focus to `end-hour` (DOM order, not visual order). (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > advances focus through segments in DOM order when typing in RTL")
 
 ### Accessibility tooling
+
 - Given a default time range field, when the container is run through `axe`, then no accessibility violations are reported. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given a time range field with `granularity` of `second`, when rendered, then `start-second` shows `29` and `end-second` shows `00`. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > renders with second granularity")
 - Given a time range field with `granularity` of `hour`, when rendered, then `start-hour` and `end-hour` are visible and both `start-minute` and `end-minute` are absent. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > renders with hour granularity")
 - Given a reka `TimeRangeFieldInput`, when rendered, then it takes a `type` of `start` or `end` and its `part` selects which segment of that endpoint it binds to, with `literal` parts rendered without a test id. (reka: packages/core/src/TimeRangeField/TimeRangeField.test.ts: "timeField > populates segment with value - `Time`")
@@ -4216,6 +4562,7 @@ Conventions:
 ## date-picker
 
 ### Roles and attributes
+
 - Given a date picker with `disabled: true`, when rendered, then the trigger is disabled and the `day`, `month` and `year` segments have no `tabindex` attribute. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "prevents interaction and picker to be opened when `disabled` is `true`")
 - Given an open picker whose `isDateUnavailable` returns true for day 3, when the cell for January 3 is inspected, then it has text `3`, `data-unavailable` and `aria-disabled="true"`, and clicking it throws (not clickable) and leaves it without `data-selected`. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should handle unavailable dates appropriately")
 - Given an open picker whose `isDateDisabled` returns true for day 5, when the cell for January 5 is inspected, then it has text `5`, `data-disabled` and `aria-disabled="true"` and clicking it throws (not clickable). (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should handle disabled dates correctly")
@@ -4230,6 +4577,7 @@ Conventions:
 - Given `calendarIds` overrides, when the picker is opened, then the calendar element's `id` is `id-calendar` and an accessible heading element with id `id-heading` exists in the document. (melt: src/tests/date-picker/DatePicker.spec.ts: "custom ids are applied when provided")
 
 ### Keyboard
+
 - Given a focused trigger, when `Enter` is pressed, then the popover content exists. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should open on %s" with `kbd.ENTER`)
 - Given a focused trigger, when `Space` is pressed, then the popover content exists. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should open on %s" with `kbd.SPACE`)
 - Given a `ZonedDateTime` value with `granularity: 'second'`, when each of the `day`, `month`, `year`, `hour`, `minute` and `second` segments is focused and `ArrowUp` pressed, then that segment shows the value cycled up by one (the hour reads `1` after cycling from 12 PM). (reka: packages/core/src/DatePicker/DatePicker.test.ts: "increments segment on arrow up")
@@ -4258,6 +4606,7 @@ Conventions:
 - Given that same picker, when `ArrowUp` is pressed four more times, then focus lands on December 18, 11, 4 and then stops on December 4 with the heading staying `December 1979`. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should not navigate before `minValue` (with keyboard)")
 
 ### Pointer
+
 - Given a picker with a `ZonedDateTime` value, when each of the day, month, year, hour, minute, dayPeriod and timeZoneName segments is clicked, then that segment receives focus. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "focuses segments on click")
 - Given an open calendar with no value, when an in-view cell trigger is clicked, then a `[data-selected]` element appears in the calendar, and clicking the same cell again removes it. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "should select and deselect a date")
 - Given a default picker, when the trigger is clicked, then the popover content exists in the document. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should open on click")
@@ -4270,11 +4619,13 @@ Conventions:
 - Given an open picker with `placeholder` January 20 1980, when the cell for January 5 is clicked, then the bound value becomes `1980-01-05` and reopening the picker shows a selected day. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should update value when selecting a date")
 
 ### Focus management
+
 - Given a default picker, when the label is clicked, then the first child of the field (the first segment) has focus. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "focuses first segment on label click")
 - Given a default picker, when the month segment is clicked, then the month segment has focus. (melt: src/tests/date-picker/DatePicker.spec.ts: "focuses first segment on click")
 - Given a default picker, when the label is clicked, then the month segment has focus. (melt: src/tests/date-picker/DatePicker.spec.ts: "clicking the label focuses the first segment")
 
 ### State and controlled/uncontrolled
+
 - Given `modelValue` of `CalendarDate(1980, 1, 20)`, when rendered, then the month, day and year segments show `1`, `20` and `1980`. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "populates segment with value - `CalendarDate`")
 - Given `modelValue` of `CalendarDateTime(1980, 1, 20, 12, 30)`, when rendered, then the month, day, year, hour and minute segments show the matching parts of that value. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "populates segment with value - `CalendarDateTime`")
 - Given `modelValue` of that date time zoned to `America/New_York`, when rendered, then the month, day, year, hour and minute segments match, `dayPeriod` shows `PM` and `timeZoneName` shows `EST`. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "populates segment with value - `ZonedDateTime`")
@@ -4297,6 +4648,7 @@ Conventions:
 - Given `granularity: 'minute'` and `defaultValue` `CalendarDateTime(2021, 1, 1)`, when the calendar is opened, the next month navigated to and the first day of February clicked, then the hour and minute segments never render the text `undefined`. (melt: src/tests/date-picker/DatePicker.spec.ts: "when no time selected, selecting")
 
 ### Dismissal and layering
+
 - Given an open picker with `defaultValue` and `closeOnSelect: true`, when the January 1 cell is clicked, then the popover content is no longer visible. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "should close the picker on select when `closeOnSelect` is true")
 - Given an open picker with `defaultValue` and `closeOnSelect: false`, when the January 1 cell is clicked, then the popover content remains visible. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "should not close the picker on select when `closeOnSelect` is true")
 - Given an open picker with `closeOnDateSelect: true`, when the January 5 cell is clicked, then the content no longer exists and the value reads `1980-01-05`. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should close popover when date is selected and closeOnDateSelect is true")
@@ -4304,6 +4656,7 @@ Conventions:
 - Given `onOutsideClick` that calls `preventDefault`, when the trigger is clicked to open and then the content and then an outside element are clicked, then the content stays visible throughout. (melt: src/tests/date-picker/DatePicker.spec.ts: "doesn't close on outside click if preventDefault called in `onOutsideClick`")
 
 ### RTL and i18n
+
 - Given a `ConfigProvider` with `locale="de"` and no `locale` prop on the picker, when the trigger is clicked, then the calendar heading contains `Januar`. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "locale integration with ConfigProvider > uses locale from ConfigProvider when no locale prop is provided")
 - Given a `ConfigProvider` with `locale="de"` and `locale: 'en-US'` on the picker, when the trigger is clicked, then the calendar heading contains `January`. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "locale integration with ConfigProvider > locale prop overrides ConfigProvider locale")
 - Given no `ConfigProvider` and no `locale` prop with value January 20 1980, when the trigger is clicked, then the heading contains `January` and `1980`. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "locale integration with ConfigProvider > uses default locale when no ConfigProvider and no locale prop")
@@ -4330,10 +4683,12 @@ Conventions:
 - Given `locale: 'ja-JP'` with value hour 16, when rendered, then the hour reads `16`, no `dayPeriod` segment exists, and typing `21` sets the hour to `21`. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "date picker - 24-hour format with locales > should handle ja-JP locale (24-hour format) correctly")
 
 ### Accessibility tooling
+
 - Given a default picker, when `axe` runs over the rendered container, then there are no violations. (reka: packages/core/src/DatePicker/DatePicker.test.ts: "should pass axe accessibility tests")
 - Given a default picker, when `axe` runs over the rendered container, then there are no violations. (melt: src/tests/date-picker/DatePicker.spec.ts: "Accessibility > has no accessibility violations")
 
 ### Notes and edge cases
+
 - Given an open picker with `fixedWeeks: true`, when the next button is clicked sixteen times, then every month renders exactly six `[data-week]` rows. (bits: tests/src/tests/date-picker/date-picker.browser.test.ts: "should render six weeks when `fixedWeeks` is `true`")
 - Given `fixedWeeks: false` and the calendar advanced until no sixth week renders, when the `fixedWeeks` option store is toggled to true, then a sixth week row appears. (melt: src/tests/date-picker/DatePicker.spec.ts: "dynamically change fixedWeeks option even if fixedWeeks option is set")
 - Given `numberOfMonths: 1`, when the `numberOfMonths` option store is incremented, then a second grid element appears alongside the first. (melt: src/tests/date-picker/DatePicker.spec.ts: "dynamically change numberOfMonths option even if numberOfMonths is specified as an option")
@@ -4348,6 +4703,7 @@ Conventions:
 ## date-range-picker
 
 ### Roles and attributes
+
 - Given a range picker with `disabled: true`, when rendered, then the trigger is disabled and the start and end `month`, `day` and `year` segments have no `tabindex` attribute. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "prevents interaction and picker to be opened when `disabled` is `true`")
 - Given an open range picker whose `isDateUnavailable` returns true for day 3, when the January 3 cell is inspected, then it has text `3`, `data-unavailable` and `aria-disabled="true"`, clicking it throws, and it never gains `data-selected`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should handle unavailable dates appropriately")
 - Given an open range picker with `minValue` November 25 1979, when the prev button reaches December 1979, then it has neither `aria-disabled="true"` nor `data-disabled`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should not allow navigation before the `minValue` (prev button)")
@@ -4357,6 +4713,7 @@ Conventions:
 - Given `excludeDisabled: true` and `isDateDisabled` marking January 5, when the January 5 cell is inspected, then it has `aria-disabled="true"` and both the start and end values read `undefined`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "excludeDisabled functionality > should handle disabled start or end dates correctly")
 
 ### Keyboard
+
 - Given focus on the trigger, when `Enter` is pressed, then the popover content exists. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should open on %s" with `kbd.ENTER`)
 - Given focus on the trigger, when `Space` is pressed, then the popover content exists. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should open on %s" with `kbd.SPACE`)
 - Given a range value and focus on the start month segment, when `ArrowRight` is pressed repeatedly, then focus walks start day, start year, end month, end day, end year. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "navigates between the fields")
@@ -4375,16 +4732,19 @@ Conventions:
 - Given that same picker, when `ArrowUp` is pressed four more times, then focus lands on December 18, 11, 4 and then stops on December 4 with the heading staying `December 1979`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should not navigate before `minValue` (with keyboard)")
 
 ### Pointer
+
 - Given an open range picker with value January 1980, when the next button is clicked twelve times, then the heading walks January through December 1980 and ends on `January 1981`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should navigate the months forward using the next button")
 - Given an open range picker with value January 1980, when the prev button is clicked repeatedly, then the heading walks December 1979 back to February 1979 and ends on `January 1979`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should navigate the months backwards using the prev button")
 - Given a default range picker, when the trigger is clicked, then the popover content exists. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should open on click")
 
 ### Focus management
+
 - Given a default range picker, when the label is clicked, then the first child of the field (the first start segment) has focus. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "focuses first segment on label click")
 - Given an open range picker with a complete range, when the January 5 cell is clicked to start a new range, then that cell has focus. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should reset range on select when a range is already selected")
 - Given a new range begun at January 5 and ended at January 7, when the picker is reopened and January 7 clicked again, then that cell has focus and the calendar has zero selected days. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should reset range on select when a range is already selected")
 
 ### State and controlled/uncontrolled
+
 - Given `modelValue` of `{ start: 2022-01-01, end: 2022-03-01 }` as `CalendarDate`s, when rendered, then the start month/day/year read `1`/`1`/`2022` and the end month/day/year read `3`/`1`/`2022`. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "populates segment with value - `CalendarDate`")
 - Given a `CalendarDateTime` range with `granularity: 'second'`, when rendered, then the start and end month, day, year, hour, minute and second segments all match the corresponding parts. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "populates segment with value - `CalendarDateTime`")
 - Given that same range zoned to `America/New_York` with `granularity: 'second'`, when rendered, then the start and end month, day, year, hour, minute and second segments match the unzoned parts. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "populates segment with value - `ZonedDateTime`")
@@ -4412,15 +4772,18 @@ Conventions:
 - Given `excludeDisabled: false` explicitly and `isDateDisabled` marking January 6 and 7, when January 5 then January 9 are clicked, then the range is kept as `1980-01-05` to `1980-01-09` and reopening shows five selected days. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "excludeDisabled functionality > should not affect range when excludeDisabled is false even with disabled dates")
 
 ### Forms
+
 - Given `startProps.name` of `start-hidden-input` and `endProps.name` of `end-hidden-input`, when rendered, then the container holds an `input[name="start-hidden-input"]` and an `input[name="end-hidden-input"]`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should render an input for the start and end")
 
 ### Dismissal and layering
+
 - Given an open range picker with `defaultValue` and `closeOnSelect: true`, when January 1 then January 10 are clicked, then the popover content is no longer visible. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "should close the picker on select when `closeOnSelect` is true")
 - Given an open range picker with `defaultValue` and `closeOnSelect: false`, when January 1 then January 10 are clicked, then the popover content remains visible. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "should not close the picker on select when `closeOnSelect` is true")
 - Given `excludeDisabled: true`, `closeOnRangeSelect: true` and a disabled January 10 outside the chosen range, when January 5 is clicked the content stays, and when January 8 completes a valid range then the content no longer exists. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "excludeDisabled functionality > should close picker when valid range is selected and closeOnRangeSelect is true")
 - Given `excludeDisabled: true`, `closeOnRangeSelect: true` and a disabled January 6 inside the chosen range, when January 5 then January 8 are clicked, then the content still exists because the range was reset rather than completed. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "excludeDisabled functionality > should not close picker when range is reset due to excludeDisabled")
 
 ### RTL and i18n
+
 - Given a `ConfigProvider` with `locale="de"` and no `locale` prop, when the trigger is clicked, then the calendar heading contains `Januar`. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "locale integration with ConfigProvider > uses locale from ConfigProvider when no locale prop is provided")
 - Given a `ConfigProvider` with `locale="de"` and `locale: 'en-US'` on the range picker, when the trigger is clicked, then the calendar heading contains `January`. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "locale integration with ConfigProvider > locale prop overrides ConfigProvider locale")
 - Given no `ConfigProvider` and no `locale` prop with a 2022 range, when the trigger is clicked, then the heading contains `January` and `2022`. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "locale integration with ConfigProvider > uses default locale when no ConfigProvider and no locale prop")
@@ -4431,9 +4794,11 @@ Conventions:
 - Given `locale: 'fr'` and `weekdayFormat: 'short'` with no `weekStartsOn`, when the picker is opened, then the first weekday head cell reads `lun.`. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should default the first day of the week to the locale's first day of the week if `weekStartsOn` is not provided")
 
 ### Accessibility tooling
+
 - Given a default range picker, when `axe` runs over the rendered container, then there are no violations. (reka: packages/core/src/DateRangePicker/DateRangePicker.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given an open range picker with `fixedWeeks: true`, when the next button is clicked sixteen times, then every month renders exactly six `[data-week]` rows. (bits: tests/src/tests/date-range-picker/date-range-picker.browser.test.ts: "should renders six weeks when `fixedWeeks` is `true`")
 - Given bits' test component, when the `clear` button runs, then it assigns `{ start: undefined, end: undefined }` rather than `undefined`, so the range shape is preserved while both endpoints are cleared. (bits: tests/src/tests/date-range-picker/date-range-picker-test.svelte via tests/src/tests/date-range-picker/date-range-picker.browser.test.ts)
 - Given bits' range test component, when it renders, then the two fields come from `DateRangePicker.Input` with `type="start"` and `type="end"` and their segments are labelled `start-<part>` and `end-<part>`, which is how every field-level assertion addresses them. (bits: tests/src/tests/date-range-picker/date-range-picker-test.svelte via tests/src/tests/date-range-picker/date-range-picker.browser.test.ts)
@@ -4442,6 +4807,7 @@ Conventions:
 ## month-picker
 
 ### Roles and attributes
+
 - Given a month picker with `placeholder`, when the January cell trigger is rendered, then its `month` attribute is `null`, so the `month` prop is not forwarded as a DOM attribute. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "does not forward month prop as a DOM attribute")
 - Given `isMonthUnavailable` returning true for month 3, when the March cell trigger is inspected, then it has text `Mar`, `data-unavailable` and `aria-disabled="true"`, and clicking it leaves it without `data-selected`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "handles unavailable months appropriately")
 - Given `isMonthDisabled` returning true for month 3, when the March cell trigger is inspected, then it has text `Mar`, `data-disabled` and `aria-disabled="true"`, and clicking it leaves it without `data-selected`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "handles disabled months appropriately")
@@ -4451,6 +4817,7 @@ Conventions:
 - Given `maxValue` of June 30 1981, when the next button has paged forward to 1981, then it has `aria-disabled="true"` and `data-disabled`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "should not allow navigation after the `maxValue` (next button)")
 
 ### Keyboard
+
 - Given a placeholder of January 1980 and focus on the January cell, when `ArrowRight` is pressed, then February has focus. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "month picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on February, when `ArrowDown` is pressed, then June has focus, so a grid row holds four months. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "month picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on June, when `ArrowLeft` is pressed, then May has focus. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "month picker - keyboard navigation > navigates with arrow keys within the grid")
@@ -4463,6 +4830,7 @@ Conventions:
 - Given a placeholder and focus on the March cell, when `Space` is pressed, then the selected month reads `Mar`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "allows selection with %s key" with `kbd.SPACE`)
 
 ### Pointer
+
 - Given `modelValue` of January 1980, when the next button is clicked twice, then the heading reads `1981` and then `1982`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "navigates to next year using next button")
 - Given `modelValue` of January 1980, when the prev button is clicked twice, then the heading reads `1979` and then `1978`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "navigates to prev year using prev button")
 - Given `modelValue` of January 1980 with the parent echoing `update:modelValue`, when the selected January cell is clicked, then no `[data-selected]` element remains. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "allows months to be deselected by clicking the selected month")
@@ -4472,10 +4840,12 @@ Conventions:
 - Given `minValue` equal to the placeholder January 1 1980 and `MonthPickerPrev` rendered with `as="div"`, when the prev button is clicked, then the heading stays `1980`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "does not navigate when prev is disabled and rendered as div")
 
 ### Focus management
+
 - Given `disabled: true`, when `focus()` is called on the January cell trigger, then it does not receive focus. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "doesnt allow focus or interaction when `disabled` is `true`")
 - Given `readonly: true`, when the January cell trigger is clicked it gains no `data-selected`, and when `focus()` is called on it then it does receive focus. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "prevents selection but allows focus when `readonly` is `true`")
 
 ### State and controlled/uncontrolled
+
 - Given `modelValue` of `CalendarDate(1980, 1, 20)`, when rendered, then the selected cell reads `Jan` and the heading reads `1980`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "respects a default value if provided - `CalendarDate`")
 - Given `modelValue` of `CalendarDateTime(1980, 1, 20, 12, 30)`, when rendered, then the selected cell reads `Jan` and the heading reads `1980`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "respects a default value if provided - `CalendarDateTime`")
 - Given `modelValue` of that value zoned to `America/New_York`, when rendered, then the selected cell reads `Jan` and the heading reads `1980`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "respects a default value if provided - `ZonedDateTime`")
@@ -4485,9 +4855,11 @@ Conventions:
 - Given `multiple: true` with a single non-array `modelValue` of January 1980, when rendered then exactly one cell is selected and January has `data-selected`, and when May is clicked then both January and May have `data-selected`. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "month picker - multiple > normalizes single modelValue when multiple is true")
 
 ### Accessibility tooling
+
 - Given a default month picker, when `axe` runs over the picker element, then there are no violations. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given the month picker's component markup, when a grid renders, then `MonthPickerGrid` carries `role="application"` with `aria-labelledby` pointing at the heading id plus `aria-readonly`/`aria-disabled`, `MonthPickerGridRow` carries `role="row"`, `MonthPickerCell` carries `role="gridcell"` with `aria-selected` and `aria-disabled`, and `MonthPickerCellTrigger` carries `role="button"` with an `aria-label`; the tests assert the grid and trigger attributes through the `grid` and `month-<n>` test ids. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "doesnt allow focus or interaction when `disabled` is `true`")
 - Given the month picker's default grid shape, when arrow keys move down a row, then the jump is four months (January to June via February), so the grid is laid out three rows of four. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "month picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given Vue's controlled pattern, when the test passes `emits['onUpdate:modelValue']` that calls `rerender` with the emitted value, then deselection and multiple-selection behavior is verified against a parent-controlled `modelValue` rather than internal state. (reka: packages/core/src/MonthPicker/MonthPicker.test.ts: "allows months to be deselected by clicking the selected month")
@@ -4496,6 +4868,7 @@ Conventions:
 ## month-range-picker
 
 ### Roles and attributes
+
 - Given a `modelValue` range from January to March 1980, when rendered, then the `[data-selection-start]` cell reads `Jan` and the `[data-selection-end]` cell reads `Mar`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given a controlled range where the parent preserves the end at August 1980, when April is clicked, then April has `data-selection-start`, August has `data-selection-end`, May and July have `data-selected` and five cells are selected in total. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "keeps controlled end when parent preserves it after start edit")
 - Given `maximumMonths: 3` and a start selected at March, when June is clicked, then June has `data-disabled` and does not gain `data-selected`, while May has no `data-disabled`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - maximumMonths > limits the maximum number of months that can be selected")
@@ -4503,6 +4876,7 @@ Conventions:
 - Given `isMonthDisabled` marking January 1981, when the grid pages to 1981, then the January cell has `data-disabled`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - keyboard navigation > skips disabled candidate month when paging by year")
 
 ### Keyboard
+
 - Given a placeholder of January 1980 and focus on January, when `ArrowRight` is pressed, then February has focus. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on February, when `ArrowDown` is pressed, then June has focus. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on June, when `ArrowLeft` is pressed, then May has focus. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - keyboard navigation > navigates with arrow keys within the grid")
@@ -4513,6 +4887,7 @@ Conventions:
 - Given a controlled range later replaced by April to June 1980 and then a new start selected at February, when `Escape` is pressed, then the selection reverts to `Apr` as start and `Jun` as end, the latest complete controlled range. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "resets to latest externally controlled complete range when pressing Escape")
 
 ### Pointer
+
 - Given a complete range January to March 1980, when May is clicked, then exactly one cell is selected, a `[data-selection-start]` exists and no `[data-selection-end]` exists. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given that new start at May, when July is clicked, then three cells are selected. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given only a placeholder, when January is clicked twice, then exactly one cell is selected and both `[data-selection-start]` and `[data-selection-end]` exist on it. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "allows same month selection")
@@ -4530,6 +4905,7 @@ Conventions:
 - Given that same picker, when April is clicked, then April has `data-selection-start`, May has `data-selected`, June has `data-selection-end` and March has no `data-selected`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - maximumMonths > enforces maximumMonths for out-of-bounds controlled ranges with fixedDate=\"end\"")
 
 ### State and controlled/uncontrolled
+
 - Given a `modelValue` range of `CalendarDate`s from January 20 to March 25 1980, when rendered, then three cells are selected and the heading reads `1980`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "respects a default value if provided - `CalendarDate`")
 - Given the equivalent `CalendarDateTime` range, when rendered, then three cells are selected and the heading reads `1980`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "respects a default value if provided - `CalendarDateTime`")
 - Given the equivalent range zoned to `America/New_York`, when rendered, then three cells are selected and the heading reads `1980`. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "respects a default value if provided - `ZonedDateTime`")
@@ -4537,9 +4913,11 @@ Conventions:
 - Given a controlled range whose parent replaces a missing endpoint with the previous value, when a new start is chosen, then the preserved end is kept and the highlighted range spans start to preserved end. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "keeps controlled end when parent preserves it after start edit")
 
 ### Accessibility tooling
+
 - Given a default month range picker mounted with `@vue/test-utils`, when `axe` runs over the root element, then there are no violations. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given `maximumMonths` and a backwards hover, when the hovered month precedes the selected start, then the highlight runs from the hovered month as `data-highlighted-start` to the start month as `data-highlighted-end` without inverting the anchor. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "month range picker - maximumMonths > highlights backwards within maximumMonths without inverting")
 - Given the Vue controlled pattern where the parent rerenders with each emitted `DateRange`, when `Escape` is pressed mid-selection, then the component restores the last complete parent-supplied range rather than clearing to nothing. (reka: packages/core/src/MonthRangePicker/MonthRangePicker.test.ts: "resets to latest externally controlled complete range when pressing Escape")
 - Given the month range picker fixture, when rendered, then it mirrors the single month picker's part structure (`MonthRangePickerRoot`, `Header`, `Prev`/`Heading`/`Next`, `Grid`, `GridBody`, `GridRow`, `Cell`, `CellTrigger`) with cell triggers addressed as `month-<n>`. (reka: packages/core/src/MonthRangePicker/story/_MonthRangePicker.vue via packages/core/src/MonthRangePicker/MonthRangePicker.test.ts)
@@ -4547,6 +4925,7 @@ Conventions:
 ## year-picker
 
 ### Roles and attributes
+
 - Given `isYearUnavailable` returning true for 1985, when the 1985 cell trigger is inspected, then it has text `1985`, `data-unavailable` and `aria-disabled="true"`, and clicking it leaves it without `data-selected`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "handles unavailable years appropriately")
 - Given `isYearDisabled` returning true for 1985, when the 1985 cell trigger is inspected, then it has text `1985`, `data-disabled` and `aria-disabled="true"`, and clicking it leaves it without `data-selected`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "handles disabled years appropriately")
 - Given `disabled: true`, when rendered, then the grid has `aria-disabled="true"` and `data-disabled`, the 1980 cell trigger has `aria-disabled="true"` and `data-disabled`, and the prev and next buttons are both disabled. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "doesnt allow focus or interaction when `disabled` is `true`")
@@ -4555,6 +4934,7 @@ Conventions:
 - Given `maxValue` of December 31 1991 with the page showing 1980 to 1991, when rendered, then the next button has `aria-disabled="true"` and `data-disabled`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "should not allow navigation after the `maxValue` (next button)")
 
 ### Keyboard
+
 - Given a placeholder of January 1980 and focus on 1980, when `ArrowRight` is pressed, then 1981 has focus. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "year picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on 1981, when `ArrowDown` is pressed, then 1985 has focus, so a grid row holds four years. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "year picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on 1985, when `ArrowLeft` is pressed, then 1984 has focus. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "year picker - keyboard navigation > navigates with arrow keys within the grid")
@@ -4570,6 +4950,7 @@ Conventions:
 - Given a placeholder and focus on the 1985 cell, when `Space` is pressed, then the selected year reads `1985`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "allows selection with %s key" with `kbd.SPACE`)
 
 ### Pointer
+
 - Given `modelValue` of January 1980, when the next button is clicked twice, then the heading reads `1992 - 2003` and then `2004 - 2015`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "navigates to next decade using next button")
 - Given `modelValue` of January 1980, when the prev button is clicked twice, then the heading reads `1968 - 1979` and then `1956 - 1967`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "navigates to prev decade using prev button")
 - Given `modelValue` of January 1980 with the parent echoing `update:modelValue`, when the selected 1980 cell is clicked, then no `[data-selected]` element remains. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "allows years to be deselected by clicking the selected year")
@@ -4578,10 +4959,12 @@ Conventions:
 - Given `maxValue` of December 31 1991, when the next button is clicked, then the heading stays `1980 - 1991`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "should not allow navigation after the `maxValue` (next button)")
 
 ### Focus management
+
 - Given `disabled: true`, when `focus()` is called on the 1980 cell trigger, then it does not receive focus. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "doesnt allow focus or interaction when `disabled` is `true`")
 - Given `readonly: true`, when the 1980 cell trigger is clicked it gains no `data-selected`, and when `focus()` is called on it then it does receive focus. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "prevents selection but allows focus when `readonly` is `true`")
 
 ### State and controlled/uncontrolled
+
 - Given `modelValue` of `CalendarDate(1980, 1, 20)`, when rendered, then the selected cell reads `1980` and the heading reads `1980 - 1991`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "respects a default value if provided - `CalendarDate`")
 - Given `modelValue` of `CalendarDateTime(1980, 1, 20, 12, 30)`, when rendered, then the selected cell reads `1980` and the heading reads `1980 - 1991`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "respects a default value if provided - `CalendarDateTime`")
 - Given `modelValue` of that value zoned to `America/New_York`, when rendered, then the selected cell reads `1980` and the heading reads `1980 - 1991`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "respects a default value if provided - `ZonedDateTime`")
@@ -4591,9 +4974,11 @@ Conventions:
 - Given `yearsPerPage: 16` with a placeholder in 1980, when rendered, then the heading reads `1980 - 1995`. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "year picker - yearsPerPage > respects custom yearsPerPage prop")
 
 ### Accessibility tooling
+
 - Given a default year picker, when `axe` runs over the picker element, then there are no violations. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given the year picker's component markup, when a grid renders, then `YearPickerGrid` carries `role="application"`, `aria-labelledby` pointing at the heading id, `aria-readonly` and `aria-disabled`, which the disabled and readonly tests assert through the `grid` test id. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "doesnt allow focus or interaction when `disabled` is `true`")
 - Given the default page size of twelve years, when the heading renders, then it reads `<first> - <last>` of the page (for example `1980 - 1991`) and paging moves a whole page at a time rather than a calendar decade. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "navigates to next decade using next button")
 - Given the default grid shape, when `ArrowDown` moves one row, then the jump is four years, so twelve years render as three rows of four. (reka: packages/core/src/YearPicker/YearPicker.test.ts: "year picker - keyboard navigation > navigates with arrow keys within the grid")
@@ -4602,6 +4987,7 @@ Conventions:
 ## year-range-picker
 
 ### Roles and attributes
+
 - Given a `modelValue` range from 1980 to 1983, when rendered, then the `[data-selection-start]` cell reads `1980` and the `[data-selection-end]` cell reads `1983`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given a controlled range whose parent preserves the end at 1986, when 1983 is clicked, then 1983 has `data-selection-start`, 1986 has `data-selection-end`, 1984 and 1985 have `data-selected` and four cells are selected in total. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "keeps controlled end when parent preserves it after start edit")
 - Given `maximumYears: 3` and a start selected at 1983, when 1986 is clicked, then 1986 has `data-disabled` and does not gain `data-selected`, while 1985 has no `data-disabled`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - maximumYears > limits the maximum number of years that can be selected")
@@ -4609,6 +4995,7 @@ Conventions:
 - Given `isYearDisabled` marking 1992, when the grid pages forward, then the 1992 cell has `data-disabled`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - keyboard navigation > skips disabled candidate year when navigating to next page")
 
 ### Keyboard
+
 - Given a placeholder of January 1980 and focus on 1980, when `ArrowRight` is pressed, then 1981 has focus. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on 1981, when `ArrowDown` is pressed, then 1985 has focus. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - keyboard navigation > navigates with arrow keys within the grid")
 - Given focus on 1985, when `ArrowLeft` is pressed, then 1984 has focus. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - keyboard navigation > navigates with arrow keys within the grid")
@@ -4619,6 +5006,7 @@ Conventions:
 - Given a complete controlled range 1980 to 1983 and a new start selected at 1985, when `Escape` is pressed, then the selection reverts to `1980` as start and `1983` as end. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "resets range selection when pressing Escape")
 
 ### Pointer
+
 - Given a complete range 1980 to 1983, when 1985 is clicked, then exactly one cell is selected, a `[data-selection-start]` exists and no `[data-selection-end]` exists. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given that new start at 1985, when 1987 is clicked, then three cells are selected. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "resets range on select when a range is already selected")
 - Given only a placeholder, when 1980 is clicked twice, then exactly one cell is selected and both `[data-selection-start]` and `[data-selection-end]` exist on it. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "allows same year selection")
@@ -4632,6 +5020,7 @@ Conventions:
 - Given `maximumYears: 3` and a start at 1983, when 1985 is clicked, then 1983, 1984 and 1985 all have `data-selected`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - maximumYears > limits the maximum number of years that can be selected")
 
 ### State and controlled/uncontrolled
+
 - Given a `modelValue` range of `CalendarDate`s from January 20 1980 to March 25 1983, when rendered, then four cells are selected and the heading reads `1980 - 1991`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "respects a default value if provided - `CalendarDate`")
 - Given the equivalent `CalendarDateTime` range, when rendered, then four cells are selected and the heading reads `1980 - 1991`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "respects a default value if provided - `CalendarDateTime`")
 - Given the equivalent range zoned to `America/New_York`, when rendered, then four cells are selected and the heading reads `1980 - 1991`. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "respects a default value if provided - `ZonedDateTime`")
@@ -4639,9 +5028,11 @@ Conventions:
 - Given a controlled range whose parent substitutes the previous end when the emitted end is missing, when a new start is chosen, then the preserved end is kept and the full range stays highlighted. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "keeps controlled end when parent preserves it after start edit")
 
 ### Accessibility tooling
+
 - Given a default year range picker mounted with `@vue/test-utils`, when `axe` runs over the root element, then there are no violations. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given `maximumYears` and a backwards hover, when the hovered year precedes the selected start, then the highlight runs from the hovered year as `data-highlighted-start` to the start year as `data-highlighted-end` without inverting the anchor. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - maximumYears > highlights backwards within maximumYears without inverting")
 - Given the year range picker fixture, when rendered, then it uses the same parts as the single year picker (`YearRangePickerRoot`, `Header`, `Prev`/`Heading`/`Next`, `Grid`, `GridBody`, `GridRow`, `Cell`, `CellTrigger`) with cell triggers addressed as `year-<n>`. (reka: packages/core/src/YearRangePicker/story/_YearRangePicker.vue via packages/core/src/YearRangePicker/YearRangePicker.test.ts)
 - Given the year range picker has no `maximumYears`-equivalent out-of-bounds controlled-range tests, when compared with the month range picker, then the `fixedDate` plus maximum enforcement cases for pre-existing out-of-bounds controlled values are covered only for months. (reka: packages/core/src/YearRangePicker/YearRangePicker.test.ts: "year range picker - maximumYears > limits the maximum number of years that can be selected")
@@ -4649,6 +5040,7 @@ Conventions:
 ## color-area
 
 ### Roles and attributes
+
 - Given a `ColorArea` with `defaultValue: '#bf40bf'`, `colorSpace: 'hsl'`, `xChannel: 'saturation'`, `yChannel: 'lightness'`, when rendered, then an element with `role="group"` exists as the root. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "root has role=\"group\"")
 - Given the same setup, when rendered, then the area element has `role="application"` and `aria-roledescription="Color picker"`. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "area has role=\"application\" and aria-roledescription=\"Color picker\"")
 - Given the same setup, when rendered, then the thumb has `role="slider"` and `aria-roledescription="Color thumb"`. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "thumb has role=\"slider\" and aria-roledescription=\"Color thumb\"")
@@ -4675,6 +5067,7 @@ Conventions:
 - Given `disabled: true`, when rendered, then the thumb has `data-disabled=""` and no `tabindex`. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "thumb has data-disabled=\"\" and no tabindex")
 
 ### Keyboard
+
 - Given saturation on x at 50, when ArrowRight is pressed, then saturation becomes 51 and lightness stays 50. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "arrowRight increments saturation by 1, lightness unchanged")
 - Given the same, when ArrowLeft is pressed, then saturation becomes 49 and lightness stays 50. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "arrowLeft decrements saturation by 1, lightness unchanged")
 - Given the same, when Shift+ArrowRight is pressed, then saturation becomes 60. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "shift+ArrowRight increments saturation by 10")
@@ -4714,18 +5107,22 @@ Conventions:
 - Given `defaultValue: '#0000ff'` in RGB where red is 0, when ArrowLeft is pressed, then red stays 0. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "red cannot go below 0")
 
 ### Pointer
+
 - Given a mounted `ColorArea` with the thumb unfocused, when `pointerdown` fires on the area at client coordinates 100,100, then the thumb becomes `document.activeElement`. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "thumb gains focus when dragging starts")
 - Given `disabled: true`, when the same `pointerdown` fires, then the thumb does not become the active element. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "thumb does not gain focus when disabled")
 
 ### Accessibility tooling
+
 - Given a `ColorArea` in HSL saturation and lightness mode, when audited with axe with the `label` rule disabled, then there are no violations. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "passes axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given jsdom implements none of them, `setPointerCapture`, `releasePointerCapture`, and `hasPointerCapture` are stubbed on `HTMLElement.prototype` for the whole file. (reka: packages/core/src/ColorArea/ColorArea.test.ts: "colorArea pointer interaction")
 
 ## color-field
 
 ### Roles and attributes
+
 - Given `defaultValue: '#ff0000'` in hex mode, when rendered, then the input's value is `#ff0000`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should render input with hex value")
 - Given `channel: 'hue'` with `colorSpace: 'hsl'` and `defaultValue: '#ff0000'`, when rendered, then the input's value is `0`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should render hue value")
 - Given `channel: 'saturation'` and `defaultValue: '#7f007f'`, when rendered, then the input's value is `100`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should render saturation value")
@@ -4738,6 +5135,7 @@ Conventions:
 - Given `readonly: true`, when rendered, then the input has a `readonly` attribute. (reka: packages/core/src/ColorField/ColorField.test.ts: "should have readonly attribute")
 
 ### Keyboard
+
 - Given channel mode on hue at 0, when ArrowUp is pressed, then the input reads `1`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should increment on ArrowUp")
 - Given channel mode on lightness at 50, when ArrowDown is pressed, then the input reads `49`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should decrement on ArrowDown")
 - Given channel mode on the RGB red channel, when End is pressed, then the input reads `255`. (reka: packages/core/src/ColorField/ColorField.test.ts: "should jump to max on End key")
@@ -4755,18 +5153,22 @@ Conventions:
 - Given channel mode, when a `keydown` with `key: 'ArrowUp'` and `isComposing: true` fires the value stays `0`, and when a plain ArrowUp follows it becomes `1`, so arrow keys during IME candidate navigation do not step the value. (reka: packages/core/src/ColorField/ColorField.test.ts: "should not step the value during composition (arrow keys are IME candidate navigation)")
 
 ### State and controlled/uncontrolled
+
 - Given hex mode, when the input is set to `#00ff00` and blurred, then the component emits, so blur commits the typed value. (reka: packages/core/src/ColorField/ColorField.test.ts: "should update value on input")
 - Given hex mode, when a valid hex is typed and blurred, then the component emits rather than rejecting the value. (reka: packages/core/src/ColorField/ColorField.test.ts: "should accept valid hex colors")
 
 ### Accessibility tooling
+
 - Given a hex-mode `ColorField`, when audited with axe with the `label` rule disabled, then there are no violations. (reka: packages/core/src/ColorField/ColorField.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given channel mode, when a cancelable `beforeinput` carrying `data: 'あ'` and `isComposing: true` is dispatched, then `defaultPrevented` is `false`, so the numeric filter does not block IME composition. (reka: packages/core/src/ColorField/ColorField.test.ts: "should not block beforeinput during IME composition")
 
 ## color-slider
 
 ### Roles and attributes
+
 - Given `channel: 'hue'` with `colorSpace: 'hsl'` and `defaultValue: '#ff0000'`, when rendered, then a `[role="slider"]` thumb exists with `aria-valuemin="0"` and `aria-valuemax="360"`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should render with initial value")
 - Given the same setup, when rendered, then the thumb has `aria-label="Hue"` and `aria-orientation="horizontal"`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should have correct aria attributes")
 - Given `channel: 'saturation'`, when rendered, then `aria-label` is `Saturation` and `aria-valuemax` is `100`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should render saturation slider")
@@ -4781,19 +5183,23 @@ Conventions:
 - Given `disabled: true`, when rendered, then the thumb has `data-disabled=""`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should have data-disabled attribute")
 
 ### Keyboard
+
 - Given a hue slider, when ArrowRight is pressed, then `aria-valuenow` is greater than its previous value. The test asserts an inequality rather than an exact number because the hex to HSL round trip loses precision. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should increment on ArrowRight")
 - Given a hue slider incremented once, when ArrowLeft is pressed, then `aria-valuenow` is less than the incremented value. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should decrement on ArrowLeft")
 - Given a red-channel slider with `defaultValue: '#7f007f'`, when Home is pressed, then `aria-valuenow` is exactly `0`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should jump to min on Home key")
 
 ### Accessibility tooling
+
 - Given a hue `ColorSlider`, when audited with axe with the `label` rule disabled, then there are no violations. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given jsdom lacks them, the file installs a no-op `ResizeObserver` class and stubs `scrollIntoView`, `hasPointerCapture` (returning its own id argument), `releasePointerCapture`, and `setPointerCapture` on `HTMLElement.prototype`. (reka: packages/core/src/ColorSlider/ColorSlider.test.ts: "given default ColorSlider")
 
 ## color-swatch
 
 ### Roles and attributes
+
 - Given `color: '#E5484D'`, when rendered, then the element has `role="img"`. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should render with role=\"img\"")
 - Given the same, when rendered, then it has `aria-roledescription="color swatch"`. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should render with aria-roledescription=\"color swatch\"")
 - Given `color: '#ff0000'` with no `label`, when rendered, then `aria-label` is a non-empty string that is not the hex itself, so a human-readable colour name is derived. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should derive color name as aria-label for hex color")
@@ -4810,15 +5216,18 @@ Conventions:
 - Given `color: '#E5484D'`, when rendered, then the inline style contains `--reka-color-swatch-alpha: 1`. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should set --reka-color-swatch-alpha")
 
 ### Accessibility tooling
+
 - Given `color: '#E5484D'`, when audited with axe, then there are no violations. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should pass axe accessibility tests")
 
 ### Notes and edge cases
+
 - Given a `Color` object such as `{ space: 'hsl', h: 120, s: 50, l: 50, alpha: 1 }` instead of a string, when rendered, then the element renders and carries a non-empty `aria-label`. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should accept Color object")
 - Given a default slot, when rendered, then the slot receives `color` and `alpha` scope values, and the rendered text contains both `#E5484D` and `1`. (reka: packages/core/src/ColorSwatch/ColorSwatch.test.ts: "should expose color and alpha via slot")
 
 ## color-swatch-picker
 
 ### Roles and attributes
+
 - Given a default `ColorSwatchPicker` story, when rendered, then the root exists, a `[role=listbox]` exists, and at least one `[role=option]` exists. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should render the component")
 - Given the same, when rendered, then the first two items carry `data-color="#E5484D"` and `data-color="#D6409F"`. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should render items with data-color attributes")
 - Given the same, when rendered, then the first item's inline style contains `--reka-color-swatch-picker-item-color: #E5484D`. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should set CSS variable on items")
@@ -4827,15 +5236,18 @@ Conventions:
 - Given the same, when rendered, then every item has `role="option"`. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should have role=option on items")
 
 ### Pointer
+
 - Given the picker, when the first item is clicked, then it gets `data-state="checked"`. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should select an item on click")
 - Given the first item checked, when a third item is clicked, then it becomes `checked` and the first becomes `unchecked`. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should update selection when clicking a different item")
 
 ### Accessibility tooling
+
 - Given a default `ColorSwatchPicker`, when audited with axe, then there are no violations. (reka: packages/core/src/ColorSwatchPicker/ColorSwatchPicker.test.ts: "should have no accessibility violations")
 
 ## color-utils
 
 ### Notes and edge cases
+
 - Given `#ff0000`, `#00ff00`, and `#0000ff`, when `parseColor` runs, then each returns `{ space: 'rgb', r, g, b, alpha: 1 }` with the expected channel values. (reka: packages/core/src/shared/color/utils.test.ts: "parseColor > should parse hex colors")
 - Given the shorthand `#f00`, when `parseColor` runs, then it expands to `{ space: 'rgb', r: 255, g: 0, b: 0, alpha: 1 }`. (reka: packages/core/src/shared/color/utils.test.ts: "should parse shorthand hex colors")
 - Given `#ff000080`, when `parseColor` runs, then `alpha` is close to `0.5` within 0.01. (reka: packages/core/src/shared/color/utils.test.ts: "should parse hex with alpha")
@@ -4882,6 +5294,7 @@ Conventions:
 ## color-gradient
 
 ### Notes and edge cases
+
 - Given red and the `hue` channel in HSL, when `getSliderGradient` runs, then the string contains the six rainbow stops `#ff0000`, `#ffff00`, `#00ff00`, `#00ffff`, `#0000ff`, and `#ff00ff`. (reka: packages/core/src/shared/color/gradient.test.ts: "hue channel > should return full rainbow spectrum")
 - Given the same, when `getSliderGradient` runs, then the string contains `linear-gradient`. (reka: packages/core/src/shared/color/gradient.test.ts: "hue channel > should use linear-gradient")
 - Given `hsl(0, 100%, 50%)` and the `saturation` channel in HSL, when the gradient is built, then it runs from `hsl(0, 0%, 50%)` (grey) to `hsl(0, 100%, 50%)`. (reka: packages/core/src/shared/color/gradient.test.ts: "saturation channel > should return gray-to-color gradient for HSL")
@@ -4931,6 +5344,7 @@ Conventions:
 ## label
 
 ### Roles and attributes
+
 - Given a `Label`, when rendered, then it carries `data-label-root`. (bits: tests/src/tests/label/label.browser.test.ts: "should have bits data attrs")
 - Given a bare `Label` with no props or slot, when rendered, then the HTML is exactly `<label></label>`. (reka: packages/core/src/Label/Label.test.ts: "should render without crashing")
 - Given a `Label` with a default slot, when rendered, then the HTML is exactly `<label>Label</label>`. (reka: packages/core/src/Label/Label.test.ts: "should render with a default slot")
@@ -4940,17 +5354,20 @@ Conventions:
 - Given a label harness with `inputId: 'test'`, when rendered, then the text `Test` is in the document. (melt: src/tests/label/Label.spec.ts: "renders the label with the correct text")
 
 ### Focus management
+
 - Given a `Label` with no `for` and a sibling `input`, when the label is clicked, then the input is not the active element. (reka: packages/core/src/Label/Label.test.ts: "should not focus the input when click on the label without a `for` attribute")
 - Given a `Label for="input"` next to an `input` whose id is `input2`, when the label is clicked, then the input is not focused. (reka: packages/core/src/Label/Label.test.ts: "should not focus the input when click on the label with a `for` attribute that does not match any input")
 - Given a label wired to an input, when the label is clicked, then the input has focus. (melt: src/tests/label/Label.spec.ts: "focuses the input when the label is clicked")
 - Given a label wired to an input, when the label is clicked, then the input has focus. (bits: tests/src/tests/label/label.browser.test.ts: "should focus the associated input on click")
 
 ### Accessibility tooling
+
 - Given a `Label for="input"` paired with a matching `input`, when audited with axe, then there are no violations. (reka: packages/core/src/Label/Label.test.ts: "should pass axe accessibility tests")
 
 ## separator
 
 ### Roles and attributes
+
 - Given a `Separator`, when rendered, then it carries `data-separator-root`. (bits: tests/src/tests/separator/separator.browser.test.ts: "Separator > should have bits data attrs")
 - Given a horizontal separator, when rendered, then it is visible. (melt: src/tests/separator/Separator.spec.ts: "should render an horizontal separator")
 - Given `orientation: 'vertical'`, when rendered, then the vertical separator is visible. (melt: src/tests/separator/Separator.spec.ts: "should render a vertical separator")
@@ -4958,19 +5375,23 @@ Conventions:
 - Given a decorative separator, when rendered, then it has `role="none"`. (melt: src/tests/separator/Separator.spec.ts: "should have a role of none when decorative is true")
 
 ### Accessibility tooling
+
 - Given a default horizontal `Separator` and a second one with `orientation: 'vertical'`, when both are audited with axe, then neither has violations. (reka: packages/core/src/Separator/Separator.test.ts: "should pass axe accessibility tests")
 
 ## aspect-ratio
 
 ### Roles and attributes
+
 - Given a default `AspectRatio` wrapping an `img`, when snapshotted, then the outer element has `data-reka-aspect-ratio-wrapper=""` with inline `position: relative; width: 100%; padding-bottom: 100%`, and the inner element has `position: absolute; inset: 0px`. (reka: packages/core/src/AspectRatio/AspectRatio.test.ts: "should render as snapshot")
 
 ### Accessibility tooling
+
 - Given a default `AspectRatio` wrapping an `img` with alt text, when audited with axe, then there are no violations. (reka: packages/core/src/AspectRatio/AspectRatio.test.ts: "should pass axe accessibility tests")
 
 ## visually-hidden
 
 ### Roles and attributes
+
 - Given a default `VisuallyHidden`, when rendered, then the element's tag name is `SPAN`. (reka: packages/core/src/VisuallyHidden/VisuallyHidden.test.ts: "renders a span by default")
 - Given a default `VisuallyHidden`, when rendered, then its inline `position` is `absolute` and its `clipPath` is `inset(50%)`. (reka: packages/core/src/VisuallyHidden/VisuallyHidden.test.ts: "applies visually-hidden styles")
 - Given a `VisuallyHidden` with slot content, when rendered, then its text is that content. (reka: packages/core/src/VisuallyHidden/VisuallyHidden.test.ts: "renders slot content")
@@ -4984,21 +5405,25 @@ Conventions:
 ## viewport
 
 ### Roles and attributes
+
 - Given a default `Viewport`, when rendered, then an element with the `data-reka-viewport` attribute exists. (reka: packages/core/src/Viewport/Viewport.test.ts: "renders an element with data-reka-viewport attribute")
 - Given a default `Viewport`, when rendered, then that element has `role="presentation"`. (reka: packages/core/src/Viewport/Viewport.test.ts: "renders with role=\"presentation\"")
 - Given a default `Viewport`, when rendered, then its inline `overflow` is `auto`. (reka: packages/core/src/Viewport/Viewport.test.ts: "applies overflow:auto style")
 
 ### Notes and edge cases
+
 - Given a default `Viewport`, when rendered, then a sibling `<style>` element exists whose text mentions `[data-reka-viewport]`. (reka: packages/core/src/Viewport/Viewport.test.ts: "renders a <style> sibling whose text mentions [data-reka-viewport]")
 - Given `Viewport` with `nonce: 'abc123'`, when rendered, then the injected `<style>` tag carries `nonce="abc123"`. (reka: packages/core/src/Viewport/Viewport.test.ts: "puts nonce attribute on the style tag when nonce prop is provided")
 
 ## toolbar
 
 ### Roles and attributes
+
 - Given a `Toolbar` whose parts are root, two toggle groups with items, a link, and a button, when rendered, then they carry `data-toolbar-root`, `data-toolbar-group`, `data-toolbar-group-item`, `data-toolbar-link`, and `data-toolbar-button`. (bits: tests/src/tests/toolbar/toolbar.browser.test.ts: "Toolbar > should have bits data attrs")
 - Given a `Toolbar` story with a default selected toggle value, when rendered, then the fifth button is among the elements with `data-state="on"`. (reka: packages/core/src/Toolbar/Toolbar.test.ts: "given default Toolbar > should have default selected value")
 
 ### Keyboard
+
 - Given a toolbar with `orientation: 'horizontal'` and the default item mix, when Tab enters the toolbar and ArrowRight is pressed once per item, then focus walks every item in DOM order, and pressing ArrowLeft walks back through the reversed order. (melt: src/tests/toolbar/Toolbar.spec.ts: "arrow keys navigate between items - horizontal")
 - Given a toolbar with `orientation: 'vertical'` and the default item mix, when Tab enters the toolbar and ArrowDown is pressed once per item, then focus walks every item in DOM order, and pressing ArrowUp walks back through the reversed order. (melt: src/tests/toolbar/Toolbar.spec.ts: "arrow keys navigate between items - vertical")
 - Given a toolbar with `orientation: 'horizontal'` with `linksFirst: true`, when Tab enters the toolbar and ArrowRight is pressed once per item, then focus walks every item in DOM order, and pressing ArrowLeft walks back through the reversed order. (melt: src/tests/toolbar/Toolbar.spec.ts: "arrow keys navigate between items - horizontal, first item is a link")
@@ -5050,6 +5475,7 @@ Conventions:
 - Given a bits toolbar button with focus, when Space is pressed, then the click binding reads `button`. (bits: tests/src/tests/toolbar/toolbar.browser.test.ts: "should forward click event when the { } key is pressed")
 
 ### Pointer
+
 - Given a melt toolbar, when each multiple-group item is clicked, then it gets `aria-pressed="true"` and `data-state="on"`. (melt: src/tests/toolbar/Toolbar.spec.ts: "items can be selected with mouse")
 - Given a melt toolbar, when each single-group item is clicked, then it gets `aria-checked="true"` and `data-state="on"`. (melt: src/tests/toolbar/Toolbar.spec.ts: "items can be selected with mouse")
 - Given a melt multiple group, when all three of its items are clicked, then all three carry `data-state="on"`. (melt: src/tests/toolbar/Toolbar.spec.ts: "multiple items can be selected in `multiple` groups")
@@ -5060,6 +5486,7 @@ Conventions:
 - Given a bits toolbar button, when it is clicked, then the click binding reads `button`. (bits: tests/src/tests/toolbar/toolbar.browser.test.ts: "should forward click event when the button is clicked")
 
 ### Focus management
+
 - Given a toolbar with the default mix of two toggle groups, a link, and a button, when Tab is pressed, then the first item takes focus, a second Tab does not move focus to the second item, Shift+Tab returns focus to the first item, and a further Shift+Tab leaves the toolbar. (melt: src/tests/toolbar/Toolbar.spec.ts: "tab enters toolbar but doesn't navigate between items - ")
 - Given a toolbar with `linksFirst: true`, so the link precedes the toggle groups, when Tab is pressed, then the first item takes focus, a second Tab does not move focus to the second item, Shift+Tab returns focus to the first item, and a further Shift+Tab leaves the toolbar. (melt: src/tests/toolbar/Toolbar.spec.ts: "tab enters toolbar but doesn't navigate between items - first item is a link")
 - Given a toolbar with `buttonsFirst: true`, so the button precedes the toggle groups, when Tab is pressed, then the first item takes focus, a second Tab does not move focus to the second item, Shift+Tab returns focus to the first item, and a further Shift+Tab leaves the toolbar. (melt: src/tests/toolbar/Toolbar.spec.ts: "tab enters toolbar but doesn't navigate between items - first item is a button")
@@ -5069,6 +5496,7 @@ Conventions:
 - Given a `ToolbarRoot` where one toggle item is enabled and two are disabled, when mounted, then the `role="toolbar"` element has `tabindex="0"`. (reka: packages/core/src/Toolbar/Toolbar.test.ts: "should be tabbable when at least one toggle item is not disabled")
 
 ### State and controlled/uncontrolled
+
 - Given melt groups with `defaultValue: ['item-1','item-2']` and `defaultValue: 'item-5'`, when rendered, then the multiple group has exactly those two items on and the single group has exactly `item-5` on. (melt: src/tests/toolbar/Toolbar.spec.ts: "default value sets initial pressed/checked items")
 - Given melt groups whose `onValueChange` returns a fixed value, when a different item is clicked, then the clicked item does not turn on and the value returned by the callback stays on, so `onValueChange` can veto the change. (melt: src/tests/toolbar/Toolbar.spec.ts: "onValueChange function can override value")
 - Given melt groups with both `defaultValue` and a `value` store, when rendered, then the store's value wins and the defaults are ignored. (melt: src/tests/toolbar/Toolbar.spec.ts: "value prop overrides default value")
@@ -5078,12 +5506,14 @@ Conventions:
 - Given a bits toolbar with `bind:value` on both groups starting at `bold` and empty, when the external binding buttons are clicked, then the value text updates and the corresponding items flip `data-state` from `off` to `on` with `aria-pressed`/`aria-checked` following, so the binding drives the DOM in both directions. (bits: tests/src/tests/toolbar/toolbar.browser.test.ts: "should respect binding to the `value` prop")
 
 ### Accessibility tooling
+
 - Given a default `Toolbar` story, when audited with axe, then there are no violations. (reka: packages/core/src/Toolbar/Toolbar.test.ts: "given default Toolbar > should pass axe accessibility tests")
 - Given a default melt toolbar, when audited with axe, then there are no violations. (melt: src/tests/toolbar/Toolbar.spec.ts: "has no accessibility violations")
 
 ## presence
 
 ### Animation and presence
+
 - Given a `Presence` with `present` bound to a `false` ref, when rendered, then the content text is absent from the markup. (reka: packages/core/src/Presence/Presence.test.ts: "given a default Presence > should not show content")
 - Given the same `Presence`, when the toggle button is clicked, then the content text appears. (reka: packages/core/src/Presence/Presence.test.ts: "given a default Presence > after clicking trigger > should show content")
 - Given the toggled-open `Presence`, when the toggle is clicked again, then the content text is gone. (reka: packages/core/src/Presence/Presence.test.ts: "after clicking trigger again > should not show content")
@@ -5098,15 +5528,18 @@ Conventions:
 ## dismissable-layer
 
 ### Roles and attributes
+
 - Given a `div` carrying `data-dismissable-layer`, when `isLayerExist` is called with `document` and with a text node as the target, then both return `false` without throwing. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "isLayerExist > should return false for non-Element targets without throwing")
 
 ### Keyboard
+
 - Given an open `DismissableLayer` story, when Escape is dispatched on `document.body`, then the content is removed and the layer emits `escapeKeyDown` once and `dismiss` once. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "pressing Escape > should close layer")
 - Given the same layer with `preventEscapeKeyDownEvent: true`, when Escape is dispatched, then the content stays and `escapeKeyDown` is still emitted once while no dismissal happens. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "pressing Escape > should not close layer when prevented")
 - Given a layer mounted with `present: false`, when Escape is dispatched on `document`, then neither `escapeKeyDown` nor `dismiss` is emitted, because a hidden layer's stack index of `-1` must not be mistaken for the top layer. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should not emit escapeKeyDown or dismiss on Escape while not present")
 - Given a layer mounted with `present: true`, when Escape is dispatched on `document`, then `escapeKeyDown` and `dismiss` are each emitted once. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should emit escapeKeyDown and dismiss on Escape once present")
 
 ### Pointer
+
 - Given an outer and a nested layer and a touch `pointerdown` on `document.body` that is never followed by a `click`, when the next touch tap lands on a button inside the nested layer, then the outer layer emits neither `pointerDownOutside` nor `dismiss`, and a later completed outside tap does emit both once. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should not dismiss on the next tap inside a nested layer")
 - Given a single layer and a cancelled outside touch `pointerdown`, when the next tap lands inside the layer itself, then neither `pointerDownOutside` nor `dismiss` is emitted. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should not dismiss on the next tap inside the layer itself")
 - Given a layer mounted with `present: false`, when a touch `pointerdown` fires, `present` flips to `true`, and the tap's `click` arrives, then neither `pointerDownOutside` nor `dismiss` is emitted, and a later outside tap does emit both once. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should not dismiss on the tap that made it present")
@@ -5122,10 +5555,12 @@ Conventions:
 - Given a touch `pointerdown` outside that defers dismissal to the following `click`, when the layer is disabled before that `click` arrives, then the dismissal count stays `0`. (bits: tests/src/tests/dismissible-layer/registration-lifecycle.browser.test.ts: "cancels a pending touch click when the layer is disabled")
 
 ### Focus management
+
 - Given an open layer story with an outside focusable element, when that element is focused, then the layer's content is removed. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "focus Outside > should close layer")
 - Given the same story with `preventFocusOutsideEvent: true`, when the outside element is focused, then the content stays. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "focus Outside > should not close layer when prevented")
 
 ### Dismissal and layering
+
 - Given a `DismissableLayerBranch`, when mounted the shared `context.branches` set contains its element and has size `1`, and when unmounted the set is empty. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should leave the branch registry empty after unmounting")
 - Given a `DismissableLayer` story that is closed, when rendered, then the close label is not in the document. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should render button without content")
 - Given the same story, when the trigger is clicked, then the close label is in the document. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "after clicking a trigger > should render the content")
@@ -5141,12 +5576,14 @@ Conventions:
 - Given two mounted layers both disabling outside pointer events, when the topmost sets the prop to `false`, then the body stays `none`, and it is restored only after the first also sets it to `false`. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "should keep body locked while another layer still disables pointer events")
 
 ### Notes and edge cases
+
 - Given jsdom has no `PointerEvent`, the reka touch tests construct a `MouseEvent('pointerdown')` and define `pointerType: 'touch'` on it by hand, because `fireEvent.pointerDown` would otherwise drop `pointerType` and take the mouse code path. (reka: packages/core/src/DismissableLayer/DismissableLayer.test.ts: "given a DismissableLayer after a cancelled touch tap outside")
 - Given the bits layer registry is exposed on `globalThis.bitsDismissableLayers`, the browser tests read it directly to assert registration and to wait for a layer's listeners to attach, so the library deliberately exposes internal state for testing. (bits: tests/src/tests/dismissible-layer/registration-lifecycle.browser.test.ts: "does not leave a layer registered when it unmounts from the opening mutation")
 
 ## escape-keydown
 
 ### Keyboard
+
 - Given a single layer with `behaviorType: 'close'`, when Escape is dispatched on `document.documentElement`, then the handler is called once. (melt: src/lib/internal/helpers/tests/escape-keydown.spec.ts: "provided 'close', on escape should close")
 - Given a single layer with `behaviorType: 'ignore'`, when Escape is dispatched, then the handler is not called. (melt: src/lib/internal/helpers/tests/escape-keydown.spec.ts: "provided 'ignore', on escape should not close")
 - Given a single layer with `behaviorType: 'defer-otherwise-close'`, when Escape is dispatched with no other layer to defer to, then the handler is called once. (melt: src/lib/internal/helpers/tests/escape-keydown.spec.ts: "provided 'defer-otherwise-close', on escape should close")
@@ -5167,6 +5604,7 @@ Conventions:
 - Given two `close` layers, when the top layer's `behaviorType` is swapped from the string `'close'` to a store holding `'ignore'`, then the next Escape runs neither handler. (melt: src/lib/internal/helpers/tests/escape-keydown.spec.ts: "respects updating behaviorType from string value to store")
 
 ### Dismissal and layering
+
 - Given an open root dialog with a `dialog` opened inside it and the child configured `escapeBehavior: close`, when the child trigger is clicked and Escape is pressed, then the child content is removed and the root dialog content stays visible. (melt: src/tests/escape-keydown/EscapeKeydown.spec.ts: "dialog + dialog > `escapeBehavior: close` on child should only close child")
 - Given the same nesting with `escapeBehavior: ignore`, when Escape is pressed, then both the `dialog` content and the root dialog content stay visible. (melt: src/tests/escape-keydown/EscapeKeydown.spec.ts: "dialog + dialog > `escapeBehavior: ignore` on child should neither close child nor parent")
 - Given the same nesting with `escapeBehavior: defer-otherwise-close`, when Escape is pressed, then both the `dialog` content and the root dialog content are removed. (melt: src/tests/escape-keydown/EscapeKeydown.spec.ts: "dialog + dialog > `escapeBehavior: defer-otherwise-close` on child should close both parent and child")
@@ -5211,6 +5649,7 @@ Conventions:
 ## focus-scope
 
 ### Keyboard
+
 - Given a `FocusScope asChild loop trapped` wrapping a form with two inputs and a submit button, when the first input is focused and Tab is pressed, then the second input has focus. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should focus the next element in the scope on tab")
 - Given the same scope, when the first input is focused and Shift+Tab is pressed, then the submit button has focus, so the trap wraps backward. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should focus the last element in the scope on shift+tab from the first element in scope")
 - Given the same scope, when the submit button is focused and Tab is pressed, then the first input has focus. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should focus the first element in scope on tab from the last element in scope")
@@ -5218,6 +5657,7 @@ Conventions:
 - Given the same scope, when the second field is focused and Shift+Tab is pressed, then focus lands on the submit button rather than the negative-tabindex field. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should skip the element with a negative tabindex on shift+tab")
 
 ### Focus management
+
 - Given a trapped scope whose focused element is removed from the DOM, when the removal settles, then the scope container itself has focus. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should focus container when focused element is removed from the DOM")
 - Given a scope with a `blur` handler on the last focusable button, when focus cycles from the first element backward and then forward, then the blur handler fires exactly once, so cycling does not double-blur. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should properly blur the last element in the scope before cycling back")
 - Given a Dialog containing an input followed by a `SelectTrigger`, when the dialog opens then the input has focus, and after closing with Escape and reopening the input has focus again rather than the `SelectTrigger` (regression 2550). (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should auto-focus the first tabbable element when SelectTrigger is present")
@@ -5226,22 +5666,26 @@ Conventions:
 - Given a Dialog whose Combobox item select swaps the dialog's view for a form that focuses its own input on mount, when the item is clicked, then the new form input keeps focus even though the dialog's `lastFocusedElementRef` still points at the removed combobox trigger (regression 2886). (reka: packages/core/src/FocusScope/FocusScope.test.ts: "should keep focus on the input the swapped-in view focused on mount")
 
 ### Notes and edge cases
+
 - Given the portaled-Select-in-Dialog case, `hasPointerCapture`, `releasePointerCapture`, and `scrollIntoView` are stubbed on `HTMLElement.prototype` because jsdom implements none of them, which is what makes the Select trigger usable at all in that environment. (reka: packages/core/src/FocusScope/FocusScope.test.ts: "given a FocusScope with portaled Select content inside Dialog (#2749)")
 
 ## focus-guards
 
 ### Focus management
+
 - Given no guards in the document, when a `FocusGuards` component mounts, then exactly two `[data-reka-focus-guard]` elements exist in `document.body`, added synchronously by a `watchEffect`. (reka: packages/core/src/FocusGuards/FocusGuards.test.ts: "adds exactly 2 guard elements to document.body on mount")
 - Given a mounted `FocusGuards`, when it unmounts, then no guard elements remain. (reka: packages/core/src/FocusGuards/FocusGuards.test.ts: "removes guard elements from document.body on unmount")
 - Given two `FocusGuards` consumers mounted, when both are present, then there are still exactly two guard elements, because the existing guards are reused. (reka: packages/core/src/FocusGuards/FocusGuards.test.ts: "does not double-add guards when two consumers are mounted")
 - Given two consumers, when the first unmounts then two guards remain, and only after the second unmounts do they drop to zero. (reka: packages/core/src/FocusGuards/FocusGuards.test.ts: "keeps guards when only one of two consumers unmounts")
 
 ### Notes and edge cases
+
 - Given a `FocusGuards` with slot content, when mounted, then the slotted element is present in the document. (reka: packages/core/src/FocusGuards/FocusGuards.test.ts: "renders slot content")
 
 ## body-scroll-lock
 
 ### Dismissal and layering
+
 - Given `useBodyScrollLock()` with no argument, when the returned ref is set to `true` then `false`, then `document.body.style.overflow` goes from the empty string to `hidden` and back. (reka: packages/core/src/shared/useBodyScrollLock.test.ts: "should lock the body properly")
 - Given a component calling `useBodyScrollLock(true)`, when mounted the body overflow is `hidden`, and when unmounted it is restored to the empty string. (reka: packages/core/src/shared/useBodyScrollLock.test.ts: "should lock and unlock the body when mounted and unmounted")
 - Given two components each holding a lock, when the first unmounts the body stays `hidden`, and only after the second unmounts does the overflow clear. (reka: packages/core/src/shared/useBodyScrollLock.test.ts: "should only unlock once all are unmounted")
@@ -5253,12 +5697,14 @@ Conventions:
 - Given the same setup but with the global `document` replaced by a different `HTMLDocument` whose body style is `color: blue`, when the delayed cleanup runs, then the original document's body style is restored and the replacement document's body style attribute is left unchanged. (bits: packages/bits-ui/src/lib/internal/body-scroll-lock.svelte.test.ts: "restores the original body when the global document is replaced before delayed cleanup")
 
 ### Notes and edge cases
+
 - Given `window.innerWidth` 200 and `documentElement.clientWidth` 190 with a mocked `ConfigProvider` supplying `dir: 'ltr'` and `scrollBody: true`, the reka lock tests run against a 10px scrollbar gap, which is the value the `ConfigProvider` suite asserts as `padding-right`. (reka: packages/core/src/shared/useBodyScrollLock.test.ts: "useBodyScrollLock")
 - Given the bits lock schedules its restore work on a 24ms `setTimeout`, the test finds that exact delay in the `setTimeout` spy's calls and invokes the captured callback by hand, so the 24ms window is part of the observable contract. (bits: packages/bits-ui/src/lib/internal/body-scroll-lock.svelte.test.ts: "BodyScrollLock")
 
 ## typeahead
 
 ### Keyboard
+
 - Given the values `['apple','banana','cherry','date','elderberry']` and no current match, when `getNextMatch(values, 'b')` runs, then it returns `'banana'`. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "getNextMatch > should return the first match when no current match is provided")
 - Given search `'c'`, when the current match is already `'cherry'`, then the result is `undefined`, and when the current match is `'banana'` the result is `'cherry'`. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "getNextMatch > should return the next match when a current match is provided")
 - Given a repeated-character search `'aaa'`, when the current match is `'apple'` the result is `undefined`, and when it is `'banana'` the result is `'apple'`, so repeated characters collapse to a single-character search. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "getNextMatch > should handle repeated characters in search")
@@ -5293,6 +5739,7 @@ Conventions:
 ## arrow-navigation
 
 ### Keyboard
+
 - Given an empty array, when `back([], 0, 1, true)` is called, then it returns `undefined`. (melt: src/lib/internal/helpers/tests/array.spec.ts: "back([], 0, 1, true) -> undefined")
 - Given `['a','b','c','d']` at index 3 with increment 2 and no looping, when `back` runs, then it returns `'b'`. (melt: src/lib/internal/helpers/tests/array.spec.ts: "back(a,b,c,d, 3, 2, false) -> b")
 - Given index 2 with increment 5 and looping disabled, when `back` runs, then it clamps and returns the first element `'a'`. (melt: src/lib/internal/helpers/tests/array.spec.ts: "back(a,b,c,d, 2, 5, false) -> a")
@@ -5379,6 +5826,7 @@ Conventions:
 - Given a container with three items and an external `input` as the current element, when ArrowUp fires, then the last item is returned. (reka: packages/core/src/shared/useArrowNavigation.test.ts: "should navigate to the last item when pressing ArrowUp from an external element")
 
 ### Notes and edge cases
+
 - Given two empty arrays, when `arraysAreEqual` runs, then it returns `true`. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "arraysAreEqual > should return true for two empty arrays")
 - Given two arrays with the same elements in the same order, when compared, then the result is `true`. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "arraysAreEqual > should return true for two arrays with the same elements in the same order")
 - Given arrays of different lengths, when compared, then the result is `false`. (bits: packages/bits-ui/src/lib/internal/arrays.test.ts: "arraysAreEqual > should return false for two arrays with different lengths")
@@ -5399,16 +5847,19 @@ Conventions:
 ## grace-area
 
 ### Pointer
+
 - Given `useGraceArea(triggerRef, containerRef)` with a 100x100 trigger at the origin and a 100x100 container at x 200 to 300, when a `pointerleave` at (100, 50) fires on the trigger, then `isPointerInTransit` becomes `true`. (reka: packages/core/src/shared/useGraceArea.test.ts: "sets isPointerInTransit to true on a trigger pointerleave")
 - Given a grace polygon built by a trigger `pointerleave` at (100, 50), when a document `pointermove` at (150, 50) lands inside the hull with `document.body` as target, then `isPointerInTransit` stays `true` and the `onPointerExit` callback is not called. (reka: packages/core/src/shared/useGraceArea.test.ts: "keeps isPointerInTransit true and does not fire exit for a pointermove inside the hull")
 - Given a grace polygon built by a trigger `pointerleave` at (100, 50), when a document `pointermove` at (150, 500) lands outside the hull, then `onPointerExit` is called exactly once and `isPointerInTransit` resets to `false`. (reka: packages/core/src/shared/useGraceArea.test.ts: "fires onPointerExit and resets when a pointermove leaves the hull")
 - Given a grace polygon in transit, when a `pointermove` is dispatched on the container element itself at coordinates (150, 500) that are outside the hull, then `onPointerExit` is not called and `isPointerInTransit` resets to `false`, so the entered-target branch wins over the geometry check. (reka: packages/core/src/shared/useGraceArea.test.ts: "removes the grace area without firing exit when the pointer enters the container")
 
 ### State and controlled/uncontrolled
+
 - Given a grace polygon entered by a trigger `pointerleave` under fake timers, when 300ms are advanced without any pointer movement, then `isPointerInTransit` auto-resets to `false`. (reka: packages/core/src/shared/useGraceArea.test.ts: "auto-resets isPointerInTransit after 300ms")
 - Given a grace polygon entered by a trigger `pointerleave`, when the owning component unmounts, then `isPointerInTransit` becomes `false`. (reka: packages/core/src/shared/useGraceArea.test.ts: "resets isPointerInTransit to false on unmount")
 
 ### Notes and edge cases
+
 - Given jsdom's all-zero `getBoundingClientRect`, when these tests run, then both element rects are stubbed by hand and the event constructor falls back from `PointerEvent` to `MouseEvent`, so the hull geometry under test is supplied rather than measured. (reka: packages/core/src/shared/useGraceArea.test.ts: "useGraceArea")
 - Given the documented hull for the stubbed rects, when a trigger `pointerleave` exits the right side at (100, 50), then the padded exit points sit near (99, 49) and (99, 51) and the convex hull spans x from 99 to 300, which is why (150, 50) counts as inside and (150, 500) as outside. (reka: packages/core/src/shared/useGraceArea.test.ts: "keeps isPointerInTransit true and does not fire exit for a pointermove inside the hull")
 - Given the composable's return shape, when set up in a component, then it exposes `isPointerInTransit` as a ref and `onPointerExit` as a callback registrar, and the document `pointermove` listener is only attached after a `nextTick` following the `pointerleave`. (reka: packages/core/src/shared/useGraceArea.test.ts: "fires onPointerExit and resets when a pointermove leaves the hull")
@@ -5416,18 +5867,22 @@ Conventions:
 ## roving-focus
 
 ### Roles and attributes
+
 - Given a `RovingFocusGroup` with `defaultValue: 'one'` over four buttons, when rendered, then the first button has `data-active=""` and the second and third have no `data-active`. (reka: packages/core/src/RovingFocus/RovingFocus.test.ts: "should have default selected value based on `defaultValue`")
 
 ### Keyboard
+
 - Given `defaultValue: 'two'` and the third button disabled, when Tab focuses the group and ArrowRight is pressed, then focus skips the disabled third button and lands on the fourth, and a further ArrowRight leaves focus on the fourth because `loop` defaults to false. (reka: packages/core/src/RovingFocus/RovingFocus.test.ts: "[loop=false]: should stop at last item")
 - Given `defaultValue: 'two'` and `loop: true`, when Tab focuses the group and ArrowRight is pressed twice, then focus wraps past the fourth button to the first. (reka: packages/core/src/RovingFocus/RovingFocus.test.ts: "[loop=true]: should loop through items")
 
 ### Focus management
+
 - Given a `RovingFocusGroup` with four buttons and nothing focused, when Tab is pressed once then focus is on the first button, and when Tab is pressed again then focus leaves the group back to `document.body`, so the group is a single tab stop. (reka: packages/core/src/RovingFocus/RovingFocus.test.ts: "should only receive focus once, and select first item")
 
 ## collection
 
 ### Notes and edge cases
+
 - Given a provider with three registered `CollectionItem`s, when the DOM settles, then `itemMapSize` is `3` and `reactiveItems` holds three entries whose values are `a`, `b`, and `c`. (reka: packages/core/src/Collection/Collection.test.ts: "registers items into reactiveItems and itemMapSize reflects the count")
 - Given three items whose registration order is not guaranteed to match the template, when `getItems()` is called, then the values come back in DOM order and match the order of `document.querySelectorAll('[data-reka-collection-item]')`. (reka: packages/core/src/Collection/Collection.test.ts: "getItems() returns items in DOM order even when registration order differs")
 - Given a middle item rendered with `data-disabled=""`, when `getItems()` is called, then it returns only `['a','c']`, and `getItems(true)` returns `['a','b','c']` in DOM order. (reka: packages/core/src/Collection/Collection.test.ts: "filters out items with data-disabled=\"\" by default, includes them with getItems(true)")
@@ -5439,16 +5894,19 @@ Conventions:
 ## popper
 
 ### Roles and attributes
+
 - Given a default Popper with anchor, content, and arrow, when rendered, then the snapshot pins a floating wrapper `div` carrying `data-reka-popper-content-wrapper` and `dir="ltr"`, an inner content `div` with `data-align="center"`, `data-side="bottom"` and `dir="ltr"`, and an arrow `span` wrapping a 10x6-viewBox `svg` with `width="10"`, `height="5"`, `preserveAspectRatio="none"`, `rounded="false"` and path `M0 0L6 6L12 0`. (reka: packages/core/src/Popper/Popper.test.ts: "give default Popper > should render correctly and match snapshot")
 - Given a `PopperContent` with `dir="rtl"`, when mounted, then the `[data-reka-popper-content-wrapper]` element has `dir="rtl"` so placement and transform origin agree. (reka: packages/core/src/Popper/Popper.test.ts: "popper wrapper dir attribute > sets dir on the floatingRef wrapper so placement and origin are consistent")
 - Given a `PopperContent` with `dir="ltr"` passed explicitly, when mounted, then the `[data-reka-popper-content-wrapper]` element has `dir="ltr"`. (reka: packages/core/src/Popper/Popper.test.ts: "popper wrapper dir attribute > sets dir=ltr on the wrapper when explicitly passed")
 
 ### Positioning
+
 - Given the default Popper snapshot, when rendered in jsdom, then the wrapper's inline style is `position: fixed; left: 0px; top: 0px; transform: translate(0, -200%); min-width: max-content;`, so the off-screen pre-measurement transform and `min-width: max-content` are pinned. (reka: packages/core/src/Popper/Popper.test.ts: "give default Popper > should render correctly and match snapshot")
 - Given the default Popper snapshot, when rendered, then the arrow span's inline style is `position: absolute; top: 0px; transform-origin: center 0; transform: rotate(180deg); visibility: hidden;`, pinning the bottom-side arrow rotation and its hidden state before measurement. (reka: packages/core/src/Popper/Popper.test.ts: "give default Popper > should render correctly and match snapshot")
 - Given the default Popper snapshot, when rendered, then the content element's inline style is `animation: none;`, so entry animation is suppressed until the first position is computed. (reka: packages/core/src/Popper/Popper.test.ts: "give default Popper > should render correctly and match snapshot")
 
 ### RTL and i18n
+
 - Given `transformOrigin` with no arrow and `dir: 'rtl'` at placement `bottom-start`, when the middleware runs, then the returned `x` origin is `100%`. (reka: packages/core/src/Popper/Popper.test.ts: "bottom placement > rTL flips start origin to 100%")
 - Given `transformOrigin` with no arrow and `dir: 'ltr'` at placement `bottom-start`, when the middleware runs, then the returned `x` origin is `0%`. (reka: packages/core/src/Popper/Popper.test.ts: "bottom placement > lTR keeps start origin at 0%")
 - Given `transformOrigin` with no arrow and `dir: 'rtl'` at placement `bottom-end`, when the middleware runs, then the returned `x` origin is `0%`. (reka: packages/core/src/Popper/Popper.test.ts: "bottom placement > rTL flips end origin to 0%")
@@ -5470,6 +5928,7 @@ Conventions:
 - Given the same arrow data at `left-end`, when run with both `dir` values, then the `y` origin is `17.5px` in both cases. (reka: packages/core/src/Popper/Popper.test.ts: "arrow-visible scenario: arrow-based x/y positioning is not affected by dir > left placement uses arrow y center regardless of dir")
 
 ### Notes and edge cases
+
 - Given `transformOrigin` under test, when invoked, then it is called as a bare floating-ui middleware with a hand-built `{ placement, rects.floating, middlewareData.arrow }` payload and asserted through `result.data`, so the CSS custom properties the Popper writes (`--reka-popper-transform-origin`, `--reka-popper-available-width`, `--reka-popper-available-height`, `--reka-popper-anchor-width`, `--reka-popper-anchor-height`) are exercised only through this returned origin data and never asserted as inline custom properties, and the snapshot does not record them either. (reka: packages/core/src/Popper/Popper.test.ts: "transformOrigin direction-aware logic")
 - Given reka's Popper tests, when they run, then `globalThis.ResizeObserver` is stubbed with no-op methods in both the default and `dir` describe blocks. (reka: packages/core/src/Popper/Popper.test.ts: "popper wrapper dir attribute")
 - Given the Popper suite, when read as a whole, then it asserts no collision behavior: `avoidCollisions`, `collisionPadding`, `collisionBoundary`, `sticky`, `updatePositionStrategy`, `side`/`align` overrides, and `arrowPadding` are all untested here. (reka: packages/core/src/Popper/Popper.test.ts: "give default Popper > should render correctly and match snapshot")
@@ -5477,16 +5936,19 @@ Conventions:
 ## portal
 
 ### Roles and attributes
+
 - Given a `Teleport` with `forceMount` inside a host `div`, when mounted, then the slot content exists in the document but `host.contains(content)` is `false`. (reka: packages/core/src/Teleport/Teleport.test.ts: "teleports slot content into document.body by default")
 - Given a `Portal` with no `to`, when rendered, then the content's `parentElement` is `document.body`. (bits: tests/src/tests/portal/portal.browser.test.ts: "should portal content to document.body by default")
 - Given a `Portal` with a `content` prop, when rendered, then the portalled node has that text content. (bits: tests/src/tests/portal/portal.browser.test.ts: "should display the portal content")
 
 ### State and controlled/uncontrolled
+
 - Given `Teleport disabled` with `forceMount`, when mounted, then the content renders inline and the host `div` contains it. (reka: packages/core/src/Teleport/Teleport.test.ts: "renders inline when disabled=true")
 - Given `Portal disabled`, when rendered, then the main container contains the content and its `parentElement` is not `document.body`. (bits: tests/src/tests/portal/portal.browser.test.ts: "should render inline when disabled")
 - Given `Portal to="#string-target" disabled`, when rendered, then the target does not receive the content and the main container keeps it, so `disabled` overrides `to`. (bits: tests/src/tests/portal/portal.browser.test.ts: "should not portal when disabled even with target")
 
 ### Dismissal and layering
+
 - Given a popover containing a tooltip trigger, run once with sibling portals (`portal: 'body'`) and once with a single portal (`portal: undefined`), when the tooltip content is clicked, then the tooltip stays visible and the popover stays open. (melt: src/tests/portal/Portal.spec.ts: "Portal Behaviors > Popover & Tooltip > should not close the popover when the tooltip content is clicked")
 - Given an open popover with an open tooltip inside it, when the popover content is clicked, then the tooltip closes and the popover stays open. (melt: src/tests/portal/Portal.spec.ts: "should close the tooltip content when the popover content is clicked and tooltip is open")
 - Given an open popover with an open tooltip inside it, when Escape is pressed, then only the tooltip closes, and a subsequent outside click closes the popover. (melt: src/tests/portal/Portal.spec.ts: "should not close the popover when escape is pressed while tooltip is open")
@@ -5498,6 +5960,7 @@ Conventions:
 - Given a recursive nesting of dialog inside dialog inside dropdown-menu inside select, and popover inside dialog and popover, and a sibling select, run across the four combinations of `portal: 'body'`/`undefined` and `forceVisible: true`/`false`, when each trigger is clicked depth-first, then every level's content becomes visible, its immediate children's triggers become visible, grandchildren stay hidden until their parent opens, and each level closes on Escape and on outside click while its own trigger and outside element stay visible. (melt: src/tests/portal/PortalNested.spec.ts: "recursive component test")
 
 ### Positioning
+
 - Given `Teleport to="#custom-container"`, when mounted, then the container contains the teleported node. (reka: packages/core/src/Teleport/Teleport.test.ts: "teleports to a custom container element")
 - Given a `ConfigProvider` with `teleportTo="#config-container"` wrapping a `Teleport` with no `to`, when mounted, then the config container contains the teleported node. (reka: packages/core/src/Teleport/Teleport.test.ts: "uses the ConfigProvider `teleportTo` target as the default")
 - Given a `ConfigProvider teleportTo="#config-fallback"` wrapping a `Teleport to="#explicit-target"`, when mounted, then the explicit target contains the node and the config fallback does not. (reka: packages/core/src/Teleport/Teleport.test.ts: "prefers an explicit `to` prop over the ConfigProvider `teleportTo`")
@@ -5509,17 +5972,20 @@ Conventions:
 - Given two `Portal` instances targeting `#string-target` and `.class-target`, when both render, then two portal nodes exist and each sits under its own target. (bits: tests/src/tests/portal/portal.browser.test.ts: "should handle multiple portals to different targets")
 
 ### Animation and presence
+
 - Given a `Portal` that has rendered content, when the component unmounts, then the portalled node is removed from the document. (bits: tests/src/tests/portal/portal.browser.test.ts: "should clean up portal content when component unmounts")
 
 ## slot
 
 ### Roles and attributes
+
 - Given a `Primitive` with no `as` prop, when rendered, then it renders a `div`. (reka: packages/core/src/Primitive/Primitive.test.ts: "should render div element correctly")
 - Given a `Primitive` with `as="button"`, when rendered, then it renders a `button`. (reka: packages/core/src/Primitive/Primitive.test.ts: "should render button element correctly")
 - Given a `Primitive` with a non-component attribute such as `type="button"` and no `as`, when rendered, then the rendered `div` carries `type="button"`. (reka: packages/core/src/Primitive/Primitive.test.ts: "should renders div element with custom attribute")
 - Given a `Primitive` with three sibling `div` children, when rendered, then all three children are present. (reka: packages/core/src/Primitive/Primitive.test.ts: "should renders multiple child elements")
 
 ### Notes and edge cases
+
 - Given `as="template"` and a slot whose first node is an HTML comment, when rendered, then the comment is skipped and the parent's `data-parent-attr` lands on the first element node alongside the child's own `data-child-attr`. (reka: packages/core/src/Primitive/Primitive.test.ts: "should by pass the comment tag")
 - Given `as="template"` with three sibling children, when mounted, then all three render and no "invalid children" error is thrown. (reka: packages/core/src/Primitive/Primitive.test.ts: "render as template (asChild) > should not throw error when multiple child elements exists")
 - Given `as="template"` with three sibling children and a `type="button"` prop, when rendered, then only the first child receives `type="button"` and the second and third have it undefined. (reka: packages/core/src/Primitive/Primitive.test.ts: "should pass custom attribute to first element")
@@ -5535,6 +6001,7 @@ Conventions:
 ## direction
 
 ### RTL and i18n
+
 - Given a default `ConfigProvider`, when rendered, then the subtree contains `dir="ltr"`. (reka: packages/core/src/ConfigProvider/ConfigProvider.test.ts: "should render direction=\"ltr\"")
 - Given a `ConfigProvider dir="rtl"`, when rendered, then the subtree contains `dir="rtl"`. (reka: packages/core/src/ConfigProvider/ConfigProvider.test.ts: "should render direction=\"rtl\"")
 - Given no `dir` and no `orientation`, when `getNextKey` is called, then it returns `ArrowRight`. (melt: src/lib/internal/helpers/tests/keyboard.spec.ts: "getNextKey(undefined, undefined) -> ArrowRight")
@@ -5555,6 +6022,7 @@ Conventions:
 - Given an invalid direction or an invalid orientation string, when `getDirectionalKeys` is called, then it falls back to `{ nextKey: ArrowRight, prevKey: ArrowLeft }` instead of throwing. (bits: packages/bits-ui/src/lib/internal/get-directional-keys.test.ts: "should handle invalid direction and orientation values")
 
 ### Notes and edge cases
+
 - Given a `ConfigProvider` with its default slot, when mounted, then the provider and all slotted content render. (reka: packages/core/src/ConfigProvider/ConfigProvider.test.ts: "it should render config provider, and all it's slot correctly")
 - Given `window.innerWidth` 200 and `documentElement.clientWidth` 190 and a default `ConfigProvider`, when mounted, then `document.body` gets `padding-right: 10px`, `margin-right: 0px`, `overflow: hidden`, and `documentElement` gets `--scrollbar-width: 10px`. (reka: packages/core/src/ConfigProvider/ConfigProvider.test.ts: "should add scrollBody's css to body")
 - Given `ConfigProvider scrollBody={false}`, when mounted, then body `padding-right` and `margin-right` are both `0px`. (reka: packages/core/src/ConfigProvider/ConfigProvider.test.ts: "should set 0 padding, 0 margin body")
@@ -5565,10 +6033,12 @@ Conventions:
 ## vue-adapter
 
 ### Roles and attributes
+
 - Given the package entry point, when every name listed in the repo's `constant.ts` `components` and `utilities` maps is checked, then each one is present in the `index` exports, running as one `it.each` case per exported name. (reka: packages/core/src/index.test.ts: "it should export %s")
 - Given a bare `Arrow` component, when audited with axe, then there are no violations. (reka: packages/core/src/shared/component/Arrow.test.ts: "should pass axe accessibility tests")
 
 ### Focus management
+
 - Given a component that calls `useForwardExpose` and binds `forwardRef` to an inner `span`, when the parent reads `ref.$el`, then it is the `HTMLSpanElement`, not the component's own root `div`. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should forward plain DOM element ref")
 - Given `forwardRef` invoked manually as `forwardRef({ $el: node })`, when the parent reads `ref.$el`, then it is the `HTMLSpanElement`. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should forward plain DOM element ref - 2")
 - Given a multi-root component whose second root contains the forwarded `span`, when the parent reads `ref.$el`, then it is still the `HTMLSpanElement`, so a fragment root does not break ref forwarding. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should forward plain DOM element ref - fragment")
@@ -5578,6 +6048,7 @@ Conventions:
 - Given a `Primitive asChild` whose single child conditionally switches from `button` to `span`, when the condition flips, then `currentElement` updates from `button` to `span` within a post-flush effect. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should update currentElement when as-child conditional child swaps")
 
 ### Notes and edge cases
+
 - Given an inner component that calls `expose({ innerValue, innerMethod })` and is bound to `forwardRef`, when the parent reads its own ref, then `innerValue` is `'inner-value'` and `innerMethod()` returns `'inner-method-result'`, so child exposes are merged upward. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should forward child component exposed properties to parent ref")
 - Given a middle component with its own prop `parentProp` and an inner component exposing `childExposedValue`, when the parent reads the ref, then `parentProp` is `'custom-value'`, `childExposedValue` is `'child-exposed'`, and `$el` is an `HTMLSpanElement`, so props and child exposes coexist. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should merge child component exposed properties with parent component props")
 - Given an inner component exposing `count`, `message`, `increment`, and `getMessage`, when the parent calls `increment()` through the forwarded ref, then `count` goes from `0` to `1`, `getMessage()` returns `'hello'`, and `$el` is an `HTMLButtonElement`. (reka: packages/core/src/shared/useForwardExpose.test.ts: "should forward multiple exposed properties from child component")
@@ -5607,6 +6078,7 @@ Conventions:
 ## svelte-adapter
 
 ### Roles and attributes
+
 - Given `createBitsAttrs({ component: 'dialog', parts: ['root', 'trigger', 'content'] })`, when the attrs object is read, then the part names map to `data-dialog-root`, `data-dialog-trigger`, and `data-dialog-content`. (bits: packages/bits-ui/src/lib/internal/attrs.test.ts: "creates attrs object with component prefix when no variant")
 - Given the same config plus `getVariant: () => 'mobile'`, when the attrs object is read, then the prefix becomes the variant: `data-mobile-root` and `data-mobile-trigger`. (bits: packages/bits-ui/src/lib/internal/attrs.test.ts: "creates attrs object with variant prefix when variant is provided")
 - Given `getVariant: () => null`, when the attrs object is read, then it falls back to the component prefix `data-dialog-root`. (bits: packages/bits-ui/src/lib/internal/attrs.test.ts: "creates attrs object with component prefix when variant returns null")
@@ -5616,11 +6088,13 @@ Conventions:
 - Given a config with an empty `parts` array, when read, then `selector` and `getAttr` are still functions. (bits: packages/bits-ui/src/lib/internal/attrs.test.ts: "handles empty parts array")
 
 ### Focus management
+
 - Given a rendered form, when `focus(element)` is called with the `HTMLElement`, then that element has focus. (melt: src/lib/internal/helpers/tests/dom.spec.ts: "focuses the given HTMLElement")
 - Given the same form, when `focus('#name')` is called with a selector string, then the matching element has focus, so the helper accepts either form. (melt: src/lib/internal/helpers/tests/dom.spec.ts: "finds the element by querySelector and focuses it")
 - Given a form containing two inputs and an `<hr />`, when `getTabbableNodes(form)` is called, then it returns exactly the two inputs. (melt: src/lib/internal/helpers/tests/dom.spec.ts: "returns only tabbable nodes")
 
 ### Notes and edge cases
+
 - Given a list whose first option is enabled, when `getFirstOption(list)` is called, then it returns that first option. (melt: src/lib/internal/helpers/tests/list.spec.ts: "returns the first option")
 - Given a list whose first option is disabled, when `getFirstOption(list)` is called, then it returns the second option. (melt: src/lib/internal/helpers/tests/list.spec.ts: "returns the second option if the first is disabled")
 - Given an empty container with `role="menu"`, when `getFirstOption` is called, then it returns `null`. (melt: src/lib/internal/helpers/tests/list.spec.ts: "returns null if there are no options")
@@ -5641,6 +6115,7 @@ Conventions:
 ## svelte-adapter-config
 
 ### Notes and edge cases
+
 - Given no `BitsConfig` in scope, when a consumer reads `portal` and `locale`, then both read `undefined`. (bits: tests/src/tests/utilities/bits-config/bits-config.browser.test.ts: "should show undefined values when no config is set")
 - Given a root `BitsConfig` with `portal: '#root-portal'` and `locale: 'en'`, when a consumer under it reads them, then it sees those exact values. (bits: tests/src/tests/utilities/bits-config/bits-config.browser.test.ts: "should show configured values at root level")
 - Given a nested `BitsConfig` that sets neither key, when a consumer under it reads them, then it inherits `#parent-portal` and `en` from the parent. (bits: tests/src/tests/utilities/bits-config/bits-config.browser.test.ts: "should inherit values from parent when child doesn't specify them")
@@ -5651,6 +6126,7 @@ Conventions:
 ## builder-api
 
 ### Notes and edge cases
+
 - Given a Melt builder such as `createAccordion`, when it is called, then it returns `{ ids, elements, states, helpers, options }`, where `elements` holds one readable store per part (`root`, `item`, `trigger`, `content`, `heading`), `states` holds the writable value store, `helpers` holds derived predicates such as `isSelected`, and `options` holds the reactive option stores. Every spec in `src/tests` exercises this shape indirectly through a `.svelte` harness rather than asserting on the returned object. (melt: src/tests/accordion/Accordion.spec.ts: harness `AccordionTest.svelte`)
 - Given a builder element store, when it is subscribed, then its value is a prop bag that always includes `data-melt-<part>: ''` plus an `action`, and parameterised parts such as `$trigger(id)` are functions returning that bag. Tests locate elements by `data-testid` on the consumer's own element, not by the melt marker attribute. (melt: src/tests/accordion/Accordion.spec.ts: harness `AccordionTest.svelte`)
 - Given the source text `use:melt={$trigger(id)}`, when `extractMeltAttribute` runs, then it returns `{ builder: '$trigger', args: 'id' }`. (melt: src/docs/pp.spec.ts: "extractMeltAttribute - use:melt={$trigger(id)}")
@@ -5682,6 +6158,7 @@ Conventions:
 ## controlled-state
 
 ### State and controlled/uncontrolled
+
 - Given `overridable(writable(1))` with no `onChange`, when `set(2)` is called, then `get()` returns `2`. (melt: src/lib/internal/helpers/tests/overridable.spec.ts: "works as expected without setting onChange fn")
 - Given `overridable(store)`, when the underlying store is set directly, then the overridable reflects the new value. (melt: src/lib/internal/helpers/tests/overridable.spec.ts: "updates when original store updates")
 - Given `overridable(store, ({ next }) => next + 1)`, when `set(2)` is called, then the stored value is `3` and the callback was invoked, so `onChange`'s return value decides the committed state. (melt: src/lib/internal/helpers/tests/overridable.spec.ts: "onChange is called when original store updates")
@@ -5712,6 +6189,7 @@ Conventions:
 ## composition-ime
 
 ### Notes and edge cases
+
 - Given a fresh `useComposing`, when `handleCompositionStart` is called before any `compositionupdate`, then `shouldDeferInput` flips from `false` to `true`, so input is held by default during composition. (reka: packages/core/src/shared/useComposing.test.ts: "should defer input while composing before any compositionupdate")
 - Given an Android user agent, when composition starts and a Latin `compositionupdate` with data `'Br'` arrives, then `shouldDeferInput` becomes `false`, so soft-keyboard autocorrect is processed live. (reka: packages/core/src/shared/useComposing.test.ts: "should process plain-text composition live on Android (soft-keyboard autocorrect)")
 - Given a non-Android user agent, when composition starts and a Latin `compositionupdate` with data `'xiang'` arrives, then `shouldDeferInput` stays `true`, because desktop Pinyin preedit must not be processed live. (reka: packages/core/src/shared/useComposing.test.ts: "should keep deferring plain-text composition off Android (e.g. desktop Pinyin preedit)")
@@ -5729,6 +6207,7 @@ Conventions:
 ## internal-helpers
 
 ### Notes and edge cases
+
 - Given a value inside the range, when `clamp` runs, then it is returned unchanged, and the boundary values are returned as is. (bits: packages/bits-ui/src/lib/internal/clamp.test.ts: "should return the number if it is within the range")
 - Given a value below the minimum, when `clamp` runs, then the minimum is returned. (bits: packages/bits-ui/src/lib/internal/clamp.test.ts: "should return the minimum value if the number is below the range")
 - Given a value above the maximum, when `clamp` runs, then the maximum is returned. (bits: packages/bits-ui/src/lib/internal/clamp.test.ts: "should return the maximum value if the number is above the range")
@@ -5801,9 +6280,9 @@ Conventions:
   - `getSubmenuPlacementSide(triggerRect, contentRect)` derives which side a submenu actually landed on from measured centers, so the same test works whichever way collision detection flipped it.
   - `getPointerLeaveTowardSubmenuClientCoords`, `getPointerMidpointTowardSubmenuClientCoords`, and `getPointerAwayFromSubmenuIntentClientCoords` produce pointer coordinates that are just inside the trigger, halfway across the gap, and clearly off the intent path. Submenu grace-area behavior is tested by moving a real pointer through those three points.
   - `expectNotExists(loc)` waits for `loc.element()` to throw; `expectExists(loc)` is the retrying positive. `expectNotClickableLoc(loc)` asserts `loc.click()` rejects, which is how pointer-events blocking gets verified.
-  - `waitForDismissibleLayer(loc)` reads the global `globalThis.bitsDismissableLayers` map and waits until a layer whose `opts.ref.current` is the node is registered. The library deliberately exposes that registry for tests, and the helper's own comment says opening-click regression tests dispatch *before* waiting on it, to prove the layer does not eat the click that opened it.
+  - `waitForDismissibleLayer(loc)` reads the global `globalThis.bitsDismissableLayers` map and waits until a layer whose `opts.ref.current` is the node is registered. The library deliberately exposes that registry for tests, and the helper's own comment says opening-click regression tests dispatch _before_ waiting on it, to prove the layer does not eat the click that opened it.
   - `focusAndExpectToHaveFocus(loc)` focuses then asserts focus.
-  - `observeTransitionAttrs(node)` attaches a `MutationObserver` filtered to `data-starting-style` and `data-ending-style` and records a history of snapshots. Animation tests assert on the *sequence* of those attributes over time rather than a single sampled state, which is the only honest way to test enter and exit styling.
+  - `observeTransitionAttrs(node)` attaches a `MutationObserver` filtered to `data-starting-style` and `data-ending-style` and records a history of snapshots. Animation tests assert on the _sequence_ of those attributes over time rather than a single sampled state, which is the only honest way to test enter and exit styling.
 - `tests/src/tests/helpers/calendar.ts` and `helpers/select.ts` hold per-family query helpers. `tests/other/setup-browser-test.ts` contains only triple-slash type references, so there is no runtime setup file.
 - No axe anywhere. Bits has no automated accessibility audit; it asserts roles and ARIA attributes by hand instead. Given the browser runner that is a real gap, since axe would work better there than in jsdom.
 - No snapshot tests. Bits asserts attributes individually.

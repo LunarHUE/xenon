@@ -29,7 +29,7 @@ Bullet conventions, so fragments merge mechanically:
   typescript `6.0.3`, turbo `1.10.13`, pnpm `11.20.0`.
 - Test count: 564 `it(...)` blocks across 43 files
 - **No Solid 2 / v2 branch exists.** `git ls-remote --heads` returns only `main`,
-  `v2/chip` and `v2/tags-inputs`. Those two are unmerged *component* feature branches
+  `v2/chip` and `v2/tags-inputs`. Those two are unmerged _component_ feature branches
   (a Chip component and a TagsInput component), not a Solid 2 port, and they carry no
   new test files. Kobalte 0.13.x still pins `solid-js` `^1.9.8` as a peer dependency.
 
@@ -120,7 +120,7 @@ is no e2e directory. So there is zero test-asserted behavior to extract from cor
 Rather than leave the corvu half empty, the corvu bullets below are read out of the
 **implementation source**, and every one is tagged `(corvu-src: <path>)` instead of
 `(corvu: <path>: "<test name>")` so a mechanical merge can tell the two apart. These
-are behaviors corvu *implements* and that we would want conformance tests for, not
+are behaviors corvu _implements_ and that we would want conformance tests for, not
 behaviors corvu verifies. Treat the accompanying "not tested upstream" as a standing
 caveat on every corvu bullet.
 
@@ -246,29 +246,29 @@ Kobalte's test files carry `Portions of this file are based on code from ...` he
 naming the exact upstream file. Recorded here once; the per-component
 "Notes and edge cases" sections say what was dropped.
 
-| kobalte test | ported from |
-| --- | --- |
-| `accordion.test.tsx` | radix-ui `packages/react/accordion/src/Accordion.test.tsx` |
-| `alert-dialog.test.tsx` | react-spectrum `@react-spectrum/dialog/test/Dialog.test.js` |
-| `breadcrumbs.test.tsx` | react-spectrum `@react-aria/breadcrumbs/test/useBreadcrumbs.test.js` + `useBreadcrumbItem.test.js` |
-| `checkbox.test.tsx` | react-spectrum `@react-spectrum/checkbox/test/Checkbox.test.js` |
-| `collapsible.test.tsx` | radix-ui `packages/react/collapsible/src/Collapsible.test.tsx` |
-| `combobox.test.tsx` | react-spectrum `@react-spectrum/picker/test/Picker.test.js` |
-| `dialog.test.tsx` | react-spectrum `@react-spectrum/dialog/test/Dialog.test.js` |
-| `create-form-control.test.tsx` | react-spectrum `@react-aria/label/test/useLabel.test.js` + `useField.test.js` |
-| `aria-hide-outside.test.tsx` | react-spectrum `@react-aria/overlays/test/ariaHideOutside.test.js` |
-| `image.test.tsx` | radix-ui `packages/react/avatar/src/Avatar.test.tsx` |
-| `listbox.test.tsx` | react-spectrum `@react-spectrum/listbox/test/Listbox.test.js` |
-| `meter.test.tsx` | react-spectrum `@react-aria/meter/src/useMeter.ts` + `@react-spectrum/meter/test/Meter.test.js` |
-| `polymorphic.test.tsx` | radix-ui `packages/react/slot/src/Slot.test.tsx` |
-| `get-transition-styles.test.ts` | mantine `src/mantine-core/src/Transition/get-transition-styles/get-transition-styles.test.ts` |
-| `progress.test.tsx` | react-spectrum `@react-aria/progress/test/useProgressBar.test.js` + `@react-spectrum/progress/test/ProgressBar.test.js` |
-| `radio-group.test.tsx` | react-spectrum `@react-spectrum/radio/test/Radio.test.js` |
-| `search.test.tsx` | react-spectrum `@react-spectrum/picker/test/Picker.test.js` |
-| `select.test.tsx` | react-spectrum `@react-spectrum/picker/test/Picker.test.js` |
-| `spin-button.test.tsx` | react-spectrum `@react-aria/spinbutton/test/useSpinButton.test.js` |
-| `switch.test.tsx` | react-spectrum `@react-spectrum/switch/test/Switch.test.js` |
-| `tabs.test.tsx` | react-spectrum `@react-spectrum/tabs/test/Tabs.test.js` |
+| kobalte test                    | ported from                                                                                                             |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `accordion.test.tsx`            | radix-ui `packages/react/accordion/src/Accordion.test.tsx`                                                              |
+| `alert-dialog.test.tsx`         | react-spectrum `@react-spectrum/dialog/test/Dialog.test.js`                                                             |
+| `breadcrumbs.test.tsx`          | react-spectrum `@react-aria/breadcrumbs/test/useBreadcrumbs.test.js` + `useBreadcrumbItem.test.js`                      |
+| `checkbox.test.tsx`             | react-spectrum `@react-spectrum/checkbox/test/Checkbox.test.js`                                                         |
+| `collapsible.test.tsx`          | radix-ui `packages/react/collapsible/src/Collapsible.test.tsx`                                                          |
+| `combobox.test.tsx`             | react-spectrum `@react-spectrum/picker/test/Picker.test.js`                                                             |
+| `dialog.test.tsx`               | react-spectrum `@react-spectrum/dialog/test/Dialog.test.js`                                                             |
+| `create-form-control.test.tsx`  | react-spectrum `@react-aria/label/test/useLabel.test.js` + `useField.test.js`                                           |
+| `aria-hide-outside.test.tsx`    | react-spectrum `@react-aria/overlays/test/ariaHideOutside.test.js`                                                      |
+| `image.test.tsx`                | radix-ui `packages/react/avatar/src/Avatar.test.tsx`                                                                    |
+| `listbox.test.tsx`              | react-spectrum `@react-spectrum/listbox/test/Listbox.test.js`                                                           |
+| `meter.test.tsx`                | react-spectrum `@react-aria/meter/src/useMeter.ts` + `@react-spectrum/meter/test/Meter.test.js`                         |
+| `polymorphic.test.tsx`          | radix-ui `packages/react/slot/src/Slot.test.tsx`                                                                        |
+| `get-transition-styles.test.ts` | mantine `src/mantine-core/src/Transition/get-transition-styles/get-transition-styles.test.ts`                           |
+| `progress.test.tsx`             | react-spectrum `@react-aria/progress/test/useProgressBar.test.js` + `@react-spectrum/progress/test/ProgressBar.test.js` |
+| `radio-group.test.tsx`          | react-spectrum `@react-spectrum/radio/test/Radio.test.js`                                                               |
+| `search.test.tsx`               | react-spectrum `@react-spectrum/picker/test/Picker.test.js`                                                             |
+| `select.test.tsx`               | react-spectrum `@react-spectrum/picker/test/Picker.test.js`                                                             |
+| `spin-button.test.tsx`          | react-spectrum `@react-aria/spinbutton/test/useSpinButton.test.js`                                                      |
+| `switch.test.tsx`               | react-spectrum `@react-spectrum/switch/test/Switch.test.js`                                                             |
+| `tabs.test.tsx`                 | react-spectrum `@react-spectrum/tabs/test/Tabs.test.js`                                                                 |
 
 Files with **no** upstream attribution (written for kobalte): `alert`, `badge`,
 `button`, `colors/utils`, `context-menu-trigger`, `dismissable-layer`, `i18n`, `link`,
@@ -297,7 +297,7 @@ regression pins (`dismissable-layer`, `context-menu-trigger`).
 - Given a native `button` that is `disabled`, when rendered, then the native `disabled` attribute is set and `aria-disabled` is NOT set. (kobalte: packages/core/src/button/button.test.tsx: "should have correct 'disabled' attribute when disabled and it's a native button")
 - Given a `Button.Root` rendered `as="input"` that is `disabled`, when rendered, then the native `disabled` attribute is set and `aria-disabled` is NOT set. (kobalte: packages/core/src/button/button.test.tsx: "should have correct 'disabled' attribute when disabled and it's an input")
 - Given a `Button.Root` rendered `as="div"` that is `disabled`, when rendered, then the native `disabled` attribute is NOT set and `aria-disabled` IS set instead. (kobalte: packages/core/src/button/button.test.tsx: "should have correct 'disabled' attribute when disabled and it's not a native button nor input")
-- Given an enabled `Button.Root`, when rendered, then `data-disabled` is absent. (kobalte: packages/core/src/button/button.test.tsx: "should not have attribute 'data-disabled'  by default")
+- Given an enabled `Button.Root`, when rendered, then `data-disabled` is absent. (kobalte: packages/core/src/button/button.test.tsx: "should not have attribute 'data-disabled' by default")
 - Given a `disabled` `Button.Root`, when rendered, then `data-disabled` is present. (kobalte: packages/core/src/button/button.test.tsx: "should have attribute 'data-disabled' when disabled")
 
 ### Focus management
@@ -2981,7 +2981,7 @@ package. They are independent implementations of the same idea.
 - Given the file is scanned for skipped work, when every test declaration is checked, then there is no it.skip, describe.skip, it.todo, skipIf or commented-out test or assertion. (kobalte: packages/core/src/primitives/create-tag-name/create-tag-name.test.tsx: "createTagName > should use 'tagName' from ref")
 - Given the fallback is filtered through a string check so a Component fallback yields undefined rather than a tag name, when the tests are surveyed, then none passes a component fallback or omits the fallback entirely. (kobalte: packages/core/src/primitives/create-tag-name/create-tag-name.test.tsx: "createTagName > should use type as 'tagName' when ref is undefined")
 - Given the primitive returns a signal so the tag name can change, when the tests are surveyed, then nothing asserts it updates reactively once the ref resolves or points at a different element. (kobalte: packages/core/src/primitives/create-tag-name/create-tag-name.test.tsx: "createTagName > should use 'tagName' from ref")
-- Given the file is adapted from ariakit packages/ariakit-react-utils/src/__tests__/hooks-test.tsx at commit 8a13899, when the port is compared, then React renderHook became a component plus a createEffect that captures the value into an outer variable. (kobalte: packages/core/src/primitives/create-tag-name/create-tag-name.test.tsx: "createTagName > should use 'tagName' from ref")
+- Given the file is adapted from ariakit packages/ariakit-react-utils/src/**tests**/hooks-test.tsx at commit 8a13899, when the port is compared, then React renderHook became a component plus a createEffect that captures the value into an outer variable. (kobalte: packages/core/src/primitives/create-tag-name/create-tag-name.test.tsx: "createTagName > should use 'tagName' from ref")
 
 ## i18n
 

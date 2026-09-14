@@ -17,7 +17,7 @@ export const harness: Harness = {
   mount<N extends ComponentName>(name: N, initial: Components[N]): Mounted<Components[N]> {
     const container = document.createElement('div')
     document.body.appendChild(container)
-    const [props, setProps] = createSignal(initial)
+    const [props, setProps] = createSignal<Components[N]>(initial)
     const component = components[name] as ValidComponent
     const dispose = render(
       () => <Dynamic component={component} {...(props() as object)} />,

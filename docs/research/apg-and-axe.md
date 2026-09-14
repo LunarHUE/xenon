@@ -133,7 +133,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a button that launches a dialog, then appending an ellipsis to the label, for example "Save as…", is the conventional way to signal that (aria-practices: content/patterns/button/button-pattern.html, about this pattern) MAY.
 - Given a widget whose function is navigation rather than an action, then it MUST use the link role and not the button role, because appearance and role both need to match function (aria-practices: content/patterns/button/button-pattern.html, note).
 
-
 ## toggle
 
 ### Roles and attributes
@@ -214,7 +213,6 @@ Where the source marks something optional or recommended rather than required, t
 ### Notes and edge cases
 
 - Given a binary input, then choosing between `button` + `aria-pressed`, `checkbox` + `aria-checked`, and `switch` + `aria-checked` is a semantics decision, not a behavior one: pick the role that matches both the visual design and the wording of the label (aria-practices: content/patterns/switch/switch-pattern.html, about this pattern).
-
 
 ## checkbox
 
@@ -320,7 +318,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a tri-state checkbox, then the canonical use is a group-controlling checkbox in an installer, where the mixed state means some but not all of the group is selected (aria-practices: content/patterns/checkbox/checkbox-pattern.html, about this pattern).
 - Given a tri-state checkbox, then only checkbox and toggle button support a third middle state; `switch` MUST NOT (aria-practices: content/patterns/switch/switch-pattern.html, about this pattern).
 - Given a group of checkboxes without a visible group label, then no `role="group"` wrapper is required by the pattern; the wrapper requirement is conditional on the presence of a visible label (aria-practices: content/patterns/checkbox/checkbox-pattern.html, roles/states/properties).
-
 
 ## radio-group
 
@@ -449,7 +446,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given the keyboard-navigation practice, then a radio group is a composite widget whose tab stop is the checked radio, in the same family as tabs, listbox and tree, and unlike menubar and toolbar which put the tab stop on the first item (aria-practices: content/practices/keyboard-interface/keyboard-interface-practice.html, keyboard navigation inside components).
 - Given a disabled radio inside a radio group, then the APG convention is `aria-disabled="true"` where discoverability matters, keeping the control focusable, and the native `disabled` attribute where a user can infer the disabled control from its neighbors (aria-practices: content/practices/keyboard-interface/keyboard-interface-practice.html, focusability of disabled controls).
 
-
 ## switch
 
 ### Roles and attributes
@@ -534,7 +530,6 @@ Where the source marks something optional or recommended rather than required, t
 
 - Given a binary choice whose natural wording is on/off, then `switch` produces better screen reader output than `checkbox`, for example "Lights switch on" rather than "Lights checkbox checked"; given a binary choice in a checklist framing, `checkbox` reads better (aria-practices: content/patterns/switch/switch-pattern.html, about this pattern).
 - Given a switch built on `input[type="checkbox"]` with `role="switch"`, then no explicit `aria-checked` management is needed and the APG example ships no keydown handler at all, only a focus class toggle (aria-practices: content/patterns/switch/examples/js/switch-checkbox.js).
-
 
 ## slider
 
@@ -668,7 +663,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a multi-thumb slider drawn in SVG, then each decorative rail and range `g` MUST carry `aria-hidden="true"` and the wrapping `svg` MUST carry `role="none"` (aria-practices: test/tests/slider_slider-multithumb.js, svg-none and aria-hidden-g assertions).
 - Given a multi-thumb slider where thumbs have no visible label of their own, then each thumb MUST have a non-empty `aria-label`; the APG multithumb example uses `aria-label` rather than `aria-labelledby` (aria-practices: test/tests/slider_slider-multithumb.js, aria-label assertion via assertAriaLabelExists).
 
-
 ## number-field
 
 ### Roles and attributes
@@ -783,7 +777,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given text editing inside a spinbutton, then the most robust implementation relies on the browser's own editing behavior for `input[type="text"]` or a `contenteditable` element rather than reimplementing it (aria-practices: content/patterns/spinbutton/spinbutton-pattern.html, note) SHOULD.
 - Given a spinbutton with a large range, then it SHOULD support both a small and a large step, for example 1 minute on Up Arrow and 10 minutes on Page Up (aria-practices: content/patterns/spinbutton/spinbutton-pattern.html, about this pattern).
 
-
 ## tabs
 
 ### Roles and attributes
@@ -894,7 +887,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a tabs widget with per-tab action buttons, then those buttons MUST live outside the `tab` element itself, because `tab` forces its descendants presentational and axe flags focusable descendants of a `tab` at serious impact (aria-practices: content/practices/hiding-semantics/hiding-semantics-practice.html; axe: lib/rules/nested-interactive.json).
 - Given a tab whose panel is displayed by a network request, then selection MUST NOT follow focus; see the Keyboard section (aria-practices: content/practices/keyboard-interface/keyboard-interface-practice.html, deciding when to make selection automatically follow focus).
 
-
 ## accordion
 
 ### Roles and attributes
@@ -959,7 +951,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given an element with `aria-hidden="true"`, then neither it nor any descendant MUST be focusable; a focusable descendant fails with "Focusable content should have tabindex=\"-1\" or be removed from the DOM" at serious impact, and only the outermost `aria-hidden="true"` element is tested (axe: lib/rules/aria-hidden-focus.json, checks focusable-modal-open, focusable-disabled, focusable-not-tabbable; lib/rules/aria-hidden-focus-matches.js).
 - Given `aria-brailleroledescription` or `aria-braillelabel`, then there MUST be a non-empty non-braille equivalent, an `aria-roledescription` or an accessible name respectively, at serious impact (axe: lib/rules/aria-braille-equivalent.json, checks braille-roledescription-equivalent, braille-label-equivalent).
 - Given a clickable control, then its touch target SHOULD be at least 24 by 24 CSS pixels or leave sufficient space from its neighbors; this is WCAG 2.2 AA at serious impact but the rule ships disabled by default so it MUST be enabled explicitly to run (axe: lib/rules/target-size.json, checks target-size with `minSize: 24`, target-offset with `minOffset: 24`, `enabled: false`).
-
 
 ## collapsible
 
@@ -1041,7 +1032,6 @@ Where the source marks something optional or recommended rather than required, t
 
 - Given a collapsed disclosure, then the button is conventionally styled with a right-pointing arrow or triangle, rotating to point down when expanded; this is presentation only and MUST NOT be exposed to assistive technology (aria-practices: content/patterns/disclosure/disclosure-pattern.html, about this pattern).
 - Given a widget that needs headings, a group-level show/hide model, or a required-open panel, then it is an accordion rather than a disclosure; disclosure has no heading wrapper requirement and no cross-panel state (aria-practices: content/patterns/accordion/accordion-pattern.html vs content/patterns/disclosure/disclosure-pattern.html, roles/states/properties).
-
 
 ## dialog
 
@@ -1185,7 +1175,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given the APG dialog test suite, then there is no automated assertion that focus returns to the invoking element on close; that behavior is documented in prose and in the example implementation only, so a conformance suite MUST add its own test for it (aria-practices: test/tests/dialog-modal_dialog.js, which has no such ariaTest).
 - Given the `alertdialog` role, then it is a special-case dialog role for dialogs that divert attention to a brief, important message, and its usage is described in the alert dialog pattern (aria-practices: content/patterns/dialog-modal/dialog-modal-pattern.html, about this pattern).
 
-
 ## alert-dialog
 
 ### Roles and attributes
@@ -1255,7 +1244,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given the APG alert dialog example, then a separate `role="alert"` live region exists next to the control it describes, outside the alert dialog, for non-interrupting status such as "Saved successfully"; `alertdialog` and `alert` are distinct components in the same widget (aria-practices: test/tests/alertdialog_alertdialog.js, alert-role assertion).
 - Given an alert dialog example, then the APG test suite has no Shift+Tab assertion even though the documented keyboard support table includes Shift+Tab wrap, so a conformance suite MUST add it (aria-practices: test/tests/alertdialog_alertdialog.js).
 
-
 ## alert
 
 ### Roles and attributes
@@ -1309,7 +1297,6 @@ Where the source marks something optional or recommended rather than required, t
 
 - Given repeated alerts, then interruption frequency MUST be kept low, because frequent interruptions inhibit usability for people with visual and cognitive disabilities and make WCAG 2.0 success criterion 2.2.4 harder to meet (aria-practices: content/patterns/alert/alert-pattern.html, about this pattern).
 - Given a dynamically rendered alert, then most screen readers announce it automatically and some operating systems may play an alert sound (aria-practices: content/patterns/alert/alert-pattern.html, about this pattern).
-
 
 ## tooltip
 
@@ -1373,7 +1360,6 @@ Where the source marks something optional or recommended rather than required, t
 
 - Given the APG repository at this commit, then the tooltip pattern ships no example and no test file; work on an example is tracked by APG issue 127, so there are no test-derived assertions for tooltip (aria-practices: content/patterns/tooltip/tooltip-pattern.html, example section; content/patterns/tooltip contains only the pattern page).
 - Given a toolbar-style hover label, then the APG toolbar example shows a workable pattern: show the label immediately on `mouseover` and on `focus`, hide it immediately on `blur`, hide it after an 800 ms delay on `mouseleave` while re-checking whether hover was regained, and hide every open label on any document-level Escape (aria-practices: content/patterns/toolbar/examples/js/FormatToolbarItem.js, showPopupLabel/hidePopupLabel/handleHideAllPopupLabels).
-
 
 ## menu
 
@@ -1526,7 +1512,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a parent menuitem, then it MUST have `aria-haspopup` set to `menu` or `true`, and `aria-expanded` set to `"false"` when its child menu is hidden and `"true"` when visible (aria-practices: content/patterns/menubar/menu-and-menubar-pattern.html, roles/states/properties).
 - Given the choice between opening a menu from a menu button and from a menubar, then except where explicitly noted, menus opened from a menu button behave identically to menus opened from a menubar (aria-practices: content/patterns/menubar/menu-and-menubar-pattern.html, keyboard interaction preamble).
 
-
 ## menubar
 
 ### Roles and attributes
@@ -1653,7 +1638,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a menubar built by discovering its own structure, then the APG examples walk the DOM from the menubar root, deriving a menu id from the role plus the normalized `aria-label`, and collecting per-menu first-character tables plus first and last item references; any item with `aria-haspopup="true"` is registered as a popup owner (aria-practices: content/patterns/menubar/examples/js/menubar-editor.js, initMenu and getMenuitems).
 - Given a navigation menubar, then the APG example distinguishes three container kinds: the menubar itself, a depth-one popup, and a deeper popout, and the Left and Right Arrow behavior differs between popup and popout (aria-practices: content/patterns/menubar/examples/js/menubar-navigation.js, isPopup and isPopout).
 - Given a menubar built on links, then the APG example wraps site navigation in landmark structure, a `header` with `role="banner"`, a `nav` with `aria-label`, a `section` with `aria-labelledby` and a `footer` with `role="contentinfo"`, and the tests assert each of those (aria-practices: test/tests/menubar_menubar-navigation.js, banner-role, navigation-role, navigation-aria-label, region-role, region-aria-labelledby and contentinfo-role assertions).
-
 
 ## listbox
 
@@ -1808,7 +1792,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a set of options that all start with the same word or phrase, then the data SHOULD be split into two listboxes instead, because a screen reader user has to listen to the shared prefix before hearing the distinguishing part of each option (aria-practices: content/patterns/listbox/listbox-pattern.html, about this pattern).
 - Given a reorderable listbox, then Page Up and Page Down, or Alt+Up Arrow and Alt+Down Arrow, MAY move the focused option up or down in the list; Enter or Delete MAY move selected options to a sibling list, and both are gated on the corresponding button's `aria-keyshortcuts` (aria-practices: content/patterns/listbox/examples/js/listbox.js, moveUpItems/moveDownItems and the Backspace/Delete/Enter branches).
 - Given a listbox operation that moves or deletes options, then the result SHOULD be announced through a live region (aria-practices: content/patterns/listbox/examples/js/listbox-rearrangeable.js, setHandleItemChange writing to a live region).
-
 
 ## combobox
 
@@ -2017,7 +2000,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given the grid-combo standard-editing-keys assertion, then it is a deliberate always-failing placeholder in the APG suite, so it provides no baseline (aria-practices: test/tests/combobox_grid-combo.js, standard-single-line-editing-keys marked `ariaTest.failing` with a bare `t.fail()`).
 - Given a grid-popup combobox on macOS, then Home deselects the popup without moving the text cursor, a known bug tracked as APG issue 3191, and the APG test skips that platform (aria-practices: test/tests/combobox_grid-combo.js, popup-key-home assertion with its `isMacOS()` guard).
 
-
 ## toolbar
 
 ### Roles and attributes
@@ -2152,7 +2134,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given a toolbar whose embedded composites include disabled elements, then the design technique for mitigating the cost of keeping disabled controls in the focus path is to add appropriate keyboard shortcuts (aria-practices: content/practices/keyboard-interface/keyboard-interface-practice.html, focusability of disabled controls).
 - Given a toolbar, then the tab stop convention is "the first element", the same family as menubar, and different from radio group, tabs, listbox and tree which put the tab stop on the selected element, and from grid and treegrid which restore the last-focused element (aria-practices: content/practices/keyboard-interface/keyboard-interface-practice.html, keyboard navigation inside components).
 
-
 ## meter
 
 ### Roles and attributes
@@ -2214,7 +2195,6 @@ Where the source marks something optional or recommended rather than required, t
 - Given progress such as loading or percent completion of a task, then `meter` MUST NOT be used; use `role="progressbar"` instead (aria-practices: content/patterns/meter/meter-pattern.html, note).
 - Given a meter, then assistive technologies often present `aria-valuenow` as a percentage, which is why `aria-valuetext` exists for cases where a percentage is unhelpful (aria-practices: content/patterns/meter/meter-pattern.html, roles/states/properties).
 - Given a meter outside the default range, for example an alkaline pH gauge from 7 to 14, then both `aria-valuemin` and `aria-valuemax` MUST be set explicitly (aria-practices: content/practices/range-related-properties/range-related-properties-practice.html, range properties with meter).
-
 
 ## progress
 
