@@ -1,7 +1,7 @@
 import { OverlayPortal } from '../internal/overlay-portal'
 import { MenuRoot, MenuSub, createMenuHandle } from './root'
 import { MenuTrigger } from './trigger'
-import { MenuContent, MenuPositioner, MenuViewport } from './content'
+import { MenuContent, MenuPositioner, MenuViewport, MenuArrow } from './content'
 import {
   MenuItem,
   MenuCheckboxItem,
@@ -33,6 +33,8 @@ export const Menu = Object.assign(MenuRoot, {
   Trigger: MenuTrigger,
   /** Native manual-popover wrapper owning geometry and dismissal. */
   Positioner: MenuPositioner,
+  /** Decorative arrow registered with the positioner. */
+  Arrow: MenuArrow,
   /** Menu semantics and keyboard boundary inside Positioner. */
   Content: MenuContent,
   /** Action item; accepted selection closes the menu chain by default. */
@@ -58,7 +60,12 @@ export const Menu = Object.assign(MenuRoot, {
 })
 export type { MenuProps, MenuHandle, MenuRenderState } from './root'
 export type { MenuTriggerProps } from './trigger'
-export type { MenuContentProps, MenuPositionerProps, MenuViewportProps } from './content'
+export type {
+  MenuContentProps,
+  MenuPositionerProps,
+  MenuViewportProps,
+  MenuArrowProps,
+} from './content'
 export type {
   MenuChecked,
   MenuItemProps,

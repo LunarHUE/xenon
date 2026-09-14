@@ -42,7 +42,9 @@ export type MenuContentProps<T extends ValidComponent = 'div'> = ComponentProps<
   ref?: (el: HTMLElement) => void
 }
 /** Positioner controller supplied to its descendant content for resolved placement hooks. */
-const PositionContext = createContext<Positioner>()
+const PositionContext = createContext<
+  Positioner & { setArrow(element: HTMLElement | undefined): void }
+>()
 /**
  * Renders a fixed-position manual-popover wrapper while menu presence requires it.
  *
@@ -97,9 +99,11 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     const [element, setElement] = createSignal<HTMLDivElement>()
     /** Native-show result prevents measuring the wrapper while it is still hidden. */
     const [shown, setShown] = createSignal(false)
+    const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
     const positioning = createPositioner({
-      anchor: context.trigger,
+      anchor: context.anchor,
       floating: element,
+      arrow,
       enabled: () => shown() && (context.open() || context.life.status() === 'exiting'),
       options: () => ({
         strategy: 'fixed',
@@ -200,7 +204,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
       return { ...baseline, ...author, ...visibility } as JSX.CSSProperties
     }
     const children = createMemo(() => (
-      <PositionContext value={positioning}>{props.children}</PositionContext>
+      <PositionContext value={{ ...positioning, setArrow }}>{props.children}</PositionContext>
     ))
     return (
       <div
@@ -333,4 +337,32 @@ export type MenuViewportProps = Omit<FloatingViewportProps, 'source'>
 export function MenuViewport(props: MenuViewportProps): JSX.Element {
   const source = useMenu('Menu.Viewport')
   return <FloatingViewport {...props} source={source} />
+}
+
+/** Decorative arrow props. Its dimensions participate in positioner geometry. */
+export type MenuArrowProps = Omit<ComponentProps<'div'>, 'ref'> & {
+  /** Receives the decorative arrow host. */
+  ref?: (element: HTMLDivElement) => void
+}
+/** Registers a decorative arrow with the surrounding Menu.Positioner. */
+export function MenuArrow(props: MenuArrowProps): JSX.Element {
+  const positioner = useContext(PositionContext)
+  if (!positioner) throw new Error('Menu.Arrow must be rendered inside Menu.Positioner')
+  const rest = omit(props as Record<string, unknown>, 'children', 'ref')
+  const children = createMemo(() => props.children)
+  onCleanup(() => {
+    if (!isServer) positioner.setArrow(undefined)
+  })
+  return (
+    <div
+      {...positioner.arrowProps()}
+      {...rest}
+      ref={(element) => {
+        positioner.setArrow(element)
+        props.ref?.(element)
+      }}
+    >
+      {children()}
+    </div>
+  )
 }

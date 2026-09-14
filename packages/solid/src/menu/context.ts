@@ -2,6 +2,7 @@ import type { menu } from '@tenon/core/menu'
 import { createContext, useContext } from 'solid-js'
 import type { Presence } from '../internal/presence'
 import type { LayerHandle } from '@tenon/dom'
+import type { PositioningAnchor } from '../positioning'
 
 /** One locally rendered or detached trigger with live author metadata. */
 export interface MenuTriggerEntry {
@@ -37,7 +38,7 @@ export interface MenuContextValue {
   /** Register a possible opener without changing the active trigger. */
   registerTrigger(entry: MenuTriggerEntry): () => void
   /** Select an opener, its data, and optional initial edge. Same-trigger click can toggle. */
-  activate(entry: MenuTriggerEntry, edge?: 'first' | 'last', toggle?: boolean): void
+  activate(entry: MenuTriggerEntry, edge?: 'first' | 'last' | 'content', toggle?: boolean): void
   /** Whether this trigger owns the currently open popup. */
   activeTrigger(entry: MenuTriggerEntry): boolean
   /** Subscribe to snapshots before trigger/data replacement in an open menu. */
@@ -51,7 +52,7 @@ export interface MenuContextValue {
   /** Effective visibility, gated by every parent before controlled/uncontrolled local state. */
   open(): boolean
   /** Requests visibility; opening an already-open menu focuses the requested edge without notifying. Closing clears typeahead. */
-  change(open: boolean, edge?: 'first' | 'last'): void
+  change(open: boolean, edge?: 'first' | 'last' | 'content'): void
   /** Requests closure recursively through parents, setting focus-restoration intent on each. Defaults to restoring. */
   closeAll(restore?: boolean): void
   /** Whether content release should attempt restoration; consumed by the hosting adapter. */
@@ -70,6 +71,10 @@ export interface MenuContextValue {
   initial(): HTMLElement | undefined
   /** Latest trigger host, used for direction inference and restoration. */
   trigger(): HTMLElement | undefined
+  /** Geometry anchor, defaulting to the trigger. Context menus install a virtual point. */
+  anchor(): PositioningAnchor | undefined
+  /** Replace virtual geometry without changing the focus-restoration trigger. */
+  setAnchor(anchor: PositioningAnchor | undefined): void
   /** Replaces the stored trigger host; there is no stack or clear operation. */
   setTrigger(el: HTMLElement): void
   /** Latest content host; retained until replaced. */

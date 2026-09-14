@@ -17,6 +17,7 @@ import type { MenuContextValue, MenuEntry, MenuTriggerEntry } from './context'
 import { attachOverlayHandle, createOverlayHandle } from '../internal/overlay-handle'
 import type { OverlayHandle } from '../internal/overlay-handle'
 import type { LayerHandle } from '@tenon/dom'
+import type { PositioningAnchor } from '../positioning'
 
 /** Connects detached menu triggers and imperative requests to one mounted root. */
 export type MenuHandle<Payload = unknown> = OverlayHandle<Payload, MenuContextValue>
@@ -96,6 +97,7 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
   const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
     ownedWrite: true,
   })
+  const [anchor, setAnchor] = createSignal<PositioningAnchor>()
   const [payload, setPayload] = createSignal<unknown>()
   const [selectedTrigger, setSelectedTrigger] = createSignal<MenuTriggerEntry | undefined>(
     undefined,
@@ -129,7 +131,7 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
   const associations = isServer ? serverAssociations() : undefined
   let registered: MenuEntry[] = []
   /** Requested opening edge, retained for the content focus scope's initial target. */
-  let edge: 'first' | 'last' = 'first'
+  let edge: 'first' | 'last' | 'content' = 'first'
   let searchTimer: ReturnType<typeof setTimeout> | undefined
   let hoverTimer: ReturnType<typeof setTimeout> | undefined
   const open = () => (parent?.open() ?? true) && (props.open ?? internal())
@@ -139,12 +141,15 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
     entry?.el?.focus({ preventScroll: true })
   }
   /** Deduplicates against effective visibility; opening again focuses an edge, while closing resets search. */
-  const change = (next: boolean, requested?: 'first' | 'last') => {
+  const change = (next: boolean, requested?: 'first' | 'last' | 'content') => {
     if (next) {
       edge = requested ?? 'first'
       setRestore(true)
       if (untrack(open)) {
-        focus(edge === 'first' ? entries()[0] : entries().at(-1))
+        if (edge === 'content') {
+          focus()
+          content()?.focus({ preventScroll: true })
+        } else focus(edge === 'first' ? entries()[0] : entries().at(-1))
         return
       }
     } else {
@@ -233,6 +238,8 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
     engine,
     life,
     trigger,
+    anchor: () => anchor() ?? trigger(),
+    setAnchor,
     setTrigger,
     content,
     dir: () =>
@@ -245,7 +252,10 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
       parent?.closeAll(shouldRestore)
     },
     focus,
-    initial: () => (edge === 'last' ? entries().at(-1) : entries()[0])?.el ?? content(),
+    initial: () =>
+      edge === 'content'
+        ? content()
+        : ((edge === 'last' ? entries().at(-1) : entries()[0])?.el ?? content()),
     setContent(el) {
       life.ref(el)
       setContent(el)
