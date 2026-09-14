@@ -130,3 +130,33 @@ test('changing modality replaces the native presentation and releases modal lock
   expect(document.documentElement.style.overflowY).toBe('')
   expect(onOpenChange).not.toHaveBeenCalled()
 })
+
+test('inner content defines outside gestures independently of the fullscreen native host', async () => {
+  const { element, controller, options, onOpenChange } = setup({ active: false })
+  const content = document.createElement('div')
+  const inside = document.createElement('button')
+  const background = document.createElement('div')
+  content.append(inside)
+  element.append(content, background)
+  controller.update({ ...options, active: true, content })
+  const gesture = async (target: Element) => {
+    for (const type of ['pointerdown', 'pointerup'])
+      target.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          composed: true,
+          pointerId: 1,
+          isPrimary: true,
+          button: 0,
+        })
+      )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+  }
+  await gesture(inside)
+  expect(onOpenChange).not.toHaveBeenCalled()
+  await gesture(background)
+  expect(onOpenChange).toHaveBeenCalledExactlyOnceWith(false)
+  onOpenChange.mockClear()
+  await gesture(element)
+  expect(onOpenChange).toHaveBeenCalledExactlyOnceWith(false)
+})

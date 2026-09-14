@@ -1,6 +1,12 @@
 import { drawer } from '@tenon/core/drawer'
 import type { JSX, ValidComponent } from '@solidjs/web'
-import { createDialogRoot, dialogParts, DialogClose, useDialog } from '../internal/dialog'
+import {
+  createDialogRoot,
+  createDialogHandle,
+  dialogParts,
+  DialogClose,
+  useDialog,
+} from '../internal/dialog'
 import type { ButtonProps } from '../button/button'
 import { createEffect, createSignal, onCleanup } from 'solid-js'
 import { registerDrawerHandle } from '@tenon/dom'
@@ -82,7 +88,9 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
   )
 }
 /** Instantiates the shared dialog adapter with physical-side styling hooks. */
-function DrawerRoot<T extends ValidComponent = 'div'>(props: DrawerProps<T>): JSX.Element {
+function DrawerRoot<T extends ValidComponent = 'div', Payload = unknown>(
+  props: DrawerProps<T, Payload>
+): JSX.Element {
   return createDialogRoot(props, { kind: 'drawer', compute: drawer })
 }
 /**
@@ -92,14 +100,23 @@ function DrawerRoot<T extends ValidComponent = 'div'>(props: DrawerProps<T>): JS
  * Side defaults to bottom; layout and transitions are supplied by the caller.
  * Modality defaults to true but may be disabled, and shared dialog options govern
  * controlled open state, focus, dismissal, and presence. Parts require this family's
- * context, and Content renders the native dialog used by the handle's gestures.
+ * context. Viewport owns native presentation; Content supplies the rectangle and
+ * transform for handle gestures. Standalone Content remains a native dialog.
  */
 export const Drawer = Object.assign(DrawerRoot, {
   /** Alias of Drawer with the same root options and context. */
   Root: DrawerRoot,
   ...dialogParts,
+  /** Create a typed handle for detached triggers and imperative opening. */
+  createHandle: createDialogHandle,
   /** Close button with drag dismissal and a default accessible label. */
   Handle: DrawerHandle,
 })
 export type { DrawerProps } from '../internal/dialog'
 export type { DrawerDragThreshold } from '@tenon/dom'
+
+export type { DialogViewportProps, DialogPortalProps, DialogContentProps } from '../internal/dialog'
+
+export type { DrawerRenderState } from '../internal/dialog'
+/** Typed imperative handle, distinct from the Drawer.Handle drag button. */
+export type DrawerHandle<Payload = unknown> = import('../internal/dialog').DrawerHandle<Payload>

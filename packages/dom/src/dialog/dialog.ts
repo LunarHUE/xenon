@@ -6,6 +6,8 @@ import { registerModal, type ModalRegistration } from '../modal'
 
 /** Controlled visibility and native-session lifetime, with dismissal and focus policies. */
 export interface DialogControllerOptions {
+  /** Inner dialog surface used for focus and outside-pointer containment. Defaults to the native host. */
+  content?: HTMLElement
   /** Logical visibility. False suppresses dismissal requests even while active remains true for exit. */
   open: boolean
   /**
@@ -146,6 +148,7 @@ export function createDialogController(
   let internalCloseEvents = 0
   /** Modality captured for the current native session; changes require replacement. */
   let sessionModal = true
+  let sessionContent: HTMLElement | undefined
   const stack = () => sessions.get(document) ?? []
   const top = () => !!session && stack().at(-1) === session
   /** Shows using the captured modality only when native open is absent. */
@@ -178,6 +181,13 @@ export function createDialogController(
     onPointerOutside: options.onPointerOutside,
     onDismiss: requestClose,
     isPointerInside(event: PointerEvent) {
+      if (options.content && options.content !== element) {
+        // The fullscreen native host includes its scrolling/layout background.
+        // Keep descendant layers eligible for the layer registry containment check.
+        if (event.composedPath().includes(options.content)) return true
+        if (event.composedPath()[0] === element) return false
+        return undefined
+      }
       if (event.composedPath()[0] !== element) return undefined
       const rect = element.getBoundingClientRect()
       if (
@@ -201,14 +211,15 @@ export function createDialogController(
       hadFocus: false,
     }
     sessionModal = options.modal !== false
+    sessionContent = options.content
     entries.push(session)
     sessions.set(document, entries)
     // SSR may serialize open, but that attribute alone does not enter the top layer.
     element.removeAttribute('open')
     show()
     if (sessionModal) modal = registerModal(element)
-    layer = registerLayer(element, layerOptions())
-    scope = registerFocusScope(element, {
+    layer = registerLayer(options.content ?? element, layerOptions())
+    scope = registerFocusScope(options.content ?? element, {
       contain: sessionModal,
       initialFocus: options.initialFocus,
       restoreFocus: false,
@@ -289,7 +300,11 @@ export function createDialogController(
       if (disposed) return
       options = next
       if (options.active) {
-        if (session && sessionModal !== (options.modal !== false)) deactivate()
+        if (
+          session &&
+          (sessionModal !== (options.modal !== false) || sessionContent !== options.content)
+        )
+          deactivate()
         if (!session) activate()
         else {
           layer?.update(layerOptions())

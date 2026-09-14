@@ -1,6 +1,12 @@
 import { alertDialog } from '@tenon/core/alert-dialog'
 import type { JSX, ValidComponent } from '@solidjs/web'
-import { createDialogRoot, dialogParts, DialogClose, useDialog } from '../internal/dialog'
+import {
+  createDialogRoot,
+  createDialogHandle,
+  dialogParts,
+  DialogClose,
+  useDialog,
+} from '../internal/dialog'
 import type { ButtonProps } from '../button/button'
 import type { AlertDialogProps, DialogProps } from '../internal/dialog'
 /**
@@ -30,10 +36,10 @@ export function AlertDialogCancel<T extends ValidComponent = 'button'>(
   )
 }
 /** Uses alertdialog semantics with forced modality and no outside-pointer dismissal. */
-function AlertDialogRoot<T extends ValidComponent = 'div'>(
-  props: AlertDialogProps<T>
+function AlertDialogRoot<T extends ValidComponent = 'div', Payload = unknown>(
+  props: AlertDialogProps<T, Payload>
 ): JSX.Element {
-  return createDialogRoot(props as DialogProps<T>, { kind: 'alert', compute: alertDialog })
+  return createDialogRoot(props as DialogProps<T, Payload>, { kind: 'alert', compute: alertDialog })
 }
 /**
  * Alert dialog root with shared dialog parts, a default-focus Cancel, and an Action close button.
@@ -48,9 +54,15 @@ export const AlertDialog = Object.assign(AlertDialogRoot, {
   /** Alias of AlertDialog with the same root options and context. */
   Root: AlertDialogRoot,
   ...dialogParts,
+  /** Create a typed handle for detached triggers and imperative opening. */
+  createHandle: createDialogHandle,
   /** Close button offered as initial focus when the root supplies no explicit target. */
   Cancel: AlertDialogCancel,
   /** Alias of DialogClose. Author click runs before closure and can cancel it; asynchronous actions are not awaited. */
   Action: DialogClose,
 })
 export type { AlertDialogProps } from '../internal/dialog'
+
+export type { DialogViewportProps, DialogPortalProps, DialogContentProps } from '../internal/dialog'
+
+export type { AlertDialogHandle, AlertDialogRenderState } from '../internal/dialog'

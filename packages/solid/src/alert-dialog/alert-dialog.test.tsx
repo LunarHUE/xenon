@@ -52,3 +52,24 @@ describe('AlertDialog', () => {
     }
   })
 })
+
+test('viewport retains alert semantics and forwards description from content', () => {
+  const view = render(() => (
+    <AlertDialog defaultOpen>
+      <AlertDialog.Viewport>
+        <AlertDialog.Content aria-label="Confirm deletion" aria-describedby="warning">
+          <AlertDialog.Description id="warning">Cannot undo</AlertDialog.Description>
+          <AlertDialog.Cancel>Keep</AlertDialog.Cancel>
+        </AlertDialog.Content>
+      </AlertDialog.Viewport>
+    </AlertDialog>
+  ))
+  const host = view.getByRole('alertdialog')
+  expect(host.localName).toBe('dialog')
+  expect(host).toHaveAttribute('aria-modal', 'true')
+  expect(host).toHaveAttribute('aria-describedby', 'warning')
+  expect(host.firstElementChild).not.toHaveAttribute('role')
+  view.getByText('Keep').click()
+  flush()
+  expect(view.queryByRole('alertdialog')).toBeNull()
+})

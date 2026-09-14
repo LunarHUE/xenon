@@ -21,7 +21,43 @@ import type { ButtonProps } from '../button/button'
 import { serverAssociations } from '../field/server-associations'
 import { createPresence } from './presence'
 import { spread } from '../spread'
+import { OverlayPortal, OverlayPortalMountContext } from './overlay-portal'
+import type { OverlayPortalProps } from './overlay-portal'
+import { attachOverlayHandle, createOverlayHandle, getOverlayHandleContext } from './overlay-handle'
+import type { OverlayHandle } from './overlay-handle'
 
+/** A handle connecting one mounted dialog-family root to detached triggers and commands. */
+export type DialogHandle<Payload = unknown> = OverlayHandle<Payload, Context>
+/** Alert dialog handle with the same controlled command semantics as Dialog. */
+export type AlertDialogHandle<Payload = unknown> = DialogHandle<Payload>
+/** Drawer handle for detached triggers and imperative commands, separate from its drag Handle part. */
+export type DrawerHandle<Payload = unknown> = DialogHandle<Payload>
+/** Live root values supplied to a children callback. Read these getters inside JSX. */
+export interface DialogRenderState<Payload = unknown> {
+  /** Effective controlled or uncontrolled visibility. */
+  readonly open: boolean
+  /** Selected trigger ID, if a trigger is registered. */
+  readonly triggerId: string | undefined
+  /** Data selected by the most recent opening trigger or imperative payload request. */
+  readonly payload: Payload | undefined
+}
+/** Live render callback state for AlertDialog. */
+export type AlertDialogRenderState<Payload = unknown> = DialogRenderState<Payload>
+/** Live render callback state for Drawer. */
+export type DrawerRenderState<Payload = unknown> = DialogRenderState<Payload>
+/** Create a reusable dialog-family handle. Detached commands are ignored rather than queued. */
+export function createDialogHandle<Payload = unknown>(): DialogHandle<Payload> {
+  return createOverlayHandle<Payload, Context>()
+}
+/** Registered opener with live authored identity and data. */
+interface TriggerEntry {
+  /** Physical opener, supplied by its ref. */
+  element?: HTMLElement
+  /** Authored ID or generated stable fallback. */
+  id(): string
+  /** Data read when this opener activates. */
+  payload(): unknown
+}
 /** Shared root options consumed by the dialog, alert dialog, and drawer adapters. */
 interface Own {
   /** Controlled visibility while defined; undefined uses internal state. */
@@ -56,17 +92,21 @@ interface Own {
   ref?: (el: HTMLElement) => void
 }
 /** Shared dialog root options combined with the selected wrapper host props. */
-export type DialogProps<T extends ValidComponent = 'div'> = Omit<
+export type DialogProps<T extends ValidComponent = 'div', Payload = unknown> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  keyof Own | 'as' | 'children'
 > &
   Own & {
-    /** Root wrapper host, defaulting to div; content remains a native dialog. */
+    /** Root wrapper host, defaulting to div; Viewport owns native dialog presentation. */
     as?: T
+    /** Stable handle connecting detached triggers and imperative requests to this mounted root. */
+    handle?: DialogHandle<Payload>
+    /** Static parts or a callback receiving live open, triggerId, and payload getters. */
+    children?: JSX.Element | ((state: DialogRenderState<Payload>) => JSX.Element)
   }
 /** Dialog root props with modal and outside-dismissal options removed for alert policy. */
-export type AlertDialogProps<T extends ValidComponent = 'div'> = Omit<
-  DialogProps<T>,
+export type AlertDialogProps<T extends ValidComponent = 'div', Payload = unknown> = Omit<
+  DialogProps<T, Payload>,
   'modal' | 'closeOnOutside'
 >
 /** Drawer placement and handle-drag options added to the shared root props. */
@@ -77,14 +117,39 @@ interface DrawerOwn {
   dragThreshold?: DrawerDragThreshold
 }
 /** Shared dialog behavior plus drawer side and drag threshold options. */
-export type DrawerProps<T extends ValidComponent = 'div'> = DialogProps<T> & DrawerOwn
-/** Native dialog props; the adapter owns open and forwards the ref to the dialog element. */
+export type DrawerProps<T extends ValidComponent = 'div', Payload = unknown> = DialogProps<
+  T,
+  Payload
+> &
+  DrawerOwn
+/** Content props. Inside Viewport this renders a div; standalone usage retains a native dialog. */
 export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
-  /** Receives the native content after internal presence and controller refs are recorded. */
+  /** Receives the inner div inside Viewport, or the native dialog in standalone usage. */
+  ref?: (el: HTMLElement) => void
+}
+/** Native scrolling/layout host props. The adapter owns native presentation. */
+export type DialogViewportProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
+  /** Receives the native dialog that enters the browser top layer. */
   ref?: (el: HTMLDialogElement) => void
 }
+/** Portal destination and children shared by all dialog families. */
+export type DialogPortalProps = OverlayPortalProps
+/** Portal with inherited native modal ancestry and client-only rendering. */
+export const DialogPortal = OverlayPortal
+/** Inner surface supplies authored semantics to its surrounding native host. */
+const ViewportContext = createContext<{
+  setProps(props: DialogContentProps | undefined): void
+} | null>(null)
 /** {@link ButtonProps} for an opening trigger, including native/generic activation and disabled/pending gates. */
-export type DialogTriggerProps<T extends ValidComponent = 'button'> = ButtonProps<T>
+export type DialogTriggerProps<
+  T extends ValidComponent = 'button',
+  Payload = unknown,
+> = ButtonProps<T> & {
+  /** Target a root outside this trigger's Solid ancestry. */
+  handle?: DialogHandle<Payload>
+  /** Payload selected when this trigger opens the root. */
+  payload?: NoInfer<Payload>
+}
 /** {@link ButtonProps} for a closing action; an author handler can cancel dismissal. */
 export type DialogCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
 /** Polymorphic title props; the rendered ID is registered for content naming. */
@@ -113,10 +178,18 @@ interface Context {
   result(): DialogResult
   /** Request different visibility, storing only uncontrolled state before notifying the author. */
   change(open: boolean): void
-  /** Most recently attached native content; not cleared when it detaches. */
-  content(): HTMLDialogElement | undefined
-  /** Record native content for presence observation and dependent adapters. */
-  setContent(el: HTMLDialogElement): void
+  /** Current opener for default focus restoration. */
+  trigger(): HTMLElement | undefined
+  /** Register a detached or descendant trigger for this root lifetime. */
+  registerTrigger(entry: TriggerEntry): () => void
+  /** Select this trigger and its data, then request opening. */
+  activate(entry: TriggerEntry): void
+  /** Whether this trigger represents the current shared dialog content. */
+  activeTrigger(entry: TriggerEntry): boolean
+  /** Surface used for exit observation and drawer gestures; native in legacy anatomy. */
+  content(): HTMLElement | undefined
+  /** Record the surface for presence observation and dependent adapters. */
+  setContent(el: HTMLElement | undefined): void
   /** Append a live ID getter in registration order; return its removal callback for owner cleanup. */
   register(name: 'title' | 'description' | 'content', id: () => string): () => void
   /** Resolve an explicit root ID option or the generated fallback for this part. */
@@ -132,7 +205,7 @@ interface Context {
   setCancel(el: HTMLElement): void
 }
 /** Shared provider used by all three dialog families and their parts. */
-const DialogContext = createContext<Context>()
+const DialogContext = createContext<Context | null>(null)
 /** Reads the nearest dialog-family context, throwing an error naming the consumer when absent. */
 export function useDialog(name: string): Context {
   const context = useContext(DialogContext)
@@ -159,8 +232,8 @@ export function useDialog(name: string): Context {
  * @param props - Reactive author options and wrapper props; unconsumed props reach the wrapper.
  * @param config - Fixed family kind and core computation used for all parts.
  */
-export function createDialogRoot<T extends ValidComponent>(
-  props: DialogProps<T>,
+export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
+  props: DialogProps<T, Payload>,
   config: {
     /** Fixed family policy for content and specialized parts. */
     kind: Kind
@@ -180,6 +253,7 @@ export function createDialogRoot<T extends ValidComponent>(
     'as',
     'ref',
     'children',
+    'handle',
     'open',
     'defaultOpen',
     'onOpenChange',
@@ -199,10 +273,24 @@ export function createDialogRoot<T extends ValidComponent>(
   )
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultOpen ?? false))
-  const [content, setContent] = createSignal<HTMLDialogElement>()
+  const [content, setContent] = createSignal<HTMLElement>()
   const [cancel, setCancel] = createSignal<HTMLElement>()
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
+  let triggers: TriggerEntry[] = []
+  const [selected, setSelected] = createSignal<TriggerEntry | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [payload, setPayload] = createSignal<unknown>(undefined, { ownedWrite: true })
+  const activeEntry = () => {
+    revision()
+    return selected() ?? triggers[0]
+  }
+  const trigger = () => activeEntry()?.element
+  const select = (entry: TriggerEntry | undefined, nextPayload: unknown) => {
+    setSelected(entry)
+    setPayload(() => nextPayload)
+  }
   const entries: Record<'title' | 'description' | 'content', (() => string)[]> = {
     title: [],
     description: [],
@@ -245,11 +333,26 @@ export function createDialogRoot<T extends ValidComponent>(
     own,
     result,
     change,
+    trigger,
+    registerTrigger(entry) {
+      triggers.push(entry)
+      if (!isServer) setRevision(++version)
+      return () => {
+        triggers = triggers.filter((candidate) => candidate !== entry)
+        if (untrack(selected) === entry) setSelected(undefined)
+        if (!isServer) setRevision(++version)
+      }
+    },
+    activate(entry) {
+      select(entry, entry.payload())
+      change(true)
+    },
+    activeTrigger: (entry) => activeEntry() === entry,
     content,
     cancel,
     setCancel,
     setContent: (el) => {
-      life.ref(el)
+      if (el) life.ref(el)
       setContent(el)
     },
     id,
@@ -263,8 +366,47 @@ export function createDialogRoot<T extends ValidComponent>(
     },
     association: (name, read) => (associations ? associations.attribute(name, read) : read()),
   }
+  const handle = untrack(() => props.handle)
+  if (handle)
+    onCleanup(
+      attachOverlayHandle(handle, {
+        context,
+        readOpen: open,
+        dispatch(command) {
+          if (command.type === 'close') {
+            change(false)
+            return
+          }
+          const entry =
+            command.type === 'open' && command.triggerId !== undefined
+              ? triggers.find((candidate) => candidate.id() === command.triggerId)
+              : untrack(activeEntry)
+          if (command.type === 'open' && command.triggerId !== undefined && !entry) return
+          select(entry, command.type === 'payload' ? command.payload : entry?.payload())
+          change(true)
+        },
+      })
+    )
+  const state: DialogRenderState<Payload> = {
+    get open() {
+      return open()
+    },
+    get triggerId() {
+      return activeEntry()?.id()
+    },
+    get payload() {
+      return payload() as Payload | undefined
+    },
+  }
   const inner = createMemo(() => (
-    <DialogContext value={context}>{(props as { children?: JSX.Element }).children}</DialogContext>
+    <DialogContext value={context}>
+      <ViewportContext value={null}>
+        {(() => {
+          const children = props.children
+          return typeof children === 'function' ? children(state) : children
+        })()}
+      </ViewportContext>
+    </DialogContext>
   ))
   const element = (
     <Dynamic
@@ -293,16 +435,50 @@ function buttonProps(part: AnyPart, props: Record<string, unknown>) {
 }
 
 /**
- * Renders a {@link Button} that requests opening the nearest dialog-family root.
+ * Registers a Button with the nearest dialog-family root or its explicit handle.
+ * Activation selects this trigger and its live payload, then requests opening.
+ * Detached triggers reconnect when their handle root mounts; earlier clicks are ignored.
  * Author handlers run before the core action and may cancel it. Button owns host
  * semantics, keyboard activation, and disabled/pending interaction gating.
- * @throws If rendered outside a dialog-family root.
+ * @throws If rendered outside a dialog-family root without a handle.
  */
-export function DialogTrigger<T extends ValidComponent = 'button'>(
-  props: ButtonProps<T>
+export function DialogTrigger<T extends ValidComponent = 'button', Payload = unknown>(
+  props: DialogTriggerProps<T, Payload>
 ): JSX.Element {
-  const context = useDialog('Dialog.Trigger')
-  return <Button {...buttonProps(context.result().parts.trigger, { ...props })} />
+  const inherited = useContext(DialogContext)
+  const handle = untrack(() => props.handle)
+  const context = () => (handle ? getOverlayHandleContext(handle) : inherited)
+  if (!handle && !inherited)
+    throw new Error('Dialog.Trigger must be rendered inside a dialog family or receive a handle')
+  const generatedId = createUniqueId()
+  const own = props as DialogTriggerProps<'button', Payload>
+  const entry: TriggerEntry = { id: () => own.id || generatedId, payload: () => props.payload }
+  if (handle) createEffect(context, (root) => root?.registerTrigger(entry))
+  else onCleanup(inherited!.registerTrigger(entry))
+  const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children', 'handle', 'payload')
+  const part = (): AnyPart => {
+    const root = context()
+    return {
+      attrs: {
+        ...root?.result().parts.trigger.attrs,
+        id: entry.id(),
+        'aria-haspopup': 'dialog',
+        'aria-expanded': root?.activeTrigger(entry) && root.result().state.open ? 'true' : 'false',
+      },
+      on: { click: () => context()?.activate(entry) },
+    }
+  }
+  return (
+    <Button
+      {...buttonProps(part(), { ...rest })}
+      ref={(el: HTMLElement) => {
+        entry.element = el
+        own.ref?.(el)
+      }}
+    >
+      {(props as { children?: JSX.Element }).children}
+    </Button>
+  )
 }
 /**
  * Renders a {@link Button} that requests closing the nearest dialog-family root.
@@ -317,7 +493,8 @@ export function DialogClose<T extends ValidComponent = 'button'>(
   return <Button {...buttonProps(context.result().parts.close, { ...props })} />
 }
 /**
- * Renders presence-managed native dialog content and owns its DOM controller.
+ * Renders the dialog surface. Inside Viewport this is a div; standalone Content
+ * preserves the legacy native dialog host and controller.
  *
  * @remarks
  * Content ID registration lasts for this component's owner, even while its native
@@ -339,21 +516,106 @@ export function DialogClose<T extends ValidComponent = 'button'>(
  * @throws If rendered outside a dialog-family root.
  */
 export function DialogContent(props: DialogContentProps): JSX.Element {
+  const viewport = useContext(ViewportContext)
+  // The nearest provider is fixed for this component lifetime.
+  // eslint-disable-next-line solid/components-return-once
+  if (!viewport) return <DialogHost {...props} />
   const context = useDialog('Dialog.Content')
-  const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children')
+  viewport.setProps(props)
+  onCleanup(() => {
+    viewport.setProps(undefined)
+    context.setContent(undefined)
+  })
+  const rest = omit(
+    props as Record<string, unknown>,
+    'ref',
+    'id',
+    'role',
+    'aria-label',
+    'aria-labelledby',
+    'aria-describedby',
+    'aria-modal',
+    'children',
+    'open'
+  )
+  const attributes = () => {
+    const attrs = { ...context.result().parts.content.attrs } as Record<string, unknown>
+    for (const name of [
+      'id',
+      'role',
+      'aria-label',
+      'aria-labelledby',
+      'aria-describedby',
+      'aria-modal',
+    ])
+      delete attrs[name]
+    return { ...attrs, ...rest }
+  }
+  return (
+    <div
+      {...attributes()}
+      ref={(el) => {
+        context.setContent(el)
+        props.ref?.(el)
+      }}
+    >
+      {props.children}
+    </div>
+  )
+}
+/**
+ * Fullscreen native dialog host. Its Content supplies the visual surface and exit
+ * animation; this host retains native modality until that exit finishes. Descendant
+ * portals inherit its inner Content so native modal inertness and focus containment
+ * both permit their content.
+ * Author styles override the neutral fullscreen layout and scrolling defaults.
+ */
+export function DialogViewport(props: DialogViewportProps): JSX.Element {
+  return <DialogHost {...props} viewport />
+}
+/** Shared native session host for explicit Viewport and legacy standalone Content. */
+function DialogHost(
+  props: Omit<DialogContentProps, 'ref'> & {
+    viewport?: boolean
+    ref?: (el: HTMLDialogElement) => void
+  }
+): JSX.Element {
+  const context = useDialog('Dialog.Content')
+  const viewport = untrack(() => props.viewport)
+  const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children', 'viewport')
+  const [surfaceProps, setSurfaceProps] = createSignal<DialogContentProps | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const semantic = () => surfaceProps() ?? props
+  const hostId = () => {
+    const id = semantic().id
+    return (
+      (typeof id === 'string' ? id : typeof props.id === 'string' ? props.id : undefined) ??
+      context.id('content')
+    )
+  }
   onCleanup(
     context.register(
       'content',
       // eslint-disable-next-line solid/reactivity -- The registry reads this getter from the root memo.
-      () => (typeof props.id === 'string' ? props.id : undefined) ?? context.id('content')
+      () => hostId()
     )
   )
   /** Own one physical content lifetime, including memoized children and controller cleanup. */
   function Mounted(): JSX.Element {
     const [element, setElement] = createSignal<HTMLDialogElement>()
-    const children = createMemo(() => props.children)
+    const children = createMemo(() => (
+      <OverlayPortalMountContext value={viewport ? context.content : element}>
+        {viewport ? (
+          <ViewportContext value={{ setProps: setSurfaceProps }}>{props.children}</ViewportContext>
+        ) : (
+          props.children
+        )}
+      </OverlayPortalMountContext>
+    ))
     /** Keep native presentation active during exit while logical open gates dismissal. */
     const options = () => ({
+      content: viewport ? context.content() : undefined,
       open: context.result().state.open,
       active: context.result().state.open || context.result().state.status === 'exiting',
       modal: context.result().state.modal,
@@ -361,7 +623,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
       closeOnOutside: context.kind === 'alert' ? false : context.own.closeOnOutside,
       initialFocus:
         context.own.initialFocus ?? (context.kind === 'alert' ? context.cancel() : undefined),
-      finalFocus: context.own.finalFocus,
+      finalFocus: context.own.finalFocus ?? context.trigger(),
       onOpenChange: context.change,
       onEscapeKeyDown: context.own.onEscapeKeyDown,
       onPointerOutside: context.own.onPointerOutside,
@@ -371,7 +633,11 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
     createEffect(
       () => ({ element: element(), options: options() }),
       (value) => {
-        if (!value.element) return
+        if (
+          !value.element ||
+          (viewport && (!value.options.content || !value.element.contains(value.options.content)))
+        )
+          return
         if (attached !== value.element) {
           controller?.dispose()
           attached = value.element
@@ -396,7 +662,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
     /** Combine deferred server associations with author overrides and a concrete content ID. */
     const attributes = () =>
       spread(context.result().parts.content, {
-        'aria-labelledby': props['aria-label']
+        'aria-labelledby': semantic()['aria-label']
           ? undefined
           : context.association(
               'aria-labelledby',
@@ -407,17 +673,61 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
           () => context.result().parts.content.attrs['aria-describedby']
         ),
         ...rest,
-        id: (typeof props.id === 'string' ? props.id : undefined) ?? context.id('content'),
+        ...(viewport
+          ? {
+              'aria-label': semantic()['aria-label'] ?? props['aria-label'],
+              'aria-labelledby':
+                semantic()['aria-labelledby'] ??
+                props['aria-labelledby'] ??
+                (semantic()['aria-label'] || props['aria-label']
+                  ? undefined
+                  : context.association(
+                      'aria-labelledby',
+                      () => context.result().parts.content.attrs['aria-labelledby']
+                    )),
+              'aria-describedby':
+                semantic()['aria-describedby'] ??
+                props['aria-describedby'] ??
+                context.association(
+                  'aria-describedby',
+                  () => context.result().parts.content.attrs['aria-describedby']
+                ),
+            }
+          : {}),
+        id: hostId(),
         ...(isServer ? { open: context.result().state.open || undefined } : {}),
       })
+    // Register the surface props before serializing native semantic attributes.
+    if (isServer) untrack(children)
     return (
       <dialog
         ref={(el) => {
-          context.setContent(el)
+          if (!viewport) context.setContent(el)
           setElement(el)
           props.ref?.(el)
         }}
         {...attributes()}
+        style={
+          viewport
+            ? typeof props.style === 'string'
+              ? `position:fixed;inset:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;border:0;padding:0;overflow:auto;${props.style}${context.result().state.status === 'exited' ? ';display:none' : ''}`
+              : {
+                  position: 'fixed',
+                  inset: '0',
+                  margin: '0',
+                  width: '100%',
+                  height: '100%',
+                  'max-width': 'none',
+                  'max-height': 'none',
+                  background: 'transparent',
+                  border: '0',
+                  padding: '0',
+                  overflow: 'auto',
+                  ...props.style,
+                  ...(context.result().state.status === 'exited' ? { display: 'none' } : {}),
+                }
+            : props.style
+        }
       >
         {children()}
       </dialog>
@@ -473,9 +783,13 @@ export function DialogDescription<T extends ValidComponent = 'p'>(
 
 /** Shared compound parts attached to Dialog, AlertDialog, and Drawer roots. */
 export const dialogParts = {
+  /** Moves overlay content to its configured DOM destination. */
+  Portal: DialogPortal,
+  /** Native top-layer host for layout and scrolling around Content. */
+  Viewport: DialogViewport,
   /** Opening Button with expanded and content-control associations. */
   Trigger: DialogTrigger,
-  /** Native dialog whose physical lifetime follows presence. */
+  /** Visual surface inside Viewport, or a native dialog when used standalone. */
   Content: DialogContent,
   /** Heading registered as part of the content accessible name. */
   Title: DialogTitle,

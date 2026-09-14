@@ -163,3 +163,215 @@ describe('Dialog', () => {
     expect(down.defaultPrevented).toBe(false)
   })
 })
+
+test('viewport hosts native semantics while content keeps surface props and reactive naming', () => {
+  const [label, setLabel] = createSignal('Editor')
+  let surface: HTMLElement | undefined
+  let host: HTMLDialogElement | undefined
+  const view = render(() => (
+    <Dialog defaultOpen>
+      <Dialog.Trigger>Open viewport</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Viewport
+          ref={(el) => {
+            host = el
+          }}
+        >
+          <Dialog.Content
+            id="viewport-dialog"
+            aria-label={label()}
+            class="surface"
+            ref={(el) => {
+              surface = el
+            }}
+          >
+            <Dialog.Title>Generated title</Dialog.Title>
+            <Dialog.Close>Close viewport</Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog>
+  ))
+  flush()
+  expect(host?.localName).toBe('dialog')
+  expect(host).toHaveAttribute('open')
+  expect(host).toHaveAttribute('id', 'viewport-dialog')
+  expect(host).toHaveAttribute('aria-label', 'Editor')
+  expect(host).not.toHaveAttribute('aria-labelledby')
+  expect(surface?.localName).toBe('div')
+  expect(surface?.parentElement).toBe(host)
+  expect(surface).toHaveClass('surface')
+  expect(surface).not.toHaveAttribute('role')
+  expect(surface).not.toHaveAttribute('id')
+  expect(view.getByText('Open viewport')).toHaveAttribute('aria-controls', host!.id)
+  setLabel('Renamed editor')
+  flush()
+  expect(host).toHaveAttribute('aria-label', 'Renamed editor')
+  surface!.querySelector('button')!.click()
+  flush()
+  expect(host?.isConnected).toBe(false)
+})
+
+test('viewport background dismisses while inner surface pointer gestures stay inside', async () => {
+  const change = vi.fn()
+  const { getByRole, getByText } = render(() => (
+    <Dialog open onOpenChange={change}>
+      <Dialog.Viewport>
+        <Dialog.Content aria-label="Viewport editor">
+          <span>Surface</span>
+        </Dialog.Content>
+      </Dialog.Viewport>
+    </Dialog>
+  ))
+  const gesture = async (target: Element) => {
+    for (const type of ['pointerdown', 'pointerup'])
+      target.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          composed: true,
+          pointerId: 1,
+          isPrimary: true,
+          button: 0,
+        })
+      )
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    flush()
+  }
+  await gesture(getByText('Surface'))
+  expect(change).not.toHaveBeenCalled()
+  await gesture(getByRole('dialog'))
+  expect(change).toHaveBeenCalledExactlyOnceWith(false)
+  expect(getByRole('dialog')).toHaveAttribute('open')
+})
+
+test('force mounted viewport stays hidden and opens its retained native host', () => {
+  const view = render(() => (
+    <Dialog forceMount>
+      <Dialog.Trigger>Show viewport</Dialog.Trigger>
+      <Dialog.Viewport style={{ display: 'grid' }}>
+        <Dialog.Content aria-label="Retained" />
+      </Dialog.Viewport>
+    </Dialog>
+  ))
+  const host = view.container.querySelector('dialog')!
+  expect(host).toHaveAttribute('hidden')
+  expect(host).not.toHaveAttribute('open')
+  expect(host.style.display).toBe('none')
+  view.getByText('Show viewport').click()
+  flush()
+  expect(host).toHaveAttribute('open')
+  expect(host).not.toHaveAttribute('hidden')
+  expect(host.style.display).toBe('grid')
+})
+
+test('detached triggers connect after root mount and commands do not queue across detachments', () => {
+  const handle = Dialog.createHandle<{ name: string }>()
+  const [mounted, setMounted] = createSignal(false)
+  const view = render(() => (
+    <>
+      <Dialog.Trigger handle={handle} payload={{ name: 'Trigger data' }}>
+        Detached opener
+      </Dialog.Trigger>
+      <Show when={mounted()}>
+        <Dialog handle={handle}>
+          {(state) => (
+            <Dialog.Viewport>
+              <Dialog.Content aria-label="Shared editor">
+                <span>{state.payload?.name}</span>
+              </Dialog.Content>
+            </Dialog.Viewport>
+          )}
+        </Dialog>
+      </Show>
+    </>
+  ))
+  handle.openWithPayload({ name: 'Ignored' })
+  view.getByText('Detached opener').click()
+  flush()
+  expect(handle.isOpen).toBe(false)
+  setMounted(true)
+  flush()
+  expect(view.queryByRole('dialog')).toBeNull()
+  view.getByText('Detached opener').click()
+  flush()
+  expect(handle.isOpen).toBe(true)
+  expect(view.getByRole('dialog')).toHaveTextContent('Trigger data')
+  handle.openWithPayload({ name: 'Imperative data' })
+  flush()
+  expect(view.getByRole('dialog')).toHaveTextContent('Imperative data')
+  setMounted(false)
+  flush()
+  expect(handle.isOpen).toBe(false)
+  handle.open()
+  setMounted(true)
+  flush()
+  expect(handle.isOpen).toBe(false)
+  expect(view.queryByRole('dialog')).toBeNull()
+  handle.open()
+  flush()
+  expect(view.getByRole('dialog')).toBeInTheDocument()
+})
+
+test('programmatic dialog handles open without a trigger and respect controlled state', () => {
+  const handle = Dialog.createHandle<string>()
+  const changes = vi.fn()
+  const [open, setOpen] = createSignal(false)
+  const view = render(() => (
+    <Dialog handle={handle} open={open()} onOpenChange={changes}>
+      {(state) => (
+        <Dialog.Viewport>
+          <Dialog.Content aria-label="Imperative editor">{state.payload}</Dialog.Content>
+        </Dialog.Viewport>
+      )}
+    </Dialog>
+  ))
+  handle.openWithPayload('Requested payload')
+  flush()
+  expect(changes).toHaveBeenCalledExactlyOnceWith(true)
+  expect(handle.isOpen).toBe(false)
+  expect(view.queryByRole('dialog')).toBeNull()
+  setOpen(true)
+  flush()
+  expect(handle.isOpen).toBe(true)
+  expect(view.getByRole('dialog')).toHaveTextContent('Requested payload')
+  handle.close()
+  flush()
+  expect(changes.mock.calls).toEqual([[true], [false]])
+  expect(handle.isOpen).toBe(true)
+})
+
+test('shared triggers update the active trigger and payload without replacing the native host', () => {
+  const handle = Dialog.createHandle<number>()
+  const view = render(() => (
+    <>
+      <Dialog.Trigger id="first-editor" handle={handle} payload={1}>
+        First editor
+      </Dialog.Trigger>
+      <Dialog.Trigger id="second-editor" handle={handle} payload={2}>
+        Second editor
+      </Dialog.Trigger>
+      <Dialog handle={handle} modal={false}>
+        {(state) => (
+          <Dialog.Viewport>
+            <Dialog.Content aria-label="Shared">
+              {state.triggerId}:{state.payload}
+            </Dialog.Content>
+          </Dialog.Viewport>
+        )}
+      </Dialog>
+    </>
+  ))
+  handle.open('first-editor')
+  flush()
+  const host = view.getByRole('dialog')
+  expect(host).toHaveTextContent('first-editor:1')
+  view.getByText('Second editor').click()
+  flush()
+  expect(view.getByRole('dialog')).toBe(host)
+  expect(host).toHaveTextContent('second-editor:2')
+  expect(view.getByText('First editor')).toHaveAttribute('aria-expanded', 'false')
+  expect(view.getByText('Second editor')).toHaveAttribute('aria-expanded', 'true')
+  handle.close()
+  flush()
+  expect(handle.isOpen).toBe(false)
+})
