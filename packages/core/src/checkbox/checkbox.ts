@@ -1,6 +1,6 @@
-import type { CheckedHost, CheckedOptions, CheckedState } from './checked'
-import { checkedRoot, checkedState } from './checked'
-import type { PartProps } from './part'
+import type { CheckedHost, CheckedOptions, CheckedState } from '../internal/checked'
+import { checkedRoot, checkedState } from '../internal/checked'
+import type { PartProps } from '../part'
 
 export type CheckboxHost = CheckedHost
 

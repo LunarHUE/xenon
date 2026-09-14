@@ -1,6 +1,6 @@
-import { activate } from './activate'
-import type { GlobalAttrs, TagAttrs } from './attrs.generated'
-import type { PartProps } from './part'
+import { activate } from '../internal/activate'
+import type { GlobalAttrs, TagAttrs } from '../attrs.generated'
+import type { PartProps } from '../part'
 
 export type ButtonHost = 'button' | 'input' | 'link' | 'generic'
 
