@@ -17,3 +17,17 @@ export * from './alert-dialog'
 export * from './drawer'
 export * from './positioning'
 export * from './popover'
+
+export { Menu } from './menu'
+export type {
+  MenuProps,
+  MenuTriggerProps,
+  MenuContentProps,
+  MenuPositionerProps,
+  MenuChecked,
+  MenuItemProps,
+  MenuCheckboxItemProps,
+  MenuRadioItemProps,
+  MenuRadioGroupProps,
+  MenuGroupProps,
+} from './menu'

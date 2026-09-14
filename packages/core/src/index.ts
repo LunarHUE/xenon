@@ -20,3 +20,6 @@ export * from './dialog'
 export * from './alert-dialog'
 export * from './drawer'
 export * from './popover'
+
+export { menu } from './menu'
+export type { MenuOptions } from './menu'

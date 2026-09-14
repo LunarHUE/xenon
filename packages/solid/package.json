@@ -32,6 +32,10 @@
     "./popover": {
       "types": "./src/popover/index.tsx",
       "default": "./src/popover/index.tsx"
+    },
+    "./menu": {
+      "types": "./src/menu/index.tsx",
+      "default": "./src/menu/index.tsx"
     }
   },
   "scripts": {
