@@ -2,39 +2,92 @@ import { activate } from '../internal/activate'
 import type { GlobalAttrs, TagAttrs } from '../attrs.generated'
 import type { PartProps } from '../part'
 
+/** Host semantics used by checkbox and switch parts. Generic hosts supply no native checking behavior. */
 export type CheckedHost = 'input' | 'button' | 'generic'
 
+/** Current checked-control values and the callback used to request a change. */
 export interface CheckedOptions {
+  /** Host semantics to generate. Defaults to 'input'. */
   host?: CheckedHost
+  /** Current checked value, defaulting to false. The caller owns updates. */
   checked?: TagAttrs['input']['checked']
+  /** Blocks changes and disables native hosts. Defaults to false. */
   disabled?: TagAttrs['input']['disabled']
+  /** Blocks changes while preserving focusability; exposed through ARIA. Defaults to false. */
   readonly?: TagAttrs['input']['readonly']
+  /** Marks input hosts as required and other hosts as aria-required. Defaults to false. */
   required?: TagAttrs['input']['required']
+  /** Sets invalid ARIA state and the data hook without validating the value. Defaults to false. */
   invalid?: boolean
+  /** Form field name, forwarded only to input hosts. */
   name?: TagAttrs['input']['name']
+  /** Submission value, forwarded only to input hosts. */
   value?: TagAttrs['input']['value']
+  /** Associated form ID, forwarded only to input hosts. */
   form?: TagAttrs['input']['form']
+  /** Emits autofocus and its data hook when true; does not itself move focus. */
   autofocus?: GlobalAttrs['autofocus']
+  /**
+   * Reports an interactive input change using its current checked property, or proposes
+   * the opposite of the supplied checked state on other hosts. Called synchronously
+   * by the event handler, never during construction; does not update state.
+   */
   onCheckedChange?: (checked: boolean) => void
 }
 
+/** Normalized snapshot shared by checkbox and switch part generation. */
 export interface CheckedState {
+  /** Resolved host semantics. */
   host: CheckedHost
+  /** Current checked value, independent of checkbox indeterminacy. */
   checked: boolean
+  /** Whether the control is disabled. */
   disabled: boolean
+  /** Whether checking changes are blocked without disabling the host. */
   readonly: boolean
+  /** Whether a checked value is required. */
   required: boolean
+  /** Caller-supplied validity state. */
   invalid: boolean
+  /** True only when neither disabled nor readonly. */
   interactive: boolean
 }
 
-export type CheckedKind = { role: 'checkbox'; indeterminate: boolean } | { role: 'switch' }
+/** Role-specific state; only checkboxes support the mixed presentation. */
+export type CheckedKind =
+  | {
+      /** Uses checkbox semantics. */
+      role: 'checkbox'
+      /** Shows mixed state without changing the checked value or activation proposal. */
+      indeterminate: boolean
+    }
+  | {
+      /** Uses switch semantics, with no mixed state. */
+      role: 'switch'
+    }
 
+/** Host discriminator and matching attributes/listeners for one checked-control root. */
 export type CheckedRoot =
-  | { host: 'input'; root: PartProps<'input'> }
-  | { host: 'button'; root: PartProps<'button'> }
-  | { host: 'generic'; root: PartProps<'div'> }
+  | {
+      /** Identifies the native checkbox input branch. */
+      host: 'input'
+      /** Input attributes and native change reporting. */
+      root: PartProps<'input'>
+    }
+  | {
+      /** Identifies the button branch. */
+      host: 'button'
+      /** Button attributes with checked-role click and Space handling. */
+      root: PartProps<'button'>
+    }
+  | {
+      /** Identifies a host without native checked-control semantics. */
+      host: 'generic'
+      /** ARIA attributes, tab stop, and checked-role click and Space handling. */
+      root: PartProps<'div'>
+    }
 
+/** Resolves omitted values without invoking callbacks or retaining mutable state. */
 export function checkedState(options: CheckedOptions): CheckedState {
   const disabled = options.disabled ?? false
   const readonly = options.readonly ?? false
@@ -49,6 +102,17 @@ export function checkedState(options: CheckedOptions): CheckedState {
   }
 }
 
+/**
+ * Builds a checked-control part from a matching options/state snapshot.
+ *
+ * @param state - State derived from the same options with {@link checkedState}.
+ * @remarks
+ * Rebuild after the caller changes state. Input hosts use native change events;
+ * other hosts propose a toggle on click and synthesize clicks on Space release.
+ * Their Enter keydown is canceled without activation. Blocked clicks cancel the
+ * default action, but do not stop propagation. Adapters must apply an input's
+ * indeterminate DOM property themselves; this function only emits its data hook.
+ */
 export function checkedRoot(
   options: CheckedOptions,
   state: CheckedState,
