@@ -32,8 +32,7 @@ export function NumberFieldDemo(): JSX.Element {
           </NumberField.Control>
         </NumberField>
         <p class="prose">
-          Type a quantity, use the buttons, or press the arrow keys. Enter commits the draft; Escape
-          restores it.
+          Type a quantity, use the buttons, or press the arrow keys. Enter commits the draft.
         </p>
         <Readout rows={[['numeric value', quantity() === null ? 'empty' : String(quantity())]]} />
       </Bench>
