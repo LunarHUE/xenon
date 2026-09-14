@@ -515,6 +515,13 @@ export function TagsInputItemDeleteTrigger(props: TagsInputItemDeleteTriggerProp
   const rest = omit(props, 'children')
   const part = () => ({
     ...context.result().parts.remove(index()),
+    attrs: {
+      ...context.result().parts.remove(index()).attrs,
+      disabled:
+        !context.result().state.interactive ||
+        context.entries.get(index())?.disabled() ||
+        undefined,
+    },
     on: {
       click() {
         context.remove(index())
@@ -547,6 +554,11 @@ export function TagsInputItemInput(props: TagsInputItemInputProps): JSX.Element 
     attrs: {
       type: 'text' as const,
       tabindex: -1,
+      disabled:
+        context.result().parts.input.attrs.disabled ||
+        context.entries.get(index())?.disabled() ||
+        undefined,
+      readonly: context.result().parts.input.attrs.readonly,
       hidden: context.editing() !== index(),
       'aria-label': `Edit ${context.result().state.value[index()] ?? 'tag'}`,
     },
@@ -560,7 +572,10 @@ export function TagsInputItemInput(props: TagsInputItemInputProps): JSX.Element 
           context.focus(-1)
         } else if (event.key === 'Enter') {
           event.preventDefault()
-          if (context.result().replace(index(), event.currentTarget.value)) {
+          if (
+            !context.entries.get(index())?.disabled() &&
+            context.result().replace(index(), event.currentTarget.value)
+          ) {
             context.setEditing(-1)
             context.focus(-1)
           }
