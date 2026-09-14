@@ -7,6 +7,8 @@ import { ToolbarContext, useToolbar } from './context'
 import type { ToolbarContextValue, ToolbarEntry } from './context'
 import { Button } from '../button'
 import type { ButtonProps } from '../button'
+import { Separator } from '../separator'
+import type { SeparatorProps } from '../separator'
 import { spread } from '../spread'
 
 interface ButtonOwn {
@@ -37,7 +39,7 @@ export type ToolbarButtonProps<T extends ValidComponent = 'button'> = Omit<
 
 export type ToolbarLinkProps = Omit<ComponentProps<'a'>, keyof LinkOwn | 'as'> & LinkOwn
 
-export type ToolbarSeparatorProps<T extends ValidComponent = 'div'> = Omit<
+export type ToolbarSeparatorProps<T extends ValidComponent = 'hr'> = Omit<
   ComponentProps<T>,
   keyof SeparatorOwn | 'as'
 > &
@@ -102,30 +104,17 @@ export function ToolbarLink(props: ToolbarLinkProps): JSX.Element {
   return <Button {...merged()} ref={ref} />
 }
 
-export function ToolbarSeparator<T extends ValidComponent = 'div'>(
+export function ToolbarSeparator<T extends ValidComponent = 'hr'>(
   props: ToolbarSeparatorProps<T>
 ): JSX.Element {
-  const own = props as SeparatorOwn & { as?: ValidComponent }
-  const rest = omit(props as Record<string, unknown>, 'as', 'orientation', 'ref')
+  const own = props as SeparatorOwn
+  const rest = omit(props as Record<string, unknown>, 'orientation')
   const context = useToolbar('Toolbar.Separator')
 
   const orientation = () =>
     own.orientation ?? (context.orientation() === 'vertical' ? 'horizontal' : 'vertical')
 
-  const part = (): AnyPart => ({
-    attrs: { role: 'separator', 'aria-orientation': orientation() },
-    on: {},
-  })
-
-  const ref = (node: HTMLElement) => own.ref?.(node)
-
-  return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    />
-  )
+  return <Separator {...(rest as SeparatorProps)} orientation={orientation()} />
 }
 
 export function ToolbarGroup<T extends ValidComponent = 'div'>(
