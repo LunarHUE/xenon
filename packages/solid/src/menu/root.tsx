@@ -15,23 +15,55 @@ import { createPresence } from '../internal/presence'
 import { MenuContext } from './context'
 import type { MenuContextValue, MenuEntry } from './context'
 
+/** Shared logical root/submenu props; neither component renders a wrapper host. */
 export interface MenuProps {
+  /** Menu parts rendered beneath this provider. */
   children?: JSX.Element
+  /** Controlled local visibility when defined; undefined uses internal state. Submenus also require their parent to be open. */
   open?: boolean
+  /** Initial uncontrolled local visibility, defaulting to false; subsequent changes are ignored. */
   defaultOpen?: boolean
+  /** Reports changed effective visibility requests after updating uncontrolled state. Initialization and parent-driven closure are silent. */
   onOpenChange?: (open: boolean) => void
+  /** Keep content present after closing; defaults to false. Does not keep the hosting session active after exit. */
   forceMount?: boolean
+  /** Own submenu-key direction, otherwise inherited from parent or nearest trigger dir attribute; defaults to ltr. */
   dir?: 'ltr' | 'rtl'
+  /** Wrap vertical arrow navigation, including disabled entries. Defaults to true through the core menu. */
   loop?: boolean
 }
+/**
+ * Provides an independent menu state and association scope without a wrapper element.
+ * Controlled mode is determined from open on each read. Presence and timers belong
+ * to this owner; rendering, hosting, and item behavior are supplied by child parts.
+ */
 export function MenuRoot(props: MenuProps): JSX.Element {
   return createMenu(props)
 }
+/**
+ * Provides submenu state linked to the nearest menu. Effective visibility is gated
+ * by the parent. On the client, parent closure resets internal local open state
+ * without a callback; a controlled true prop can reopen when its parent reopens.
+ * @throws If rendered outside a Menu provider.
+ */
 export function MenuSub(props: MenuProps): JSX.Element {
   const parent = useContext(MenuContext)
   if (!parent) throw new Error('Menu.Sub must be rendered inside <Menu>')
   return createMenu(props, parent)
 }
+/**
+ * Owns selection-independent active identity, registration order, presence, and timers.
+ *
+ * @remarks
+ * Core typeahead requests restart a 700ms buffer timeout. Hover leave closes this
+ * menu after 200ms without restoration; entering it cancels timers up the parent
+ * chain. Owner cleanup cancels both timers. Navigation focus is synchronous and
+ * includes disabled entries; typeahead skips disabled matches.
+ * ID-reader slots use latest-owner cleanup rather than a stack of prior claims.
+ * Server association markers finalize after descendant serialization, while client
+ * changes publish a revision. This provider itself neither restores focus nor
+ * installs dismissal listeners; content consumes the shared policies.
+ */
 function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => props.defaultOpen ?? false))
@@ -55,14 +87,17 @@ function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
   }
   const associations = isServer ? serverAssociations() : undefined
   let registered: MenuEntry[] = []
+  /** Requested opening edge, retained for the content focus scope's initial target. */
   let edge: 'first' | 'last' = 'first'
   let searchTimer: ReturnType<typeof setTimeout> | undefined
   let hoverTimer: ReturnType<typeof setTimeout> | undefined
   const open = () => (parent?.open() ?? true) && (props.open ?? internal())
+  /** Stores active identity before focusing its current host without scrolling. */
   const focus = (entry?: MenuEntry) => {
     setActive(entry)
     entry?.el?.focus({ preventScroll: true })
   }
+  /** Deduplicates against effective visibility; opening again focuses an edge, while closing resets search. */
   const change = (next: boolean, requested?: 'first' | 'last') => {
     if (next) {
       edge = requested ?? 'first'
@@ -87,6 +122,7 @@ function createMenu(props: MenuProps, parent?: MenuContextValue): JSX.Element {
       }
     )
   const life = createPresence({ open, forceMount: () => props.forceMount ?? false })
+  /** Builds core navigation and typeahead, renewing the buffer timeout on each search request. */
   const compute = () =>
     menu({
       open: open(),
