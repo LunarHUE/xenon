@@ -140,6 +140,25 @@ export function useDialog(name: string): Context {
     throw new Error(`${name} must be rendered inside a <Dialog>, <AlertDialog>, or <Drawer>`)
   return context
 }
+/**
+ * Creates the shared wrapper, state, presence, and context for a dialog family.
+ *
+ * @remarks
+ * The supplied core engine selects family semantics. Defined open controls state;
+ * undefined releases control to the internal value initialized from defaultOpen.
+ * {@link createPresence} keeps exiting content present until its animation wait
+ * completes. The wrapper itself owns no native presentation or focus scope.
+ *
+ * Part IDs are live getters joined in registration order without deduplication.
+ * Registered IDs win over explicit root association IDs; absent title/description
+ * registrations produce no generated references. Content always has a fallback ID.
+ * Client registrations invalidate the memo; server reads recompute and defer
+ * naming/description attributes through {@link serverAssociations} until rendered
+ * descendants have registered. Registry cleanup belongs to each registering part.
+ *
+ * @param props - Reactive author options and wrapper props; unconsumed props reach the wrapper.
+ * @param config - Fixed family kind and core computation used for all parts.
+ */
 export function createDialogRoot<T extends ValidComponent>(
   props: DialogProps<T>,
   config: {
@@ -190,11 +209,13 @@ export function createDialogRoot<T extends ValidComponent>(
     content: [],
   }
   const id = (name: 'title' | 'description' | 'content') => own[`${name}Id`] ?? `${base}-${name}`
+  /** Read all currently registered IDs; an empty combined string yields no association. */
   const registered = (name: 'title' | 'description' | 'content') => {
     revision()
     return entries[name].map((read) => read()).join(' ') || undefined
   }
   const open = () => own.open ?? internal()
+  /** Suppress duplicate requests before storing uncontrolled state and notifying the author. */
   const change = (next: boolean) => {
     if (untrack(open) === next) return
     if (own.open === undefined) setInternal(next)
@@ -256,7 +277,11 @@ export function createDialogRoot<T extends ValidComponent>(
   )
   return associations ? associations.finish(element) : element
 }
-// Button's interaction gate consumes the canonical onClick prop.
+/**
+ * Compose author/core handlers, then normalize click spelling for Button's gate.
+ * Button consumes onClick specifically; leaving spread's alternate spelling would
+ * bypass its disabled/pending activation gate. Mutates only the fresh merged props.
+ */
 function buttonProps(part: AnyPart, props: Record<string, unknown>) {
   const merged = spread(part, props)
   for (const key of Object.keys(merged)) {
@@ -267,18 +292,52 @@ function buttonProps(part: AnyPart, props: Record<string, unknown>) {
   return merged
 }
 
+/**
+ * Renders a {@link Button} that requests opening the nearest dialog-family root.
+ * Author handlers run before the core action and may cancel it. Button owns host
+ * semantics, keyboard activation, and disabled/pending interaction gating.
+ * @throws If rendered outside a dialog-family root.
+ */
 export function DialogTrigger<T extends ValidComponent = 'button'>(
   props: ButtonProps<T>
 ): JSX.Element {
   const context = useDialog('Dialog.Trigger')
   return <Button {...buttonProps(context.result().parts.trigger, { ...props })} />
 }
+/**
+ * Renders a {@link Button} that requests closing the nearest dialog-family root.
+ * Author cancellation and Button's disabled/pending gates apply before dismissal.
+ * Used by shared Close parts and alert actions; it does not perform application work.
+ * @throws If rendered outside a dialog-family root.
+ */
 export function DialogClose<T extends ValidComponent = 'button'>(
   props: ButtonProps<T>
 ): JSX.Element {
   const context = useDialog('Dialog.Close')
   return <Button {...buttonProps(context.result().parts.close, { ...props })} />
 }
+/**
+ * Renders presence-managed native dialog content and owns its DOM controller.
+ *
+ * @remarks
+ * Content ID registration lasts for this component's owner, even while its native
+ * element is absent. Each physical mount creates a controller; ref replacement
+ * disposes the previous controller, and physical unmount disposes the current one.
+ * Logical closing retains the native session through exiting presence. Closed
+ * force-mounted content remains rendered with an inactive controller.
+ *
+ * {@link createDialogController} owns native showing, dismissal, focus scopes, and
+ * modal locks. Reactive policy updates reach it without recreating this component;
+ * controller modality changes restart the session. Alerts disallow outside closure
+ * and prefer the registered Cancel target when no initialFocus is supplied.
+ *
+ * Server markup writes open from logical state; client presentation uses the
+ * controller. Author ARIA attributes override generated associations. A truthy
+ * aria-label suppresses generated aria-labelledby, but an explicit authored
+ * aria-labelledby still wins. Development settlement warns for a missing accessible
+ * name, and for an alert without a description; it does not validate referenced IDs.
+ * @throws If rendered outside a dialog-family root.
+ */
 export function DialogContent(props: DialogContentProps): JSX.Element {
   const context = useDialog('Dialog.Content')
   const rest = omit(props as Record<string, unknown>, 'ref', 'id', 'children')
@@ -289,9 +348,11 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
       () => (typeof props.id === 'string' ? props.id : undefined) ?? context.id('content')
     )
   )
+  /** Own one physical content lifetime, including memoized children and controller cleanup. */
   function Mounted(): JSX.Element {
     const [element, setElement] = createSignal<HTMLDialogElement>()
     const children = createMemo(() => props.children)
+    /** Keep native presentation active during exit while logical open gates dismissal. */
     const options = () => ({
       open: context.result().state.open,
       active: context.result().state.open || context.result().state.status === 'exiting',
@@ -332,6 +393,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
           'AlertDialog.Content requires a description. Render AlertDialog.Description or provide aria-describedby.'
         )
     })
+    /** Combine deferred server associations with author overrides and a concrete content ID. */
     const attributes = () =>
       spread(context.result().parts.content, {
         'aria-labelledby': props['aria-label']
@@ -367,6 +429,14 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
     </Show>
   )
 }
+/**
+ * Renders title text and registers a live ID getter for content naming.
+ * Defaults to h2. An author id overrides the root's titleId/generated fallback;
+ * changes are observed by the registry, and owner cleanup removes the reference.
+ * Multiple title registrations are joined in registration order. Supply distinct
+ * IDs when rendering multiple titles because their generated fallback is shared.
+ * @throws If rendered outside a dialog-family root.
+ */
 export function DialogTitle<T extends ValidComponent = 'h2'>(
   props: DialogTitleProps<T>
 ): JSX.Element {
@@ -378,6 +448,13 @@ export function DialogTitle<T extends ValidComponent = 'h2'>(
     <Dynamic component={own.as ?? 'h2'} ref={own.ref} {...{ id: context.id('title'), ...rest }} />
   )
 }
+/**
+ * Renders descriptive text and registers a live ID getter for content description.
+ * Defaults to p. An author id overrides the root's descriptionId/generated fallback;
+ * owner cleanup removes its reference. Multiple descriptions contribute IDs in
+ * registration order and need distinct author IDs to avoid their shared fallback.
+ * @throws If rendered outside a dialog-family root.
+ */
 export function DialogDescription<T extends ValidComponent = 'p'>(
   props: DialogDescriptionProps<T>
 ): JSX.Element {
@@ -394,10 +471,16 @@ export function DialogDescription<T extends ValidComponent = 'p'>(
   )
 }
 
+/** Shared compound parts attached to Dialog, AlertDialog, and Drawer roots. */
 export const dialogParts = {
+  /** Opening Button with expanded and content-control associations. */
   Trigger: DialogTrigger,
+  /** Native dialog whose physical lifetime follows presence. */
   Content: DialogContent,
+  /** Heading registered as part of the content accessible name. */
   Title: DialogTitle,
+  /** Text registered as part of the content description. */
   Description: DialogDescription,
+  /** Closing Button whose author handler may veto dismissal. */
   Close: DialogClose,
 }
