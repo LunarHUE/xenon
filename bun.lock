@@ -9,6 +9,24 @@
         "turbo": "^2.10.12",
       },
     },
+    "apps/example": {
+      "name": "@kit/example",
+      "version": "0.0.0",
+      "dependencies": {
+        "@kit/solid": "workspace:*",
+        "@solidjs/web": "catalog:",
+        "solid-js": "catalog:",
+      },
+      "devDependencies": {
+        "@kit/eslint-config": "workspace:*",
+        "@kit/typescript-config": "workspace:*",
+        "@solidjs/vite-plugin": "^3.0.0-next.43",
+        "@typescript/native": "catalog:",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+        "vite": "^8.3.0",
+      },
+    },
     "packages/core": {
       "name": "@kit/core",
       "version": "0.0.0",
@@ -20,6 +38,20 @@
         "aria-attributes": "^2.0.1",
         "eslint": "catalog:",
         "html-element-attributes": "^3.5.0",
+        "typescript": "catalog:",
+        "vitest": "catalog:",
+      },
+    },
+    "packages/dom": {
+      "name": "@kit/dom",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@kit/eslint-config": "workspace:*",
+        "@kit/typescript-config": "workspace:*",
+        "@types/bun": "catalog:",
+        "@typescript/native": "catalog:",
+        "eslint": "catalog:",
+        "jsdom": "^30.0.1",
         "typescript": "catalog:",
         "vitest": "catalog:",
       },
@@ -45,6 +77,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@kit/core": "workspace:*",
+        "@kit/dom": "workspace:*",
       },
       "devDependencies": {
         "@kit/eslint-config": "workspace:*",
@@ -228,7 +261,11 @@
 
     "@kit/core": ["@kit/core@workspace:packages/core"],
 
+    "@kit/dom": ["@kit/dom@workspace:packages/dom"],
+
     "@kit/eslint-config": ["@kit/eslint-config@workspace:packages/eslint-config"],
+
+    "@kit/example": ["@kit/example@workspace:apps/example"],
 
     "@kit/solid": ["@kit/solid@workspace:packages/solid"],
 

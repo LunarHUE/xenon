@@ -20,7 +20,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@kit/core": "workspace:*"
+    "@kit/core": "workspace:*",
+    "@kit/dom": "workspace:*"
   },
   "peerDependencies": {
     "@solidjs/web": "^2.0.0-rc.8",
