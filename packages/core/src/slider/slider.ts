@@ -22,6 +22,8 @@ export interface SliderOptions {
   disabled?: boolean
   /** Keep focus and form submission while blocking changes. */
   readonly?: boolean
+  /** Required semantics only; range inputs always have a value. */
+  required?: boolean
   /** Author validation state. */
   invalid?: boolean
   /** Format a thumb's accessible value only when numbers are insufficient. */
@@ -87,7 +89,8 @@ export function slider(options: SliderOptions = {}): SliderResult {
   const min = finite(options.min, 0)
   const rawMax = Math.max(min, finite(options.max, 100))
   const step = Math.max(Number.MIN_VALUE, finite(options.step, 1) > 0 ? finite(options.step, 1) : 1)
-  const max = clean(min + Math.floor((rawMax - min) / step + 1e-9) * step)
+  const computedMax = min + Math.floor((rawMax - min) / step + 1e-9) * step
+  const max = Number.isFinite(computedMax) ? clean(computedMax) : min
   const source = options.value?.length ? options.value : [min]
   const gap = Math.min(
     Math.max(0, finite(options.minStepsBetweenThumbs, 0)) * step,
@@ -131,6 +134,7 @@ export function slider(options: SliderOptions = {}): SliderResult {
     'data-disabled': options.disabled ? '' : undefined,
     'data-readonly': options.readonly ? '' : undefined,
     'data-invalid': options.invalid ? '' : undefined,
+    'data-required': options.required ? '' : undefined,
   }
   return {
     state,
@@ -158,6 +162,7 @@ export function slider(options: SliderOptions = {}): SliderResult {
             'aria-readonly': options.readonly ? 'true' : undefined,
             'aria-disabled': options.disabled ? 'true' : undefined,
             'aria-invalid': options.invalid ? 'true' : undefined,
+            'aria-required': options.required ? 'true' : undefined,
             'data-index': index,
           },
           on: {},
@@ -176,11 +181,11 @@ export function slider(options: SliderOptions = {}): SliderResult {
           : key === 'ArrowDown' || key === 'PageDown'
             ? -1
             : key === 'ArrowRight'
-              ? state.direction === 'rtl'
+              ? state.direction === 'rtl' && state.orientation === 'horizontal'
                 ? -1
                 : 1
               : key === 'ArrowLeft'
-                ? state.direction === 'rtl'
+                ? state.direction === 'rtl' && state.orientation === 'horizontal'
                   ? 1
                   : -1
                 : 0
@@ -193,7 +198,10 @@ export function slider(options: SliderOptions = {}): SliderResult {
     },
     fromRatio: (ratio) =>
       min +
-      (state.orientation === 'vertical' || state.direction === 'rtl' ? 1 - ratio : ratio) *
+      (state.orientation === 'vertical' ||
+      (state.direction === 'rtl' && state.orientation === 'horizontal')
+        ? 1 - ratio
+        : ratio) *
         (max - min),
     percentage: (current) => (max === min ? 0 : ((current - min) / (max - min)) * 100),
   }

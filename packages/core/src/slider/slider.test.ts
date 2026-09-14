@@ -26,3 +26,11 @@ test('RTL and vertical map physical coordinates and numeric Home consistently', 
   expect(slider({ orientation: 'vertical' }).fromRatio(0)).toBe(100)
   expect(slider({ direction: 'rtl' }).fromRatio(0)).toBe(100)
 })
+
+test('vertical horizontal keys remain numeric in RTL and tiny steps stay finite', () => {
+  expect(
+    slider({ value: [20], direction: 'rtl', orientation: 'vertical' }).key(0, 'ArrowRight')
+  ).toEqual([21])
+  expect(slider({ value: [1e-7], step: 1e-7 }).key(0, 'ArrowRight')).toEqual([2e-7])
+  expect(Number.isFinite(slider({ step: Number.MIN_VALUE }).state.max)).toBe(true)
+})
