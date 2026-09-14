@@ -223,7 +223,7 @@ test('panel navigation preserves native text editing keys', async () => {
         <Nav.Content value="a">
           <input aria-label="Search studies" value="notes" />
           <textarea aria-label="Draft">field notes</textarea>
-          <div contentEditable="true" tabindex="0" aria-label="Editable text">
+          <div contenteditable="true" tabindex="0" aria-label="Editable text">
             A note
           </div>
           <Nav.Link href="#next">Next</Nav.Link>
