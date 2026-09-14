@@ -79,10 +79,10 @@ function lockScroll(document: Document): () => void {
     const padding = Number.parseFloat(view.getComputedStyle(body).paddingRight) || 0
     write(body, 'padding-right', `${padding + gap}px`)
   }
-  for (const element of body ? [root, body] : [root]) {
-    write(element, 'overflow-x', 'hidden')
-    write(element, 'overflow-y', 'hidden')
-  }
+  // Body overflow would create a new scrolling ancestor for sticky descendants,
+  // moving headers offscreen while the viewport itself stays at the same offset.
+  write(root, 'overflow-x', 'hidden')
+  write(root, 'overflow-y', 'hidden')
   return () => {
     for (const { style, name, value, priority } of saved) {
       if (value) style.setProperty(name, value, priority)
@@ -156,7 +156,7 @@ function reconcile(state: State) {
  * Isolates the newest modal in its owner document, including registered portals.
  * Open shadow roots and slots are supported. Closed shadow roots are opaque.
  * Attach shadow roots before registering, or before inserting their hosts.
- * Scroll locking owns root/body overflow and body padding-right until released;
+ * Scroll locking owns root overflow and body padding-right until released;
  * callers should avoid writing those properties while a lock is active.
  */
 export function registerModal(element: HTMLElement, options: ModalOptions = {}): ModalRegistration {

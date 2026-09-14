@@ -129,9 +129,11 @@ and slot changes. Previous inert and aria-hidden attributes are restored exactly
 Closed shadow roots remain opaque; attach open roots before registration or
 before inserting their hosts.
 
-Scroll locks are reference counted across modals. They set root/body overflow
+Scroll locks are reference counted across modals. They set document root overflow
 and compensate the body for the scrollbar gap, then restore the previous inline
-values and priorities when the final lock ends. `lockScroll: false` opts an
+values and priorities when the final lock ends. Body overflow stays unchanged so
+viewport-sticky headers and section rails keep their original scrolling ancestor.
+`lockScroll: false` opts an
 individual registration out. Consumers must not concurrently own those same
 style properties. Desktop Chromium and WebKit are covered; physical iOS touch
 scrolling has not been verified.

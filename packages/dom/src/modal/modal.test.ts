@@ -128,6 +128,8 @@ describe('registerModal', () => {
     const unlocked = modal(node(), false)
     expect(document.body.style.paddingRight).toBe('27px')
     expect(document.documentElement.style.overflowX).toBe('hidden')
+    expect(document.body.style.overflowX).toBe('scroll')
+    expect(document.body.style.overflowY).toBe('auto')
     document.body.style.color = 'red'
     first.dispose()
     expect(document.body.style.paddingRight).toBe('27px')
@@ -155,7 +157,8 @@ describe('registerModal', () => {
     expect(background.hasAttribute('inert')).toBe(true)
     expect(frame.hasAttribute('inert')).toBe(false)
     expect(document.body.style.overflow).toBe('')
-    expect(other.body.style.overflowX).toBe('hidden')
+    expect(other.documentElement.style.overflowX).toBe('hidden')
+    expect(other.body.style.overflowX).toBe('')
     registration.dispose()
     expect(other.body.style.overflow).toBe('')
   })
