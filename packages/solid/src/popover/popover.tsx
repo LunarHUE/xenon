@@ -569,6 +569,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
     'children',
     'ref',
     'style',
+    'pointerEvents',
     'side',
     'align',
     'sideOffset',
@@ -611,6 +612,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
         tether: props.tether,
         fallbackPlacements: props.fallbackPlacements,
         hideWhenDetached: props.hideWhenDetached,
+        pointerEvents: props.pointerEvents,
         matchAnchorSize: props.matchAnchorSize,
         arrowPadding: props.arrowPadding,
         autoUpdate: props.autoUpdate,
@@ -670,10 +672,17 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
         overflow: 'visible',
       }
       const visibility = positioner.positionerProps().style
+      const pointerEvents =
+        visibility['pointer-events'] === 'none' ? 'none' : (props.pointerEvents ?? 'auto')
       const author = props.style
       if (typeof author === 'string')
-        return `margin:0;inset:auto;border:0;padding:0;background:transparent;color:inherit;width:max-content;overflow:visible;${author};visibility:${visibility.visibility};pointer-events:${visibility['pointer-events']}`
-      return { ...baseline, ...author, ...visibility } as JSX.CSSProperties
+        return `margin:0;inset:auto;border:0;padding:0;background:transparent;color:inherit;width:max-content;overflow:visible;${author};visibility:${visibility.visibility};pointer-events:${pointerEvents}`
+      return {
+        ...baseline,
+        ...author,
+        ...visibility,
+        'pointer-events': pointerEvents,
+      } as JSX.CSSProperties
     }
     const inner = createMemo(() => (
       <PositionerContext value={{ ...positioner, setArrow }}>{props.children}</PositionerContext>

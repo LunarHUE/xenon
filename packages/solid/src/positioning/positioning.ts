@@ -138,7 +138,7 @@ export function createPositioner(source: PositionerSource): Positioner {
         'data-part': 'positioner',
         style: {
           visibility: hidden ? 'hidden' : 'visible',
-          'pointer-events': hidden ? 'none' : 'auto',
+          'pointer-events': hidden ? 'none' : (source.options?.().pointerEvents ?? 'auto'),
         },
       }
     },

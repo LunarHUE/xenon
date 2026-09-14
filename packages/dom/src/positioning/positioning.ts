@@ -338,7 +338,10 @@ export function createPositioner(floating: HTMLElement, initial: PositioningOpti
     floatingOwned.style('left', `${x}px`)
     floatingOwned.style('top', `${y}px`)
     floatingOwned.style('visibility', referenceHidden ? 'hidden' : 'visible')
-    floatingOwned.style('pointer-events', referenceHidden ? 'none' : 'auto')
+    floatingOwned.style(
+      'pointer-events',
+      referenceHidden ? 'none' : (snapshot.pointerEvents ?? 'auto')
+    )
     floatingOwned.style('--positioner-transform-origin', transformOrigin)
     floatingOwned.attr('data-side', side)
     floatingOwned.attr('data-align', align)

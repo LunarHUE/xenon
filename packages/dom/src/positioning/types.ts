@@ -73,6 +73,8 @@ export interface PositioningOptions {
   fallbackPlacements?: PositioningPlacement[]
   /** Hide the floating box and disable its pointer events when the reference is fully clipped. Defaults to false; this does not unmount it. */
   hideWhenDetached?: boolean
+  /** Pointer hit testing while visible. Defaults to auto; hidden geometry always uses none. */
+  pointerEvents?: 'auto' | 'none'
   /** Match one CSS dimension to the measured anchor size. Defaults to false; removing a match restores the authored dimension. */
   matchAnchorSize?: 'width' | 'height' | false
   /** Square layout box inside the positioner, or no arrow when null/undefined. The controller owns placement and presentation attributes; artwork belongs to the consumer. */
