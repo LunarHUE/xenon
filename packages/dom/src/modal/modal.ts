@@ -1,46 +1,76 @@
+/** Document isolation policy captured when a modal registers. */
 export interface ModalOptions {
+  /** Lock root overflow and compensate body padding while any requesting modal remains. Defaults to true. */
   lockScroll?: boolean
 }
 
+/** Lifetime and portal branches for one entry in the document modal stack. */
 export interface ModalRegistration {
+  /**
+   * Keep an additional same-document subtree interactive when this modal is newest.
+   * Registrations are reference-counted; the returned cleanup is idempotent. Calls
+   * after disposal or with a foreign-document element return a no-op cleanup.
+   */
   registerBranch(element: Element): () => void
+  /**
+   * Idempotently remove this modal and reconcile the next newest entry. Restore
+   * saved attributes where isolation ends and release scroll locking when no entry needs it.
+   */
   dispose(): void
 }
 
+/** Alias for the modal registration returned by {@link registerModal}. */
 export type ModalHandle = ModalRegistration
 
+/** One modal and its independently reference-counted permitted branches. */
 interface Entry {
+  /** Modal subtree protected when this is the newest registration. */
   element: HTMLElement
+  /** Extra permitted subtrees, counted so independent registrations can release safely. */
   branches: Map<Element, number>
+  /** Whether this entry contributes a document scroll-lock request. */
   lockScroll: boolean
 }
 
+/** Original attribute strings to restore when a subtree leaves isolation. */
 interface Attributes {
+  /** Original inert attribute, with null representing absence. */
   inert: string | null
+  /** Original aria-hidden attribute, not the native hidden attribute. */
   hidden: string | null
 }
 
+/** Shared modal stack and owned document mutations. */
 interface State {
+  /** Owner document shared by all entries. */
   document: Document
+  /** Registration order; only the final entry determines permitted subtrees. */
   entries: Entry[]
+  /** Currently isolated roots and their values before isolation. */
   hidden: Map<Element, Attributes>
+  /** Watches child/slot changes in the document and discovered open shadow roots. */
   observer: MutationObserver | undefined
+  /** Saved-style restoration while at least one modal requests a scroll lock. */
   restoreScroll: (() => void) | undefined
 }
 
+/** Independent isolation stacks, weakly keyed by owner document. */
 const states = new WeakMap<Document, State>()
 
+/** Restore exact attribute text or remove an originally absent attribute. */
 function restoreAttribute(element: Element, name: string, value: string | null) {
   if (value === null) element.removeAttribute(name)
   else element.setAttribute(name, value)
 }
 
+/** Restore both saved attributes and relinquish ownership of this subtree. */
 function restoreHidden(state: State, element: Element, attributes: Attributes) {
   restoreAttribute(element, 'inert', attributes.inert)
   restoreAttribute(element, 'aria-hidden', attributes.hidden)
   state.hidden.delete(element)
 }
 
+/** Light children, open shadow children, and flattened assigned elements for isolation traversal. */
 function children(element: Element): Element[] {
   const result = [...element.children]
   if (element.shadowRoot) result.push(...element.shadowRoot.children)
@@ -50,6 +80,7 @@ function children(element: Element): Element[] {
   return result
 }
 
+/** Collect paths through light DOM, assigned slots, and shadow hosts without revisiting nodes. */
 function ancestors(element: Element, result: Set<Element>) {
   if (result.has(element)) return
   result.add(element)
@@ -59,6 +90,7 @@ function ancestors(element: Element, result: Set<Element>) {
   if ('host' in root) ancestors((root as ShadowRoot).host, result)
 }
 
+/** Save inline values/priorities, apply the shared lock, and return exact style restoration. */
 function lockScroll(document: Document): () => void {
   const view = document.defaultView
   const root = document.documentElement
@@ -91,6 +123,7 @@ function lockScroll(document: Document): () => void {
   }
 }
 
+/** Recompute outside roots for the newest entry, refresh observation, and reconcile all scroll requests. */
 function reconcile(state: State) {
   const { document, entries } = state
   const active = entries.at(-1)
@@ -158,6 +191,15 @@ function reconcile(state: State) {
  * Attach shadow roots before registering, or before inserting their hosts.
  * Scroll locking owns root overflow and body padding-right until released;
  * callers should avoid writing those properties while a lock is active.
+ *
+ * @remarks
+ * Registration reconciles synchronously. Outside subtrees receive inert and
+ * aria-hidden; their original attribute strings are restored when no longer
+ * excluded. Focus containment, focus restoration, dismissal, and visual layering
+ * are separate responsibilities. Detached content does not isolate the whole
+ * document, but its scroll-lock request still applies. Branch membership changes
+ * reconcile synchronously; observed DOM changes reconcile on observer delivery.
+ * Dispose the registration when it is no longer modal. Options are captured once.
  */
 export function registerModal(element: HTMLElement, options: ModalOptions = {}): ModalRegistration {
   const document = element.ownerDocument
