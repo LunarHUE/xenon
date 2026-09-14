@@ -70,7 +70,7 @@ export interface FloatingLayerOptions {
   restoreFocus?: boolean
   /** Synchronous Escape hook forwarded to the layer; preventDefault vetoes its dismissal request. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
-  /** Deferred eligible pointer-outside hook; preventDefault on its wrapper vetoes dismissal. */
+  /** Deferred pointer-outside hook; wrapper preventDefault vetoes dismissal. Queued callbacks retain the pointerup policy snapshot through updates. */
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
   /**
    * Runs in a zero-delay timer if outside focus is still current, the layer is still
@@ -197,7 +197,7 @@ export function createFloatingLayer(
     restore = reason !== 'focus-outside'
     options.onDismiss(reason)
   }
-  /** Preserve stack ownership during exit while disabling this session's dismissal callbacks. */
+  /** Preserve stack ownership during exit while disabling new dismissal gestures; queued pointer callbacks retain their snapshot. */
   const layerOptions = () => ({
     escape:
       options.open && options.closeOnEscape !== false ? ('dismiss' as const) : ('ignore' as const),
