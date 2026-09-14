@@ -1,3 +1,4 @@
+import { activate } from './activate'
 import type { GlobalAttrs, TagAttrs } from './attrs.generated'
 import type { PartProps } from './part'
 
@@ -29,25 +30,6 @@ export type ButtonAny =
   | ButtonResult<PartProps<'input'>>
   | ButtonResult<PartProps<'a'>>
   | ButtonResult<PartProps<'div'>>
-
-type Activation = KeyboardEvent & { currentTarget: HTMLElement }
-
-function activate(event: Activation) {
-  const { currentTarget, shiftKey, ctrlKey, altKey, metaKey } = event
-  const view = currentTarget.ownerDocument.defaultView
-  const Ctor = view?.MouseEvent ?? MouseEvent
-  currentTarget.dispatchEvent(
-    new Ctor('click', {
-      bubbles: true,
-      cancelable: true,
-      composed: true,
-      shiftKey,
-      ctrlKey,
-      altKey,
-      metaKey,
-    })
-  )
-}
 
 function isActivationKey(key: string) {
   return key === 'Enter' || key === ' '
