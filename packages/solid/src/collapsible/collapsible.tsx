@@ -17,39 +17,77 @@ import { disclosureTrigger } from '../internal/disclosure-trigger'
 import { createPresence, measure } from '../internal/presence'
 import { spread } from '../spread'
 
+/** Open-state and mounting options owned by the root adapter. */
 interface Own {
+  /** Controlled expanded state while defined; undefined uses internal state. */
   open?: boolean
+  /** Initial uncontrolled expanded state, read once at setup. Defaults to false. */
   defaultOpen?: boolean
+  /** Synchronous toggle request after updating uncontrolled state. Initialization and external prop changes are silent. */
   onOpenChange?: (open: boolean) => void
+  /** Blocks trigger toggles and marks all parts without forcing content closed. Defaults to false. */
   disabled?: boolean
+  /** Keep closed content mounted and hidden after its exit completes. Defaults to false. */
   forceMount?: boolean
+  /** Receives the rendered root element. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Ref option shared by the trigger and content adapters. */
 interface PartOwn {
+  /** Receives the rendered part element whenever its ref attaches. */
   ref?: (el: HTMLElement) => void
 }
 
+/** Root options combined with the selected host props. */
 export type CollapsibleProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & { as?: T }
+  Own & {
+    /** Rendered root host; defaults to div. */
+    as?: T
+  }
 
+/** Trigger host props, including an optional author ID synchronized to the group context. */
 export type CollapsibleTriggerProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
   keyof PartOwn | 'as'
 > &
-  PartOwn & { as?: T }
+  PartOwn & {
+    /** Rendered trigger host; defaults to button. */
+    as?: T
+  }
 
+/** Content host props, including an optional author ID used by trigger aria-controls. */
 export type CollapsibleContentProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof PartOwn | 'as'
 > &
-  PartOwn & { as?: T }
+  PartOwn & {
+    /** Rendered content host; defaults to div. */
+    as?: T
+  }
 
-type PartProps = PartOwn & { as?: ValidComponent; id?: string }
+/** Host and ID fields read by the shared part implementations. */
+type PartProps = PartOwn & {
+  /** Literal host or custom component used by Dynamic. */
+  as?: ValidComponent
+  /** Author ID; undefined uses the root-generated fallback. */
+  id?: string
+}
 
+/**
+ * Provides reactive disclosure state and presence around a rendered root.
+ *
+ * @remarks
+ * Uses {@link createPresence} for an initially settled phase, a one-frame entering
+ * phase on later opening, and exit-animation observation before unmounting.
+ * Reopening cancels pending exit completion. The adapter supplies lifecycle hooks,
+ * not animation styles or focus management. Root attributes have no implicit role.
+ * Generated trigger/content IDs are independent of any root id prop.
+ * Author host attributes override generated attributes through {@link spread}.
+ */
 function CollapsibleRoot<T extends ValidComponent = 'div'>(
   props: CollapsibleProps<T>
 ): JSX.Element {
@@ -77,6 +115,7 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
 
   const life = createPresence({ open, forceMount })
 
+  /** Store an uncontrolled toggle before reporting it to the author. */
   const change = (next: boolean) => {
     if (!untrack(controlled)) setInternal(next)
     own.onOpenChange?.(next)
@@ -120,6 +159,18 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
   )
 }
 
+/**
+ * Renders the toggle inside a Collapsible root, with expanded/controls associations.
+ *
+ * @remarks
+ * Omitted as, literal button, and literal input use native activation. Other hosts,
+ * including custom components, receive generic button semantics and Enter/Space
+ * activation from {@link disclosureTrigger}. Author handlers run first and can
+ * cancel the core toggle; they are not separately suppressed while disabled.
+ * The core blocks disabled toggles. Author IDs synchronize into context in an
+ * effect, while the rendered ID immediately uses the supplied value. ID changes
+ * have no cleanup that restores a prior part's registration.
+ */
 export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
   props: CollapsibleTriggerProps<T>
 ): JSX.Element {
@@ -146,6 +197,21 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
   )
 }
 
+/**
+ * Renders disclosure content while present, retaining it through exit animation.
+ *
+ * @remarks
+ * Requires a Collapsible root. Content has no implicit role or accessible label.
+ * Closed force-mounted content is hidden after exit; exiting content is inert.
+ * The ref records the element for presence before invoking the author ref.
+ * An effect synchronizes an author ID into trigger aria-controls; unmounting this
+ * part does not restore a previous ID.
+ *
+ * Phase changes write --collapsible-panel-height and --collapsible-panel-width:
+ * entering/exiting use scroll dimensions in pixels, entered uses auto, and exited
+ * removes the properties. These measurements have no resize observer and do not
+ * preserve previous inline values; see {@link measure}.
+ */
 export function CollapsibleContent<T extends ValidComponent = 'div'>(
   props: CollapsibleContentProps<T>
 ): JSX.Element {
@@ -185,7 +251,10 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
   )
 }
 
+/** Disclosure root with context-bound Trigger and Content parts. See {@link CollapsibleProps}. */
 export const Collapsible = Object.assign(CollapsibleRoot, {
+  /** Toggle host with expanded and content-control associations. */
   Trigger: CollapsibleTrigger,
+  /** Presence-managed panel with phase-dependent size properties. */
   Content: CollapsibleContent,
 })
