@@ -160,7 +160,7 @@ export function slider(options: SliderOptions = {}): SliderResult {
             'aria-valuenow': String(value[index] ?? min),
             'aria-valuetext':
               value[index] === undefined ? undefined : options.format?.(value[index]!, index),
-            'aria-orientation': state.orientation,
+            'aria-orientation': state.orientation === 'vertical' ? 'vertical' : undefined,
             'aria-readonly': options.readonly ? 'true' : undefined,
             'aria-disabled': options.disabled ? 'true' : undefined,
             'aria-invalid': options.invalid ? 'true' : undefined,

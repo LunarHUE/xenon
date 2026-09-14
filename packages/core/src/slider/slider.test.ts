@@ -34,3 +34,10 @@ test('vertical horizontal keys remain numeric in RTL and tiny steps stay finite'
   expect(slider({ value: [1e-7], step: 1e-7 }).key(0, 'ArrowRight')).toEqual([2e-7])
   expect(Number.isFinite(slider({ step: Number.MIN_VALUE }).state.max)).toBe(true)
 })
+
+test('only a nondefault orientation needs an ARIA override', () => {
+  expect(slider().parts.thumb(0).attrs['aria-orientation']).toBeUndefined()
+  expect(slider({ orientation: 'vertical' }).parts.thumb(0).attrs['aria-orientation']).toBe(
+    'vertical'
+  )
+})
