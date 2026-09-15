@@ -5474,8 +5474,8 @@
   },
   {
     "ids": ["slider.pointer.7"],
-    "status": "partial",
-    "reason": "Disabling the focused thumb blurs it and blocks a native rail click; all disabled drag/release and callback combinations are not asserted.",
+    "status": "covered",
+    "reason": "Browser regression verifies disabled presses, drags, and releases are inert and blur a focused thumb. Includes real disabled rail click/drag and native forward/reverse Tab after collision.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5485,6 +5485,10 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "disabling a focused thumb removes focus and blocks pointer changes"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-lifecycle.test-browser.tsx",
+        "title": "slider.pointer.7 disabled presses, drags, and releases are inert and blur a focused thumb"
       }
     ]
   },
@@ -5513,7 +5517,7 @@
   {
     "ids": ["slider.pointer.10"],
     "status": "partial",
-    "reason": "Synthetic other-pointer move/up are ignored while the owning pointer proceeds; a second pointerdown and physical touch integration are not tested.",
+    "reason": "Synthetic touch pointerdown/move/up from a second pointer are ignored with intermediate value/callback assertions, while the first continues and commits once. Real browser-generated multi-touch integration remains untested.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5523,6 +5527,10 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "RTL track coordinates and vertical touch pointer identity use actual rail geometry"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-lifecycle.test-browser.tsx",
+        "title": "slider.pointer.10 ignores a second touch while the owning touch continues"
       }
     ]
   },
@@ -5596,8 +5604,8 @@
   },
   {
     "ids": ["slider.pointer.20"],
-    "status": "partial",
-    "reason": "Native drag clamps at the neighbor without swapping DOM identity/order; post-collision forward/backward Tab traversal is not explicitly exercised.",
+    "status": "covered",
+    "reason": "Browser regression verifies clamps collision without swapping identity and preserves tab order. Includes real disabled rail click/drag and native forward/reverse Tab after collision.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5607,6 +5615,10 @@
       {
         "file": "packages/suite/src/slider/slider.native.test-browser.tsx",
         "title": "dragging a thumb past its neighbor clamps at the neighbor and blocks further steps"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-lifecycle.test-browser.tsx",
+        "title": "slider.pointer.20 clamps collision without swapping identity and preserves tab order"
       }
     ]
   },

@@ -687,3 +687,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps for stacked-thumb tie direction, per-move values/callbacks and clamping, release/blur/no-motion commit behavior, descendant hit testing, and active-thumb dragging flags.
 - Astra low confirmed the shared flag incorrectly marked inactive thumbs. Astra medium tracks the active index, retaining shared root/control flags and clearing the index on release, cancellation, disabling and disposal.
 - Independent checks passed 19 Slider adapter tests and all eight pointer Chromium tests. Medium's Solid typecheck and lint passed.
+
+### Slider disabled gestures and collision tab order
+
+- Closed pointer.7 with inert disabled thumb/rail sequences, native rail click/drag, callback silence, focus exclusion and focused-thumb disabling.
+- Closed pointer.20 with collision values/identity and native forward/reverse Tab after collision. Added complete secondary synthetic-touch lifecycle assertions; pointer.10 remains partial pending browser-generated multi-touch integration.
+- Independent final Chromium run passed all three cases. Luna lint passed; the concurrent parts slice had its own in-progress type errors.
