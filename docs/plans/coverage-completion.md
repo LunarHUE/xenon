@@ -490,3 +490,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   presses leave its layer untouched.
 - Independent DOM run passed all three cases; audit validation passed. Luna's
   DOM typecheck and lint passed.
+
+### Shared Field assertions for Combobox and TagsInput
+
+- Added two adapter cases using the existing shared battery. Combobox exposes
+  required state through ARIA; TagsInput retains distinct outer/inner error IDs
+  and clears both while preserving the help reference.
+- Independent runs passed 113 jsdom and 131 Chromium tests across every battery
+  caller. Audit validation passed; Luna's types/lint passed. The all-adapter
+  requirement remains partial while other compatible components are added.

@@ -1,4 +1,6 @@
 import { Checkbox, Field, NumberField, Select, Switch } from '@xenon/solid'
+import { Combobox } from '@xenon/solid/combobox'
+import { TagsInput } from '@xenon/solid/tags-input'
 import type { JSX } from '@solidjs/web'
 import { screen } from '@testing-library/dom'
 import { Show, createSignal, omit } from 'solid-js'
@@ -9,7 +11,7 @@ import { mount } from '../harness/solid'
 /** Native text controls and checked controls supported by the shared Field assertions. */
 export type ControlKind = 'input' | 'textarea' | 'checkbox' | 'switch'
 
-export type FieldAdapterKind = 'number' | 'select'
+export type FieldAdapterKind = 'number' | 'select' | 'combobox' | 'tags'
 
 type SharedFieldStateOptions = {
   name?: string
@@ -17,6 +19,8 @@ type SharedFieldStateOptions = {
   remainingDescribedBy: string
   clearProps: Record<string, unknown>
   resolvedDescribedBy?: string[]
+  requiredAttribute?: boolean
+  requiredAria?: boolean
 }
 
 /** Common state, naming, and description/error assertions shared by every adapter battery. */
@@ -28,7 +32,8 @@ async function assertSharedFieldState(
   expect(screen.getByLabelText('Account')).toBe(control)
   if (options.name) expect(control).toHaveAttribute('name', options.name)
   expect(control).toBeDisabled()
-  expect(control).toBeRequired()
+  if (options.requiredAttribute !== false) expect(control).toBeRequired()
+  if (options.requiredAria) expect(control).toHaveAttribute('aria-required', 'true')
   expect(control).toHaveAttribute('aria-invalid', 'true')
   expect(control).toHaveAttribute('aria-describedby', options.initialDescribedBy)
   for (const id of options.resolvedDescribedBy ?? [])
@@ -36,7 +41,8 @@ async function assertSharedFieldState(
   m.setProps(options.clearProps)
   await m.settle()
   expect(control).not.toBeDisabled()
-  expect(control).not.toBeRequired()
+  if (options.requiredAttribute !== false) expect(control).not.toBeRequired()
+  if (options.requiredAria) expect(control).not.toHaveAttribute('aria-required')
   expect(control).not.toHaveAttribute('aria-invalid')
   expect(control).toHaveAttribute('aria-describedby', options.remainingDescribedBy)
 }
@@ -56,7 +62,7 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
           <NumberField>
             <NumberField.Input />
           </NumberField>
-        ) : (
+        ) : kind === 'select' ? (
           <Select items={[{ value: 'one', label: 'One' }]}>
             <Select.Trigger>
               <Select.Value placeholder="Choose" />
@@ -71,19 +77,44 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
               </Select.Positioner>
             </Select.Portal>
           </Select>
+        ) : kind === 'combobox' ? (
+          <Combobox items={[{ value: 'one', label: 'One' }]}>
+            <Combobox.Input />
+            <Combobox.Positioner>
+              <Combobox.Content>
+                <Combobox.Item value="one">One</Combobox.Item>
+              </Combobox.Content>
+            </Combobox.Positioner>
+          </Combobox>
+        ) : (
+          <TagsInput defaultValue={[]}>
+            <Field.Error id="inner-error">Fix this</Field.Error>
+            <TagsInput.Control>
+              <TagsInput.Input />
+            </TagsInput.Control>
+          </TagsInput>
         )}
       </>
     ),
   })
   await m.settle()
-  const control = kind === 'number' ? screen.getByRole('spinbutton') : screen.getByRole('combobox')
-  const initialDescribedBy = 'help error'
+  const control =
+    kind === 'number'
+      ? screen.getByRole('spinbutton')
+      : kind === 'select'
+        ? screen.getByRole('combobox')
+        : kind === 'combobox'
+          ? screen.getByRole('combobox')
+          : screen.getByRole('textbox')
+  const initialDescribedBy = kind === 'tags' ? 'help error inner-error' : 'help error'
   await assertSharedFieldState(m, control, {
     name: undefined,
     initialDescribedBy,
     remainingDescribedBy: 'help',
     clearProps: { disabled: false, required: false, invalid: false },
-    resolvedDescribedBy: ['help', 'error'],
+    resolvedDescribedBy: kind === 'tags' ? ['help', 'error', 'inner-error'] : ['help', 'error'],
+    requiredAttribute: kind !== 'combobox',
+    requiredAria: kind === 'combobox',
   })
   expect(m.container.querySelector('[id="help"]')).toHaveTextContent('Helpful text')
 }
