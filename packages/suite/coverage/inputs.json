@@ -17,22 +17,38 @@
   },
   {
     "ids": ["number-field.roles.2"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "covered",
+    "reason": "Asserts decimal aria-valuenow, known aria-valuemin/max, locale-en-US currency aria-valuetext, then reactively updates value and both bounds, and finally transitions to null while asserting aria-valuenow and aria-valuetext are omitted.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.2 and number-field.roles.26 synchronize numeric ARIA values and valuetext"
+      }
     ]
   },
   {
     "ids": ["number-field.roles.3"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "covered",
+    "reason": "Covers an empty value with aria-valuenow omitted, an unbounded value, and one-sided minimum/maximum cases with only the known bound exposed. An unbounded value exposes aria-valuenow but omits both aria-valuemin and aria-valuemax.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.3 omits empty value and supports one-sided bounds"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.3 omits unset spinbutton bounds"
+      }
     ]
   },
   {
@@ -75,12 +91,18 @@
   },
   {
     "ids": ["number-field.roles.7"],
-    "status": "missing",
-    "reason": "The accepted text-host input is explicitly implemented with type=text, but no scoped assertion checks its type.",
+    "status": "covered",
+    "reason": "Asserts the public spinbutton host is input type=text.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.7 uses a text host for numeric parsing"
+      }
     ]
   },
   {
@@ -95,8 +117,8 @@
   },
   {
     "ids": ["number-field.roles.9"],
-    "status": "partial",
-    "reason": "Default Increase name and live aria-controls are asserted; both names and aria-hidden symbolic glyphs are not fully asserted.",
+    "status": "covered",
+    "reason": "Asserts a nonempty spinbutton ID, Increase and Decrease names, each aria-controls points to that ID, and each actual span glyph is aria-hidden.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -106,6 +128,10 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "external values update the existing input and author IDs update stepper controls"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.9 names both steppers, controls the input, and hides glyphs"
       }
     ]
   },
@@ -117,12 +143,18 @@
   },
   {
     "ids": ["number-field.roles.11"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "covered",
+    "reason": "Checks aria-disabled=true only on Decrease at minimum and only on Increase at maximum, with an interior value proving both attributes are absent.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.11 conditionally disables steppers at both bounds"
+      }
     ]
   },
   {
@@ -260,8 +292,8 @@
   },
   {
     "ids": ["number-field.roles.26"],
-    "status": "partial",
-    "reason": "The chosen spinbutton role and absent empty value are asserted, but all synchronized numeric ARIA values are not.",
+    "status": "covered",
+    "reason": "Public spinbutton numeric ARIA and formatted text synchronize after reactive value/bound changes and clear when value becomes empty or a valid value is edited to malformed draft text.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -271,6 +303,14 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "empty, malformed, and bounded semantics stay finite"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.2 and number-field.roles.26 synchronize numeric ARIA values and valuetext"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-roles.test.tsx",
+        "title": "number-field.roles.26 omits numeric ARIA for a malformed public draft"
       }
     ]
   },

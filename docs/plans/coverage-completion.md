@@ -539,3 +539,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 ### Failure verifier update
 
 - Per user instruction, subsequent failure verification uses GPT-6 Astra at low reasoning (requested as light), replacing GPT-5.6 Sol. Confirmed implementation fixes continue to use Astra at medium reasoning. Earlier entries retain the models that actually performed those checks.
+
+### NumberField numeric ARIA and steppers
+
+- Closed six gaps with seven shared cases: reactive numeric attributes and empty-value cleanup, absent/one-sided limits, text host, both named stepper associations and hidden glyphs, and bound/interior disabled attributes.
+- Independent runs passed six jsdom cases and all seven final Chromium cases. Luna ran all seven in jsdom and passed lint/typechecking. A public malformed-draft regression fills the omission assertion missing from older core evidence.
