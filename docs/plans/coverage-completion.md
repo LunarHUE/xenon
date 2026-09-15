@@ -768,3 +768,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed all five focus gaps: programmatic gap redirection, native forward exit, reverse entry, first-slot autofocus and Field label click.
 - Astra low confirmed earlier active slots incorrectly reached the insertion slot on Tab. Astra medium fixed forward traversal by starting it at the existing insertion tab stop, preserving native default behavior and consumer cancellation.
 - Independent three-engine focus/state run passed all 48 cases; core tests passed all eight. Autofocus is tested first in a fresh document and awaited, without manual focus.
+
+### PinInput completion, reset and filtering state
+
+- Closed five gaps for repeated completion after partial and full clear/refill, incomplete callback silence, clamped default/proxy/FormData, all three typed/pasted character classes, and native placeholder restoration after reset.
+- Root added native placeholder-shown assertions and requested a complete clear/refill cycle in addition to replacing the final character.
+- Independent Chromium, Firefox and WebKit run passed all 15 cases; coverage references validate.

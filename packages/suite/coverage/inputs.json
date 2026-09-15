@@ -3300,22 +3300,34 @@
   },
   {
     "ids": ["pin-input.state.2"],
-    "status": "missing",
-    "reason": "Accepted edits can complete again and incomplete values do not complete; native placeholders return after clearing. These specific callback/reset scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Completion fires again after clearing and refilling the same final character and after clearing and refilling the entire code.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-state-extra.test-browser.tsx",
+        "title": "pin-input.state.2 completion repeats after clearing and refilling the same last character"
+      }
     ]
   },
   {
     "ids": ["pin-input.state.3"],
-    "status": "missing",
-    "reason": "Accepted edits can complete again and incomplete values do not complete; native placeholders return after clearing. These specific callback/reset scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Incomplete native edits leave the completion callback silent.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-state-extra.test-browser.tsx",
+        "title": "pin-input.state.3 incomplete edits remain silent for completion"
+      }
     ]
   },
   {
@@ -3342,8 +3354,8 @@
   },
   {
     "ids": ["pin-input.state.6"],
-    "status": "partial",
-    "reason": "Overlong normalized scalar state is truncated by core; adapter default plus proxy value are not asserted together.",
+    "status": "covered",
+    "reason": "An overlong default is truncated consistently in every visible slot, the proxy and native FormData.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3353,6 +3365,10 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "normalizes a scalar code and exposes indexed OTP slots"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-state-extra.test-browser.tsx",
+        "title": "pin-input.state.6 overlong default values clamp slots and the submitted proxy"
       }
     ]
   },
@@ -3364,8 +3380,8 @@
   },
   {
     "ids": ["pin-input.state.8"],
-    "status": "partial",
-    "reason": "Alphabetic and alphanumeric normalization plus numeric mixed paste are asserted; every typed/pasted mode matrix is not.",
+    "status": "covered",
+    "reason": "Native typing and synthetic paste independently filter mixed characters under numeric, alphabetic and alphanumeric modes.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3375,6 +3391,10 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "alphabetic and alphanumeric modes filter codes and expose masking semantics"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-state-extra.test-browser.tsx",
+        "title": "pin-input.state.8 typed and pasted filtering supports numeric alphabetic and alphanumeric modes"
       }
     ]
   },
@@ -3438,12 +3458,18 @@
   },
   {
     "ids": ["pin-input.state.17"],
-    "status": "missing",
-    "reason": "Accepted edits can complete again and incomplete values do not complete; native placeholders return after clearing. These specific callback/reset scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Native form reset on the same completed instance restores empty slot values and native placeholder-shown state.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-state-extra.test-browser.tsx",
+        "title": "pin-input.state.17 native reset on the mounted instance restores empty slots and placeholders"
+      }
     ]
   },
   {
