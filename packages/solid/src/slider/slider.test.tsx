@@ -10,6 +10,82 @@ const settle = async () => {
   flush()
 }
 
+test('range dragging marks only its active thumb and clears on release, cancel and disable', async () => {
+  const [disabled, setDisabled] = createSignal(false)
+  const change = vi.fn()
+  const commit = vi.fn()
+  const m = render(() => (
+    <Slider
+      defaultValue={[20, 70]}
+      disabled={disabled()}
+      onValueChange={change}
+      onValueCommit={commit}
+    >
+      <Slider.Control data-testid="control">
+        <Slider.Thumb index={0} aria-label="Lower" />
+        <Slider.Thumb index={1} aria-label="Upper" />
+      </Slider.Control>
+    </Slider>
+  ))
+  await settle()
+  const control = m.getByTestId('control')
+  const root = m.getByRole('group')
+  const lower = m.getByRole('slider', { name: 'Lower' })
+  const upper = m.getByRole('slider', { name: 'Upper' })
+  vi.spyOn(control, 'getBoundingClientRect').mockReturnValue({
+    left: 0,
+    top: 0,
+    width: 100,
+    height: 20,
+  } as DOMRect)
+  const pointer = async (target: EventTarget, type: string, position: number) => {
+    target.dispatchEvent(
+      new PointerEvent(type, {
+        bubbles: true,
+        cancelable: true,
+        pointerId: 1,
+        button: 0,
+        clientX: position,
+      })
+    )
+    await settle()
+  }
+  const idle = () => {
+    for (const element of [root, control, lower, upper])
+      expect(element).not.toHaveAttribute('data-dragging')
+  }
+  await pointer(control, 'pointerdown', 20)
+  for (const element of [root, control, lower]) expect(element).toHaveAttribute('data-dragging', '')
+  expect(upper).not.toHaveAttribute('data-dragging')
+  await pointer(document, 'pointermove', 30)
+  expect(lower).toHaveAttribute('data-dragging', '')
+  expect(upper).not.toHaveAttribute('data-dragging')
+  await pointer(document, 'pointerup', 30)
+  idle()
+  expect(commit).toHaveBeenCalledExactlyOnceWith([30, 70])
+  await pointer(upper, 'pointerdown', 70)
+  expect(upper).toHaveAttribute('data-dragging', '')
+  expect(lower).not.toHaveAttribute('data-dragging')
+  await pointer(document, 'pointercancel', 70)
+  idle()
+  expect(commit).toHaveBeenCalledTimes(1)
+  await pointer(lower, 'pointerdown', 30)
+  setDisabled(true)
+  await settle()
+  idle()
+  await pointer(document, 'pointermove', 40)
+  expect(change).toHaveBeenCalledExactlyOnceWith([30, 70])
+  setDisabled(false)
+  await settle()
+  await pointer(upper, 'pointerdown', 70)
+  expect(upper).toHaveAttribute('data-dragging', '')
+  m.unmount()
+  await pointer(document, 'pointermove', 80)
+  await pointer(document, 'pointerup', 80)
+  expect(change).toHaveBeenCalledTimes(1)
+  expect(commit).toHaveBeenCalledTimes(1)
+})
+
 test.each([
   ['Control', Slider.Control],
   ['Track', Slider.Track],

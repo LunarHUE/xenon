@@ -5358,8 +5358,8 @@
   },
   {
     "ids": ["slider.pointer.1"],
-    "status": "partial",
-    "reason": "Native rail press chooses nearest thumb and focuses/commits it; coincident-thumb tie direction is not asserted.",
+    "status": "covered",
+    "reason": "Browser cases assert the required pointer behavior with exact values, callbacks and focus, including native hit-tested presses and deterministic in-progress gestures.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5369,6 +5369,14 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "real track press selects nearest thumb, moves it, focuses it, and commits once"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.1 stacked thumbs choose the lower index before and higher index after"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.1 real hit-tested stacked presses choose lower before and upper after"
       }
     ]
   },
@@ -5390,8 +5398,8 @@
   },
   {
     "ids": ["slider.pointer.3"],
-    "status": "partial",
-    "reason": "Real outside drag clamps to the rail and emits final commit; callback-on-every-distinct-move is not asserted.",
+    "status": "covered",
+    "reason": "Browser cases assert the required pointer behavior with exact values, callbacks and focus, including native hit-tested presses and deterministic in-progress gestures.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5401,6 +5409,14 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "real dragging outside the rail clamps a thumb and releases the gesture"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.3 emits a change for every distinct drag coordinate and commits the final value once"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.3 real drag emits changes and commits once before later blur"
       }
     ]
   },
@@ -5422,8 +5438,8 @@
   },
   {
     "ids": ["slider.pointer.5"],
-    "status": "partial",
-    "reason": "Real drag commits once and no-motion thumb press is silent; later blur after pointer release is not asserted.",
+    "status": "covered",
+    "reason": "Browser cases assert the required pointer behavior with exact values, callbacks and focus, including native hit-tested presses and deterministic in-progress gestures.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5433,6 +5449,10 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "pressing a thumb without movement emits no change or commit"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.5 does not commit a second time when a completed drag later blurs"
       }
     ]
   },
@@ -5532,12 +5552,22 @@
   },
   {
     "ids": ["slider.pointer.15"],
-    "status": "missing",
-    "reason": "Control pointerdown bubbles from non-thumb descendants into rail mapping; no scoped native descendant press assertion verifies it.",
+    "status": "covered",
+    "reason": "Browser cases assert the required pointer behavior with exact values, callbacks and focus, including native hit-tested presses and deterministic in-progress gestures.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.15 maps a press on a non-thumb descendant of the control"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.15 real descendant hit testing moves the value and focuses the thumb"
+      }
     ]
   },
   {
@@ -5790,8 +5820,8 @@
   },
   {
     "ids": ["slider.state.7"],
-    "status": "partial",
-    "reason": "Synthetic moves emit changed arrays and cancellation commits once; a per-thumb dragging flag is not independently asserted.",
+    "status": "covered",
+    "reason": "Only the active thumb carries data-dragging, while root/control retain gesture-wide flags. Each changed move emits its value, commit waits for release, and adapter regressions cover release/cancel/disable/disposal cleanup.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5801,6 +5831,18 @@
       {
         "file": "packages/suite/src/slider/slider.native.test-browser.tsx",
         "title": "a synthetic pointercancel ends the drag, commits the last value and ignores later events"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.state.7 exposes data-dragging only on the active thumb and clears both on release"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.3 emits a change for every distinct drag coordinate and commits the final value once"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-pointer-extra.test-browser.tsx",
+        "title": "slider.pointer.3 real drag emits changes and commits once before later blur"
       }
     ]
   },

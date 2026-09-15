@@ -681,3 +681,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed state.1 with ARIA, RGB, hex and swatch assertions after each direct key dispatch and synchronous Solid flush, without awaiting a later task.
 - Closed state.11 by shrinking and growing the controlled thumb set during a gesture: movement passes the removed neighbor's old bound and clamps at the newly added neighbor.
 - Independent Chromium run passed all three cases; Luna suite typechecking and lint passed, and root formatted the final file.
+
+### Slider pointer behavior and active-thumb dragging flags
+
+- Closed five gaps for stacked-thumb tie direction, per-move values/callbacks and clamping, release/blur/no-motion commit behavior, descendant hit testing, and active-thumb dragging flags.
+- Astra low confirmed the shared flag incorrectly marked inactive thumbs. Astra medium tracks the active index, retaining shared root/control flags and clearing the index on release, cancellation, disabling and disposal.
+- Independent checks passed 19 Slider adapter tests and all eight pointer Chromium tests. Medium's Solid typecheck and lint passed.

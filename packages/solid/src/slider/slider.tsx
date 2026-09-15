@@ -63,6 +63,8 @@ interface Context {
   setLabel(value: string | undefined): void
   /** Current field and slider data attributes. */
   flags(): GlobalAttrs
+  /** Index of the thumb owning the active pointer gesture. */
+  draggingThumb(): number | undefined
   /** Mounted native thumbs keyed by their initial index. */
   inputs: Map<number, HTMLInputElement>
   /** Live author-aware thumb ID readers. */
@@ -110,7 +112,9 @@ function SliderRoot(props: SliderProps): JSX.Element {
     untrack(() => props.defaultValue ?? [props.min ?? 0])
   )
   const [direction, setDirection] = createSignal<'ltr' | 'rtl'>('ltr')
-  const [dragging, setDragging] = createSignal(false, { ownedWrite: true })
+  const [draggingThumb, setDraggingThumb] = createSignal<number | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const [focused, setFocus] = createSignal(false, { ownedWrite: true })
   const [labelSignal, setLabelSignal] = createSignal<string | undefined>(undefined, {
     ownedWrite: true,
@@ -196,7 +200,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
     event.preventDefault()
     inputs.get(index)?.focus()
     pending = undefined
-    setDragging(true)
+    setDraggingThumb(index)
     if (thumb === undefined) change(result().setValue(index, position))
     const doc = control.ownerDocument
     const pointerId = event.pointerId
@@ -218,7 +222,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
       doc.removeEventListener('pointerup', end)
       doc.removeEventListener('pointercancel', end)
       removeDrag = undefined
-      setDragging(false)
+      setDraggingThumb(undefined)
     }
     doc.addEventListener('pointermove', move, { passive: false })
     doc.addEventListener('pointerup', end)
@@ -263,6 +267,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
     id,
     label,
     setLabel,
+    draggingThumb,
     inputs,
     thumbIds,
     change,
@@ -276,7 +281,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
     field,
     flags: () => ({
       ...result().parts.control.attrs,
-      'data-dragging': dragging() ? '' : undefined,
+      'data-dragging': draggingThumb() !== undefined ? '' : undefined,
       'data-focus': focused() ? '' : undefined,
     }),
   }
@@ -412,6 +417,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
       attrs: {
         ...native.attrs,
         ...context.flags(),
+        'data-dragging': context.draggingThumb() === index() ? '' : undefined,
         id: id(),
         name: context.props.name ?? context.field?.name(),
         form: context.props.form,
