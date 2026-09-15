@@ -98,6 +98,73 @@ test('nonfinite controlled values never serialize NaN or Infinity', () => {
   expect(new FormData(view.container.querySelector('form')!).get('amount')).toBe('')
 })
 
+test('format changes reformat the draft without committing and equivalent options preserve text', () => {
+  const changed = vi.fn()
+  const committed = vi.fn()
+  const [formatOptions, setFormatOptions] = createSignal<Intl.NumberFormatOptions>({
+    style: 'currency',
+    currency: 'USD',
+  })
+  const [locale, setLocale] = createSignal('en-US')
+  const view = render(() => (
+    <form>
+      <NumberField
+        defaultValue={12}
+        name="amount"
+        locale={locale()}
+        formatOptions={formatOptions()}
+        onValueChange={changed}
+        onValueCommit={committed}
+      >
+        <NumberField.Input aria-label="Amount" />
+      </NumberField>
+    </form>
+  ))
+  const input = view.getByRole('spinbutton') as HTMLInputElement
+  const form = view.container.querySelector('form')!
+  type(input, '123.')
+  setFormatOptions({ currency: 'USD', style: 'currency', useGrouping: undefined })
+  flush()
+  expect(input.value).toBe('123.')
+  type(input, '$123.50')
+  setFormatOptions({ style: 'currency', currency: 'EUR' })
+  flush()
+  expect(input.value).toBe('€123.50')
+  expect(new FormData(form).get('amount')).toBe('12')
+  expect(changed).not.toHaveBeenCalled()
+  expect(committed).not.toHaveBeenCalled()
+  setLocale('de-DE')
+  flush()
+  expect(input.value).toBe(
+    new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(123.5)
+  )
+  key(input, 'Enter')
+  expect(changed).toHaveBeenCalledExactlyOnceWith(123.5)
+  expect(committed).toHaveBeenCalledExactlyOnceWith(123.5)
+})
+
+test('format updates preserve empty and invalid drafts', () => {
+  const [formatOptions, setFormatOptions] = createSignal<Intl.NumberFormatOptions>()
+  const view = render(() => (
+    <NumberField defaultValue={12} formatOptions={formatOptions()}>
+      <NumberField.Input aria-label="Amount" />
+    </NumberField>
+  ))
+  const input = view.getByRole('spinbutton') as HTMLInputElement
+  type(input, '456.')
+  setFormatOptions({})
+  flush()
+  expect(input.value).toBe('456.')
+  type(input, '-')
+  setFormatOptions({ style: 'currency', currency: 'EUR' })
+  flush()
+  expect(input.value).toBe('-')
+  type(input, '')
+  setFormatOptions({ style: 'currency', currency: 'USD' })
+  flush()
+  expect(input.value).toBe('')
+})
+
 test('native validity follows draft range errors and recovers after correction', () => {
   const view = render(() => (
     <NumberField min={0} max={10}>

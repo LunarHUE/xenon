@@ -569,3 +569,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Astra medium corrects floating-point noise near integer grid positions, with a capped tolerance and regressions for long bidirectional stepping, nearby off-grid values, and large indices.
 - Closed five gaps for handled keys, clearing, precision, fallback and equivalent edits. state.11 has new directional coverage but retains a research-contract divergence and an unasserted outside-bound example.
 - Independent final checks passed 17 core, 26 suite jsdom and 55 Chromium tests, excluding the separately failing notes slice. Core and suite typechecks passed.
+
+### NumberField formatter changes preserve the draft value
+
+- Astra low confirmed real formatter-content changes left an uncommitted draft unformatted, after correcting the equivalent-object fixture. Astra medium snapshots option content and reformats using the prior parser without committing.
+- Closed notes.1 and notes.20. Canceled synthetic blur now has a direct assertion, but notes.23 retains native-blur cancellation/touched limitations.
+- Independent checks passed nine Solid, 29 suite jsdom and 61 Chromium cases; Solid/suite typechecks passed. The browser run includes the new caret-deletion slice.

@@ -1,4 +1,8 @@
-import { numberField, type NumberFieldOptions } from '@xenon/core/number-field'
+import {
+  createNumberFieldFormat,
+  numberField,
+  type NumberFieldOptions,
+} from '@xenon/core/number-field'
 import { isServer, type ComponentProps, type JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
 import {
@@ -106,6 +110,31 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
       previous = next
     }
   )
+  const formatting = createMemo(() => ({
+    locale: props.locale ?? 'en-US',
+    options: { ...props.formatOptions },
+  }))
+  let previousFormatting = untrack(formatting)
+  createEffect(formatting, (next) => {
+    const previous = previousFormatting
+    previousFormatting = next
+    const keys = new Set([...Object.keys(previous.options), ...Object.keys(next.options)])
+    if (
+      previous.locale === next.locale &&
+      [...keys].every((key) => {
+        const option = key as keyof Intl.NumberFormatOptions
+        return previous.options[option] === next.options[option]
+      })
+    )
+      return
+    const text = draft()
+    if (text === undefined) return
+    // Interpret the draft with its original locale and tokens before changing display.
+    // Formatting alone must not commit it or replace it with the older numeric value.
+    const parsed = createNumberFieldFormat(previous.locale, previous.options).parse(text)
+    if (parsed === null || Number.isFinite(parsed))
+      setDraft(createNumberFieldFormat(next.locale, next.options).format(parsed))
+  })
   onSettled(() => {
     if (!input) return
     const element = input

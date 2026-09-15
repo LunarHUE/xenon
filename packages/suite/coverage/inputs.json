@@ -1917,8 +1917,8 @@
   },
   {
     "ids": ["number-field.notes.1"],
-    "status": "partial",
-    "reason": "The visible input uses native text editing and arrow steps, but the configured large-step behavior is not asserted.",
+    "status": "covered",
+    "reason": "Native text-host editing is covered by existing evidence; additional public key cases prove step=1 and explicitly configured largeStep=25 from aligned values.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1928,6 +1928,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.native.test-browser.tsx",
         "title": "number-field.keyboard.8: Enter commits, keeps native submission, and a later blur commits nothing"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-notes-extra.test.tsx",
+        "title": "number-field.notes.1 supports a small arrow step and a large paged step"
       }
     ]
   },
@@ -2055,12 +2059,26 @@
   },
   {
     "ids": ["number-field.notes.20"],
-    "status": "missing",
-    "reason": "Draft storage is independent of formatter object identity, but no scoped test asserts preserving an uncommitted draft across an equivalent formatOptions rerender.",
+    "status": "covered",
+    "reason": "Equivalent fresh option objects and undefined-option reactive updates preserve draft text. Real currency/locale content changes reformat the valid draft using its prior parser, without committing or changing canonical form values; invalid/empty drafts remain intact.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-notes-extra.test.tsx",
+        "title": "number-field.notes.20 preserves an uncommitted draft across fresh format option rerenders"
+      },
+      {
+        "file": "packages/solid/src/number-field/number-field.test.tsx",
+        "title": "format changes reformat the draft without committing and equivalent options preserve text"
+      },
+      {
+        "file": "packages/solid/src/number-field/number-field.test.tsx",
+        "title": "format updates preserve empty and invalid drafts"
+      }
     ]
   },
   {
@@ -2082,7 +2100,7 @@
   {
     "ids": ["number-field.notes.23"],
     "status": "partial",
-    "reason": "Author-canceled input restores the DOM with no callback; canceled blur/reformat is not asserted and touched metadata is unshipped.",
+    "reason": "Author-canceled input restores the DOM with no callback; canceled blur/reformat is not asserted and touched metadata is unshipped. A canceled cancelable synthetic blur preserves the dirty draft and emits no commit callback; a noncancelable blur positive control commits. Native blur cannot be canceled with preventDefault, so this does not establish the research native-blur cancellation branch. Touched metadata remains unshipped.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -2092,6 +2110,10 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "readonly and author-canceled input restore the visible DOM"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-notes-extra.test.tsx",
+        "title": "number-field.notes.23 a canceled cancelable blur does not reformat or commit"
       }
     ]
   },
