@@ -97,10 +97,15 @@ export function createToastSwipe(element: HTMLElement, initial: ToastSwipeOption
       event.defaultPrevented
     )
       return
-    const target = event
-      .composedPath()
-      .find((node): node is Element => node instanceof (doc.defaultView?.Element ?? Element))
-    if (target?.closest(ignored) && element.contains(target.closest(ignored))) return
+    const path = event.composedPath()
+    const rootIndex = path.indexOf(element)
+    const candidates = rootIndex < 0 ? path : path.slice(0, rootIndex + 1)
+    if (
+      candidates.some(
+        (node) => node instanceof (doc.defaultView?.Element ?? Element) && node.matches(ignored)
+      )
+    )
+      return
     const directions = options.directions ?? ['right']
     if (!directions.length) return
     reset()
