@@ -2581,8 +2581,8 @@
   },
   {
     "ids": ["pin-input.keyboard.3"],
-    "status": "partial",
-    "reason": "Multi-character autofill distributes one character to each slot; the per-slot result is asserted with the full scalar submission.",
+    "status": "covered",
+    "reason": "A two-character input distributes one character per slot, advances focus and reports the joined value.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2592,6 +2592,10 @@
       {
         "file": "packages/solid/src/pin-input/pin-input.test.tsx",
         "title": "distributes autofill and submits one scalar value with completion"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-keyboard-extra.test-browser.tsx",
+        "title": "pin-input.keyboard.3 multi-character input distributes one character per slot"
       }
     ]
   },
@@ -2822,7 +2826,7 @@
   {
     "ids": ["pin-input.keyboard.17"],
     "status": "partial",
-    "reason": "Ctrl+Backspace clears and focuses first; Cmd and cross-slot Select All/Cut are not asserted, and the latter API is excluded.",
+    "reason": "Ctrl and Cmd Backspace clear the entire code and Home plus Delete splices its first character. Cross-slot Select All/Cut is excluded by the accepted native-slot API.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2832,13 +2836,17 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "modifier Backspace clears the whole code and returns focus to the first slot"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-keyboard-extra.test-browser.tsx",
+        "title": "pin-input.keyboard.17 modifier deletion clears all or the first slot as specified"
       }
     ]
   },
   {
     "ids": ["pin-input.keyboard.18"],
     "status": "partial",
-    "reason": "Up/Down focus boundaries are asserted; the accepted plan explicitly does not stop their propagation.",
+    "reason": "ArrowUp moves to the first slot and ArrowDown to the insertion slot or complete final slot. Both cancel native behavior; propagation stopping is explicitly excluded by the accepted plan.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2848,6 +2856,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "Home and ArrowUp reach the first slot while End and ArrowDown reach the insertion point"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-keyboard-extra.test-browser.tsx",
+        "title": "pin-input.keyboard.18 ArrowUp and ArrowDown move focus and cancel the native event while bubbling"
       }
     ]
   },
@@ -2917,12 +2929,18 @@
   },
   {
     "ids": ["pin-input.keyboard.24"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Native keyboard entry with the caret independently asserted at either edge replaces the current character and advances focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-keyboard-extra.test-browser.tsx",
+        "title": "pin-input.keyboard.24 caret at either edge still replaces a filled slot and advances"
+      }
     ]
   },
   {
@@ -3512,8 +3530,8 @@
   },
   {
     "ids": ["pin-input.rtl.2"],
-    "status": "partial",
-    "reason": "Synthetic composition input/deletion suppression and distribution on compositionend are asserted; navigation keys and rejected nonnumeric committed composition are not all covered.",
+    "status": "covered",
+    "reason": "Composition suppresses edits and six navigation keys from a slot where normal navigation would move, then distributes a changed multi-character commit; nonnumeric committed data leaves numeric state and callbacks unchanged.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3523,6 +3541,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "synthetic composition ignores mid-composition input and deletion, and a canceled composition leaves the code empty"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-keyboard-extra.test-browser.tsx",
+        "title": "pin-input.rtl.2 suppresses edits and navigation during composition, then commits or rejects composition data"
       }
     ]
   },

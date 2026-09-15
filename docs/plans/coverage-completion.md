@@ -756,3 +756,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed four gaps for root/label metadata, every slot's state markers, three translated slot names through getSlotLabel, and insertion-point tabindex movement through filling and clearing.
 - Astra low corrected a fixture that equated Backspace focus with the insertion tab stop. These are deliberately independent in the accepted contract. Native first-slot inputmode override is tested; proxy routing remains partial.
 - Independent final Chromium run passed all five role-state cases alongside the seven form cases.
+
+### PinInput caret replacement and composition boundaries
+
+- Closed three gaps for multi-character slot input, caret-independent replacement, and composition edit/navigation suppression with accepted and rejected commits. Ctrl/Cmd deletion and vertical navigation now cover the built contract; excluded cross-slot cut and propagation stopping remain partial.
+- Root review replaced a reclicking typing helper and an empty-slot navigation no-op with meaningful caret and composing-slot assertions.
+- Independent Chromium, Firefox and WebKit run passed all 15 cases. The full Chromium E2E checkpoint also passed all 64 tests before the pending Tab-navigation fix.
