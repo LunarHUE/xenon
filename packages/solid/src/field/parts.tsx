@@ -85,6 +85,7 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
   const part = (): PartProps<'label'> => ({
     attrs: {
       ...fieldFlags(context),
+      'data-part': 'label',
       id: own.id ?? context.ids.label,
       for: context.association('for', context.controlId),
     },
@@ -214,6 +215,7 @@ export function FieldControl<T extends ValidComponent = 'input'>(
   const own = props as ControlOwn & {
     id?: string
     as?: ValidComponent
+    autofocus?: boolean
     'aria-labelledby'?: string
     'aria-describedby'?: string
   }
@@ -285,6 +287,10 @@ export function FieldControl<T extends ValidComponent = 'input'>(
     previous = node
     own.ref?.(node)
   }
+
+  onSettled(() => {
+    if (own.autofocus) previous?.focus()
+  })
 
   const view = () => (
     <Dynamic

@@ -80,3 +80,14 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Verified null overrides an open default, user proposals retain controlled
   presentation, and undefined restores the internal default without echo.
 - Independent combined Progress/Menubar runs and audit validation passed.
+
+### Field labels and focus
+
+- Added eight suite tests and four focused Solid regressions; closed six gaps.
+- Sol verified two genuine bugs. Astra added label part metadata and mount-time
+  autofocus using the established settled-focus convention.
+- Independent checks passed: 44 suite jsdom, 60 Chromium Field, and 16 Solid
+  Field tests; Solid/suite typechecks, changed-test lint and audit validation.
+- The corrected readonly share-URL fixture also passed in jsdom and Chromium.
+- Input and textarea label activation now cover independently disabled controls
+  and disabled ancestry. Their unbuilt passive-label alternatives remain partial.

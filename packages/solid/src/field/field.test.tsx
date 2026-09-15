@@ -11,6 +11,44 @@ function settle(): Promise<void> {
 }
 
 describe('<Field />', () => {
+  test('autofocus runs once after mounting while the attribute remains reactive', async () => {
+    const [autofocus, setAutofocus] = createSignal(true)
+    let focuses = 0
+    const { container } = render(() => (
+      <Field>
+        <Field.Control autofocus={autofocus()} onFocus={() => focuses++} />
+      </Field>
+    ))
+    const control = container.querySelector('input')!
+    await settle()
+    expect(control).toHaveFocus()
+    expect(focuses).toBe(1)
+
+    control.blur()
+    setAutofocus(false)
+    await settle()
+    expect(control).not.toHaveAttribute('autofocus')
+    setAutofocus(true)
+    await settle()
+    expect(control).toHaveAttribute('autofocus')
+    expect(control).not.toHaveFocus()
+    expect(focuses).toBe(1)
+  })
+
+  test.each(['field', 'control', 'fieldset'])('autofocus respects disabled %s', async (source) => {
+    let focuses = 0
+    const { container } = render(() => (
+      <fieldset disabled={source === 'fieldset'}>
+        <Field disabled={source === 'field'}>
+          <Field.Control autofocus disabled={source === 'control'} onFocus={() => focuses++} />
+        </Field>
+      </fieldset>
+    ))
+    await settle()
+    expect(container.querySelector('input')).not.toHaveFocus()
+    expect(focuses).toBe(0)
+  })
+
   test('wires the label, the control and one generated id base', () => {
     const { container, getByText } = render(() => (
       <Field>

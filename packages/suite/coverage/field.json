@@ -854,13 +854,17 @@
   },
   {
     "ids": ["label.roles.5"],
-    "status": "partial",
-    "reason": "The four Field flags are asserted on labels, but the label has no asserted per-part data attribute.",
+    "status": "covered",
+    "reason": "The label emits data-part=label and mirrors disabled, invalid, readonly and required state flags. The accepted missing part attribute is now implemented and the assertions pass.",
     "sources": ["docs/spec/field.md", "packages/solid/src/field/field.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/field/field.test.tsx",
         "title": "every part mirrors the four state flags"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test.tsx",
+        "title": "label.roles.5 exposes the label part and mirrors every Field state flag"
       }
     ]
   },
@@ -944,9 +948,15 @@
   },
   {
     "ids": ["label.notes.2"],
-    "status": "missing",
-    "reason": "Label author props pass through reactively and its generated ID is stable, but no test updates an extra authored label prop and asserts that ID remains unchanged.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+    "status": "covered",
+    "reason": "Reactive class updates are observed on the existing label element while its generated id remains unchanged.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test.tsx",
+        "title": "label.notes.2 updates reactive author props while its generated id stays stable"
+      }
+    ]
   },
   {
     "ids": ["description.roles.1"],
@@ -1496,25 +1506,41 @@
   },
   {
     "ids": ["input.roles.4"],
-    "status": "missing",
-    "reason": "Field root disabled state comes only from its own prop, but no assertion composes each individually disabled button/submit/select child and checks the wrapper remains enabled.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+    "status": "covered",
+    "reason": "Covers disabled button, submit input and select children and asserts the Field group wrapper remains enabled.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test.tsx",
+        "title": "input.roles.4 keeps the Field root enabled when only a native child is disabled"
+      }
+    ]
   },
   {
     "ids": ["input.roles.5"],
-    "status": "missing",
-    "reason": "Native readonly pass-through is tested separately; the share-link/key-hint accessible-name composition has no assertion.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+    "status": "covered",
+    "reason": "A native readonly input containing a share URL retains its readOnly property and gets its accessible name from a Field label whose aria-hidden keyboard hint is excluded. Verified in jsdom and Chromium.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test.tsx",
+        "title": "input.roles.5 preserves readonly on a share URL while excluding its key hint from the name"
+      }
+    ]
   },
   {
     "ids": ["input.pointer.1"],
     "status": "partial",
-    "reason": "Native label activation and disabled Field/fieldset suppression are asserted. Passive-label API and independently disabled input branch are not covered.",
+    "reason": "Native label activation and disabled Field/fieldset suppression are asserted. Passive-label API and independently disabled input branch are not covered. Real browser label activation, independently disabled input label suppression, disabled Field label suppression, ancestor fieldset suppression, and direct disabled input click suppression are covered. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.test-browser.tsx",
         "title": "label.pointer.1"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test-browser.tsx",
+        "title": "input.pointer.1 activates a native label and suppresses direct disabled input focus"
       }
     ]
   },
@@ -1592,9 +1618,15 @@
   },
   {
     "ids": ["textarea.pointer.1"],
-    "status": "missing",
-    "reason": "The browser labelFocus helper supports textarea but is only called for input and div. Native textarea label focus and its disabled variants have no assertion; the passive-label API is separately excluded from scope.",
-    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"]
+    "status": "partial",
+    "reason": "The browser labelFocus helper supports textarea but is only called for input and div. Native textarea label focus and its disabled variants have no assertion; the passive-label API is separately excluded from scope. Real browser label clicks focus enabled textarea controls and stay on body for independently disabled textarea, disabled Field, and disabled ancestor fieldset cases. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test-browser.tsx",
+        "title": "textarea.pointer.1 activates a textarea label and suppresses disabled field variants"
+      }
+    ]
   },
   {
     "ids": ["textarea.forms.1"],
@@ -1712,21 +1744,31 @@
   },
   {
     "ids": ["text-field.pointer.2"],
-    "status": "partial",
-    "reason": "Readonly direct click takes focus; the disabled branch clicks its label rather than directly clicking the disabled input.",
+    "status": "covered",
+    "reason": "Real browser direct clicks verify readonly focus and force-click disabled suppression without relying on label activation.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.test-browser.tsx",
         "title": "text-field.pointer.2"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test-browser.tsx",
+        "title": "text-field.pointer.2 focuses readonly text directly but not a disabled text control"
       }
     ]
   },
   {
     "ids": ["text-field.focus.1"],
-    "status": "missing",
-    "reason": "Native focus/blur/autofocus props are forwarded, but no text-control case counts programmatic and click focus/blur callbacks and mount autofocus exactly once.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+    "status": "covered",
+    "reason": "Native browser interaction asserts programmatic and click focus/blur callback counts, plus mount-time autofocus and one focus callback. Field.Control now focuses once after mounting; Solid regressions check reactive attributes and disabled contexts.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-labels.test-browser.tsx",
+        "title": "text-field.focus.1 counts programmatic and click focus, blur, and autofocus once"
+      }
+    ]
   },
   {
     "ids": ["text-field.focus.2"],
