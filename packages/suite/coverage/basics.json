@@ -4210,8 +4210,8 @@
   },
   {
     "ids": ["progress.state.21"],
-    "status": "partial",
-    "reason": "Asserts reactive root value and aria-valuetext; no bound display-text assertion exists in this test.",
+    "status": "covered",
+    "reason": "A Solid parent signal drives both the Progress value prop and an author-rendered bound value span. The test updates the parent from 20 to 80 and asserts aria-valuenow and the visible bound text change in the same flush.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/progress/progress.conformance.test.tsx"
@@ -4220,6 +4220,10 @@
       {
         "file": "packages/suite/src/progress/progress.conformance.test.tsx",
         "title": "progress.state.21"
+      },
+      {
+        "file": "packages/suite/src/progress/progress.coverage.test.tsx",
+        "title": "progress.state.21: a bound parent value updates aria-valuenow and author display text together"
       }
     ]
   },
@@ -4621,7 +4625,7 @@
   {
     "ids": ["progress.a11y.4"],
     "status": "partial",
-    "reason": "The shared axe scan runs, but does not establish every listed rule: target-size and layout assertions are not claimed.",
+    "reason": "The shared axe scan runs, but does not establish every listed rule: target-size and layout assertions are not claimed. Runs the shared axe helper with target-size explicitly enabled against a named progressbar with author-supplied 24px by 24px dimensions and reports no violations. This verifies the configured target-size scan for the fixture; it does not claim axe inapplicable/incomplete metadata or the complete cross-component rule inventory. Existing progress.a11y.1 evidence covers the default axe scan in determinate and indeterminate states.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/a11y.ts",
@@ -4631,6 +4635,10 @@
       {
         "file": "packages/suite/src/progress/progress.conformance.test.tsx",
         "title": "progress.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/progress/progress.coverage.test-browser.tsx",
+        "title": "progress.a11y.4: a named 24 by 24 progressbar passes axe target-size when the rule is enabled"
       }
     ]
   },
@@ -12804,7 +12812,7 @@
   {
     "ids": ["progress.roles.6"],
     "status": "partial",
-    "reason": "Named root and formatted aria-valuetext are exercised; no generated Label part exists.",
+    "reason": "Named root and formatted aria-valuetext are exercised; no generated Label part exists. Adds title and author aria-labelledby naming paths to existing aria-label coverage, and verifies the role is discoverable by its computed accessible name. The component does not generate a label part or generated id.",
     "sources": [
       "docs/spec/progress.md",
       "packages/solid/src/progress/index.tsx",
@@ -12819,13 +12827,21 @@
       {
         "file": "packages/suite/src/progress/progress.conformance.test.tsx",
         "title": "progress.roles.11"
+      },
+      {
+        "file": "packages/suite/src/progress/progress.coverage.test.tsx",
+        "title": "progress.roles.6: title supplies the accessible name when no aria-label is provided"
+      },
+      {
+        "file": "packages/suite/src/progress/progress.coverage.test.tsx",
+        "title": "progress.roles.16: an author label reference names the progressbar while formatted value remains aria-valuetext"
       }
     ]
   },
   {
     "ids": ["progress.roles.16"],
     "status": "partial",
-    "reason": "Named root and formatted aria-valuetext are exercised; no generated Label part exists.",
+    "reason": "Named root and formatted aria-valuetext are exercised; no generated Label part exists. Uses a public aria-labelledby reference to an author label and verifies the accessible name while the formatted percentage remains aria-valuetext. This supplements existing formatted-value and aria-label evidence; no generated Label part exists.",
     "sources": [
       "docs/spec/progress.md",
       "packages/solid/src/progress/index.tsx",
@@ -12840,6 +12856,10 @@
       {
         "file": "packages/suite/src/progress/progress.conformance.test.tsx",
         "title": "progress.roles.11"
+      },
+      {
+        "file": "packages/suite/src/progress/progress.coverage.test.tsx",
+        "title": "progress.roles.16: an author label reference names the progressbar while formatted value remains aria-valuetext"
       }
     ]
   },

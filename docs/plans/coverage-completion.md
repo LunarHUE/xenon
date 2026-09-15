@@ -59,3 +59,15 @@ accounting. Audit records live in `packages/suite/coverage`.
   canceled draft preservation, draft keyboard navigation and preview markers.
 - ESLint and audit validation passed.
 - Running audit: 1,125 covered, 1,015 partial, 483 missing.
+
+### Progress bound values and accessible names
+
+- Added four tests, closing the bound display-text requirement.
+- Added title and author-label naming assertions and an explicitly enabled
+  target-size axe scan; these do not claim unsupported generated Label parts
+  or the complete shared accessibility rule inventory.
+- Combined independent Progress/Menubar run: 31 jsdom and 32 Chromium tests passed.
+- Remaining Progress alternatives require unbuilt Indicator, Value, Label,
+  circular, or asChild/render APIs. Root-only supported behavior keeps its
+  existing evidence; these alternatives remain visible as partials.
+- Audit validation passed.
