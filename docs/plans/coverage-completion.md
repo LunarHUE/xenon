@@ -693,3 +693,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed pointer.7 with inert disabled thumb/rail sequences, native rail click/drag, callback silence, focus exclusion and focused-thumb disabling.
 - Closed pointer.20 with collision values/identity and native forward/reverse Tab after collision. Added complete secondary synthetic-touch lifecycle assertions; pointer.10 remains partial pending browser-generated multi-touch integration.
 - Independent final Chromium run passed all three cases. Luna lint passed; the concurrent parts slice had its own in-progress type errors.
+
+### Slider cross-browser pointer fixture correction
+
+- Astra low traced the WebKit secondary-touch failure to a trusted native mouse event sharing the fixture's synthetic owner ID. Synthetic touch IDs now differ from the browser mouse ID, preserving every ownership assertion.
+- Independent full Slider checkpoint passed all 198 Chromium/Firefox/WebKit cases and 18 jsdom cases, excluding the separately pending parts test. No production change.
