@@ -17,6 +17,7 @@ import { ToastFixture } from './toast'
 import { CalendarFixture } from './calendar'
 import { UtilityCoverage } from './utility-coverage'
 import { GroupSsrFixture } from './group-ssr'
+import { FieldLabelToggle } from './field-label-toggle'
 
 const root = document.getElementById('app')!
 /** Pre-hydration descendant elements; excludes the root and text/comment nodes. */
@@ -26,7 +27,9 @@ const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>
-    query.has('groupSsr') ? (
+    query.has('fieldLabelToggle') ? (
+      <FieldLabelToggle />
+    ) : query.has('groupSsr') ? (
       <GroupSsrFixture />
     ) : query.has('utilityCoverage') ? (
       <UtilityCoverage
@@ -56,5 +59,10 @@ flush()
 requestAnimationFrame(() => {
   root.dataset.preserved = String(serverNodes.every((node) => root.contains(node)))
   root.dataset.serverIds = JSON.stringify(serverIds)
+  root.dataset.idsPreserved = String(
+    JSON.stringify(
+      [...root.querySelectorAll('*')].filter((node) => node.id).map((node) => node.id)
+    ) === JSON.stringify(serverIds)
+  )
   root.dataset.hydrated = 'true'
 })

@@ -380,3 +380,11 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent combined runs passed these four cases in jsdom/Chromium as
   applicable; the separate nested-composite focus case remains under review.
   Audit validation passed.
+
+### Field label removal after hydration
+
+- Added an SSR fixture and end-to-end test, closing field.ssr.2. Server markup
+  begins with a label reference; hydration preserves DOM/IDs; removing the label
+  through the UI removes aria-labelledby entirely without errors.
+- Independent Chromium end-to-end test and suite typecheck passed. Audit
+  validation passed; Luna's changed-file lint passed.

@@ -766,13 +766,17 @@
   },
   {
     "ids": ["field.ssr.2"],
-    "status": "partial",
-    "reason": "Client label unmount removes its ARIA reference, but E2E hydration tests never remove a hydrated label.",
+    "status": "covered",
+    "reason": "A real server-rendered label association survives hydration with preserved nodes and IDs; an author UI action removes the label and the entire aria-labelledby attribute without hydration errors.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.test.tsx",
         "title": "label.roles.1"
+      },
+      {
+        "file": "packages/suite/e2e/field-label-toggle.spec.ts",
+        "title": "field.ssr.2 removes the server label association after hydration"
       }
     ]
   },

@@ -8,6 +8,7 @@ import { ToastFixture } from './toast'
 import { CalendarFixture } from './calendar'
 import { UtilityCoverage } from './utility-coverage'
 import { GroupSsrFixture } from './group-ssr'
+import { FieldLabelToggle } from './field-label-toggle'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -78,4 +79,8 @@ export function renderUtilityCoverage(avatarPolicy: 'no-referrer' | 'origin' = '
 
 export function renderGroupSsr() {
   return generateHydrationScript() + renderToString(() => <GroupSsrFixture />)
+}
+
+export function renderFieldLabelToggle() {
+  return generateHydrationScript() + renderToString(() => <FieldLabelToggle />)
 }
