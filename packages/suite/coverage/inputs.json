@@ -320,12 +320,18 @@
   },
   {
     "ids": ["number-field.keyboard.4"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "An unbounded text-host spinbutton receives Home and End keydowns without preventDefault and retains its value, leaving native caret handling available.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.4 leaves Home and End unhandled without bounds"
+      }
     ]
   },
   {
@@ -391,22 +397,34 @@
   },
   {
     "ids": ["number-field.keyboard.11"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "Separate real browser fixtures send ArrowUp and ArrowDown from an empty min=-10/max=-1 step=2 field; both publish -1 exactly once rather than zero, -2, or another directional grid value.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.11 seeds an empty fully negative range at its nearest-to-zero maximum (%s)"
+      }
     ]
   },
   {
     "ids": ["number-field.keyboard.12"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "Two repeat=true ArrowUp keydowns, separated by the browser event flush, publish [2] then [4] from a zero value with step 2.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.12 applies exactly one step for each repeated ArrowUp keydown"
+      }
     ]
   },
   {
@@ -417,12 +435,18 @@
   },
   {
     "ids": ["number-field.keyboard.14"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "A controlled value of 10 is edited to draft text 12; non-mutating ArrowLeft is sent before ArrowUp, which publishes 13 from the dirty draft rather than stale controlled state.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.14 steps from dirty controlled text after ArrowLeft leaves it unsynced"
+      }
     ]
   },
   {
@@ -443,12 +467,18 @@
   },
   {
     "ids": ["number-field.keyboard.16"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "A cancelable ArrowUp keydown carrying keyCode 229 is not prevented, does not change the value, and does not invoke the value callback.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.16 leaves IME composition keyCode 229 unhandled"
+      }
     ]
   },
   {
@@ -483,12 +513,18 @@
   },
   {
     "ids": ["number-field.keyboard.22"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "With on-grid value 0 and step 2, PageUp moves to 20 and PageDown returns to 0, directly demonstrating the default largeStep of ten times the regular step.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard.test-browser.tsx",
+        "title": "number-field.keyboard.22 uses the default largeStep of ten regular steps for Page keys"
+      }
     ]
   },
   {

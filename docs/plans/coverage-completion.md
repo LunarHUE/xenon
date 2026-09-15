@@ -519,3 +519,8 @@ accounting. Audit records live in `packages/suite/coverage`.
   run before and after clearing Field flags.
 - Independent runs passed 115 jsdom and 133 Chromium cases. Audit validation
   passed; Luna's types/lint passed. Slider and CheckboxGroup remain for this battery.
+
+### NumberField keyboard edge cases
+
+- Closed six gaps with seven browser cases: unbounded Home/End, both negative-range seed directions, repeated keydowns, unsynced controlled drafts, IME key code 229, and default Page-key increments.
+- Independent Chromium run passed all seven cases. Suite typechecking passed.
