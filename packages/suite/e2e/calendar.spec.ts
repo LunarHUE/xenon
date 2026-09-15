@@ -27,6 +27,10 @@ test('date-only calendar markup and IDs survive hydration across distant time zo
     await expect(server.locator('#calendar-heading')).toContainText('February 2024')
     await expect(server.locator('#calendar-grid button[tabindex="0"]')).toHaveCount(1)
     await expect(server.locator('#calendar-selected')).toHaveText('2024-02-15')
+    await expect(
+      server.locator('#range-hydrated [role="gridcell"][aria-selected="true"]')
+    ).toHaveCount(3)
+    await expect(server.locator('#calendar-range')).toHaveText('2024-02-12 / 2024-02-14')
     const serverIds = await server
       .locator('#app [id]')
       .evaluateAll((nodes) => nodes.map((node) => node.id))
@@ -45,6 +49,9 @@ test('date-only calendar markup and IDs survive hydration across distant time zo
     )
     await expect(page.locator('#calendar-heading')).toContainText('February 2024')
     await expect(page.locator('#calendar-grid button[tabindex="0"]')).toHaveCount(1)
+    await expect(
+      page.locator('#range-hydrated [role="gridcell"][aria-selected="true"]')
+    ).toHaveCount(3)
     expect(errors).toEqual([])
     const other = await browser.newContext({ timezoneId: 'Pacific/Kiritimati' })
     try {
@@ -91,7 +98,7 @@ test('two-month range commits only after both endpoints and keeps one day tab st
   await expect(range.getByRole('grid')).toHaveCount(2)
   await expect(range.locator('button[data-date][tabindex="0"]')).toHaveCount(1)
   await range.locator('button[data-date="2024-02-20"]').first().click()
-  await expect(page.locator('#calendar-range')).toHaveText('No range')
+  await expect(page.locator('#calendar-range')).toHaveText('2024-02-12 / 2024-02-14')
   await range.locator('button[data-date="2024-03-05"]').last().click()
   await expect(page.locator('#calendar-range')).toHaveText('2024-02-20 / 2024-03-05')
   await expect(range.locator('button[data-date][tabindex="0"]')).toHaveCount(1)

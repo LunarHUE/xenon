@@ -7,7 +7,7 @@ import { createSignal } from 'solid-js'
 export function CalendarFixture() {
   const today = createDate(2024, 2, 15)
   const [selected, setSelected] = createSignal('2024-02-15')
-  const [range, setRange] = createSignal('No range')
+  const [range, setRange] = createSignal('2024-02-12 / 2024-02-14')
   return (
     <DateProvider today={today} locale="en-US" weekStartsOn={1}>
       <Calendar
@@ -26,6 +26,7 @@ export function CalendarFixture() {
       <RangeCalendar
         id="range-hydrated"
         visibleMonths={2}
+        defaultValue={{ start: createDate(2024, 2, 12), end: createDate(2024, 2, 14) }}
         onValueChange={(value) =>
           setRange(
             value ? `${serializeDate(value.start)} / ${serializeDate(value.end)}` : 'No range'
