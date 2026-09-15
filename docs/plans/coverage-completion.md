@@ -170,3 +170,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   audit rows gain evidence without claiming unbuilt parts or screen-reader proof.
 - Independent checks passed: 170 suite jsdom, 199 Chromium and 50 Solid tests,
   both package typechecks, changed-file lint and audit validation.
+
+### Switch labels and accessibility fixtures
+
+- Added three shared negative axe tests and two browser tests. Closed label
+  activation variants, duplicate referenced IDs, and measurable target sizing.
+- Corrected the wrapping-label fixture during review so it actually nests the
+  input without an explicit for attribute. Role-table metadata remains partial.
+- Independent checks: three jsdom and five Chromium tests passed, including the
+  corrected wrapping label. Audit validation passed.

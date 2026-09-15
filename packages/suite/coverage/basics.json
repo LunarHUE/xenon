@@ -5737,7 +5737,7 @@
   {
     "ids": ["switch.roles.10"],
     "status": "partial",
-    "reason": "Checks valid attributes, name and absence of nested controls; does not inspect axe superclass or accessibility-tree presentational metadata. Named button switch exposes readonly, required and expanded attributes and passes the shared ARIA validity rule set without nested controls.",
+    "reason": "Checks valid attributes, name and absence of nested controls; does not inspect axe superclass or accessibility-tree presentational metadata. Named button switch exposes readonly, required and expanded attributes and passes the shared ARIA validity rule set without nested controls. Removing required aria-checked from role=switch produces an axe aria-required-attr critical violation; a separate negative case reports nested-interactive serious impact for a focusable descendant. Axe superclass and accessibility-tree metadata remain outside these behavioral assertions.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
@@ -5747,6 +5747,14 @@
       {
         "file": "packages/suite/src/switch/switch.coverage.test.tsx",
         "title": "switch.roles.10 allows switch-specific ARIA attributes and rejects nested focusable widgets"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+        "title": "switch.roles.10 reports missing required aria-checked on a generic switch"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+        "title": "switch.roles.10 reports nested interactive content under a switch"
       }
     ]
   },
@@ -5776,8 +5784,8 @@
   },
   {
     "ids": ["switch.roles.13"],
-    "status": "partial",
-    "reason": "Runs selected ARIA rules, but the stated unique referenced IDs contract has no explicit duplicate-id assertion. Two labelled switches with distinct referenced IDs pass the full shared ARIA rule set including duplicate-id-aria.",
+    "status": "covered",
+    "reason": "Duplicate label IDs referenced by two switches produce axe incomplete duplicate-id-aria evidence with critical impact, matching the requirement's referenced-ID contract.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
@@ -5787,18 +5795,26 @@
       {
         "file": "packages/suite/src/switch/switch.coverage.test.tsx",
         "title": "switch.roles.13 passes axe when each referenced label ID is unique"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+        "title": "switch.roles.13 checks duplicate referenced IDs through axe"
       }
     ]
   },
   {
     "ids": ["switch.roles.14"],
-    "status": "partial",
-    "reason": "Enables target-size in axe on a fixture; no rendered 24px geometry/spacing assertion establishes the complete layout requirement.",
+    "status": "covered",
+    "reason": "Real Chromium measures the author-controlled switch at least 24 by 24 CSS pixels and axe target-size is explicitly enabled and passes.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.roles.test.tsx",
         "title": "switch.roles.14"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage-more.test-browser.tsx",
+        "title": "switch.roles.14 measures a 24px author-sized switch and passes enabled target-size axe"
       }
     ]
   },
@@ -6132,8 +6148,8 @@
   },
   {
     "ids": ["switch.pointer.3"],
-    "status": "partial",
-    "reason": "Explicit label-for toggling/focus is asserted; wrapping-label and library-label variants are not included in this case. Real browser explicit label clicks toggle on and off and retain focus on the native switch.",
+    "status": "covered",
+    "reason": "Real Chromium verifies wrapping-label and shipped Field.Label activation, each toggling on then off while retaining focus on the native switch.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.pointer.test.tsx"],
     "tests": [
       {
@@ -6143,6 +6159,10 @@
       {
         "file": "packages/suite/src/switch/switch.coverage.test-browser.tsx",
         "title": "switch.pointer.3 explicit labels toggle and retain focus on the native switch"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage-more.test-browser.tsx",
+        "title": "switch.pointer.3 wrapping and Field.Label activation toggle and preserve focus"
       }
     ]
   },
