@@ -20249,12 +20249,16 @@
   },
   {
     "ids": ["toolbar.keyboard.13"],
-    "status": "partial",
-    "reason": "Capture, item and ancestor handlers are checked; separate render-element and component onClick layers are not both supplied.",
+    "status": "covered",
+    "reason": "A custom render component and Toolbar.Button each supply separate click handlers; native DOM capture, both handler layers and toolbar ancestor each receive one click per Enter or Space activation.",
     "sources": ["docs/spec/toolbar.md", "packages/suite/src/toolbar/toolbar.keyboard.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toolbar/toolbar.keyboard.test.tsx",
+        "title": "toolbar.keyboard.13"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-more.test.tsx",
         "title": "toolbar.keyboard.13"
       }
     ]
@@ -20657,12 +20661,16 @@
   },
   {
     "ids": ["toolbar.pointer.2"],
-    "status": "partial",
-    "reason": "The link retains href and uncanceled click, but actual native navigation is not observed.",
+    "status": "covered",
+    "reason": "Clicking a Toolbar.Link in Chromium follows its native href and changes the document hash.",
     "sources": ["docs/spec/toolbar.md", "packages/suite/src/toolbar/toolbar.pointer.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toolbar/toolbar.pointer.test.tsx",
+        "title": "toolbar.pointer.2"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-more.test-browser.tsx",
         "title": "toolbar.pointer.2"
       }
     ]
@@ -20705,12 +20713,16 @@
   },
   {
     "ids": ["toolbar.notes.5"],
-    "status": "partial",
-    "reason": "Root/button ref, class, style and click forwarding is checked; every exported part is not exercised.",
+    "status": "covered",
+    "reason": "All exported Toolbar parts (root, button, link, group, separator) forward class/style/ref and author click handlers to their exact rendered hosts.",
     "sources": ["docs/spec/toolbar.md", "packages/suite/src/toolbar/toolbar.notes.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toolbar/toolbar.notes.test.tsx",
+        "title": "toolbar.notes.5"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-more.test.tsx",
         "title": "toolbar.notes.5"
       }
     ]
@@ -20815,12 +20827,18 @@
   },
   {
     "ids": ["toolbar.roles.16"],
-    "status": "missing",
-    "reason": "Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.",
+    "status": "covered",
+    "reason": "A Menu.Trigger composed with Toolbar.Button joins arrow navigation and exposes its accessible name, menu popup kind, open state and aria-controls relationship to the rendered menu.",
     "sources": [
       "docs/spec/toolbar.md",
       "packages/solid/src/toolbar/items.tsx",
       "docs/architecture.md"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-more.test.tsx",
+        "title": "toolbar.roles.16"
+      }
     ]
   },
   {

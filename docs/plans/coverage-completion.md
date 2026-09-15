@@ -370,3 +370,13 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent Portal run passed five cases including the next Select slice;
   this commit contains the three completed cases. Audit validation passed;
   Luna's lint and typecheck passed.
+
+### Toolbar handler layers, part forwarding and Menu composition
+
+- Added three shared and one browser test, closing four gaps: separate render
+  and component click handlers, forwarding on all five exported parts, a Menu
+  trigger that participates in Toolbar navigation, and native link navigation.
+- Sol replaced the invalid capture prop and removed a redundant focus test.
+- Independent combined runs passed these four cases in jsdom/Chromium as
+  applicable; the separate nested-composite focus case remains under review.
+  Audit validation passed.
