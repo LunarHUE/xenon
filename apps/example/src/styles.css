@@ -1025,6 +1025,112 @@ body::before {
   }
 }
 
+/* ---------- selection controls ---------- */
+
+.selection-list,
+.selection-popup {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 0.85rem/1.5 var(--mono);
+}
+
+.selection-list {
+  width: min(26rem, 100%);
+  padding: 0.35rem;
+}
+
+.selection-popup {
+  padding: 0.3rem;
+  box-shadow: 5px 5px 0 rgb(27 25 22 / 12%);
+}
+
+.selection-viewport {
+  max-height: min(18rem, calc(100dvh - 2rem));
+  overflow: auto;
+}
+
+.selection-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.8rem;
+  cursor: default;
+}
+
+.selection-option[hidden] {
+  display: none;
+}
+
+.selection-option[data-highlighted] {
+  background: var(--paper-sunk);
+}
+
+.selection-option[aria-selected='true'] {
+  color: var(--accent);
+}
+
+.selection-option[data-disabled] {
+  color: var(--ink-45);
+}
+
+.selection-option__detail {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--ink-70);
+  font-size: 0.7rem;
+}
+
+.selection-option__check {
+  visibility: hidden;
+}
+
+.selection-option[aria-selected='true'] .selection-option__check {
+  visibility: visible;
+}
+
+.selection-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(24rem, 100%);
+  min-height: 2.75rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+}
+
+.selection-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.75rem;
+  width: min(24rem, 100%);
+}
+
+.selection-search .input {
+  width: 100%;
+  min-width: 0;
+}
+
+.selection-search__toggle {
+  border: 1px solid var(--ink);
+  border-left: 0;
+  background: var(--paper-sunk);
+  color: var(--ink);
+  font: inherit;
+}
+
+.selection-trigger:focus-visible,
+.selection-search__toggle:focus-visible,
+.selection-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---------- separator ---------- */
 
 .rule {

@@ -1,6 +1,7 @@
 import type { JSX } from '@solidjs/web'
 import { ToastDemo } from './demos/toast'
 import { CalendarDemo, RangeCalendarDemo } from './demos/calendar'
+import { CheckboxGroupDemo, ListboxDemo, SelectDemo, ComboboxDemo } from './demos/selection'
 import { Tooltip } from '@tenon/solid/tooltip'
 import {
   TooltipDemo,
@@ -50,7 +51,7 @@ export function App(): JSX.Element {
         <main>
           <section class="hero">
             <h1 class="hero__title">
-              Thirty-two studies,
+              Thirty-six studies,
               <br />
               <em>no opinions</em> about
               <br />
@@ -101,6 +102,10 @@ export function App(): JSX.Element {
           <ToastDemo />
           <CalendarDemo />
           <RangeCalendarDemo />
+          <CheckboxGroupDemo />
+          <ListboxDemo />
+          <SelectDemo />
+          <ComboboxDemo />
         </main>
       </Tooltip.Provider>
 
