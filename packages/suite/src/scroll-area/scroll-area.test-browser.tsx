@@ -108,6 +108,19 @@ spec('scroll-area.alpha.4', async () => {
   await userEvent.keyboard('{End}')
   expect(viewport.scrollLeft).toBe(0)
   expect(track).toHaveAttribute('aria-valuenow', '100')
+  // Direction changes do not produce native scroll or resize events.
+  view.getByTestId('root').dir = 'ltr'
+  await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('0')
+  await expect
+    .poll(() => Math.abs(thumb.getBoundingClientRect().left - track.getBoundingClientRect().left))
+    .toBeLessThan(2)
+  view.getByTestId('root').dir = 'rtl'
+  await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('100')
+  await expect
+    .poll(() => Math.abs(thumb.getBoundingClientRect().right - track.getBoundingClientRect().right))
+    .toBeLessThan(2)
+  view.getByTestId('root').dir = 'ltr'
+  await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('0')
 })
 
 spec('scroll-area.alpha.5', async () => {
@@ -193,4 +206,32 @@ spec('scroll-area.alpha.7', async () => {
   document.dispatchEvent(pointer('pointerup'))
   expect(viewport.scrollTop).toBe(removedOffset)
   expect(track.isConnected).toBe(false)
+})
+
+spec('scroll-area.alpha.8', async () => {
+  const view = mountScrollArea()
+  const viewport = view.viewport()
+  const { track } = await measured(view)
+  viewport.style.scrollBehavior = 'smooth'
+  // Synthetic dispatch checks cancellation synchronously, before smooth scrolling settles.
+  const wheel = new WheelEvent('wheel', { bubbles: true, cancelable: true, deltaY: 100 })
+  track.dispatchEvent(wheel)
+  expect(wheel.defaultPrevented).toBe(true)
+  await expect.poll(() => viewport.scrollTop).toBeGreaterThan(0)
+  await expect.poll(() => viewport.scrollTop).toBe(100)
+  // A real provider wheel must also be consumed and move the native viewport.
+  let nativeWheel: { trusted: boolean; prevented: boolean } | undefined
+  const record = (event: WheelEvent) => {
+    if (event.target instanceof Node && track.contains(event.target)) {
+      nativeWheel = { trusted: event.isTrusted, prevented: event.defaultPrevented }
+    }
+  }
+  window.addEventListener('wheel', record)
+  try {
+    await userEvent.wheel(track, { delta: { y: 100 } })
+    await expect.poll(() => nativeWheel).toEqual({ trusted: true, prevented: true })
+    await expect.poll(() => viewport.scrollTop).toBeGreaterThan(100)
+  } finally {
+    window.removeEventListener('wheel', record)
+  }
 })

@@ -33,7 +33,8 @@ visibility-policy timing is outside their passing coverage.
 
 These checks pass in Chromium and WebKit using real element dimensions,
 ResizeObserver, native keyboard input, and Playwright-backed mouse/wheel input.
-Only the final cancellation/disposal check dispatches synthetic pointer events.
+The cancellation/disposal check dispatches synthetic pointer events. The smooth
+wheel check pairs a synthetic cancellation assertion with actual provider wheel input.
 
 - [x] `scroll-area.alpha.1` A viewport without custom tracks retains native
   scrollbars, receives Tab focus, scrolls through ArrowDown and wheel, and passes
@@ -46,7 +47,9 @@ Only the final cancellation/disposal check dispatches synthetic pointer events.
   change; and passes the suite's axe scan.
 - [x] `scroll-area.alpha.4` A horizontal RTL thumb aligns within the physical
   right edge initially and left edge after Home; ArrowRight and End update the
-  native negative scrollLeft model and ARIA value consistently.
+  native negative scrollLeft model and ARIA value consistently. Live inherited
+  ltr/rtl/ltr changes also update ARIA and physical thumb alignment without
+  requesting a scroll or resize.
 - [x] `scroll-area.alpha.5` Both custom tracks reserve a measured corner. Content
   and viewport resizing update proportional thumb geometry without replacing
   hosts. Fitting content hides auto tracks/corner and removes viewport tabindex.
@@ -55,6 +58,10 @@ Only the final cancellation/disposal check dispatches synthetic pointer events.
 - [x] `scroll-area.alpha.7` Synthetic touch-pointer input accepts only the active
   pointer. Cancellation and unmount restore selection, snap and smooth-scroll
   styles; subsequent synthetic pointer events cannot move the removed viewport.
+
+- [x] `scroll-area.alpha.8` A custom track consumes wheel input immediately while
+  smooth scrolling delays the native offset. Synthetic dispatch verifies immediate
+  cancellation; a trusted provider wheel is canceled and moves the viewport.
 
 The suite excludes axe color-contrast and region coverage. These scans do not
 prove overall accessibility. Native touch gestures, screen-reader speech,
