@@ -1831,3 +1831,129 @@ body::before {
     transition: none;
   }
 }
+
+/* Toast movement is consumer CSS. Transitions can retarget as the stack changes. */
+.demo-toasts {
+  position: fixed;
+  inset: auto max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) auto;
+  width: min(24rem, calc(100vw - 2rem));
+  height: var(--toast-front-height, 0px);
+  padding: 0;
+  border: 0;
+  margin: 0;
+  overflow: visible;
+  background: transparent;
+  color: var(--ink);
+  z-index: 100;
+}
+.demo-toasts[data-expanded] {
+  height: var(--toast-viewport-height);
+}
+.demo-toast {
+  --toast-y: calc(var(--toast-index) * -12px);
+  --toast-scale: calc(1 - var(--toast-index) * 0.045);
+  position: absolute;
+  inset: auto 0 0;
+  box-sizing: border-box;
+  height: var(--toast-front-height);
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--paper-sunk);
+  transform-origin: bottom center;
+  transform: translate(
+      var(--toast-swipe-movement-x, 0px),
+      calc(var(--toast-y) + var(--toast-swipe-movement-y, 0px))
+    )
+    scale(var(--toast-scale));
+  transition:
+    transform 320ms ease,
+    height 320ms ease,
+    opacity 220ms ease;
+  z-index: calc(20 - var(--toast-index));
+  touch-action: none;
+}
+.demo-toast::after {
+  content: '';
+  position: absolute;
+  inset: 100% -1px auto;
+  height: var(--toast-gap, 12px);
+}
+.demo-toast[data-expanded] {
+  --toast-y: calc(var(--toast-offset-y) * -1);
+  --toast-scale: 1;
+  height: var(--toast-height);
+}
+.demo-toast > [data-toast-content] {
+  transition: opacity 180ms ease;
+}
+.demo-toast:not([data-expanded]):not([data-index='0']) > [data-toast-content] {
+  opacity: 0;
+}
+.demo-toast[data-starting-style] {
+  transform: translateY(calc(100% + 2rem));
+  opacity: 0;
+}
+.demo-toast[data-ending-style] {
+  opacity: 0;
+}
+.demo-toast[data-ending-style][data-swipe-direction='right'] {
+  transform: translate(calc(var(--toast-swipe-movement-x) + 110%), var(--toast-y));
+}
+.demo-toast[data-ending-style][data-swipe-direction='down'] {
+  transform: translate(
+    var(--toast-swipe-movement-x, 0px),
+    calc(var(--toast-y) + var(--toast-swipe-movement-y) + 110%)
+  );
+}
+.demo-toast[data-swiping] {
+  transition: none;
+}
+.demo-toast[data-limited] {
+  visibility: hidden;
+  pointer-events: none;
+}
+.demo-toast__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+.demo-toast__type {
+  font: 0.6rem/1 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.demo-toast__close {
+  border: 0;
+  padding: 0.2rem 0.5rem;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.demo-toast__title {
+  margin: 0;
+  font: 1.6rem/1.15 var(--serif);
+}
+.demo-toast__description {
+  margin: 0.65rem 0 0;
+  color: var(--ink-70);
+  font: 0.72rem/1.65 var(--mono);
+}
+.demo-toast__action {
+  margin-top: 0.9rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-toast,
+  .demo-toast > [data-toast-content] {
+    transition: none;
+  }
+}
+@starting-style {
+  .demo-toast {
+    transform: translateY(calc(100% + 2rem));
+    opacity: 0;
+  }
+}

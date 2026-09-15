@@ -1,4 +1,5 @@
 import type { JSX } from '@solidjs/web'
+import { ToastDemo } from './demos/toast'
 import { Tooltip } from '@tenon/solid/tooltip'
 import {
   TooltipDemo,
@@ -48,7 +49,7 @@ export function App(): JSX.Element {
         <main>
           <section class="hero">
             <h1 class="hero__title">
-              Twenty-nine studies,
+              Thirty studies,
               <br />
               <em>no opinions</em> about
               <br />
@@ -96,6 +97,7 @@ export function App(): JSX.Element {
           <ContextMenuDemo />
           <MenubarDemo />
           <NavigationMenuDemo />
+          <ToastDemo />
         </main>
       </Tooltip.Provider>
 
