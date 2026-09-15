@@ -368,6 +368,30 @@ containers override this automatic routing and must choose an interactive mount.
 See [the toast plan](plans/toast.md) for API decisions and motion sources, and
 [the coverage audit](plans/toast-coverage.md) for source-test mappings and gaps.
 
+## Date-only calendars
+
+DateValue is an immutable Gregorian `{ year, month, day }` value for years 1
+through 9999. The default dateOnlyAdapter performs civil-day arithmetic without
+reading a clock or consulting a host time zone. Month and year addition clamp to
+the last valid day; parsing and serialization use strict ISO calendar dates.
+DateAdapter<T> keeps representation conversion, arithmetic and formatting behind
+an explicit contract. A future Temporal adapter can implement that contract.
+
+DateProvider shares locale, weekStartsOn and a date-only today snapshot. Local
+root props win. Custom date representations require an adapter on the root so
+TypeScript can check values and callbacks together. Core always receives today;
+the Solid binding can sample local fields once when none are supplied. SSR users
+provide the same today snapshot and locale on server and client.
+
+Calendar and RangeCalendar have separate modules and share Solid grid internals.
+Native tables contain day buttons with one roving tab stop across all visible
+months. Focus navigation does not select. Unavailable dates remain focusable but
+cannot commit, and a range cannot cross an unavailable date. RangeCalendar keeps
+the first activation's draft separate from the completed, sorted range.
+
+See [the date plan](plans/date-adapters.md) for adapter boundaries, anatomy and
+the later segmented-field and picker slices.
+
 ## Toolchain
 
 Every Solid component has an explicit public subpath, such as
@@ -385,11 +409,9 @@ overridden to the same version because the rc range floats.
 
 ## Later
 
-- Calendar and date picker [date adapters](plans/date-adapters.md). Proposed
-  separation of calendar behavior from date representation, with a native `Date`
-  default and provider-level configuration.
-- Tooltip API discussion, including the shared configuration pattern mentioned
-  in the calendar plan, before implementing its adapter.
+- DateField and DateRangeField for segmented editing and incomplete input, then
+  DatePicker and DateRangePicker composing fields, calendars and popovers. See
+  [date adapters](plans/date-adapters.md).
 - A conformance suite written once against the DOM, run per adapter through a
   small mount harness. Spec source: WAI-ARIA Authoring Practices keyboard and
   role tables, then the React Aria, Radix, Zag and Ariakit suites.

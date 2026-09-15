@@ -7,7 +7,7 @@ Verified on 2026-09-14:
 - Shared jsdom suite: 10/10 passed.
 - Scoped Chromium and WebKit suites: 50/50 passed, comprising ten shared and fifteen native tests per browser.
 - Calendar end-to-end suite: 6/6 passed across Chromium and WebKit, reported by the root verification run.
-- Full native suite: 1968/1968 passed across 224 browser files in Chromium and WebKit, reported by the root verification run.
+- Full native suite: 1972/1972 passed across 224 browser files in Chromium and WebKit, including the final controlled/canceled range tests.
 - Full end-to-end suite: 104/104 passed across Chromium and WebKit, reported by the root verification run.
 - Suite/example typechecks and scoped lint passed. The production example builds successfully.
 
