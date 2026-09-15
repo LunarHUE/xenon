@@ -447,3 +447,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   isolation gap. Typing updates the focused Dialog input and leaves Menu closed
   without another selection callback.
 - Independent final Chromium case and audit validation passed.
+
+### Disabled native controls and browser focus differences
+
+- Added three shared and two browser tests, closing four gaps: validation
+  messages, scripted native click delivery, disabled submit/reset actions, and
+  input-event suppression for disabled/readonly Field controls.
+- Sol verified self-disabling native focus differs by engine: Chromium moves to
+  body; Firefox/WebKit retain the disabled input. The test records both outcomes;
+  the audit's universal-blur clause remains partial and requires no library fix.
+- Independent jsdom cases passed, and the final three-engine run passed all
+  15 cases. Audit validation passed; Luna's typecheck/lint passed.

@@ -1189,12 +1189,18 @@
   },
   {
     "ids": ["disabled.14"],
-    "status": "missing",
-    "reason": "Native disabled validity exemption is asserted elsewhere as willValidate=false, but no required control assertion checks empty validationMessage while disabled and nonempty validationMessage after re-enabling.",
+    "status": "covered",
+    "reason": "Shipped Field renders a required native control. The disabled control has an empty validationMessage, and clearing disabled exposes the required validation message.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.forms.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-more.test.tsx",
+        "title": "disabled.14"
+      }
     ]
   },
   {
@@ -1219,12 +1225,18 @@
   },
   {
     "ids": ["disabled.17"],
-    "status": "missing",
-    "reason": "Disabled component author-handler gating tests are not the required native dispatchEvent baseline. No fixture attaches a native listener and explicitly asserts scripted click delivery to a disabled control.",
+    "status": "covered",
+    "reason": "A native disabled button receives a scripted dispatchEvent click in jsdom and its native listener runs, isolating platform delivery from library author-handler gating.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.forms.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-more.test.tsx",
+        "title": "disabled.17"
+      }
     ]
   },
   {
@@ -1239,12 +1251,18 @@
   },
   {
     "ids": ["disabled.19"],
-    "status": "missing",
-    "reason": "Button tests block simulated clicks on disabled submit buttons, but do not explicitly dispatch click events on both disabled submit and disabled reset controls and assert neither native form action occurs.",
+    "status": "covered",
+    "reason": "Native disabled submit and reset buttons receive dispatched clicks without producing either a form submit or reset event.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.forms.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-more.test.tsx",
+        "title": "disabled.19"
+      }
     ]
   },
   {
@@ -1259,12 +1277,18 @@
   },
   {
     "ids": ["disabled.27"],
-    "status": "missing",
-    "reason": "FocusableWhenDisabled self-disabling tests deliberately retain focus. No real native-disabled self-disabling fixture asserts the platform blur behavior.",
+    "status": "partial",
+    "reason": "FocusableWhenDisabled self-disabling tests deliberately retain focus. No real native-disabled self-disabling fixture asserts the platform blur behavior. Real native self-disabling focus is asserted in Chromium, Firefox and WebKit. Chromium moves focus to body, whereas Firefox/WebKit retain the disabled input as activeElement. The research universal-blur statement is not true across these engines; no library behavior is involved.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.focus.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-more.test-browser.tsx",
+        "title": "disabled.27"
+      }
     ]
   },
   {
@@ -1846,13 +1870,17 @@
   },
   {
     "ids": ["disabled.26"],
-    "status": "partial",
-    "reason": "Native readonly Field ignores typed text and retains its value; the fixture does not spy on input events or cover disabled text controls.",
+    "status": "covered",
+    "reason": "Real browser typing into shipped Field disabled and readonly controls preserves both initial values and produces zero input events.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.native.test-browser.tsx",
         "title": "a readonly field refuses native key input yet still submits its value"
+      },
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-more.test-browser.tsx",
+        "title": "disabled.26"
       }
     ]
   },
