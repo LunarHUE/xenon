@@ -23,9 +23,21 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Suite jsdom: 759 tests passed.
 - Core: 335 tests passed. DOM: 226 tests passed. Solid: 392 tests passed.
 - Audit tooling: 6 tests passed; spec validation passed.
-- Browser baseline is running.
+- Type checking and lint passed across the workspace.
+- Chromium browser baseline: 1,329 tests passed across 176 files.
+- Chromium end-to-end baseline: 56 tests passed.
 - Existing changes to `flake.nix` and `flake.lock` are outside this work.
 
 ## Verified slices
 
-Pending the first agent handoffs.
+### Pagination, visually-hidden, Toggle and ToggleGroup
+
+- Added ten tests; closed nine requirement gaps with existing evidence retained.
+- Independent component runs: 60 jsdom tests and 98 Chromium browser tests passed.
+- ESLint and audit validation passed. Sol corrected an abbreviated requirement ID
+  in a test title; no production change was needed.
+- `visually-hidden.focus.2` remains partial because the alternate contract clears
+  all author styles, while this component preserves them.
+- `toggle-group.roles.3` remains partial because its alternate radiogroup/toolbar
+  modes are not implemented. The shipped group behavior is tested.
+

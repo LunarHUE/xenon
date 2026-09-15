@@ -4161,8 +4161,8 @@
   },
   {
     "ids": ["pagination.alpha.1"],
-    "status": "partial",
-    "reason": "Asserts initial landmark, disabled Previous, current-page change, decorative ellipsis and axe. It does not assert the disabled boundary or ellipsis change after activation.",
+    "status": "covered",
+    "reason": "Asserts Previous disabled at page 1, Previous enabled after movement, the ellipsis count/range changes as the current page moves, Next disabled at the final page, and current-page state. Existing cited assertions cover the remaining supported clauses.",
     "sources": [
       "docs/spec/pagination.md",
       "packages/suite/src/pagination/pagination.conformance.test.tsx"
@@ -4171,6 +4171,10 @@
       {
         "file": "packages/suite/src/pagination/pagination.conformance.test.tsx",
         "title": "pagination.alpha.1"
+      },
+      {
+        "file": "packages/suite/src/pagination/pagination.additional.test.tsx",
+        "title": "pagination.alpha.1 asserts both disabled boundaries and the changing ellipsis range"
       }
     ]
   },
@@ -6758,13 +6762,17 @@
   },
   {
     "ids": ["toggle.a11y.1"],
-    "status": "partial",
-    "reason": "Runs axe on enabled/disabled native/generic pressed fixtures, but does not explicitly enable the experimental label-content-name-mismatch rule.",
+    "status": "covered",
+    "reason": "Runs button-name, aria-command-name, nested-interactive, focus-order-semantics, and explicitly enabled label-content-name-mismatch for native and generic enabled/disabled toggles. Existing cited assertions cover the remaining supported clauses.",
     "sources": ["docs/spec/toggle.md", "packages/suite/src/toggle/toggle.conformance.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toggle/toggle.conformance.test.tsx",
         "title": "toggle.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/toggle/toggle.additional.test.tsx",
+        "title": "toggle.a11y.1 runs the button rule set including label-content-name-mismatch"
       }
     ]
   },
@@ -6794,8 +6802,8 @@
   },
   {
     "ids": ["toggle-group.roles.1"],
-    "status": "partial",
-    "reason": "Asserts group naming from aria-label; the aria-labelledby naming branch is not exercised.",
+    "status": "covered",
+    "reason": "Asserts the group accessible name resolves from aria-labelledby. Existing cited assertions cover the remaining supported clauses.",
     "sources": [
       "docs/spec/toggle-group.md",
       "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx"
@@ -6804,6 +6812,10 @@
       {
         "file": "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx",
         "title": "toggle-group.roles.1"
+      },
+      {
+        "file": "packages/suite/src/toggle-group/toggle-group.additional.test.tsx",
+        "title": "toggle-group.roles.1 names the group through aria-labelledby"
       }
     ]
   },
@@ -6825,7 +6837,7 @@
   {
     "ids": ["toggle-group.roles.3"],
     "status": "partial",
-    "reason": "Asserts omission of aria-orientation for group. Alternate radiogroup/toolbar modes are not supported by ToggleGroup.",
+    "reason": "Asserts omission of aria-orientation for group. Alternate radiogroup/toolbar modes are not supported by ToggleGroup. Asserts adopted role=group behavior and omission of aria-orientation for horizontal/vertical and single/multiple combinations. Radiogroup/toolbar alternative behavior remains unresolved and is not claimed. Existing cited assertions cover the remaining supported clauses.",
     "sources": [
       "docs/spec/toggle-group.md",
       "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx"
@@ -6834,6 +6846,10 @@
       {
         "file": "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx",
         "title": "toggle-group.roles.3"
+      },
+      {
+        "file": "packages/suite/src/toggle-group/toggle-group.additional.test.tsx",
+        "title": "toggle-group.roles.3 keeps group semantics and omits invalid aria-orientation"
       }
     ]
   },
@@ -7109,8 +7125,8 @@
   },
   {
     "ids": ["toggle-group.notes.3"],
-    "status": "partial",
-    "reason": "Asserts root/item refs and classes, item style and composed item click. Root style/click forwarding are not exercised.",
+    "status": "covered",
+    "reason": "Asserts root ref, class, style, and composed root click forwarding while an item still selects. Existing cited assertions cover the remaining supported clauses.",
     "sources": [
       "docs/spec/toggle-group.md",
       "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx"
@@ -7119,6 +7135,10 @@
       {
         "file": "packages/suite/src/toggle-group/toggle-group.conformance.test.tsx",
         "title": "toggle-group.notes.3"
+      },
+      {
+        "file": "packages/suite/src/toggle-group/toggle-group.additional.test.tsx",
+        "title": "toggle-group.notes.3 forwards root ref, style and click while retaining selection"
       }
     ]
   },
@@ -7184,8 +7204,8 @@
   },
   {
     "ids": ["toggle-group.keyboard.5"],
-    "status": "partial",
-    "reason": "Asserts Home/End focus targets; this case does not assert the new roving tabindex values.",
+    "status": "covered",
+    "reason": "Real browser Home and End input asserts focus targets and the corresponding tabindex=0/-1 roving updates. Existing cited assertions cover the remaining supported clauses.",
     "sources": [
       "docs/spec/toggle-group.md",
       "packages/suite/src/toggle-group/toggle-group.interactions.test-browser.tsx"
@@ -7194,6 +7214,10 @@
       {
         "file": "packages/suite/src/toggle-group/toggle-group.interactions.test-browser.tsx",
         "title": "toggle-group.keyboard.5"
+      },
+      {
+        "file": "packages/suite/src/toggle-group/toggle-group.additional.test-browser.tsx",
+        "title": "toggle-group.keyboard.5 updates roving tabindex when Home and End move focus"
       }
     ]
   },
@@ -12917,13 +12941,17 @@
   },
   {
     "ids": ["toggle.a11y.5"],
-    "status": "partial",
-    "reason": "Default/disabled fixtures are axe-scanned; the enclosing-form axe variant is not asserted.",
+    "status": "covered",
+    "reason": "Runs axe on an enabled named toggle inside a form with region and color contrast disabled per suite policy. Existing cited assertions cover the remaining supported clauses.",
     "sources": ["docs/spec/toggle.md", "packages/suite/src/toggle/toggle.conformance.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toggle/toggle.conformance.test.tsx",
         "title": "toggle.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/toggle/toggle.additional.test.tsx",
+        "title": "toggle.a11y.5 is valid inside a form for enabled and disabled controls"
       }
     ]
   },
@@ -16979,7 +17007,7 @@
   {
     "ids": ["checkbox.pointer.7"],
     "status": "covered",
-    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` \u2192 `\"true\"` \u2192 `\"false\"`: the wrapping label does not double-toggle it.",
+    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` → `\"true\"` → `\"false\"`: the wrapping label does not double-toggle it.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.pointer.test.tsx"],
     "tests": [
       {

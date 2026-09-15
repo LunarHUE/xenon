@@ -6773,13 +6773,21 @@
   },
   {
     "ids": ["visually-hidden.roles.1"],
-    "status": "partial",
-    "reason": "Accessible naming, position:absolute and clip-path are asserted; full clipping recipe and rendered invisibility are not independently asserted.",
+    "status": "covered",
+    "reason": "Accessible naming is asserted in jsdom; browser evidence verifies the clipped element renders at the 1px by 1px clipping dimensions. Existing cited assertions cover the remaining supported clauses.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/visually-hidden/visually-hidden.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/visually-hidden/visually-hidden.test.tsx",
         "title": "clipped text names a button and forwards host props, style and ref"
+      },
+      {
+        "file": "packages/suite/src/visually-hidden/visually-hidden.additional.test.tsx",
+        "title": "visually-hidden.roles.1 visually-hidden.roles.3: accessible text uses the complete clipping recipe"
+      },
+      {
+        "file": "packages/suite/src/visually-hidden/visually-hidden.additional.test-browser.tsx",
+        "title": "visually-hidden.focus.1 keeps the wrapper clipped when Tab focuses its child"
       }
     ]
   },
@@ -6797,13 +6805,17 @@
   },
   {
     "ids": ["visually-hidden.roles.3"],
-    "status": "partial",
-    "reason": "Accessible naming, position:absolute and clip-path are asserted; full clipping recipe and rendered invisibility are not independently asserted.",
+    "status": "covered",
+    "reason": "Asserts all adopted inline clipping properties: position, width, height, padding, margin, overflow, clip-path, white-space, and border-width. Existing cited assertions cover the remaining supported clauses.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/visually-hidden/visually-hidden.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/visually-hidden/visually-hidden.test.tsx",
         "title": "clipped text names a button and forwards host props, style and ref"
+      },
+      {
+        "file": "packages/suite/src/visually-hidden/visually-hidden.additional.test.tsx",
+        "title": "visually-hidden.roles.1 visually-hidden.roles.3: accessible text uses the complete clipping recipe"
       }
     ]
   },
@@ -6833,19 +6845,29 @@
   },
   {
     "ids": ["visually-hidden.focus.1"],
-    "status": "missing",
-    "reason": "The default nonrevealing mode is implemented, but its test never Tabs to a child and asserts clipping remains during real focus.",
-    "sources": ["docs/spec/misc.md", "packages/solid/src/visually-hidden/index.tsx"]
+    "status": "covered",
+    "reason": "Chromium Tab focuses the child and verifies the wrapper keeps position:absolute and clip-path inset(50%), with 1px by 1px rendered dimensions. Existing cited assertions cover the remaining supported clauses.",
+    "sources": ["docs/spec/misc.md", "packages/solid/src/visually-hidden/index.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/visually-hidden/visually-hidden.additional.test-browser.tsx",
+        "title": "visually-hidden.focus.1 keeps the wrapper clipped when Tab focuses its child"
+      }
+    ]
   },
   {
     "ids": ["visually-hidden.focus.2"],
     "status": "partial",
-    "reason": "Focus reveals the wrapper and blur restores hiding; the test deliberately preserves author color rather than clearing the entire inline style.",
+    "reason": "Focus reveals the wrapper and blur restores hiding; the test deliberately preserves author color rather than clearing the entire inline style. Asserts focus reveal clears the library clipping properties, preserves author color, and restores clipping after focus leaves. The stricter alternative requiring the entire inline style to become empty remains unresolved because the adopted component contract preserves author styles. Existing cited assertions cover the remaining supported clauses.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/visually-hidden/visually-hidden.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/visually-hidden/visually-hidden.test.tsx",
         "title": "focus reveal preserves author string style and hides after subtree blur"
+      },
+      {
+        "file": "packages/suite/src/visually-hidden/visually-hidden.additional.test.tsx",
+        "title": "visually-hidden.focus.2 preserves the author style while focus reveal removes clipping and restores it"
       }
     ]
   },
