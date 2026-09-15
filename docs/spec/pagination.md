@@ -28,3 +28,16 @@ icons, or styling is supplied.
 Core tests cover ranges, large counts, normalization, cancellation, boundaries
 and current-page semantics. Solid tests cover uncontrolled/controlled updates,
 reactive ranges, silent count clamping, author cancellation and disabled links.
+
+- [x] `pagination.alpha.1` The navigation landmark, current page, disabled boundary
+  and decorative ellipsis update after activation and pass the shared axe scan.
+- [x] `pagination.alpha.2` Native buttons retain sequential Tab navigation and
+  Enter/Space activation without submitting their surrounding form.
+- [x] `pagination.alpha.3` Disabled anchors lose href; enabled anchors preserve
+  link roles and href, ignore Space, and select through native Enter activation.
+
+The alpha checks pass in jsdom and Chromium/WebKit where applicable. The
+shared SSR fixture in `packages/solid/src/pagination/ssr.test.ts` verifies
+measurement and navigation attributes before client JavaScript. Hydration is
+not covered by that serialization test. Axe excludes color contrast and region
+coverage; these scans do not establish overall accessibility.

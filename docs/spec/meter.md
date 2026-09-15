@@ -17,3 +17,12 @@ Core tests cover normalization, formatting and native/generic attributes. Solid
 tests cover native value updates, stable hosts, CSS updates and author text.
 
 Reference: [APG Meter](https://www.w3.org/WAI/ARIA/apg/patterns/meter/).
+
+- [x] `meter.alpha.1` Native and generic meters expose finite named measurements,
+  remain unfocusable, update undefined values to minimum, and pass the shared axe scan.
+
+The alpha checks pass in jsdom and Chromium/WebKit where applicable. The
+shared SSR fixture in `packages/solid/src/pagination/ssr.test.ts` verifies
+measurement and navigation attributes before client JavaScript. Hydration is
+not covered by that serialization test. Axe excludes color contrast and region
+coverage; these scans do not establish overall accessibility.
