@@ -651,3 +651,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps for clamped FormData, controlled updates/reset and rendered positions, reactive zero-neighbor bounds, output formatting/IDs, and native input refs.
 - Astra low identified the reset failure as fixture timing: the native reset action precedes the adapter's timer restoration. The corrected test waits for that task and retains strict parent-value assertions.
 - Independent final runs passed all five cases in jsdom and Chromium; verifier lint and formatting passed.
+
+### Slider modifier, page and neighbor keys
+
+- Closed five gaps for off-grid large steps and both clamps, Meta/Control/Alt steps, directional neighbor Home/End changes, gap-blocked callback silence, and extra-thumb key silence.
+- Astra low corrected the Page fixture's grid-aligned maximum and strengthened Home/End to prove actual movement in both directions. Independent final Chromium run passed all five cases.
+- Replaced custom-property matcher objects with typed CSS property reads. The preceding keyboard/state slices passed all 33 cases across Chromium, Firefox and WebKit; the full end-to-end checkpoint passed 63 tests.

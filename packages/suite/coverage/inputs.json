@@ -5024,8 +5024,8 @@
   },
   {
     "ids": ["slider.keyboard.4"],
-    "status": "partial",
-    "reason": "Explicit off-grid largeStep=5 from 20 with step=2 gives 25; the PageDown and clamped-bound variants are not all asserted.",
+    "status": "covered",
+    "reason": "Browser regression asserts PageUp and PageDown use the large step and clamp at bounds. Each directional transition and callback boundary is checked.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5035,6 +5035,10 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "fractional keys stay precise and page keys use ten steps"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-remaining.test-browser.tsx",
+        "title": "slider.keyboard.4 PageUp and PageDown use the large step and clamp at bounds"
       }
     ]
   },
@@ -5072,12 +5076,18 @@
   },
   {
     "ids": ["slider.keyboard.7"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "Browser regression asserts Meta Control and Alt arrows each retain one ordinary step. Each directional transition and callback boundary is checked.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-remaining.test-browser.tsx",
+        "title": "slider.keyboard.7 Meta Control and Alt arrows each retain one ordinary step"
+      }
     ]
   },
   {
@@ -5210,8 +5220,8 @@
   },
   {
     "ids": ["slider.keyboard.15"],
-    "status": "partial",
-    "reason": "Lower End and upper bound-setting clamp relative to neighbors while keeping other values; native upper Home is not asserted.",
+    "status": "covered",
+    "reason": "Browser regression asserts Home and End on range thumbs stop at neighboring values. Each directional transition and callback boundary is checked.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5221,13 +5231,17 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "neighbors bound requests and keep identity"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-remaining.test-browser.tsx",
+        "title": "slider.keyboard.15 Home and End on range thumbs stop at neighboring values"
       }
     ]
   },
   {
     "ids": ["slider.keyboard.16"],
-    "status": "partial",
-    "reason": "Configured two-step gap bounds a lower End request; the specified repeated no-op key callback and pushing path are not fully asserted.",
+    "status": "covered",
+    "reason": "Browser regression asserts repeated gap-closing keypress is a no-op without a second callback. Each directional transition and callback boundary is checked.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5237,6 +5251,10 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "stable range inputs clamp neighboring keys and commit once on release"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-remaining.test-browser.tsx",
+        "title": "slider.keyboard.16 repeated gap-closing keypress is a no-op without a second callback"
       }
     ]
   },
@@ -5258,8 +5276,8 @@
   },
   {
     "ids": ["slider.keyboard.18"],
-    "status": "partial",
-    "reason": "Core ignores an absent thumb index without NaN; a mounted extra Thumb key and change/commit spies are not exercised.",
+    "status": "covered",
+    "reason": "Browser regression asserts an extra thumb emits no change or commit and never commits NaN. Each directional transition and callback boundary is checked.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5269,6 +5287,10 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "normalizes bounds, missing values, and blocked requests"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-remaining.test-browser.tsx",
+        "title": "slider.keyboard.18 an extra thumb emits no change or commit and never commits NaN"
       }
     ]
   },
