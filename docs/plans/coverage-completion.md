@@ -7,7 +7,7 @@ Finish the 1,038 partial and 484 missing requirements recorded in
 backlog so changing a disposition cannot silently count as test completion.
 
 GPT-5.6 Luna writes small test slices. The coordinator reviews assertions and
-runs tests. GPT-5.6 Sol verifies failures against the intended contract;
+runs tests. GPT-6 Astra at low reasoning verifies failures against the intended contract;
 GPT-6 Astra at medium reasoning fixes confirmed implementation bugs. The
 coordinator reruns relevant checks and commits each verified slice.
 
@@ -535,3 +535,7 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed six gaps: scoped axe scan, readonly Tab focus, outer Field label click, native whole-value Tab selection, and named hidden canonical values beside localized number/currency displays.
 - Review removed manual post-focus selection and added direct hidden-input form-owner assertions. Independent final Chromium run passed all six tests; Luna lint/types passed.
+
+### Failure verifier update
+
+- Per user instruction, subsequent failure verification uses GPT-6 Astra at low reasoning (requested as light), replacing GPT-5.6 Sol. Confirmed implementation fixes continue to use Astra at medium reasoning. Earlier entries retain the models that actually performed those checks.
