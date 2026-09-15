@@ -98,6 +98,16 @@ accounting. Audit records live in `packages/suite/coverage`.
   selection gaps. Meta+A array selection and selected-row activation also gain
   evidence; their unbuilt all-sentinel and separate row-action alternatives
   remain partial.
-- Independent combined Meter/Selection/Avatar run: 35 jsdom and 37 Chromium
+- Independent combined Meter/Selection/Avatar run: 27 jsdom and 37 Chromium
   tests passed. Audit validation passed.
 - Milestone after the Field fix: all 808 suite jsdom and 396 Solid tests passed.
+
+### Meter bounds, naming and author composition
+
+- Added thirteen tests, closing twelve requirement gaps.
+- Verified finite bounds, null/nonfinite normalization, explicit label naming,
+  author overrides, custom component forwarding, reactive display text and
+  pointer inertness. Shared ARIA rules are explicitly selected for axe.
+- Independent Meter checks: 13 jsdom and 14 Chromium tests passed. Audit
+  validation passed. Indicator-width alternatives remain partial. A fixed
+  authored rounded string is not counted as proof of a generated formatter.

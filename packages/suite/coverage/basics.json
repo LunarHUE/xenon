@@ -4704,8 +4704,8 @@
   },
   {
     "ids": ["meter.roles.2"],
-    "status": "partial",
-    "reason": "Finite values and upper-bound clamping are asserted. Lower-bound clamping and all emitted min/max ARIA combinations are not independently asserted.",
+    "status": "covered",
+    "reason": "Below-minimum value clamps to the emitted finite minimum and now remains within min/max.",
     "sources": [
       "docs/spec/progress.md",
       "packages/core/src/meter/meter.test.ts",
@@ -4719,13 +4719,17 @@
       {
         "file": "packages/suite/src/meter/meter.conformance.test.tsx",
         "title": "meter.alpha.1"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.2 and meter.state.1 clamp now within finite normalized bounds"
       }
     ]
   },
   {
     "ids": ["meter.state.1"],
-    "status": "partial",
-    "reason": "Finite values and upper-bound clamping are asserted. Lower-bound clamping and all emitted min/max ARIA combinations are not independently asserted.",
+    "status": "covered",
+    "reason": "The emitted now value is numerically between the emitted min and max after clamping.",
     "sources": [
       "docs/spec/progress.md",
       "packages/core/src/meter/meter.test.ts",
@@ -4739,37 +4743,49 @@
       {
         "file": "packages/suite/src/meter/meter.conformance.test.tsx",
         "title": "meter.alpha.1"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.2 and meter.state.1 clamp now within finite normalized bounds"
       }
     ]
   },
   {
     "ids": ["meter.roles.3"],
-    "status": "partial",
-    "reason": "Core tests reset equal, reversed and overflowing ranges, but do not assert all finite min/max ARIA attributes after normalization.",
+    "status": "covered",
+    "reason": "Invalid reversed bounds reset to 0..100; valid nondefault range emits both explicit ARIA bounds.",
     "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.test.ts"],
     "tests": [
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "resets invalid bounds %o"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.3, meter.roles.4 and meter.state.6 emit normalized explicit bounds"
       }
     ]
   },
   {
     "ids": ["meter.roles.6"],
-    "status": "partial",
-    "reason": "Named meter fixtures exercise aria-label; visible label association through aria-labelledby is not asserted.",
+    "status": "covered",
+    "reason": "A visible label id is passed through as aria-labelledby on a generic meter.",
     "sources": ["docs/spec/progress.md", "packages/solid/src/meter/meter.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/meter/meter.test.tsx",
         "title": "generic hosts are named meters and author value text wins"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.6 and meter.roles.12 preserve visible naming and author ARIA values"
       }
     ]
   },
   {
     "ids": ["meter.roles.9"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. A default-range meter exposes now and percentage text, then updates both with its CSS percentage when value changes. The adapter has no value-label part.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4788,13 +4804,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.9 and meter.roles.10 update now and formatted percentage reactively"
       }
     ]
   },
   {
     "ids": ["meter.roles.10"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Value 30 to 77 updates aria-valuenow, aria-valuetext and --meter-percentage together; visible indicator geometry is not shipped.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4813,13 +4833,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.9 and meter.roles.10 update now and formatted percentage reactively"
       }
     ]
   },
   {
     "ids": ["meter.roles.11"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Reactive min, max and value changes keep emitted ARIA values and percentage text consistent; no indicator geometry is shipped.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4838,13 +4862,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.11 and meter.state.8 keep custom range formatting consistent on rerender"
       }
     ]
   },
   {
     "ids": ["meter.state.7"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Below and above default bounds emit now 0/100 and value text 0%/100%; no indicator width is shipped.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4863,13 +4891,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.state.7 clamps below and above range to endpoint percentages"
       }
     ]
   },
   {
     "ids": ["meter.state.8"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Custom ranges produce percentage text based on position within the range and retain consistency after rerender.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4888,13 +4920,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.11 and meter.state.8 keep custom range formatting consistent on rerender"
       }
     ]
   },
   {
     "ids": ["meter.state.12"],
     "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Value 33.333 produces 33% aria-valuetext and matching author-rendered display text. The authored child is a fixed string, so this does not prove a generated display formatter matches for arbitrary values; that clause remains open.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4913,13 +4949,17 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.state.12 rounds aria-valuetext and bound display text identically"
       }
     ]
   },
   {
     "ids": ["meter.state.17"],
-    "status": "partial",
-    "reason": "Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply.",
+    "status": "covered",
+    "reason": "A parent signal update changes aria-valuenow and the bound child display from 20% to 80%.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/meter/meter.conformance.test.tsx",
@@ -4938,18 +4978,26 @@
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.state.17 updates bound display text with a parent value"
       }
     ]
   },
   {
     "ids": ["meter.roles.12"],
-    "status": "partial",
-    "reason": "Author aria-valuetext wins in the Solid test. The aria-labelledby passthrough half is not asserted.",
+    "status": "covered",
+    "reason": "Consumer aria-labelledby and aria-valuetext values appear verbatim on the meter root, whose accessible name resolves to the visible label.",
     "sources": ["docs/spec/progress.md", "packages/solid/src/meter/meter.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/meter/meter.test.tsx",
         "title": "generic hosts are named meters and author value text wins"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.6 and meter.roles.12 preserve visible naming and author ARIA values"
       }
     ]
   },
@@ -4967,25 +5015,33 @@
   },
   {
     "ids": ["meter.state.10"],
-    "status": "partial",
-    "reason": "Parameterized core cases assert NaN resolves to zero and retains aria-valuenow; the required 0% aria-valuetext is not asserted for NaN.",
+    "status": "covered",
+    "reason": "NaN emits aria-valuenow 0, aria-valuetext 0% and no indeterminate marker.",
     "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.test.ts"],
     "tests": [
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "never becomes indeterminate for %s"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.state.10 formats NaN as zero percent without indeterminate state"
       }
     ]
   },
   {
     "ids": ["meter.notes.3"],
-    "status": "partial",
-    "reason": "Undefined and nonfinite values resolve to a finite value rather than indeterminate. Null and absence of data-indeterminate are not explicit assertions.",
+    "status": "covered",
+    "reason": "Absent, null, NaN, positive infinity and negative infinity all resolve to aria-valuenow 0 without data-indeterminate.",
     "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.test.ts"],
     "tests": [
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "never becomes indeterminate for %s"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.notes.3 has no indeterminate mode for absent, null, or nonfinite values"
       }
     ]
   },
@@ -5147,8 +5203,8 @@
   },
   {
     "ids": ["meter.a11y.2"],
-    "status": "partial",
-    "reason": "The alpha fixture runs shared axe checks but does not assert every listed rule, including target-size.",
+    "status": "covered",
+    "reason": "Runs the listed ARIA validity/required/role rules and target-size against a named generic meter.",
     "sources": [
       "docs/spec/progress.md",
       "packages/suite/src/a11y.ts",
@@ -5158,6 +5214,10 @@
       {
         "file": "packages/suite/src/meter/meter.conformance.test.tsx",
         "title": "meter.alpha.1"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.a11y.2 applies the shared ARIA and target-size axe rules"
       }
     ]
   },
@@ -12865,21 +12925,31 @@
   },
   {
     "ids": ["meter.roles.4"],
-    "status": "partial",
-    "reason": "Custom-range normalized state and formatted text are checked; emitted nondefault min/max ARIA attributes are not both asserted.",
+    "status": "covered",
+    "reason": "A 7..14 range emits min and max rather than relying on role defaults.",
     "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.test.ts"],
     "tests": [
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "clamps values, formats the normalized range and uses native attributes"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.3, meter.roles.4 and meter.state.6 emit normalized explicit bounds"
       }
     ]
   },
   {
     "ids": ["meter.pointer.1"],
-    "status": "missing",
-    "reason": "Meter core emits no activation handlers, but no test sends pointer input and asserts the measurement remains unchanged.",
-    "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.ts"]
+    "status": "covered",
+    "reason": "Real Chromium click leaves the read-only meter DOM unchanged and unfocused.",
+    "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test-browser.tsx",
+        "title": "meter.pointer.1 remains unchanged when it receives pointer input"
+      }
+    ]
   },
   {
     "ids": ["meter.state.2"],
@@ -12901,13 +12971,17 @@
   },
   {
     "ids": ["meter.state.6"],
-    "status": "partial",
-    "reason": "Default normalized max=100 is exercised through invalid-bound reset, but default emitted aria-valuemax is not asserted.",
+    "status": "covered",
+    "reason": "Default-reset bounds explicitly emit aria-valuemin 0 and aria-valuemax 100.",
     "sources": ["docs/spec/progress.md", "packages/core/src/meter/meter.test.ts"],
     "tests": [
       {
         "file": "packages/core/src/meter/meter.test.ts",
         "title": "resets invalid bounds %o"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.roles.3, meter.roles.4 and meter.state.6 emit normalized explicit bounds"
       }
     ]
   },
@@ -12919,13 +12993,17 @@
   },
   {
     "ids": ["meter.notes.7"],
-    "status": "partial",
-    "reason": "Author aria-valuetext and a generic host are tested; arbitrary DOM props and a custom forwarding render component are not.",
+    "status": "covered",
+    "reason": "A custom component forwards the meter role, arbitrary data prop, ref, click handler and children to an article host.",
     "sources": ["docs/spec/progress.md", "packages/solid/src/meter/meter.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/meter/meter.test.tsx",
         "title": "generic hosts are named meters and author value text wins"
+      },
+      {
+        "file": "packages/suite/src/meter/meter.coverage.test.tsx",
+        "title": "meter.notes.7 forwards arbitrary props, refs, events and children through a custom host"
       }
     ]
   },
