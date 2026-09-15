@@ -2313,12 +2313,18 @@
   },
   {
     "ids": ["pin-input.roles.3"],
-    "status": "missing",
-    "reason": "The controller emits these slot/group flags and native keyboard hints, but the scoped tests do not assert this complete marker/attribute set.",
+    "status": "covered",
+    "reason": "Public browser regression verifies root state flags and Field.Label required state are exposed. The tab stop follows insertion independently of backward navigation focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/core/src/pin-input/pin-input.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-role-state.test-browser.tsx",
+        "title": "pin-input.roles.3 root state flags and Field.Label required state are exposed"
+      }
     ]
   },
   {
@@ -2339,18 +2345,24 @@
   },
   {
     "ids": ["pin-input.roles.5"],
-    "status": "missing",
-    "reason": "The controller emits these slot/group flags and native keyboard hints, but the scoped tests do not assert this complete marker/attribute set.",
+    "status": "covered",
+    "reason": "Public browser regression verifies slots expose index, filled state, root flags, and aria-invalid. The tab stop follows insertion independently of backward navigation focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/core/src/pin-input/pin-input.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-role-state.test-browser.tsx",
+        "title": "pin-input.roles.5 slots expose index, filled state, root flags, and aria-invalid"
+      }
     ]
   },
   {
     "ids": ["pin-input.roles.6"],
-    "status": "partial",
-    "reason": "The final default slot name is asserted; translated templates and all three-slot labels are not.",
+    "status": "covered",
+    "reason": "Public browser regression verifies localized slot labels use the translated index template for all three slots. The tab stop follows insertion independently of backward navigation focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2360,13 +2372,17 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "normalizes a scalar code and exposes indexed OTP slots"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-role-state.test-browser.tsx",
+        "title": "pin-input.roles.6 localized slot labels use the translated index template for all three slots"
       }
     ]
   },
   {
     "ids": ["pin-input.roles.7"],
     "status": "partial",
-    "reason": "Alphabetic inputmode=text is asserted, but numeric mode and explicit first-slot/proxy overrides are not all tested.",
+    "reason": "Numeric and alphabetic slot input modes plus an explicit first-slot native override are asserted. Root inputmode attributes do not configure the slots or submission proxy; a proxy override is not exposed.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2376,6 +2392,10 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "alphabetic and alphanumeric modes filter codes and expose masking semantics"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-role-state.test-browser.tsx",
+        "title": "pin-input.roles.7 numeric and text modes select inputmode and a first-slot override wins"
       }
     ]
   },
@@ -2491,8 +2511,8 @@
   },
   {
     "ids": ["pin-input.roles.20"],
-    "status": "partial",
-    "reason": "Native slots and insertion focus are exercised, but a full tabindex count and its movement across all slots is not directly asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies maintains one roving tab stop and moves focus through every slot. The tab stop follows insertion independently of backward navigation focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2502,6 +2522,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "ArrowLeft stops at the first slot and ArrowRight stops at the insertion point"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-role-state.test-browser.tsx",
+        "title": "pin-input.roles.20 maintains one roving tab stop and moves focus through every slot"
       }
     ]
   },
