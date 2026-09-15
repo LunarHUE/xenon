@@ -28,7 +28,11 @@ export interface MenubarOptions<T> {
 export function menubar<T>(options: MenubarOptions<T>) {
   const navigation = composite({ ...options, direction: options.dir, loop: options.loop ?? true })
   const root: PartProps<'div'> = {
-    attrs: { role: 'menubar', 'aria-orientation': options.orientation ?? 'horizontal' },
+    attrs: {
+      role: 'menubar',
+      'aria-orientation': options.orientation === 'vertical' ? 'vertical' : undefined,
+      'data-orientation': options.orientation ?? 'horizontal',
+    },
     on: {},
   }
   function trigger(value: T): PartProps<'button'> {

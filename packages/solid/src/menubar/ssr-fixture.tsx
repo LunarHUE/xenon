@@ -3,7 +3,7 @@ import { Menubar } from './index'
 /** Serialize a controlled menu fixture to verify server roles and ID associations. */
 export function renderFixture(open: boolean) {
   return renderToString(() => (
-    <Menubar value={open ? 'file' : ''}>
+    <Menubar value={open ? 'file' : null}>
       <Menubar.Menu value="file">
         <Menubar.Trigger id="trigger">File</Menubar.Trigger>
         <Menubar.Positioner>

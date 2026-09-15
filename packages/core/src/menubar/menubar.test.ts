@@ -52,3 +52,12 @@ test('all disabled triggers stay outside the tab order', () => {
   expect(engine.parts.trigger('file').attrs.tabindex).toBe(-1)
   expect(engine.parts.trigger('edit').attrs.tabindex).toBe(-1)
 })
+
+test('menubar omits default horizontal ARIA orientation and exposes vertical explicitly', () => {
+  const horizontal = menubar({ items: [] }).parts.root.attrs
+  expect(horizontal['aria-orientation']).toBeUndefined()
+  expect(horizontal['data-orientation']).toBe('horizontal')
+  const vertical = menubar({ items: [], orientation: 'vertical' }).parts.root.attrs
+  expect(vertical['aria-orientation']).toBe('vertical')
+  expect(vertical['data-orientation']).toBe('vertical')
+})

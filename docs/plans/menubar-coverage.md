@@ -6,7 +6,8 @@ one top-level menu using shared Menu state, hosting, items, and submenus.
 
 ## Decisions
 
-- Root has `role="menubar"`. Authors supply `aria-label` or `aria-labelledby`.
+- Root has `role="menubar"`. Default horizontal `aria-orientation` is omitted;
+  vertical is explicit and `data-orientation` is always present. Authors supply `aria-label` or `aria-labelledby`.
   Top-level triggers have `role="menuitem"`, menu disclosure ARIA, and open-only
   `aria-controls`. Exactly one enabled top-level trigger is the roving tab stop.
 - Top-level arrows skip disabled triggers and wrap by default, selecting
@@ -21,8 +22,11 @@ one top-level menu using shared Menu state, hosting, items, and submenus.
 - Hover never opens a closed bar. When another menu is already open, hover
   switches to the new surface without focusing its first item. Clicking opens
   at the surface; ArrowDown then enters the items.
-- Root `value` and `defaultValue` select a top-level menu by identity; empty
-  string means closed. `onValueChange` reports requests. Each Menu also has
+- Root `value` and `defaultValue` select the open overlay by identity, matching
+  NavigationMenu. `null` explicitly closes all menus; `undefined` uses internal
+  state. Empty strings remain valid menu identities. `onValueChange` reports a
+  string when opening and `null` when closing. These props select the open overlay;
+  checkbox and radio data-selection APIs are unchanged. Each Menu also has
   `onOpenChange`. Closing a menu during a top-level switch resets descendants.
 - Positioner, Content, Portal, Viewport, Arrow, items, groups, and Sub parts reuse
   Menu. Selection and checkbox/radio defaults stay consistent across families.

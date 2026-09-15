@@ -42,15 +42,18 @@ function useBar() {
   return bar
 }
 /** Menubar container props and caller-owned open identity. */
-export type MenubarProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type MenubarProps<T extends ValidComponent = 'div'> = Omit<
+  ComponentProps<T>,
+  'value' | 'defaultValue' | 'onValueChange'
+> & {
   /** Container host; defaults to div. Supply aria-label or aria-labelledby. */
   as?: T
-  /** Controlled open menu identity. Empty string closes all menus. */
-  value?: string
-  /** Initial uncontrolled open menu identity. */
-  defaultValue?: string
-  /** Reports requested open identity; empty string means all closed. */
-  onValueChange?: (value: string) => void
+  /** Controlled open menu identity; null closes all menus and undefined uses internal state. Empty string is a valid identity. */
+  value?: string | null
+  /** Initial uncontrolled open menu identity; defaults to null. */
+  defaultValue?: string | null
+  /** Reports requested open identity; null means all closed. Initialization is silent. */
+  onValueChange?: (value: string | null) => void
   /** Top-level navigation axis; defaults to horizontal. */
   orientation?: 'horizontal' | 'vertical'
   /** Wrap enabled trigger navigation; defaults to true. */
@@ -61,16 +64,21 @@ export type MenubarProps<T extends ValidComponent = 'div'> = ComponentProps<T> &
 /** Persistent menuitem row with one open popup and an enabled roving tab stop. Focus alone and hover over a closed bar never open a menu. */
 export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProps<T>): JSX.Element {
   const own = props as MenubarProps<'div'>
-  const [internal, setInternal] = createSignal(untrack(() => props.defaultValue ?? ''))
+  const [internal, setInternal] = createSignal<string | null>(
+    untrack(() => props.defaultValue ?? null)
+  )
   let registered: Entry[] = []
   const [entrySignal, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   const entries = () => (isServer ? registered : entrySignal())
   const [active, setActive] = createSignal<Entry>()
-  const value = () => (props.value ?? internal()) || undefined
+  const value = () => {
+    const selected = props.value === undefined ? internal() : props.value
+    return selected === null ? undefined : selected
+  }
   const change = (next: string | undefined) => {
     if (next === untrack(value)) return
-    if (props.value === undefined) setInternal(next ?? '')
-    props.onValueChange?.(next ?? '')
+    if (props.value === undefined) setInternal(next ?? null)
+    props.onValueChange?.(next ?? null)
   }
   function focus(entry: Entry) {
     setActive(entry)
@@ -81,6 +89,7 @@ export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProp
     if (previous && previous !== entry) {
       previous.menu.resetChildren()
       previous.menu.closeAll(false)
+      if (!entry) return
     }
     if (entry?.trigger) {
       setActive(entry)
@@ -88,7 +97,7 @@ export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProp
     } else if (!entry) change(undefined)
   }
   function navigate(entry: Entry) {
-    const opened = !!value()
+    const opened = value() !== undefined
     focus(entry)
     if (opened) activate(entry)
   }
@@ -233,7 +242,7 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
           bar.focus(entry)
         },
         pointerenter() {
-          if (bar.value() && bar.value() !== entry.value && !trigger.disabled())
+          if (bar.value() !== undefined && bar.value() !== entry.value && !trigger.disabled())
             bar.activate(entry, 'content')
         },
       },
