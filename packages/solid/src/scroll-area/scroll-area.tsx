@@ -350,7 +350,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
   const own = props as ScrollAreaScrollbarProps<'div'>
   const axis = () => own.orientation ?? 'vertical'
   const [track, setTrack] = createSignal<HTMLElement>()
-  const [size, setSize] = createSignal({ width: 0, height: 0 })
+  const [size, setSize] = createSignal({ width: 0, height: 0, innerWidth: 0, innerHeight: 0 })
   let thumb: HTMLElement | undefined
   let interaction: ReturnType<typeof createScrollbarInteraction> | undefined
   const horizontal = () => axis() === 'horizontal'
@@ -376,9 +376,20 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       let frame: number | undefined
       const measure = () => {
         frame = undefined
-        const next = { width: element.offsetWidth, height: element.offsetHeight }
+        const next = {
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+          innerWidth: element.clientWidth,
+          innerHeight: element.clientHeight,
+        }
         const previous = untrack(size)
-        if (next.width !== previous.width || next.height !== previous.height) setSize(next)
+        if (
+          next.width !== previous.width ||
+          next.height !== previous.height ||
+          next.innerWidth !== previous.innerWidth ||
+          next.innerHeight !== previous.innerHeight
+        )
+          setSize(next)
       }
       const schedule = () => {
         if (frame !== undefined) return

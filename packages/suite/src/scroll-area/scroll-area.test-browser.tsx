@@ -140,6 +140,12 @@ spec('scroll-area.alpha.5', async () => {
   await expect.poll(() => thumb.getBoundingClientRect().height).toBeGreaterThan(smallHeight)
   expect(view.viewport()).toBe(viewport)
   expect(view.getByTestId('vertical')).toBe(track)
+  const outerHeight = track.offsetHeight
+  const beforeBorder = thumb.getBoundingClientRect().height
+  track.style.boxSizing = 'border-box'
+  track.style.borderBlock = '4px solid transparent'
+  await expect.poll(() => thumb.getBoundingClientRect().height).toBeLessThan(beforeBorder)
+  expect(track.offsetHeight).toBe(outerHeight)
   view.resizeContent(120, 120)
   await expect.poll(() => track.hidden).toBe(true)
   await expect.poll(() => horizontal.track.hidden).toBe(true)
