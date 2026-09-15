@@ -308,7 +308,7 @@ export function createFloatingLayer(
     sessions.set(document, stack)
     restore = true
     show()
-    if (options.modal) modal = registerModal(wrapper)
+    if (options.modal) modal = registerModal(wrapper, { content: options.content ?? wrapper })
   }
   /** Defer outside-focus dismissal until focus settles, ignoring pointer-driven focus changes. */
   const focusin = (event: FocusEvent) => {

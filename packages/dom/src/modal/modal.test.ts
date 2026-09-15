@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import { registerModal } from './modal'
+import { registerModal, subscribeModalContent } from './modal'
 
 const cleanups: (() => void)[] = []
 function modal(element: HTMLElement, lockScroll = true) {
@@ -162,4 +162,138 @@ describe('registerModal', () => {
     registration.dispose()
     expect(other.body.style.overflow).toBe('')
   })
+})
+
+describe('subscribeModalContent', () => {
+  test('emits the current destination immediately and follows nested registration order', () => {
+    const destinations: (HTMLElement | undefined)[] = []
+    cleanups.push(subscribeModalContent(document, (content) => destinations.push(content)))
+    const first = node()
+    const firstContent = node(first)
+    const firstModal = registerModal(first, { content: firstContent })
+    cleanups.push(firstModal.dispose)
+    const second = node()
+    const secondContent = node(second)
+    const secondModal = registerModal(second, { content: secondContent })
+    cleanups.push(secondModal.dispose)
+    secondModal.dispose()
+    firstModal.dispose()
+    expect(destinations).toEqual([undefined, firstContent, secondContent, firstContent, undefined])
+  })
+
+  test('subscribers added during a modal receive its content and see isolation already reconciled', () => {
+    const background = node()
+    const root = node()
+    const registration = modal(root)
+    const callback = vi.fn((content: HTMLElement | undefined) => {
+      expect(background.hasAttribute('inert')).toBe(Boolean(content))
+    })
+    cleanups.push(subscribeModalContent(document, callback))
+    expect(callback).toHaveBeenCalledExactlyOnceWith(root)
+    registration.dispose()
+    expect(callback).toHaveBeenLastCalledWith(undefined)
+  })
+
+  test('branch changes, background mutations and non-top disposal do not repeat a destination', async () => {
+    const first = modal(node())
+    const top = node()
+    const second = modal(top)
+    const callback = vi.fn()
+    cleanups.push(subscribeModalContent(document, callback))
+    const release = second.registerBranch(node())
+    release()
+    node()
+    await mutations()
+    first.dispose()
+    expect(callback).toHaveBeenCalledExactlyOnceWith(top)
+  })
+
+  test('unsubscription is independent and idempotent', () => {
+    const first = vi.fn()
+    const second = vi.fn()
+    const release = subscribeModalContent(document, first)
+    cleanups.push(release)
+    cleanups.push(subscribeModalContent(document, second))
+    release()
+    release()
+    const root = node()
+    modal(root)
+    expect(first).toHaveBeenCalledExactlyOnceWith(undefined)
+    expect(second.mock.calls).toEqual([[undefined], [root]])
+  })
+
+  test('subscriptions allocate no listeners or observers and modal observers stop after disposal', async () => {
+    const observe = vi.spyOn(window.MutationObserver.prototype, 'observe')
+    const disconnect = vi.spyOn(window.MutationObserver.prototype, 'disconnect')
+    const listen = vi.spyOn(document, 'addEventListener')
+    const unsubscribe = subscribeModalContent(document, () => {})
+    cleanups.push(unsubscribe)
+    expect(observe).not.toHaveBeenCalled()
+    expect(listen).not.toHaveBeenCalled()
+    const registration = modal(node())
+    expect(observe).toHaveBeenCalled()
+    registration.dispose()
+    expect(disconnect).toHaveBeenCalled()
+    observe.mockClear()
+    node()
+    await mutations()
+    expect(observe).not.toHaveBeenCalled()
+  })
+
+  test('a persistent subscription survives a completely new modal stack', () => {
+    const callback = vi.fn()
+    cleanups.push(subscribeModalContent(document, callback))
+    const first = node()
+    modal(first).dispose()
+    const second = node()
+    modal(second).dispose()
+    expect(callback.mock.calls).toEqual([[undefined], [first], [undefined], [second], [undefined]])
+  })
+
+  test('content must remain in its host document and composed subtree', () => {
+    const host = node()
+    expect(() => registerModal(host, { content: node() })).toThrow('same-document descendant')
+    const frame = document.createElement('iframe')
+    document.body.append(frame)
+    expect(() => registerModal(host, { content: frame.contentDocument!.body })).toThrow(
+      'same-document descendant'
+    )
+    const shadow = host.attachShadow({ mode: 'open' })
+    const content = document.createElement('div')
+    shadow.append(content)
+    const registration = registerModal(host, { content })
+    cleanups.push(registration.dispose)
+    const callback = vi.fn()
+    cleanups.push(subscribeModalContent(document, callback))
+    expect(callback).toHaveBeenCalledExactlyOnceWith(content)
+  })
+
+  test('subscriptions observe only their owner document', () => {
+    const frame = document.createElement('iframe')
+    document.body.append(frame)
+    const other = frame.contentDocument!
+    const callback = vi.fn()
+    cleanups.push(subscribeModalContent(other, callback))
+    modal(node())
+    expect(callback).toHaveBeenCalledExactlyOnceWith(undefined)
+    const root = other.createElement('div')
+    other.body.append(root)
+    modal(root)
+    expect(callback).toHaveBeenLastCalledWith(root)
+  })
+})
+
+test('moving an isolated portal in a destination callback restores its attributes synchronously', () => {
+  const portal = node()
+  const host = node()
+  cleanups.push(
+    subscribeModalContent(document, (content) => (content ?? document.body).append(portal))
+  )
+  const registration = modal(host)
+  expect(host.contains(portal)).toBe(true)
+  expect(portal.hasAttribute('inert')).toBe(false)
+  expect(portal.hasAttribute('aria-hidden')).toBe(false)
+  registration.dispose()
+  expect(portal.parentElement).toBe(document.body)
+  expect(portal.hasAttribute('inert')).toBe(false)
 })

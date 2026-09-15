@@ -217,7 +217,7 @@ export function createDialogController(
     // SSR may serialize open, but that attribute alone does not enter the top layer.
     element.removeAttribute('open')
     show()
-    if (sessionModal) modal = registerModal(element)
+    if (sessionModal) modal = registerModal(element, { content: options.content ?? element })
     layer = registerLayer(options.content ?? element, layerOptions())
     scope = registerFocusScope(options.content ?? element, {
       contain: sessionModal,

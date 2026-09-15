@@ -1,5 +1,11 @@
 /** Document isolation policy captured when a modal registers. */
 export interface ModalOptions {
+  /**
+   * Portal destination inside this modal, normally its focus-scope content.
+   * Defaults to the modal host. Must belong to the same document and be a
+   * composed descendant of the host; invalid destinations throw before registration.
+   */
+  content?: HTMLElement
   /** Lock root overflow and compensate body padding while any requesting modal remains. Defaults to true. */
   lockScroll?: boolean
 }
@@ -26,6 +32,8 @@ export type ModalHandle = ModalRegistration
 interface Entry {
   /** Modal subtree protected when this is the newest registration. */
   element: HTMLElement
+  /** Stable content destination exposed to document subscribers. */
+  content: HTMLElement
   /** Extra permitted subtrees, counted so independent registrations can release safely. */
   branches: Map<Element, number>
   /** Whether this entry contributes a document scroll-lock request. */
@@ -56,6 +64,69 @@ interface State {
 
 /** Independent isolation stacks, weakly keyed by owner document. */
 const states = new WeakMap<Document, State>()
+
+/** A destination observer and its last synchronously delivered value. */
+interface ContentSubscriber {
+  /** Receives destination changes after modal isolation has reconciled. */
+  callback: (content: HTMLElement | undefined) => void
+  /** Last delivered destination; equal destinations do not notify again. */
+  content: HTMLElement | undefined
+}
+
+/** Subscribers alone allocate no document listeners or mutation observers. */
+const contentSubscribers = new WeakMap<Document, Set<ContentSubscriber>>()
+
+/** Publish changed destinations after isolation, including an empty modal stack. */
+function publishContent(document: Document): boolean {
+  const subscribers = contentSubscribers.get(document)
+  if (!subscribers) return false
+  let published = false
+  for (const subscriber of [...subscribers]) {
+    if (!subscribers.has(subscriber)) continue
+    const content = states.get(document)?.entries.at(-1)?.content
+    if (subscriber.content === content) continue
+    subscriber.content = content
+    published = true
+    subscriber.callback(content)
+  }
+  return published
+}
+
+/**
+ * Subscribe to the newest registered modal's content in one document. Emits the
+ * current destination synchronously, then only changes after isolation is
+ * reconciled. Undefined means no modal is registered. Nested modals follow
+ * registration order, independently of DOM order. The idempotent cleanup removes
+ * this callback; subscriptions alone create no document listeners or observers.
+ * Moving existing portal DOM into the destination preserves its framework owner.
+ */
+export function subscribeModalContent(
+  document: Document,
+  callback: (content: HTMLElement | undefined) => void
+): () => void {
+  let subscribers = contentSubscribers.get(document)
+  if (!subscribers) {
+    subscribers = new Set()
+    contentSubscribers.set(document, subscribers)
+  }
+  const subscriber = { callback, content: states.get(document)?.entries.at(-1)?.content }
+  subscribers.add(subscriber)
+  try {
+    callback(subscriber.content)
+    const state = states.get(document)
+    if (state) reconcile(state)
+  } catch (error) {
+    subscribers.delete(subscriber)
+    if (!subscribers.size) contentSubscribers.delete(document)
+    throw error
+  }
+  const current = subscribers
+  return () => {
+    current.delete(subscriber)
+    if (!current.size && contentSubscribers.get(document) === current)
+      contentSubscribers.delete(document)
+  }
+}
 
 /** Restore exact attribute text or remove an originally absent attribute. */
 function restoreAttribute(element: Element, name: string, value: string | null) {
@@ -183,6 +254,10 @@ function reconcile(state: State) {
     state.restoreScroll()
     state.restoreScroll = undefined
   }
+  // Subscribers can move an isolated portal into the new destination. Restore
+  // its saved inert/aria-hidden attributes before registration returns instead
+  // of leaving the relocated subtree inert until observer delivery.
+  if (publishContent(document)) reconcile(state)
 }
 
 /**
@@ -203,6 +278,11 @@ function reconcile(state: State) {
  */
 export function registerModal(element: HTMLElement, options: ModalOptions = {}): ModalRegistration {
   const document = element.ownerDocument
+  const content = options.content ?? element
+  const path = new Set<Element>()
+  ancestors(content, path)
+  if (content.ownerDocument !== document || !path.has(element))
+    throw new Error('Modal content must be a same-document descendant of its host')
   let state = states.get(document)
   if (!state) {
     state = {
@@ -218,7 +298,12 @@ export function registerModal(element: HTMLElement, options: ModalOptions = {}):
     states.set(document, state)
   }
   const current = state
-  const entry: Entry = { element, branches: new Map(), lockScroll: options.lockScroll !== false }
+  const entry: Entry = {
+    element,
+    content,
+    branches: new Map(),
+    lockScroll: options.lockScroll !== false,
+  }
   current.entries.push(entry)
   reconcile(current)
   let disposed = false
