@@ -544,3 +544,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed six gaps with seven shared cases: reactive numeric attributes and empty-value cleanup, absent/one-sided limits, text host, both named stepper associations and hidden glyphs, and bound/interior disabled attributes.
 - Independent runs passed six jsdom cases and all seven final Chromium cases. Luna ran all seven in jsdom and passed lint/typechecking. A public malformed-draft regression fills the omission assertion missing from older core evidence.
+
+### Radio naming and native checked semantics
+
+- Closed both remaining Radio gaps. Naming fixtures cover all name sources and actual axe label-rule applicability/impacts.
+- Astra low independently confirmed a selected native input retained conflicting author aria-checked=false. Astra medium removes this attribute for native Radio items, documenting the precedence exception and preserving other author props and custom-host computed state.
+- Independent checks passed 21 Solid, 55 suite jsdom and 97 Chromium tests. Astra passed Solid types and changed-file lint.

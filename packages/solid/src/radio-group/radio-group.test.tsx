@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@solidjs/testing-library'
-import { createRoot, flush } from 'solid-js'
+import { createRoot, createSignal, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { RadioGroup } from './radio-group'
@@ -72,6 +72,64 @@ describe('<RadioGroup />', () => {
     ))
     expect(horizontal.getByRole('radiogroup')).toHaveAttribute('aria-orientation', 'horizontal')
   })
+
+  test.each([undefined, 'input'] as const)(
+    'native host %s omits author aria-checked as selection and author props change',
+    async (as) => {
+      const [value, setValue] = createSignal('red')
+      const [authorChecked, setAuthorChecked] = createSignal<'true' | 'false'>('false')
+      const { getByRole } = render(() => (
+        <RadioGroup aria-label="Color" value={value()}>
+          <RadioGroup.Item
+            as={as}
+            value="red"
+            aria-label="Red"
+            aria-checked={authorChecked()}
+            title="Author title"
+          />
+          <RadioGroup.Item value="green" aria-label="Green" aria-checked="true" />
+        </RadioGroup>
+      ))
+      const red = getByRole('radio', { name: 'Red' })
+      const green = getByRole('radio', { name: 'Green' })
+      expect(red).toBeChecked()
+      expect(green).not.toBeChecked()
+      expect(red).not.toHaveAttribute('aria-checked')
+      expect(green).not.toHaveAttribute('aria-checked')
+      expect(red).toHaveAttribute('title', 'Author title')
+
+      setValue('green')
+      setAuthorChecked('true')
+      await settle()
+      expect(red).not.toBeChecked()
+      expect(green).toBeChecked()
+      expect(red).not.toHaveAttribute('aria-checked')
+      expect(green).not.toHaveAttribute('aria-checked')
+      expect(red).toHaveAttribute('title', 'Author title')
+    }
+  )
+
+  test.each(['button', 'div'] as const)(
+    'custom host %s keeps computed aria-checked as selection changes',
+    async (as) => {
+      const [value, setValue] = createSignal('red')
+      const { getByRole } = render(() => (
+        <RadioGroup aria-label="Color" value={value()}>
+          <RadioGroup.Item as={as} value="red" aria-label="Red" />
+          <RadioGroup.Item as={as} value="green" aria-label="Green" />
+        </RadioGroup>
+      ))
+      const red = getByRole('radio', { name: 'Red' })
+      const green = getByRole('radio', { name: 'Green' })
+      expect(red).toHaveAttribute('aria-checked', 'true')
+      expect(green).toHaveAttribute('aria-checked', 'false')
+
+      setValue('green')
+      await settle()
+      expect(red).toHaveAttribute('aria-checked', 'false')
+      expect(green).toHaveAttribute('aria-checked', 'true')
+    }
+  )
 
   test('the tab stop starts on the checked radio, else on the first one', () => {
     const { container, unmount } = render(() => (

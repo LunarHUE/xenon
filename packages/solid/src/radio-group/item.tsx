@@ -59,7 +59,8 @@ function hostOf(as: ValidComponent | undefined): RadioItemHost {
  *
  * Registration occurs on settlement and unregisters with the owner. Item
  * description IDs precede group IDs. Other author host attributes override core
- * attributes. This component does not independently consume Field context.
+ * attributes, except native inputs omit author aria-checked so their checked
+ * property remains authoritative. This component does not independently consume Field context.
  * Toolbar.Button composition delegates tab stops, toolbar-axis arrows, Home, and
  * End to the toolbar without changing selection. Cross-axis keys retain group behavior.
  */
@@ -114,6 +115,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
     const out: Record<string, unknown> = { ...rest }
     gate(out, interactive)
     if (host() === 'input') {
+      delete out['aria-checked']
       const key = changeKey(out)
       const user = out[key]
       out[key] = (event: Event) => {

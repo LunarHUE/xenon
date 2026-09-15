@@ -19418,8 +19418,8 @@
   },
   {
     "ids": ["radio.roles.3"],
-    "status": "partial",
-    "reason": "Item aria-label naming is exercised, not the entire content/labelledby/title and axe-label taxonomy.",
+    "status": "covered",
+    "reason": "Public radio fixtures assert content, aria-labelledby, aria-label, and title-only accessible names. Scoped axe results distinguish native label-rule applicability, successful label/multiple-label checks, and the serious title-only-label finding from custom-host inapplicability.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -19428,6 +19428,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio.roles.3"
+      },
+      {
+        "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+        "title": "radio.roles.3 naming matrix includes title and axe label taxonomy"
       }
     ]
   },
@@ -20044,8 +20048,8 @@
   },
   {
     "ids": ["radio.roles.4"],
-    "status": "partial",
-    "reason": "Native radios omit aria-checked and custom radios provide it; omission failure impact and stray native author aria-checked correction are not tested. The public custom host exposes role=radio with aria-checked=true, while the native input reports checkedness and omits aria-checked.",
+    "status": "covered",
+    "reason": "Negative custom-radio axe fixture verifies aria-required-attr at critical impact. Native public items remove conflicting author aria-checked, preserving actual checkedness; reactive Solid regressions cover default/explicit input hosts and custom-host computed semantics. Injected native contradictions are independently detected by axe aria-conditional-attr at serious impact.",
     "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
     "tests": [
       {
@@ -20055,6 +20059,10 @@
       {
         "file": "packages/suite/src/radio/radio.coverage.test.tsx",
         "title": "radio.roles.4: custom radios expose aria-checked while native radios use checkedness"
+      },
+      {
+        "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+        "title": "radio.roles.4 required aria-checked and native stray aria-checked are audited"
       }
     ]
   },
