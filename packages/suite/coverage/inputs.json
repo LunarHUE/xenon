@@ -3168,52 +3168,86 @@
   },
   {
     "ids": ["pin-input.focus.1"],
-    "status": "missing",
-    "reason": "The shipped native slots support bounded focus, roving Tab, native autofocus and Field label association, but these exact entry/exit/programmatic/label focus scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Programmatic focus beyond an empty gap redirects to the first empty slot.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.1 programmatic focus past a gap redirects to the insertion slot"
+      }
     ]
   },
   {
     "ids": ["pin-input.focus.2"],
-    "status": "missing",
-    "reason": "The shipped native slots support bounded focus, roving Tab, native autofocus and Field label association, but these exact entry/exit/programmatic/label focus scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Native Tab exits from both earlier filled slots and the insertion slot for partial and complete codes; insertion tabindex and Shift+Tab reentry are retained, and consumer cancellation prevents movement.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.2 Tab exits the active slot to the next control (%s, %i)"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.2 consumer cancellation keeps Tab on the active earlier slot"
+      }
     ]
   },
   {
     "ids": ["pin-input.focus.3"],
-    "status": "missing",
-    "reason": "The shipped native slots support bounded focus, roving Tab, native autofocus and Field label association, but these exact entry/exit/programmatic/label focus scenarios are not asserted.",
+    "status": "covered",
+    "reason": "Native Shift+Tab from the next control reenters at the insertion point for partial and complete codes.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.3 Shift+Tab re-enters at the insertion point for partial and complete values"
+      }
     ]
   },
   {
     "ids": ["pin-input.focus.4"],
-    "status": "missing",
-    "reason": "The shipped native slots support bounded focus, roving Tab, native autofocus and Field label association, but these exact entry/exit/programmatic/label focus scenarios are not asserted.",
+    "status": "covered",
+    "reason": "In a fresh browser document, the first slot receives its native autofocus attribute and gains focus after native autofocus processing.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.4 native autofocus on the first slot focuses it on mount"
+      }
     ]
   },
   {
     "ids": ["pin-input.focus.5"],
-    "status": "missing",
-    "reason": "The shipped native slots support bounded focus, roving Tab, native autofocus and Field label association, but these exact entry/exit/programmatic/label focus scenarios are not asserted.",
+    "status": "covered",
+    "reason": "An actual Field label click focuses the first native slot.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-focus.test-browser.tsx",
+        "title": "pin-input.focus.5 clicking a Field label focuses the first slot"
+      }
     ]
   },
   {

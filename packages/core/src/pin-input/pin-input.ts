@@ -121,6 +121,12 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
           event.keyCode === 229
         )
           return
+        if (event.key === 'Tab') {
+          // Start native forward traversal at the sole tab stop so it leaves the
+          // field even when an earlier, non-tabbable slot currently has focus.
+          if (!event.shiftKey && index < insertion) focus(insertion)
+          return
+        }
         const modifier = event.ctrlKey || event.metaKey
         let target: number | undefined
         if (event.key === 'ArrowLeft') target = modifier ? 0 : index - 1

@@ -762,3 +762,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed three gaps for multi-character slot input, caret-independent replacement, and composition edit/navigation suppression with accepted and rejected commits. Ctrl/Cmd deletion and vertical navigation now cover the built contract; excluded cross-slot cut and propagation stopping remain partial.
 - Root review replaced a reclicking typing helper and an empty-slot navigation no-op with meaningful caret and composing-slot assertions.
 - Independent Chromium, Firefox and WebKit run passed all 15 cases. The full Chromium E2E checkpoint also passed all 64 tests before the pending Tab-navigation fix.
+
+### PinInput native Tab exit and focus
+
+- Closed all five focus gaps: programmatic gap redirection, native forward exit, reverse entry, first-slot autofocus and Field label click.
+- Astra low confirmed earlier active slots incorrectly reached the insertion slot on Tab. Astra medium fixed forward traversal by starting it at the existing insertion tab stop, preserving native default behavior and consumer cancellation.
+- Independent three-engine focus/state run passed all 48 cases; core tests passed all eight. Autofocus is tested first in a fresh document and awaited, without manual focus.
