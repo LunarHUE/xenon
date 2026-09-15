@@ -121,3 +121,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   validation passed. SSR and real network policy checks are a separate slice.
 - Root/fallback polymorphism is covered; the Image polymorphism alternative
   remains partial because Image has no polymorphic public prop.
+
+### Composite axes and identities
+
+- Added three core tests and one adapter test; closed four gaps using public
+  both-axis navigation, numeric/object identity, prevention ordering, and
+  complementary existing loop-on/loop-off tests.
+- Independent checks passed: 24 core, 25 suite jsdom and 26 Chromium tests.
+- Soft-disabled entry gains evidence; remaining fallback combinations and
+  alternate default-loop contracts stay partial. Audit validation passed.

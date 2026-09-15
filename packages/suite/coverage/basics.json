@@ -6201,12 +6201,16 @@
   {
     "ids": ["composite.focus.7"],
     "status": "partial",
-    "reason": "Asserts an excluded entry and all soft-disabled items; it does not cover every disabled host/fallback combination.",
+    "reason": "Asserts an excluded entry and all soft-disabled items; it does not cover every disabled host/fallback combination. Toolbar's public focusableWhenDisabled branch allows a disabled first item to retain tabindex=0 while the next item is -1. This supplements the existing non-focusable-disabled fallback test.",
     "sources": ["docs/spec/composite.md", "packages/suite/src/composite/composite.focus.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/composite/composite.focus.test.tsx",
         "title": "composite.focus.7"
+      },
+      {
+        "file": "packages/suite/src/composite/composite.coverage.test.tsx",
+        "title": "composite.focus.7: a disabled but focusable entry retains the initial tab stop"
       }
     ]
   },
@@ -6404,8 +6408,8 @@
   },
   {
     "ids": ["composite.keyboard.3"],
-    "status": "partial",
-    "reason": "Asserts cross-axis keys remain uncancelled for one-axis Toolbar adapters. The both-axis mode is not exercised.",
+    "status": "covered",
+    "reason": "The public core composite with orientation='both' claims ArrowDown and ArrowRight and requests the next active identity for both axes. Existing suite Toolbar tests cover the one-axis uncancelled cross-axis half; this adds the both-axis half.",
     "sources": [
       "docs/spec/composite.md",
       "packages/suite/src/composite/composite.keyboard.test.tsx"
@@ -6414,6 +6418,10 @@
       {
         "file": "packages/suite/src/composite/composite.keyboard.test.tsx",
         "title": "composite.keyboard.3"
+      },
+      {
+        "file": "packages/core/src/composite/composite.coverage.test.ts",
+        "title": "composite.keyboard.3: both orientation claims both arrow axes"
       }
     ]
   },
@@ -6434,8 +6442,8 @@
   },
   {
     "ids": ["composite.keyboard.8"],
-    "status": "partial",
-    "reason": "Asserts final prevention and focus for boundary and moving events; prevention-before-active-change ordering is not observed.",
+    "status": "covered",
+    "reason": "A public core keydown event observes defaultPrevented=true inside onActiveChange, and a boundary no-op also has defaultPrevented=true.",
     "sources": [
       "docs/spec/composite.md",
       "packages/suite/src/composite/composite.keyboard.test.tsx"
@@ -6444,6 +6452,10 @@
       {
         "file": "packages/suite/src/composite/composite.keyboard.test.tsx",
         "title": "composite.keyboard.8"
+      },
+      {
+        "file": "packages/core/src/composite/composite.coverage.test.ts",
+        "title": "composite.keyboard.8: prevention is visible before active-change callback"
       }
     ]
   },
@@ -6479,8 +6491,8 @@
   },
   {
     "ids": ["composite.keyboard.26"],
-    "status": "partial",
-    "reason": "Asserts default wrapping; this ID alone does not exercise disabling loop. The separate keyboard.27 test exercises loop=false.",
+    "status": "covered",
+    "reason": "Existing default-loop and explicit loop=false tests jointly assert both directions of wrapping and clamping in the adopted Toolbar adapter.",
     "sources": [
       "docs/spec/composite.md",
       "packages/suite/src/composite/composite.keyboard.test.tsx"
@@ -6489,6 +6501,10 @@
       {
         "file": "packages/suite/src/composite/composite.keyboard.test.tsx",
         "title": "composite.keyboard.26"
+      },
+      {
+        "file": "packages/suite/src/composite/composite.keyboard.test.tsx",
+        "title": "composite.keyboard.27"
       }
     ]
   },
@@ -20937,8 +20953,8 @@
   },
   {
     "ids": ["composite.notes.1"],
-    "status": "partial",
-    "reason": "The core navigator accepts generic item identities and tests string lists; plain-integer accordion and other cell/option consumers are not all asserted.",
+    "status": "covered",
+    "reason": "The public generic composite preserves numeric identities and object-reference identities as active values and tab-stop keys.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
@@ -20948,6 +20964,10 @@
       {
         "file": "packages/core/src/composite/composite.test.ts",
         "title": "defaults to a horizontal ltr list that clamps"
+      },
+      {
+        "file": "packages/core/src/composite/composite.coverage.test.ts",
+        "title": "composite.notes.1: navigation preserves numeric and object identities"
       }
     ]
   },
