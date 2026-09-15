@@ -20851,12 +20851,34 @@
   },
   {
     "ids": ["toolbar.keyboard.15"],
-    "status": "missing",
-    "reason": "Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.",
+    "status": "covered",
+    "reason": "Toolbar.Button composes with Menu, Select, Dialog, AlertDialog and Popover triggers. Real Enter opens each; Menu arrows move DOM focus and Select arrows move the active option. Dialog-style overlays traverse their controls with Tab. Escape closes each and restores trigger focus.",
     "sources": [
       "docs/spec/toolbar.md",
       "packages/solid/src/toolbar/items.tsx",
       "docs/architecture.md"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-overlay-more.test-browser.tsx",
+        "title": "toolbar.keyboard.15 Select opens, highlights options, and closes with Escape"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-overlay-more.test-browser.tsx",
+        "title": "toolbar.keyboard.15 Dialog enters focus cycle and restores focus on Escape"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-overlay-more.test-browser.tsx",
+        "title": "toolbar.keyboard.15 AlertDialog enters focus cycle and restores focus on Escape"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-overlay-more.test-browser.tsx",
+        "title": "toolbar.keyboard.15 Popover enters focus cycle and restores focus on Escape"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-overlay.test-browser.tsx",
+        "title": "toolbar.keyboard.15"
+      }
     ]
   },
   {

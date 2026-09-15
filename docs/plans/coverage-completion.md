@@ -412,3 +412,11 @@ accounting. Audit records live in `packages/suite/coverage`.
   plus both package typechecks and audit validation. The development compilation
   assertions passed but one invocation hung during shutdown; Sol could not
   reproduce it in eight clean runs and found no code defect.
+
+### Toolbar overlay keyboard matrix
+
+- Added five browser cases across Menu, Select, Dialog, AlertDialog and Popover,
+  closing keyboard.15. Each composed trigger opens on Enter, delegates navigation
+  to its overlay and regains focus after Escape closes that overlay.
+- Independent final Chromium run passed all five cases. Audit validation passed;
+  earlier broader Toolbar validation also passed the overlay files.
