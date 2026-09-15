@@ -10,6 +10,89 @@ const settle = async () => {
   flush()
 }
 
+test('thumb keyboard handling stops native ancestors while preserving author veto and sibling keys', async () => {
+  const author = vi.fn((event: KeyboardEvent) => {
+    if (event.key === 'ArrowLeft') event.preventDefault()
+  })
+  const rootKey = vi.fn()
+  const change = vi.fn()
+  const m = render(() => (
+    <Slider defaultValue={[20]} onKeyDown={rootKey} onValueChange={change}>
+      <Slider.Control>
+        <Slider.Thumb aria-label="Volume" onKeyDown={author} />
+        <button>Sibling</button>
+      </Slider.Control>
+    </Slider>
+  ))
+  await settle()
+  const ancestor = vi.fn()
+  m.container.addEventListener('keydown', ancestor)
+  const input = m.getByRole('slider')
+  const dispatch = (target: HTMLElement, key: string) => {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+    target.dispatchEvent(event)
+    return event
+  }
+  expect(dispatch(input, 'ArrowRight').defaultPrevented).toBe(true)
+  await settle()
+  expect(ancestor).not.toHaveBeenCalled()
+  expect(rootKey).not.toHaveBeenCalled()
+  expect(change).toHaveBeenCalledExactlyOnceWith([21])
+  expect(dispatch(input, 'ArrowLeft').defaultPrevented).toBe(true)
+  await settle()
+  expect(change).toHaveBeenCalledTimes(1)
+  expect(dispatch(input, 'Enter').defaultPrevented).toBe(false)
+  expect(author.mock.calls.map(([event]) => event.key)).toEqual([
+    'ArrowRight',
+    'ArrowLeft',
+    'Enter',
+  ])
+  expect(ancestor).toHaveBeenCalledTimes(2)
+  expect(rootKey).toHaveBeenCalledTimes(2)
+  expect(dispatch(m.getByRole('button'), 'ArrowRight').defaultPrevented).toBe(false)
+  expect(ancestor).toHaveBeenCalledTimes(3)
+  expect(rootKey).toHaveBeenCalledTimes(3)
+  expect(author).toHaveBeenCalledTimes(3)
+})
+
+test('thumb keys stop at the input inside a shadow root', async () => {
+  const host = document.createElement('div')
+  document.body.append(host)
+  const shadow = host.attachShadow({ mode: 'open' })
+  const container = document.createElement('div')
+  shadow.append(container)
+  const author = vi.fn()
+  const bubbled = vi.fn()
+  const m = render(
+    () => (
+      <Slider defaultValue={[20]}>
+        <Slider.Thumb aria-label="Shadow volume" onKeyDown={author} />
+      </Slider>
+    ),
+    { container }
+  )
+  try {
+    await settle()
+    shadow.addEventListener('keydown', bubbled)
+    const input = container.querySelector('input')!
+    input.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+      })
+    )
+    await settle()
+    expect(input.value).toBe('21')
+    expect(author).toHaveBeenCalledTimes(1)
+    expect(bubbled).not.toHaveBeenCalled()
+  } finally {
+    m.unmount()
+    host.remove()
+  }
+})
+
 test('stable range inputs clamp neighboring keys and commit once on release', async () => {
   const change = vi.fn()
   const commit = vi.fn()

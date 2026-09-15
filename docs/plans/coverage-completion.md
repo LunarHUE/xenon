@@ -639,3 +639,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed six gaps for numeric ARIA/axe required-value metadata, separate group naming, control tab exclusion, Shift large steps and ordinary bare-arrow steps.
 - Astra low corrected the maximum fixture to the documented grid-aligned contract, then checked nonclamped large moves and both boundary clamps.
 - Independent runs passed four shared jsdom tests, five ARIA/Tab Chromium tests and two keyboard Chromium tests. Verifier/Luna lint and formatting passed.
+
+### Slider direct keyboard handling
+
+- Closed six keyboard gaps: both endpoint clamps, directional off-grid snapping, min-anchored traversal, propagation, consumer veto/cardinality, and repeated PageUp events.
+- Astra low confirmed delegated key handling reached native ancestors too early. Astra medium binds the composed handler directly to the thumb, preserving author veto and unhandled keys, with sibling and shadow-root regressions.
+- Independent full Slider checks passed 12 Solid adapter tests, nine jsdom tests, 29 Chromium tests, and Solid typechecking (including the separate pending state slice).

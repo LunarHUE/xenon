@@ -5078,8 +5078,8 @@
   },
   {
     "ids": ["slider.keyboard.8"],
-    "status": "partial",
-    "reason": "An increasing key at max is silent and never wraps; the corresponding decreasing key at min is not explicitly asserted.",
+    "status": "covered",
+    "reason": "Public browser regression asserts increasing at max and decreasing at min do not wrap. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5089,6 +5089,10 @@
       {
         "file": "packages/suite/src/slider/slider.native.test-browser.tsx",
         "title": "vertical native keys move both arrow axes, page steps and the numeric ends"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.8: increasing at max and decreasing at min do not wrap"
       }
     ]
   },
@@ -5126,8 +5130,8 @@
   },
   {
     "ids": ["slider.keyboard.11"],
-    "status": "partial",
-    "reason": "The minimum-anchored 49000-to-51000 step is asserted; reverse and subsequent/off-grid examples are not all checked.",
+    "status": "covered",
+    "reason": "Public browser regression asserts off-grid arrows snap in each direction without skipping an aligned step. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5137,13 +5141,17 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "fractional keys stay precise and page keys use ten steps"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.11: off-grid arrows snap in each direction without skipping an aligned step"
       }
     ]
   },
   {
     "ids": ["slider.keyboard.12"],
-    "status": "partial",
-    "reason": "Resolved maximum is 90 for step=30 max=100; the four-increment traversal from min is not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression asserts a min-anchored step grid stops at the resolved maximum. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5153,23 +5161,33 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "normalizes bounds, missing values, and blocked requests"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.12: a min-anchored step grid stops at the resolved maximum"
       }
     ]
   },
   {
     "ids": ["slider.keyboard.13"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "Public browser regression asserts handled keys prevent default and stop propagation while Enter remains untouched. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.13: handled keys prevent default and stop propagation while Enter remains untouched"
+      }
     ]
   },
   {
     "ids": ["slider.keyboard.14"],
-    "status": "partial",
-    "reason": "Author ArrowRight is called once and vetoes change; handled PageUp and unrelated Enter callback paths are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression asserts consumer key handlers run once for handled and unrelated keys and can veto stepping. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5179,6 +5197,10 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "author key cancellation suppresses stepping"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.14: consumer key handlers run once for handled and unrelated keys and can veto stepping"
       }
     ]
   },
@@ -5216,12 +5238,18 @@
   },
   {
     "ids": ["slider.keyboard.17"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "Public browser regression asserts repeated PageUp keydowns apply one large step each time. Direct thumb binding also has adapter regressions for native ancestors, author veto, sibling keys and shadow roots.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-more.test-browser.tsx",
+        "title": "slider.keyboard.17: repeated PageUp keydowns apply one large step each time"
+      }
     ]
   },
   {

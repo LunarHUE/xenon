@@ -476,6 +476,10 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
         '--slider-thumb-position': `${context.result().percentage(context.result().state.value[index()] ?? 0)}%`,
       }),
     })
+    const keydown = Object.keys(merged).find((name) => name.toLowerCase() === 'onkeydown')!
+    // Run on the thumb so handled keys stop before native ancestor listeners.
+    merged['prop:onkeydown'] = merged[keydown]
+    delete merged[keydown]
     const key = Object.keys(merged).find((name) => name.toLowerCase() === 'oninput')!
     const handler = merged[key] as (event: Event) => void
     merged[key] = (event: Event) => {
