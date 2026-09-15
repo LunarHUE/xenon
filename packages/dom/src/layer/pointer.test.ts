@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
-import { registerLayer } from './layer'
+import { registerLayer, registerLayerPointerExclusion } from './layer'
 import type { LayerHandle, LayerOptions } from './layer'
 
 const layers: LayerHandle[] = []
@@ -41,6 +41,53 @@ afterEach(() => {
 })
 
 describe('outside pointer dismissal', () => {
+  test('notification regions exempt both endpoints without preventing native actions', () => {
+    const region = element()
+    const button = document.createElement('button')
+    region.append(button)
+    const release = registerLayerPointerExclusion(region)
+    const releaseAgain = registerLayerPointerExclusion(region)
+    const dismiss = vi.fn()
+    layer({ outsidePointer: 'dismiss', onDismiss: dismiss })
+    try {
+      expect(gesture(button).defaultPrevented).toBe(false)
+      gesture(button, document.body)
+      gesture(document.body, button)
+      expect(dismiss).not.toHaveBeenCalled()
+      release()
+      release()
+      gesture(button)
+      expect(dismiss).not.toHaveBeenCalled()
+      releaseAgain()
+      gesture(button)
+      expect(dismiss).toHaveBeenCalledOnce()
+    } finally {
+      release()
+      releaseAgain()
+    }
+  })
+
+  test('notification exceptions leave Escape ordering and ordinary outside clicks intact', () => {
+    const region = element()
+    const release = registerLayerPointerExclusion(region)
+    const dismiss = vi.fn()
+    const handle = layer({ outsidePointer: 'dismiss', onDismiss: dismiss })
+    try {
+      const escape = new KeyboardEvent('keydown', {
+        key: 'Escape',
+        bubbles: true,
+        cancelable: true,
+      })
+      region.dispatchEvent(escape)
+      expect(dismiss).toHaveBeenCalledOnce()
+      expect(handle.isTopmost()).toBe(true)
+      gesture()
+      expect(dismiss).toHaveBeenCalledTimes(2)
+    } finally {
+      release()
+    }
+  })
+
   test('requests only the top layer after dispatch without canceling native events', () => {
     const lower = vi.fn()
     const dismiss = vi.fn()

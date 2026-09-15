@@ -109,6 +109,46 @@ const registries = new WeakMap<Document, Registry>()
 /** Resolves parent handles without exposing entries through the public handle. */
 const handles = new WeakMap<LayerHandle, Entry>()
 
+/** Pointer-only exceptions, independent of any particular overlay's lifetime. */
+const pointerExclusions = new WeakMap<Document, Map<Element, number>>()
+
+/**
+ * Exempt interactions in a notification region from outside-pointer dismissal.
+ *
+ * @remarks
+ * Does not alter focus, modal isolation, Escape handling, or layer containment.
+ * Both gesture endpoints are checked, including shadow DOM composed paths.
+ * Registrations are reference-counted per element and owner document. Call the
+ * returned idempotent cleanup when the region unmounts. Registration itself adds
+ * no document listeners and works before or after layers open.
+ */
+export function registerLayerPointerExclusion(element: Element): () => void {
+  const document = element.ownerDocument
+  let entries = pointerExclusions.get(document)
+  if (!entries) pointerExclusions.set(document, (entries = new Map()))
+  entries.set(element, (entries.get(element) ?? 0) + 1)
+  let active = true
+  return () => {
+    if (!active) return
+    active = false
+    const count = entries.get(element) ?? 0
+    if (count > 1) entries.set(element, count - 1)
+    else entries.delete(element)
+    if (!entries.size) pointerExclusions.delete(document)
+  }
+}
+
+/** Test resolved pointer targets without canceling the native event. */
+function excludedPointer(document: Document, targets: Element[]): boolean {
+  const entries = pointerExclusions.get(document)
+  return (
+    !!entries &&
+    targets.some((target) =>
+      [...entries.keys()].some((element) => element === target || element.contains(target))
+    )
+  )
+}
+
 /** Reads same-document element targets only when the composed path begins at such an element. */
 function eventTargets(event: Event, document: Document): Element[] | undefined {
   const path = event.composedPath()
@@ -197,6 +237,7 @@ function createRegistry(document: Document): Registry {
     if (
       !entry ||
       !targets ||
+      excludedPointer(document, targets) ||
       (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
     )
       return
@@ -217,7 +258,11 @@ function createRegistry(document: Document): Registry {
       entry.active && generation === gesture.generation && registry.entries.at(-1) === entry
     if (!current() || !primaryPointer(event)) return
     const targets = pointerUpTargets(event, document, captured)
-    if (!targets || (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets)))
+    if (
+      !targets ||
+      excludedPointer(document, targets) ||
+      (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
+    )
       return
     const options = entry.options
     if (options.outsidePointer !== 'dismiss') return
