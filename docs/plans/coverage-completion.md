@@ -179,3 +179,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   input without an explicit for attribute. Role-table metadata remains partial.
 - Independent checks: three jsdom and five Chromium tests passed, including the
   corrected wrapping label. Audit validation passed.
+
+### Radio naming, submission and selection state
+
+- Added six adapter tests and one core test, closing six gaps: visible naming,
+  descriptions, FormData submission, sole-radio refocus, the roving tab-stop
+  invariant, and undefined versus empty-string core value.
+- Native/custom ARIA output and pointer progression gain evidence. Negative
+  radio ARIA fixtures and browser tab re-entry remain separate follow-ups.
+- Independent checks passed: six jsdom, six Chromium and one core test. Audit
+  validation passed after correcting evidence references to exact full titles.

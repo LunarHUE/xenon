@@ -17213,7 +17213,7 @@
   {
     "ids": ["checkbox.pointer.7"],
     "status": "covered",
-    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` → `\"true\"` → `\"false\"`: the wrapping label does not double-toggle it.",
+    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` \u2192 `\"true\"` \u2192 `\"false\"`: the wrapping label does not double-toggle it.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.pointer.test.tsx"],
     "tests": [
       {
@@ -18524,8 +18524,8 @@
   },
   {
     "ids": ["radio-group.roles.2"],
-    "status": "partial",
-    "reason": "aria-label naming is asserted; the alternative visible aria-labelledby label is not.",
+    "status": "covered",
+    "reason": "A rendered visible label referenced by aria-labelledby supplies the radiogroup accessible name, and a rendered description referenced by aria-describedby supplies its accessible description.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -18534,13 +18534,17 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.roles.2"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.roles.2: visible label names group; radio-group.roles.3: rendered description names group"
       }
     ]
   },
   {
     "ids": ["radio-group.roles.3"],
-    "status": "partial",
-    "reason": "The description attribute is forwarded, but its referenced descriptive element is not rendered.",
+    "status": "covered",
+    "reason": "The same public fixture verifies the rendered descriptive element resolves through aria-describedby.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -18549,6 +18553,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.roles.3"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.roles.2: visible label names group; radio-group.roles.3: rendered description names group"
       }
     ]
   },
@@ -18705,7 +18713,7 @@
   {
     "ids": ["radio-group.pointer.1"],
     "status": "partial",
-    "reason": "Click selection and roving tabindex are asserted; later Tab re-entry after that click is not.",
+    "reason": "Click selection and roving tabindex are asserted; later Tab re-entry after that click is not. Pointer selection moves the single roving tab stop before keyboard progression moves it again.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -18714,6 +18722,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.pointer.1"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.focus.1: one roving tab stop; radio-group.pointer.1: pointer and keyboard move it"
       }
     ]
   },
@@ -18854,8 +18866,8 @@
   },
   {
     "ids": ["radio-group.forms.28"],
-    "status": "partial",
-    "reason": "Backing input name/value/checked attributes are asserted; FormData submission is not read in this test.",
+    "status": "covered",
+    "reason": "FormData from a named custom-host RadioGroup contains exactly one delivery=express entry from the checked backing input.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -18864,6 +18876,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.forms.28"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.forms.28: named custom radios submit one checked backing input"
       }
     ]
   },
@@ -19094,8 +19110,8 @@
   },
   {
     "ids": ["radio-group.keyboard.11"],
-    "status": "partial",
-    "reason": "Modifier and sole-navigable behavior are checked; a later refocus of the sole radio is not explicitly asserted.",
+    "status": "covered",
+    "reason": "A sole custom radio remains unchecked after an arrow no-op, blur, and refocus, with no value-change callback.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -19104,6 +19120,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.keyboard.11"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.keyboard.11: refocusing a sole radio does not select it"
       }
     ]
   },
@@ -19520,13 +19540,17 @@
   },
   {
     "ids": ["radio-group.focus.1"],
-    "status": "partial",
-    "reason": "Pointer changes the one active tab stop; the complete pointer plus keyboard progression is not asserted as one tabindex invariant.",
+    "status": "covered",
+    "reason": "After pointer selection and keyboard movement, exactly one custom radio has tabindex=0 and the rest remain -1.",
     "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
     "tests": [
       {
         "file": "packages/suite/src/radio-group/radio-group.conformance.test.tsx",
         "title": "radio-group.pointer.1"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
+        "title": "radio-group.focus.1: one roving tab stop; radio-group.pointer.1: pointer and keyboard move it"
       }
     ]
   },
@@ -19538,9 +19562,15 @@
   },
   {
     "ids": ["radio-group.state.12"],
-    "status": "missing",
-    "reason": "The default core selection is undefined, but no assertion directly distinguishes it from an empty-string value.",
-    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"]
+    "status": "covered",
+    "reason": "The public core state exposes undefined with no value and preserves an explicitly controlled empty string as ''.",
+    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
+    "tests": [
+      {
+        "file": "packages/core/src/radio-group/radio-group.coverage.test.ts",
+        "title": "radio-group.state.12: undefined is distinct from an empty-string value"
+      }
+    ]
   },
   {
     "ids": ["radio-group.notes.3"],
@@ -19563,12 +19593,16 @@
   {
     "ids": ["radio.roles.4"],
     "status": "partial",
-    "reason": "Native radios omit aria-checked and custom radios provide it; omission failure impact and stray native author aria-checked correction are not tested.",
+    "reason": "Native radios omit aria-checked and custom radios provide it; omission failure impact and stray native author aria-checked correction are not tested. The public custom host exposes role=radio with aria-checked=true, while the native input reports checkedness and omits aria-checked.",
     "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
     "tests": [
       {
         "file": "packages/core/src/radio-group/radio-group.test.ts",
         "title": "input host: a native radio with no role and no aria-checked"
+      },
+      {
+        "file": "packages/suite/src/radio/radio.coverage.test.tsx",
+        "title": "radio.roles.4: custom radios expose aria-checked while native radios use checkedness"
       }
     ]
   },
