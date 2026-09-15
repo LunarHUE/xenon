@@ -601,8 +601,8 @@
   },
   {
     "ids": ["number-field.pointer.1"],
-    "status": "partial",
-    "reason": "A native increment click changes the localized draft to its next step; both directions versus configured largeStep and exact callback count are not all asserted.",
+    "status": "covered",
+    "reason": "Both steppers change an on-grid value by step=2 (4 to 6 to 4) despite largeStep=20, with exactly one callback per click.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -612,6 +612,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.test-browser.tsx",
         "title": "native numeric form validation, localized submission, stepping and reset"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test.tsx",
+        "title": "number-field.pointer.1 clicks each stepper by one step even with a largeStep"
       }
     ]
   },
@@ -635,8 +639,8 @@
   },
   {
     "ids": ["number-field.pointer.5"],
-    "status": "partial",
-    "reason": "A native increment click changes the localized draft to its next step; both directions versus configured largeStep and exact callback count are not all asserted.",
+    "status": "covered",
+    "reason": "A real primary browser gesture produces pointerdown, pointerup, click and exactly one step/callback.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -646,17 +650,31 @@
       {
         "file": "packages/suite/src/number-field/number-field.test-browser.tsx",
         "title": "native numeric form validation, localized submission, stepping and reset"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test-browser.tsx",
+        "title": "number-field.pointer.5 real primary click steps exactly once"
       }
     ]
   },
   {
     "ids": ["number-field.pointer.6"],
-    "status": "missing",
-    "reason": "Steppers have only native click handlers, so secondary pointer starts do not run core stepping; no real secondary-button test asserts the unchanged dirty draft.",
+    "status": "covered",
+    "reason": "Real middle and right gestures emit auxclick, not click, and preserve dirty text 9.00 without callbacks. Matching shared events cover both buttons; shipped steppers have no hold timer to start.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test.tsx",
+        "title": "number-field.pointer.6 ignores pointer button %s with a dirty draft"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test-browser.tsx",
+        "title": "number-field.pointer.6 real %s click leaves a dirty draft unchanged"
+      }
     ]
   },
   {
@@ -717,8 +735,8 @@
   },
   {
     "ids": ["number-field.pointer.13"],
-    "status": "partial",
-    "reason": "Readonly native typing and both stepper presses emit no callback; disabled presses are not tested in this case.",
+    "status": "covered",
+    "reason": "Both steppers leave disabled and readonly values unchanged with no callbacks.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -728,6 +746,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.native.test-browser.tsx",
         "title": "number-field.roles.14: a readonly field rejects native typing and stepper presses"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test.tsx",
+        "title": "number-field.pointer.13 leaves a %s field unchanged on either stepper click"
       }
     ]
   },
@@ -749,15 +771,27 @@
   },
   {
     "ids": ["number-field.pointer.15"],
-    "status": "missing",
-    "reason": "No wheel handler is installed, consistent with the accepted no-wheel behavior, but pinch/unfocused wheel events are not directly asserted.",
-    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"]
+    "status": "covered",
+    "reason": "Focused ctrl-wheel pinch input leaves value unchanged and the event uncanceled.",
+    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test-browser.tsx",
+        "title": "number-field.pointer.15 ignores ctrl-wheel pinch gestures"
+      }
+    ]
   },
   {
     "ids": ["number-field.pointer.16"],
-    "status": "missing",
-    "reason": "No wheel handler is installed, consistent with the accepted no-wheel behavior, but pinch/unfocused wheel events are not directly asserted.",
-    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"]
+    "status": "covered",
+    "reason": "Wheel over an unfocused input leaves value unchanged and the event uncanceled.",
+    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-pointer-extra.test-browser.tsx",
+        "title": "number-field.pointer.16 ignores wheel events over an unfocused input"
+      }
+    ]
   },
   {
     "ids": ["number-field.pointer.17"],

@@ -556,3 +556,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps: group state, both uncommitted bound directions, native/ARIA/data state mirroring, outer Field helper/error lifecycle, and disabled/readonly hidden-input event suppression.
 - Plain/isolated state flags now have direct assertions; roles.16 remains partial for the unbuilt positive data-valid flag.
 - Independent final checks passed eight jsdom and nine Chromium cases; Luna types/lint passed. Full end-to-end checkpoint after Radio fix passed all 63 tests.
+
+### NumberField native pointer and wheel behavior
+
+- Closed six gaps covering normal/disabled/readonly stepper clicks, exactly-once native event sequence, middle/right dirty-draft preservation, and uncanceled pinch/unfocused wheel events.
+- Astra low corrected the synthetic secondary click to native auxclick semantics; real browser sequences verify both buttons and preserve 9.00 without normalization.
+- Independent final runs passed five jsdom and ten Chromium cases; changed-file lint/format passed.
