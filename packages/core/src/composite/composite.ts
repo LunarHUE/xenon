@@ -90,7 +90,7 @@ function moveFor(
  *
  * @remarks
  * Unmodified navigation keys cancel their default even at a boundary or when no
- * item is enabled. Empty lists and keys with any modifier are left alone. Arrow
+ * item is enabled. Empty lists, IME composition, and modified keys are left alone. Arrow
  * movement starts from the resolved active value, regardless of which item received
  * the event. Objects match by reference; duplicate values can produce multiple tab
  * stops. Recreate after item order, disabled state, or active state changes.
