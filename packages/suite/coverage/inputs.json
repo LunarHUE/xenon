@@ -2323,12 +2323,18 @@
   },
   {
     "ids": ["pin-input.roles.4"],
-    "status": "missing",
-    "reason": "The controller emits these slot/group flags and native keyboard hints, but the scoped tests do not assert this complete marker/attribute set.",
+    "status": "covered",
+    "reason": "Shared jsdom/browser regression verifies complete state marks the root and every slot.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/core/src/pin-input/pin-input.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-metadata.test.tsx",
+        "title": "pin-input.roles.4 complete state marks the root and every slot"
+      }
     ]
   },
   {
@@ -2375,12 +2381,18 @@
   },
   {
     "ids": ["pin-input.roles.8"],
-    "status": "missing",
-    "reason": "The controller emits these slot/group flags and native keyboard hints, but the scoped tests do not assert this complete marker/attribute set.",
+    "status": "covered",
+    "reason": "Shared jsdom/browser regression verifies every slot disables autocapitalization and spellcheck.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/core/src/pin-input/pin-input.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-metadata.test.tsx",
+        "title": "pin-input.roles.8 every slot disables autocapitalization and spellcheck"
+      }
     ]
   },
   {
@@ -2391,8 +2403,8 @@
   },
   {
     "ids": ["pin-input.roles.10"],
-    "status": "partial",
-    "reason": "Alphabetic filtering and password type are asserted; focus advance and per-slot native override are not.",
+    "status": "covered",
+    "reason": "Shared jsdom/browser regression verifies mask sets password slots while a per-slot native type wins.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2402,6 +2414,10 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "alphabetic and alphanumeric modes filter codes and expose masking semantics"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-metadata.test.tsx",
+        "title": "pin-input.roles.10 mask sets password slots while a per-slot native type wins"
       }
     ]
   },
@@ -2413,8 +2429,8 @@
   },
   {
     "ids": ["pin-input.roles.12"],
-    "status": "partial",
-    "reason": "All visible slots are natively disabled and cannot focus or mutate; disabled root/proxy markers are not all asserted.",
+    "status": "covered",
+    "reason": "Shared jsdom/browser regression verifies disabled state reaches the root, every slot and the form proxy.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2424,6 +2440,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "disabled slots are not focusable and reject typing and deletion"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-metadata.test.tsx",
+        "title": "pin-input.roles.12 disabled state reaches the root, every slot and the form proxy"
       }
     ]
   },
@@ -3484,9 +3504,15 @@
   },
   {
     "ids": ["pin-input.a11y.1"],
-    "status": "missing",
-    "reason": "The PinInput scoped browser/shared tests do not run axe; native validity and accessible position labels do not substitute for a scan.",
-    "sources": ["docs/spec/pin-input.md", "docs/plans/pin-input-coverage.md"]
+    "status": "covered",
+    "reason": "Shared jsdom/browser regression verifies default and explicit numeric inputs pass the configured axe rules.",
+    "sources": ["docs/spec/pin-input.md", "docs/plans/pin-input-coverage.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-metadata.test.tsx",
+        "title": "pin-input.a11y.1 default and explicit numeric inputs pass the configured axe rules"
+      }
+    ]
   },
   {
     "ids": ["pin-input.a11y.2"],

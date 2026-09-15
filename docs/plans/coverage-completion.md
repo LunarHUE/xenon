@@ -732,3 +732,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps for filled replacement, filled-slot and repeated Backspace, empty Delete, and invalid-character selection preservation.
 - Astra low confirmed two bugs. Astra medium prevents Delete on an empty slot from moving focus and restores selection after rejected input while the same slot remains focused. Core/adapter regressions failed before the fixes.
 - Independent checks passed eight core tests, eight adapter tests and all 15 editing cases across Chromium, Firefox and WebKit. Medium typechecks and lint passed. A separate pointer slice still has failures under review.
+
+### PinInput accessibility and native metadata
+
+- Closed five gaps for default/numeric axe scans, masking with a native per-slot type override, disabled root/slots/proxy, complete-state markers and mobile text hints.
+- Independent focused runs passed all five cases in jsdom and Chromium. Luna suite typechecking and lint passed.
