@@ -10,6 +10,7 @@ spec('accordion.focus.1', async () => {
   const m = mount('accordion', {
     children: () => (
       <>
+        <button>Before accordion</button>
         <Accordion.Item value="a">
           <Accordion.Trigger>a</Accordion.Trigger>
           <Accordion.Panel>
@@ -22,20 +23,27 @@ spec('accordion.focus.1', async () => {
             <button>Hidden b</button>
           </Accordion.Panel>
         </Accordion.Item>
+        <button>After accordion</button>
       </>
     ),
   })
   const scope = within(m.container)
   const [first, second] = scope.getAllByRole('button', { name: /^[ab]$/ })
-  first!.focus()
+  const before = scope.getByRole('button', { name: 'Before accordion' })
+  const after = scope.getByRole('button', { name: 'After accordion' })
+  before.focus()
+  await userEvent.tab()
+  expect(first).toHaveFocus()
   await userEvent.tab()
   expect(second).toHaveFocus()
   await userEvent.tab()
-  expect(document.body).toHaveFocus()
+  expect(after).toHaveFocus()
   await userEvent.tab({ shift: true })
   expect(second).toHaveFocus()
   await userEvent.tab({ shift: true })
   expect(first).toHaveFocus()
+  await userEvent.tab({ shift: true })
+  expect(before).toHaveFocus()
 })
 
 spec('accordion.keyboard.11', async () => {

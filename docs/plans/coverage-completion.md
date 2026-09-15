@@ -320,3 +320,10 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent Presence and Accordion runs passed all four cases. The broader
   Chromium run passed these cases; its only failure was the separately tracked
   Button role-link activation bug.
+
+### Accordion browser focus boundaries
+
+- Sol replaced browser-boundary Tab assumptions with explicit before/after
+  controls, preserving forward and reverse checks that skip collapsed content.
+- Independent focused checks passed. The full Chromium run passed this test;
+  its only failure was the separately fixed Button role-link behavior.
