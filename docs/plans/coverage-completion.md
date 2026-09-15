@@ -312,3 +312,11 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Sol corrected the presentation conflict rule and moved hidden-focus checking
   to a real browser. Independent runs: five jsdom and seven Chromium tests passed;
   Sol's three-engine run passed all 21 cases. Audit validation passed.
+
+### Presence transition timing and nested exit focus
+
+- Added two browser tests, closing longest paired transition timing and focus
+  restoration past multiple exiting layers. Sol corrected the initial fixtures.
+- Independent Presence and Accordion runs passed all four cases. The broader
+  Chromium run passed these cases; its only failure was the separately tracked
+  Button role-link activation bug.

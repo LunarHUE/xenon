@@ -13087,13 +13087,17 @@
   },
   {
     "ids": ["presence.focus.1"],
-    "status": "partial",
-    "reason": "Trusted Tab skips inert exiting content; the multiple-exiting-focused-items restoration branch is not exercised.",
+    "status": "covered",
+    "reason": "Two nested Popovers exit while focus starts in the inner content. Both remain mounted and inert during exit, then focus restoration skips the disappearing inner trigger and reaches the surviving outer trigger.",
     "sources": ["docs/spec/presence.md", "packages/suite/src/presence/presence.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.a11y.3"
+      },
+      {
+        "file": "packages/suite/src/presence/presence.coverage-more.test-browser.tsx",
+        "title": "presence.focus.1: closing multiple focused exiting items restores focus past them"
       }
     ]
   },
@@ -13111,13 +13115,17 @@
   },
   {
     "ids": ["presence.animation.10"],
-    "status": "partial",
-    "reason": "The browser test waits for two animations separately; it does not exercise real CSS transition per-property delays.",
+    "status": "covered",
+    "reason": "Real CSS transitions have different duration/delay pairs. Content survives the shorter paired end and is removed after the longest paired end, before the incorrect sum of separate maxima.",
     "sources": ["docs/spec/presence.md", "packages/suite/src/presence/presence.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.5"
+      },
+      {
+        "file": "packages/suite/src/presence/presence.coverage-more.test-browser.tsx",
+        "title": "presence.animation.10: real CSS transitions finish at the longest per-property end time"
       }
     ]
   },
