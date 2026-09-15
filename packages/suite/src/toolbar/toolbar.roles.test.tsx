@@ -1,4 +1,4 @@
-import { Toolbar } from '@tenon/solid'
+import { Toolbar } from '@xenon/solid'
 import { screen, within } from '@testing-library/dom'
 import { describe, expect, onTestFinished } from 'vitest'
 

@@ -1,13 +1,13 @@
 import {
   createPositioner as createDOMPositioner,
   initialPositioningState,
-} from '@tenon/dom/positioning'
+} from '@xenon/dom/positioning'
 import type {
   Positioner as DOMPositioner,
   PositioningAnchor,
   PositioningOptions,
   PositioningState,
-} from '@tenon/dom/positioning'
+} from '@xenon/dom/positioning'
 import { createEffect, createSignal, onCleanup, untrack } from 'solid-js'
 
 /** Geometry and observer options; element refs and enabled state come from separate source accessors. */

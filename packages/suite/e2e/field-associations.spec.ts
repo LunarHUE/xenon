@@ -50,13 +50,13 @@ async function expectAssociations(page: Page) {
   ).toHaveAccessibleDescription('Author help Field help Custom host help')
   await expect(region.getByTestId('control-constructions')).toHaveText('1')
   await expect(region.locator('pre')).toHaveText(
-    'aria-describedby="tenon-field-authored" & <unchanged>'
+    'aria-describedby="xenon-field-authored" & <unchanged>'
   )
   expect(
     await region.evaluate((el) =>
       [...el.querySelectorAll('*')]
         .flatMap((node) => [...node.attributes].map((attr) => attr.value))
-        .some((value) => /tenon-field-[a-f0-9]{8}-/.test(value))
+        .some((value) => /xenon-field-[a-f0-9]{8}-/.test(value))
     )
   ).toBe(false)
 }

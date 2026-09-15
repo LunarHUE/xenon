@@ -6,7 +6,7 @@ import {
   type PositioningAlign,
   type PositioningOptions,
   type PositioningSide,
-} from '@tenon/dom/positioning'
+} from '@xenon/dom/positioning'
 
 const nodes: HTMLElement[] = []
 const positioners: Positioner[] = []

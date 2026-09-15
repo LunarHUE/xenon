@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "tenon",
+      "name": "xenon",
       "devDependencies": {
         "prettier": "^3.9.6",
         "turbo": "^2.10.12",
@@ -13,13 +13,13 @@
       "name": "@kit/example",
       "version": "0.0.0",
       "dependencies": {
-        "@tenon/solid": "workspace:*",
+        "@xenon/solid": "workspace:*",
         "@solidjs/web": "catalog:",
         "solid-js": "catalog:",
       },
       "devDependencies": {
-        "@tenon/eslint-config": "workspace:*",
-        "@tenon/typescript-config": "workspace:*",
+        "@xenon/eslint-config": "workspace:*",
+        "@xenon/typescript-config": "workspace:*",
         "@solidjs/vite-plugin": "^3.0.0-next.43",
         "@typescript/native": "catalog:",
         "eslint": "catalog:",
@@ -28,11 +28,11 @@
       },
     },
     "packages/core": {
-      "name": "@tenon/core",
+      "name": "@xenon/core",
       "version": "0.0.0",
       "devDependencies": {
-        "@tenon/eslint-config": "workspace:*",
-        "@tenon/typescript-config": "workspace:*",
+        "@xenon/eslint-config": "workspace:*",
+        "@xenon/typescript-config": "workspace:*",
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
         "aria-attributes": "^2.0.1",
@@ -43,15 +43,15 @@
       },
     },
     "packages/dom": {
-      "name": "@tenon/dom",
+      "name": "@xenon/dom",
       "version": "0.0.0",
       "dependencies": {
         "@floating-ui/dom": "^1.8.0",
         "tabbable": "^6.5.0",
       },
       "devDependencies": {
-        "@tenon/eslint-config": "workspace:*",
-        "@tenon/typescript-config": "workspace:*",
+        "@xenon/eslint-config": "workspace:*",
+        "@xenon/typescript-config": "workspace:*",
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
         "eslint": "catalog:",
@@ -61,7 +61,7 @@
       },
     },
     "packages/eslint-config": {
-      "name": "@tenon/eslint-config",
+      "name": "@xenon/eslint-config",
       "version": "0.0.0",
       "dependencies": {
         "@eslint/js": "^10.0.1",
@@ -77,15 +77,15 @@
       },
     },
     "packages/solid": {
-      "name": "@tenon/solid",
+      "name": "@xenon/solid",
       "version": "0.0.0",
       "dependencies": {
-        "@tenon/core": "workspace:*",
-        "@tenon/dom": "workspace:*",
+        "@xenon/core": "workspace:*",
+        "@xenon/dom": "workspace:*",
       },
       "devDependencies": {
-        "@tenon/eslint-config": "workspace:*",
-        "@tenon/typescript-config": "workspace:*",
+        "@xenon/eslint-config": "workspace:*",
+        "@xenon/typescript-config": "workspace:*",
         "@solidjs/testing-library": "^1.0.0-beta.3",
         "@solidjs/vite-plugin": "^3.0.0-next.43",
         "@solidjs/web": "catalog:",
@@ -104,18 +104,18 @@
       },
     },
     "packages/suite": {
-      "name": "@tenon/suite",
+      "name": "@xenon/suite",
       "version": "0.0.0",
       "dependencies": {
-        "@tenon/core": "workspace:*",
-        "@tenon/dom": "workspace:*",
-        "@tenon/solid": "workspace:*",
+        "@xenon/core": "workspace:*",
+        "@xenon/dom": "workspace:*",
+        "@xenon/solid": "workspace:*",
         "@solidjs/web": "catalog:",
         "solid-js": "catalog:",
       },
       "devDependencies": {
-        "@tenon/eslint-config": "workspace:*",
-        "@tenon/typescript-config": "workspace:*",
+        "@xenon/eslint-config": "workspace:*",
+        "@xenon/typescript-config": "workspace:*",
         "@solidjs/vite-plugin": "^3.0.0-next.43",
         "@testing-library/dom": "^10.4.2",
         "@testing-library/jest-dom": "^7.0.1",
@@ -133,7 +133,7 @@
       },
     },
     "packages/typescript-config": {
-      "name": "@tenon/typescript-config",
+      "name": "@xenon/typescript-config",
       "version": "0.0.0",
     },
   },
@@ -270,19 +270,19 @@
 
     "@keyv/serialize": ["@keyv/serialize@1.1.1", "", {}, "sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA=="],
 
-    "@tenon/core": ["@tenon/core@workspace:packages/core"],
+    "@xenon/core": ["@xenon/core@workspace:packages/core"],
 
-    "@tenon/dom": ["@tenon/dom@workspace:packages/dom"],
+    "@xenon/dom": ["@xenon/dom@workspace:packages/dom"],
 
-    "@tenon/eslint-config": ["@tenon/eslint-config@workspace:packages/eslint-config"],
+    "@xenon/eslint-config": ["@xenon/eslint-config@workspace:packages/eslint-config"],
 
     "@kit/example": ["@kit/example@workspace:apps/example"],
 
-    "@tenon/solid": ["@tenon/solid@workspace:packages/solid"],
+    "@xenon/solid": ["@xenon/solid@workspace:packages/solid"],
 
-    "@tenon/suite": ["@tenon/suite@workspace:packages/suite"],
+    "@xenon/suite": ["@xenon/suite@workspace:packages/suite"],
 
-    "@tenon/typescript-config": ["@tenon/typescript-config@workspace:packages/typescript-config"],
+    "@xenon/typescript-config": ["@xenon/typescript-config@workspace:packages/typescript-config"],
 
     "@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.2.4", "", { "dependencies": { "@tybys/wasm-util": "^0.10.3" }, "peerDependencies": { "@emnapi/core": "^1.7.1 || ^2.0.0-alpha.4", "@emnapi/runtime": "^1.7.1 || ^2.0.0-alpha.4" } }, "sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g=="],
 

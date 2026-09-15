@@ -1,5 +1,5 @@
-import { registerFocusScope, registerLayer } from '@tenon/dom'
-import type { FocusScopeHandle, FocusScopeOptions } from '@tenon/dom'
+import { registerFocusScope, registerLayer } from '@xenon/dom'
+import type { FocusScopeHandle, FocusScopeOptions } from '@xenon/dom'
 import { afterEach, expect, onTestFinished, test } from 'vitest'
 import { userEvent } from 'vitest/browser'
 

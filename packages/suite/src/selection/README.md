@@ -4,7 +4,7 @@
 `fixtures/selection.tsx` fixture through Solid's client renderer. Run it with:
 
 ```sh
-TENON_BROWSERS=chromium,webkit bun run test:browser src/selection/selection.test-browser.tsx
+xenon_BROWSERS=chromium,webkit bun run test:browser src/selection/selection.test-browser.tsx
 ```
 
 The tests use Playwright keyboard and pointer input to check:

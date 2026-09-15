@@ -1,5 +1,5 @@
 {
-  "name": "@tenon/dom",
+  "name": "@xenon/dom",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -20,8 +20,8 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@tenon/eslint-config": "workspace:*",
-    "@tenon/typescript-config": "workspace:*",
+    "@xenon/eslint-config": "workspace:*",
+    "@xenon/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@typescript/native": "catalog:",
     "eslint": "catalog:",

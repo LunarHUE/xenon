@@ -1,5 +1,5 @@
 import { render } from '@solidjs/web'
-import { Meter } from '@tenon/solid/meter'
+import { Meter } from '@xenon/solid/meter'
 import { createSignal, flush } from 'solid-js'
 import { afterEach, expect } from 'vitest'
 import { expectNoViolations } from '../a11y'

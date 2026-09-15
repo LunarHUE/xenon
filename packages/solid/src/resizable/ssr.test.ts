@@ -26,7 +26,7 @@ test('SSR renders percent sizes and preceding author ID without DOM access', asy
     expect(constrained.querySelector('[data-resizable-panel]')?.getAttribute('style')).toContain(
       'flex:30 1 0px'
     )
-    expect(constrained.documentElement.outerHTML).not.toContain('tenon-resizable-')
+    expect(constrained.documentElement.outerHTML).not.toContain('xenon-resizable-')
   } finally {
     await server.close()
   }

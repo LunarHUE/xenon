@@ -1,5 +1,5 @@
-import { Menu } from '@tenon/solid/menu'
-import { Popover } from '@tenon/solid/popover'
+import { Menu } from '@xenon/solid/menu'
+import { Popover } from '@xenon/solid/popover'
 import { createSignal } from 'solid-js'
 
 export function Popups(props: { menuOpen?: boolean } = {}) {

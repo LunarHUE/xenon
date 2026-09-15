@@ -1,13 +1,13 @@
 # Dialog, AlertDialog, and Drawer
 
 Each family has a separate public module in core and Solid:
-`@tenon/solid/dialog`, `@tenon/solid/alert-dialog`, and `@tenon/solid/drawer`.
+`@xenon/solid/dialog`, `@xenon/solid/alert-dialog`, and `@xenon/solid/drawer`.
 The root barrel also exports all three. Shared Solid internals own associations,
 presence, and the native controller. Drawer gesture code belongs only to the
 Drawer module.
 
 ```tsx
-import { Dialog } from '@tenon/solid/dialog'
+import { Dialog } from '@xenon/solid/dialog'
 
 ;<Dialog>
   <Dialog.Trigger>Edit profile</Dialog.Trigger>
@@ -38,7 +38,7 @@ hydration. A missing accessible name produces a development warning.
 
 Focus containment, nested dismissal, inertness, and scroll locking belong to the
 [layering controller](layering.md). `initialFocus` and `finalFocus` accept element
-references. `initialFocus: false` disables Tenon's initial focus move; native
+references. `initialFocus: false` disables xenon's initial focus move; native
 dialog opening still performs browser focus behavior. `onEscapeKeyDown` can
 cancel Escape. `onPointerOutside` receives the layer's cancelable wrapper; its
 `preventDefault()` vetoes dismissal without canceling the native pointer event.

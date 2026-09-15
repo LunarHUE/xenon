@@ -1,4 +1,4 @@
-import { Collapsible } from '@tenon/solid'
+import { Collapsible } from '@xenon/solid'
 
 import { expectNoViolations } from '../a11y'
 import { mount } from '../harness/solid'

@@ -1,7 +1,7 @@
-import { Calendar } from '@tenon/solid/calendar'
-import { RangeCalendar } from '@tenon/solid/range-calendar'
-import { DateProvider, createDate, serializeDate } from '@tenon/solid/date'
-import type { DateValue } from '@tenon/solid/date'
+import { Calendar } from '@xenon/solid/calendar'
+import { RangeCalendar } from '@xenon/solid/range-calendar'
+import { DateProvider, createDate, serializeDate } from '@xenon/solid/date'
+import type { DateValue } from '@xenon/solid/date'
 import { createSignal } from 'solid-js'
 import { Bench, Keys, Readout, Section } from '../ui'
 

@@ -1,5 +1,5 @@
-import { separator } from '@tenon/core'
-import type { SeparatorHost, SeparatorOptions } from '@tenon/core'
+import { separator } from '@xenon/core'
+import type { SeparatorHost, SeparatorOptions } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit } from 'solid-js'

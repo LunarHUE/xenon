@@ -1,4 +1,4 @@
-import { Toolbar } from '@tenon/solid'
+import { Toolbar } from '@xenon/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect, test } from 'vitest'

@@ -1,12 +1,12 @@
-import { Avatar } from '@tenon/solid/avatar'
-import { VisuallyHidden } from '@tenon/solid/visually-hidden'
-import { AccessibleIcon } from '@tenon/solid/accessible-icon'
-import { Meter } from '@tenon/solid/meter'
-import { Pagination } from '@tenon/solid/pagination'
-import { Breadcrumbs } from '@tenon/solid/breadcrumbs'
-import { ScrollArea } from '@tenon/solid/scroll-area'
-import { Resizable } from '@tenon/solid/resizable'
-import { Button } from '@tenon/solid/button'
+import { Avatar } from '@xenon/solid/avatar'
+import { VisuallyHidden } from '@xenon/solid/visually-hidden'
+import { AccessibleIcon } from '@xenon/solid/accessible-icon'
+import { Meter } from '@xenon/solid/meter'
+import { Pagination } from '@xenon/solid/pagination'
+import { Breadcrumbs } from '@xenon/solid/breadcrumbs'
+import { ScrollArea } from '@xenon/solid/scroll-area'
+import { Resizable } from '@xenon/solid/resizable'
+import { Button } from '@xenon/solid/button'
 import { createSignal, For } from 'solid-js'
 import { Bench, Keys, Readout, Section } from '../ui'
 
@@ -267,7 +267,7 @@ export function ScrollAreaDemo() {
                     <span>
                       {
                         ['Cotton rag paper', 'Copperplate proof', 'Linen sample', 'Graphite study'][
-                          index % 4
+                        index % 4
                         ]
                       }
                     </span>

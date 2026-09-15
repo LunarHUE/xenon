@@ -1,5 +1,5 @@
-import { dateKey, dateOnlyAdapter } from '@tenon/core/date'
-import type { DateAdapter } from '@tenon/core/date'
+import { dateKey, dateOnlyAdapter } from '@xenon/core/date'
+import type { DateAdapter } from '@xenon/core/date'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
@@ -282,9 +282,9 @@ export function createCalendarRoot(
             'aria-labelledby': own['aria-label']
               ? undefined
               : context.association(
-                  'aria-labelledby',
-                  () => result().parts.root.attrs['aria-labelledby']
-                ),
+                'aria-labelledby',
+                () => result().parts.root.attrs['aria-labelledby']
+              ),
           },
         },
         rest

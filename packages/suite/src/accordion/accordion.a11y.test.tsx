@@ -1,4 +1,4 @@
-import { Accordion } from '@tenon/solid'
+import { Accordion } from '@xenon/solid'
 
 import { expectNoViolations } from '../a11y'
 import { mount } from '../harness/solid'

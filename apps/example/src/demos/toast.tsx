@@ -1,4 +1,4 @@
-import { Toast } from '@tenon/solid/toast'
+import { Toast } from '@xenon/solid/toast'
 import { For, createSignal } from 'solid-js'
 import { Bench, Keys, Readout, Section } from '../ui'
 

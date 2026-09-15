@@ -1,4 +1,4 @@
-import type { RadioItemHost, RadioValue } from '@tenon/core'
+import type { RadioItemHost, RadioValue } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, omit, onSettled } from 'solid-js'

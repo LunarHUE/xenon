@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
-import { ScrollArea } from '@tenon/solid/scroll-area'
-import type { ScrollAreaType } from '@tenon/solid/scroll-area'
+import { ScrollArea } from '@xenon/solid/scroll-area'
+import type { ScrollAreaType } from '@xenon/solid/scroll-area'
 import { within } from '@testing-library/dom'
 import { createSignal, flush } from 'solid-js'
 import { onTestFinished } from 'vitest'

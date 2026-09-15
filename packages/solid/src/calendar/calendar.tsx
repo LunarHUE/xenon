@@ -1,5 +1,5 @@
-import { calendar } from '@tenon/core/calendar'
-import type { DateAdapter, DateValue } from '@tenon/core/date'
+import { calendar } from '@xenon/core/calendar'
+import type { DateAdapter, DateValue } from '@xenon/core/date'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createCalendarRoot } from '../internal/calendar-root'
 import type { InternalCalendarProps } from '../internal/calendar-root'

@@ -1,4 +1,4 @@
-import { Field } from '@tenon/solid'
+import { Field } from '@xenon/solid'
 import { screen } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect } from 'vitest'

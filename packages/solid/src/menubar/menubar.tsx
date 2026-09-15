@@ -10,7 +10,7 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { menubar } from '@tenon/core/menubar'
+import { menubar } from '@xenon/core/menubar'
 import { MenuRoot } from '../menu/root'
 import type { MenuProps } from '../menu/root'
 import { MenuContent } from '../menu/content'

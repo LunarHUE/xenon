@@ -1,8 +1,8 @@
 # Positioning
 
-Tenon uses `@floating-ui/dom` 1.8 behind `@tenon/dom/positioning`. Geometry stays
+xenon uses `@floating-ui/dom` 1.8 behind `@xenon/dom/positioning`. Geometry stays
 in the DOM package. Solid binds refs and reactive options through
-`@tenon/solid/positioning`; core has no browser dependency or duplicate geometry
+`@xenon/solid/positioning`; core has no browser dependency or duplicate geometry
 controller. Positioning does not open overlays, dismiss them, assign roles,
 move focus, create portals, or choose a z-index.
 
@@ -13,7 +13,7 @@ The existing research checklist contains incompatible choices and some stale
 implementation observations. It is evidence, not a requirement to reproduce
 all of those implementations.
 
-| Question      | Evidence                                                    | Tenon decision                                                             |
+| Question      | Evidence                                                    | xenon decision                                                             |
 | ------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------- |
 | Placement     | Radix and Base UI expose side and align                     | Physical `side`, logical `align`; no competing input placement alias       |
 | Gap           | Radix adds arrow height; Base UI uses the popup gap         | `sideOffset` is the distance between boxes, independent of arrow size      |
@@ -43,14 +43,14 @@ Sources reviewed on 2026-09-14:
   [virtual elements](https://floating-ui.com/docs/virtual-elements), and
   [updates](https://floating-ui.com/docs/autoupdate).
 
-The implementation is Tenon's wrapper around the dependency, not copied
+The implementation is xenon's wrapper around the dependency, not copied
 component-library code. In particular, it guards both final results and size
 middleware writes against obsolete async requests.
 
 ## DOM API
 
 ```ts
-import { createPositioner } from '@tenon/dom/positioning'
+import { createPositioner } from '@xenon/dom/positioning'
 
 const positioner = createPositioner(wrapper, {
   anchor: trigger,
@@ -170,7 +170,7 @@ observer callbacks, results, size writes, and automatic errors.
 ## Solid API
 
 ```tsx
-import { createPositioner } from '@tenon/solid/positioning'
+import { createPositioner } from '@xenon/solid/positioning'
 import { createSignal } from 'solid-js'
 
 const [anchor, setAnchor] = createSignal<HTMLElement>()

@@ -1,6 +1,6 @@
-import { Checkbox } from '@tenon/solid/checkbox'
-import { Field } from '@tenon/solid/field'
-import { Toggle } from '@tenon/solid/toggle'
+import { Checkbox } from '@xenon/solid/checkbox'
+import { Field } from '@xenon/solid/field'
+import { Toggle } from '@xenon/solid/toggle'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

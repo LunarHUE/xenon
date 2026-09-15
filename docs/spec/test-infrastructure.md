@@ -910,7 +910,7 @@ Kobalte did:
 - `requestAnimationFrame` as `setTimeout(cb, 0)`, one strategy, globally.
 - `process.env.TZ` pinned to `UTC`.
 - `afterEach` asserting timer hygiene (real timers restored) and no leaked
-  frames, and resetting any module-level registry `@tenon/dom` owns.
+  frames, and resetting any module-level registry `@xenon/dom` owns.
 
 `isolate: true`. Kobalte's `isolate: false` bought startup time and cost
 cross-file singleton bleed; our suite mounts real components with real global

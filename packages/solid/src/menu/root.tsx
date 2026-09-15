@@ -1,4 +1,4 @@
-import { menu } from '@tenon/core/menu'
+import { menu } from '@xenon/core/menu'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
@@ -16,7 +16,7 @@ import { MenuContext } from './context'
 import type { MenuContextValue, MenuEntry, MenuTriggerEntry } from './context'
 import { attachOverlayHandle, createOverlayHandle } from '../internal/overlay-handle'
 import type { OverlayHandle } from '../internal/overlay-handle'
-import type { LayerHandle } from '@tenon/dom'
+import type { LayerHandle } from '@xenon/dom'
 import type { PositioningAnchor } from '../positioning'
 
 /** Connects detached menu triggers and imperative requests to one mounted root. */

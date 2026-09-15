@@ -2,7 +2,7 @@
  * Runs e2e tests against the built example app and the SSR/hydration fixture server.
  * All three browser projects are defined. The package test:e2e script selects
  * chromium; test:e2e:all leaves project selection open to run all three.
- * Browser selection here is independent of Vitest's TENON_BROWSERS variable.
+ * Browser selection here is independent of Vitest's xenon_BROWSERS variable.
  *
  * @packageDocumentation
  */

@@ -1,4 +1,4 @@
-import { Button } from '@tenon/solid/button'
+import { Button } from '@xenon/solid/button'
 import type { JSX } from '@solidjs/web'
 import { createSignal, onSettled } from 'solid-js'
 

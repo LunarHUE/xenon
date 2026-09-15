@@ -1,4 +1,4 @@
-import type { PartProps } from '@tenon/core'
+import type { PartProps } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createMemo, omit, onSettled, untrack } from 'solid-js'

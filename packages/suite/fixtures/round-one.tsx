@@ -12,7 +12,7 @@ import {
   Toggle,
   ToggleGroup,
   Toolbar,
-} from '@tenon/solid'
+} from '@xenon/solid'
 import { Show, createSignal } from 'solid-js'
 
 import { NumericFixture } from './numeric'

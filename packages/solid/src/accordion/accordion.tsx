@@ -1,5 +1,5 @@
-import type { CompositeDirection } from '@tenon/core'
-import { accordion } from '@tenon/core'
+import type { CompositeDirection } from '@xenon/core'
+import { accordion } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'

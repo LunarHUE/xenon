@@ -1,4 +1,4 @@
-import { numberField, type NumberFieldOptions } from '@tenon/core/number-field'
+import { numberField, type NumberFieldOptions } from '@xenon/core/number-field'
 import { isServer, type ComponentProps, type JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
 import {
@@ -61,7 +61,7 @@ function useNumberField() {
 function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
   const field = useFieldContext()
   const associations = isServer ? serverAssociations() : undefined
-  const base = `tenon-number-field-${createUniqueId()}`
+  const base = `xenon-number-field-${createUniqueId()}`
   const [internal, setInternal] = createSignal<number | null>(
     untrack(() => props.defaultValue ?? null)
   )

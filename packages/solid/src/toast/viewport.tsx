@@ -10,8 +10,8 @@ import {
   onSettled,
   untrack,
 } from 'solid-js'
-import { createToastViewport } from '@tenon/dom/toast'
-import { registerLayerPointerExclusion } from '@tenon/dom/layer'
+import { createToastViewport } from '@xenon/dom/toast'
+import { registerLayerPointerExclusion } from '@xenon/dom/layer'
 import type { ToastRecord } from './manager'
 import { useToastManager } from './provider'
 import { ToastViewportContext } from './context'
@@ -356,7 +356,7 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
     const front = sizes[items[0]?.id ?? ''] ?? 0
     const height = expanded()
       ? items.reduce((sum, record) => sum + (sizes[record.id] ?? 0), 0) +
-        Math.max(0, items.length - 1) * gap()
+      Math.max(0, items.length - 1) * gap()
       : front + Math.max(0, items.length - 1) * gap()
     const variables = {
       '--toast-front-height': `${front}px`,

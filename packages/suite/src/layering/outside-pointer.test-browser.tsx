@@ -1,6 +1,6 @@
-import { registerLayer } from '@tenon/dom'
-import type { LayerHandle, LayerOptions } from '@tenon/dom'
-import type {} from '@vitest/browser-playwright'
+import { registerLayer } from '@xenon/dom'
+import type { LayerHandle, LayerOptions } from '@xenon/dom'
+import type { } from '@vitest/browser-playwright'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 

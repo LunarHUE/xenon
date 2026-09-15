@@ -1,4 +1,4 @@
-import { registerModal } from '@tenon/dom/modal'
+import { registerModal } from '@xenon/dom/modal'
 import { afterEach, expect, test } from 'vitest'
 
 const cleanups: (() => void)[] = []

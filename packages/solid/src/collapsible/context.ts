@@ -1,4 +1,4 @@
-import type { AnyPart, PresenceStatus } from '@tenon/core'
+import type { AnyPart, PresenceStatus } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Reactive disclosure parts and lifecycle services shared with descendant parts. */

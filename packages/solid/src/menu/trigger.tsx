@@ -103,7 +103,7 @@ export function MenuTrigger<T extends ValidComponent = 'button', Payload = unkno
             }
           },
         },
-      } as import('@tenon/core').PartProps<'button'>,
+      } as import('@xenon/core').PartProps<'button'>,
       { ...rest }
     )
     for (const key of Object.keys(result)) {

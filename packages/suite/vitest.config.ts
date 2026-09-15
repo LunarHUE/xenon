@@ -15,10 +15,10 @@ import { defineConfig } from 'vitest/config'
  * is absent. Entries must exactly match chromium, firefox, or webkit; whitespace,
  * empty entries, and other names fail configuration loading. Duplicates are retained.
  */
-const browsers = (process.env.TENON_BROWSERS ?? 'chromium').split(',')
+const browsers = (process.env.xenon_BROWSERS ?? 'chromium').split(',')
 for (const browser of browsers) {
   if (!['chromium', 'firefox', 'webkit'].includes(browser))
-    throw new Error(`Unknown TENON_BROWSERS entry: ${browser}`)
+    throw new Error(`Unknown xenon_BROWSERS entry: ${browser}`)
 }
 
 /** Installs DOM matchers and harness cleanup in both projects. */

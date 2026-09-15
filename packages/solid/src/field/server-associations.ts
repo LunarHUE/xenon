@@ -29,7 +29,7 @@ interface ServerNode {
 export function serverAssociations() {
   // These are temporary serialization markers, never element IDs. A fresh namespace
   // prevents authored markup and independently rendered fields from matching them.
-  const namespace = `tenon-field-${crypto.randomUUID()}`
+  const namespace = `xenon-field-${crypto.randomUUID()}`
   const attributes = new Map<string, () => string>()
 
   /**

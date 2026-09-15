@@ -38,7 +38,7 @@ observe name it, e.g. `(safari-only)`.
 - `packages/core` and `packages/solid` keep unit tests next to the code. They
   cover the controller contract and the adapter's wiring, not behavior.
 - `packages/suite` is the conformance suite. It imports finished components
-  from `@tenon/solid`, mounts them through a small harness, and runs one test
+  from `@xenon/solid`, mounts them through a small harness, and runs one test
   per spec bullet. A component is done when its spec file has no unchecked
   bullet. The harness is the only adapter-specific code in the suite, so a
   second adapter runs the same suite by supplying its own harness.

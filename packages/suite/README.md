@@ -6,7 +6,7 @@ Run commands from `packages/suite`, or use `bun run --cwd packages/suite <script
 | -------------------------------------------- | ------------------------------------------------------------------- |
 | `bun run test`                               | Conformance in jsdom                                                |
 | `bun run test:browser`                       | Conformance plus browser-only cases in Chromium                     |
-| `TENON_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
+| `xenon_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
 | `bun run test:browser:all`                   | Chromium, Firefox and WebKit                                        |
 | `bun run test:e2e`                           | Full-page flows against the built example app in Chromium           |
 | `bunx playwright test --project webkit`      | Same E2E flows in WebKit                                            |
@@ -20,7 +20,7 @@ On Ubuntu, install WebKit's system libraries as well as its browser binary:
 
 ```sh
 bunx playwright install --with-deps webkit
-TENON_BROWSERS=webkit bun run test:browser
+xenon_BROWSERS=webkit bun run test:browser
 bunx playwright test --project webkit
 ```
 
@@ -72,7 +72,7 @@ contracts and browser research rules have explicit dispositions. Removing a
 TODO registration does not claim that research behavior was implemented.
 `e2e/legacy-hydration.spec.ts` covers their applicable server behavior.
 
-Browser assertions follow native host behavior where Tenon delegates to the
+Browser assertions follow native host behavior where xenon delegates to the
 platform. Validation messages, native radio traversal, and implicit submission
 are compared with plain HTML controls in the same engine. Browser-owned timing
 uses eventual assertions, and synthetic pointer tests do not claim native

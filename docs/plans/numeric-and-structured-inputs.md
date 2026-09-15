@@ -39,11 +39,11 @@ subpath exports, typecheck, lint, formatting, and existing component regressions
 Each component imports independently:
 
 ```tsx
-import { Slider } from '@tenon/solid/slider'
-import { NumberField } from '@tenon/solid/number-field'
-import { PinInput } from '@tenon/solid/pin-input'
-import { TagsInput } from '@tenon/solid/tags-input'
-import { Editable } from '@tenon/solid/editable'
+import { Slider } from '@xenon/solid/slider'
+import { NumberField } from '@xenon/solid/number-field'
+import { PinInput } from '@xenon/solid/pin-input'
+import { TagsInput } from '@xenon/solid/tags-input'
+import { Editable } from '@xenon/solid/editable'
 ```
 
 - Slider: Control, Track, Range, Thumb, Label, ValueText. A single slider uses

@@ -31,7 +31,7 @@ prefix. The complete test title is in the linked file.
 The source suites linked in [the implementation plan](toast.md#source-suites)
 include Base UI's manager, external manager, store, viewport, and root tests and
 Sonner's browser interactions. Our tests translate the relevant behavior to the
-Tenon API. They do not import those suites or claim their full coverage.
+xenon API. They do not import those suites or claim their full coverage.
 
 ## Roles and attributes
 

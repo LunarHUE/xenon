@@ -1,5 +1,5 @@
-import type { AnyPart } from '@tenon/core'
-import type { RadioItemHost, RadioValue } from '@tenon/core'
+import type { AnyPart } from '@xenon/core'
+import type { RadioItemHost, RadioValue } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Mounted item registration used for navigation and native checked-state repair. */

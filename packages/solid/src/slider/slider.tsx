@@ -1,6 +1,6 @@
-import { slider } from '@tenon/core/slider'
-import type { SliderOptions, SliderResult } from '@tenon/core/slider'
-import type { GlobalAttrs } from '@tenon/core'
+import { slider } from '@xenon/core/slider'
+import type { SliderOptions, SliderResult } from '@xenon/core/slider'
+import type { GlobalAttrs } from '@xenon/core'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {
@@ -97,8 +97,8 @@ function mergeStyle(
 ): JSX.CSSProperties | string {
   return typeof style === 'string'
     ? `${Object.entries(defaults)
-        .map(([key, value]) => `${key}:${value}`)
-        .join(';')};${style}`
+      .map(([key, value]) => `${key}:${value}`)
+      .join(';')};${style}`
     : { ...defaults, ...(typeof style === 'object' ? style : {}) }
 }
 
@@ -187,7 +187,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
       values.reduce(
         (nearest, value, i) =>
           Math.abs(value - position) < Math.abs(values[nearest]! - position) ||
-          (value === values[nearest] && position >= value)
+            (value === values[nearest] && position >= value)
             ? i
             : nearest,
         0
@@ -421,20 +421,20 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
             ? undefined
             : context.field
               ? fieldLabelledBy(
-                  context.field,
-                  tokens(
-                    props['aria-labelledby'],
-                    context.props['aria-labelledby'],
-                    context.label()
-                  ),
-                  false
-                )
+                context.field,
+                tokens(
+                  props['aria-labelledby'],
+                  context.props['aria-labelledby'],
+                  context.label()
+                ),
+                false
+              )
               : tokens(props['aria-labelledby'], context.props['aria-labelledby'], context.label()),
         'aria-describedby': context.field
           ? fieldDescribedBy(
-              context.field,
-              tokens(props['aria-describedby'], context.props['aria-describedby'])
-            )
+            context.field,
+            tokens(props['aria-describedby'], context.props['aria-describedby'])
+          )
           : tokens(props['aria-describedby'], context.props['aria-describedby']),
       },
       on: {

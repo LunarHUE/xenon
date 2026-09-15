@@ -1,4 +1,4 @@
-import { Field } from '@tenon/solid'
+import { Field } from '@xenon/solid'
 import { screen } from '@testing-library/dom'
 import { userEvent } from 'vitest/browser'
 import { describe, expect } from 'vitest'

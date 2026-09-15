@@ -1,4 +1,4 @@
-import { ToggleGroup } from '@tenon/solid/toggle-group'
+import { ToggleGroup } from '@xenon/solid/toggle-group'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

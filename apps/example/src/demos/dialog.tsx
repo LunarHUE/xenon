@@ -1,4 +1,4 @@
-import { Dialog } from '@tenon/solid/dialog'
+import { Dialog } from '@xenon/solid/dialog'
 import { createSignal } from 'solid-js'
 import { Bench, Readout, Section } from '../ui'
 

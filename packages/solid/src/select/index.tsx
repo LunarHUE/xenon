@@ -1,5 +1,5 @@
-import { select } from '@tenon/core/select'
-import type { SelectItem } from '@tenon/core/select'
+import { select } from '@xenon/core/select'
+import type { SelectItem } from '@xenon/core/select'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -321,17 +321,17 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       ...context.engine().parts.trigger.attrs,
       'aria-activedescendant': context.associations
         ? context.associations.attribute('aria-activedescendant', () =>
-            context.open() && context.engine().state.activeValue !== undefined
-              ? context.optionId(context.engine().state.activeValue!)
-              : undefined
-          )
+          context.open() && context.engine().state.activeValue !== undefined
+            ? context.optionId(context.engine().state.activeValue!)
+            : undefined
+        )
         : context.open() && context.engine().state.activeValue !== undefined
           ? context.optionId(context.engine().state.activeValue!)
           : undefined,
       'aria-controls': context.associations
         ? context.associations.attribute('aria-controls', () =>
-            context.open() ? context.contentId() : undefined
-          )
+          context.open() ? context.contentId() : undefined
+        )
         : context.engine().parts.trigger.attrs['aria-controls'],
       'aria-labelledby': context.field
         ? fieldLabelledBy(context.field, own['aria-labelledby'], false)
@@ -511,4 +511,4 @@ export const Select = Object.assign(SelectRoot, {
   /** Measured decorative arrow box. */
   Arrow: SelectArrow,
 })
-export type { SelectItem } from '@tenon/core/select'
+export type { SelectItem } from '@xenon/core/select'

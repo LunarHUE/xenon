@@ -33,7 +33,7 @@ waits or simulated geometry.
 The local Zag/Ark research describes a native viewport with optional custom
 anatomy but reports no executed ScrollArea tests. Reka/Melt/Bits research adds
 browser overflow, resize and interaction cases, with several wheel/keyboard cases
-skipped in WebKit. Tenon's eight cases execute in both browsers. They verify its
+skipped in WebKit. xenon's eight cases execute in both browsers. They verify its
 own named-region and keyboard-operable-scrollbar contract; they do not claim
 compatibility with competing presentation-role, data-attribute, mounting or
 imperative API choices.

@@ -1,6 +1,6 @@
-import { Button } from '@tenon/solid/button'
-import { Checkbox } from '@tenon/solid/checkbox'
-import { Switch } from '@tenon/solid/switch'
+import { Button } from '@xenon/solid/button'
+import { Checkbox } from '@xenon/solid/checkbox'
+import { Switch } from '@xenon/solid/switch'
 import type { JSX } from '@solidjs/web'
 import { createSignal } from 'solid-js'
 

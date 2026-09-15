@@ -1,5 +1,5 @@
 import { render } from '@solidjs/web'
-import { Breadcrumbs } from '@tenon/solid/breadcrumbs'
+import { Breadcrumbs } from '@xenon/solid/breadcrumbs'
 import { flush } from 'solid-js'
 import { afterEach, expect } from 'vitest'
 import { expectNoViolations } from '../a11y'

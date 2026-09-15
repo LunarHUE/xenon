@@ -1,5 +1,5 @@
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
-import type { DateAdapter, DateValue } from '@tenon/core/date'
+import type { DateAdapter, DateValue } from '@xenon/core/date'
 
 /** One visible grid slot; padding at supported year boundaries has no value. */
 export interface CalendarDateCell<T> {

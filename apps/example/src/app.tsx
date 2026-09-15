@@ -12,7 +12,7 @@ import {
 import { ToastDemo } from './demos/toast'
 import { CalendarDemo, RangeCalendarDemo } from './demos/calendar'
 import { CheckboxGroupDemo, ListboxDemo, SelectDemo, ComboboxDemo } from './demos/selection'
-import { Tooltip } from '@tenon/solid/tooltip'
+import { Tooltip } from '@xenon/solid/tooltip'
 import {
   TooltipDemo,
   HoverCardDemo,
@@ -47,6 +47,7 @@ import {
   TagsInputDemo,
   EditableDemo,
 } from './demos/structured-inputs'
+import { Clock } from './timer-example'
 
 export function App(): JSX.Element {
   return (
@@ -56,6 +57,7 @@ export function App(): JSX.Element {
         <span class="masthead__meta">@kit/solid · behavior sheet</span>
         <span class="masthead__meta masthead__meta--end">solid 2.0.0-rc.8</span>
       </header>
+      <Clock />
 
       <Tooltip.Provider openDelay={500} closeDelay={120} skipDelay={350}>
         <main>

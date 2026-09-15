@@ -1,7 +1,7 @@
 # Slider coverage and decisions
 
-`@tenon/core/slider` exports `slider`, `SliderOptions`, `SliderState`, and
-`SliderResult`. The Solid entry point is `@tenon/solid/slider`. It exports
+`@xenon/core/slider` exports `slider`, `SliderOptions`, `SliderState`, and
+`SliderResult`. The Solid entry point is `@xenon/solid/slider`. It exports
 `Slider` with `Control`, `Track`, `Range`, `Thumb`, `Label`, and `ValueText`, plus
 `SliderProps`, `SliderPartProps`, `SliderThumbProps`, `SliderLabelProps`, and
 `SliderValueTextProps`.

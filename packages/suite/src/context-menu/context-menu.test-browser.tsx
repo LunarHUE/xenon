@@ -1,4 +1,4 @@
-import { ContextMenu } from '@tenon/solid/context-menu'
+import { ContextMenu } from '@xenon/solid/context-menu'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'

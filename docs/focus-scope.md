@@ -1,6 +1,6 @@
 # Focus scopes
 
-`registerFocusScope` in `@tenon/dom` owns initial focus, Tab containment, and focus
+`registerFocusScope` in `@xenon/dom` owns initial focus, Tab containment, and focus
 restoration. It is separate from `registerLayer`: dismissal and focus management
 can end at different points during a component's close sequence. Neither handle
 creates a portal or makes the page modal.
@@ -25,7 +25,7 @@ focus alone. Explicit targets must belong to the scope's document; initial
 targets must also be inside its content or branches.
 
 An empty region gets a temporary `tabindex="-1"` only if the container needs it.
-Disposal removes that value only while it is still the value Tenon supplied.
+Disposal removes that value only while it is still the value xenon supplied.
 Author tabindex values are preserved. Focus requests use `preventScroll: true`.
 
 Each document has one scope manager. The newest containing scope owns Tab and

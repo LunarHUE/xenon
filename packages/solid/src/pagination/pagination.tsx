@@ -1,5 +1,5 @@
-import { pagination } from '@tenon/core/pagination'
-import type { PaginationOptions, PaginationState, PaginationResult } from '@tenon/core/pagination'
+import { pagination } from '@xenon/core/pagination'
+import type { PaginationOptions, PaginationState, PaginationResult } from '@xenon/core/pagination'
 import { Dynamic } from '@solidjs/web'
 import type { JSX, ComponentProps, ValidComponent } from '@solidjs/web'
 import { createContext, useContext, createMemo, createSignal, untrack, omit } from 'solid-js'

@@ -1,5 +1,5 @@
-import { createDate } from '@tenon/core/date'
-import type { DateValue } from '@tenon/core/date'
+import { createDate } from '@xenon/core/date'
+import type { DateValue } from '@xenon/core/date'
 import type { JSX } from '@solidjs/web'
 import { createContext, createMemo, untrack, useContext } from 'solid-js'
 

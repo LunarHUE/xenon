@@ -46,7 +46,7 @@ The user confirmed Content naming; no Popup rename is planned.
 - [Base UI Menu](https://base-ui.com/react/components/menu#viewport): shared-popup
   content transitions, distinct from submenu ownership.
 
-Base UI's Select does not currently expose a Viewport part. A Tenon selection
+Base UI's Select does not currently expose a Viewport part. A xenon selection
 viewport is our own consistent list-scrolling API.
 
 ## Delivered API

@@ -1,5 +1,5 @@
-import { Accordion } from '@tenon/solid/accordion'
-import type { AccordionValue } from '@tenon/solid/accordion'
+import { Accordion } from '@xenon/solid/accordion'
+import type { AccordionValue } from '@xenon/solid/accordion'
 import type { JSX } from '@solidjs/web'
 import { For, createSignal } from 'solid-js'
 

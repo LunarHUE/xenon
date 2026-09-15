@@ -1,12 +1,12 @@
 import { cleanup, render } from '@solidjs/testing-library'
-import type { PositioningOptions, PositioningState } from '@tenon/dom/positioning'
+import type { PositioningOptions, PositioningState } from '@xenon/dom/positioning'
 import { createSignal, flush } from 'solid-js'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { createPositioner } from './positioning'
 import type { Positioner } from './positioning'
 
 const engine = vi.hoisted(() => ({ create: vi.fn() }))
-vi.mock('@tenon/dom/positioning', () => ({
+vi.mock('@xenon/dom/positioning', () => ({
   createPositioner: engine.create,
   initialPositioningState: (options: Partial<PositioningOptions> = {}) => ({
     positioned: false,
@@ -27,7 +27,7 @@ vi.mock('@tenon/dom/positioning', () => ({
     referenceHidden: false,
   }),
 }))
-import { initialPositioningState } from '@tenon/dom/positioning'
+import { initialPositioningState } from '@xenon/dom/positioning'
 
 function mockController(initial: PositioningOptions) {
   let options = initial
@@ -37,7 +37,7 @@ function mockController(initial: PositioningOptions) {
       options = next
       if (!next.enabled) state = initialPositioningState(next)
     }),
-    reposition: vi.fn(async () => {}),
+    reposition: vi.fn(async () => { }),
     dispose: vi.fn(),
     getState: () => state,
     publish(next: Partial<PositioningState> = {}) {

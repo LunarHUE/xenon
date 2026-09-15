@@ -1,4 +1,4 @@
-import { Menu } from '@tenon/solid/menu'
+import { Menu } from '@xenon/solid/menu'
 import { createSignal } from 'solid-js'
 import { Bench, Keys, Readout, Section } from '../ui'
 

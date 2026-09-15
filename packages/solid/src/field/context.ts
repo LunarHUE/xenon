@@ -1,4 +1,4 @@
-import type { GlobalAttrs } from '@tenon/core'
+import type { GlobalAttrs } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 import type { Association } from './server-associations'

@@ -1,5 +1,5 @@
-import { checkbox, toggleSwitch } from '@tenon/core'
-import type { CheckboxHost, CheckboxOptions } from '@tenon/core'
+import { checkbox, toggleSwitch } from '@xenon/core'
+import type { CheckboxHost, CheckboxOptions } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
@@ -219,11 +219,11 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     context === null
       ? own['aria-labelledby']
       : fieldLabelledBy(
-          context,
-          own['aria-labelledby'],
-          host !== 'generic',
-          typeof own.as !== 'function'
-        )
+        context,
+        own['aria-labelledby'],
+        host !== 'generic',
+        typeof own.as !== 'function'
+      )
 
   /** Merge raw ID readers before allocating one SSR marker for the complete attribute. */
   const describedBy = () => {

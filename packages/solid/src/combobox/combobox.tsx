@@ -1,6 +1,6 @@
-import type { PartProps } from '@tenon/core'
-import { combobox } from '@tenon/core/combobox'
-import type { ComboboxItem as Option, ComboboxOptions } from '@tenon/core/combobox'
+import type { PartProps } from '@xenon/core'
+import { combobox } from '@xenon/core/combobox'
+import type { ComboboxItem as Option, ComboboxOptions } from '@xenon/core/combobox'
 import { isServer } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
@@ -150,7 +150,7 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
       setIdRevision((n) => n + 1)
     }
   }
-  const base = untrack(() => props.id) ?? `tenon-combobox-${createUniqueId()}`
+  const base = untrack(() => props.id) ?? `xenon-combobox-${createUniqueId()}`
   const initial = untrack(() => props.defaultValue)
   const label = (value: string | undefined) =>
     props.items.find((item) => item.value === value)?.label ?? ''
@@ -376,17 +376,17 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
     'aria-required': context.required() ? 'true' : undefined,
     'aria-activedescendant': context.associations
       ? context.associations.attribute('aria-activedescendant', () =>
-          context.source.open() && context.engine().state.activeValue !== undefined
-            ? context.optionId(context.engine().state.activeValue!)
-            : undefined
-        )
+        context.source.open() && context.engine().state.activeValue !== undefined
+          ? context.optionId(context.engine().state.activeValue!)
+          : undefined
+      )
       : context.source.open() && context.engine().state.activeValue !== undefined
         ? context.optionId(context.engine().state.activeValue!)
         : undefined,
     'aria-controls': context.associations
       ? context.associations.attribute('aria-controls', () =>
-          context.source.open() || context.props.forceMount ? context.contentId() : undefined
-        )
+        context.source.open() || context.props.forceMount ? context.contentId() : undefined
+      )
       : context.source.open() || context.props.forceMount
         ? context.contentId()
         : undefined,

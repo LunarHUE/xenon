@@ -1,7 +1,7 @@
 import type { JSX } from '@solidjs/web'
 import { createEffect, omit, onCleanup, onSettled, untrack } from 'solid-js'
-import { createViewport } from '@tenon/dom/viewport'
-import type { ViewportController } from '@tenon/dom/viewport'
+import { createViewport } from '@xenon/dom/viewport'
+import type { ViewportController } from '@xenon/dom/viewport'
 
 /** Overlay state and a synchronous notification before trigger or payload writes. */
 export interface FloatingViewportSource {

@@ -1,5 +1,5 @@
-import { createFloatingLayer } from '@tenon/dom/floating-layer'
-import { createDialogController } from '@tenon/dom/dialog'
+import { createFloatingLayer } from '@xenon/dom/floating-layer'
+import { createDialogController } from '@xenon/dom/dialog'
 import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 

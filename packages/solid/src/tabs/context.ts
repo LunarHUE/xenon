@@ -1,5 +1,5 @@
-import type { AnyPart } from '@tenon/core'
-import type { TabsOrientation } from '@tenon/core'
+import type { AnyPart } from '@xenon/core'
+import type { TabsOrientation } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Stable registration identity for one tab and its current selection key. */

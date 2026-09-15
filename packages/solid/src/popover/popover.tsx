@@ -1,10 +1,10 @@
-import type { AnyPart, PopoverResult } from '@tenon/core'
-import { popover } from '@tenon/core/popover'
+import type { AnyPart, PopoverResult } from '@xenon/core'
+import { popover } from '@xenon/core/popover'
 import { createPositioner } from '../positioning/positioning'
 import type { Positioner, PositionerOptions } from '../positioning/positioning'
-import { createFloatingLayer } from '@tenon/dom/floating-layer'
-import type { FloatingLayerOptions } from '@tenon/dom/floating-layer'
-import type { LayerPointerOutsideEvent } from '@tenon/dom'
+import { createFloatingLayer } from '@xenon/dom/floating-layer'
+import type { FloatingLayerOptions } from '@xenon/dom/floating-layer'
+import type { LayerPointerOutsideEvent } from '@xenon/dom'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -488,10 +488,10 @@ export function PopoverTrigger<T extends ValidComponent = 'button', Payload = un
             ? typeof (props as { as?: ValidComponent }).as === 'function'
               ? original?.attrs['aria-controls']
               : root.association('aria-controls', () =>
-                  root.activeTrigger(entry)
-                    ? root.result().parts.trigger.attrs['aria-controls']
-                    : undefined
-                )
+                root.activeTrigger(entry)
+                  ? root.result().parts.trigger.attrs['aria-controls']
+                  : undefined
+              )
             : undefined,
       },
       on: { click: () => context()?.activate(entry, true) },
@@ -501,7 +501,7 @@ export function PopoverTrigger<T extends ValidComponent = 'button', Payload = un
     <Button
       ref={(el: HTMLElement) => {
         entry.element = el
-        ;(props as { ref?: (el: HTMLElement) => void }).ref?.(el)
+          ; (props as { ref?: (el: HTMLElement) => void }).ref?.(el)
       }}
       {...buttonProps(part(), { ...rest })}
     >
@@ -743,9 +743,9 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
       'aria-labelledby': own['aria-label']
         ? undefined
         : context.association(
-            'aria-labelledby',
-            () => context.result().parts.content.attrs['aria-labelledby']
-          ),
+          'aria-labelledby',
+          () => context.result().parts.content.attrs['aria-labelledby']
+        ),
       'aria-describedby': context.association(
         'aria-describedby',
         () => context.result().parts.content.attrs['aria-describedby']

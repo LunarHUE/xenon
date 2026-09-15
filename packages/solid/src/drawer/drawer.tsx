@@ -1,4 +1,4 @@
-import { drawer } from '@tenon/core/drawer'
+import { drawer } from '@xenon/core/drawer'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import {
   createDialogRoot,
@@ -9,7 +9,7 @@ import {
 } from '../internal/dialog'
 import type { ButtonProps } from '../button/button'
 import { createEffect, createSignal, onCleanup } from 'solid-js'
-import { registerDrawerHandle } from '@tenon/dom'
+import { registerDrawerHandle } from '@xenon/dom'
 import type { DrawerProps } from '../internal/dialog'
 /**
  * Accessible close button that also attaches outward-swipe dismissal to the drawer content.
@@ -113,7 +113,7 @@ export const Drawer = Object.assign(DrawerRoot, {
   Handle: DrawerHandle,
 })
 export type { DrawerProps } from '../internal/dialog'
-export type { DrawerDragThreshold } from '@tenon/dom'
+export type { DrawerDragThreshold } from '@xenon/dom'
 
 export type { DialogViewportProps, DialogPortalProps, DialogContentProps } from '../internal/dialog'
 

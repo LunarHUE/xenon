@@ -1,4 +1,4 @@
-import { collapsible } from '@tenon/core'
+import { collapsible } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

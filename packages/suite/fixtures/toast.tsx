@@ -1,4 +1,4 @@
-import { Toast } from '@tenon/solid/toast'
+import { Toast } from '@xenon/solid/toast'
 import { For } from 'solid-js'
 
 /** Empty request-local manager hydrates before client actions add notifications. */

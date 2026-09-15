@@ -1,3 +1,3 @@
-import base from '@tenon/eslint-config/base'
+import base from '@xenon/eslint-config/base'
 
 export default [...base]

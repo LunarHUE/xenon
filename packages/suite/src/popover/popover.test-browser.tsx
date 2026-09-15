@@ -1,4 +1,4 @@
-import { Popover } from '@tenon/solid'
+import { Popover } from '@xenon/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

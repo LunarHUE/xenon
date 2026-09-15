@@ -1,7 +1,7 @@
 /** Native coverage adapted from Base UI toast focus/stack tests and Sonner interactions. */
-import { Toast } from '@tenon/solid/toast'
-import { Dialog } from '@tenon/solid/dialog'
-import { Popover } from '@tenon/solid/popover'
+import { Toast } from '@xenon/solid/toast'
+import { Dialog } from '@xenon/solid/dialog'
+import { Popover } from '@xenon/solid/popover'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { For, flush } from 'solid-js'
@@ -123,7 +123,7 @@ test('action cancellation preserves a toast; successful actions dismiss once', a
   await userEvent.click(m.getByRole('button', { name: 'Try again' }))
   expect(action).toHaveBeenCalledOnce()
   expect(m.getByRole('group', { name: 'Undo' })).toBeVisible()
-  toast.update(id, { action: { label: 'Finish', onClick: () => {} } })
+  toast.update(id, { action: { label: 'Finish', onClick: () => { } } })
   await settle()
   await userEvent.click(m.getByRole('button', { name: 'Finish' }))
   await settle()

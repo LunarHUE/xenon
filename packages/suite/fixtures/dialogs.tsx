@@ -1,4 +1,4 @@
-import { AlertDialog, Dialog, Drawer } from '@tenon/solid'
+import { AlertDialog, Dialog, Drawer } from '@xenon/solid'
 
 export function Dialogs() {
   return (

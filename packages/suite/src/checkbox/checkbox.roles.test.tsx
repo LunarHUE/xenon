@@ -1,4 +1,4 @@
-import { Checkbox, Field } from '@tenon/solid'
+import { Checkbox, Field } from '@xenon/solid'
 import { fieldContract, descriptionLifecycle } from '../field/contract'
 import type { CheckboxProps } from '../harness'
 import { screen } from '@testing-library/dom'

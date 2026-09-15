@@ -10,12 +10,12 @@ rewrite. Solid is the only adapter for now and gets the idiomatic API.
 
 ## Layers
 
-- `@tenon/core`. One function per component, from options to a `PartProps` per
+- `@xenon/core`. One function per component, from options to a `PartProps` per
   part. Pure: it may use DOM types but never DOM globals, enforced by eslint
   `no-restricted-globals` and by running its tests in Node. Everything that
   needs a live document (focus trap, dismiss, positioning, presence) goes in a
-  future `@tenon/dom` package, also framework-free.
-- `@tenon/solid`. Components that call core inside `createMemo` and spread the
+  future `@xenon/dom` package, also framework-free.
+- `@xenon/solid`. Components that call core inside `createMemo` and spread the
   result. Nothing from core shows up in the public API. Ark UI lets Zag's
   `connect` and `normalizeProps` leak into user code, and we treat that as the
   mistake to avoid.
@@ -316,16 +316,16 @@ reference shape.
   it from `onSettled`; publishing during the ref callback can restart an ancestor
   computation and replace already hydrated content.
 
-## `@tenon/dom`
+## `@xenon/dom`
 
 Framework-free browser logic that a React or Vue adapter would reuse, and the
 only package besides the adapters allowed to touch the DOM. It owns presence
 animation timing, the layering stack, focus scopes, modal locks, native dialog
 synchronization, drawer handle gestures, and anchored positioning.
 
-Positioning uses `@floating-ui/dom` behind Tenon's own options and state types.
+Positioning uses `@floating-ui/dom` behind xenon's own options and state types.
 It stays in the DOM package; core has no duplicate browser geometry controller.
-The Solid utility has a separate `@tenon/solid/positioning` entry point. Animated
+The Solid utility has a separate `@xenon/solid/positioning` entry point. Animated
 content sits inside the measured positioner so scale/slide transforms do not
 change its layout box. See [positioning](positioning.md) for the library
 comparison, defaults, and lifecycle contract.
@@ -395,7 +395,7 @@ the later segmented-field and picker slices.
 ## Toolchain
 
 Every Solid component has an explicit public subpath, such as
-`import { Button } from '@tenon/solid/button'`. Use these imports in examples
+`import { Button } from '@xenon/solid/button'`. Use these imports in examples
 and consumer code. The root barrel remains available. Positioning and spread
 also have dedicated entry points; internal files are not public exports.
 `bun run --cwd packages/solid test:exports` builds every public subpath and

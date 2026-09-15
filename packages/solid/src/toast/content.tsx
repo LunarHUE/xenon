@@ -1,6 +1,6 @@
-import { toast } from '@tenon/core/toast'
-import { createToastSwipe } from '@tenon/dom/toast'
-import type { ToastSwipeDirection } from '@tenon/dom/toast'
+import { toast } from '@xenon/core/toast'
+import { createToastSwipe } from '@xenon/dom/toast'
+import type { ToastSwipeDirection } from '@xenon/dom/toast'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

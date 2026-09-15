@@ -1,7 +1,7 @@
-import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@tenon/core/tooltip'
-import type { TooltipBehaviorOptions, TooltipBehavior } from '@tenon/core/tooltip'
-import { createHoverIntent } from '@tenon/dom/hover-intent'
-import type { HoverIntent } from '@tenon/dom/hover-intent'
+import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon/core/tooltip'
+import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon/core/tooltip'
+import { createHoverIntent } from '@xenon/dom/hover-intent'
+import type { HoverIntent } from '@xenon/dom/hover-intent'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -164,12 +164,12 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
       if (!context.popup) return
       setInstant(
         reason === 'focus' ||
-          tooltipOpenDelay({
-            behavior: behavior(),
-            now: performance.now(),
-            closedAt: group.closedAt(),
-            active: group.active(),
-          }) === 0
+        tooltipOpenDelay({
+          behavior: behavior(),
+          now: performance.now(),
+          closedAt: group.closedAt(),
+          active: group.active(),
+        }) === 0
       )
       const entry = entries.get(node)
       if (entry) context.popup.activate(entry, false)
@@ -225,7 +225,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         {...rest}
         ref={(node: HTMLElement) => {
           rootElement = node
-          ;(props as { ref?: (node: HTMLElement) => void }).ref?.(node)
+            ; (props as { ref?: (node: HTMLElement) => void }).ref?.(node)
         }}
         open={open()}
         onOpenChange={change}
@@ -416,9 +416,9 @@ export function TooltipContent<T extends ValidComponent = 'div'>(
     typeof own.style === 'string'
       ? `${own.style};${context.behavior().hoverable ? '' : 'pointer-events:none;'}`
       : {
-          ...own.style,
-          ...(context.behavior().hoverable ? {} : { 'pointer-events': 'none' as const }),
-        }
+        ...own.style,
+        ...(context.behavior().hoverable ? {} : { 'pointer-events': 'none' as const }),
+      }
   return (
     <Popover.Content {...spread(part(), { ...rest })} style={style()}>
       {own.children}

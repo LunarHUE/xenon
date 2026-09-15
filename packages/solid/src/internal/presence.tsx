@@ -1,6 +1,6 @@
-import { presence } from '@tenon/core'
-import type { PartProps, PresenceStatus } from '@tenon/core'
-import { waitForExit } from '@tenon/dom'
+import { presence } from '@xenon/core'
+import type { PartProps, PresenceStatus } from '@xenon/core'
+import { waitForExit } from '@xenon/dom'
 import { createEffect, createMemo, createSignal } from 'solid-js'
 
 /** Reactive visibility intent and optional mounting policy, read by owned memos. */

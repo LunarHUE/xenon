@@ -1,8 +1,8 @@
-import { Tooltip } from '@tenon/solid/tooltip'
-import { HoverCard } from '@tenon/solid/hover-card'
-import { ContextMenu } from '@tenon/solid/context-menu'
-import { Menubar } from '@tenon/solid/menubar'
-import { NavigationMenu } from '@tenon/solid/navigation-menu'
+import { Tooltip } from '@xenon/solid/tooltip'
+import { HoverCard } from '@xenon/solid/hover-card'
+import { ContextMenu } from '@xenon/solid/context-menu'
+import { Menubar } from '@xenon/solid/menubar'
+import { NavigationMenu } from '@xenon/solid/navigation-menu'
 import { createSignal } from 'solid-js'
 import { Bench, Keys, Readout, Section } from '../ui'
 

@@ -1,5 +1,5 @@
-import { Drawer } from '@tenon/solid/drawer'
-import { Checkbox } from '@tenon/solid/checkbox'
+import { Drawer } from '@xenon/solid/drawer'
+import { Checkbox } from '@xenon/solid/checkbox'
 import { createSignal } from 'solid-js'
 import { Bench, Readout, Section } from '../ui'
 

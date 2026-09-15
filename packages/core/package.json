@@ -1,5 +1,5 @@
 {
-  "name": "@tenon/core",
+  "name": "@xenon/core",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -21,8 +21,8 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@tenon/eslint-config": "workspace:*",
-    "@tenon/typescript-config": "workspace:*",
+    "@xenon/eslint-config": "workspace:*",
+    "@xenon/typescript-config": "workspace:*",
     "@types/bun": "catalog:",
     "@typescript/native": "catalog:",
     "aria-attributes": "^2.0.1",

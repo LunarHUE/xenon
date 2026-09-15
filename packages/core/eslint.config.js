@@ -1,4 +1,4 @@
-import base from '@tenon/eslint-config/base'
-import core from '@tenon/eslint-config/core'
+import base from '@xenon/eslint-config/base'
+import core from '@xenon/eslint-config/core'
 
 export default [...base, ...core]

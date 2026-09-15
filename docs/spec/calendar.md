@@ -1,6 +1,6 @@
 ## Calendar
 
-This specification separates the accepted Tenon contract from broader upstream features. Calendar is an inline single-date grid. Date inputs, popup dismissal, date-time editing are separate work.
+This specification separates the accepted xenon contract from broader upstream features. Calendar is an inline single-date grid. Date inputs, popup dismissal, date-time editing are separate work.
 
 ### Accepted contract
 
@@ -18,7 +18,7 @@ This specification separates the accepted Tenon contract from broader upstream f
 - [x] `calendar.keyboard.4` Enter and Space select the focused eligible date once. Native button behavior supplies keyboard activation without duplicate key/click callbacks. [APG]
 - [x] `calendar.keyboard.5` Navigation to a different month preserves focus on the intended day. Previous/Next update the visible month while retaining focus on the navigation control. [APG, react-aria]
 - [x] `calendar.bounds.1` Dates before minValue or after maxValue cannot be selected. Keyboard focus stays within these inclusive boundaries, and navigation buttons disable when their destination month cannot contain an eligible date. [react-aria, reka]
-- [x] `calendar.unavailable.1` An unavailable date exposes `aria-disabled="true"` and remains reachable by arrow navigation, allowing its full date to be read. Pointer and keyboard activation do not select it. [react-aria, reka; Tenon focus policy]
+- [x] `calendar.unavailable.1` An unavailable date exposes `aria-disabled="true"` and remains reachable by arrow navigation, allowing its full date to be read. Pointer and keyboard activation do not select it. [react-aria, reka; xenon focus policy]
 - [x] `calendar.readonly.1` Read-only calendars allow date focus and month navigation but never change selection. The grid exposes `aria-readonly`. [react-aria, reka]
 - [x] `calendar.disabled.1` Disabled calendars prevent selection and navigation, disable Previous/Next, and expose disabled grid/day state. [react-aria, reka]
 - [x] `calendar.cancel.1` Author preventDefault on activation or keyboard navigation vetoes the corresponding internal action.
@@ -29,9 +29,9 @@ This specification separates the accepted Tenon contract from broader upstream f
 
 ### Source reconciliation
 
-The APG example embeds its calendar in a dialog. Its dialog focus trap, trigger focus restoration and Cancel/OK footer do not apply to this inline component. The grid keyboard and table semantics do apply. Tenon uses a labeled group rather than introducing `role="application"` solely because some upstream calendars do so.
+The APG example embeds its calendar in a dialog. Its dialog focus trap, trigger focus restoration and Cancel/OK footer do not apply to this inline component. The grid keyboard and table semantics do apply. xenon uses a labeled group rather than introducing `role="application"` solely because some upstream calendars do so.
 
-Upstream implementations disagree about whether unavailable dates are removed from arrow navigation. Tenon keeps unavailable dates focusable, while out-of-bounds dates cannot become the active day. Home/End follow the configured chronological week; RTL changes Left/Right, not the meaning of week start/end.
+Upstream implementations disagree about whether unavailable dates are removed from arrow navigation. xenon keeps unavailable dates focusable, while out-of-bounds dates cannot become the active day. Home/End follow the configured chronological week; RTL changes Left/Right, not the meaning of week start/end.
 
 ### Sources
 

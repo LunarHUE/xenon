@@ -1,5 +1,5 @@
-import type { AnyPart, PresenceStatus } from '@tenon/core'
-import type { CollapsibleIds } from '@tenon/core'
+import type { AnyPart, PresenceStatus } from '@xenon/core'
+import type { CollapsibleIds } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Stable item identity and live state shared by root and parts. */

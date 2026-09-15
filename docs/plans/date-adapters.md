@@ -54,8 +54,8 @@ GridBody, Row, Cell, Day and weekday-heading parts from the root render state.
 No icons, styles, or preset animation are included.
 
 ```tsx
-import { Calendar } from '@tenon/solid/calendar'
-import { DateProvider, createDate } from '@tenon/solid/date'
+import { Calendar } from '@xenon/solid/calendar'
+import { DateProvider, createDate } from '@xenon/solid/date'
 
 <DateProvider today={createDate(2026, 9, 14)} locale="en-US" weekStartsOn={1}>
   <Calendar onValueChange={(date) => console.log(date.year, date.month, date.day)}>

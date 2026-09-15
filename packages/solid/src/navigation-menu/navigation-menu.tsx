@@ -1,7 +1,7 @@
-import { navigationMenu } from '@tenon/core/navigation-menu'
-import type { AnyPart } from '@tenon/core'
-import { createFloatingLayer } from '@tenon/dom/floating-layer'
-import type { FloatingLayerOptions } from '@tenon/dom/floating-layer'
+import { navigationMenu } from '@xenon/core/navigation-menu'
+import type { AnyPart } from '@xenon/core'
+import { createFloatingLayer } from '@xenon/dom/floating-layer'
+import type { FloatingLayerOptions } from '@xenon/dom/floating-layer'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -648,15 +648,15 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
         typeof props.style === 'string'
           ? `margin:0;inset:auto;border:0;padding:0;background:transparent;overflow:visible;${props.style};visibility:${positioner.positionerProps().style.visibility};pointer-events:${positioner.positionerProps().style['pointer-events']}`
           : {
-              margin: '0',
-              inset: 'auto',
-              border: '0',
-              padding: '0',
-              background: 'transparent',
-              overflow: 'visible',
-              ...props.style,
-              ...positioner.positionerProps().style,
-            }
+            margin: '0',
+            inset: 'auto',
+            border: '0',
+            padding: '0',
+            background: 'transparent',
+            overflow: 'visible',
+            ...props.style,
+            ...positioner.positionerProps().style,
+          }
       }
     >
       {children()}

@@ -6,7 +6,7 @@ component name, and never change once written.
 
 `[react-only]` marks a bullet that exists because of a React-specific hazard.
 It is recorded so the contract survives a React adapter, not because
-`@tenon/solid` needs it.
+`@xenon/solid` needs it.
 
 ## id-generation
 

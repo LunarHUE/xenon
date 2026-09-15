@@ -9,4 +9,4 @@ export type {
   PositioningSide,
   PositioningState,
   PositioningUpdateOptions,
-} from '@tenon/dom/positioning'
+} from '@xenon/dom/positioning'

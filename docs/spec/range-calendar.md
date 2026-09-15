@@ -10,7 +10,7 @@ RangeCalendar shares Calendar's date adapter, provider settings, anatomy, grid a
 - [x] `range-calendar.selection.3` Starting another draft does not overwrite the last committed range. Escape cancels the draft and restores the committed presentation without a value callback.
 - [x] `range-calendar.preview.1` Pointer hover and keyboard focus update the draft preview. Endpoint and interior data attributes distinguish draft preview from committed selection. [reka, bits]
 - [x] `range-calendar.preview.2` Moving focus across a month boundary while drafting retains the anchor and previews dates in the next month. [react-aria]
-- [x] `range-calendar.bounds.1` Both endpoints and all dates between them must satisfy min/max and unavailable restrictions. A range cannot cross an unavailable interior day even when both endpoints are available. Rejected activation does not emit a committed range. [react-aria; Tenon contiguous-range policy]
+- [x] `range-calendar.bounds.1` Both endpoints and all dates between them must satisfy min/max and unavailable restrictions. A range cannot cross an unavailable interior day even when both endpoints are available. Rejected activation does not emit a committed range. [react-aria; xenon contiguous-range policy]
 - [x] `range-calendar.roles.1` The grid exposes `aria-multiselectable="true"`. Every day in the committed inclusive interval is selected; endpoint markers distinguish start/end. [react-aria, corvu]
 - [x] `range-calendar.roles.2` Unavailable dates expose disabled semantics while remaining reachable for date inspection. Draft state never reports an incomplete public value.
 - [x] `range-calendar.keyboard.1` Calendar arrow, Home/End, PageUp/PageDown and Shift+Page navigation rules also apply while selecting a range. Enter/Space start or finish the draft once per activation.
@@ -21,7 +21,7 @@ RangeCalendar shares Calendar's date adapter, provider settings, anatomy, grid a
 
 ### Source reconciliation
 
-Upstream range APIs differ on incomplete values, automatic sorting, minimum range lengths and noncontiguous ranges. Tenon emits only complete sorted ranges, permits a one-day range and rejects unavailable interior dates. No additional maximum/minimum range-length policy is inferred from upstream options.
+Upstream range APIs differ on incomplete values, automatic sorting, minimum range lengths and noncontiguous ranges. xenon emits only complete sorted ranges, permits a one-day range and rejects unavailable interior dates. No additional maximum/minimum range-length policy is inferred from upstream options.
 
 ### Sources
 

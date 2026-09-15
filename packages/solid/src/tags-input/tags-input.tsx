@@ -1,6 +1,6 @@
 import type { FieldContextValue } from '../field/context'
-import { tagsInput } from '@tenon/core/tags-input'
-import type { TagsInputOptions, TagsInputResult } from '@tenon/core/tags-input'
+import { tagsInput } from '@xenon/core/tags-input'
+import type { TagsInputOptions, TagsInputResult } from '@xenon/core/tags-input'
 import type { JSX } from '@solidjs/web'
 import {
   For,
@@ -372,8 +372,8 @@ export function TagsInputInput(props: TagsInputInputProps): JSX.Element {
         process(
           event.currentTarget,
           composing ||
-            event.isComposing ||
-            (event.inputType === 'insertFromPaste' && context.props.addOnPaste === false)
+          event.isComposing ||
+          (event.inputType === 'insertFromPaste' && context.props.addOnPaste === false)
         )
       },
       compositionstart() {

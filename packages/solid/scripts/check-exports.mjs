@@ -12,7 +12,7 @@ import { build } from 'vite'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const manifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
-const id = '\0tenon-export-check'
+const id = '\0xenon-export-check'
 
 /**
  * Compile a virtual consumer as a minified ES library using this package's resolver
@@ -29,7 +29,7 @@ async function bundle(source) {
       {
         name: 'export-check',
         resolveId: (value) =>
-          value === 'tenon-export-check' || value.endsWith('/tenon-export-check') ? id : undefined,
+          value === 'xenon-export-check' || value.endsWith('/xenon-export-check') ? id : undefined,
         load: (value) => (value === id ? source : undefined),
       },
       solid({ refresh: { disabled: true } }),
@@ -37,7 +37,7 @@ async function bundle(source) {
     build: {
       write: false,
       minify: true,
-      lib: { entry: 'tenon-export-check', formats: ['es'] },
+      lib: { entry: 'xenon-export-check', formats: ['es'] },
     },
   })
   return (Array.isArray(result) ? result : [result]).flatMap((output) =>
@@ -46,7 +46,7 @@ async function bundle(source) {
 }
 
 for (const subpath of Object.keys(manifest.exports).filter((key) => key !== '.')) {
-  const name = `@tenon/solid/${subpath.slice(2)}`
+  const name = `@xenon/solid/${subpath.slice(2)}`
   const chunks = await bundle(`export * from '${name}'`)
   assert(
     chunks.some((chunk) => chunk.exports.length > 0),
@@ -55,7 +55,7 @@ for (const subpath of Object.keys(manifest.exports).filter((key) => key !== '.')
 }
 
 // Check both public import styles against emitted modules, not bundle size.
-for (const source of ['@tenon/solid/button', '@tenon/solid']) {
+for (const source of ['@xenon/solid/button', '@xenon/solid']) {
   const chunks = await bundle(`export { Button } from '${source}'`)
   const modules = chunks.flatMap((chunk) => Object.keys(chunk.modules))
   assert(

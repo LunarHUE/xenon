@@ -1,4 +1,4 @@
-import { Collapsible } from '@tenon/solid'
+import { Collapsible } from '@xenon/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { createRoot, createSignal } from 'solid-js'
 import { describe, expect, vi } from 'vitest'

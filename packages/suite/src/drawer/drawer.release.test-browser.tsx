@@ -1,5 +1,5 @@
-import type { DrawerDragThreshold } from '@tenon/solid/drawer'
-import { Drawer } from '@tenon/solid/drawer'
+import type { DrawerDragThreshold } from '@xenon/solid/drawer'
+import { Drawer } from '@xenon/solid/drawer'
 import { render } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'
@@ -43,7 +43,7 @@ function fixture(controlled = false) {
   })
   const content = container.querySelector('dialog')!
   const handle = content.querySelector('button')!
-  vi.spyOn(handle, 'setPointerCapture').mockImplementation(() => {})
+  vi.spyOn(handle, 'setPointerCapture').mockImplementation(() => { })
   const pointer = (type: string, y: number) =>
     handle.dispatchEvent(
       new PointerEvent(type, {

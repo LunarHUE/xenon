@@ -1,4 +1,4 @@
-import { TagsInput } from '@tenon/solid/tags-input'
+import { TagsInput } from '@xenon/solid/tags-input'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { For, flush } from 'solid-js'

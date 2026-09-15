@@ -1,4 +1,4 @@
 {
-  "extends": "@tenon/typescript-config/base.json",
+  "extends": "@xenon/typescript-config/base.json",
   "include": ["src/**/*.ts", "vitest.config.ts"]
 }

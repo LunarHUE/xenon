@@ -198,7 +198,7 @@ against implementation and existing tests; every group received independent revi
 The TypeScript checker found documentation for all owned exported declarations and
 reachable members in implementation sources. Re-export aliases were inspected at
 their declaring types and representative consumer hovers; inherited platform props
-were not copied into Tenon documentation.
+were not copied into xenon documentation.
 
 | Package | Implementation files audited | Exported declarations | Reachable members | Missing docs |
 | --- | --- | --- | --- | --- |

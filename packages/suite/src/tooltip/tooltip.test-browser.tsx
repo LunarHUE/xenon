@@ -1,5 +1,5 @@
-import { Tooltip } from '@tenon/solid/tooltip'
-import { Dialog } from '@tenon/solid/dialog'
+import { Tooltip } from '@xenon/solid/tooltip'
+import { Dialog } from '@xenon/solid/dialog'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

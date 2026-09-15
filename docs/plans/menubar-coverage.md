@@ -1,6 +1,6 @@
 # Menubar coverage
 
-The public entry points are `@tenon/core/menubar` and `@tenon/solid/menubar`.
+The public entry points are `@xenon/core/menubar` and `@xenon/solid/menubar`.
 Menubar renders the persistent container. Each `Menubar.Menu value="…"` supplies
 one top-level menu using shared Menu state, hosting, items, and submenus.
 

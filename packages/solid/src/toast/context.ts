@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'solid-js'
-import type { ToastResult } from '@tenon/core/toast'
+import type { ToastResult } from '@xenon/core/toast'
 import type { Association } from '../field/server-associations'
 import type { ToastManager, ToastRecord, ToastDismissReason } from './manager'
 

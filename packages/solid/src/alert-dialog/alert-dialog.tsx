@@ -1,4 +1,4 @@
-import { alertDialog } from '@tenon/core/alert-dialog'
+import { alertDialog } from '@xenon/core/alert-dialog'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import {
   createDialogRoot,

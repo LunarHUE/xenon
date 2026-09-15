@@ -28,7 +28,7 @@ interface ServerNode {
 export function serverAttributes() {
   // These are temporary serialization markers, never element IDs. A fresh namespace
   // prevents authored markup and independently rendered layouts from matching them.
-  const namespace = `tenon-resizable-${crypto.randomUUID()}`
+  const namespace = `xenon-resizable-${crypto.randomUUID()}`
   const attributes = new Map<string, () => string>()
 
   /**

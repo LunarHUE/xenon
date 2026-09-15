@@ -1,5 +1,5 @@
-import { AlertDialog } from '@tenon/solid/alert-dialog'
-import { Button } from '@tenon/solid/button'
+import { AlertDialog } from '@xenon/solid/alert-dialog'
+import { Button } from '@xenon/solid/button'
 import { createSignal } from 'solid-js'
 import { Bench, Readout, Section } from '../ui'
 

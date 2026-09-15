@@ -1,4 +1,4 @@
-import { Checkbox, Field } from '@tenon/solid'
+import { Checkbox, Field } from '@xenon/solid'
 import { fieldContract } from '../field/contract'
 import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, vi } from 'vitest'

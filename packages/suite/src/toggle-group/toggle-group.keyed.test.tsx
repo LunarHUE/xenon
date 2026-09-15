@@ -1,4 +1,4 @@
-import { ToggleGroup } from '@tenon/solid'
+import { ToggleGroup } from '@xenon/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect, test } from 'vitest'

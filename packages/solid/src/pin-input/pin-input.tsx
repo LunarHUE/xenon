@@ -1,5 +1,5 @@
-import { pinInput } from '@tenon/core/pin-input'
-import type { PinInputOptions } from '@tenon/core/pin-input'
+import { pinInput } from '@xenon/core/pin-input'
+import type { PinInputOptions } from '@xenon/core/pin-input'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,
@@ -75,7 +75,7 @@ function usePinInput(): Context {
 /** Own code state, Field associations, and the native validation/submission proxy. */
 function PinInputRoot(props: PinInputProps): JSX.Element {
   const field = useFieldContext()
-  const base = untrack(() => props.id) ?? `tenon-pin-${createUniqueId()}`
+  const base = untrack(() => props.id) ?? `xenon-pin-${createUniqueId()}`
   const initial = untrack(() => props.defaultValue ?? '')
   const [internal, setInternal] = createSignal(initial, { ownedWrite: true })
   const disabled = () => !!(props.disabled || field?.disabled())

@@ -1,4 +1,4 @@
-import { Popover } from '@tenon/solid/popover'
+import { Popover } from '@xenon/solid/popover'
 import { createSignal } from 'solid-js'
 import { Bench, Readout, Section } from '../ui'
 

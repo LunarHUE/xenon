@@ -1,4 +1,4 @@
-import { RadioGroup } from '@tenon/solid'
+import { RadioGroup } from '@xenon/solid'
 import { within } from '@testing-library/dom'
 import { describe, expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

@@ -1,4 +1,4 @@
-import { Checkbox, Field, Switch } from '@tenon/solid'
+import { Checkbox, Field, Switch } from '@xenon/solid'
 import type { JSX } from '@solidjs/web'
 import { screen } from '@testing-library/dom'
 import { Show, createSignal, omit } from 'solid-js'

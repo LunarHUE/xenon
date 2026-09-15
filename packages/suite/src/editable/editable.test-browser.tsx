@@ -1,4 +1,4 @@
-import { Editable } from '@tenon/solid/editable'
+import { Editable } from '@xenon/solid/editable'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'

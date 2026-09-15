@@ -1,5 +1,5 @@
-import type { AnyPart } from '@tenon/core'
-import type { ToggleHost } from '@tenon/core'
+import type { AnyPart } from '@xenon/core'
+import type { ToggleHost } from '@xenon/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Registered item identity, host semantics, and DOM target used by the enclosing group. */

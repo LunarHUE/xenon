@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
-import { Resizable } from '@tenon/solid/resizable'
-import type { ResizableProps } from '@tenon/solid/resizable'
+import { Resizable } from '@xenon/solid/resizable'
+import type { ResizableProps } from '@xenon/solid/resizable'
 import { within } from '@testing-library/dom'
 import { createSignal, flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'
