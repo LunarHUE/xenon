@@ -1,4 +1,4 @@
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -9,6 +9,7 @@ import {
   onCleanup,
   Show,
   useContext,
+  untrack,
 } from 'solid-js'
 import { spread } from '../spread'
 
@@ -112,7 +113,9 @@ function AvatarImage(props: AvatarImageProps): JSX.Element {
       }
     }
   )
-  onCleanup(() => context.setState('idle'))
+  onCleanup(() => {
+    if (!isServer) context.setState('idle')
+  })
   return (
     <Show when={context.state() === 'loaded'}>
       <img
@@ -137,7 +140,7 @@ function AvatarFallback<T extends ValidComponent = 'span'>(
   props: AvatarFallbackProps<T>
 ): JSX.Element {
   const context = useAvatar()
-  const [ready, setReady] = createSignal(context.delay() === 0)
+  const [ready, setReady] = createSignal(untrack(context.delay) === 0)
   createEffect(
     () => [context.state() === 'loaded', context.delay()] as const,
     ([loaded, delay]) => {

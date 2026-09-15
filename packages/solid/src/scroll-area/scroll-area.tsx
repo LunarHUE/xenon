@@ -5,7 +5,7 @@ import {
   scrollbarGeometry,
 } from '@tenon/dom/scroll-area'
 import type { ScrollAreaAxis, ScrollAreaMetrics, ScrollbarGeometry } from '@tenon/dom/scroll-area'
-import { Dynamic } from '@solidjs/web'
+import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -162,11 +162,11 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
     },
     registerId(read) {
       ids.push(read)
-      setIdVersion(ids.length)
+      if (!isServer) setIdVersion(ids.length)
       return () => {
         const index = ids.indexOf(read)
         if (index >= 0) ids.splice(index, 1)
-        setIdVersion(ids.length)
+        if (!isServer) setIdVersion(ids.length)
       }
     },
     setDragging(axis, next) {
@@ -273,7 +273,9 @@ export function ScrollAreaViewport<T extends ValidComponent = 'div'>(
   const generated = untrack(ctx.viewportId)
   const id = () => (typeof own.id === 'string' ? own.id : generated)
   onCleanup(ctx.registerId(id))
-  onCleanup(() => ctx.setViewport(undefined))
+  onCleanup(() => {
+    if (!isServer) ctx.setViewport(undefined)
+  })
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'ref', 'style', 'id')
   const data = () => {
     const m = ctx.metrics()
@@ -315,7 +317,9 @@ export function ScrollAreaContent<T extends ValidComponent = 'div'>(
   const ctx = context('Content')
   const own = props as ScrollAreaContentProps<'div'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'ref')
-  onCleanup(() => ctx.setContent(undefined))
+  onCleanup(() => {
+    if (!isServer) ctx.setContent(undefined)
+  })
   return (
     <Dynamic
       component={own.as ?? 'div'}
