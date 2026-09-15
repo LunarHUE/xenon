@@ -1,7 +1,7 @@
 import { Toast } from '@tenon/solid/toast'
 import { For } from 'solid-js'
 
-/** Empty request-local manager hydrates before client actions add portaled notifications. */
+/** Empty request-local manager hydrates before client actions add notifications. */
 export function ToastFixture() {
   const manager = Toast.createManager()
   return (

@@ -76,4 +76,47 @@ manual assistive-technology testing beyond DOM assertions and axe.
 
 ## Verification
 
-Implementation and native-browser verification in progress.
+- Core: 255 passing tests.
+- DOM: 195 passing tests.
+- Solid: 343 passing tests, including manager, adapter, and server fixtures.
+- Shared jsdom suite: 640 passing tests.
+- Focused toast browser suite: 22 passing tests across Chromium and WebKit.
+- Full browser suite: 1922 passing tests across Chromium and WebKit after modal routing changes. The final paused-state styling addition also passes the focused 22-test browser suite.
+- Full end-to-end suite: 98 passing tests across Chromium and WebKit.
+- Workspace typecheck and lint, formatting, and public subpath/tree-shaking builds pass.
+- Public TSDoc member audit reports no missing documentation in core, DOM, or Solid;
+  local documentation-link checks report no unresolved references.
+
+The existing Select SSR fixture still prints its server-write warning, and some
+Tooltip adapter tests print reactive-read diagnostics. Neither produces an
+unhandled exception or failing test. Toast's dedicated server fixture and the
+hydrated browser fixture report no such diagnostics.
+
+The [coverage audit](toast-coverage.md) maps all 103 source IDs individually.
+Partial and deferred entries are explicitly retained; these totals do not imply
+that every upstream edge case or assistive-technology combination is covered.
+
+## Modal integration
+
+Native modal inertness cannot be overridden by z-index or a pointer exemption.
+Toast.Portal keeps one host and moves it into the active modal content using
+subscribeModalContent, then back to its prior destination after dismissal. This
+also keeps notification controls inside the modal's focus scope. Pointer-only
+exclusions prevent notification interactions from dismissing unrelated overlays.
+Explicit portal containers opt out of automatic routing and must be chosen with
+native modality in mind. The browser regression verifies retained nodes, working
+controls, and return to the page after the dialog closes.
+
+## Rendering and remaining scope
+
+Use one Viewport for each manager. Rendering the same collection into multiple
+Viewports intentionally duplicates the consumer's loop and is not an exactly-once
+routing mechanism. Create separate managers for independent notification regions.
+The default Alt+T shortcut is configurable. Label props accept translated strings;
+no locale-bundle provider is introduced in this slice.
+
+Natural-height measurement excludes CSS transforms, and exits retain their last
+stack coordinates while survivors reflow. The example uses interruptible CSS
+transitions, gap coverage, starting-style, and a reduced-motion override. The
+native regression also re-adds an exiting record and verifies DOM identity.
+

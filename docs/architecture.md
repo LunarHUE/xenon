@@ -343,6 +343,31 @@ owns semantics and animation. The shared floating-layer controller waits for
 positioning before initial focus and retains layer ownership through exit.
 See [Popover and Menu](popover-menu.md) for API and keyboard decisions.
 
+## Toast notifications
+
+`Toast.createManager` creates an isolated collection; `Toast.Provider` supplies
+client timing and defaults, and `Toast.useManager` accesses it locally. The
+headless renderer uses Portal, Viewport, Content, Title, Description, Action and
+Close. Content is the individual notification root. IDs and framework content
+belong to the adapter; core derives semantic attributes and admission decisions.
+
+Separate pause reasons preserve remaining time across hover, focus, swiping,
+window blur and document visibility changes. Limited records consume no time.
+Promises update their original record only while its generation is current;
+explicit re-addition can reopen an exiting record without replacing its element.
+Natural heights are measured without transforms. Closing records retain their
+last layout and swipe offsets while survivors reflow.
+
+A toast viewport uses native manual-popover hosting without becoming a dismissing
+layer or taking initial focus. Its pointer-only layer exemption leaves native
+controls and Escape ordering intact. Toast.Portal moves a stable host into the
+current modal content using the modal registry's document-scoped subscription.
+This preserves native modal interactivity and focus containment. Explicit portal
+containers override this automatic routing and must choose an interactive mount.
+
+See [the toast plan](plans/toast.md) for API decisions and motion sources, and
+[the coverage audit](plans/toast-coverage.md) for source-test mappings and gaps.
+
 ## Toolchain
 
 Every Solid component has an explicit public subpath, such as
