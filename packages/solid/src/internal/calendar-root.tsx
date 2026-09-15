@@ -33,8 +33,12 @@ export function createCalendarRoot(
 ): JSX.Element {
   const environment = useDateEnvironment()
   const own = props
-  const fallbackToday = untrack(() => environment?.today() ?? localToday())
   const adapter = () => own.adapter ?? (dateOnlyAdapter as DateAdapter<unknown>)
+  const fallbackToday = untrack(() =>
+    own.today === undefined
+      ? (environment?.today() ?? localToday())
+      : adapter().getFields(own.today)
+  )
   const today = () => own.today ?? adapter().fromFields(environment?.today() ?? fallbackToday)
   const initial = untrack(() =>
     buildEngine({

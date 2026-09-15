@@ -88,3 +88,33 @@ test('nested providers inherit the civil clock while root locale and week start 
   expect(m.getAllByRole('columnheader')[0]).toHaveAttribute('abbr', 'Sunday')
   expect(day(m.container, '2024-02-15')).toHaveAttribute('aria-current', 'date')
 })
+
+test('explicit root today renders without sampling the local clock', () => {
+  const NativeDate = globalThis.Date
+  const guardedDate = new Proxy(NativeDate, {
+    construct(target, args) {
+      if (args.length === 0) throw new Error('Unexpected local clock read')
+      return Reflect.construct(target, args)
+    },
+  })
+  vi.stubGlobal('Date', guardedDate)
+  try {
+    const m = render(() => (
+      <>
+        <Calendar today={createDate(2024, 2, 15)}>
+          <Calendar.Heading />
+        </Calendar>
+        <RangeCalendar today={createDate(2024, 3, 15)}>
+          <RangeCalendar.Heading />
+        </RangeCalendar>
+      </>
+    ))
+    flush()
+    expect(m.getAllByRole('heading').map((heading) => heading.textContent)).toEqual([
+      'February 2024',
+      'March 2024',
+    ])
+  } finally {
+    vi.unstubAllGlobals()
+  }
+})
