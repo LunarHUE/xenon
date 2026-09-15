@@ -352,3 +352,11 @@ accounting. Audit records live in `packages/suite/coverage`.
   buffer-isolation fixtures. No production bug was found.
 - Independent runs passed four jsdom and seven Chromium cases; Sol passed all
   21 cases across three engines. Audit validation passed.
+
+### Coverage checkpoint after Typeahead
+
+- Regenerated audit: 1,269 covered, 914 partial and 440 missing, compared with
+  the initial 1,101 covered, 1,038 partial and 484 missing. This closes 168
+  original gaps; the original backlog remains preserved.
+- Full Chromium end-to-end run passed all 62 cases, including the added
+  Accordion/CheckboxGroup SSR and hydration fixtures.
