@@ -550,3 +550,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed both remaining Radio gaps. Naming fixtures cover all name sources and actual axe label-rule applicability/impacts.
 - Astra low independently confirmed a selected native input retained conflicting author aria-checked=false. Astra medium removes this attribute for native Radio items, documenting the precedence exception and preserving other author props and custom-host computed state.
 - Independent checks passed 21 Solid, 55 suite jsdom and 97 Chromium tests. Astra passed Solid types and changed-file lint.
+
+### NumberField state inheritance and draft bounds
+
+- Closed five gaps: group state, both uncommitted bound directions, native/ARIA/data state mirroring, outer Field helper/error lifecycle, and disabled/readonly hidden-input event suppression.
+- Plain/isolated state flags now have direct assertions; roles.16 remains partial for the unbuilt positive data-valid flag.
+- Independent final checks passed eight jsdom and nine Chromium cases; Luna types/lint passed. Full end-to-end checkpoint after Radio fix passed all 63 tests.

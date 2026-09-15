@@ -107,12 +107,18 @@
   },
   {
     "ids": ["number-field.roles.8"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "covered",
+    "reason": "Public group exposes role=group with disabled and invalid ARIA state.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.roles.8 exposes disabled and invalid state on the group"
+      }
     ]
   },
   {
@@ -159,12 +165,18 @@
   },
   {
     "ids": ["number-field.roles.12"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "covered",
+    "reason": "Above-max and below-min uncommitted raw drafts disable only their directional stepper; clearing re-enables both.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.roles.12 disables an out-of-range draft direction and re-enables after clearing"
+      }
     ]
   },
   {
@@ -192,8 +204,8 @@
   },
   {
     "ids": ["number-field.roles.15"],
-    "status": "partial",
-    "reason": "Native readonly/required and readonly stepper semantics are asserted; every native/ARIA/data state on root and input is not.",
+    "status": "covered",
+    "reason": "Each required, disabled, and readonly state exposes its native and ARIA input attributes and matching root/input data flag.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -203,17 +215,31 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "field flags and labels reach the input, and readonly steppers remain discoverable"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.roles.15 mirrors %s on root and input"
       }
     ]
   },
   {
     "ids": ["number-field.roles.16"],
-    "status": "missing",
-    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination.",
+    "status": "partial",
+    "reason": "The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination. Plain root/input omit all listed flags; isolated required/disabled/readonly/invalid states expose only their own flag. The positive data-valid state remains unbuilt because the component does not emit data-valid.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.roles.16 leaves state data attributes absent on a plain field"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.roles.16 exposes only the active state data flag"
+      }
     ]
   },
   {
@@ -1351,12 +1377,18 @@
   },
   {
     "ids": ["number-field.forms.6"],
-    "status": "missing",
-    "reason": "The hidden entry has no autofill mutation handler and stepping publishes a valid numeric draft; no scoped assertion checks these exact validation/autofill branches.",
+    "status": "covered",
+    "reason": "Both input and change events on named disabled and readonly hidden inputs leave public values and change callbacks untouched; readonly stepping remains inert.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test-browser.tsx",
+        "title": "number-field.forms.6 ignores hidden autofill mutations for disabled and readonly fields"
+      }
     ]
   },
   {
@@ -1437,8 +1469,8 @@
   },
   {
     "ids": ["number-field.forms.13"],
-    "status": "partial",
-    "reason": "Field readonly/required and accessible naming are asserted; complete disabled/helper/conditional-error combinations are not.",
+    "status": "covered",
+    "reason": "Outer Field required/disabled/readonly state propagates to the input; helper text remains visible and error/ARIA associations appear only while invalid and clear reactively.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1448,6 +1480,10 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "field flags and labels reach the input, and readonly steppers remain discoverable"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "title": "number-field.forms.13 renders helper text and conditionally exposes the Field error"
       }
     ]
   },
