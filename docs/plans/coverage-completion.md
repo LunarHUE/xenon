@@ -669,3 +669,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed four gaps for single/range axe scans, vertical orientation markers, percentage/localized output, and named errors for all six orphan parts.
 - Astra low confirmed Solid's required context read bypassed Slider's existing named guard. Astra medium supplied a null context default so that guard runs, with six adapter regressions.
 - Independent checks passed 18 Slider adapter tests and all nine metadata cases in both jsdom and Chromium. Chromium supplies the full axe scan; jsdom lacks canvas support. Medium's Solid typecheck and lint passed.
+
+### Slider shadow-root keys and tiny-step precision
+
+- Closed keyboard.19 with a real browser key press inside an open shadow root.
+- Expanded keyboard.10 to every specified numeric example and repeated tiny-step callback/ARIA values, including exact 25.1 text. Astra low confirmed the failures compared equivalent decimal/scientific strings; the literal fixed-decimal notation alternative remains partial.
+- Independent final Chromium run passed all four cases; verifier lint and formatting passed.

@@ -5141,7 +5141,7 @@
   {
     "ids": ["slider.keyboard.10"],
     "status": "partial",
-    "reason": "Fractional and tiny core steps have representative exact assertions; the full repeated 1.5e-7 and DOM aria-valuenow precision matrix is not checked.",
+    "reason": "All specified ordinary and tiny numeric increments, repeated callbacks and numeric ARIA values are asserted, including exact 25.1 text. Fixed-decimal notation remains a research divergence: the engine rounds numeric precision then serializes tiny values in equivalent scientific notation rather than forcing decimal strings.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5151,6 +5151,18 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "vertical horizontal keys remain numeric in RTL and tiny steps stay finite"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-context.test-browser.tsx",
+        "title": "slider.keyboard.10 ordinary fractional steps remain exact"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-context.test-browser.tsx",
+        "title": "slider.keyboard.10 repeated 1e-7 steps keep twelve-place precision"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-context.test-browser.tsx",
+        "title": "slider.keyboard.10 a 1.5e-7 step reports its exact increment"
       }
     ]
   },
@@ -5308,12 +5320,18 @@
   },
   {
     "ids": ["slider.keyboard.19"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "A real browser key event steps the native thumb inside an open shadow root.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-context.test-browser.tsx",
+        "title": "slider.keyboard.19 a bubbling keydown inside an open shadow root steps the thumb"
+      }
     ]
   },
   {
