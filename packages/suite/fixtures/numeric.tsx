@@ -25,10 +25,21 @@ export function NumericFixture() {
         </Field>
         <Slider defaultValue={[25]} name="volume">
           <Slider.Label>Server volume</Slider.Label>
-          <Slider.Control>
+          <Slider.Control id="server-slider-control" style={{ width: '300px', height: '40px' }}>
             <Slider.Track />
-            <Slider.Range />
-            <Slider.Thumb index={0} />
+            <Slider.Range
+              id="server-slider-range"
+              style={{
+                position: 'absolute',
+                left: 'var(--slider-range-start)',
+                right: 'calc(100% - var(--slider-range-end))',
+              }}
+            />
+            <Slider.Thumb
+              index={0}
+              id="server-slider-thumb"
+              style={{ position: 'absolute', left: 'var(--slider-thumb-position)' }}
+            />
           </Slider.Control>
         </Slider>
         <TagsInput defaultValue={['alpha']} name="labels">

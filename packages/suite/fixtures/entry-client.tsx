@@ -24,6 +24,13 @@ const root = document.getElementById('app')!
 const serverNodes = [...root.querySelectorAll('*')]
 /** Nonempty IDs in the original descendant order, retained for later test comparisons. */
 const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
+const sliderGeometry = ['#server-slider-thumb', '#server-slider-range'].map((selector) => {
+  const element = root.querySelector(selector)
+  if (!element) return null
+  const rect = element.getBoundingClientRect()
+  return { selector, left: rect.left, top: rect.top, width: rect.width, height: rect.height }
+})
+if (sliderGeometry.some(Boolean)) root.dataset.sliderGeometry = JSON.stringify(sliderGeometry)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>

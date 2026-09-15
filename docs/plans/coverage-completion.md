@@ -708,3 +708,10 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed four pointer gaps: EditTrigger focus, existing/placeholder double-click activation and Enter commit, replacement with Save, and Escape restoration. Single clicks are also checked against double-click-only activation.
 - Independent final Chromium run passed all four cases; Luna suite typechecking and lint passed.
+
+### Slider SSR geometry, parts and browser multi-touch
+
+- Closed ssr.1 with server position properties and same-page before/after hydration rectangles for both thumb and selected range. Position properties also update after keyboard interaction.
+- Closed pointer.10 with browser-generated Chromium multi-touch. Astra low corrected the original off-viewport coordinates; the second contact can start, move and end without taking ownership or ending the first gesture.
+- All public part props, styles and ref targets now have reactive identity assertions. notes.3 remains partial for the deliberately absent hidden-input API. Astra corrected a browser shorthand-style assertion to its longhand equivalent.
+- Independent checks passed three configured Chromium E2E cases, the parts test in jsdom and Chromium, and suite typechecking.

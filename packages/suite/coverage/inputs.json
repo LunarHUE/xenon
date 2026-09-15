@@ -5516,8 +5516,8 @@
   },
   {
     "ids": ["slider.pointer.10"],
-    "status": "partial",
-    "reason": "Synthetic touch pointerdown/move/up from a second pointer are ignored with intermediate value/callback assertions, while the first continues and commits once. Real browser-generated multi-touch integration remains untested.",
+    "status": "covered",
+    "reason": "Synthetic secondary pointer lifecycle verifies intermediate values/callbacks. Chromium CDP-generated multi-touch additionally starts/moves/ends a second touch while the first keeps ownership, moves to 40 then 60, and clears dragging only on its own release.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5531,6 +5531,10 @@
       {
         "file": "packages/suite/src/slider/slider.coverage-pointer-lifecycle.test-browser.tsx",
         "title": "slider.pointer.10 ignores a second touch while the owning touch continues"
+      },
+      {
+        "file": "packages/suite/e2e/slider-touch.spec.ts",
+        "title": "slider.pointer.10 native owner touch continues after a secondary touch ends"
       }
     ]
   },
@@ -6180,8 +6184,8 @@
   },
   {
     "ids": ["slider.ssr.1"],
-    "status": "partial",
-    "reason": "Known native values and hydration node preservation are asserted; server position custom properties and absence of layout jump are not checked.",
+    "status": "covered",
+    "reason": "No-JavaScript markup carries thumb/range position properties. Pre-hydration bounding rectangles captured on the same page equal post-hydration rectangles, and keyboard input then updates positions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -6191,6 +6195,14 @@
       {
         "file": "packages/solid/src/slider/ssr.test.ts",
         "title": "SSR emits native values, actual output target IDs, and forward Field descriptions"
+      },
+      {
+        "file": "packages/suite/e2e/numeric.spec.ts",
+        "title": "numeric server markup retains custom associations and canonical form values before hydration"
+      },
+      {
+        "file": "packages/suite/e2e/numeric.spec.ts",
+        "title": "numeric and text-entry SSR hydrate without replacing nodes and remain editable"
       }
     ]
   },
@@ -6281,7 +6293,7 @@
   {
     "ids": ["slider.notes.3"],
     "status": "partial",
-    "reason": "Native nodes stay stable and author styles support measured drag fixtures; all part prop/ref/merged-style identities and a nonexistent hidden input are not asserted.",
+    "reason": "All seven public parts forward author attributes/styles/refs, preserve positioning properties and element/ref-target identity through reactive updates. HiddenInput and the research hidden-input composition are deliberately absent from the native-thumb API.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -6291,6 +6303,10 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "stable range inputs clamp neighboring keys and commit once on release"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-parts.test.tsx",
+        "title": "slider.notes.3 forwards part props, refs, merged styles, and stable identities"
       }
     ]
   },

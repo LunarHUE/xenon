@@ -21,6 +21,14 @@ test('numeric server markup retains custom associations and canonical form value
     'Enter the received code'
   )
   await expect(fixture.getByRole('slider', { name: 'Server volume' })).toHaveValue('25')
+  await expect(fixture.locator('#server-slider-thumb')).toHaveCSS('--slider-thumb-position', '25%')
+  await expect(fixture.locator('#server-slider-range')).toHaveCSS('--slider-range-start', '0%')
+  await expect(fixture.locator('#server-slider-range')).toHaveCSS('--slider-range-end', '25%')
+  const serverGeometry = await fixture.locator('#server-slider-range').evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return { left: rect.left, width: rect.width }
+  })
+  expect(serverGeometry.width).toBe(75)
   await context.close()
 })
 
@@ -32,7 +40,27 @@ test('numeric and text-entry SSR hydrate without replacing nodes and remain edit
   await page.goto(url)
   await expect(page.locator('#app')).toHaveAttribute('data-hydrated', 'true')
   await expect(page.locator('#app')).toHaveAttribute('data-preserved', 'true')
+  const serverGeometry = JSON.parse(
+    (await page.locator('#app').getAttribute('data-slider-geometry')) as string
+  ) as Array<{ selector: string; left: number; top: number; width: number; height: number }>
   const fixture = page.locator('#numeric-fixture')
+  const thumb = fixture.locator('#server-slider-thumb')
+  const range = fixture.locator('#server-slider-range')
+  await expect(thumb).toHaveCSS('--slider-thumb-position', '25%')
+  await expect(range).toHaveCSS('--slider-range-end', '25%')
+  const hydratedGeometry = await range.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return { left: rect.left, width: rect.width }
+  })
+  expect(hydratedGeometry.width).toBe(75)
+  const currentGeometry = await fixture.evaluate((root) =>
+    ['#server-slider-thumb', '#server-slider-range'].map((selector) => {
+      const element = root.querySelector(selector)!
+      const rect = element.getBoundingClientRect()
+      return { selector, left: rect.left, top: rect.top, width: rect.width, height: rect.height }
+    })
+  )
+  expect(currentGeometry).toEqual(serverGeometry)
   const amount = fixture.getByRole('spinbutton', { name: 'Server amount' })
   await amount.press('ArrowUp')
   await expect(amount).toHaveValue('3')
@@ -41,6 +69,8 @@ test('numeric and text-entry SSR hydrate without replacing nodes and remain edit
   const slider = fixture.getByRole('slider', { name: 'Server volume' })
   await slider.press('ArrowRight')
   await expect(slider).toHaveValue('26')
+  await expect(thumb).toHaveCSS('--slider-thumb-position', '26%')
+  await expect(range).toHaveCSS('--slider-range-end', '26%')
   await fixture.getByRole('textbox', { name: 'Server labels' }).fill('beta')
   await fixture.getByRole('textbox', { name: 'Server labels' }).press('Enter')
   await fixture.getByRole('button', { name: 'Edit server title' }).click()
