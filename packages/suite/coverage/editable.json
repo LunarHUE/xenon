@@ -77,8 +77,8 @@
   },
   {
     "ids": ["editable.keyboard.1"],
-    "status": "partial",
-    "reason": "Enter reveals the newly committed preview and restores its focus. This Enter case observes onValueChange, not onValueCommit; the submit-callback payload and hidden input are not explicitly asserted after Enter.",
+    "status": "covered",
+    "reason": "Native browser regression verifies Enter commits its payload, shows the preview, and hides the editor.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -88,6 +88,10 @@
       {
         "file": "packages/suite/src/editable/editable.native.test-browser.tsx",
         "title": "explicit completion returns focus to the preview that shows the newly committed text"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-keyboard.test-browser.tsx",
+        "title": "editable.keyboard.1 Enter commits its payload, shows the preview, and hides the editor"
       }
     ]
   },
@@ -109,12 +113,18 @@
   },
   {
     "ids": ["editable.keyboard.3"],
-    "status": "missing",
-    "reason": "Cancel restores the pre-edit value, but no scoped test enters and presses Escape without changing the draft.",
+    "status": "covered",
+    "reason": "Native browser regression verifies Escape with an unchanged draft retains the current value.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-keyboard.test-browser.tsx",
+        "title": "editable.keyboard.3 Escape with an unchanged draft retains the current value"
+      }
     ]
   },
   {
@@ -345,8 +355,8 @@
   },
   {
     "ids": ["editable.state.5"],
-    "status": "partial",
-    "reason": "Synthetic input drafts truncate to maxLength; native typing plus Backspace/replacement at the boundary is not asserted.",
+    "status": "covered",
+    "reason": "Native browser regression verifies native typing respects maxLength and still permits backspace replacement.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -356,17 +366,27 @@
       {
         "file": "packages/suite/src/editable/editable.additional.test.tsx",
         "title": "maxLength truncates an input-event draft and cancel restores the committed preview"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-keyboard.test-browser.tsx",
+        "title": "editable.state.5 native typing respects maxLength and still permits backspace replacement"
       }
     ]
   },
   {
     "ids": ["editable.state.6"],
-    "status": "missing",
-    "reason": "Cancel restores committed text, but there is no three-cycle full-deletion/cancel assertion in the scoped tests.",
+    "status": "covered",
+    "reason": "Native browser regression verifies three full-deletion cancel cycles restore the stored preview value.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-keyboard.test-browser.tsx",
+        "title": "editable.state.6 three full-deletion cancel cycles restore the stored preview value"
+      }
     ]
   },
   {

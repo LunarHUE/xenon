@@ -698,3 +698,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Astra low traced the WebKit secondary-touch failure to a trusted native mouse event sharing the fixture's synthetic owner ID. Synthetic touch IDs now differ from the browser mouse ID, preserving every ownership assertion.
 - Independent full Slider checkpoint passed all 198 Chromium/Firefox/WebKit cases and 18 jsdom cases, excluding the separately pending parts test. No production change.
+
+### Editable keyboard commits and draft restoration
+
+- Closed four gaps for Enter's commit payload and hidden editor, unchanged Escape, both native maxlength examples with Backspace/replacement, and three full-deletion/cancel cycles.
+- Independent Chromium run passed all four cases. Luna suite typechecking, lint and diff checks passed.
