@@ -303,3 +303,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   remain partial; research null callbacks and ID stripping are not adopted.
 - Independent final runs: seven jsdom and eight Chromium tests passed. Audit
   validation passed; Sol also checked the two removal cases in all three engines.
+
+### Button negative accessibility fixtures
+
+- Added five shared and two browser tests, closing nested negative-tabindex
+  widget and outermost aria-hidden-focus gaps. Other naming/role matrices gain
+  evidence but remain partial.
+- Sol corrected the presentation conflict rule and moved hidden-focus checking
+  to a real browser. Independent runs: five jsdom and seven Chromium tests passed;
+  Sol's three-engine run passed all 21 cases. Audit validation passed.

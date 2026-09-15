@@ -14009,12 +14009,16 @@
   },
   {
     "ids": ["button.roles.7"],
-    "status": "partial",
-    "reason": "Valid fixture excludes nested focusable controls; tabindex=-1 nested-widget failure is not explicitly exercised.",
+    "status": "covered",
+    "reason": "A nested input with tabindex=-1 produces a serious nested-interactive axe violation under a generic button.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.roles.test.tsx",
+        "title": "button.roles.7"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
         "title": "button.roles.7"
       }
     ]
@@ -14034,11 +14038,15 @@
   {
     "ids": ["button.roles.10"],
     "status": "partial",
-    "reason": "Valid button attribute/name axe checks do not inspect the exact role database or accessibility-tree presentational rules.",
+    "reason": "Valid button attribute/name axe checks do not inspect the exact role database or accessibility-tree presentational rules. Adds a named generic host with heading content and a valid allowed-attribute scan; exact role database and accessibility-tree metadata remain partial.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.roles.test.tsx",
+        "title": "button.roles.10"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
         "title": "button.roles.10"
       }
     ]
@@ -14553,11 +14561,15 @@
   {
     "ids": ["button.a11y.1"],
     "status": "partial",
-    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted.",
+    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted. Adds native submit naming and critical unnamed reset-input failure; other host/name alternatives remain untested.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.a11y.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
         "title": "button.a11y.1"
       }
     ]
@@ -14565,11 +14577,15 @@
   {
     "ids": ["button.a11y.2"],
     "status": "partial",
-    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted.",
+    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted. Adds title naming and a serious unnamed generic-button failure; link/menuitem naming variants remain partial.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.a11y.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.2"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
         "title": "button.a11y.2"
       }
     ]
@@ -14577,11 +14593,15 @@
   {
     "ids": ["button.a11y.3"],
     "status": "partial",
-    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted.",
+    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted. Adds a browser assertion of the valid generic widget/tabindex branch; experimental negative and scrollable-role branches remain partial.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.a11y.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.3"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test-browser.tsx",
         "title": "button.a11y.3"
       }
     ]
@@ -14661,23 +14681,31 @@
   {
     "ids": ["button.a11y.10"],
     "status": "partial",
-    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted.",
+    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted. Runs presentation-role-conflict explicitly and asserts minor impact for a focusable presentational descendant; other global-ARIA and role-none combinations remain partial.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.a11y.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.10"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
         "title": "button.a11y.10"
       }
     ]
   },
   {
     "ids": ["button.a11y.11"],
-    "status": "partial",
-    "reason": "The test audits a valid Button fixture; the full cross-role/host examples, negative rule outcome or stated severity in this research row are not all asserted.",
+    "status": "covered",
+    "reason": "Real Chromium axe identifies a serious aria-hidden-focus violation on only the outermost hidden ancestor, with a nested hidden descendant and focusable button.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.a11y.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.11"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage-a11y.test-browser.tsx",
         "title": "button.a11y.11"
       }
     ]
