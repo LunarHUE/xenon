@@ -9,8 +9,9 @@ is introduced.
 ## Decisions
 
 - The trigger is a region, with a default `tabindex="0"`, no disclosure ARIA,
-  and `data-state` / `data-disabled` hooks. Native context menus remain available
-  when disabled or when an author cancels the opening handler.
+  and `data-state` / `data-disabled` hooks. Disabled regions leave the native
+  context menu available. Author handlers run first; preventDefault vetoes custom
+  opening and also prevents the browser's default context menu.
 - Right click publishes client coordinates through a virtual zero-size anchor.
   The real region remains the restoration target and the layer's inside branch.
   Keyboard ContextMenu and Shift+F10 open at the region's center.

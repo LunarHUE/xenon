@@ -58,3 +58,40 @@ top layer. Hoverable content uses a bounded measured travel corridor.
 Coverage ledgers record specific choices and optional library candidates. Real
 pointer geometry, focus, portal ancestry and native dismissal require Chromium
 and WebKit coverage. Unit tests cover timing and controlled-state decisions.
+
+## Implementation and review
+
+All five families are separate public component subpaths and have example demos.
+Tooltip.Provider shares behavioral defaults and warm-window timing; typed handles
+connect detached Tooltip/HoverCard triggers to a single popup. Shared Menu supports
+virtual anchors and explicit initial content focus for ContextMenu, plus Menubar's
+top-level switching and nested-menu reset behavior.
+
+Review and browser fixtures caught competing hover/focus timer cancellation,
+stale pending delays, non-hoverable wrappers intercepting clicks, touch-release
+click dismissal, ContextMenu replacing hydrated nodes, NavigationMenu intercepting
+editable caret keys, and delayed navigation opening after a trigger disappeared.
+Each fix has focused regression coverage. Deferred focus actions also use explicit
+untracked reads, keeping the new hydration fixtures free of reactive warnings.
+
+Coverage and unimplemented source-library candidates are recorded separately:
+[Tooltip](tooltip-coverage.md), [HoverCard](hover-card-coverage.md),
+[ContextMenu](context-menu-coverage.md), [Menubar](menubar-coverage.md), and
+[NavigationMenu](navigation-menu-coverage.md). The research specs contain competing
+alternatives and are not treated as an exhaustive set of shipped promises.
+
+## Final verification
+
+- Core: 252 tests. DOM: 158. Solid: 318. Shared jsdom suite: 640.
+- Chromium and WebKit component conformance: 1,900 tests across 218 files.
+  The final Menubar API adjustment also passed its focused native tests.
+- Chromium and WebKit end-to-end: 90 tests, including six floating-family
+  SSR/hydration cases. New hydration cases retain server nodes and report no
+  browser warnings or errors.
+- Root typecheck and lint pass. The example builds, all public component subpaths
+  build, and Button imports exclude the new floating families.
+- Public TSDoc audit: core 881 members, DOM 167, Solid 1,148, with no missing
+  comments. All checked local TSDoc links resolve.
+
+The pre-existing Select SSR unit fixture still emits its documented SERVER_WRITE
+warning; it passes. New floating SSR/hydration fixtures do not emit that warning.

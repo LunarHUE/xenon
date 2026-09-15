@@ -51,7 +51,7 @@ export function resolveTooltipBehavior(
 /** Decide the hover delay from explicit clock/state inputs; no timers or global group state exist in core. */
 export function tooltipOpenDelay(options: {
   /** Resolved local delay policy. */ behavior: TooltipBehavior
-  /** Current caller-supplied monotonic time. */ now: number
+  /** Current caller-supplied clock time, in the same units as closedAt. */ now: number
   /** Time the most recent group tooltip closed. */ closedAt?: number
   /** Whether the group currently has an open tooltip. */ active: boolean
 }): number {
