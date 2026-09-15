@@ -480,3 +480,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   preserves unrelated listener mutations, and emits no committed input/change.
 - Independent initial jsdom run passed; final Chromium/Firefox/WebKit run passed
   all 18 cases. Audit validation passed; Luna's lint/typecheck passed.
+
+### Hover suppression expiry and document-scoped outside interaction
+
+- Added three DOM tests, closing post-touch suppression expiry, exact inside/
+  outside callback delivery, and iframe owner-document isolation gaps.
+- The expiry test proves mouse entry is accepted at 600ms. Pointer pairs inside
+  a layer remain silent; an iframe body press notifies once while top-document
+  presses leave its layer untouched.
+- Independent DOM run passed all three cases; audit validation passed. Luna's
+  DOM typecheck and lint passed.

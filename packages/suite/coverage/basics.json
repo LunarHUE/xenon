@@ -16590,13 +16590,17 @@
   },
   {
     "ids": ["hover.pointer.4"],
-    "status": "partial",
-    "reason": "The test verifies synthesized mouse/focus suppression through 500ms; subsequent disposal prevents asserting successful hover after the suppression deadline.",
+    "status": "covered",
+    "reason": "With fake time, touch press followed by mouse enter is suppressed at 0ms and 599ms. Calling mouse enter after the full 600ms window synchronously opens once without disposing the intent.",
     "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
     "tests": [
       {
         "file": "packages/dom/src/hover-intent/hover-intent.test.ts",
         "title": "touch and synthesized mouse/focus are suppressed and disposal cancels work"
+      },
+      {
+        "file": "packages/dom/src/hover-intent/hover-intent.coverage-more.test.ts",
+        "title": "hover.pointer.4 suppresses synthetic mouse hover for 600ms after touch, then accepts real mouse hover"
       }
     ]
   },

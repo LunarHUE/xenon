@@ -436,13 +436,17 @@
   },
   {
     "ids": ["interact-outside.notes.1"],
-    "status": "partial",
-    "reason": "Per-document Escape and ancestry isolation are asserted, but there is no iframe outside-pointer callback fixture.",
+    "status": "covered",
+    "reason": "A layer mounted in an iframe ownerDocument ignores an inside descendant press and an unrelated top-document body press, then reports exactly one outside callback for a press on the iframe document body.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/dom/src/layer/layer.test.ts",
         "title": "documents have independent stacks and reject foreign relationships"
+      },
+      {
+        "file": "packages/dom/src/layer/layer.coverage-more.test.ts",
+        "title": "interact-outside.notes.1 attaches iframe layer listeners to the iframe owner document"
       }
     ]
   },
@@ -1728,8 +1732,8 @@
   },
   {
     "ids": ["interact-outside.pointer.1"],
-    "status": "partial",
-    "reason": "Real clicks assert dismissal and native click delivery; the unit pointer-pair fixture asserts one outside notification and dismissal. Separate interact-outside notifications and inside-notification silence are not established.",
+    "status": "covered",
+    "reason": "A public registerLayer outside-pointer gesture on the layer and its descendant leaves onPointerOutside and onDismiss silent. The same pointer sequence on document.body invokes each callback exactly once.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
@@ -1739,6 +1743,10 @@
       {
         "file": "packages/dom/src/layer/pointer.test.ts",
         "title": "requests only the top layer after dispatch without canceling native events"
+      },
+      {
+        "file": "packages/dom/src/layer/layer.coverage-more.test.ts",
+        "title": "interact-outside.pointer.1 notifies only for a same-document body press"
       }
     ]
   },
