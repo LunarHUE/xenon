@@ -645,3 +645,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed six keyboard gaps: both endpoint clamps, directional off-grid snapping, min-anchored traversal, propagation, consumer veto/cardinality, and repeated PageUp events.
 - Astra low confirmed delegated key handling reached native ancestors too early. Astra medium binds the composed handler directly to the thumb, preserving author veto and unhandled keys, with sibling and shadow-root regressions.
 - Independent full Slider checks passed 12 Solid adapter tests, nine jsdom tests, 29 Chromium tests, and Solid typechecking (including the separate pending state slice).
+
+### Slider controlled state and native form values
+
+- Closed five gaps for clamped FormData, controlled updates/reset and rendered positions, reactive zero-neighbor bounds, output formatting/IDs, and native input refs.
+- Astra low identified the reset failure as fixture timing: the native reset action precedes the adapter's timer restoration. The corrected test waits for that task and retains strict parent-value assertions.
+- Independent final runs passed all five cases in jsdom and Chromium; verifier lint and formatting passed.

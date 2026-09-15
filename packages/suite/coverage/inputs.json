@@ -4860,8 +4860,8 @@
   },
   {
     "ids": ["slider.roles.12"],
-    "status": "partial",
-    "reason": "Output text and server for IDs are asserted; the four-thumb join and explicit aria-live=off are not checked.",
+    "status": "covered",
+    "reason": "Shared jsdom and browser regression asserts joins four values in the output and references every thumb. Controlled updates/reset also assert thumb and range positions; zero neighbors bound both directions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -4871,6 +4871,10 @@
       {
         "file": "packages/solid/src/slider/ssr.test.ts",
         "title": "SSR emits native values, actual output target IDs, and forward Field descriptions"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-state-extra.test.tsx",
+        "title": "slider.roles.12 joins four values in the output and references every thumb"
       }
     ]
   },
@@ -5614,12 +5618,18 @@
   },
   {
     "ids": ["slider.focus.9"],
-    "status": "missing",
-    "reason": "Native disabled/ref/event props are supported on Thumb; scoped cases do not assert disabled Tab bypass or exact ref/currentTarget focus-event cardinality.",
+    "status": "covered",
+    "reason": "Shared jsdom and browser regression asserts exposes the inner slider input through the thumb ref. Controlled updates/reset also assert thumb and range positions; zero neighbors bound both directions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-state-extra.test.tsx",
+        "title": "slider.focus.9 exposes the inner slider input through the thumb ref"
+      }
     ]
   },
   {
@@ -5656,8 +5666,8 @@
   },
   {
     "ids": ["slider.state.3"],
-    "status": "partial",
-    "reason": "External values and controlled reset remain authoritative; over-range external updates and rendered positions are not asserted.",
+    "status": "covered",
+    "reason": "Shared jsdom and browser regression asserts external controlled writes reposition and clamp the thumb. Controlled updates/reset also assert thumb and range positions; zero neighbors bound both directions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5667,6 +5677,10 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "changing external form ownership moves entries and controlled reset stays authoritative"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-state-extra.test.tsx",
+        "title": "slider.state.3 external controlled writes reposition and clamp the thumb"
       }
     ]
   },
@@ -5716,8 +5730,8 @@
   },
   {
     "ids": ["slider.state.8"],
-    "status": "partial",
-    "reason": "Core bounds derive from neighbors with configured gaps; reactive adjacent bounds and the zero-valued neighbor case are not checked.",
+    "status": "covered",
+    "reason": "Shared jsdom and browser regression asserts reactive neighboring thumbs update each other bounds, including zero. Controlled updates/reset also assert thumb and range positions; zero neighbors bound both directions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5727,6 +5741,10 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "neighbors bound requests and keep identity"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-state-extra.test.tsx",
+        "title": "slider.state.8 reactive neighboring thumbs update each other bounds, including zero"
       }
     ]
   },
@@ -5832,12 +5850,18 @@
   },
   {
     "ids": ["slider.forms.4"],
-    "status": "missing",
-    "reason": "Normalized/clamped values bind directly to native named Thumb inputs, but an out-of-range supplied value FormData assertion is absent.",
+    "status": "covered",
+    "reason": "Shared jsdom and browser regression asserts submits a clamped value rather than an out-of-range raw value. Controlled updates/reset also assert thumb and range positions; zero neighbors bound both directions.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-state-extra.test.tsx",
+        "title": "slider.forms.4 submits a clamped value rather than an out-of-range raw value"
+      }
     ]
   },
   {
