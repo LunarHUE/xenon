@@ -4,6 +4,7 @@ import { Dialogs } from './dialogs'
 import { PositioningFixture } from './positioning'
 import { Popups } from './popups'
 import { FloatingFixture } from './floating'
+import { ToastFixture } from './toast'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -52,4 +53,9 @@ export async function renderStream(asyncContent = false) {
 /** Render the floating-family hydration fixture with matching hydration markers. */
 export function renderFloating() {
   return generateHydrationScript() + renderToString(() => <FloatingFixture />)
+}
+
+/** Render the empty request-local toast provider and viewport for hydration tests. */
+export function renderToast() {
+  return generateHydrationScript() + renderToString(() => <ToastFixture />)
 }
