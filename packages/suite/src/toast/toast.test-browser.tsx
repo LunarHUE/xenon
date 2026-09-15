@@ -245,3 +245,114 @@ test('a notification press does not dismiss an unrelated open popover', async ()
   await settle()
   expect(m.getByRole('dialog', { name: 'Details panel' })).toBeVisible()
 })
+
+test('global notifications follow modal ancestry without replacing their nodes or stealing focus', async () => {
+  const toast = Toast.createManager()
+  const m = mount(() => (
+    <Toast.Provider manager={toast} duration={0}>
+      <Dialog>
+        <Dialog.Trigger>Open editor</Dialog.Trigger>
+        <Dialog.Content aria-label="Global toast editor">
+          <button onClick={() => toast.success('Saved in editor')}>Save inside editor</button>
+          <Dialog.Close>Close editor</Dialog.Close>
+        </Dialog.Content>
+      </Dialog>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  const id = toast.success('Existing notification')
+  await settle()
+  const original = m.getByTestId(`toast-${id}`)
+  await userEvent.click(m.getByRole('button', { name: 'Open editor' }))
+  await settle()
+  expect(m.getByTestId(`toast-${id}`)).toBe(original)
+  expect(original.closest('dialog')).not.toBeNull()
+  expect(m.getByRole('dialog', { name: 'Global toast editor' })).toContainElement(
+    document.activeElement as HTMLElement
+  )
+  const save = m.getByRole('button', { name: 'Save inside editor' })
+  await userEvent.click(save)
+  await settle()
+  expect(save).toHaveFocus()
+  await userEvent.click(m.getByRole('button', { name: 'Dismiss Saved in editor' }))
+  await settle()
+  expect(m.getByRole('dialog', { name: 'Global toast editor' })).toBeVisible()
+  await userEvent.click(m.getByRole('button', { name: 'Close editor' }))
+  await settle()
+  expect(m.queryByRole('dialog')).toBeNull()
+  expect(m.getByTestId(`toast-${id}`)).toBe(original)
+  expect(original.closest('dialog')).toBeNull()
+  await userEvent.click(m.getByRole('button', { name: 'Dismiss Existing notification' }))
+  await settle()
+  expect(m.queryByRole('group')).toBeNull()
+})
+
+test('an exiting middle toast retains its geometry while survivors reflow, and re-add keeps its node', async () => {
+  const toast = Toast.createManager()
+  const removed = vi.fn()
+  const m = mount(() => (
+    <Toast.Provider manager={toast} duration={0}>
+      <style>
+        {
+          '[data-toast-content-root] { transition: opacity 240ms linear; } [data-toast-content-root][data-state="closed"] { opacity: 0; }'
+        }
+      </style>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  const oldest = toast.add({ title: 'Oldest' })
+  const middle = toast.add({ id: 'middle', title: 'Middle', onRemove: removed })
+  toast.add({ title: 'Newest' })
+  await settle()
+  const node = m.getByTestId(`toast-${middle}`)
+  const back = m.getByTestId(`toast-${oldest}`)
+  const before = node.style.getPropertyValue('--toast-offset-y')
+  const backBefore = parseFloat(back.style.getPropertyValue('--toast-offset-y'))
+  toast.dismiss(middle)
+  await settle(50)
+  expect(node.isConnected).toBe(true)
+  expect(node).toHaveAttribute('data-state', 'closed')
+  expect(node.style.getPropertyValue('--toast-offset-y')).toBe(before)
+  expect(parseFloat(back.style.getPropertyValue('--toast-offset-y'))).toBeLessThan(backBefore)
+  toast.add({ id: middle, title: 'Returned' })
+  await settle(280)
+  expect(m.getByRole('group', { name: 'Returned' })).toBe(node)
+  expect(removed).not.toHaveBeenCalled()
+})
+
+test('rapid arrivals announce each visible message and dismissals clear stale speech', async () => {
+  const toast = Toast.createManager()
+  const m = mount(() => (
+    <Toast.Provider manager={toast} duration={0}>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  toast.add({ title: 'First announcement' })
+  toast.add({ title: 'Second announcement' })
+  toast.add({ title: 'Urgent announcement', priority: 'high' })
+  await settle()
+  expect(m.getByRole('status')).toHaveTextContent('First announcement')
+  expect(m.getByRole('status')).toHaveTextContent('Second announcement')
+  expect(m.getByRole('alert')).toHaveTextContent('Urgent announcement')
+  toast.dismiss()
+  await settle()
+  expect(m.queryByRole('status')).toBeNull()
+  expect(m.queryByRole('alert')).toBeNull()
+})
+
+test('stack scale never changes the measured natural height', async () => {
+  const toast = Toast.createManager()
+  const m = mount(() => (
+    <Toast.Provider manager={toast} duration={0}>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  const id = toast.add({ title: 'Natural size', description: 'Read at any stack depth.' })
+  await settle()
+  const node = m.getByTestId(`toast-${id}`)
+  const initial = parseFloat(node.style.getPropertyValue('--toast-height'))
+  node.style.transform = 'scale(0.5)'
+  toast.update(id, { description: 'Read at any stack depth.' })
+  await settle()
+  expect(parseFloat(node.style.getPropertyValue('--toast-height'))).toBeCloseTo(initial, 0)
+})
