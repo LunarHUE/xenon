@@ -22885,8 +22885,8 @@
   },
   {
     "ids": ["typeahead.keyboard.14"],
-    "status": "partial",
-    "reason": "No nested input/dialog typing fixture verifies that collection focus remains stable while characters reach the input. Typing in a Menu nested input reaches that input and retains focus. The separate dialog-opened-from-composite alternative remains untested.",
+    "status": "covered",
+    "reason": "Existing nested Menu input coverage is supplemented by a Menu item opening Dialog: typing reaches the dialog input, retains its focus and leaves the Menu closed without another selection.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -22897,6 +22897,10 @@
       {
         "file": "packages/suite/src/menu/typeahead.coverage.test-browser.tsx",
         "title": "typeahead.keyboard.14 keeps nested input typing inside the input"
+      },
+      {
+        "file": "packages/suite/src/menu/typeahead.dialog.coverage.test-browser.tsx",
+        "title": "typeahead.keyboard.14 keeps dialog input typing out of the Menu composite after item activation"
       }
     ]
   },

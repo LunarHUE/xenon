@@ -440,3 +440,10 @@ accounting. Audit records live in `packages/suite/coverage`.
   caller. Final focused assertions and audit validation passed. The broad Chromium
   run's ten failures all came from the earlier in-progress helper and are covered
   by the successful 129-case rerun; its other 1,557 cases passed.
+
+### Typeahead in a Dialog opened from Menu
+
+- Added a real Menu-item-to-Dialog flow, closing the remaining typeahead input
+  isolation gap. Typing updates the focused Dialog input and leaves Menu closed
+  without another selection callback.
+- Independent final Chromium case and audit validation passed.
