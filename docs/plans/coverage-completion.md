@@ -242,3 +242,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   for/id association and real clicks. Added exact click and change callback counts.
 - Independent Chromium/Firefox/WebKit run: all 48 tests passed across nine files.
   No production change was needed for this failure.
+
+### CheckboxGroup labels, metadata and controlled membership
+
+- Added ten shared and two browser tests, closing 12 gaps for readonly focus and
+  Space, label callbacks, multiple selection, local invalid state, description
+  ordering, disabled removal, naming, and controlled empty-string removal.
+- Sol removed a false-positive expectation for redundant aria-disabled on native
+  disabled inputs; removal checks remain on the group and every child.
+- Independent combined checks with the following form slice: 17 jsdom and 20
+  Chromium tests passed. Audit validation passed. The concurrent Tabs fixture
+  had a lowercase tabindex type correction pending during this typecheck.

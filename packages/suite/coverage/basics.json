@@ -17983,8 +17983,8 @@
   },
   {
     "ids": ["checkbox-group.roles.4"],
-    "status": "partial",
-    "reason": "Inherited disabled cannot be overridden, and re-enabling allows the other item to toggle; absence of every disabled attribute across root and all children is not asserted.",
+    "status": "covered",
+    "reason": "A disabled group exposes disabled state on the root and every child; after re-enabling, disabled, data-disabled, and aria-disabled are absent from the root and all child hosts.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -17994,6 +17994,10 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "disabled inheritance cannot be overridden and individual readonly is isolated"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.4"
       }
     ]
   },
@@ -18025,12 +18029,18 @@
   },
   {
     "ids": ["checkbox-group.roles.8"],
-    "status": "missing",
-    "reason": "The polymorphic root forwards aria-label, but no group test asserts this alternate naming path.",
+    "status": "covered",
+    "reason": "An aria-label gives the rendered group its accessible name.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.8"
+      }
     ]
   },
   {
@@ -18045,8 +18055,8 @@
   },
   {
     "ids": ["checkbox-group.roles.10"],
-    "status": "partial",
-    "reason": "Group invalid reaches a child; local invalid isolation from its siblings is not asserted.",
+    "status": "covered",
+    "reason": "Group invalid marks every child aria-invalid, while invalid on one child leaves its sibling without aria-invalid.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18056,17 +18066,27 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "group name and descriptions coexist with independent item labels"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.10"
       }
     ]
   },
   {
     "ids": ["checkbox-group.roles.11"],
-    "status": "missing",
-    "reason": "Group item values feed native inputs and omitted names remain absent, but no test asserts both attributes for unnamed items.",
+    "status": "covered",
+    "reason": "Without a group name, child inputs have no name attribute and preserve their individual string values.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.11"
+      }
     ]
   },
   {
@@ -18087,8 +18107,8 @@
   },
   {
     "ids": ["checkbox-group.roles.13"],
-    "status": "partial",
-    "reason": "Author group association IDs precede registered description/error IDs and reach children; own child aria-describedby precedence is not exercised.",
+    "status": "covered",
+    "reason": "The group description remains the group description, while a child-owned description is ordered before the inherited group description.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18098,13 +18118,17 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "author association IDs lead group description and conditional error IDs"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.13"
       }
     ]
   },
   {
     "ids": ["checkbox-group.roles.14"],
-    "status": "partial",
-    "reason": "Group description/error associations reach the group and checkbox; a separate per-checkbox description is not included.",
+    "status": "covered",
+    "reason": "The invalid group references group description and error, and each child combines its own description with both inherited references.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18114,6 +18138,10 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "group name and descriptions coexist with independent item labels"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.roles.14"
       }
     ]
   },
@@ -18149,12 +18177,18 @@
   },
   {
     "ids": ["checkbox-group.keyboard.3"],
-    "status": "missing",
-    "reason": "Readonly pointer blocking is tested, but no group keyboard test presses Space and verifies silence.",
+    "status": "covered",
+    "reason": "A real Space key on a selected readonly item leaves checkedness unchanged and invokes neither group nor item callback.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test-browser.tsx",
+        "title": "checkbox-group.keyboard.3: readonly Space leaves selection and callbacks unchanged"
+      }
     ]
   },
   {
@@ -18169,18 +18203,24 @@
   },
   {
     "ids": ["checkbox-group.pointer.1"],
-    "status": "missing",
-    "reason": "Group tests click controls, but do not assert label-driven selection and the exact array callback together.",
+    "status": "covered",
+    "reason": "Clicking the rendered child label selects only its checkbox and emits exactly one array callback containing that value.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.pointer.1"
+      }
     ]
   },
   {
     "ids": ["checkbox-group.pointer.2"],
-    "status": "partial",
-    "reason": "Adding an item to an existing default selection submits both in child order; an additional unchecked sibling is not asserted.",
+    "status": "covered",
+    "reason": "Sequentially clicking two children leaves both selected while the untouched third child remains unchecked.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18190,13 +18230,17 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "uncontrolled membership submits repeated names in child order and resets silently"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.pointer.2"
       }
     ]
   },
   {
     "ids": ["checkbox-group.pointer.3"],
-    "status": "partial",
-    "reason": "Individual readonly leaves that box unchecked while a sibling toggles; label activation and both callback spies are not exercised.",
+    "status": "covered",
+    "reason": "A readonly child label emits neither callback and remains unchecked; an editable sibling still emits both item and group callbacks.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18206,6 +18250,10 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "disabled inheritance cannot be overridden and individual readonly is isolated"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.pointer.3"
       }
     ]
   },
@@ -18237,12 +18285,18 @@
   },
   {
     "ids": ["checkbox-group.focus.2"],
-    "status": "missing",
-    "reason": "Readonly items retain native focusability, but group tests do not focus each item.",
+    "status": "covered",
+    "reason": "The browser test focuses every readonly checkbox item in turn and asserts each receives focus.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test-browser.tsx",
+        "title": "checkbox-group.focus.2: readonly items remain individually focusable"
+      }
     ]
   },
   {
@@ -18315,8 +18369,8 @@
   },
   {
     "ids": ["checkbox-group.state.6"],
-    "status": "partial",
-    "reason": "Controlled empty-string membership renders checked, but clicking that selected empty-string item to remove it is not asserted.",
+    "status": "covered",
+    "reason": "A controlled group initialized with the selected empty string reports [] through onValueChange and re-renders the same item unchecked when clicked.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
@@ -18326,6 +18380,10 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "controlled changes snap back and external writes update stable nodes"
+      },
+      {
+        "file": "packages/suite/src/checkbox-group/checkbox-group.coverage.test.tsx",
+        "title": "checkbox-group.state.6"
       }
     ]
   },
