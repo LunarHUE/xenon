@@ -263,3 +263,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   shared client fixture also verifies that server DOM nodes were preserved.
 - Independent focused E2E run: all three tests passed. Changed-file lint and
   audit validation passed.
+
+### CheckboxGroup required and projected form values
+
+- Added seven shared tests and one browser case, closing five gaps: multiple
+  required children, empty custom-host FormData, required-child removal, live
+  readonly state, and default/controlled selection.
+- Disabled, external-owner, removal and remount projections gain evidence;
+  logical validation-value and React Strict Mode alternatives remain partial.
+- Independent final runs: seven jsdom and eight Chromium tests passed. Changed
+  files passed lint and typecheck in the agent run; audit validation passed.
