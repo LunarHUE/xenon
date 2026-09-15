@@ -473,7 +473,7 @@
   {
     "ids": ["checkbox.forms.9"],
     "status": "partial",
-    "reason": "checkbox.forms.test-browser.tsx; exact validationMessage matches a native checkbox. Chromium normalizes CRLF to LF; WebKit preserves CRLF.",
+    "reason": "checkbox.forms.test-browser.tsx; exact validationMessage matches a native checkbox. Chromium normalizes CRLF to LF; WebKit preserves CRLF. Adds the changed-value and blur validation path to existing checkValidity, reportValidity, custom message, and validity flag evidence.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/suite/src/checkbox/coverage.md",
@@ -484,6 +484,10 @@
       {
         "file": "packages/suite/src/checkbox/checkbox.forms.test-browser.tsx",
         "title": "checkbox.forms.9"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test-browser.tsx",
+        "title": "checkbox.forms.9: a changed required checkbox reports the browser validity flags after blur"
       }
     ]
   },
@@ -16468,13 +16472,17 @@
   },
   {
     "ids": ["checkbox.forms.6"],
-    "status": "partial",
-    "reason": "The first-legend exception is checked; nested-fieldset transitivity is not.",
+    "status": "covered",
+    "reason": "Adds a deeper disabled fieldset chain below the existing first-legend exception fixture and verifies the nested checkbox is disabled and absent from FormData.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
         "title": "checkbox.forms.6"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.forms.6: disabled nested fieldsets propagate through every descendant fieldset"
       }
     ]
   },
@@ -16492,13 +16500,17 @@
   },
   {
     "ids": ["checkbox.forms.8"],
-    "status": "partial",
-    "reason": "Association and form-attribute changes are checked; matching-ID appearance/disappearance is not.",
+    "status": "covered",
+    "reason": "Complements existing nearest ancestor and form-attribute changes by inserting and removing the matching form id after the checkbox exists.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
         "title": "checkbox.forms.8"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.forms.8: form association follows matching form IDs appearing and disappearing"
       }
     ]
   },
@@ -16589,12 +16601,16 @@
   {
     "ids": ["checkbox.forms.23"],
     "status": "partial",
-    "reason": "Native indeterminate restoration is checked; the separate custom hidden-input activation path is not.",
+    "reason": "Native indeterminate restoration is checked; the separate custom hidden-input activation path is not. Adds the custom-host mirror activation path and verifies checkedness plus exposed mixed semantics. The shipped custom mirror has no indeterminate IDL restoration contract, so the hidden-input restoration wording remains partial.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
         "title": "checkbox.forms.23"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.forms.23: custom checkbox mirrors toggle checkedness while mixed state stays on the exposed host"
       }
     ]
   },
@@ -16745,12 +16761,16 @@
   {
     "ids": ["checkbox.roles.3"],
     "status": "partial",
-    "reason": "Content, aria-label and labelledby naming and serious missing-name impact are checked; title and wrapping-label mismatch alternatives are not.",
+    "reason": "Content, aria-label and labelledby naming and serious missing-name impact are checked; title and wrapping-label mismatch alternatives are not. Adds the title naming path to existing visible content, aria-label and aria-labelledby name evidence.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
         "title": "checkbox.roles.3"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.roles.3: title supplies a checkbox accessible name when no label is provided"
       }
     ]
   },
@@ -16805,12 +16825,16 @@
   {
     "ids": ["checkbox.roles.8"],
     "status": "partial",
-    "reason": "Native label and missing-label severity are checked; the complete fallback and multiple-label taxonomy is not.",
+    "reason": "Native label and missing-label severity are checked; the complete fallback and multiple-label taxonomy is not. Adds native input title naming to existing native label and missing-label evidence.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
         "title": "checkbox.roles.8"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.roles.8: title names a native checkbox when no label or aria name exists"
       }
     ]
   },
@@ -16829,12 +16853,16 @@
   {
     "ids": ["checkbox.roles.10"],
     "status": "partial",
-    "reason": "The rendered fixture passes the selected axe rules; exhaustive invalid roles, deprecated attributes and name-prohibited roles are not asserted.",
+    "reason": "The rendered fixture passes the selected axe rules; exhaustive invalid roles, deprecated attributes and name-prohibited roles are not asserted. Runs the default axe rule set for both native and custom checkbox hosts, extending the existing selected ARIA-rule scans. This does not claim exhaustive invalid-role or name-prohibited taxonomy coverage beyond the actual rendered fixtures.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
         "title": "checkbox.roles.10"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.roles.10: native and custom checkbox variants pass the default axe scan"
       }
     ]
   },
@@ -16876,13 +16904,17 @@
   },
   {
     "ids": ["checkbox.roles.14"],
-    "status": "partial",
-    "reason": "The axe scan has no violations; no independent rendered target dimensions or spacing assertion exists.",
+    "status": "covered",
+    "reason": "Enables axe target-size in a real browser, asserts measured 24px dimensions, and verifies no target-size violation. Existing evidence scans default host sizing without an independent dimension assertion.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
         "title": "checkbox.roles.14"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test-browser.tsx",
+        "title": "checkbox.roles.14: an author-sized checkbox passes axe target-size with a measurable 24px target"
       }
     ]
   },
@@ -17177,12 +17209,16 @@
   {
     "ids": ["checkbox.state.5"],
     "status": "partial",
-    "reason": "Independent checked/indeterminate properties and the pseudo-class are checked; rendering and other control types are not.",
+    "reason": "Independent checked/indeterminate properties and the pseudo-class are checked; rendering and other control types are not. Adds the custom-host variant, proving checkedness and mixed ARIA state remain separate. Existing native evidence covers the IDL property and pseudo-class.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.5"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.state.5: checked generic checkbox keeps a separate mixed state"
       }
     ]
   },
@@ -17261,12 +17297,16 @@
   {
     "ids": ["checkbox.state.13"],
     "status": "partial",
-    "reason": "Controlled checked/style state is asserted; no Indicator part is mounted.",
+    "reason": "Controlled checked/style state is asserted; no Indicator part is mounted. Adds the generic-host controlled branch: a callback that does not update the prop leaves the rendered state unchanged, and a later parent prop update changes it. Existing evidence covers native/button controlled state.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.13"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.state.13: a generic controlled checkbox follows the controlled prop after a rejected callback"
       }
     ]
   },
@@ -17405,12 +17445,16 @@
   {
     "ids": ["checkbox.keyboard.4"],
     "status": "partial",
-    "reason": "Readonly control and backing input remain unchecked; an Indicator part is not exported.",
+    "reason": "Readonly control and backing input remain unchecked; an Indicator part is not exported. Extends existing readonly native coverage to a generic host and its hidden form mirror. No exported Indicator part exists for the visual clause.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.keyboard.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.keyboard.test.tsx",
         "title": "checkbox.keyboard.4"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test.tsx",
+        "title": "checkbox.keyboard.4: readonly generic checkbox stays unchecked on Space with an unchecked mirror"
       }
     ]
   },
@@ -17458,8 +17502,8 @@
   },
   {
     "ids": ["checkbox.forms.11"],
-    "status": "partial",
-    "reason": "Submission-related user-invalid is checked, not the changed-value blur/change sequence.",
+    "status": "covered",
+    "reason": "Uses real browser input to exercise the changed-value blur path for :user-invalid. Existing browser evidence covers the submission path.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/suite/src/checkbox/checkbox.forms.test-browser.tsx"
@@ -17468,6 +17512,10 @@
       {
         "file": "packages/suite/src/checkbox/checkbox.forms.test-browser.tsx",
         "title": "checkbox.forms.11"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.coverage.test-browser.tsx",
+        "title": "checkbox.forms.11: changing a required checkbox then blurring marks it user-invalid"
       }
     ]
   },

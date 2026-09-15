@@ -149,3 +149,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   numeric renderer clauses remain partial.
 - Independent checks: 11 core tests, five suite jsdom and five Chromium tests
   passed. Suite typecheck, changed-test lint and audit validation passed.
+
+### Checkbox form and custom-host paths
+
+- Added nine shared tests and three browser tests; closed four gaps for nested
+  disabled fieldsets, dynamic form owners, user-invalid blur, and target size.
+- Custom mixed/controlled/readonly hosts and title naming gain evidence. Broad
+  validation, negative accessibility cases and unbuilt Indicator clauses remain partial.
+- Independent runs: nine jsdom and 12 Chromium tests passed; the three browser
+  tests passed again after failure-safe form cleanup. Audit validation passed.
