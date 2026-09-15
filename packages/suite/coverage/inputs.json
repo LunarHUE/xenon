@@ -2701,8 +2701,8 @@
   },
   {
     "ids": ["pin-input.keyboard.14"],
-    "status": "partial",
-    "reason": "Normalization preserves zero and filters non-digits; typed-invalid no-focus-advance and a full all-zero entry are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies numeric filtering rejects invalid characters without advancing and accepts every zero.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2712,13 +2712,17 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "normalizes a scalar code and exposes indexed OTP slots"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-navigation.test-browser.tsx",
+        "title": "pin-input.keyboard.14 numeric filtering rejects invalid characters without advancing and accepts every zero"
       }
     ]
   },
   {
     "ids": ["pin-input.keyboard.15"],
-    "status": "partial",
-    "reason": "Alphabetic filtering and password type are asserted; focus advance and per-slot native override are not.",
+    "status": "covered",
+    "reason": "Public browser regression verifies alphabetic filtering rejects digits and advances after a letter.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2728,6 +2732,10 @@
       {
         "file": "packages/core/src/pin-input/pin-input.test.ts",
         "title": "alphabetic and alphanumeric modes filter codes and expose masking semantics"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-navigation.test-browser.tsx",
+        "title": "pin-input.keyboard.15 alphabetic filtering rejects digits and advances after a letter"
       }
     ]
   },
@@ -2775,18 +2783,24 @@
   },
   {
     "ids": ["pin-input.keyboard.19"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Public browser regression verifies Ctrl and Cmd arrows reach the first slot and insertion boundary.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-navigation.test-browser.tsx",
+        "title": "pin-input.keyboard.19 Ctrl and Cmd arrows reach the first slot and insertion boundary"
+      }
     ]
   },
   {
     "ids": ["pin-input.keyboard.20"],
-    "status": "partial",
-    "reason": "Readonly Left/Right/End and blocked typing/deletion/paste are asserted; Home/Up/Down are not included in that policy case.",
+    "status": "covered",
+    "reason": "Public browser regression verifies readonly preserves value while all six navigation keys still move focus.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2796,17 +2810,27 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "readonly keeps arrow navigation while typing, Backspace, Delete and paste leave the code unchanged"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-navigation.test-browser.tsx",
+        "title": "pin-input.keyboard.20 readonly preserves value while all six navigation keys still move focus"
       }
     ]
   },
   {
     "ids": ["pin-input.keyboard.21"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Public browser regression verifies disabled ArrowUp and ArrowDown bubble without being canceled.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-navigation.test-browser.tsx",
+        "title": "pin-input.keyboard.21 disabled ArrowUp and ArrowDown bubble without being canceled"
+      }
     ]
   },
   {

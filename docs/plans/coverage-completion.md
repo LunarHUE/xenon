@@ -721,3 +721,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed a11y.1 and forms.1 with an axe scan and direct Field.Error valid/invalid lifecycle, required/disabled/readonly propagation and resolved description references.
 - Expanded preview/input state transitions, clearing, placeholders, trigger button types and visibility. Three role requirements retain only concrete unshipped metadata/translation clauses.
 - Independent full Editable runs passed 14 jsdom tests and 35 Chromium tests. Luna suite typechecking and lint passed.
+
+### PinInput filtering and navigation
+
+- Closed five gaps for numeric rejection/all-zero input, alphabetic acceptance and focus, Ctrl/Meta navigation, all six readonly navigation keys with edit suppression, and uncanceled disabled vertical keys.
+- Independent final Chromium run passed all five cases. Luna suite typechecking and lint passed.
