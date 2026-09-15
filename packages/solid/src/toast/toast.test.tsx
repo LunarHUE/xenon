@@ -127,3 +127,25 @@ test('Action can remain open and author cancellation runs before the record acti
   expect(action).toHaveBeenCalledOnce()
   expect(m.getByRole('group', { name: 'Choice' })).toBeVisible()
 })
+
+test('focused dismissal transfers to the newly promoted record before restoring outside focus', async () => {
+  const manager = Toast.createManager()
+  manager.add({ title: 'Waiting' })
+  manager.add({ title: 'Newest' })
+  const m = render(() => (
+    <Toast.Provider manager={manager} duration={0} limit={1}>
+      <button>Outside</button>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  await settle()
+  const outside = m.getByRole('button', { name: 'Outside' })
+  outside.focus()
+  m.getByRole('group', { name: 'Newest' }).focus()
+  m.getByRole('button', { name: 'Dismiss notification' }).click()
+  await settle()
+  expect(m.getByRole('group', { name: 'Waiting' })).toHaveFocus()
+  m.getByRole('button', { name: 'Dismiss notification' }).click()
+  await settle()
+  expect(outside).toHaveFocus()
+})
