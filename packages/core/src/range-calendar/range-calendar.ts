@@ -3,43 +3,53 @@ import type { CalendarBaseOptions, CalendarDay, CalendarParts, CalendarState } f
 
 /** Complete, inclusive range of Gregorian civil dates. */
 export interface DateRange<T> {
-  /** Earlier endpoint, included in the range. */ start: T
-  /** Later endpoint, included in the range. */ end: T
+  /** Earlier endpoint, included in the range. */
+  start: T
+  /** Later endpoint, included in the range. */
+  end: T
 }
 /** Range calendar snapshot inputs. Draft selection is separate from the committed value. */
 export interface RangeCalendarOptions<T> extends CalendarBaseOptions<T> {
-  /** Complete committed range. Endpoints are normalized to ascending order for rendering. */ value?: DateRange<T>
-  /** First date selected while drafting a new range. */ anchorValue?: T
-  /** Hovered or focused draft endpoint; omission previews the focused date. */ previewValue?: T
-  /** Propose a complete range only after a valid second activation. */ onValueChange?: (
-    value: DateRange<T> | undefined
-  ) => void
-  /** Propose or clear the draft anchor. Escape clears it without changing the committed range. */ onAnchorValueChange?: (
-    value: T | undefined
-  ) => void
-  /** Propose or clear the transient hover/focus endpoint. */ onPreviewValueChange?: (
-    value: T | undefined
-  ) => void
+  /** Complete committed range. Endpoints are normalized to ascending order for rendering. */
+  value?: DateRange<T>
+  /** First date selected while drafting a new range. */
+  anchorValue?: T
+  /** Hovered or focused draft endpoint; omission previews the focused date. */
+  previewValue?: T
+  /** Propose a complete range only after a valid second activation. */
+  onValueChange?: (value: DateRange<T> | undefined) => void
+  /** Propose or clear the draft anchor. Escape clears it without changing the committed range. */
+  onAnchorValueChange?: (value: T | undefined) => void
+  /** Propose or clear the transient hover/focus endpoint. */
+  onPreviewValueChange?: (value: T | undefined) => void
 }
 /** Range selection and the shared calendar grid snapshot. */
 export interface RangeCalendarState<T> extends Omit<CalendarState<T>, 'value'> {
-  /** Current complete committed range, sorted by date. */ value: DateRange<T> | undefined
-  /** Current draft anchor, independent of committed selection. */ anchorValue: T | undefined
-  /** Requested transient endpoint. */ previewValue: T | undefined
-  /** Valid draft highlight, absent when its path crosses an unavailable date. */ previewRange:
-    DateRange<T> | undefined
+  /** Current complete committed range, sorted by date. */
+  value: DateRange<T> | undefined
+  /** Current draft anchor, independent of committed selection. */
+  anchorValue: T | undefined
+  /** Requested transient endpoint. */
+  previewValue: T | undefined
+  /** Valid draft highlight, absent when its path crosses an unavailable date. */
+  previewRange: DateRange<T> | undefined
 }
 /** Pure two-activation range calendar. */
 export interface RangeCalendarResult<T> {
-  /** Calendar grid and selection snapshot. */ state: RangeCalendarState<T>
-  /** Native table, cell, and day-button semantics. */ parts: CalendarParts<T>
-  /** Start a draft or commit a valid inclusive range. */ select(value: T): void
-  /** Move focus and update the draft preview. */ focus(value: T): void
-  /** Move the visible month window. */ navigate(monthDelta: number): void
-  /** Set the transient hovered endpoint, or return to focus preview. */ preview(
-    value: T | undefined
-  ): void
-  /** Discard draft state without changing the committed range. */ cancel(): void
+  /** Calendar grid and selection snapshot. */
+  state: RangeCalendarState<T>
+  /** Native table, cell, and day-button semantics. */
+  parts: CalendarParts<T>
+  /** Start a draft or commit a valid inclusive range. */
+  select(value: T): void
+  /** Move focus and update the draft preview. */
+  focus(value: T): void
+  /** Move the visible month window. */
+  navigate(monthDelta: number): void
+  /** Set the transient hovered endpoint, or return to focus preview. */
+  preview(value: T | undefined): void
+  /** Discard draft state without changing the committed range. */
+  cancel(): void
 }
 /** Build a generic range calendar; unavailable interior days prevent range commitment. */
 export function rangeCalendar<T>(options: RangeCalendarOptions<T>): RangeCalendarResult<T> {

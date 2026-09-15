@@ -56,16 +56,23 @@ export interface ToastOptions {
 export interface ToastResult {
   /** Resolved lifecycle state. */
   state: {
-    /** Logical visibility. */ open: boolean
-    /** Waiting for an available slot. */ limited: boolean
+    /** Logical visibility. */
+    open: boolean
+    /** Waiting for an available slot. */
+    limited: boolean
   }
   /** Attributes and native listeners for each anatomy part. */
   parts: {
-    /** Notification container, separate from the live announcer. */ root: PartProps<'div'>
-    /** Notification title. */ title: PartProps<'div'>
-    /** Notification description. */ description: PartProps<'div'>
-    /** Optional author action. */ action: PartProps<'button'>
-    /** Explicit dismissal control. */ close: PartProps<'button'>
+    /** Notification container, separate from the live announcer. */
+    root: PartProps<'div'>
+    /** Notification title. */
+    title: PartProps<'div'>
+    /** Notification description. */
+    description: PartProps<'div'>
+    /** Optional author action. */
+    action: PartProps<'button'>
+    /** Explicit dismissal control. */
+    close: PartProps<'button'>
   }
 }
 /** Derive toast semantics without creating IDs, timers, framework state, or announcements. */

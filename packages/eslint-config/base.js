@@ -12,6 +12,8 @@ export default tseslint.config(
   tseslint.configs.recommended,
   {
     rules: {
+      // JSDoc belongs above declarations; ordinary inline implementation comments are allowed.
+      'no-inline-comments': ['error', { ignorePattern: '^(?!\\*)' }],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

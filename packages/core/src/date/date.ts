@@ -1,8 +1,11 @@
 /** Immutable proleptic Gregorian date, with years 1–9999 and months 1–12. */
 export interface DateValue {
-  /** Gregorian year, from 1 through 9999. */ readonly year: number
-  /** Calendar month, from 1 through 12. */ readonly month: number
-  /** Day of month, from 1 through the month's length. */ readonly day: number
+  /** Gregorian year, from 1 through 9999. */
+  readonly year: number
+  /** Calendar month, from 1 through 12. */
+  readonly month: number
+  /** Day of month, from 1 through the month's length. */
+  readonly day: number
 }
 /** Date-only formatting options. Calendar and time zone are fixed by the adapter. */
 export type DateFormatOptions = Pick<
@@ -19,35 +22,24 @@ export type DateFormatOptions = Pick<
 >
 /** Date representation boundary. Every operation is immutable and uses Gregorian civil days. */
 export interface DateAdapter<T> {
-  /** Read validated Gregorian fields without exposing time or zone. */ getFields(
-    value: T
-  ): DateValue
-  /** Construct a date from Gregorian fields; reject invalid fields. */ fromFields(
-    fields: DateValue
-  ): T
-  /** Add integer calendar days; throw outside supported years. */ addDays(
-    value: T,
-    amount: number
-  ): T
-  /** Add integer calendar months, clamping the day to the target month. */ addMonths(
-    value: T,
-    amount: number
-  ): T
-  /** Add integer calendar years, clamping leap days when necessary. */ addYears(
-    value: T,
-    amount: number
-  ): T
-  /** Return a negative number, zero, or positive number in civil-day order. */ compare(
-    a: T,
-    b: T
-  ): number
-  /** Read weekday, Sunday=0 through Saturday=6. */ getWeekday(value: T): number
-  /** Read the number of days in this date's month. */ daysInMonth(value: T): number
-  /** Format this civil date using a Gregorian calendar without time-zone shifts. */ format(
-    value: T,
-    options: DateFormatOptions,
-    locale?: string
-  ): string
+  /** Read validated Gregorian fields without exposing time or zone. */
+  getFields(value: T): DateValue
+  /** Construct a date from Gregorian fields; reject invalid fields. */
+  fromFields(fields: DateValue): T
+  /** Add integer calendar days; throw outside supported years. */
+  addDays(value: T, amount: number): T
+  /** Add integer calendar months, clamping the day to the target month. */
+  addMonths(value: T, amount: number): T
+  /** Add integer calendar years, clamping leap days when necessary. */
+  addYears(value: T, amount: number): T
+  /** Return a negative number, zero, or positive number in civil-day order. */
+  compare(a: T, b: T): number
+  /** Read weekday, Sunday=0 through Saturday=6. */
+  getWeekday(value: T): number
+  /** Read the number of days in this date's month. */
+  daysInMonth(value: T): number
+  /** Format this civil date using a Gregorian calendar without time-zone shifts. */
+  format(value: T, options: DateFormatOptions, locale?: string): string
 }
 const leap = (year: number) => year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
 const monthDays = (year: number, month: number) =>

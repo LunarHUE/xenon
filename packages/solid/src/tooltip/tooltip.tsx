@@ -106,8 +106,10 @@ function useTooltip(): Context {
 }
 /** Registers the popup context while preserving deferred children inside both providers. */
 function Bridge(props: {
-  /** Owning tooltip settings and timers. */ context: Context
-  /** Popup descendants. */ children?: JSX.Element
+  /** Owning tooltip settings and timers. */
+  context: Context
+  /** Popup descendants. */
+  children?: JSX.Element
 }): JSX.Element {
   const popup = usePopover('Tooltip')
   const context = untrack(() => props.context)

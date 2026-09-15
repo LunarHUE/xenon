@@ -4,100 +4,137 @@ import type { PartProps } from '../part'
 
 /** One rendered grid position. Boundary padding has no date value. */
 export interface CalendarDay<T> {
-  /** Date represented by this cell; undefined only outside supported years. */ value: T | undefined
-  /** Stable key including the owning month to distinguish duplicate spillover dates. */ key: string
-  /** Whether this date is outside its owning grid's month. */ outsideMonth: boolean
-  /** Zero-based owning grid index. */ monthIndex: number
+  /** Date represented by this cell; undefined only outside supported years. */
+  value: T | undefined
+  /** Stable key including the owning month to distinguish duplicate spillover dates. */
+  key: string
+  /** Whether this date is outside its owning grid's month. */
+  outsideMonth: boolean
+  /** Zero-based owning grid index. */
+  monthIndex: number
 }
 /** Weekday heading in the requested week order. */
 export interface CalendarWeekday {
-  /** Sunday=0 through Saturday=6. */ weekday: number
-  /** Full localized weekday name for accessibility. */ label: string
-  /** Short localized weekday name for display. */ shortLabel: string
+  /** Sunday=0 through Saturday=6. */
+  weekday: number
+  /** Full localized weekday name for accessibility. */
+  label: string
+  /** Short localized weekday name for display. */
+  shortLabel: string
 }
 /** One visible month and its complete week rows. */
 export interface CalendarMonth<T> {
-  /** First date of the month. */ month: T
-  /** Localized month and year heading. */ heading: string
-  /** Rows of seven positions, including spillover days. */ weeks: CalendarDay<T>[][]
+  /** First date of the month. */
+  month: T
+  /** Localized month and year heading. */
+  heading: string
+  /** Rows of seven positions, including spillover days. */
+  weeks: CalendarDay<T>[][]
 }
 /** Date-independent options shared by single and range calendars. */
 export interface CalendarBaseOptions<T> {
-  /** Immutable Gregorian date representation adapter. */ adapter: DateAdapter<T>
-  /** Today's date supplied by the binding; core never reads the clock. */ today: T
-  /** Focused date. When absent, selection or today supplies initial focus. */ focusedValue?: T
-  /** First visible month; its day field is ignored. */ visibleMonth?: T
-  /** Inclusive minimum date. */ minValue?: T
-  /** Inclusive maximum date. Reversed bounds throw RangeError. */ maxValue?: T
-  /** Unavailable dates remain focusable but cannot be selected. */ isDateUnavailable?: (
-    value: T
-  ) => boolean
-  /** Prevent selection, keyboard focus, and paging. */ disabled?: boolean
-  /** Allow focus and paging, but prevent selection. */ readOnly?: boolean
-  /** First weekday, Sunday=0 through Saturday=6. Defaults to Sunday. */ weekStartsOn?: number
-  /** BCP 47 formatting locale. Defaults to en-US for deterministic SSR. */ locale?: string
-  /** Horizontal arrow direction. Defaults to ltr. */ dir?: 'ltr' | 'rtl'
-  /** Render six weeks in every month. Defaults to false. */ fixedWeeks?: boolean
-  /** Visible month count, clamped to 1–12 and supported year boundaries. Defaults to one. */ visibleMonths?: number
-  /** Heading element ID supplied by the binding. */ headingId?: string
-  /** Propose a focused date after user interaction; never called during construction. */ onFocusedValueChange?: (
-    value: T
-  ) => void
-  /** Propose the first visible month after paging or focus crosses the visible window. */ onVisibleMonthChange?: (
-    value: T
-  ) => void
+  /** Immutable Gregorian date representation adapter. */
+  adapter: DateAdapter<T>
+  /** Today's date supplied by the binding; core never reads the clock. */
+  today: T
+  /** Focused date. When absent, selection or today supplies initial focus. */
+  focusedValue?: T
+  /** First visible month; its day field is ignored. */
+  visibleMonth?: T
+  /** Inclusive minimum date. */
+  minValue?: T
+  /** Inclusive maximum date. Reversed bounds throw RangeError. */
+  maxValue?: T
+  /** Unavailable dates remain focusable but cannot be selected. */
+  isDateUnavailable?: (value: T) => boolean
+  /** Prevent selection, keyboard focus, and paging. */
+  disabled?: boolean
+  /** Allow focus and paging, but prevent selection. */
+  readOnly?: boolean
+  /** First weekday, Sunday=0 through Saturday=6. Defaults to Sunday. */
+  weekStartsOn?: number
+  /** BCP 47 formatting locale. Defaults to en-US for deterministic SSR. */
+  locale?: string
+  /** Horizontal arrow direction. Defaults to ltr. */
+  dir?: 'ltr' | 'rtl'
+  /** Render six weeks in every month. Defaults to false. */
+  fixedWeeks?: boolean
+  /** Visible month count, clamped to 1–12 and supported year boundaries. Defaults to one. */
+  visibleMonths?: number
+  /** Heading element ID supplied by the binding. */
+  headingId?: string
+  /** Propose a focused date after user interaction; never called during construction. */
+  onFocusedValueChange?: (value: T) => void
+  /** Propose the first visible month after paging or focus crosses the visible window. */
+  onVisibleMonthChange?: (value: T) => void
 }
 /** Single-selection calendar inputs. */
 export interface CalendarOptions<T> extends CalendarBaseOptions<T> {
-  /** Committed selection, or undefined for no selection. */ value?: T
-  /** Propose a selection after activation. Selecting the existing date is a no-op. */ onValueChange?: (
-    value: T | undefined
-  ) => void
+  /** Committed selection, or undefined for no selection. */
+  value?: T
+  /** Propose a selection after activation. Selecting the existing date is a no-op. */
+  onValueChange?: (value: T | undefined) => void
 }
 /** Common calendar snapshot. */
 export interface CalendarState<T> {
-  /** Current committed selection. */ value: T | undefined
-  /** Caller-supplied date used for current-date semantics. */ today: T
-  /** Resolved date holding the single roving tab stop. */ focusedValue: T
-  /** First visible month, normalized to day one. */ visibleMonth: T
-  /** All visible grids. */ months: CalendarMonth<T>[]
-  /** First month's rows for single-month consumers. */ weeks: CalendarDay<T>[][]
-  /** Weekday headings in display order. */ weekdays: CalendarWeekday[]
-  /** Localized heading for the whole visible month interval. */ heading: string
-  /** Whether paging backward can expose another permitted month. */ canGoPrevious: boolean
-  /** Whether paging forward can expose another permitted month. */ canGoNext: boolean
+  /** Current committed selection. */
+  value: T | undefined
+  /** Caller-supplied date used for current-date semantics. */
+  today: T
+  /** Resolved date holding the single roving tab stop. */
+  focusedValue: T
+  /** First visible month, normalized to day one. */
+  visibleMonth: T
+  /** All visible grids. */
+  months: CalendarMonth<T>[]
+  /** First month's rows for single-month consumers. */
+  weeks: CalendarDay<T>[][]
+  /** Weekday headings in display order. */
+  weekdays: CalendarWeekday[]
+  /** Localized heading for the whole visible month interval. */
+  heading: string
+  /** Whether paging backward can expose another permitted month. */
+  canGoPrevious: boolean
+  /** Whether paging forward can expose another permitted month. */
+  canGoNext: boolean
 }
 /** Native table and button semantic parts. */
 export interface CalendarParts<T> {
-  /** Labeled calendar group. */ root: PartProps<'div'>
-  /** Polite month heading announced when paging. */ heading: PartProps<'h2'>
-  /** Native table with grid semantics; one per visible month. */ grid(
-    monthIndex?: number
-  ): PartProps<'table'>
-  /** Native table heading section. */ gridHead: PartProps<'thead'>
-  /** Native table body section. */ gridBody: PartProps<'tbody'>
-  /** Native table row. */ row: PartProps<'tr'>
-  /** Weekday column heading. */ headerCell(weekday: CalendarWeekday): PartProps<'th'>
-  /** Grid cell, including selection and disabled semantics. */ cell(
-    day: CalendarDay<T>
-  ): PartProps<'td'>
-  /** Native day button, including focus and activation. */ day(
-    day: CalendarDay<T>
-  ): PartProps<'button'>
-  /** Page backward by the visible month count. */ previousTrigger: PartProps<'button'>
-  /** Page forward by the visible month count. */ nextTrigger: PartProps<'button'>
+  /** Labeled calendar group. */
+  root: PartProps<'div'>
+  /** Polite month heading announced when paging. */
+  heading: PartProps<'h2'>
+  /** Native table with grid semantics; one per visible month. */
+  grid(monthIndex?: number): PartProps<'table'>
+  /** Native table heading section. */
+  gridHead: PartProps<'thead'>
+  /** Native table body section. */
+  gridBody: PartProps<'tbody'>
+  /** Native table row. */
+  row: PartProps<'tr'>
+  /** Weekday column heading. */
+  headerCell(weekday: CalendarWeekday): PartProps<'th'>
+  /** Grid cell, including selection and disabled semantics. */
+  cell(day: CalendarDay<T>): PartProps<'td'>
+  /** Native day button, including focus and activation. */
+  day(day: CalendarDay<T>): PartProps<'button'>
+  /** Page backward by the visible month count. */
+  previousTrigger: PartProps<'button'>
+  /** Page forward by the visible month count. */
+  nextTrigger: PartProps<'button'>
 }
 /** Single-selection calendar controller. Recompute with accepted callback values. */
 export interface CalendarResult<T> {
-  /** Resolved date and grid snapshot. */ state: CalendarState<T>
-  /** Semantic part bundles. */ parts: CalendarParts<T>
-  /** Request date selection, respecting readonly, disabled, bounds, and availability. */ select(
-    value: T
-  ): void
-  /** Request date focus and expose it in the visible month window. */ focus(value: T): void
-  /** Request a relative month move; paging controls pass the visible month count. */ navigate(
-    monthDelta: number
-  ): void
+  /** Resolved date and grid snapshot. */
+  state: CalendarState<T>
+  /** Semantic part bundles. */
+  parts: CalendarParts<T>
+  /** Request date selection, respecting readonly, disabled, bounds, and availability. */
+  select(value: T): void
+  /** Request date focus and expose it in the visible month window. */
+  focus(value: T): void
+  /** Request a relative month move; paging controls pass the visible month count. */
+  navigate(monthDelta: number): void
 }
 /** Normalize a date to the first day of its Gregorian month. */
 export function calendarMonthStart<T>(adapter: DateAdapter<T>, value: T): T {
