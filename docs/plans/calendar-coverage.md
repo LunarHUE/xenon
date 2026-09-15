@@ -51,7 +51,7 @@ The repository spec scanner extracts only the first behavior ID from each test t
 
 ## End-to-end verification
 
-Root-owned `packages/suite/e2e/calendar.spec.ts` covers server/hydration node identity and date labels across time zones, leap-day keyboard selection, and two-month range completion with one roving stop. All six calendar cases passed across Chromium and WebKit. The wider 104-case end-to-end run also passed.
+Root-owned `packages/suite/e2e/calendar.spec.ts` covers server/hydration node identity and date labels across time zones, leap-day keyboard selection, and two-month range completion with one roving stop. All six calendar cases passed across Chromium and WebKit, including a server-rendered February 12–14 initial range with the same three selected cells after hydration. The wider 104-case end-to-end run also passed.
 
 ## Source and example checks
 
