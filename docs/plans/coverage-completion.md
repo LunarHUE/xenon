@@ -197,3 +197,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   and adjacent independent controls. Exact anatomy wording remains partial.
 - Independent checks: four jsdom and six Chromium tests passed. Audit validation
   passed; animation cases are assigned as a separate browser slice.
+
+### Accordion controlled values and disabled interactions
+
+- Added 13 shared tests and two browser tests, closing 12 gaps. Coverage includes
+  controlled array mutation, callback payload/count, disabled overrides and
+  direct events, every public part's refs/handlers, and reverse collapsed Tab order.
+- Review strengthened fixtures to distinguish disabled-item navigation from
+  a no-op boundary and to test item-disabled behavior after re-enabling the root.
+- Independent final runs: 13 jsdom and 15 Chromium tests passed. Suite typecheck
+  and audit validation passed. SSR paired-ID equality remains assigned separately;
+  Header/Indicator and alternate data-attribute contracts are not shipped.

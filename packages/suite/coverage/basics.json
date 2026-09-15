@@ -7795,8 +7795,8 @@
   },
   {
     "ids": ["accordion.roles.18"],
-    "status": "partial",
-    "reason": "Checks disabled and enabled triggers and the disabled panel; all sibling item/panel flags are not asserted.",
+    "status": "covered",
+    "reason": "Checks disabled markers on the disabled item and panel while all enabled sibling item wrappers and panels omit the marker.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -7806,6 +7806,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.roles.18"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.roles.18"
       }
     ]
@@ -7897,8 +7901,8 @@
   },
   {
     "ids": ["accordion.state.16"],
-    "status": "partial",
-    "reason": "External scalar selection is asserted. In-place mutation of a controlled array is not exercised.",
+    "status": "covered",
+    "reason": "Exercises controlled multiple selection updates from one open value to two and then back to one, verifying DOM state on each parent update. The follow-up mutates and re-supplies the same array reference through the public parent props.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -7908,6 +7912,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.state.16"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.state.16"
       }
     ]
@@ -7987,8 +7995,8 @@
   },
   {
     "ids": ["accordion.keyboard.11"],
-    "status": "partial",
-    "reason": "Checks last-item clamp and reverse navigation; first-item clamp is not exercised.",
+    "status": "covered",
+    "reason": "Adds the missing loop=false first-item ArrowUp clamp in jsdom and a native browser boundary check; existing tests cover the last-item clamp and reverse movement.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -7998,6 +8006,14 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.keyboard.11"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
+        "title": "accordion.keyboard.11"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test-browser.tsx",
         "title": "accordion.keyboard.11"
       }
     ]
@@ -8179,8 +8195,8 @@
   },
   {
     "ids": ["accordion.keyboard.13"],
-    "status": "partial",
-    "reason": "Author-prevented navigation is asserted; events directly sent to a disabled item are not tested.",
+    "status": "covered",
+    "reason": "Dispatches Enter, Space, ArrowDown, and ArrowUp directly to a disabled item trigger while an enabled trigger is focused; verifies no value proposal and no focus navigation.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -8190,6 +8206,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.keyboard.13"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.keyboard.13"
       }
     ]
@@ -8247,8 +8267,8 @@
   },
   {
     "ids": ["accordion.pointer.5"],
-    "status": "partial",
-    "reason": "Asserts root-disabled click suppression; independently disabled item forced-click suppression is not exercised.",
+    "status": "covered",
+    "reason": "Force-dispatches a click on an item explicitly marked disabled and verifies no value proposal or expansion.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -8258,6 +8278,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.pointer.5"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.pointer.5"
       }
     ]
@@ -8383,8 +8407,8 @@
   },
   {
     "ids": ["accordion.notes.1"],
-    "status": "partial",
-    "reason": "Checks polymorphic root/item/panel hosts, attributes and trigger ref; ref/handler forwarding on every part is not independently asserted.",
+    "status": "covered",
+    "reason": "Verifies root, item, trigger, and force-mounted panel refs receive their corresponding public hosts. A second fixture verifies ref forwarding through author components supplied to root, item, trigger, and panel as props. The custom-host fixture also verifies author click handlers on root, item, trigger, and panel are forwarded alongside refs.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -8394,6 +8418,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test.tsx",
+        "title": "accordion.notes.1"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.notes.1"
       }
     ]
@@ -8451,8 +8479,8 @@
   },
   {
     "ids": ["accordion.roles.26"],
-    "status": "partial",
-    "reason": "Asserts generated generic tabindex and keyboard activation; author tabindex override is not tested.",
+    "status": "covered",
+    "reason": "Verifies a polymorphic trigger preserves an author supplied tabindex instead of replacing it with the default tab stop.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -8462,6 +8490,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test-browser.tsx",
+        "title": "accordion.roles.26"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
         "title": "accordion.roles.26"
       }
     ]
@@ -8502,8 +8534,8 @@
   },
   {
     "ids": ["accordion.focus.1"],
-    "status": "partial",
-    "reason": "Asserts interleaved open-panel controls and reverse traversal; all-panels-collapsed traversal is not exercised here.",
+    "status": "covered",
+    "reason": "Uses real browser tab traversal with every panel collapsed, checking forward exit to document body and reverse traversal body -> last trigger -> first trigger; existing browser tests cover expanded-panel traversal.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -8513,6 +8545,10 @@
     "tests": [
       {
         "file": "packages/suite/src/accordion/accordion.test-browser.tsx",
+        "title": "accordion.focus.1"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test-browser.tsx",
         "title": "accordion.focus.1"
       }
     ]
@@ -9091,28 +9127,40 @@
   },
   {
     "ids": ["accordion.pointer.6"],
-    "status": "missing",
-    "reason": "Root/item disabled precedence is implemented, but no assertion combines a disabled ancestor with a trigger-level disabled=false override and pointer/keyboard activation.",
+    "status": "covered",
+    "reason": "Checks root-disabled triggers with disabled=false overrides, plus an item-disabled trigger with disabled=false, reject pointer and Enter/Space activation.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
       "packages/solid/src/accordion/items.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
+        "title": "accordion.pointer.6"
+      }
     ]
   },
   {
     "ids": ["accordion.focus.3"],
-    "status": "missing",
-    "reason": "Core exposes onFocus for trigger focus, but its tests do not assert the callback payload; the Solid adapter does not export a matching callback.",
+    "status": "covered",
+    "reason": "Exercises the shipped core accordion trigger focus handler and verifies it reports the focused item through onActiveChange.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
       "packages/solid/src/accordion/items.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
+        "title": "accordion.focus.3"
+      }
     ]
   },
   {
     "ids": ["accordion.state.13"],
-    "status": "partial",
-    "reason": "Core asserts closing a controlled value requests undefined. The full consumer-committed controlled DOM closure is not asserted.",
+    "status": "covered",
+    "reason": "Checks a controlled collapsible single selection reports the empty proposal and reflects the parent releasing control.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -9123,17 +9171,27 @@
       {
         "file": "packages/core/src/accordion/accordion.test.ts",
         "title": "collapsible single mode closes to undefined"
+      },
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
+        "title": "accordion.state.13"
       }
     ]
   },
   {
     "ids": ["accordion.state.17"],
-    "status": "missing",
-    "reason": "Core delegates single-mode array normalization to selection and documents retaining the first entry; accordion tests do not exercise an oversized single-mode array.",
+    "status": "covered",
+    "reason": "Verifies single mode resolves a controlled array with multiple entries to its first entry only.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
       "packages/solid/src/accordion/items.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/accordion/accordion.coverage.test.tsx",
+        "title": "accordion.state.17"
+      }
     ]
   },
   {
