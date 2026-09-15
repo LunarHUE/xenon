@@ -273,3 +273,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   logical validation-value and React Strict Mode alternatives remain partial.
 - Independent final runs: seven jsdom and eight Chromium tests passed. Changed
   files passed lint and typecheck in the agent run; audit validation passed.
+
+### Tabs composition, keyboard guards and controlled state
+
+- Added ten shared and one browser test, closing 11 gaps for naming, automatic
+  activation, modifier propagation, composition/target guards, focus continuation,
+  form/RadioGroup and Dialog composition, blur count, and disabled selection.
+- Sol isolated a real IME bug. Astra added an early composing-event guard to the
+  shared composite handler, with six core navigation-key regressions.
+- Independent checks: all 349 core tests, 101 focused suite jsdom and 124 Chromium
+  tests passed. After the final defaultValue fixture correction, all ten shared
+  and 11 browser cases passed again. Core/suite types, lint and audit checks passed.

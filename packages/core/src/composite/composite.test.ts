@@ -113,6 +113,15 @@ describe('composite', () => {
     expect(press(rtl, 'ArrowDown')).toEqual({ claimed: true, moved: 'b' })
   })
 
+  test.each(['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'])(
+    'IME composition leaves %s unclaimed without navigating',
+    (name) => {
+      expect(
+        press({ items: abc, active: 'b', orientation: 'both' }, name, { isComposing: true })
+      ).toEqual({ claimed: false, moved: undefined })
+    }
+  )
+
   test('a modifier suppresses the key entirely', () => {
     const ignored = { claimed: false, moved: undefined }
     expect(press({ items: abc }, 'ArrowRight', { ctrlKey: true })).toEqual(ignored)

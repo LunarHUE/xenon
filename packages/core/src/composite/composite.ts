@@ -128,7 +128,7 @@ export function composite<T>(options: CompositeOptions<T>): CompositeResult<T> {
         },
         on: {
           keydown(event) {
-            if (items.length === 0) return
+            if (items.length === 0 || event.isComposing) return
             if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return
             const move = moveFor(event.key, orientation, direction)
             if (move === undefined) return

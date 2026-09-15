@@ -10880,8 +10880,8 @@
   },
   {
     "ids": ["tabs.focus.12"],
-    "status": "partial",
-    "reason": "Asserts focused-item persistence then tab-stop return on blur; the next-arrow continuation after external update is not asserted.",
+    "status": "covered",
+    "reason": "Focused B remains focused immediately after external selection C, then ArrowRight continues from B.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -10891,6 +10891,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.focus.12"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
         "title": "tabs.focus.12"
       }
     ]
@@ -10931,8 +10935,8 @@
   },
   {
     "ids": ["tabs.state.3"],
-    "status": "partial",
-    "reason": "Tests a controlled disabled selected tab; the explicit default-value variant is not separately asserted.",
+    "status": "covered",
+    "reason": "An explicit defaultValue initially selects a disabled tab; existing evidence covers controlled selection.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -10942,6 +10946,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.state.3"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
         "title": "tabs.state.3"
       }
     ]
@@ -11050,8 +11058,8 @@
   },
   {
     "ids": ["tabs.keyboard.12"],
-    "status": "partial",
-    "reason": "Exercises ArrowRight automatic selection/panel visibility; the full Left/Home/End activation set is not asserted in this case.",
+    "status": "covered",
+    "reason": "Automatic activation moves focus and selection through ArrowRight, End, Home, and ArrowLeft.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -11061,6 +11069,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.keyboard.12"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
         "title": "tabs.keyboard.12"
       }
     ]
@@ -11101,8 +11113,8 @@
   },
   {
     "ids": ["tabs.keyboard.18"],
-    "status": "partial",
-    "reason": "Asserts modifier suppression and no selection callbacks; the list onKeyDown receiving those events is not asserted.",
+    "status": "covered",
+    "reason": "Ctrl, Shift, Alt and Meta keydowns preserve focus and selection while reaching the author List handler with the original modifier flags.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -11112,6 +11124,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.keyboard.18"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
         "title": "tabs.keyboard.18"
       }
     ]
@@ -11169,8 +11185,8 @@
   },
   {
     "ids": ["tabs.roles.4"],
-    "status": "partial",
-    "reason": "Fixture proves aria-label naming; visible-label aria-labelledby naming is not exercised.",
+    "status": "covered",
+    "reason": "Asserts the tablist has accessible name Sections through aria-labelledby.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -11180,6 +11196,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.roles.4"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
         "title": "tabs.roles.4"
       }
     ]
@@ -12282,52 +12302,82 @@
   },
   {
     "ids": ["tabs.keyboard.19"],
-    "status": "missing",
-    "reason": "The generic composite key handler supports composition suppression, but no Tabs test asserts IME input or outside-target filtering.",
+    "status": "covered",
+    "reason": "Composing ArrowRight and a focused non-tab descendant leave focus and selection unchanged, remain uncanceled, and bubble to the author list handler without change callbacks. The shared core composite handler now ignores composing keys, with six navigation-key regressions.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
+        "title": "tabs.keyboard.19"
+      }
     ]
   },
   {
     "ids": ["tabs.keyboard.21"],
-    "status": "missing",
-    "reason": "The Tabs navigator uses its own registered items, but there is no form-plus-RadioGroup composition assertion.",
+    "status": "covered",
+    "reason": "Real form contains shipped RadioGroup composition; ArrowRight advances tabs.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
+        "title": "tabs.keyboard.21"
+      }
     ]
   },
   {
     "ids": ["tabs.keyboard.22"],
-    "status": "missing",
-    "reason": "Dialog now ships and Tabs navigation is local to registered tabs, but no test navigates while a Dialog is mounted inside a panel.",
+    "status": "covered",
+    "reason": "Panel contains shipped nonmodal Dialog composition; ArrowRight still advances tabs.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
+        "title": "tabs.keyboard.22"
+      }
     ]
   },
   {
     "ids": ["tabs.focus.17"],
-    "status": "missing",
-    "reason": "Kept-panel switching and normal blur events are supported, but no assertion checks exactly one blur from a focused panel input.",
+    "status": "covered",
+    "reason": "Browser switch from input panel records exactly one blur and makes new panel visible.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test-browser.tsx",
+        "title": "tabs.focus.17"
+      }
     ]
   },
   {
     "ids": ["tabs.focus.21"],
-    "status": "missing",
-    "reason": "Focus uses the owner document, but no test includes a control literally named activeElement.",
+    "status": "covered",
+    "reason": "A document control named activeElement does not interfere with selected-tab focus.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
+        "title": "tabs.focus.21"
+      }
     ]
   },
   {
@@ -12402,12 +12452,18 @@
   },
   {
     "ids": ["tabs.state.9"],
-    "status": "missing",
-    "reason": "Controlled selection is independent of item disabled state, but no test toggles the selected controlled item to disabled and checks selection plus callback silence.",
+    "status": "covered",
+    "reason": "Reactive disabled update preserves the same tab node, selection, and silent callback.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage.test.tsx",
+        "title": "tabs.state.9"
+      }
     ]
   },
   {
