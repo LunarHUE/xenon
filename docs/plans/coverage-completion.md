@@ -592,3 +592,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed six state gaps: zero rendering, finer-than-display increments, external updates during editing/after stepping, controlled null, and no-edit precision plus equivalent-text normalization.
 - Astra low corrected an off-grid addition expectation to a 0.0001 aligned step that actually isolates retained precision. No production fix was needed.
 - Independent final Chromium run passed all six cases; verifier lint/format and Luna typechecking passed.
+
+### NumberField locale formats and fullwidth punctuation
+
+- Closed rtl.2, rtl.4 and rtl.5 with option matrices, per-character Persian editing, and six numeral sets. Polish 1000 grouping and the research 5.2-to-52% example remain explicit divergences.
+- Astra low rejected a passing known-gap assertion and confirmed fullwidth comma/period were incorrectly rejected. Astra medium adds only those two punctuation aliases before locale parsing, preserving malformed-input rejection.
+- Independent checks passed 31 core, six suite jsdom and seven Chromium tests. Astra core/suite types and focused lint passed.

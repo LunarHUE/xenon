@@ -20,6 +20,28 @@ describe('numberField', () => {
     expect(onInputValueChange).toHaveBeenCalledWith('2')
     expect(onValueChange).toHaveBeenCalledTimes(1)
   })
+  test.each([
+    ['en-US-u-nu-fullwide', '１，２３４．５', 1234.5],
+    ['en-US-u-nu-fullwide', '－１，２３４．５', -1234.5],
+    ['de-DE-u-nu-fullwide', '１．２３４，５', 1234.5],
+    ['de-DE-u-nu-fullwide', '＋１．２３４，５', 1234.5],
+    ['fr-FR-u-nu-fullwide', '１\u202f２３４，５', 1234.5],
+    ['en-US', '1，234．5', 1234.5],
+    ['de-DE', '1．234，5', 1234.5],
+  ] as const)('parses fullwidth punctuation using %s separators: %s', (locale, text, value) => {
+    expect(createNumberFieldFormat(locale).parse(text)).toBe(value)
+  })
+  test.each([
+    ['en-US-u-nu-fullwide', '１．２．３'],
+    ['de-DE-u-nu-fullwide', '１，２，３'],
+    ['fr-FR-u-nu-fullwide', '１．２３４，５'],
+    ['en-US-u-nu-fullwide', '－＋１．５'],
+    ['en-US-u-nu-fullwide', '１．５ｃａｔｓ'],
+    ['en-US-u-nu-fullwide', '²．５'],
+    ['en-US-u-nu-fullwide', '①．５'],
+  ] as const)('rejects malformed fullwidth drafts in %s: %s', (locale, text) => {
+    expect(createNumberFieldFormat(locale).parse(text)).toBeNaN()
+  })
   test('decimal grid steps avoid floating-point accumulation and bounds are no-ops', () => {
     const change = vi.fn()
     const input = numberField({ value: 0.2, step: 0.1, onValueChange: change }).parts.input

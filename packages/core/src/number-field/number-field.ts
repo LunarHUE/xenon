@@ -91,6 +91,8 @@ export function createNumberFieldFormat(locale = 'en-US', options: Intl.NumberFo
       const negative = normalized.startsWith('(') && normalized.endsWith(')')
       if (negative && options.currencySign === 'accounting') normalized = normalized.slice(1, -1)
       for (let i = 0; i < 10; i++) normalized = normalized.split(digits.format(i)).join(String(i))
+      // Fold punctuation before applying the locale's grouping and decimal rules.
+      normalized = normalized.replace(/，/g, ',').replace(/．/g, '.')
       for (const token of [...groups, ...tokens].sort((a, b) => b.length - a.length))
         normalized = normalized.split(token).join('')
       normalized = normalized

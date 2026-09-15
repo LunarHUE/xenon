@@ -1670,7 +1670,7 @@
   {
     "ids": ["number-field.rtl.1"],
     "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Public locale props verify US/German separators and Polish NBSP grouping at 10000.5. The research-specific Polish 1000 grouping differs from Intl default grouping thresholds, so that literal example remains a contract divergence.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1680,13 +1680,17 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.1: locale props use each locale’s grouping and decimal separators"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.2"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "Public options cover currency code/symbol, accounting negatives, percent, long/short units, sign and fraction digits, including reactive option changes on the same value.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1696,13 +1700,21 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.2: format options render Intl currency percent unit sign and fractions and update reactively"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.2: currency symbol, accounting negatives, percent, units and fraction rounding match Intl"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.3"],
     "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Percent text 2.11 commits approximately 0.0211 while unit-percent text commits its numeric value without division. The research 5.2-to-52% example conflicts with the adopted fraction conversion and remains unresolved.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1712,13 +1724,17 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.3: percent drafts report fractions and unit style does not divide by 100"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.4"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "Real Persian keyboard input asserts every partial digit/separator prefix and no callback until Enter, then verifies formatted display and numeric result.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1728,13 +1744,17 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test-browser.tsx",
+        "title": "number-field.rtl.4: Persian digits and separators typed key by key echo until commit"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.5"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "All six listed numeral sets parse with locale separators. Fullwidth comma/period are normalized narrowly before locale-specific parsing; regressions cover dot/comma locales, signs and malformed/compatibility-character rejection.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1744,6 +1764,14 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.5: Arabic, Persian, Devanagari, Bengali, Han and fullwidth digits parse with locale separators"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "title": "number-field.rtl.5: fullwidth digits and punctuation parse together"
       }
     ]
   },
