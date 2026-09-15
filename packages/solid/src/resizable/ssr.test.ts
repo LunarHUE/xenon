@@ -7,7 +7,7 @@ test('SSR renders percent sizes and preceding author ID without DOM access', asy
     root: process.cwd(),
     appType: 'custom',
     plugins: [solid({ ssr: true, refresh: { disabled: true } })],
-    server: { middlewareMode: true, hmr: false },
+    server: { middlewareMode: true, hmr: false, ws: false },
   })
   try {
     const fixture = (await server.ssrLoadModule('/src/resizable/ssr-fixture.tsx')) as {

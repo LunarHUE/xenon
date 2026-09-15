@@ -44,6 +44,7 @@ test('focus reveal preserves author string style and hides after subtree blur', 
   const root = document.createElement('div')
   const dispose = render(
     () => (
+      // eslint-disable-next-line solid/style-prop -- Regression for author string-style support.
       <VisuallyHidden focusable style="color:red">
         <a href="#main">Skip</a>
       </VisuallyHidden>

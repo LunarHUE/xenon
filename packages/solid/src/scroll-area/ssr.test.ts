@@ -7,7 +7,7 @@ test('SSR retains native overflow and readable content without browser geometry'
     root: process.cwd(),
     appType: 'custom',
     plugins: [solid({ ssr: true, refresh: { disabled: true } })],
-    server: { middlewareMode: true, hmr: false },
+    server: { middlewareMode: true, hmr: false, ws: false },
   })
   try {
     const fixture = (await server.ssrLoadModule('/src/scroll-area/ssr-fixture.tsx')) as {
