@@ -2921,8 +2921,8 @@
   },
   {
     "ids": ["pin-input.keyboard.28"],
-    "status": "partial",
-    "reason": "Delete middle splice and Backspace empty-insertion splice are both exercised; middle-filled Backspace preservation is not separately checked.",
+    "status": "covered",
+    "reason": "Existing Delete splice coverage is supplemented by the filled-slot Backspace matrix, which checks middle-character removal, left-shifted remaining characters and focus at every slot.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2933,6 +2933,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.test-browser.tsx",
         "title": "pin input browser paste, keyboard, required validation and form reset"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.9 Backspace clears every filled slot and moves focus backward, including the first"
       }
     ]
   },
@@ -2966,32 +2970,50 @@
   },
   {
     "ids": ["pin-input.pointer.1"],
-    "status": "missing",
-    "reason": "Native focus redirection, click selection and native mousedown cancellation can operate on shipped slots, but these pointer-specific outcomes are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies redirects past-insertion clicks while filled slots remain directly clickable. Pointer paths use native clicks; paste cases supply deterministic clipboard data.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-pointer.test-browser.tsx",
+        "title": "pin-input.pointer.1 redirects past-insertion clicks while filled slots remain directly clickable"
+      }
     ]
   },
   {
     "ids": ["pin-input.pointer.2"],
-    "status": "missing",
-    "reason": "Native focus redirection, click selection and native mousedown cancellation can operate on shipped slots, but these pointer-specific outcomes are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies clicking a filled slot selects its character for replacement. Pointer paths use native clicks; paste cases supply deterministic clipboard data.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-pointer.test-browser.tsx",
+        "title": "pin-input.pointer.2 clicking a filled slot selects its character for replacement"
+      }
     ]
   },
   {
     "ids": ["pin-input.pointer.3"],
-    "status": "missing",
-    "reason": "Native focus redirection, click selection and native mousedown cancellation can operate on shipped slots, but these pointer-specific outcomes are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies a consumer mousedown preventDefault vetoes slot focus. Pointer paths use native clicks; paste cases supply deterministic clipboard data.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-pointer.test-browser.tsx",
+        "title": "pin-input.pointer.3 a consumer mousedown preventDefault vetoes slot focus"
+      }
     ]
   },
   {
@@ -3012,8 +3034,8 @@
   },
   {
     "ids": ["pin-input.pointer.5"],
-    "status": "partial",
-    "reason": "A mixed overlong paste from a later slot filters and truncates correctly; fully-filled replacement and all-invalid empty paste branches are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies paste into a filled field overwrites forward and focuses after the paste. Pointer paths use native clicks; paste cases supply deterministic clipboard data.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3023,13 +3045,17 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.test-browser.tsx",
         "title": "pin input browser paste, keyboard, required validation and form reset"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-pointer.test-browser.tsx",
+        "title": "pin-input.pointer.5 paste into a filled field overwrites forward and focuses after the paste"
       }
     ]
   },
   {
     "ids": ["pin-input.pointer.6"],
-    "status": "partial",
-    "reason": "A mixed overlong paste from a later slot filters and truncates correctly; fully-filled replacement and all-invalid empty paste branches are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression verifies numeric paste keeps digits in mixed text and ignores an all-invalid paste. Pointer paths use native clicks; paste cases supply deterministic clipboard data.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3039,6 +3065,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.test-browser.tsx",
         "title": "pin input browser paste, keyboard, required validation and form reset"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-pointer.test-browser.tsx",
+        "title": "pin-input.pointer.6 numeric paste keeps digits in mixed text and ignores an all-invalid paste"
       }
     ]
   },

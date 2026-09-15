@@ -241,7 +241,7 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
   let composing = false
   let unregister: (() => void) | undefined
   onCleanup(() => unregister?.())
-  const rest = omit(props, 'index', 'ref')
+  const rest = omit(props, 'index', 'ref', 'onMouseDown')
   const id = () => (typeof props.id === 'string' ? props.id : context.id(props.index))
   if (context.field && untrack(() => props.index) === 0) {
     // eslint-disable-next-line solid/reactivity -- Field retains the live ID reader through this owner's lifetime.
@@ -256,7 +256,16 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
         focus() {
           context.engine().focus(props.index)
         },
+        mousedown(event: MouseEvent & { currentTarget: HTMLInputElement; target: Element }) {
+          const handler = props.onMouseDown
+          if (typeof handler === 'function') handler(event)
+          else handler?.[0](handler[1], event)
+          if (event.defaultPrevented || event.button !== 0 || event.currentTarget.disabled) return
+          event.preventDefault()
+          context.engine().focus(props.index)
+        },
         click(event: MouseEvent & { currentTarget: HTMLInputElement }) {
+          if (event.currentTarget !== event.currentTarget.ownerDocument.activeElement) return
           event.currentTarget.select()
         },
         input(event: InputEvent & { currentTarget: HTMLInputElement }) {

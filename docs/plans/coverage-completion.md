@@ -737,3 +737,10 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed five gaps for default/numeric axe scans, masking with a native per-slot type override, disabled root/slots/proxy, complete-state markers and mobile text hints.
 - Independent focused runs passed all five cases in jsdom and Chromium. Luna suite typechecking and lint passed.
+
+### PinInput native mouse focus and clipboard paths
+
+- Closed five pointer gaps for insertion focus, filled selection/replacement, consumer mousedown veto, filled paste and invalid/mixed paste. The earlier filled Backspace matrix also closes keyboard.28's remaining splice clause.
+- Astra low reproduced the native failures. Astra medium handles primary mousedown after the consumer handler and selects only the active clicked slot, preserving bound-handler veto, readonly focus and disabled/nonprimary behavior.
+- Corrected the existing Firefox paste fixture, whose ClipboardEvent constructor discarded its supplied DataTransfer. No clipboard production change.
+- Independent full PinInput browser run passed 87 cases across three engines, excluding pending forms/role slices. All 14 adapter tests passed directly after the development compilation check succeeded but hung during shutdown; medium typechecking and lint passed.

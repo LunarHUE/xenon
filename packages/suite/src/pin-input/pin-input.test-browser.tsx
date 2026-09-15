@@ -36,9 +36,10 @@ test('pin input browser paste, keyboard, required validation and form reset', as
   expect(document.activeElement).toBe(slots[2])
   const clipboard = new DataTransfer()
   clipboard.setData('text', 'a3-4-5')
-  slots[2]!.dispatchEvent(
-    new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard })
-  )
+  // Firefox's ClipboardEvent constructor discards the supplied DataTransfer.
+  const paste = new Event('paste', { bubbles: true, cancelable: true })
+  Object.defineProperty(paste, 'clipboardData', { value: clipboard })
+  slots[2]!.dispatchEvent(paste)
   flush()
   expect(slots.map((slot) => slot.value)).toEqual(['1', '2', '3', '4'])
   expect(completed).toHaveBeenCalledExactlyOnceWith('1234')

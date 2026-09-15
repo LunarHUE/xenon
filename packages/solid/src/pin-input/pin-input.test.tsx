@@ -13,6 +13,60 @@ function input(el: HTMLInputElement, value: string) {
   flush()
 }
 describe('PinInput', () => {
+  test.each([
+    { disabled: false, readonly: false, button: 0, focused: true },
+    { disabled: false, readonly: true, button: 0, focused: true },
+    { disabled: true, readonly: false, button: 0, focused: false },
+    { disabled: false, readonly: false, button: 2, focused: false },
+  ])('mousedown respects $disabled disabled, $readonly readonly, and button $button', (state) => {
+    const view = render(() => (
+      <PinInput length={2} defaultValue="12" disabled={state.disabled} readonly={state.readonly}>
+        <PinInput.Input index={0} />
+        <PinInput.Input index={1} />
+      </PinInput>
+    ))
+    const slot = view.getAllByRole('textbox')[1] as HTMLInputElement
+    slot.dispatchEvent(
+      new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: state.button })
+    )
+    expect(document.activeElement === slot).toBe(state.focused)
+    if (state.focused) expect([slot.selectionStart, slot.selectionEnd]).toEqual([0, 1])
+  })
+  test('a bound mousedown handler can veto focus', () => {
+    const veto = vi.fn((cancel: boolean, event: MouseEvent) => {
+      if (cancel) event.preventDefault()
+    })
+    const view = render(() => (
+      <PinInput length={2} defaultValue="12">
+        <PinInput.Input index={0} />
+        <PinInput.Input index={1} onMouseDown={[veto, true]} />
+      </PinInput>
+    ))
+    const slots = view.getAllByRole('textbox') as HTMLInputElement[]
+    slots[0]!.focus()
+    const down = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+    slots[1]!.dispatchEvent(down)
+    slots[1]!.click()
+    expect(veto).toHaveBeenCalledExactlyOnceWith(true, down)
+    expect(document.activeElement).toBe(slots[0])
+  })
+  test('a canceled mousedown leaves the inactive slot selection untouched on click', () => {
+    const view = render(() => (
+      <PinInput length={2} defaultValue="12">
+        <PinInput.Input index={0} />
+        <PinInput.Input index={1} onMouseDown={(event) => event.preventDefault()} />
+      </PinInput>
+    ))
+    const slots = view.getAllByRole('textbox') as HTMLInputElement[]
+    slots[0]!.focus()
+    slots[1]!.setSelectionRange(1, 1)
+    const down = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+    slots[1]!.dispatchEvent(down)
+    expect(down.defaultPrevented).toBe(true)
+    slots[1]!.click()
+    expect(document.activeElement).toBe(slots[0])
+    expect([slots[1]!.selectionStart, slots[1]!.selectionEnd]).toEqual([1, 1])
+  })
   test('distributes autofill and submits one scalar value with completion', () => {
     const complete = vi.fn()
     const view = render(() => (
