@@ -62,6 +62,17 @@ describe('collapsible', () => {
     expect(onOpenChange).toHaveBeenLastCalledWith(false)
   })
 
+  test.each([false, true])('a cancelled click does not change open=%s', (open) => {
+    const onOpenChange = vi.fn()
+    const { parts } = collapsible({ open, onOpenChange })
+    const event = new Event('click', { cancelable: true })
+    event.preventDefault()
+
+    parts.trigger.on.click?.(event as never)
+
+    expect(onOpenChange).not.toHaveBeenCalled()
+  })
+
   test('disabled blocks the trigger and marks every part', () => {
     const onOpenChange = vi.fn()
     const { parts } = collapsible({ ids, disabled: true, open: true, onOpenChange })

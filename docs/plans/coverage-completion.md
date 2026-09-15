@@ -220,3 +220,15 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed four gaps; the full modal/highlighted Tab-return matrix remains partial.
 - Independent checks passed: 145 Chromium, 52 suite jsdom, 56 Solid and 39 DOM
   tests, all 59 Chromium E2E tests, three package typechecks and audit validation.
+
+### Collapsible cancellation and animation completion
+
+- Sol confirmed capture-canceled clicks still toggled. Astra added the core
+  defaultPrevented guard and regressions for both initial open states.
+- Added one shared and five browser cases. Closed four gaps for cancellation,
+  exit removal, differing real CSS transition end times, and size preservation.
+- Sol corrected the CSS fixture to commit initial styles before closing. Presence
+  schedules exit inspection; same-commit removal and the alternative reopen
+  starting-style prohibition remain partial rather than being claimed as tested.
+- Independent checks passed: nine core, 31 suite jsdom and 51 Chromium tests,
+  core/suite typechecks, changed-file lint and audit validation.

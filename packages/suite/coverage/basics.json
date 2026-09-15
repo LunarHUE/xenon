@@ -9551,8 +9551,8 @@
   },
   {
     "ids": ["collapsible.pointer.4"],
-    "status": "partial",
-    "reason": "Checks author preventDefault and ordering; a separately pre-cancelled event before the framework handler is not exercised.",
+    "status": "covered",
+    "reason": "A capture listener cancels the click before framework handling; no open callback or toggle follows. The core now honors defaultPrevented, with open and closed core regression cases.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9562,6 +9562,10 @@
     "tests": [
       {
         "file": "packages/suite/src/collapsible/collapsible.test.tsx",
+        "title": "collapsible.pointer.4"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test.tsx",
         "title": "collapsible.pointer.4"
       }
     ]
@@ -9776,8 +9780,8 @@
   },
   {
     "ids": ["collapsible.animation.10"],
-    "status": "partial",
-    "reason": "Asserts enter/exit phase attributes and animation completion on force-mounted content; the case hides rather than removes the retained host.",
+    "status": "covered",
+    "reason": "Real Chromium starts a WAAPI exit animation, observes data-ending-style and retained DOM, then finishes it and asserts removal.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9787,6 +9791,10 @@
     "tests": [
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
+        "title": "collapsible.animation.10"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test-browser.tsx",
         "title": "collapsible.animation.10"
       }
     ]
@@ -10359,8 +10367,8 @@
   },
   {
     "ids": ["collapsible.animation.21"],
-    "status": "partial",
-    "reason": "Presence waits for all animation finished promises, but tests use keyframes rather than multiple real CSS transition delays/durations.",
+    "status": "covered",
+    "reason": "After committing the initial browser style, two real CSS transitions use duration/delay pairs 200/0 and 50/100 ms. Content remains until the longest paired end time and is removed before the incorrect sum of separate maxima.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -10371,13 +10379,17 @@
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.5"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test-browser.tsx",
+        "title": "collapsible.animation.21"
       }
     ]
   },
   {
     "ids": ["collapsible.animation.22"],
     "status": "partial",
-    "reason": "No-animation-name browser exit is asserted after settling, without a synchronous immediate-unmount assertion.",
+    "reason": "No-animation-name browser exit is asserted after settling, without a synchronous immediate-unmount assertion. The new browser case confirms no animation-duration wait after scheduled exit inspection. Same-commit unmount remains outside the shipped scheduled Presence lifecycle.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -10388,13 +10400,17 @@
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.9"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test-browser.tsx",
+        "title": "collapsible.animation.22"
       }
     ]
   },
   {
     "ids": ["collapsible.animation.24"],
     "status": "partial",
-    "reason": "Reopening preserves the node and cancels stale completion; the implementation re-enters and does not adopt the research prohibition on starting-style during reopen.",
+    "reason": "Reopening preserves the node and cancels stale completion; the implementation re-enters and does not adopt the research prohibition on starting-style during reopen. Reopen preserves the host despite stale animation completion, and a subsequent close reaches ending state then removes it. The research prohibition on any starting-style during reopen remains an unadopted alternative.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -10405,17 +10421,27 @@
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.2"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test-browser.tsx",
+        "title": "collapsible.animation.24"
       }
     ]
   },
   {
     "ids": ["collapsible.animation.25"],
-    "status": "missing",
-    "reason": "The adapter publishes measured values during entering/exiting, but no assertion coordinates an open-animation finish and close within the same commit.",
+    "status": "covered",
+    "reason": "An active opening animation is followed immediately by close in the same synchronous update; exact 30px height and 120px width custom properties are asserted.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
       "packages/solid/src/collapsible/collapsible.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage-animation.test-browser.tsx",
+        "title": "collapsible.animation.25"
+      }
     ]
   },
   {

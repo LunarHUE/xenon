@@ -68,9 +68,8 @@ export interface CollapsibleResult {
  * @remarks
  * The adapter owns mounting and animation phases according to {@link presence}.
  * Without force mounting, absent content is not hidden by its attributes alone.
- * Disabled clicks cancel the default without stopping propagation. Enabled clicks
- * do not inspect `defaultPrevented`; an adapter honoring author cancellation must
- * skip the core listener when canceled.
+ * Disabled clicks cancel the default without stopping propagation. Clicks whose
+ * default was already prevented do not request an open-state change.
  */
 export function collapsible(options: CollapsibleOptions = {}): CollapsibleResult {
   const open = options.open ?? false
@@ -103,6 +102,7 @@ export function collapsible(options: CollapsibleOptions = {}): CollapsibleResult
           event.preventDefault()
           return
         }
+        if (event.defaultPrevented) return
         options.onOpenChange?.(!open)
       },
     },
