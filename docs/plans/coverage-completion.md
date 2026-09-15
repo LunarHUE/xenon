@@ -499,3 +499,13 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent runs passed 113 jsdom and 131 Chromium tests across every battery
   caller. Audit validation passed; Luna's types/lint passed. The all-adapter
   requirement remains partial while other compatible components are added.
+
+### Tooltip group delays, unmounts and unrelated reactive work
+
+- Added four shared tests, closing three gaps: exact open/close boundaries,
+  instant sibling swaps, warm-window survival across both unmount scenarios, and
+  unrelated trigger reactive work with a positive-control getter update.
+- Sol corrected browser queries to distinguish open tooltips from closed, inert
+  nodes retained during exit. Timing boundaries remain unchanged.
+- Independent final runs passed all four cases in jsdom and Chromium. Audit
+  validation passed; changed-file lint and typecheck passed in the agent run.

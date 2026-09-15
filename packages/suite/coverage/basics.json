@@ -16682,15 +16682,31 @@
   },
   {
     "ids": ["hover.pointer.14"],
-    "status": "missing",
-    "reason": "Tooltip.Group ships shared warm-window delays, but its tests do not assert this complete timing and consumer-unmount sequence.",
-    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"]
+    "status": "covered",
+    "reason": "A shared Tooltip.Provider delays the first trigger through 999ms and opens at 1000ms, swaps to a hovered sibling immediately, and retains the final tooltip through 199ms before closing at the 200ms close boundary.",
+    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/tooltip/tooltip.group.coverage-more.test.tsx",
+        "title": "hover.pointer.14 enforces 1000ms opening, instant sibling swap, and 200ms final close"
+      }
+    ]
   },
   {
     "ids": ["hover.pointer.15"],
-    "status": "missing",
-    "reason": "Tooltip.Group ships shared warm-window delays, but its tests do not assert this complete timing and consumer-unmount sequence.",
-    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"]
+    "status": "covered",
+    "reason": "After the owner closes, an inactive sibling unmounts and a remaining sibling opens immediately inside the provider's 1000ms skipDelay window. After the last open consumer closes, that consumer unmounts; a newly mounted sibling in the same provider still opens immediately within the warm window.",
+    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/tooltip/tooltip.group.coverage-more.test.tsx",
+        "title": "hover.pointer.15 keeps the warm window after an inactive consumer unmounts"
+      },
+      {
+        "file": "packages/suite/src/tooltip/tooltip.group.coverage-more.test.tsx",
+        "title": "hover.pointer.15 keeps the warm window after the last closed consumer unmounts"
+      }
+    ]
   },
   {
     "ids": ["hover.state.1"],
@@ -16760,9 +16776,15 @@
   },
   {
     "ids": ["hover.notes.7"],
-    "status": "missing",
-    "reason": "Tooltip.Group ships, but no render-count assertion proves unrelated consumers avoid updates.",
-    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"]
+    "status": "covered",
+    "reason": "A reactive forwarded data-prop getter on the unrelated Tooltip trigger is first proven live by a deliberate signal change, which increments its getter counter. Opening the other group consumer then leaves that counter unchanged, produces zero unrelated-trigger DOM mutations, and adds no description association. This observes actual reactive prop spreading rather than Solid component-body invocation counts.",
+    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/tooltip/tooltip.group.coverage-more.test.tsx",
+        "title": "hover.notes.7 leaves unrelated Tooltip DOM untouched when one group consumer changes"
+      }
+    ]
   },
   {
     "ids": ["checkbox.forms.1"],
