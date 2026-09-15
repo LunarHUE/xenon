@@ -236,7 +236,16 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
   const own = props as ItemOwn & { as?: ValidComponent }
   const context = useContext(Context)
   if (!context) throw new Error('Listbox.Item must be rendered inside <Listbox>')
-  const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'value', 'textValue', 'disabled')
+  const rest = omit(
+    props as Record<string, unknown>,
+    'as',
+    'ref',
+    'value',
+    'textValue',
+    'disabled',
+    'children'
+  )
+  const children = createMemo(() => props.children as JSX.Element)
   const entry: Entry = {
     value: () => own.value,
     disabled: () => own.disabled ?? false,
@@ -263,7 +272,9 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
         own.ref?.(node)
       }}
       {...spread(part(), { ...rest })}
-    />
+    >
+      {children()}
+    </Dynamic>
   )
 }
 /** Standalone listbox with single/multiple selection and compound options. */

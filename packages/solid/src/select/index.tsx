@@ -224,17 +224,22 @@ export function SelectRoot(props: SelectProps): JSX.Element {
   onSettled(() => {
     if (!native) return
     const doc = native.ownerDocument
+    let disposed = false
     const reset = (event: Event) => {
       if (event.target !== native?.form) return
-      queueMicrotask(() => {
-        if (event.defaultPrevented) return
+      // A microtask can run before native reset dispatch and its default action finish.
+      setTimeout(() => {
+        if (disposed || event.defaultPrevented) return
         context.reset()
         flush()
         if (native) native.value = context.value() ?? ''
       })
     }
     doc.addEventListener('reset', reset)
-    return () => doc.removeEventListener('reset', reset)
+    return () => {
+      disposed = true
+      doc.removeEventListener('reset', reset)
+    }
   })
   const element = (
     <Context value={context}>
@@ -321,17 +326,17 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       ...context.engine().parts.trigger.attrs,
       'aria-activedescendant': context.associations
         ? context.associations.attribute('aria-activedescendant', () =>
-          context.open() && context.engine().state.activeValue !== undefined
-            ? context.optionId(context.engine().state.activeValue!)
-            : undefined
-        )
+            context.open() && context.engine().state.activeValue !== undefined
+              ? context.optionId(context.engine().state.activeValue!)
+              : undefined
+          )
         : context.open() && context.engine().state.activeValue !== undefined
           ? context.optionId(context.engine().state.activeValue!)
           : undefined,
       'aria-controls': context.associations
         ? context.associations.attribute('aria-controls', () =>
-          context.open() ? context.contentId() : undefined
-        )
+            context.open() ? context.contentId() : undefined
+          )
         : context.engine().parts.trigger.attrs['aria-controls'],
       'aria-labelledby': context.field
         ? fieldLabelledBy(context.field, own['aria-labelledby'], false)

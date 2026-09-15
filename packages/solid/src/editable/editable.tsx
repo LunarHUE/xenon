@@ -21,7 +21,7 @@ import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/con
 import { spread } from '../spread'
 
 /** Inline editor root settings and native wrapper attributes. */
-export type EditableProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onSubmit'> & {
+export type EditableProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onSubmit' | 'onCancel'> & {
   /** Committed text; undefined delegates ownership to internal state. */
   value?: string
   /** Initial committed text and silent form reset fallback. */

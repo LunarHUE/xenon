@@ -107,7 +107,8 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
   const [draft, setDraft] = createSignal('')
   const [input, setInput] = createSignal<HTMLInputElement>()
   const [active, setActive] = createSignal(-1)
-  const [editing, setEditing] = createSignal(-1)
+  // Item registration cleanup can end an edit during collection reconciliation.
+  const [editing, setEditing] = createSignal(-1, { ownedWrite: true })
   const [announcement, announce] = createSignal('')
   const disabled = () => !!props.disabled || !!outer?.disabled()
   const readonly = () => !!props.readonly || !!outer?.readonly()
@@ -372,8 +373,8 @@ export function TagsInputInput(props: TagsInputInputProps): JSX.Element {
         process(
           event.currentTarget,
           composing ||
-          event.isComposing ||
-          (event.inputType === 'insertFromPaste' && context.props.addOnPaste === false)
+            event.isComposing ||
+            (event.inputType === 'insertFromPaste' && context.props.addOnPaste === false)
         )
       },
       compositionstart() {
@@ -461,7 +462,10 @@ export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
     (index) => {
       context.entries.set(index, entry)
       return () => {
-        if (context.entries.get(index) === entry) context.entries.delete(index)
+        if (context.entries.get(index) === entry) {
+          context.entries.delete(index)
+          if (untrack(context.editing) === index) context.setEditing(-1)
+        }
       }
     }
   )

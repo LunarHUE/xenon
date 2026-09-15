@@ -65,12 +65,14 @@ export type MenubarProps<T extends ValidComponent = 'div'> = Omit<
 export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProps<T>): JSX.Element {
   const own = props as MenubarProps<'div'>
   const [internal, setInternal] = createSignal<string | null>(
-    untrack(() => props.defaultValue ?? null)
+    untrack(() => props.defaultValue ?? null),
+    { ownedWrite: true }
   )
   let registered: Entry[] = []
   const [entrySignal, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   const entries = () => (isServer ? registered : entrySignal())
-  const [active, setActive] = createSignal<Entry>()
+  // Popup disposal can synchronously restore native focus during reconciliation.
+  const [active, setActive] = createSignal<Entry | undefined>(undefined, { ownedWrite: true })
   const value = () => {
     const selected = props.value === undefined ? internal() : props.value
     return selected === null ? undefined : selected
@@ -129,6 +131,10 @@ export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProp
       return () => {
         registered = registered.filter((item) => item !== entry)
         if (!isServer) setEntries(registered)
+        // Removing an uncontrolled open menu ends the session. Otherwise the
+        // next arrow movement treats its stale identity as an open popup.
+        if (untrack(() => props.value === undefined && internal() === entry.value))
+          setInternal(null)
       }
     },
     move(entry, event) {

@@ -69,3 +69,65 @@ test('rejected starts and disposal emit no callbacks', () => {
   document.dispatchEvent(m.pointer('pointerup'))
   expect(m.onEnd).not.toHaveBeenCalled()
 })
+
+test('vertical drags use height and cancel on pointercancel', () => {
+  const m = setup()
+  const panel = m.handle.parentElement!.firstElementChild as HTMLElement
+  vi.spyOn(panel, 'getBoundingClientRect').mockReturnValue({ width: 200, height: 100 } as DOMRect)
+  const cleanup = startResizableDrag(
+    m.handle,
+    m.handle.parentElement!,
+    m.pointer('pointerdown', { clientY: 20 }),
+    {
+      orientation: 'vertical',
+      direction: 'ltr',
+      onMove: m.onMove,
+      onEnd: m.onEnd,
+    }
+  )
+  if (cleanup) cleanups.push(cleanup)
+  document.dispatchEvent(m.pointer('pointermove', { clientX: 90, clientY: 70 }))
+  // 50px movement across 100px of panel height is 50 percentage points.
+  expect(m.onMove).toHaveBeenCalledExactlyOnceWith(50)
+  document.dispatchEvent(m.pointer('pointercancel'))
+  expect(m.onEnd).toHaveBeenCalledExactlyOnceWith(true)
+})
+
+test('RTL horizontal drag reverses horizontal delta', () => {
+  const m = setup()
+  const cleanup = startResizableDrag(
+    m.handle,
+    m.handle.parentElement!,
+    m.pointer('pointerdown', { clientX: 20, clientY: 20 }),
+    {
+      orientation: 'horizontal',
+      direction: 'rtl',
+      onMove: m.onMove,
+      onEnd: m.onEnd,
+    }
+  )
+  if (cleanup) cleanups.push(cleanup)
+  document.dispatchEvent(m.pointer('pointermove', { clientX: 60, clientY: 80 }))
+  // 40px across 200px of panel width, reversed in RTL.
+  expect(m.onMove).toHaveBeenCalledExactlyOnceWith(-20)
+})
+
+test('window blur cancels an active resize and removes document listeners', () => {
+  const m = setup()
+  m.start()
+  window.dispatchEvent(new Event('blur'))
+  expect(m.onEnd).toHaveBeenCalledExactlyOnceWith(true)
+  document.dispatchEvent(m.pointer('pointermove', { clientX: 90 }))
+  expect(m.onMove).not.toHaveBeenCalled()
+})
+
+test('lost pointer capture cancels resize exactly once', () => {
+  const m = setup()
+  m.start()
+  m.handle.dispatchEvent(m.pointer('lostpointercapture', { pointerId: 2 }))
+  expect(m.onEnd).not.toHaveBeenCalled()
+  m.handle.dispatchEvent(m.pointer('lostpointercapture'))
+  expect(m.onEnd).toHaveBeenCalledExactlyOnceWith(true)
+  document.dispatchEvent(m.pointer('pointerup'))
+  expect(m.onEnd).toHaveBeenCalledOnce()
+})

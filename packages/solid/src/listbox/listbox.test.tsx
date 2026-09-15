@@ -359,7 +359,11 @@ describe('Listbox regressions', () => {
       </Listbox>
     ))
     flush()
-    view.getByText('Banana label').click()
+    const label = view.getByText('Banana label')
+    view.getByRole('option', { name: 'Banana label' }).focus()
+    flush()
+    expect(label.isConnected).toBe(true)
+    label.click()
     flush()
     expect(change).toHaveBeenCalledExactlyOnceWith('b')
     expect(view.getByRole('option', { name: 'Banana label' })).toHaveFocus()

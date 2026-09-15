@@ -41,3 +41,17 @@ test('only a nondefault orientation needs an ARIA override', () => {
     'vertical'
   )
 })
+
+test('coordinate conversion mirrors RTL and vertical rails and reports percentages', () => {
+  expect(slider({ min: 10, max: 30 }).fromRatio(0.25)).toBe(15)
+  expect(slider({ min: 10, max: 30, direction: 'rtl' }).fromRatio(0.25)).toBe(25)
+  expect(slider({ min: 10, max: 30, orientation: 'vertical' }).fromRatio(0.25)).toBe(25)
+  expect(slider({ min: 10, max: 30 }).percentage(20)).toBe(50)
+})
+
+test('collapsed ranges have a stable zero percentage', () => {
+  const result = slider({ min: 5, max: 5, value: [5] })
+  expect(result.fromRatio(0.75)).toBe(5)
+  expect(result.percentage(5)).toBe(0)
+  expect(result.parts.thumb(0).attrs['aria-valuemin']).toBe('5')
+})

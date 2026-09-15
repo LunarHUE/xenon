@@ -53,6 +53,7 @@ describe('CheckboxGroup', () => {
       'pear',
     ])
     view.container.querySelector('form')!.reset()
+    await new Promise((resolve) => setTimeout(resolve, 0))
     await settle()
     expect(apple.checked).toBe(false)
     expect(pear.checked).toBe(true)
@@ -127,6 +128,7 @@ describe('CheckboxGroup', () => {
     await settle()
     expect(new FormData(view.container.querySelector('form')!).getAll('x')).toEqual(['a'])
     view.container.querySelector('form')!.reset()
+    await new Promise((resolve) => setTimeout(resolve, 0))
     await settle()
     expect(view.getByRole('checkbox')).toHaveAttribute('aria-checked', 'false')
   })
@@ -231,6 +233,7 @@ test('late window reset cancellation preserves uncontrolled group membership', a
   window.addEventListener('reset', cancel)
   try {
     view.container.querySelector('form')!.reset()
+    await new Promise((resolve) => setTimeout(resolve, 0))
     await settle()
   } finally {
     window.removeEventListener('reset', cancel)

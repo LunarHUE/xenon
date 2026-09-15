@@ -79,6 +79,60 @@ async function settle() {
 }
 
 describe('viewport snapshots', () => {
+  test('repeated capture in one batch preserves the original outgoing content', async () => {
+    const runFrame = frames()
+    const work = animation()
+    animations(() => [work.value])
+    const { viewport, current, controller } = harness()
+    current.textContent = 'original'
+    controller.capture()
+    current.textContent = 'intermediate'
+    controller.capture()
+    current.textContent = 'final'
+    controller.sync()
+    expect(viewport.querySelector('[data-previous]')?.textContent).toBe('original')
+    expect(current.textContent).toBe('final')
+    runFrame()
+    work.finish()
+    await settle()
+    expect(viewport.querySelector('[data-previous]')).toBeNull()
+  })
+
+  test('disposal preserves consumer replacements of controller-owned size properties', () => {
+    const { viewport, controller } = harness()
+    viewport.style.setProperty('--viewport-width', 'original')
+    controller.sync()
+    viewport.style.setProperty('--viewport-width', 'consumer')
+    // A priority-only override is also an author-owned replacement.
+    const height = viewport.style.getPropertyValue('--viewport-height')
+    viewport.style.setProperty('--viewport-height', height, 'important')
+    controller.dispose()
+    expect(viewport.style.getPropertyValue('--viewport-width')).toBe('consumer')
+    expect(viewport.style.getPropertyValue('--viewport-height')).toBe(height)
+    expect(viewport.style.getPropertyPriority('--viewport-height')).toBe('important')
+    expect(viewport.style.getPropertyValue('--popup-width')).toBe('')
+  })
+
+  test('disposal before the transition frame removes the snapshot and cancels work', () => {
+    const runFrame = frames()
+    const query = vi.fn(() => [])
+    animations(query)
+    const { viewport, current, controller } = harness()
+    current.textContent = 'before'
+    controller.capture()
+    current.textContent = 'after'
+    controller.sync()
+    expect(viewport.querySelector('[data-previous]')).not.toBeNull()
+    controller.dispose()
+    runFrame()
+    controller.capture()
+    controller.sync()
+    expect(query).not.toHaveBeenCalled()
+    expect(viewport.querySelector('[data-previous]')).toBeNull()
+    expect(viewport.hasAttribute('data-transitioning')).toBe(false)
+    expect(current.hasAttribute('data-starting-style')).toBe(false)
+  })
+
   test('waits for both wrappers and captures live forms without duplicate identifiers', async () => {
     const runFrame = frames()
     const incoming = animation()

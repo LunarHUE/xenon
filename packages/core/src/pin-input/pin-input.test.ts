@@ -49,3 +49,25 @@ test('legacy composition and author-canceled keyboard events never delete a code
   handler({ key: 'Delete', defaultPrevented: true } as never)
   expect(change).not.toHaveBeenCalled()
 })
+
+test('alphabetic and alphanumeric modes filter codes and expose masking semantics', () => {
+  const alphabetic = pinInput({ type: 'alphabetic', value: 'a1-B!', length: 4 })
+  expect(alphabetic.state.value).toBe('aB')
+  expect(alphabetic.parts.input(0).attrs.inputmode).toBe('text')
+  const masked = pinInput({ type: 'alphanumeric', mask: true, value: 'a9', length: 2 })
+  expect(masked.state.value).toBe('a9')
+  expect(masked.parts.input(0).attrs.type).toBe('password')
+})
+
+test('modifier Backspace clears the whole code and returns focus to the first slot', () => {
+  const change = vi.fn()
+  const focus = vi.fn()
+  const result = pinInput({ value: '1234', length: 4, onValueChange: change, onFocusChange: focus })
+  result.parts.input(2).on.keydown?.({
+    key: 'Backspace',
+    ctrlKey: true,
+    preventDefault() {},
+  } as never)
+  expect(change).toHaveBeenCalledExactlyOnceWith('')
+  expect(focus).toHaveBeenCalledExactlyOnceWith(0)
+})

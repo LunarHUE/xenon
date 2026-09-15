@@ -1,5 +1,5 @@
 import { cleanup, render } from '@solidjs/testing-library'
-import { For, flush } from 'solid-js'
+import { For, Show, createSignal, flush } from 'solid-js'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { Toast } from './index'
 
@@ -148,4 +148,34 @@ test('focused dismissal transfers to the newly promoted record before restoring 
   m.getByRole('button', { name: 'Dismiss notification' }).click()
   await settle()
   expect(outside).toHaveFocus()
+})
+
+test('provider unmount clears the pending timer until a provider reattaches (toast.notes.1)', async () => {
+  vi.useFakeTimers()
+  const manager = Toast.createManager()
+  const dismissed = vi.fn()
+  const id = manager.add({ title: 'Lifetime', duration: 100, onDismiss: dismissed })
+  const [mounted, setMounted] = createSignal(true)
+  render(() => (
+    <Show when={mounted()}>
+      <Toast.Provider manager={manager} duration={100}>
+        <Notifications />
+      </Toast.Provider>
+    </Show>
+  ))
+  await settle()
+  vi.advanceTimersByTime(60)
+  setMounted(false)
+  await settle()
+  vi.advanceTimersByTime(10_000)
+  const record = manager.toasts().find((toast) => toast.id === id)!
+  expect(record.open).toBe(true)
+  expect(dismissed).not.toHaveBeenCalled()
+  setMounted(true)
+  await settle()
+  vi.advanceTimersByTime(39)
+  expect(record.open).toBe(true)
+  vi.advanceTimersByTime(1)
+  expect(record.open).toBe(false)
+  expect(dismissed).toHaveBeenCalledExactlyOnceWith('timeout')
 })

@@ -42,3 +42,18 @@ observe name it, e.g. `(safari-only)`.
   per spec bullet. A component is done when its spec file has no unchecked
   bullet. The harness is the only adapter-specific code in the suite, so a
   second adapter runs the same suite by supplying its own harness.
+
+## Coverage audit
+
+Use `bun run --cwd packages/suite spec:check` to validate reviewed evidence and
+print the full requirement inventory, including components with no registered
+IDs. `spec:report` in the same package writes a detailed Markdown/JSON report.
+The audit distinguishes full assertions, partial assertions, accepted gaps,
+explicitly deferred or inapplicable contracts, and unresolved decisions.
+Unreviewed ID links are shown separately from reviewed coverage.
+
+The checkboxes remain historical passing-test annotations; they do not
+resolve incompatible research alternatives or prove that every clause was
+asserted. Current implementation decisions in architecture and component scope
+documents must be considered before interpreting an unchecked bullet as a
+missing test. See [the audit format and limits](../../packages/suite/coverage/README.md).

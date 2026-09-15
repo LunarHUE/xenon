@@ -95,4 +95,59 @@ describe('waitForExit', () => {
     await tick()
     expect(done).not.toHaveBeenCalled()
   })
+
+  test('a replacement animation extends the exit after the original is canceled', async () => {
+    const original = fake()
+    const replacement = fake()
+    const el = host(original)
+    const done = vi.fn()
+    waitForExit(el, done)
+    await frame()
+    el.getAnimations = () => [replacement] as unknown as Animation[]
+    original.reject(new Error('replaced'))
+    await tick()
+    expect(done).not.toHaveBeenCalled()
+    replacement.resolve()
+    await tick()
+    expect(done).toHaveBeenCalledTimes(1)
+  })
+
+  test('a restarted animation with a new finished promise extends the exit', async () => {
+    const first = fake()
+    const restarted = fake()
+    const animation = { playState: 'running', finished: first.finished }
+    const el = document.createElement('div')
+    el.getAnimations = () => [animation] as unknown as Animation[]
+    const done = vi.fn()
+    waitForExit(el, done)
+    await frame()
+    animation.finished = restarted.finished
+    first.resolve()
+    await tick()
+    expect(done).not.toHaveBeenCalled()
+    restarted.resolve()
+    await tick()
+    expect(done).toHaveBeenCalledTimes(1)
+  })
+
+  test('canceling during a replacement suppresses completion and further queries', async () => {
+    const original = fake()
+    const replacement = fake()
+    const el = host(original)
+    const query = vi.fn(el.getAnimations)
+    el.getAnimations = query
+    const done = vi.fn()
+    const cancel = waitForExit(el, done)
+    await frame()
+    query.mockReturnValue([replacement] as unknown as Animation[])
+    original.resolve()
+    await tick()
+    expect(query).toHaveBeenCalledTimes(2)
+    cancel()
+    cancel()
+    replacement.resolve()
+    await tick()
+    expect(query).toHaveBeenCalledTimes(2)
+    expect(done).not.toHaveBeenCalled()
+  })
 })

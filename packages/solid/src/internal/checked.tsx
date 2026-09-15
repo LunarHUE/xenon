@@ -219,11 +219,11 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     context === null
       ? own['aria-labelledby']
       : fieldLabelledBy(
-        context,
-        own['aria-labelledby'],
-        host !== 'generic',
-        typeof own.as !== 'function'
-      )
+          context,
+          own['aria-labelledby'],
+          host !== 'generic',
+          typeof own.as !== 'function'
+        )
 
   /** Merge raw ID readers before allocating one SSR marker for the complete attribute. */
   const describedBy = () => {
@@ -297,8 +297,9 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const restore = (event: Event) => {
       const form = owningForm()
       if (!form || event.target !== form || event.defaultPrevented) return
-      // Window and later document listeners can still cancel this reset.
-      queueMicrotask(() => {
+      // Native dispatch can run microtasks between listeners. Wait for all
+      // cancellation handlers and the browser's reset default action.
+      setTimeout(() => {
         if (disposed || event.defaultPrevented) return
         if (member()) group!.reset()
         else if (own.checked === undefined) setInternal(fallback())

@@ -17,3 +17,29 @@ The tests use Playwright keyboard and pointer input to check:
 - Axe scans before opening, with each popup open, and with controls disabled. The suite excludes color contrast and landmark-region coverage.
 
 These client browser tests do not establish SSR, hydration, native OS input-method composition, or shipping Safari behavior. WebKit is the tested engine target.
+
+## Focused regression suites
+
+The sibling `listbox/`, `select/`, and `combobox/` directories add focused
+coverage without changing this shared fixture:
+
+- Listbox: native roving/virtual Tab order, external focus retention, typeahead
+  boundaries, disabled collections, and removed range anchors.
+- Select: native activation, clamped navigation, cancellation, typeahead,
+  controlled selection, and native form reset.
+- Combobox: search/selection independence, filtering, canceled selection,
+  native caret editing, Space insertion, and Enter submission precedence.
+
+Run the browser batch with:
+
+```sh
+xenon_BROWSERS=chromium,webkit bun run test:browser src/listbox src/select src/combobox src/selection
+```
+
+The reviewed batch adds 47 selection tests. Its jsdom subset passes all 18
+tests. The browser run, including this directory's eight existing scenarios in
+each engine, reports 108 passes and two failures out of 110 executions.
+Both failures are `select.forms.14`: a native reset-button activation restores
+the displayed uncontrolled default but leaves the hidden select's submitted
+value empty. This regression is retained in Chromium and WebKit, not skipped
+or counted as passing. Implementation repair is outside this test-only batch.

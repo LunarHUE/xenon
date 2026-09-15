@@ -72,3 +72,13 @@ test('unit-only singular and dual Arabic phrases retain their numeric meaning', 
   })
   for (const value of [-2, -1, 1, 2, 5]) expect(codec.parse(codec.format(value))).toBe(value)
 })
+
+test('accounting currency formatting accepts parenthesized negative values', () => {
+  const codec = createNumberFieldFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    currencySign: 'accounting',
+  })
+  expect(codec.format(-1234.5)).toContain('(')
+  expect(codec.parse(codec.format(-1234.5))).toBe(-1234.5)
+})

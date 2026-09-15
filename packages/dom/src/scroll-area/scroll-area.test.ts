@@ -213,3 +213,53 @@ test('direction attribute changes refresh physical metrics without a scroll even
     expect(change).toHaveBeenLastCalledWith(expect.objectContaining({ left: 400 }))
   )
 })
+
+test('scrollbar drag cancels on window blur and stops consuming later moves', () => {
+  const m = fixture()
+  m.thumb.dispatchEvent(m.pointer('pointerdown', { clientY: 5 }))
+  window.dispatchEvent(new Event('blur'))
+  expect(m.dragging.mock.calls).toEqual([[true], [false]])
+  const before = m.viewport.scrollTop
+  document.dispatchEvent(m.pointer('pointermove', { clientY: 85 }))
+  expect(m.viewport.scrollTop).toBe(before)
+})
+
+test('foreign pointer cancellation cannot end the owning scrollbar drag', () => {
+  const m = fixture()
+  m.thumb.dispatchEvent(m.pointer('pointerdown', { clientY: 5 }))
+  document.dispatchEvent(m.pointer('pointercancel', { pointerId: 2 }))
+  expect(m.dragging).toHaveBeenCalledExactlyOnceWith(true)
+  expect(m.dragging).toHaveBeenCalledTimes(1)
+  document.dispatchEvent(m.pointer('pointercancel'))
+  expect(m.dragging).toHaveBeenLastCalledWith(false)
+})
+
+test('geometry sanitizes non-finite dimensions and offsets', () => {
+  expect(
+    scrollbarGeometry({
+      viewportSize: Number.NaN,
+      contentSize: Number.POSITIVE_INFINITY,
+      trackSize: Number.NaN,
+      offset: Number.POSITIVE_INFINITY,
+      minThumbSize: Number.NaN,
+    })
+  ).toEqual({ overflow: false, max: 0, size: 0, travel: 0, position: 0 })
+})
+
+test('horizontal wheel prefers deltaX and keeps vertical scrolling untouched', () => {
+  const m = fixture()
+  const horizontal = createScrollbarInteraction({
+    viewport: m.viewport,
+    track: m.track,
+    thumb: () => m.thumb,
+    orientation: 'horizontal',
+    thumbSize: () => 20,
+    onScroll: m.change,
+  })
+  disposals.push(horizontal.destroy)
+  const wheel = new WheelEvent('wheel', { deltaX: 30, deltaY: 100, cancelable: true })
+  horizontal.wheel(wheel)
+  expect(m.viewport.scrollLeft).toBe(30)
+  expect(m.viewport.scrollTop).toBe(0)
+  expect(wheel.defaultPrevented).toBe(true)
+})

@@ -149,7 +149,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     })
   const result = createMemo(build)
   const engine = () => (isServer ? build() : result())
-  /** Sorts on addition and removes by identity; DOM-only reordering does not re-sort the registry. */
+  /** Sorts on addition and removes by identity; the root observer handles retained host moves. */
   const register = (entry: TabEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
     if (!isServer) setEntries(registered)
@@ -194,6 +194,15 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     const nearest = el.closest('[dir]')
     const value = nearest?.getAttribute('dir') ?? el.ownerDocument.dir
     setAmbient(value === 'rtl' ? 'rtl' : 'ltr')
+    const observer = new MutationObserver(() => {
+      const ordered = [...registered].sort(byDomOrder)
+      if (ordered.some((entry, index) => entry !== registered[index])) {
+        registered = ordered
+        setEntries(registered)
+      }
+    })
+    observer.observe(el, { childList: true, subtree: true })
+    return () => observer.disconnect()
   })
 
   return (
