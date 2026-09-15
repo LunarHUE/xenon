@@ -153,7 +153,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
     openDelay: () =>
       tooltipOpenDelay({
         behavior: behavior(),
-        now: Date.now(),
+        now: performance.now(),
         closedAt: group.closedAt(),
         active: group.active(),
       }),
@@ -166,7 +166,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         reason === 'focus' ||
           tooltipOpenDelay({
             behavior: behavior(),
-            now: Date.now(),
+            now: performance.now(),
             closedAt: group.closedAt(),
             active: group.active(),
           }) === 0

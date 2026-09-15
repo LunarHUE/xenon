@@ -7,14 +7,18 @@ import { createContext, untrack, useContext } from 'solid-js'
 export interface TooltipGroup {
   /** Whether a tooltip currently owns the group's warm window. */
   active(): boolean
-  /** Most recent actual close time, in milliseconds. */
+  /** Most recent actual close time on the monotonic performance clock, in milliseconds. */
   closedAt(): number | undefined
   /** Claim the group and request closure of its previous member. Controlled members may refuse. */
   claim(id: object, close: () => void): void
   /** Release only the current owner's claim and start the closed warm window. */
   release(id: object): void
 }
-/** Creates an isolated coordinator; callers decide provider lifetime and supply no module-global state. */
+/**
+ * Create an isolated coordinator using monotonic elapsed time, so wall-clock
+ * adjustments cannot change warmth. Callers decide provider lifetime; there is
+ * no module-global state.
+ */
 export function createTooltipGroup(): TooltipGroup {
   let current: { id: object; close: () => void } | undefined
   let closedAt: number | undefined
@@ -30,7 +34,7 @@ export function createTooltipGroup(): TooltipGroup {
     release(id) {
       if (current?.id !== id) return
       current = undefined
-      closedAt = Date.now()
+      closedAt = performance.now()
     },
   }
 }

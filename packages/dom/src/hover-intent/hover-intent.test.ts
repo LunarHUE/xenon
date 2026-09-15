@@ -140,3 +140,22 @@ test('a pending open survives either pointer or focus leaving while the other re
   expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'hover')
   s.intent.dispose()
 })
+
+test('pending hover refresh retains elapsed time across wall-clock adjustments', () => {
+  vi.useFakeTimers()
+  const s = setup()
+  s.intent.triggerEnter(s.event(s.trigger))
+  vi.advanceTimersByTime(50)
+  const wallClock = Date.now.bind(Date)
+  const clock = vi.spyOn(Date, 'now').mockImplementation(() => wallClock() - 5000)
+  try {
+    s.intent.refresh()
+    vi.advanceTimersByTime(49)
+    expect(s.opened).not.toHaveBeenCalled()
+    vi.advanceTimersByTime(1)
+    expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'hover')
+  } finally {
+    s.intent.dispose()
+    clock.mockRestore()
+  }
+})

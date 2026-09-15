@@ -4,7 +4,7 @@ import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'
-import { afterEach, expect, test } from 'vitest'
+import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { expectNoViolations } from '../a11y'
 
@@ -332,4 +332,39 @@ test('Tooltip hoverable false lets the underlying control receive a click throug
   )
   await userEvent.click(underneath)
   expect(clicks).toBe(1)
+})
+
+test('Tooltip warm reopening survives a backwards wall-clock adjustment', async () => {
+  const m = mount(() => (
+    <Tooltip.Provider openDelay={220} closeDelay={0} skipDelay={1000}>
+      <Tooltip style={{ display: 'inline-block', margin: '30px' }}>
+        <Tooltip.Trigger>Clock first</Tooltip.Trigger>
+        <Tooltip.Positioner>
+          <Tooltip.Content>First clock tip</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Tooltip>
+      <Tooltip>
+        <Tooltip.Trigger>Clock second</Tooltip.Trigger>
+        <Tooltip.Positioner>
+          <Tooltip.Content>Second clock tip</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Tooltip>
+    </Tooltip.Provider>
+  ))
+  await userEvent.hover(m.getByRole('button', { name: 'Clock first' }))
+  await settle(260)
+  expect(m.getByRole('tooltip')).toHaveTextContent('First clock tip')
+  await userEvent.keyboard('{Escape}')
+  await settle()
+  expect(m.queryByRole('tooltip')).toBeNull()
+  const wallClock = Date.now.bind(Date)
+  const clock = vi.spyOn(Date, 'now').mockImplementation(() => wallClock() - 5000)
+  try {
+    await userEvent.hover(m.getByRole('button', { name: 'Clock second' }))
+    await settle(60)
+    expect(m.getByRole('tooltip')).toHaveTextContent('Second clock tip')
+    expect(m.getByRole('tooltip')).toHaveAttribute('data-instant')
+  } finally {
+    clock.mockRestore()
+  }
 })

@@ -50,7 +50,11 @@ export interface HoverIntent {
   /** Idempotently release timers and temporary document listeners. */
   dispose(): void
 }
-/** Coordinate delayed hover/focus and a bounded convex corridor without taking focus or preventing native gestures. */
+/**
+ * Coordinate delayed hover/focus and a bounded convex corridor without taking focus
+ * or preventing native gestures. Delay and modality deadlines use the monotonic
+ * performance clock so wall-clock adjustments cannot extend or shorten intent.
+ */
 export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
   let disposed = false,
     hovered = false,
@@ -64,7 +68,7 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
   let lastPress = -Infinity,
     lastTouch = -Infinity
   const delay = (value: number) => (Number.isFinite(value) ? Math.max(0, value) : 0)
-  const now = () => Date.now()
+  const now = () => performance.now()
   const contains = (element: HTMLElement | undefined, target: EventTarget | null) => {
     if (!element || !target) return false
     let node = target as Node | null
