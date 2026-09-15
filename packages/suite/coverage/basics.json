@@ -13429,25 +13429,33 @@
   },
   {
     "ids": ["button.pointer.6"],
-    "status": "partial",
-    "reason": "Enables target-size axe but does not explicitly assert rendered target size or neighbor clearance.",
+    "status": "covered",
+    "reason": "Chromium measures the rendered rect at least 24px in both axes and explicitly enables axe target-size.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.pointer.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.pointer.test.tsx",
         "title": "button.pointer.6"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+        "title": "button.pointer.6 target-size axe rule uses real rendered 24px geometry"
       }
     ]
   },
   {
     "ids": ["button.pointer.9"],
     "status": "partial",
-    "reason": "Asserts enabled/disabled anchor auxclick behavior; the tab-role branch is not exercised.",
+    "reason": "Asserts enabled/disabled anchor auxclick behavior; the tab-role branch is not exercised. Tab-role hosts record captured auxclick cancellation flags; the disabled author-handler suppression and DOM-emulator branch remain unproven.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.pointer.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.pointer.test.tsx",
         "title": "button.pointer.9"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+        "title": "button.pointer.9 auxclick records cancellation flags on tab-role hosts"
       }
     ]
   },
@@ -13502,12 +13510,16 @@
   {
     "ids": ["button.notes.5"],
     "status": "partial",
-    "reason": "Asserts a warning mentioning button and as; both expected and actual tag names are not explicitly asserted.",
+    "reason": "Asserts a warning mentioning button and as; both expected and actual tag names are not explicitly asserted. A custom component rendering a native button emits a warning suggesting as=button; expected and actual tag-name diagnostics remain unasserted.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.notes.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.notes.test.tsx",
         "title": "button.notes.5"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.notes.5 polymorphic native host mismatch warning suggests the as prop"
       }
     ]
   },
@@ -13561,13 +13573,17 @@
   },
   {
     "ids": ["button.forms.3"],
-    "status": "partial",
-    "reason": "Asserts insertion/removal and form-prop changes; matching form-ID appearance/disappearance is not exercised.",
+    "status": "covered",
+    "reason": "Explicit form owner starts unresolved, resolves when matching form is inserted, and clears when removed.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.forms.test.tsx",
         "title": "button.forms.3"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.forms.3 form owner recomputes when a matching form id appears and disappears"
       }
     ]
   },
@@ -13633,13 +13649,17 @@
   },
   {
     "ids": ["button.forms.16"],
-    "status": "partial",
-    "reason": "Checks the first legend exemption in one fieldset, without nested transitive propagation.",
+    "status": "covered",
+    "reason": "Nested descendant button matches :disabled while first legend descendant remains enabled.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.forms.test.tsx",
         "title": "button.forms.16"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.forms.16 nested disabled fieldsets propagate while the first legend remains enabled"
       }
     ]
   },
@@ -13681,13 +13701,17 @@
   },
   {
     "ids": ["button.forms.22"],
-    "status": "partial",
-    "reason": "Asserts attributes and matching target; all native show/hide/toggle activation effects are not asserted in this case.",
+    "status": "covered",
+    "reason": "Real Chromium exercises default toggle, explicit hide and explicit show against a same-tree popover, then cleans the external popover.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.forms.test.tsx",
         "title": "button.forms.22"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+        "title": "button.forms.22 popover target actions perform native toggle show and hide"
       }
     ]
   },
@@ -13765,13 +13789,17 @@
   },
   {
     "ids": ["button.forms.33"],
-    "status": "partial",
-    "reason": "Asserts keyboard default remains uncancelled; this case does not drive a trusted native submit.",
+    "status": "covered",
+    "reason": "Real Chromium Enter and Space keyboard activation each produce native submit events.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.forms.test.tsx",
         "title": "button.forms.33"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+        "title": "button.forms.33 trusted native keyboard activation submits a form"
       }
     ]
   },
@@ -14109,13 +14137,17 @@
   },
   {
     "ids": ["button.roles.15"],
-    "status": "partial",
-    "reason": "Checks button submit/reset and input submit, without input reset.",
+    "status": "covered",
+    "reason": "Input polymorphic host retains explicit type=reset.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.roles.test.tsx",
         "title": "button.roles.15"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.roles.15 input reset preserves the author type"
       }
     ]
   },
@@ -14145,13 +14177,17 @@
   },
   {
     "ids": ["button.roles.18"],
-    "status": "partial",
-    "reason": "Checks data-disabled changes on the default host; the any-host matrix is not exercised here.",
+    "status": "covered",
+    "reason": "Button, input, generic div, and href anchor hosts expose data-disabled while disabled and remove it on reactive re-enabling.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.roles.test.tsx",
         "title": "button.roles.18"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.roles.18 disabled markers apply consistently to native and generic hosts"
       }
     ]
   },
@@ -14852,13 +14888,17 @@
   },
   {
     "ids": ["button.keyboard.12"],
-    "status": "partial",
-    "reason": "Tests a native href anchor, not a non-anchor author role=link.",
+    "status": "covered",
+    "reason": "Non-anchor role=link ignores Space and activates once on Enter. Reactive role changes, disabled activation, and author cancellation are checked; core regressions also cover pending links.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.keyboard.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.keyboard.test.tsx",
         "title": "button.keyboard.12"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test.tsx",
+        "title": "button.keyboard.12 generic role link uses Enter only and ignores Space"
       }
     ]
   },
@@ -14876,13 +14916,17 @@
   },
   {
     "ids": ["button.keyboard.20"],
-    "status": "partial",
-    "reason": "Tests native Button activation count without a composite parent.",
+    "status": "covered",
+    "reason": "Real shipped Toolbar root contains the Button, and Chromium Space activation fires exactly one click.",
     "sources": ["docs/spec/button.md", "packages/suite/src/button/button.keyboard.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/button/button.keyboard.test.tsx",
         "title": "button.keyboard.20"
+      },
+      {
+        "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+        "title": "button.keyboard.20 native button inside Toolbar activates exactly once on Space"
       }
     ]
   },

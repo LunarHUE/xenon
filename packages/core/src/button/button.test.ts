@@ -92,6 +92,32 @@ describe('button', () => {
     expect(up.dispatched).toHaveLength(1)
   })
 
+  test('generic link: Space is unclaimed and Enter activates once', () => {
+    const part = button({ host: 'generic', role: 'link' }).parts.root
+    expect(part.attrs.role).toBe('link')
+    for (const phase of ['keydown', 'keyup'] as const) {
+      const space = key(' ')
+      part.on[phase]?.(space)
+      expect(space.preventDefault).not.toHaveBeenCalled()
+      expect(space.dispatched).toHaveLength(0)
+    }
+    const enter = key('Enter')
+    part.on.keydown?.(enter)
+    part.on.keyup?.(enter)
+    expect(enter.dispatched).toHaveLength(1)
+  })
+
+  test.each([{ disabled: true }, { pending: true }])(
+    'generic link blocks activation with %o',
+    (state) => {
+      const part = button({ host: 'generic', role: 'link', ...state }).parts.root
+      const enter = key('Enter')
+      part.on.keydown?.(enter)
+      expect(enter.preventDefault).toHaveBeenCalled()
+      expect(enter.dispatched).toHaveLength(0)
+    }
+  )
+
   test('generic: key repeat and non-interactive states do not activate', () => {
     const repeat = key('Enter', { repeat: true })
     button({ host: 'generic' }).parts.root.on.keydown?.(repeat)

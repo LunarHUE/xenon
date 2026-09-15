@@ -57,7 +57,8 @@ function nativeTag(el: HTMLElement): string | undefined {
  * author handlers run before core handlers, with preventDefault canceling core
  * behavior. {@link gate} suppresses selected author activation handlers while
  * disabled or pending, while nonactivation keyboard handlers remain available.
- * Noninteractive links lose href. Generic hosts synthesize Enter/Space clicks.
+ * Noninteractive links lose href. Generic hosts synthesize Enter/Space clicks,
+ * except author role=link uses Enter only.
  * Custom components must forward the supplied props and ref; development checks
  * report missing refs or native hosts rendered under generic semantics.
  */
@@ -72,10 +73,11 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
     'autofocus',
     'ref'
   )
-  const own = props as Own & { as?: ValidComponent; href?: unknown }
+  const own = props as Own & { as?: ValidComponent; href?: unknown; role?: string }
   const result = createMemo(() =>
     button({
       host: hostOf(own.as, own.href),
+      role: own.role,
       disabled: own.disabled,
       pending: own.pending,
       focusableWhenDisabled: own.focusableWhenDisabled,

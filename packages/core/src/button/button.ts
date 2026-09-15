@@ -9,6 +9,8 @@ export type ButtonHost = 'button' | 'input' | 'link' | 'generic'
 export interface ButtonOptions {
   /** Host semantics to generate. Defaults to 'button'. */
   host?: ButtonHost
+  /** Generic host role, defaulting to button. A link role activates only on Enter. Native host behavior is unchanged. */
+  role?: GlobalAttrs['role']
   /** Blocks activation. Native hosts receive disabled unless focusability is requested. Defaults to false. */
   disabled?: TagAttrs['button']['disabled']
   /** Keeps disabled native and generic hosts tabbable. Links retain their own focus behavior. Defaults to false. */
@@ -71,7 +73,7 @@ export function button(
 export function button(options: ButtonOptions & { host: 'input' }): ButtonResult<PartProps<'input'>>
 /** Preserves native link role and keyboard behavior; callers supply href and manage its focusability. */
 export function button(options: ButtonOptions & { host: 'link' }): ButtonResult<PartProps<'a'>>
-/** Adds button role and clicks on non-repeated Enter keydown and Space keyup when interactive. */
+/** Adds a role and clicks on non-repeated Enter keydown; generic link roles leave Space unclaimed. */
 export function button(options: ButtonOptions & { host: 'generic' }): ButtonResult<PartProps<'div'>>
 /** Builds the part selected by a runtime host value. See {@link ButtonOptions} for defaults. */
 export function button(options: ButtonOptions): ButtonAny
@@ -120,7 +122,7 @@ export function button(options: ButtonOptions = {}): ButtonAny {
   const root: PartProps<'div'> = {
     attrs: {
       ...common,
-      role: 'button',
+      role: options.role ?? 'button',
       tabindex: focusable ? 0 : undefined,
       'aria-disabled': inert,
     },
@@ -128,12 +130,13 @@ export function button(options: ButtonOptions = {}): ButtonAny {
       click: block,
       keydown(event) {
         if (!isActivationKey(event.key)) return
+        if (event.key === ' ' && options.role === 'link') return
         event.preventDefault()
         if (event.repeat || !interactive) return
         if (event.key === 'Enter') activate(event)
       },
       keyup(event) {
-        if (event.key !== ' ') return
+        if (event.key !== ' ' || options.role === 'link') return
         event.preventDefault()
         if (interactive) activate(event)
       },

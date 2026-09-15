@@ -327,3 +327,17 @@ accounting. Audit records live in `packages/suite/coverage`.
   controls, preserving forward and reverse checks that skip collapsed content.
 - Independent focused checks passed. The full Chromium run passed this test;
   its only failure was the separately fixed Button role-link behavior.
+
+### Button native forms and generic link activation
+
+- Added six shared and five browser tests, closing nine gaps for form ownership,
+  fieldsets, native popovers/submission, generic link keys, Toolbar composition,
+  target geometry, input reset types and disabled markers across four host kinds.
+- Sol confirmed the generic role=link Space failure. Astra passed the reactive
+  author role into core behavior so links activate on Enter only, with core tests
+  for disabled and pending links. Warning detail and auxclick evidence remain
+  partial; a redundant entry-list test was removed because it did not prove order.
+- Independent Button runs passed 120 jsdom and 145 Chromium cases. After fixture
+  cleanup and the expanded host matrix, the slice passed six jsdom and eleven
+  Chromium cases. Audit validation passed. Astra also passed core/Solid tests,
+  three-engine native keyboard tests, types and lint.
