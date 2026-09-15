@@ -8,7 +8,7 @@
   {
     "ids": ["editable.roles.2"],
     "status": "partial",
-    "reason": "Preview disabled/tabindex state is asserted; full aria-readonly, invalid, placeholder and autoresize marker matrix is not shipped/asserted.",
+    "reason": "Public tests cover all shipped preview state flags, reactive clearing, placeholder text and native tabindex policy. Research data-placeholder-shown, aria-readonly, aria-invalid, data-autoresize and translated preview-label features are not supplied by the current API.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -18,13 +18,17 @@
       {
         "file": "packages/suite/src/editable/editable.reactivity.test.tsx",
         "title": "a disabled editor refuses activation with an unreachable preview and re-enables reactively"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-metadata.test.tsx",
+        "title": "editable.roles.2 preview exposes shipped state flags, placeholder text and tabindex transitions"
       }
     ]
   },
   {
     "ids": ["editable.roles.3"],
     "status": "partial",
-    "reason": "Native editor invalid/readonly and Field naming/description are asserted; translated labels and autoresize state are deferred.",
+    "reason": "Public tests cover input placeholder, native disabled/readonly/required/invalid state, matching data attributes and reactive clearing. Translated label bundles and data-autoresize remain outside the shipped API.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -34,6 +38,10 @@
       {
         "file": "packages/solid/src/editable/editable.test.tsx",
         "title": "outer Field label and description reach the native editor, while invalid/readonly propagate"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-metadata.test.tsx",
+        "title": "editable.roles.3 input exposes native state, disabled state, placeholder and clearing transitions"
       }
     ]
   },
@@ -62,7 +70,7 @@
   {
     "ids": ["editable.roles.6"],
     "status": "partial",
-    "reason": "All trigger visibility swaps are asserted; native button types and translated labels are not checked and locale bundles are deferred.",
+    "reason": "Public tests cover button types, built-in English labels and visibility in preview/edit/cancel states. Translated label bundles remain deferred.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -72,6 +80,10 @@
       {
         "file": "packages/suite/src/editable/editable.reactivity.test.tsx",
         "title": "editable.roles.4"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-metadata.test.tsx",
+        "title": "editable.roles.6 action triggers are buttons with stable labels and visibility in both states"
       }
     ]
   },
@@ -421,8 +433,8 @@
   },
   {
     "ids": ["editable.forms.1"],
-    "status": "partial",
-    "reason": "Field readonly/invalid/label/ordered descriptions are asserted; complete required/disabled and conditional error visibility are not all checked.",
+    "status": "covered",
+    "reason": "Public regression verifies field state reaches the hidden textbox and errors are conditional. Field.Error itself governs valid/invalid visibility and descriptions resolve to actual helper/error nodes.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
@@ -432,6 +444,10 @@
       {
         "file": "packages/solid/src/editable/editable.test.tsx",
         "title": "outer Field label and description reach the native editor, while invalid/readonly propagate"
+      },
+      {
+        "file": "packages/suite/src/editable/editable.coverage-metadata.test.tsx",
+        "title": "editable.forms.1 field state reaches the hidden textbox and errors are conditional"
       }
     ]
   },
@@ -443,9 +459,15 @@
   },
   {
     "ids": ["editable.a11y.1"],
-    "status": "missing",
-    "reason": "No scoped Editable fixture invokes axe; native validation and focus tests are not a scan.",
-    "sources": ["docs/spec/editable.md", "docs/plans/editable-coverage.md"]
+    "status": "covered",
+    "reason": "Public regression verifies basic editable passes the configured axe rules. Field.Error itself governs valid/invalid visibility and descriptions resolve to actual helper/error nodes.",
+    "sources": ["docs/spec/editable.md", "docs/plans/editable-coverage.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-metadata.test.tsx",
+        "title": "editable.a11y.1 basic editable passes the configured axe rules"
+      }
+    ]
   },
   {
     "ids": ["editable.notes.1"],

@@ -715,3 +715,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed pointer.10 with browser-generated Chromium multi-touch. Astra low corrected the original off-viewport coordinates; the second contact can start, move and end without taking ownership or ending the first gesture.
 - All public part props, styles and ref targets now have reactive identity assertions. notes.3 remains partial for the deliberately absent hidden-input API. Astra corrected a browser shorthand-style assertion to its longhand equivalent.
 - Independent checks passed three configured Chromium E2E cases, the parts test in jsdom and Chromium, and suite typechecking.
+
+### Editable accessibility and reactive field metadata
+
+- Closed a11y.1 and forms.1 with an axe scan and direct Field.Error valid/invalid lifecycle, required/disabled/readonly propagation and resolved description references.
+- Expanded preview/input state transitions, clearing, placeholders, trigger button types and visibility. Three role requirements retain only concrete unshipped metadata/translation clauses.
+- Independent full Editable runs passed 14 jsdom tests and 35 Chromium tests. Luna suite typechecking and lint passed.
