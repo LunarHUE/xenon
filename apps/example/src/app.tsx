@@ -1,4 +1,14 @@
 import type { JSX } from '@solidjs/web'
+import {
+  AvatarDemo,
+  VisuallyHiddenDemo,
+  AccessibleIconDemo,
+  MeterDemo,
+  PaginationDemo,
+  BreadcrumbsDemo,
+  ScrollAreaDemo,
+  ResizableDemo,
+} from './demos/utilities'
 import { ToastDemo } from './demos/toast'
 import { CalendarDemo, RangeCalendarDemo } from './demos/calendar'
 import { CheckboxGroupDemo, ListboxDemo, SelectDemo, ComboboxDemo } from './demos/selection'
@@ -51,7 +61,7 @@ export function App(): JSX.Element {
         <main>
           <section class="hero">
             <h1 class="hero__title">
-              Thirty-six studies,
+              Forty-four studies,
               <br />
               <em>no opinions</em> about
               <br />
@@ -106,6 +116,14 @@ export function App(): JSX.Element {
           <ListboxDemo />
           <SelectDemo />
           <ComboboxDemo />
+          <AvatarDemo />
+          <VisuallyHiddenDemo />
+          <AccessibleIconDemo />
+          <MeterDemo />
+          <PaginationDemo />
+          <BreadcrumbsDemo />
+          <ScrollAreaDemo />
+          <ResizableDemo />
         </main>
       </Tooltip.Provider>
 
