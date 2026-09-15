@@ -615,3 +615,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed four gaps with direct DOM cases: reverse release order, repeated disposal with another holder still active, reacquiring a fully released lock, and opted-out registrations preserving overflow.
 - Independent DOM run passed all four cases; Luna lint/format passed.
+
+### NumberField long values and empty commits
+
+- Closed state.21 and state.29: exact focused 16-digit text commits through both callbacks, and clearing above a positive minimum stays empty after blur.
+- Untouched/unparseable blur now directly proves callback silence; state.8 remains partial for deferred wheel/scrub endpoints.
+- Independent final Chromium run passed all three cases; Luna types/lint/format passed.

@@ -1142,7 +1142,7 @@
   {
     "ids": ["number-field.state.8"],
     "status": "partial",
-    "reason": "Enter/blur native callback cardinality is asserted; wheel and scrub endpoints are explicitly deferred.",
+    "reason": "Enter/blur native callback cardinality is asserted; wheel and scrub endpoints are explicitly deferred. A real untouched blur produces no change or commit callback; a real unparseable draft restores the prior 4 value and still produces no callbacks. Existing evidence covers Enter and supported blur/stepper commit cardinality.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1152,6 +1152,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.native.test-browser.tsx",
         "title": "number-field.keyboard.8: Enter commits, keeps native submission, and a later blur commits nothing"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-commit-extra.test-browser.tsx",
+        "title": "number-field.state.8: untouched and unparseable blur do not commit"
       }
     ]
   },
@@ -1339,12 +1343,18 @@
   },
   {
     "ids": ["number-field.state.21"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "Real browser typing preserves the exact 16-digit safe integer text (more than 15 significant digits) while focused and asserts callbacks are silent before Enter. Enter then invokes onValueChange and onValueCommit exactly once each with the exact literal 1234567890123456.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-commit-extra.test-browser.tsx",
+        "title": "number-field.state.21 keeps more than 15 significant digits while focused and reports both callbacks"
+      }
     ]
   },
   {
@@ -1401,12 +1411,18 @@
   },
   {
     "ids": ["number-field.state.29"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "With min=2, a real clear followed by blur remains empty rather than coercing to the minimum, and both callbacks report null exactly once.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-commit-extra.test-browser.tsx",
+        "title": "number-field.state.29: clearing then blurring above a positive minimum stays empty"
+      }
     ]
   },
   {
