@@ -32,4 +32,4 @@ Upstream range APIs differ on incomplete values, automatic sorting, minimum rang
 
 ### Deferred
 
-Open-ended ranges, noncontiguous selection, minimum/maximum range lengths, multiple visible months, popup range pickers and date-time ranges. Preview is temporary interaction state, not a second form value.
+Open-ended ranges, noncontiguous selection, minimum/maximum range lengths, popup range pickers and date-time ranges. Preview is temporary interaction state, not a second form value.

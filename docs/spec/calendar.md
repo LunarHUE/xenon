@@ -1,6 +1,6 @@
 ## Calendar
 
-This specification separates the accepted Tenon contract from broader upstream features. Calendar is an inline single-date grid. Date inputs, popup dismissal, multiple visible months, and date-time editing are separate work.
+This specification separates the accepted Tenon contract from broader upstream features. Calendar is an inline single-date grid. Date inputs, popup dismissal, date-time editing are separate work.
 
 ### Accepted contract
 
@@ -22,6 +22,7 @@ This specification separates the accepted Tenon contract from broader upstream f
 - [ ] `calendar.readonly.1` Read-only calendars allow date focus and month navigation but never change selection. The grid exposes `aria-readonly`. [react-aria, reka]
 - [ ] `calendar.disabled.1` Disabled calendars prevent selection and navigation, disable Previous/Next, and expose disabled grid/day state. [react-aria, reka]
 - [ ] `calendar.cancel.1` Author preventDefault on activation or keyboard navigation vetoes the corresponding internal action.
+- [ ] `calendar.layout.2` With visibleMonths greater than one, Grid month indices render adjacent months while keeping exactly one day in the Tab order across the whole calendar. Cross-month arrows transfer focus without duplicate active days.
 - [ ] `calendar.layout.1` Default Grid creates weekday headings and complete displayed weeks. Custom anatomy parts preserve the same semantics and controller. Calendar writes no visual theme CSS.
 - [ ] `calendar.ssr.1` An explicit provider today/locale and value produce matching server/client dates, labels and selected state without reading the current clock during hydration.
 - [ ] `calendar.a11y.1` Default and constrained calendars have no axe violations under the shared suite configuration. Keyboard assertions separately verify behavior not checked by axe.
@@ -41,4 +42,4 @@ Upstream implementations disagree about whether unavailable dates are removed fr
 
 ### Deferred
 
-Multiple selection, multiple visible months, fixed six-week mode, month/year selects, alternate calendar arithmetic, date fields and popup date pickers. The adapter is an extension point; accepting it does not claim built-in support for every calendar system. Manual screen-reader verification remains separate from DOM and axe assertions.
+Multiple selection, fixed six-week mode, month/year selects, alternate calendar arithmetic, date fields and popup date pickers. The adapter is an extension point; accepting it does not claim built-in support for every calendar system. Manual screen-reader verification remains separate from DOM and axe assertions.
