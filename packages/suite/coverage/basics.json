@@ -9209,8 +9209,8 @@
   },
   {
     "ids": ["collapsible.a11y.1"],
-    "status": "partial",
-    "reason": "Accessible names and positive axe checks are asserted; critical/serious failure severity is not tested.",
+    "status": "covered",
+    "reason": "Axe is run only against the two required rules with nameless native and role=button triggers, and asserts both rule IDs plus their specified impacts.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9220,6 +9220,10 @@
     "tests": [
       {
         "file": "packages/suite/src/collapsible/collapsible.a11y.test.tsx",
+        "title": "collapsible.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test.tsx",
         "title": "collapsible.a11y.1"
       }
     ]
@@ -9260,8 +9264,8 @@
   },
   {
     "ids": ["collapsible.focus.2"],
-    "status": "partial",
-    "reason": "Tests Tab exclusion for closed content; the expanded nonfocusable-content branch is not exercised.",
+    "status": "covered",
+    "reason": "With the panel open and containing only text, real Chromium Tab moves from the trigger directly to the following button; existing evidence covers closed content with a hidden focusable descendant.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9271,6 +9275,10 @@
     "tests": [
       {
         "file": "packages/suite/src/collapsible/collapsible.test-browser.tsx",
+        "title": "collapsible.focus.2"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test-browser.tsx",
         "title": "collapsible.focus.2"
       }
     ]
@@ -9311,8 +9319,8 @@
   },
   {
     "ids": ["collapsible.pointer.3"],
-    "status": "partial",
-    "reason": "The browser test exercises a right click; other non-primary buttons are not asserted.",
+    "status": "covered",
+    "reason": "Chromium user events send both non-primary middle and right clicks to the trigger and assert it remains closed; existing evidence covers right-click as well.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9322,6 +9330,10 @@
     "tests": [
       {
         "file": "packages/suite/src/collapsible/collapsible.test-browser.tsx",
+        "title": "collapsible.pointer.3"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test-browser.tsx",
         "title": "collapsible.pointer.3"
       }
     ]
@@ -9601,7 +9613,7 @@
   {
     "ids": ["collapsible.roles.1"],
     "status": "partial",
-    "reason": "Tests a native input-button trigger and visible content; it does not enforce the exactly-two-parts anatomy sentence.",
+    "reason": "Tests a native input-button trigger and visible content; it does not enforce the exactly-two-parts anatomy sentence. An open fixture asserts exactly one named trigger, visible content, no extra explicit role=button nodes, and the root, trigger, and content each expose open state.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
@@ -9611,6 +9623,10 @@
     "tests": [
       {
         "file": "packages/suite/src/collapsible/collapsible.test.tsx",
+        "title": "collapsible.roles.1"
+      },
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test.tsx",
         "title": "collapsible.roles.1"
       }
     ]
@@ -10219,22 +10235,34 @@
   },
   {
     "ids": ["collapsible.pointer.5"],
-    "status": "missing",
-    "reason": "Multiple Trigger instances share root state and can be nested inside Content, but no test asserts an initially open inner close trigger.",
+    "status": "covered",
+    "reason": "An inner Collapsible.Trigger rendered inside initially open content is clicked and the close callback plus unmounted panel are asserted.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
       "packages/solid/src/collapsible/collapsible.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test.tsx",
+        "title": "collapsible.pointer.5"
+      }
     ]
   },
   {
     "ids": ["collapsible.pointer.6"],
-    "status": "missing",
-    "reason": "Root has no toggle handler and only Trigger activation toggles state; the independent adjacent interactive-control scenario has no assertions.",
+    "status": "covered",
+    "reason": "An adjacent menu button fires its own handler without changing collapsible state, then the actual trigger opens while the adjacent button remains enabled.",
     "sources": [
       "docs/spec/collapsible.md",
       "packages/core/src/collapsible/collapsible.ts",
       "packages/solid/src/collapsible/collapsible.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collapsible/collapsible.coverage.test.tsx",
+        "title": "collapsible.pointer.6"
+      }
     ]
   },
   {
@@ -17213,7 +17241,7 @@
   {
     "ids": ["checkbox.pointer.7"],
     "status": "covered",
-    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` \u2192 `\"true\"` \u2192 `\"false\"`: the wrapping label does not double-toggle it.",
+    "reason": "The test asserts the adopted behavior: Given a checkbox inside a wrapping `label`, when the checkbox itself is clicked twice, then `aria-checked` goes `\"false\"` → `\"true\"` → `\"false\"`: the wrapping label does not double-toggle it.",
     "sources": ["docs/spec/checkbox.md", "packages/suite/src/checkbox/checkbox.pointer.test.tsx"],
     "tests": [
       {

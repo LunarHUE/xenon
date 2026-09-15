@@ -189,3 +189,11 @@ accounting. Audit records live in `packages/suite/coverage`.
   radio ARIA fixtures and browser tab re-entry remain separate follow-ups.
 - Independent checks passed: six jsdom, six Chromium and one core test. Audit
   validation passed after correcting evidence references to exact full titles.
+
+### Collapsible interaction variants
+
+- Added four shared and two browser tests; closed five gaps for negative axe
+  impact, expanded text-only tab order, non-primary clicks, inner close triggers,
+  and adjacent independent controls. Exact anatomy wording remains partial.
+- Independent checks: four jsdom and six Chromium tests passed. Audit validation
+  passed; animation cases are assigned as a separate browser slice.
