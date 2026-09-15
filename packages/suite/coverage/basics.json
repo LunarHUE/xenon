@@ -7667,12 +7667,16 @@
   {
     "ids": ["presence.animation.9"],
     "status": "partial",
-    "reason": "Asserts eventual removal for animation-name:none after settling; it does not assert synchronous immediate unmount.",
+    "reason": "Asserts eventual removal for animation-name:none after settling; it does not assert synchronous immediate unmount. A 100s duration with animation-name:none is removed after the documented next-frame animation query. Immediate post-update content presence is now explicit; the research synchronous-unmount alternative diverges from the adopted frame-discovery lifecycle.",
     "sources": ["docs/spec/presence.md", "packages/suite/src/presence/presence.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.9"
+      },
+      {
+        "file": "packages/suite/src/presence/presence.coverage-extra.test-browser.tsx",
+        "title": "presence.animation.9 animation-name none exits after the documented frame query"
       }
     ]
   },
@@ -13131,13 +13135,17 @@
   },
   {
     "ids": ["presence.animation.17"],
-    "status": "partial",
-    "reason": "A canceled animation replaced with another is covered; mutating the same animation keyframes and exactly-one completion callback are not.",
+    "status": "covered",
+    "reason": "The same running WAAPI animation has keyframes replaced and its timeline restarted near its old end. Content and public waitForExit callback remain pending after restart; finishing removes content and invokes completion exactly once across further frames.",
     "sources": ["docs/spec/presence.md", "packages/suite/src/presence/presence.test-browser.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/presence/presence.test-browser.tsx",
         "title": "presence.animation.16"
+      },
+      {
+        "file": "packages/suite/src/presence/presence.coverage-extra.test-browser.tsx",
+        "title": "presence.animation.17 mutating one running animation restarts its completion boundary"
       }
     ]
   },

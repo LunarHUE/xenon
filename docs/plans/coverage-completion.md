@@ -627,3 +627,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed three gaps: empty inline-style cleanup, zero scrollbar compensation, and independent simultaneous document locks.
 - Astra low confirmed final release left an empty style attribute. Astra medium cleans only empty attributes after restoring all properties, with root/body nested-lock and added-author-style priority regressions.
 - Independent checks passed 26 DOM modal tests, 49 affected overlay Chromium tests, and DOM typechecking. NumberField checkpoint also passed all 41 jsdom and 91 Chromium tests plus suite types.
+
+### Presence restarted animation completion
+
+- Closed animation.17 using the same mutated/restarted WAAPI animation and the exported waitForExit callback, asserting exactly one completion after the restarted finish.
+- Astra low confirmed animation.9 differs from the documented next-frame discovery lifecycle; its synchronous alternative remains partial with direct evidence of actual timing.
+- Independent Chromium run passed both cases; verifier lint/format passed.
