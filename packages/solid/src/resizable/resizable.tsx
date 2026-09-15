@@ -20,6 +20,7 @@ import {
   useContext,
 } from 'solid-js'
 import { spread } from '../spread'
+import { serverAttributes } from './server-attributes'
 
 /** Percent-based split layout options. */
 export interface ResizableProps
@@ -66,6 +67,8 @@ interface Context {
   start(event: PointerEvent, index: number, handle: HTMLElement): void
   /** Cancel an active gesture when its handle leaves. */
   cancel(): void
+  /** Defer computed attributes until server sibling registration finishes. */
+  attributes<T extends object>(read: () => T): T
   /** Current dragged handle index. */
   dragging(): number | undefined
 }
@@ -87,9 +90,19 @@ function style(
         .join(';')};${value}`
     : { ...defaults, ...(typeof value === 'object' ? value : {}) }
 }
+/** Serialize structural and authored panel CSS with Solid's hyphenated property names. */
+function cssText(value: JSX.CSSProperties | string): string {
+  return typeof value === 'string'
+    ? value
+    : Object.entries(value)
+        .filter(([, item]) => item != null)
+        .map(([key, item]) => `${key}:${item}`)
+        .join(';')
+}
 /** Own uncontrolled state, live panel metadata and pointer cancellation. */
 function ResizableRoot(props: ResizableProps): JSX.Element {
   const id = createUniqueId()
+  const server = isServer ? serverAttributes() : undefined
   const [internal, setInternal] = createSignal<readonly number[] | undefined>(
     untrack(() => props.defaultSizes)
   )
@@ -139,9 +152,32 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
     cleanupDrag?.()
     cleanupDrag = undefined
     pending = undefined
-    setDragging(undefined)
+    if (!isServer) setDragging(undefined)
   }
   const context: Context = {
+    attributes: (read) => {
+      const attrs = read()
+      return server
+        ? (Object.fromEntries(
+            Object.keys(attrs).map((name) => [
+              name,
+              server.attribute(name, () => {
+                const value = (read() as Record<string, unknown>)[name]
+                if (name === 'style' && value && typeof value === 'object')
+                  return Object.entries(value)
+                    .filter(([, item]) => item != null)
+                    .map(([key, item]) => `${key}:${item}`)
+                    .join(';')
+                return value === undefined || value === false
+                  ? undefined
+                  : value === true
+                    ? ''
+                    : String(value)
+              }),
+            ])
+          ) as typeof attrs)
+        : attrs
+    },
     id,
     result,
     change,
@@ -167,6 +203,8 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
         !root ||
         !result().state.interactive ||
         cleanupDrag ||
+        !Number.isInteger(index) ||
+        index < 0 ||
         index + 1 >= result().state.sizes.length
       )
         return
@@ -223,9 +261,9 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
   const content = createMemo(() => (
     <ResizableContext value={context}>{props.children}</ResizableContext>
   ))
-  return (
+  const element = (
     <div
-      {...spread(result().parts.root, rest)}
+      {...spread({ attrs: context.attributes(() => result().parts.root.attrs), on: {} }, rest)}
       data-dragging={dragging() !== undefined ? '' : undefined}
       style={style(props.style, {
         display: 'flex',
@@ -239,6 +277,8 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
       {content()}
     </div>
   )
+  // eslint-disable-next-line solid/components-return-once -- server-only finalization; environment is fixed for the owner
+  return server ? server.finish(element) : element
 }
 /** Register constraints and size a panel with flex weights over available panel space. */
 function ResizablePanel(props: ResizablePanelProps): JSX.Element {
@@ -247,6 +287,8 @@ function ResizablePanel(props: ResizablePanelProps): JSX.Element {
   const id = () => (typeof props.id === 'string' ? props.id : `${context.id}-panel-${index}`)
   onCleanup(
     untrack(() =>
+      // The root reads this retained accessor inside its controller memo.
+      // eslint-disable-next-line solid/reactivity
       context.register(index, () => ({
         id: id(),
         minSize: props.minSize,
@@ -260,19 +302,24 @@ function ResizablePanel(props: ResizablePanelProps): JSX.Element {
   )
   const rest = omit(props, 'children', 'index', 'minSize', 'maxSize', 'collapsible', 'style')
   const size = () => context.result().state.sizes[index] ?? 0
-  return (
-    <div
-      {...spread(context.result().parts.panel(index), rest)}
-      id={id()}
-      data-resizable-panel=""
-      inert={size() === 0 ? true : undefined}
-      style={style(props.style, {
+  const attrs = () => ({
+    ...context.result().parts.panel(index).attrs,
+    inert: size() === 0 ? true : undefined,
+    style: cssText(
+      style(props.style, {
         flex: `${size()} 1 0px`,
         'min-width': '0',
         'min-height': '0',
         overflow: 'hidden',
         '--resizable-panel-size': `${size()}%`,
-      })}
+      })
+    ),
+  })
+  return (
+    <div
+      {...spread({ attrs: context.attributes(attrs), on: {} }, rest)}
+      id={id()}
+      data-resizable-panel=""
     >
       {props.children}
     </div>
@@ -289,7 +336,7 @@ function ResizableHandle(props: ResizableHandleProps): JSX.Element {
   })
   const rest = omit(props, 'children', 'index', 'ref', 'style')
   const part = () => ({
-    ...context.result().parts.handle(index),
+    attrs: context.attributes(() => context.result().parts.handle(index).attrs),
     on: {
       pointerdown: (event: PointerEvent) => {
         if (element) context.start(event, index, element)

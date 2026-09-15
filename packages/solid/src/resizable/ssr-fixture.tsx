@@ -8,9 +8,21 @@ export function renderResizable(): string {
         Files
       </Resizable.Panel>
       <Resizable.Handle index={0} />
-      <Resizable.Panel index={1}>Editor</Resizable.Panel>
+      <Resizable.Panel index={1} minSize={20}>
+        Editor
+      </Resizable.Panel>
       <Resizable.Handle index={1} aria-label="Editor" />
       <Resizable.Panel index={2}>Preview</Resizable.Panel>
+    </Resizable>
+  ))
+}
+/** Later constraints must update earlier server panel styles and separator values. */
+export function renderConstrained(): string {
+  return renderToString(() => (
+    <Resizable>
+      <Resizable.Panel index={0} aria-label="Files" />
+      <Resizable.Handle index={0} />
+      <Resizable.Panel index={1} minSize={70} />
     </Resizable>
   ))
 }

@@ -66,7 +66,7 @@ export function startResizableDrag(
   }
   const move = (next: PointerEvent) => {
     if (next.pointerId !== event.pointerId) return
-    if (next.pointerType === 'mouse' && !(next.buttons & 1)) {
+    if (next.pointerType !== 'touch' && !(next.buttons & 1)) {
       end(true)
       return
     }
