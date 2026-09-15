@@ -1979,12 +1979,26 @@
   },
   {
     "ids": ["number-field.notes.9"],
-    "status": "missing",
-    "reason": "Native editable text and stable draft storage support this case, but scoped assertions do not check these caret deletions or equivalent format-options rerenders.",
+    "status": "covered",
+    "reason": "Real browser Delete/Backspace remove decimal separators and minus signs in both directions, and collapsed-caret deletion immediately before/after the separator preserves adjacent text, focus and uncommitted state.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-editing.test-browser.tsx",
+        "title": "number-field.notes.9 deletes the decimal separator forward and backward in native text editing"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-editing.test-browser.tsx",
+        "title": "number-field.notes.9 deletes the minus sign from either caret direction"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-editing.test-browser.tsx",
+        "title": "number-field.notes.9 deletes digits on both sides of the decimal without losing adjacent text"
+      }
     ]
   },
   {

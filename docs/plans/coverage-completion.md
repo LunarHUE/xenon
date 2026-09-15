@@ -575,3 +575,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Astra low confirmed real formatter-content changes left an uncommitted draft unformatted, after correcting the equivalent-object fixture. Astra medium snapshots option content and reformats using the prior parser without committing.
 - Closed notes.1 and notes.20. Canceled synthetic blur now has a direct assertion, but notes.23 retains native-blur cancellation/touched limitations.
 - Independent checks passed nine Solid, 29 suite jsdom and 61 Chromium cases; Solid/suite typechecks passed. The browser run includes the new caret-deletion slice.
+
+### NumberField native caret editing
+
+- Closed notes.9 with three browser cases covering decimal/minus deletion in both directions and adjacent-digit deletion using collapsed carets. Each preserves focus and avoids premature value callbacks.
+- Included in the independent 61-case NumberField Chromium run; Luna focused browser, lint, formatting and types passed.
