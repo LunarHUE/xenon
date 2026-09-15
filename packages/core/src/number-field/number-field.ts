@@ -126,7 +126,13 @@ export function numberField(options: NumberFieldOptions = {}) {
   const next = (direction: 1 | -1, amount = step) => {
     if (parsed === null || !Number.isFinite(parsed)) return clamp(0)
     const origin = min ?? 0
-    const position = clean((parsed - origin) / amount)
+    const quotient = (parsed - origin) / amount
+    const nearest = Math.round(quotient)
+    // Subtraction and division can place an on-grid value just beside its integer
+    // index. Correct only floating-point noise before choosing the next grid line.
+    // Cap the tolerance so large indices retain meaningful fractional steps.
+    const tolerance = Math.min(1e-7, Number.EPSILON * Math.max(1, Math.abs(quotient)) * 4)
+    const position = Math.abs(quotient - nearest) <= tolerance ? nearest : quotient
     const index = direction > 0 ? Math.floor(position) + 1 : Math.ceil(position) - 1
     const candidate = clean(origin + index * amount)
     if (!Number.isFinite(candidate)) return parsed

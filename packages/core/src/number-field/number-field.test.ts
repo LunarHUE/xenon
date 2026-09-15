@@ -35,6 +35,64 @@ describe('numberField', () => {
     expect(numberField({ inputValue: '-' }).parts.input.attrs['aria-invalid']).toBe('true')
     expect(numberField({ value: 3 }).parts.input.attrs['aria-invalid']).toBeUndefined()
   })
+  test.each([1, -1] as const)(
+    'decimal grid steps keep moving with a minimum offset in direction %i',
+    (direction) => {
+      let value = direction > 0 ? 0.7 : 24
+      for (let index = 0; index < (direction > 0 ? 233 : 239); index++) {
+        const previous = value
+        const engine = numberField({
+          value,
+          min: 0.1,
+          max: 24,
+          step: 0.1,
+          onValueChange(next) {
+            value = next!
+          },
+        })
+        engine.parts.input.on.keydown?.({
+          key: direction > 0 ? 'ArrowUp' : 'ArrowDown',
+          preventDefault() {},
+        } as never)
+        expect((value - previous) * direction).toBeGreaterThan(0)
+        expect(value).toBeCloseTo(direction > 0 ? (8 + index) / 10 : (239 - index) / 10, 12)
+      }
+      const bounded = numberField({ value, min: 0.1, max: 24, step: 0.1 })
+      expect(
+        direction > 0 ? bounded.state.incrementDisabled : bounded.state.decrementDisabled
+      ).toBe(true)
+    }
+  )
+  test.each([
+    [0.7 - 1e-10, 'ArrowUp', 0.7],
+    [0.7 + 1e-10, 'ArrowDown', 0.7],
+    [-0.7 - 1e-10, 'ArrowUp', -0.7],
+    [-0.7 + 1e-10, 'ArrowDown', -0.7],
+  ])('preserves off-grid movement from %s with %s', (value, key, expected) => {
+    const change = vi.fn()
+    numberField({
+      value: value as number,
+      min: -1.1,
+      step: 0.1,
+      onValueChange: change,
+    }).parts.input.on.keydown?.({
+      key,
+      preventDefault() {},
+    } as never)
+    expect(change).toHaveBeenCalledTimes(1)
+    expect(change.mock.calls[0]![0]).toBeCloseTo(expected as number, 14)
+  })
+  test.each([
+    [1e12 - 0.0001, 'ArrowUp'],
+    [1e12 + 0.0001, 'ArrowDown'],
+  ] as const)('preserves fractional steps at large grid indices from %s', (value, key) => {
+    const change = vi.fn()
+    numberField({ value, step: 1, onValueChange: change }).parts.input.on.keydown?.({
+      key,
+      preventDefault() {},
+    } as never)
+    expect(change).toHaveBeenCalledExactlyOnceWith(1e12)
+  })
   test('canceled and composing keys preserve draft; no-edit blur preserves full precision', () => {
     const change = vi.fn(),
       text = vi.fn()

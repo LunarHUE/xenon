@@ -562,3 +562,10 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed six gaps covering normal/disabled/readonly stepper clicks, exactly-once native event sequence, middle/right dirty-draft preservation, and uncanceled pinch/unfocused wheel events.
 - Astra low corrected the synthetic secondary click to native auxclick semantics; real browser sequences verify both buttons and preserve 9.00 without normalization.
 - Independent final runs passed five jsdom and ten Chromium cases; changed-file lint/format passed.
+
+### NumberField decimal-step precision and keyboard commits
+
+- Astra low corrected missing input-to-key settling in three fixtures and confirmed a real precision failure: offset 0.1 steps could stall at 0.7 or 3.4.
+- Astra medium corrects floating-point noise near integer grid positions, with a capped tolerance and regressions for long bidirectional stepping, nearby off-grid values, and large indices.
+- Closed five gaps for handled keys, clearing, precision, fallback and equivalent edits. state.11 has new directional coverage but retains a research-contract divergence and an unasserted outside-bound example.
+- Independent final checks passed 17 core, 26 suite jsdom and 55 Chromium tests, excluding the separately failing notes slice. Core and suite typechecks passed.

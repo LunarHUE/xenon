@@ -402,12 +402,18 @@
   },
   {
     "ids": ["number-field.keyboard.5"],
-    "status": "missing",
-    "reason": "The accepted keyboard handler implements this behavior, but scoped cases do not assert this exact cancellation, seed, repeat, controlled-draft or Page-step branch.",
+    "status": "covered",
+    "reason": "All handled arrow, Page, Home, and End key cases cancel default behavior.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/core/src/number-field/number-field.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.keyboard.5 handled arrow keys prevent their default action"
+      }
     ]
   },
   {
@@ -1069,12 +1075,18 @@
   },
   {
     "ids": ["number-field.state.3"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "Whitespace-only and empty drafts commit as empty, emitting null rather than zero.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.state.3 clearing reports null rather than zero"
+      }
     ]
   },
   {
@@ -1135,8 +1147,8 @@
   },
   {
     "ids": ["number-field.state.10"],
-    "status": "partial",
-    "reason": "The core asserts 0.2+0.1 exactly; the repeated tiny-step and upper-bound precision cases are not covered.",
+    "status": "covered",
+    "reason": "Repeated 0.001 steps assert exact 1.001 through 1.004. Offset 0.1 stepping asserts exact 0.7 to 0.8 and reaches 24 without stalling; core regressions cover both directions and preserve nearby off-grid values.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1146,13 +1158,17 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "decimal grid steps avoid floating-point accumulation and bounds are no-ops"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.state.10 repeated fine steps retain exact decimal values"
       }
     ]
   },
   {
     "ids": ["number-field.state.11"],
     "status": "partial",
-    "reason": "Minimum-anchored step progression and reachable unaligned max are asserted; all off-grid directional examples are not.",
+    "reason": "Minimum-anchored step progression and reachable unaligned max are asserted; all off-grid directional examples are not. Public tests now assert both off-grid examples, 18.98 up to 19 and 18.11 down to 18. Existing minimum-anchored and reachable-bound evidence remains. The research-specific min=2/max=21/step=3 stopping at 20 diverges from the adopted reachable-bound contract; exact outside-bound 13-to-10 example remains unasserted.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1162,6 +1178,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.native.test-browser.tsx",
         "title": "number-field.keyboard.10: an off-grid seed climbs from the minimum and clamps onto the maximum"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.state.11 off-grid stepping moves to the next grid line"
       }
     ]
   },
@@ -1189,22 +1209,34 @@
   },
   {
     "ids": ["number-field.state.15"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "Empty and malformed public drafts step to in-range -5 instead of zero.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.state.15 empty negative range seeds at the in-range maximum"
+      }
     ]
   },
   {
     "ids": ["number-field.state.16"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "Equivalent edits normalize displayed text without another callback; an initial numeric change followed by equivalent text verifies exactly one callback overall.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
+        "title": "number-field.state.16 unchanged parsed edits correct the display without a second callback"
+      }
     ]
   },
   {
