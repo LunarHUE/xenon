@@ -1,4 +1,4 @@
-import { isFocusable } from 'tabbable'
+import { isFocusable, tabbable } from 'tabbable'
 
 import { registerFocusScope, type FocusScopeHandle } from '../focus-scope'
 import { registerLayer, type LayerHandle, type LayerPointerOutsideEvent } from '../layer'
@@ -217,11 +217,26 @@ export function createDialogController(
     // SSR may serialize open, but that attribute alone does not enter the top layer.
     element.removeAttribute('open')
     show()
+    let initialFocus = options.initialFocus
+    const active = activeElement(document)
+    // Native dialog opening can focus an unchecked radio with tabindex=-1.
+    // Use that group's roving entry while preserving explicit author focus.
+    if (
+      initialFocus === undefined &&
+      active !== session.opener &&
+      active?.matches('input[type="radio"], [role="radio"]') &&
+      active.getAttribute('tabindex') === '-1' &&
+      !active.hasAttribute('autofocus')
+    ) {
+      const group = active.closest('[role="radiogroup"]')
+      const entry = group && tabbable(group, { getShadowRoot: true })[0]
+      if (entry instanceof HTMLElement) initialFocus = entry
+    }
     if (sessionModal) modal = registerModal(element, { content: options.content ?? element })
     layer = registerLayer(options.content ?? element, layerOptions())
     scope = registerFocusScope(options.content ?? element, {
       contain: sessionModal,
-      initialFocus: options.initialFocus,
+      initialFocus,
       restoreFocus: false,
     })
   }

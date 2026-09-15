@@ -18798,8 +18798,8 @@
   },
   {
     "ids": ["radio-group.pointer.1"],
-    "status": "partial",
-    "reason": "Click selection and roving tabindex are asserted; later Tab re-entry after that click is not. Pointer selection moves the single roving tab stop before keyboard progression moves it again.",
+    "status": "covered",
+    "reason": "A real click selects Express, Tab exits to the following button, and Shift+Tab re-enters on the selected radio.",
     "sources": [
       "docs/spec/radio-group.md",
       "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
@@ -18812,6 +18812,10 @@
       {
         "file": "packages/suite/src/radio-group/radio-group.coverage.test.tsx",
         "title": "radio-group.focus.1: one roving tab stop; radio-group.pointer.1: pointer and keyboard move it"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.pointer.1: click then Tab exits and Shift+Tab returns to selected radio"
       }
     ]
   },
@@ -19602,25 +19606,33 @@
   },
   {
     "ids": ["radio-group.keyboard.1"],
-    "status": "partial",
-    "reason": "Browser Tab and Shift+Tab restore a checked radio; initial empty-selection entry is only established by core tabindex assertions.",
+    "status": "covered",
+    "reason": "Real browser Tab traversal enters an unselected nonempty group on its first radio.",
     "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
     "tests": [
       {
         "file": "packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx",
         "title": "radio-group.focus.10"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.keyboard.1: an unselected group receives Tab on its first radio"
       }
     ]
   },
   {
     "ids": ["radio-group.keyboard.10"],
     "status": "partial",
-    "reason": "Tab leaves and Shift+Tab returns to the checked item; a modal composition and unchecked highlighted return are not asserted.",
+    "reason": "Tab leaves and Shift+Tab returns to the checked item; a modal composition and unchecked highlighted return are not asserted. With Express selected, Tab leaves the group for the following button and Shift+Tab returns to Express.",
     "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
     "tests": [
       {
         "file": "packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx",
         "title": "radio-group.focus.10"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.keyboard.10: Tab leaves and Shift+Tab returns to the selected radio"
       }
     ]
   },
@@ -19642,9 +19654,19 @@
   },
   {
     "ids": ["radio-group.focus.21"],
-    "status": "missing",
-    "reason": "Dialog and Popover now ship autofocus; no RadioGroup composition test asserts selected-item initial focus with unchanged value.",
-    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"]
+    "status": "covered",
+    "reason": "Dialog and Popover autofocus select the checked radio without changing the value or firing a callback. Native and custom radio hosts are covered; author autofocus priority and no focus stealing outside overlays have regressions.",
+    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.focus.21: opening a dialog focuses the selected %s radio without changing value"
+      },
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.focus.21: opening a popover focuses the selected radio without changing value"
+      }
+    ]
   },
   {
     "ids": ["radio-group.state.12"],
@@ -19672,9 +19694,15 @@
   },
   {
     "ids": ["radio-group.notes.9"],
-    "status": "missing",
-    "reason": "Custom radio backing inputs use hidden-control styling, but no browser test measures nested-overflow scroll height and baseline window.scrollY.",
-    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"]
+    "status": "covered",
+    "reason": "Real Chromium verifies that a named custom-host group creates two hidden radio mirrors, then measures the page and both nested overflow containers for unintended scroll range.",
+    "sources": ["docs/spec/radio-group.md", "packages/core/src/radio-group/radio-group.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/radio-group/radio-group.coverage-browser.test-browser.tsx",
+        "title": "radio-group.notes.9: named backing inputs do not create nested overflow"
+      }
+    ]
   },
   {
     "ids": ["radio.roles.4"],

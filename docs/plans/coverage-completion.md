@@ -208,3 +208,15 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent final runs: 13 jsdom and 15 Chromium tests passed. Suite typecheck
   and audit validation passed. SSR paired-ID equality remains assigned separately;
   Header/Indicator and alternate data-attribute contracts are not shipped.
+
+### Radio autofocus inside overlays
+
+- Sol confirmed native Dialog opening focused an unchecked radio before its
+  group finished registration. Astra delays initial attachment until descendants
+  settle and redirects a negative-tabindex radio to the group's tab stop, while
+  preserving explicit author autofocus.
+- Added nine browser cases across selected native/custom radios, Popover,
+  author autofocus, outside-overlay focus, nested overflow and Tab re-entry.
+- Closed four gaps; the full modal/highlighted Tab-return matrix remains partial.
+- Independent checks passed: 145 Chromium, 52 suite jsdom, 56 Solid and 39 DOM
+  tests, all 59 Chromium E2E tests, three package typechecks and audit validation.

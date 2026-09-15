@@ -638,8 +638,13 @@ function DialogHost(
     })
     let controller: ReturnType<typeof createDialogController> | undefined
     let attached: HTMLDialogElement | undefined
+    // Descendants must finish registration before native opening chooses focus.
+    const [ready, setReady] = createSignal(false)
+    onSettled(() => {
+      setReady(true)
+    })
     createEffect(
-      () => ({ element: element(), options: options() }),
+      () => ({ element: ready() ? element() : undefined, options: options() }),
       (value) => {
         if (
           !value.element ||
