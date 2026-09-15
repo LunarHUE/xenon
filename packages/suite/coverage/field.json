@@ -77,13 +77,17 @@
   },
   {
     "ids": ["controlled-state.state.9"],
-    "status": "partial",
-    "reason": "The adopted undefined sentinel and return to internal selection are asserted. The null-as-a-valid-controlled-value clause is not established by this string-array API.",
+    "status": "covered",
+    "reason": "Menubar accepts string|null values. A controlled null stays closed despite defaultValue='file'; setting undefined releases control and restores the internal default menu. The test also verifies a user proposal is reported once without changing the controlled rendering and that null closes without an echo. Existing CheckboxGroup evidence covers the array-valued undefined release branch.",
     "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "controlled changes snap back and external writes update stable nodes"
+      },
+      {
+        "file": "packages/suite/src/menubar/menubar.controlled-coverage.test.tsx",
+        "title": "controlled-state.state.9"
       }
     ]
   },

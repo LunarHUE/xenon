@@ -71,3 +71,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   circular, or asChild/render APIs. Root-only supported behavior keeps its
   existing evidence; these alternatives remain visible as partials.
 - Audit validation passed.
+
+### Menubar null and undefined ownership
+
+- Added two assertions of the shared sentinel contract using Menubar, which
+  supports null as a controlled closed value. Together with existing array
+  ownership tests, these close both remaining null-versus-undefined gaps.
+- Verified null overrides an open default, user proposals retain controlled
+  presentation, and undefined restores the internal default without echo.
+- Independent combined Progress/Menubar runs and audit validation passed.

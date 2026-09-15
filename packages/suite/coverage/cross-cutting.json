@@ -1830,13 +1830,17 @@
   },
   {
     "ids": ["controlled.13"],
-    "status": "partial",
-    "reason": "CheckboxGroup returns to its previous internal empty state after value becomes undefined. A null-as-controlled-value assertion is absent from this array API.",
+    "status": "covered",
+    "reason": "The same public Menubar fixture proves undefined is the uncontrolled sentinel while null remains a valid controlled closed value, including no callback echo on owner-driven changes. Existing CheckboxGroup evidence covers the array-valued undefined release branch.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "controlled changes snap back and external writes update stable nodes"
+      },
+      {
+        "file": "packages/suite/src/menubar/menubar.controlled-coverage.test.tsx",
+        "title": "controlled.13"
       }
     ]
   },
