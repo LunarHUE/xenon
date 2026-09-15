@@ -69,8 +69,8 @@
   },
   {
     "ids": ["number-field.roles.5"],
-    "status": "partial",
-    "reason": "Invalid/valid ARIA and draft native validity have assertions, but an existing announcing aria-errormessage association is author-owned and not asserted.",
+    "status": "covered",
+    "reason": "A real visible error node is resolved and checked for its message text. Drafts below min and above max each expose aria-invalid=true and the author-provided aria-errormessage reference; after a valid committed draft, aria-invalid is absent while the author-owned reference remains intact.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -80,6 +80,10 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "empty, malformed, and bounded semantics stay finite"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx",
+        "title": "number-field.roles.5: author error messaging follows invalid state and clears invalid state"
       }
     ]
   },
@@ -1168,7 +1172,7 @@
   {
     "ids": ["number-field.state.11"],
     "status": "partial",
-    "reason": "Minimum-anchored step progression and reachable unaligned max are asserted; all off-grid directional examples are not. Public tests now assert both off-grid examples, 18.98 up to 19 and 18.11 down to 18. Existing minimum-anchored and reachable-bound evidence remains. The research-specific min=2/max=21/step=3 stopping at 20 diverges from the adopted reachable-bound contract; exact outside-bound 13-to-10 example remains unasserted.",
+    "reason": "Minimum-anchored step progression and reachable unaligned max are asserted; all off-grid directional examples are not. Public tests now assert both off-grid examples, 18.98 up to 19 and 18.11 down to 18. Existing minimum-anchored and reachable-bound evidence remains. The research-specific min=2/max=21/step=3 stopping at 20 diverges from the adopted reachable-bound contract; exact outside-bound 13-to-10 example remains unasserted. A real decrement-trigger click on defaultValue 13 with max 10 and step 3 reaches 10, covering the missing outside-bound 13-to-10 example.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1182,6 +1186,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.coverage-keyboard-extra.test.tsx",
         "title": "number-field.state.11 off-grid stepping moves to the next grid line"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx",
+        "title": "number-field.state.11: an outside-bound value clamps to the reachable maximum"
       }
     ]
   },
@@ -1392,7 +1400,7 @@
   {
     "ids": ["number-field.forms.2"],
     "status": "partial",
-    "reason": "Readonly retains canonical submission; hidden native readonly and disabled exclusion are not all asserted and type=hidden does not need readonly.",
+    "reason": "Readonly retains canonical submission; hidden native readonly and disabled exclusion are not all asserted and type=hidden does not need readonly. A real browser form asserts the disabled canonical hidden input is disabled and excluded from FormData, while the readonly canonical hidden input remains enabled and submits value 3. It also explicitly observes that the hidden readonly input has no readonly attribute/property, so the exact requested hidden-readonly branch remains unsupported by the shipped adapter.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1402,6 +1410,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.native.test-browser.tsx",
         "title": "number-field.roles.14: a readonly field rejects native typing and stepper presses"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx",
+        "title": "number-field.forms.2: disabled and readonly hidden entries follow native submission rules"
       }
     ]
   },
@@ -1469,12 +1481,18 @@
   },
   {
     "ids": ["number-field.forms.8"],
-    "status": "missing",
-    "reason": "The hidden entry has no autofill mutation handler and stepping publishes a valid numeric draft; no scoped assertion checks these exact validation/autofill branches.",
+    "status": "covered",
+    "reason": "A required empty field starts invalid; reportValidity returns false and exposes a nonempty validationMessage. A real increment-trigger click publishes the valid numeric zero draft; reportValidity then returns true with an empty validationMessage and onValueChange fires exactly once.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx",
+        "title": "number-field.forms.8: a required stepper change clears native validation"
+      }
     ]
   },
   {

@@ -580,3 +580,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed notes.9 with three browser cases covering decimal/minus deletion in both directions and adjacent-digit deletion using collapsed carets. Each preserves focus and avoids premature value callbacks.
 - Included in the independent 61-case NumberField Chromium run; Luna focused browser, lint, formatting and types passed.
+
+### NumberField validation and outside-bound stepping
+
+- Closed forms.8 and roles.5: reported required validation clears after a real stepper click, and visible author error references accompany both invalid range directions and clear invalid state after correction.
+- Added disabled/readonly canonical submission and outside-bound 13-to-10 stepping evidence. forms.2 remains partial for absent hidden readonly; state.11 retains its adopted-contract divergence.
+- Independent Chromium run passed all four cases. Luna lint/types/format passed.
