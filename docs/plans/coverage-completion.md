@@ -586,3 +586,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed forms.8 and roles.5: reported required validation clears after a real stepper click, and visible author error references accompany both invalid range directions and clear invalid state after correction.
 - Added disabled/readonly canonical submission and outside-bound 13-to-10 stepping evidence. forms.2 remains partial for absent hidden readonly; state.11 retains its adopted-contract divergence.
 - Independent Chromium run passed all four cases. Luna lint/types/format passed.
+
+### NumberField controlled values and retained precision
+
+- Closed six state gaps: zero rendering, finer-than-display increments, external updates during editing/after stepping, controlled null, and no-edit precision plus equivalent-text normalization.
+- Astra low corrected an off-grid addition expectation to a 0.0001 aligned step that actually isolates retained precision. No production fix was needed.
+- Independent final Chromium run passed all six cases; verifier lint/format and Luna typechecking passed.

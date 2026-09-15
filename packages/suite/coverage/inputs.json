@@ -1063,8 +1063,8 @@
   },
   {
     "ids": ["number-field.state.2"],
-    "status": "partial",
-    "reason": "Default display and silent mount are exercised for a nonzero value; the zero-specific rendering branch is not asserted.",
+    "status": "covered",
+    "reason": "The public Solid field mounts with defaultValue=0 and asserts visible text 0 plus no onValueChange call.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1074,6 +1074,10 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "draft preserves trailing decimal, commits on Enter, and resets canonical form value silently"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.2: default zero renders as 0 without a mount callback"
       }
     ]
   },
@@ -1207,12 +1211,18 @@
   },
   {
     "ids": ["number-field.state.14"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "A real browser increment with step 0.0001 and maximumFractionDigits=0 leaves displayed text 1 while onValueChange reports 1.0001.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.14: a finer-than-display step reports precision while text stays rounded"
+      }
     ]
   },
   {
@@ -1249,8 +1259,8 @@
   },
   {
     "ids": ["number-field.state.17"],
-    "status": "partial",
-    "reason": "Reactive external values update the same input, but external changes during typing followed by blur are not asserted.",
+    "status": "covered",
+    "reason": "While the user has typed a draft, a reactive controlled value change immediately replaces it with 7; a real focus/blur cycle leaves 7 displayed.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1260,33 +1270,49 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "external values update the existing input and author IDs update stepper controls"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.17: external value replaces a typing draft and survives blur"
       }
     ]
   },
   {
     "ids": ["number-field.state.18"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "A real step first reaches 3, an external controlled update replaces it with 8, and the next real step reaches 9.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.18: an external value after stepping becomes the next step base"
+      }
     ]
   },
   {
     "ids": ["number-field.state.19"],
-    "status": "missing",
-    "reason": "This numeric draft/value behavior is supported by the accepted parser, commit and controlled-value implementation, but the scoped tests do not isolate the complete stated case.",
+    "status": "covered",
+    "reason": "A reactive controlled value transition from 4 to null makes the public input empty.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.19: a controlled null value empties the input"
+      }
     ]
   },
   {
     "ids": ["number-field.state.20"],
-    "status": "partial",
-    "reason": "Untouched commit preserves numeric precision without text/change callbacks; all focus/blur and equivalent-text renormalization branches are not asserted.",
+    "status": "covered",
+    "reason": "A real no-edit focus/blur preserves rounded text and numeric precision: the next 0.0001 step publishes 1.2346 from 1.2345. An equivalent 1.23460 edit normalizes the display without another callback.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1296,6 +1322,10 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "canceled and composing keys preserve draft; no-edit blur preserves full precision"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-controlled-extra.test-browser.tsx",
+        "title": "number-field.state.20: no-edit blur preserves rounded text and later stepping precision"
       }
     ]
   },
