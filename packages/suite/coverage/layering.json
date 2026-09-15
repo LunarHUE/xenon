@@ -369,7 +369,7 @@
   {
     "ids": ["dismissable-layer.animation.1", "dismissable-layer.animation.2"],
     "status": "missing",
-    "reason": "Immediate layer registration is supported, but no layer fixture asserts starting-style item-selection behavior or sweeps every 0\u201320ms delay.",
+    "reason": "Immediate layer registration is supported, but no layer fixture asserts starting-style item-selection behavior or sweeps every 0–20ms delay.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
   },
   {
@@ -1135,7 +1135,7 @@
   {
     "ids": ["focus-trap.dismissal.3"],
     "status": "missing",
-    "reason": "Nested trap recovery is adopted, but no fixture removes the outer trap\u2019s sole target while a child is open and then asserts outer functionality after child disposal.",
+    "reason": "Nested trap recovery is adopted, but no fixture removes the outer trap’s sole target while a child is open and then asserts outer functionality after child disposal.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
   },
   {
@@ -1147,7 +1147,7 @@
   {
     "ids": ["focus-trap.notes.3"],
     "status": "covered",
-    "reason": "Real open shadow roots and slots participate in the scope\u2019s navigation.",
+    "reason": "Real open shadow roots and slots participate in the scope’s navigation.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
@@ -1196,7 +1196,7 @@
   {
     "ids": ["aria-hidden.roles.4", "aria-hidden.roles.5"],
     "status": "missing",
-    "reason": "Outermost-branch hiding and exact restoration are adopted, but fixtures do not directly assert untouched descendant attributes or a preexisting aria-hidden=true claim\u2019s preservation.",
+    "reason": "Outermost-branch hiding and exact restoration are adopted, but fixtures do not directly assert untouched descendant attributes or a preexisting aria-hidden=true claim’s preservation.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
   },
   {
@@ -1315,7 +1315,7 @@
       "aria-modal-polyfill.a11y.3"
     ],
     "status": "needs-decision",
-    "reason": "Xenon uses native dialogs plus explicit modal registration, not an installed aria-modal watcher. Whether to promise the research watcher\u2019s Safari/VoiceOver and menu/tray-wide behavior remains a separate compatibility decision.",
+    "reason": "Xenon uses native dialogs plus explicit modal registration, not an installed aria-modal watcher. Whether to promise the research watcher’s Safari/VoiceOver and menu/tray-wide behavior remains a separate compatibility decision.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
   },
   {
@@ -1333,7 +1333,7 @@
   {
     "ids": ["prevent-scroll.state.3"],
     "status": "partial",
-    "reason": "Repeated modal disposal is exercised without error, but no second lock holder\u2019s scroll state is asserted between repeated releases.",
+    "reason": "Repeated modal disposal is exercised without error, but no second lock holder’s scroll state is asserted between repeated releases.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
@@ -1464,13 +1464,17 @@
   },
   {
     "ids": ["portal.dismissal.1"],
-    "status": "partial",
-    "reason": "Explicit portal-sibling branch clicks do not dismiss; adapter-rendered Portal hosting is not part of this primitive fixture.",
+    "status": "covered",
+    "reason": "A Popover mounted into an explicit sibling container remains open when the real browser clicks its portalled content; destination membership and data-state=open are asserted.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
         "title": "inside presses, portal branches, and drags crossing the boundary do not dismiss"
+      },
+      {
+        "file": "packages/suite/src/portal/portal.coverage-more.test-browser.tsx",
+        "title": "portal.dismissal.1: clicking portalled popover content remains inside the layer"
       }
     ]
   },
@@ -1487,20 +1491,36 @@
     ]
   },
   {
-    "ids": ["portal.dismissal.3", "portal.dismissal.4", "portal.dismissal.5"],
+    "ids": ["portal.dismissal.3", "portal.dismissal.5"],
     "status": "missing",
     "reason": "Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
   },
   {
+    "ids": ["portal.dismissal.4"],
+    "status": "covered",
+    "reason": "The test runs both a single physical portal and a sibling Tooltip portal. Uncontrolled Popover and Tooltip callbacks remain silent after a real browser click on pointer-enabled tooltip content, while both layers retain data-state=open and destination membership is checked.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/portal/portal.coverage-more.test-browser.tsx",
+        "title": "portal.dismissal.4: clicking tooltip content keeps its containing popover open"
+      }
+    ]
+  },
+  {
     "ids": ["portal.dismissal.6"],
-    "status": "partial",
-    "reason": "A trusted click opens a nested Popover in a portal outside its parent mount while the parent remains visible; clicks inside the nested portal also keep both visible. The fixture does not explicitly portal the parent into a separate custom container.",
+    "status": "covered",
+    "reason": "Outer and inner Popovers mounted into separate explicit containers remain open after opening the inner layer and clicking its content; both destinations, open states, and trigger aria-expanded values are asserted.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/suite/src/popover/popover.native.test-browser.tsx",
         "title": "A nested portaled popup dismisses from a press on its parent content while the parent popover stays open"
+      },
+      {
+        "file": "packages/suite/src/portal/portal.coverage-more.test-browser.tsx",
+        "title": "portal.dismissal.6: nested layers in separate portal containers stay open together"
       }
     ]
   },

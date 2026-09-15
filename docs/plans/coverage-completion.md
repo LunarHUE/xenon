@@ -360,3 +360,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   original gaps; the original backlog remains preserved.
 - Full Chromium end-to-end run passed all 62 cases, including the added
   Accordion/CheckboxGroup SSR and hydration fixtures.
+
+### Portal content and nested destinations
+
+- Added three browser tests, closing content-inside-layer, separate nested
+  portal containers and Tooltip clicks in single/sibling portal arrangements.
+- Tests assert physical destinations and open state. Tooltip uses uncontrolled
+  layers and real pointer-enabled clicks with no dismissal callbacks.
+- Independent Portal run passed five cases including the next Select slice;
+  this commit contains the three completed cases. Audit validation passed;
+  Luna's lint and typecheck passed.
