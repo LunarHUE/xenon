@@ -1,4 +1,4 @@
-import { OverlayPortal } from '../internal/overlay-portal'
+import { ToastPortal } from './portal'
 import { createManager } from './manager'
 import { ToastProvider, useToastManager } from './provider'
 import { ToastViewport } from './viewport'
@@ -14,7 +14,7 @@ export const Toast = {
   /** Provide a manager and reactive lifetime/admission defaults without a wrapper. */
   Provider: ToastProvider,
   /** Preserve native modal ancestry while moving the renderer to its overlay destination. */
-  Portal: OverlayPortal,
+  Portal: ToastPortal,
   /** Region, keyboard shortcut, announcements, stack geometry and pause ownership. */
   Viewport: ToastViewport,
   /** Individual record root, natural-size measurement, swipe and exit lifecycle. */
@@ -55,4 +55,5 @@ export type {
   ToastActionProps,
   ToastCloseProps,
 } from './parts'
-export type { OverlayPortalProps as ToastPortalProps } from '../internal/overlay-portal'
+export { ToastPortal } from './portal'
+export type { ToastPortalProps } from './portal'
