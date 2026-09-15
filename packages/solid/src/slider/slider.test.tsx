@@ -10,6 +10,17 @@ const settle = async () => {
   flush()
 }
 
+test.each([
+  ['Control', Slider.Control],
+  ['Track', Slider.Track],
+  ['Range', Slider.Range],
+  ['Thumb', Slider.Thumb],
+  ['Label', Slider.Label],
+  ['ValueText', Slider.ValueText],
+] as const)('orphan Slider.%s reports the owning component', (_, Part) => {
+  expect(() => render(() => <Part />)).toThrow('Slider parts must be rendered inside <Slider>')
+})
+
 test('thumb keyboard handling stops native ancestors while preserving author veto and sibling keys', async () => {
   const author = vi.fn((event: KeyboardEvent) => {
     if (event.key === 'ArrowLeft') event.preventDefault()

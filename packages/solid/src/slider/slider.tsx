@@ -82,7 +82,7 @@ interface Context {
   /** Optional enclosing Field. */
   field: ReturnType<typeof useFieldContext>
 }
-const SliderContext = createContext<Context>()
+const SliderContext = createContext<Context | null>(null)
 /** Read the required owning Slider context. */
 function useSlider(): Context {
   const context = useContext(SliderContext)

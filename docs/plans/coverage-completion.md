@@ -663,3 +663,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed four gaps for forward/reverse thumb traversal, disabled Tab bypass, native focus/blur callback identity and cardinality, and disabled markers on all seven rendered parts.
 - focus.1 remains partial only for the research's explicit tabindex attribute. Astra low verified the adopted native range-input contract; tests assert native tabIndex=0 and actual Tab navigation.
 - Independent final Chromium run passed all five cases. Verifier lint, formatting and suite typechecking passed.
+
+### Slider metadata and named orphan errors
+
+- Closed four gaps for single/range axe scans, vertical orientation markers, percentage/localized output, and named errors for all six orphan parts.
+- Astra low confirmed Solid's required context read bypassed Slider's existing named guard. Astra medium supplied a null context default so that guard runs, with six adapter regressions.
+- Independent checks passed 18 Slider adapter tests and all nine metadata cases in both jsdom and Chromium. Chromium supplies the full axe scan; jsdom lacks canvas support. Medium's Solid typecheck and lint passed.

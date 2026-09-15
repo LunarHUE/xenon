@@ -4798,8 +4798,8 @@
   },
   {
     "ids": ["slider.roles.5"],
-    "status": "partial",
-    "reason": "Vertical thumb aria-orientation and control data-orientation are asserted; root and output orientation markers are not checked together.",
+    "status": "covered",
+    "reason": "Public regression verifies vertical orientation markers match on root control value and thumb. Orphan cases cover all six parts; accessibility scans run in a real browser.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -4809,6 +4809,10 @@
       {
         "file": "packages/suite/src/slider/slider.native.test-browser.tsx",
         "title": "vertical native keys move both arrow axes, page steps and the numeric ends"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+        "title": "slider.roles.5 vertical orientation markers match on root control value and thumb"
       }
     ]
   },
@@ -5822,8 +5826,8 @@
   },
   {
     "ids": ["slider.state.12"],
-    "status": "partial",
-    "reason": "The core percentage accessor is tested; localized formatter output is separately representative but not the complete joined accessor/locale contract.",
+    "status": "covered",
+    "reason": "Public regression verifies exposes percentage position and localized formatted output. Orphan cases cover all six parts; accessibility scans run in a real browser.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5833,6 +5837,10 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "coordinate conversion mirrors RTL and vertical rails and reports percentages"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+        "title": "slider.state.12 exposes percentage position and localized formatted output"
       }
     ]
   },
@@ -6114,8 +6122,8 @@
   },
   {
     "ids": ["slider.a11y.1"],
-    "status": "partial",
-    "reason": "The range fixture runs the shared axe scan, but a separate single-thumb scan is not included.",
+    "status": "covered",
+    "reason": "Public regression verifies axe has no violations for both single-thumb and range sliders. Orphan cases cover all six parts; accessibility scans run in a real browser.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -6125,6 +6133,10 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "real track press selects nearest thumb, moves it, focuses it, and commits once"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+        "title": "slider.a11y.1 axe has no violations for both single-thumb and range sliders"
       }
     ]
   },
@@ -6204,12 +6216,18 @@
   },
   {
     "ids": ["slider.notes.5"],
-    "status": "missing",
-    "reason": "Parts use a named required Slider context, but no scoped orphan-part render asserts the thrown error.",
+    "status": "covered",
+    "reason": "Public regression verifies orphan %s throws a named Slider context error. Orphan cases cover all six parts; accessibility scans run in a real browser.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+        "title": "slider.notes.5 orphan %s throws a named Slider context error"
+      }
     ]
   },
   {
