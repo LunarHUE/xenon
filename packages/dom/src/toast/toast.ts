@@ -264,8 +264,11 @@ export type ToastViewportPauseReason =
   'hover' | 'focus' | 'window-blur' | 'document-hidden' | 'swipe'
 /** Connect a viewport to a timer store and its expanded presentation. */
 export interface ToastViewportOptions {
+  /** Hold timers under one reason without releasing any other active reason. */
   pause: (reason: ToastViewportPauseReason) => void
+  /** Release the named timer hold; other active reasons continue to pause. */
   resume: (reason: ToastViewportPauseReason) => void
+  /** Reports whether hover, focus, or an active swipe keeps the stack expanded. */
   onExpandedChange?: (expanded: boolean) => void
 }
 
