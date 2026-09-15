@@ -458,3 +458,15 @@ accounting. Audit records live in `packages/suite/coverage`.
   the audit's universal-blur clause remains partial and requires no library fix.
 - Independent jsdom cases passed, and the final three-engine run passed all
   15 cases. Audit validation passed; Luna's typecheck/lint passed.
+
+### Zero-delay hover, safe-polygon geometry and SVG containment
+
+- Added one HoverIntent test, four layer cases and four HoverCard placement
+  cases, closing three gaps. Tests check synchronous zero-delay transitions,
+  namespace-created SVG/HTML inside/outside targets, and measured 100px surfaces
+  separated by a 20px gap with exactly-once opposite-side closure.
+- SVG runtime behavior passes; the test documents that the public registration
+  type still requires HTMLElement. Hover coordinates use facing edges so the
+  sampled point actually lies in the gap.
+- Independent DOM tests passed all five cases; Chromium passed all four HoverCard
+  cases. Final SVG assertion cleanup and audit validation passed.

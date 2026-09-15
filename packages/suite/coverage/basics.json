@@ -16602,9 +16602,15 @@
   },
   {
     "ids": ["hover.pointer.6"],
-    "status": "missing",
-    "reason": "HoverIntent takes zero open/close delays, but no test asserts both synchronous entry and synchronous exit without advancing timers.",
-    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"]
+    "status": "covered",
+    "reason": "The HoverIntent primitive receives zero open/close delays. Direct enter/leave handler calls synchronously invoke callbacks and change open state without advancing timers.",
+    "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
+    "tests": [
+      {
+        "file": "packages/dom/src/hover-intent/hover-intent.coverage.test.ts",
+        "title": "hover.pointer.6 opens and closes synchronously when both delays are zero"
+      }
+    ]
   },
   {
     "ids": ["hover.pointer.7"],
@@ -16650,13 +16656,17 @@
   },
   {
     "ids": ["hover.pointer.12"],
-    "status": "partial",
-    "reason": "The browser test measures a real trigger/content gap and retains content hover; it does not assert all four placements and opposite-side closure exactly once.",
+    "status": "covered",
+    "reason": "The real browser matrix runs top, bottom, left, and right placements with a measured 100x100 trigger, 100x100 content, an asserted 20px facing-edge gap, and resolved data-side. Pointer travel through the facing-edge trough keeps the card visible; a move to the opposite side closes it and records exactly one false open-change callback per placement.",
     "sources": ["docs/spec/button.md", "packages/dom/src/hover-intent/hover-intent.ts"],
     "tests": [
       {
         "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
         "title": "HoverCard measures safe travel over a real gap and retains hovered content"
+      },
+      {
+        "file": "packages/suite/src/hover-card/hover-card.coverage-more.test-browser.tsx",
+        "title": "hover.pointer.12 retains the 100px safe-polygon trough and closes once from the opposite side (%s)"
       }
     ]
   },

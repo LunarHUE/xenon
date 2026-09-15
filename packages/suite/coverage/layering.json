@@ -418,9 +418,15 @@
   },
   {
     "ids": ["interact-outside.pointer.7"],
-    "status": "missing",
-    "reason": "The layer accepts Element containment, but the reviewed pointer tests contain no SVG layer/target matrix.",
-    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+    "status": "covered",
+    "reason": "The public layer containment and pointer dismissal path is exercised for all four HTML/SVG layer-target combinations using namespace-created SVG elements. An inside pointerdown/up does not dismiss, while a same-kind outside target does dismiss exactly once after the public pointer gesture completes. This validates runtime containment; the current TypeScript registration signature still requires HTMLElement, so the SVG test explicitly casts that boundary.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/layer/layer.coverage.test.ts",
+        "title": "interact-outside.pointer.7 %s"
+      }
+    ]
   },
   {
     "ids": ["interact-outside.focus.1", "interact-outside.focus.2"],
