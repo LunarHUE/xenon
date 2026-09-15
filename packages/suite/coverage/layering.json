@@ -1496,9 +1496,15 @@
   },
   {
     "ids": ["portal.dismissal.5"],
-    "status": "missing",
-    "reason": "Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices.",
-    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+    "status": "covered",
+    "reason": "A Dialog → Menu → Select → Popover hierarchy opens depth first in portalled/nonportalled and forceMount modes. Active layers and immediate triggers are visible; unopened descendants stay hidden. Escape and outside presses unwind all four levels while ancestors and surviving triggers remain available.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/portal/portal.recursive.test-browser.tsx",
+        "title": "portal.dismissal.5: recursive Dialog Menu Select Popover layers open depth first across portal modes"
+      }
+    ]
   },
   {
     "ids": ["portal.dismissal.3"],

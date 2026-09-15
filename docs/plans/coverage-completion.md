@@ -420,3 +420,11 @@ accounting. Audit records live in `packages/suite/coverage`.
   to its overlay and regains focus after Escape closes that overlay.
 - Independent final Chromium run passed all five cases. Audit validation passed;
   earlier broader Toolbar validation also passed the overlay files.
+
+### Recursive Portal hierarchy
+
+- Added a browser matrix spanning Dialog, Menu, Select and Popover, closing
+  portal.dismissal.5. It checks depth-first opening, immediate-child visibility,
+  hidden unopened descendants and four-level Escape/outside-press unwinding.
+- Both portal modes and forceMount modes run with actual visibility/state
+  assertions. Independent Chromium matrix passed; audit validation passed.
