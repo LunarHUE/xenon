@@ -64,9 +64,12 @@ Handlers: the user's runs first and `preventDefault()` skips the core one.
   indicator, control, label or thumb parts this round; visuals are CSS on the
   element or a sibling, driven by `data-state`.
 - Space toggles on every host. Enter never toggles a checkbox or a switch.
-  On the native host Enter is the form's implicit submission, and adding a
-  toggle there would make one key do both. The APG lists Enter as optional
-  for switch; we take the option not to.
+  Native checkboxes do not implicitly submit forms on Enter. The Solid
+  adapter explicitly requests submission for an interactive native Switch,
+  using its owning form and first associated submitter when present. This
+  retains native validation and submission cancellation without changing
+  checkedness. Checkbox keeps its native Enter behavior. The APG lists Enter
+  toggling as optional for switch; we take the option not to.
 - `indeterminate` is a controlled, sticky flag independent of `checked`. It
   wins for `aria-checked="mixed"` and `data-state`. Activation proposes
   `!checked` through `onCheckedChange` and does not clear it; the adapter

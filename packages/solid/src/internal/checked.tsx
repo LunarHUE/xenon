@@ -90,12 +90,12 @@ function write(props: Record<string, unknown>, key: string, value: string | unde
   else props[key] = value
 }
 
-/** Reuses the first case-insensitive onchange key so native-change resync wraps the author handler. */
-function changeKey(props: Record<string, unknown>): string {
+/** Reuses the author's event spelling when wrapping a native handler. */
+function eventKey(props: Record<string, unknown>, name: string, fallback: string): string {
   for (const key of Object.keys(props)) {
-    if (key.toLowerCase() === 'onchange') return key
+    if (key.toLowerCase() === name) return key
   }
-  return 'onChange'
+  return fallback
 }
 
 /**
@@ -249,11 +249,40 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     write(out, 'aria-describedby', describedBy())
     if (context && out['id'] === undefined) out['id'] = context.ids.control
     if (state.host === 'input') {
-      const key = changeKey(out)
+      const key = eventKey(out, 'onchange', 'onChange')
       const user = out[key]
       out[key] = (event: Event) => {
         if (typeof user === 'function') (user as Handler)(event)
         resync()
+      }
+      if (kind === 'switch') {
+        const key = eventKey(out, 'onkeydown', 'onKeyDown')
+        const user = out[key]
+        // eslint-disable-next-line solid/reactivity -- event handler reads current state on dispatch
+        out[key] = (event: KeyboardEvent) => {
+          if (typeof user === 'function') (user as Handler)(event)
+          if (
+            event.key !== 'Enter' ||
+            event.defaultPrevented ||
+            event.isComposing ||
+            !result().state.interactive ||
+            el?.matches(':disabled')
+          )
+            return
+          const form = owningForm()
+          if (!form) return
+          event.preventDefault()
+          // Native checkboxes do not implicitly submit on Enter. Preserve the
+          // first associated submitter, including buttons outside the form.
+          const submitter = Array.from(
+            form.ownerDocument.querySelectorAll<HTMLInputElement | HTMLButtonElement>(
+              'input, button'
+            )
+          ).find((node) => node.form === form && (node.type === 'submit' || node.type === 'image'))
+          if (submitter?.matches(':disabled')) return
+          if (submitter) form.requestSubmit(submitter)
+          else form.requestSubmit()
+        }
       }
     }
     return out

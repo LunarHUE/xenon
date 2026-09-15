@@ -5477,12 +5477,16 @@
   {
     "ids": ["switch.forms.1"],
     "status": "partial",
-    "reason": "Exercises disabled submission and reset/cancellation, but does not cover the full referenced HTML constraint-validation corpus.",
+    "reason": "Exercises disabled submission and reset/cancellation, but does not cover the full referenced HTML constraint-validation corpus. Required native switch reports willValidate/valueMissing, invalidates its form while off, and becomes valid when checked. The complete referenced checkbox HTML corpus remains complementary/unfinished.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.forms.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.forms.test.tsx",
         "title": "switch.forms.1"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+        "title": "switch.forms.1 applies native required validity to the switch form control"
       }
     ]
   },
@@ -5733,12 +5737,16 @@
   {
     "ids": ["switch.roles.10"],
     "status": "partial",
-    "reason": "Checks valid attributes, name and absence of nested controls; does not inspect axe superclass or accessibility-tree presentational metadata.",
+    "reason": "Checks valid attributes, name and absence of nested controls; does not inspect axe superclass or accessibility-tree presentational metadata. Named button switch exposes readonly, required and expanded attributes and passes the shared ARIA validity rule set without nested controls.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.roles.test.tsx",
         "title": "switch.roles.10"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+        "title": "switch.roles.10 allows switch-specific ARIA attributes and rejects nested focusable widgets"
       }
     ]
   },
@@ -5769,12 +5777,16 @@
   {
     "ids": ["switch.roles.13"],
     "status": "partial",
-    "reason": "Runs selected ARIA rules, but the stated unique referenced IDs contract has no explicit duplicate-id assertion.",
+    "reason": "Runs selected ARIA rules, but the stated unique referenced IDs contract has no explicit duplicate-id assertion. Two labelled switches with distinct referenced IDs pass the full shared ARIA rule set including duplicate-id-aria.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.roles.test.tsx",
         "title": "switch.roles.13"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+        "title": "switch.roles.13 passes axe when each referenced label ID is unique"
       }
     ]
   },
@@ -5828,13 +5840,17 @@
   },
   {
     "ids": ["switch.roles.21"],
-    "status": "partial",
-    "reason": "Asserts button default type and omitted type on generic tags; author type preservation and custom components are not asserted, and default Switch is an input.",
+    "status": "covered",
+    "reason": "Custom article host receives switch semantics without type, while an explicit submit type survives on a button host.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.roles.test.tsx",
         "title": "switch.roles.21"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+        "title": "switch.roles.21 preserves explicit type and omits type through a custom non-button host"
       }
     ]
   },
@@ -5960,13 +5976,17 @@
   },
   {
     "ids": ["switch.keyboard.8"],
-    "status": "partial",
-    "reason": "Asserts Enter does not toggle on each host. The with/without-submitter form-submission half is not asserted here.",
+    "status": "covered",
+    "reason": "Real Chromium Enter submits exactly once without changing checkedness, with and without a submitter. Additional regressions verify external form ownership, validation, submitter overrides and disabled/canceled guards; the native Switch adapter now explicitly requests submission.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.keyboard.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.keyboard.test.tsx",
         "title": "switch.keyboard.8"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test-browser.tsx",
+        "title": "switch.keyboard.8 submits once on Enter with and without a submitter"
       }
     ]
   },
@@ -5985,12 +6005,16 @@
   {
     "ids": ["switch.focus.2"],
     "status": "partial",
-    "reason": "Asserts nonnative root tab stop and hidden input exclusion; the alternative native-input/control data-focus branch is absent.",
+    "reason": "Asserts nonnative root tab stop and hidden input exclusion; the alternative native-input/control data-focus branch is absent. Default native input remains focusable and no hidden mirror is emitted; the browser test separately verifies named nonnative mirrors stay tabindex=-1 while the visible root receives Tab focus.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.focus.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.focus.test.tsx",
         "title": "switch.focus.2"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+        "title": "switch.focus.2 keeps the native input itself as the tab stop"
       }
     ]
   },
@@ -6093,24 +6117,32 @@
   {
     "ids": ["switch.pointer.2"],
     "status": "partial",
-    "reason": "Asserts native checked mutation and uncancelled click; it does not establish absence of all scripted handlers.",
+    "reason": "Asserts native checked mutation and uncancelled click; it does not establish absence of all scripted handlers. Real browser click flips the native checked IDL property while the host onclick property remains null.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.pointer.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.pointer.test.tsx",
         "title": "switch.pointer.2"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test-browser.tsx",
+        "title": "switch.pointer.2 native input click relies on native checkedness without an onclick property"
       }
     ]
   },
   {
     "ids": ["switch.pointer.3"],
     "status": "partial",
-    "reason": "Explicit label-for toggling/focus is asserted; wrapping-label and library-label variants are not included in this case.",
+    "reason": "Explicit label-for toggling/focus is asserted; wrapping-label and library-label variants are not included in this case. Real browser explicit label clicks toggle on and off and retain focus on the native switch.",
     "sources": ["docs/spec/switch.md", "packages/suite/src/switch/switch.pointer.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/switch/switch.pointer.test.tsx",
         "title": "switch.pointer.3"
+      },
+      {
+        "file": "packages/suite/src/switch/switch.coverage.test-browser.tsx",
+        "title": "switch.pointer.3 explicit labels toggle and retain focus on the native switch"
       }
     ]
   },

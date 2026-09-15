@@ -25,7 +25,8 @@ export type SwitchProps<T extends ValidComponent = 'input'> = Omit<
  * reset. A defined name on a non-input host adds a clipped native checkbox sibling
  * for forms. The mirror has no switch role, and the ref receives the visible host.
  *
- * Native inputs retain browser keyboard handling. Button/generic hosts expose
+ * Native inputs retain browser Space handling; Enter requests owning-form
+ * submission without toggling. Button/generic hosts expose
  * switch role and boolean aria-checked; click or Space release changes state,
  * while Enter activation is suppressed. There is no mixed/indeterminate switch
  * state. No Field is required; callers supply an accessible name and custom

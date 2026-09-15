@@ -158,3 +158,15 @@ accounting. Audit records live in `packages/suite/coverage`.
   validation, negative accessibility cases and unbuilt Indicator clauses remain partial.
 - Independent runs: nine jsdom and 12 Chromium tests passed; the three browser
   tests passed again after failure-safe form cleanup. Audit validation passed.
+
+### Switch Enter submission
+
+- Sol corrected a contradictory test expectation, then confirmed the remaining
+  no-submission failure against the accepted Switch contract. Astra added explicit
+  native Switch Enter submission without changing checkbox behavior or checkedness.
+- Browser regressions cover owning forms, submitters, validation and blocked
+  input. Documentation now describes this adapter behavior accurately.
+- Closed Enter submission and custom host type forwarding; other original Switch
+  audit rows gain evidence without claiming unbuilt parts or screen-reader proof.
+- Independent checks passed: 170 suite jsdom, 199 Chromium and 50 Solid tests,
+  both package typechecks, changed-file lint and audit validation.
