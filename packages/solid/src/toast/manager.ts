@@ -55,6 +55,8 @@ export interface ToastRecord<T = unknown> extends Omit<
   readonly open: boolean
   /** True while waiting for a slot. */
   readonly limited: boolean
+  /** True while open and held by interaction, a visible limit, or a detached provider. Persistent and loading lifetimes alone do not pause. */
+  readonly paused: boolean
   /** Increments on content updates so announcers can repeat changed messages. */
   readonly revision: number
 }
@@ -154,7 +156,9 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
     for (const entry of entries) {
       const state = entry.read()
       const limited = state.open ? !visible.has(state.id) : state.limited
-      if (state.limited !== limited) entry.write({ ...state, limited })
+      const paused = state.open && (!attached || reasons.size > 0 || limited)
+      if (state.limited !== limited || state.paused !== paused)
+        entry.write({ ...state, limited, paused })
       if (
         !attached ||
         reasons.size ||
@@ -239,6 +243,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
           priority: input.priority ?? 'low',
           open: true,
           limited: true,
+          paused: true,
           revision: 0,
         }
         let snapshot = initial
@@ -262,6 +267,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
           'onRemove',
           'open',
           'limited',
+          'paused',
           'revision',
         ] as const)
           Object.defineProperty(record, key, {

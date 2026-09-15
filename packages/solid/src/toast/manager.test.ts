@@ -4,6 +4,37 @@ import { createManager } from './manager'
 afterEach(() => vi.useRealTimers())
 
 describe('Toast manager', () => {
+  it('exposes paused state for overlapping reasons, limited records, and detached providers', () => {
+    const manager = createManager({ limit: 1, duration: 0 })
+    manager.add({ id: 'older', type: 'loading' })
+    const older = manager.toasts()[0]!
+    expect(older.paused).toBe(true)
+    const detach = manager.attach()
+    expect(older.paused).toBe(false)
+    manager.add({ id: 'newer' })
+    const newer = manager.toasts()[0]!
+    expect(older.limited).toBe(true)
+    expect(older.paused).toBe(true)
+    expect(newer.paused).toBe(false)
+    manager.pause('hover')
+    manager.pause('focus')
+    expect(newer.paused).toBe(true)
+    manager.resume('hover')
+    expect(newer.paused).toBe(true)
+    manager.resume('focus')
+    expect(newer.paused).toBe(false)
+    expect(older.paused).toBe(true)
+    detach()
+    expect(newer.paused).toBe(true)
+    const cleanup = manager.attach()
+    expect(newer.paused).toBe(false)
+    manager.dismiss('newer')
+    expect(newer.paused).toBe(false)
+    expect(older.limited).toBe(false)
+    expect(older.paused).toBe(false)
+    cleanup()
+  })
+
   it('queues every notification at limit zero and starts timing when a slot opens', () => {
     vi.useFakeTimers()
     const manager = createManager({ duration: 100, limit: 0 })
