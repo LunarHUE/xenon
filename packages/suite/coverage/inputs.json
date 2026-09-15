@@ -4898,8 +4898,8 @@
   },
   {
     "ids": ["slider.roles.16"],
-    "status": "partial",
-    "reason": "Disabled native thumb/aria-disabled and removed focus are asserted; every part marker plus the full Tab exclusion are not.",
+    "status": "covered",
+    "reason": "Native browser regression verifies marks the disabled root and every rendered part.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -4909,6 +4909,14 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "format is opt-in and disabled state updates native semantics"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.roles.16 marks the disabled root and every rendered part"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.focus.4 skips every disabled thumb between focusable controls"
       }
     ]
   },
@@ -5559,7 +5567,7 @@
   {
     "ids": ["slider.focus.1"],
     "status": "partial",
-    "reason": "Native pointer focus lands on Thumb and forward Tab reaches the next thumb; explicit tabindex=0 on every thumb is not asserted.",
+    "reason": "Native input[type=range] tabIndex=0 and actual Tab between thumbs are asserted. The literal explicit tabindex attribute differs from the native-thumb contract documented in docs/plans/slider-coverage.md; no redundant attribute is emitted.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5569,13 +5577,17 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "native keyboard, fixed tab order, form entries and reset work together"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.focus.1 gives every native thumb a tab stop and focuses the thumb"
       }
     ]
   },
   {
     "ids": ["slider.focus.2"],
-    "status": "partial",
-    "reason": "Native forward Tab walks lower to upper in DOM order; reverse Shift+Tab traversal is not asserted.",
+    "status": "covered",
+    "reason": "Native browser regression verifies tabs each range thumb in DOM order and reverse order.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5585,6 +5597,10 @@
       {
         "file": "packages/suite/src/slider/slider.test-browser.tsx",
         "title": "native keyboard, fixed tab order, form entries and reset work together"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.focus.2 tabs each range thumb in DOM order and reverse order"
       }
     ]
   },
@@ -5606,12 +5622,18 @@
   },
   {
     "ids": ["slider.focus.4"],
-    "status": "missing",
-    "reason": "Native disabled/ref/event props are supported on Thumb; scoped cases do not assert disabled Tab bypass or exact ref/currentTarget focus-event cardinality.",
+    "status": "covered",
+    "reason": "Native browser regression verifies skips every disabled thumb between focusable controls.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.focus.4 skips every disabled thumb between focusable controls"
+      }
     ]
   },
   {
@@ -5656,12 +5678,18 @@
   },
   {
     "ids": ["slider.focus.10"],
-    "status": "missing",
-    "reason": "Native disabled/ref/event props are supported on Thumb; scoped cases do not assert disabled Tab bypass or exact ref/currentTarget focus-event cardinality.",
+    "status": "covered",
+    "reason": "Native browser regression verifies fires focus and blur once per transition with the native thumb currentTarget.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-focus-extra.test-browser.tsx",
+        "title": "slider.focus.10 fires focus and blur once per transition with the native thumb currentTarget"
+      }
     ]
   },
   {

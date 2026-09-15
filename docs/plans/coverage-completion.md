@@ -657,3 +657,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps for off-grid large steps and both clamps, Meta/Control/Alt steps, directional neighbor Home/End changes, gap-blocked callback silence, and extra-thumb key silence.
 - Astra low corrected the Page fixture's grid-aligned maximum and strengthened Home/End to prove actual movement in both directions. Independent final Chromium run passed all five cases.
 - Replaced custom-property matcher objects with typed CSS property reads. The preceding keyboard/state slices passed all 33 cases across Chromium, Firefox and WebKit; the full end-to-end checkpoint passed 63 tests.
+
+### Slider focus traversal and disabled parts
+
+- Closed four gaps for forward/reverse thumb traversal, disabled Tab bypass, native focus/blur callback identity and cardinality, and disabled markers on all seven rendered parts.
+- focus.1 remains partial only for the research's explicit tabindex attribute. Astra low verified the adopted native range-input contract; tests assert native tabIndex=0 and actual Tab navigation.
+- Independent final Chromium run passed all five cases. Verifier lint, formatting and suite typechecking passed.
