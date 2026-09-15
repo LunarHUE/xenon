@@ -859,22 +859,34 @@
   },
   {
     "ids": ["number-field.focus.5"],
-    "status": "missing",
-    "reason": "Native readonly focus, label-for focus and native Tab selection are preserved by the shipped input, but these focus outcomes are not directly asserted.",
+    "status": "covered",
+    "reason": "Tab from a preceding button lands on the readonly visible spinbutton, which remains focusable and carries native readonly.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-focus.test-browser.tsx",
+        "title": "number-field.focus.5 keeps a readonly NumberField focusable in the Tab order"
+      }
     ]
   },
   {
     "ids": ["number-field.focus.6"],
-    "status": "missing",
-    "reason": "Native readonly focus, label-for focus and native Tab selection are preserved by the shipped input, but these focus outcomes are not directly asserted.",
+    "status": "covered",
+    "reason": "The public Field wrapper and Field.Label compose around NumberField; clicking the outer label moves focus to the visible NumberField spinbutton.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-focus.test-browser.tsx",
+        "title": "number-field.focus.6 focuses the visible input when its outer Field.Label is clicked"
+      }
     ]
   },
   {
@@ -889,12 +901,18 @@
   },
   {
     "ids": ["number-field.focus.8"],
-    "status": "missing",
-    "reason": "Native readonly focus, label-for focus and native Tab selection are preserved by the shipped input, but these focus outcomes are not directly asserted.",
+    "status": "covered",
+    "reason": "A real browser tabs first into an ordinary native text input and records its selection endpoints, then tabs into NumberField and verifies the library preserves the same native whole-value selection without calling select().",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
       "packages/solid/src/number-field/number-field.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-focus.test-browser.tsx",
+        "title": "number-field.focus.8 preserves the browser selection when focus arrives by Tab"
+      }
     ]
   },
   {
@@ -1221,8 +1239,8 @@
   },
   {
     "ids": ["number-field.forms.1"],
-    "status": "partial",
-    "reason": "Localized visible text and canonical FormData are asserted; hidden/visible name placement and all formatting modes are not independently checked.",
+    "status": "covered",
+    "reason": "The visible localized input has no name; the separate hidden input is explicitly asserted to carry the name, form owner, and raw value, while FormData receives the same canonical number.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1232,6 +1250,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.test-browser.tsx",
         "title": "native numeric form validation, localized submission, stepping and reset"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-forms.test-browser.tsx",
+        "title": "number-field.forms.1 keeps the visible formatted input unnamed and submits the hidden canonical value"
       }
     ]
   },
@@ -1355,8 +1377,8 @@
   },
   {
     "ids": ["number-field.forms.12"],
-    "status": "partial",
-    "reason": "Localized visible text and canonical FormData are asserted; hidden/visible name placement and all formatting modes are not independently checked.",
+    "status": "covered",
+    "reason": "A de-DE EUR field visibly renders localized currency text; its separate hidden named input and FormData are explicitly asserted to carry the unformatted value 54.5 and the correct form owner.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1366,6 +1388,10 @@
       {
         "file": "packages/suite/src/number-field/number-field.test-browser.tsx",
         "title": "native numeric form validation, localized submission, stepping and reset"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-forms.test-browser.tsx",
+        "title": "number-field.forms.12 submits an unformatted locale number beside its localized currency display"
       }
     ]
   },
@@ -1687,9 +1713,15 @@
   },
   {
     "ids": ["number-field.a11y.2"],
-    "status": "missing",
-    "reason": "No NumberField fixture invokes expectNoViolations in the inspected shared/native files; the accepted spinbutton should receive a scoped axe scan.",
-    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"]
+    "status": "covered",
+    "reason": "A real browser scans the basic labeled NumberField root with the shared axe helper and reports no violations.",
+    "sources": ["docs/spec/number-field.md", "docs/plans/number-field-coverage.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-focus.test-browser.tsx",
+        "title": "number-field.a11y.2 passes axe for a basic labeled NumberField"
+      }
+    ]
   },
   {
     "ids": ["number-field.a11y.3"],

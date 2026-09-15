@@ -530,3 +530,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Added Slider and CheckboxGroup to the common battery, completing all twelve shipped outer-Field adapters and closing field.notes.6. The labeled CheckboxGroup must contain the exact item under test.
 - State clearing includes readonly and all public flags; Combobox checks its native/ARIA attributes separately.
 - Independent final runs passed 117 jsdom and 135 Chromium tests across all helper callers; typechecking passed.
+
+### NumberField accessibility, focus and canonical form values
+
+- Closed six gaps: scoped axe scan, readonly Tab focus, outer Field label click, native whole-value Tab selection, and named hidden canonical values beside localized number/currency displays.
+- Review removed manual post-focus selection and added direct hidden-input form-owner assertions. Independent final Chromium run passed all six tests; Luna lint/types passed.
