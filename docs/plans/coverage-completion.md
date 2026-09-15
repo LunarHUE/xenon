@@ -633,3 +633,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed animation.17 using the same mutated/restarted WAAPI animation and the exported waitForExit callback, asserting exactly one completion after the restarted finish.
 - Astra low confirmed animation.9 differs from the documented next-frame discovery lifecycle; its synchronous alternative remains partial with direct evidence of actual timing.
 - Independent Chromium run passed both cases; verifier lint/format passed.
+
+### Slider ARIA, native tab stops and large steps
+
+- Closed six gaps for numeric ARIA/axe required-value metadata, separate group naming, control tab exclusion, Shift large steps and ordinary bare-arrow steps.
+- Astra low corrected the maximum fixture to the documented grid-aligned contract, then checked nonclamped large moves and both boundary clamps.
+- Independent runs passed four shared jsdom tests, five ARIA/Tab Chromium tests and two keyboard Chromium tests. Verifier/Luna lint and formatting passed.

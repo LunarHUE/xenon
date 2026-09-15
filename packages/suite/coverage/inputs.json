@@ -4718,8 +4718,8 @@
   },
   {
     "ids": ["slider.roles.1"],
-    "status": "partial",
-    "reason": "Native range role/value and a collapsed-range minimum have assertions; the complete aria-valuenow/min/max decimal attribute set is not independently checked.",
+    "status": "covered",
+    "reason": "Public thumbs expose negative/fractional current values; a generic slider missing aria-valuenow produces the exact critical axe required-attribute violation.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -4729,13 +4729,21 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "collapsed ranges have a stable zero percentage"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.1 and slider.roles.2 expose decimal slider value and bounds attributes"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.1 and slider.roles.2 axe metadata require value now while default bounds stay optional"
       }
     ]
   },
   {
     "ids": ["slider.roles.2"],
-    "status": "partial",
-    "reason": "Native range role/value and a collapsed-range minimum have assertions; the complete aria-valuenow/min/max decimal attribute set is not independently checked.",
+    "status": "covered",
+    "reason": "Explicit nondefault and default bounds accompany public values; a generic slider with value but omitted min/max passes the required-attribute rule.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -4745,6 +4753,14 @@
       {
         "file": "packages/core/src/slider/slider.test.ts",
         "title": "collapsed ranges have a stable zero percentage"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.1 and slider.roles.2 expose decimal slider value and bounds attributes"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.1 and slider.roles.2 axe metadata require value now while default bounds stay optional"
       }
     ]
   },
@@ -4816,12 +4832,18 @@
   },
   {
     "ids": ["slider.roles.9"],
-    "status": "missing",
-    "reason": "Root is a group and accepts author labels separately from thumb names, but the tests do not assert the root accessible name independently.",
+    "status": "covered",
+    "reason": "Group and thumb have independent Budget and Minimum accessible names.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.9 gives the slider group its own accessible name"
+      }
     ]
   },
   {
@@ -4912,12 +4934,22 @@
   },
   {
     "ids": ["slider.roles.21"],
-    "status": "missing",
-    "reason": "Control has no tabindex while native thumbs supply tab stops; no scoped assertion directly checks absent Control tabindex.",
+    "status": "covered",
+    "reason": "Control has no tabindex, and real browser Tab visits both thumbs while skipping the control wrapper.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+        "title": "slider.roles.21 leaves the control wrapper without a tabindex"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-aria-extra.test-browser.tsx",
+        "title": "slider.roles.21: native Tab reaches each thumb while the control wrapper is skipped"
+      }
     ]
   },
   {
@@ -5004,22 +5036,34 @@
   },
   {
     "ids": ["slider.keyboard.5"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "Real Shift-arrow input moves by largeStep=10 before clamping at both aligned bounds, asserting DOM/ARIA/callback values. The fixture follows the adopted grid-aligned maximum contract.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-extra.test-browser.tsx",
+        "title": "slider.keyboard.5: Shift+ArrowUp uses the large step and clamps at the maximum"
+      }
     ]
   },
   {
     "ids": ["slider.keyboard.6"],
-    "status": "missing",
-    "reason": "The accepted direct thumb key handler implements this path, but its complete modifier/repeat/cancellation/shadow-root behavior lacks a scoped assertion.",
+    "status": "covered",
+    "reason": "A bare ArrowUp still uses step=2 despite largeStep=10.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-keyboard-extra.test-browser.tsx",
+        "title": "slider.keyboard.6: bare arrows retain the ordinary step with an explicit large step"
+      }
     ]
   },
   {
