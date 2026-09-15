@@ -163,10 +163,11 @@
     }
   },
   "scripts": {
+    "test:dev": "node scripts/check-dev.mjs",
     "test:exports": "node scripts/check-exports.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "node scripts/check-dev.mjs && vitest run"
   },
   "dependencies": {
     "@tenon/core": "workspace:*",

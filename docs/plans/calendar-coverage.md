@@ -59,6 +59,14 @@ The core date/calendar/range suites cover date validity and immutability, Gregor
 
 The example presents studies 31 and 32 with a fixed September 14, 2026 reference. Calendar demonstrates inclusive appointment bounds and an unavailable date. RangeCalendar shows two adjacent months and an unavailable interior barrier. Consumer CSS distinguishes selection, hover/focus preview, today and neighboring-month cells. Desktop and 390px mobile inspection confirmed both calendar sections fit their containers; each range month has a visible label when stacked on narrow screens.
 
+## Development transforms
+
+The Solid package's normal test command also runs `scripts/check-dev.mjs` with
+Solid refresh enabled. This reproduced and now guards the duplicate declarations
+caused by component function overloads in the development transform. Calendar
+roots keep their overloads in callable interfaces, leaving one runtime declaration.
+The example was also checked through its actual Vite development server.
+
 ## Limits
 
 Axe excludes color contrast and landmark-region rules in this repository. It does not establish screen-reader announcement quality. No manual assistive-technology run is claimed. The custom adapter tests use Gregorian ISO fields in a separate application class; they do not claim non-Gregorian arithmetic or Temporal integration.

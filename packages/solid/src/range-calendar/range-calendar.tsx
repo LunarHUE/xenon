@@ -32,15 +32,18 @@ export type RangeCalendarProps<
   T = DateValue,
   As extends ValidComponent = 'div',
 > = CalendarBaseProps<T, CalendarRange<T>, As> & CalendarAdapterProps<T>
-/** Render a date-only range calendar. The first activation starts a draft; a valid second activation commits. */
-function RangeCalendarComponent<As extends ValidComponent = 'div'>(
-  props: RangeCalendarProps<DateValue, As>
-): JSX.Element
-/** Render a custom range representation inferred only from its required adapter. */
-function RangeCalendarComponent<T, As extends ValidComponent = 'div'>(
-  props: CalendarBaseProps<NoInfer<T>, CalendarRange<NoInfer<T>>, As> & { adapter: DateAdapter<T> }
-): JSX.Element
-function RangeCalendarComponent(props: unknown): JSX.Element {
+/** Keep overloads in a type so Solid refresh sees only one runtime component declaration. */
+interface RangeCalendarComponentType {
+  /** Render date-only ranges, committing only after a valid second activation. */
+  <As extends ValidComponent = 'div'>(props: RangeCalendarProps<DateValue, As>): JSX.Element
+  /** Infer a custom range representation only from its required adapter. */
+  <T, As extends ValidComponent = 'div'>(
+    props: CalendarBaseProps<NoInfer<T>, CalendarRange<NoInfer<T>>, As> & {
+      adapter: DateAdapter<T>
+    }
+  ): JSX.Element
+}
+const RangeCalendarComponent: RangeCalendarComponentType = (props: unknown): JSX.Element => {
   return createCalendarRoot(props as InternalCalendarProps, 'RangeCalendar', (options) =>
     rangeCalendar(options as RangeCalendarOptions<unknown>)
   )

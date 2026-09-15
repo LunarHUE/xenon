@@ -25,15 +25,16 @@ export type CalendarProps<T = DateValue, As extends ValidComponent = 'div'> = Ca
   As
 > &
   CalendarAdapterProps<T>
-/** Render an immutable Gregorian date-only calendar with optional DateProvider defaults. */
-function CalendarComponent<As extends ValidComponent = 'div'>(
-  props: CalendarProps<DateValue, As>
-): JSX.Element
-/** Render a custom representation; infer T only from its required adapter. */
-function CalendarComponent<T, As extends ValidComponent = 'div'>(
-  props: CalendarBaseProps<NoInfer<T>, NoInfer<T>, As> & { adapter: DateAdapter<T> }
-): JSX.Element
-function CalendarComponent(props: unknown): JSX.Element {
+/** Keep overloads in a type so Solid refresh sees only one runtime component declaration. */
+interface CalendarComponentType {
+  /** Render date-only values with optional provider defaults. */
+  <As extends ValidComponent = 'div'>(props: CalendarProps<DateValue, As>): JSX.Element
+  /** Infer a custom representation only from its required adapter. */
+  <T, As extends ValidComponent = 'div'>(
+    props: CalendarBaseProps<NoInfer<T>, NoInfer<T>, As> & { adapter: DateAdapter<T> }
+  ): JSX.Element
+}
+const CalendarComponent: CalendarComponentType = (props: unknown): JSX.Element => {
   return createCalendarRoot(props as InternalCalendarProps, 'Calendar', (options) =>
     calendar(options)
   )
