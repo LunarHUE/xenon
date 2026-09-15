@@ -1,5 +1,5 @@
 /**
- * Compile calendar roots through Vite's development pipeline with Solid refresh
+ * Compile public component implementations through Vite's development pipeline with Solid refresh
  * enabled. Production builds and refresh-disabled unit tests cannot detect
  * duplicate bindings introduced when refresh encounters component overloads.
  * Run with test:dev; the temporary loopback server closes even on failure.
@@ -20,12 +20,26 @@ const server = await createServer({
 })
 try {
   await server.listen()
-  for (const family of ['calendar', 'range-calendar']) {
-    const result = await server.transformRequest(`/src/${family}/${family}.tsx`)
+  for (const family of [
+    'calendar',
+    'range-calendar',
+    'avatar',
+    'visually-hidden',
+    'accessible-icon',
+    'meter',
+    'pagination',
+    'breadcrumbs',
+    'resizable',
+    'scroll-area',
+  ]) {
+    const file = ['avatar', 'visually-hidden', 'accessible-icon'].includes(family)
+      ? 'index'
+      : family
+    const result = await server.transformRequest(`/src/${family}/${file}.tsx`)
     assert(result?.code, `${family} must compile in development`)
     assert.match(result.code, /\$RefreshReg\$|_\$\$component/, 'Solid refresh must remain enabled')
   }
-  log('Calendar roots compile with Solid development refresh enabled.')
+  log('Calendar and alpha utility/layout roots compile with Solid development refresh enabled.')
 } finally {
   await server.close()
 }

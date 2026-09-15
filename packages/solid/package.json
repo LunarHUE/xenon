@@ -160,6 +160,38 @@
     "./range-calendar": {
       "types": "./src/range-calendar/index.tsx",
       "default": "./src/range-calendar/index.tsx"
+    },
+    "./avatar": {
+      "types": "./src/avatar/index.tsx",
+      "default": "./src/avatar/index.tsx"
+    },
+    "./visually-hidden": {
+      "types": "./src/visually-hidden/index.tsx",
+      "default": "./src/visually-hidden/index.tsx"
+    },
+    "./accessible-icon": {
+      "types": "./src/accessible-icon/index.tsx",
+      "default": "./src/accessible-icon/index.tsx"
+    },
+    "./meter": {
+      "types": "./src/meter/index.tsx",
+      "default": "./src/meter/index.tsx"
+    },
+    "./pagination": {
+      "types": "./src/pagination/index.tsx",
+      "default": "./src/pagination/index.tsx"
+    },
+    "./breadcrumbs": {
+      "types": "./src/breadcrumbs/index.tsx",
+      "default": "./src/breadcrumbs/index.tsx"
+    },
+    "./resizable": {
+      "types": "./src/resizable/index.tsx",
+      "default": "./src/resizable/index.tsx"
+    },
+    "./scroll-area": {
+      "types": "./src/scroll-area/index.tsx",
+      "default": "./src/scroll-area/index.tsx"
     }
   },
   "scripts": {
