@@ -280,24 +280,32 @@
   },
   {
     "ids": ["field.roles.5"],
-    "status": "partial",
-    "reason": "Live explicit control ID changes and removal are asserted; replacing a generic host with a labelable host and gaining the corresponding native association is not tested.",
+    "status": "covered",
+    "reason": "Replacing a generic Field.Control with a labelable button keeps the current control ID on the label, removes generic aria-labelledby from the button, and establishes native label association.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.5"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-more.test.tsx",
         "title": "field.roles.5"
       }
     ]
   },
   {
     "ids": ["field.roles.6"],
-    "status": "partial",
-    "reason": "Removing the selected second control retargets the first survivor. Removing the unselected first control while preserving the selected second control association is not asserted.",
+    "status": "covered",
+    "reason": "Removing the unselected first control leaves the label associated with the surviving selected second control.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.6"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-more.test.tsx",
         "title": "field.roles.6"
       }
     ]
@@ -340,9 +348,15 @@
   },
   {
     "ids": ["field.roles.13"],
-    "status": "missing",
-    "reason": "Description and error associations are generated from component registries without global-document presence lookup. No test mounts Field in a shadow root and asserts its description/error associations.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+    "status": "covered",
+    "reason": "A Field rendered inside an open shadow root resolves both description and error IDs within that shadow root and exposes both in aria-describedby.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-more.test-browser.tsx",
+        "title": "field.roles.13: shadow-root descriptions and errors resolve locally"
+      }
+    ]
   },
   {
     "ids": ["field.roles.14"],
@@ -404,8 +418,8 @@
   },
   {
     "ids": ["field.pointer.3"],
-    "status": "partial",
-    "reason": "Native ancestor fieldset rejection is asserted and labelFocus covers Field.disabled. An individually disabled control within an enabled Field is not separately asserted.",
+    "status": "covered",
+    "reason": "A label for an individually disabled native control is clicked with a real browser event and focus remains on document.body.",
     "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
     "tests": [
       {
@@ -415,6 +429,10 @@
       {
         "file": "packages/suite/src/field/field.test-browser.tsx",
         "title": "label.pointer.1"
+      },
+      {
+        "file": "packages/suite/src/field/field.coverage-more.test-browser.tsx",
+        "title": "field.pointer.3: an individually disabled control label keeps focus on the body"
       }
     ]
   },
@@ -492,9 +510,15 @@
   },
   {
     "ids": ["field.state.7"],
-    "status": "missing",
-    "reason": "Field.Control does not own/edit the native value; focus-retention tests preserve imperative text across prop changes, but none focuses a defaultValue control after an imperative DOM edit and asserts the default is not restored.",
-    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+    "status": "covered",
+    "reason": "After an imperative DOM value edit, focusing a defaultValue control preserves the edited value rather than restoring the default.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.coverage-more.test.tsx",
+        "title": "field.state.7"
+      }
+    ]
   },
   {
     "ids": ["field.state.8"],

@@ -284,3 +284,11 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent checks: all 349 core tests, 101 focused suite jsdom and 124 Chromium
   tests passed. After the final defaultValue fixture correction, all ten shared
   and 11 browser cases passed again. Core/suite types, lint and audit checks passed.
+
+### Field control replacement and shadow-root associations
+
+- Added three shared and two browser tests, closing five gaps: individually
+  disabled label activation, shadow-root description/error IDs, generic-to-native
+  control replacement, unselected control removal, and imperative value retention.
+- Independent runs: three jsdom and five Chromium tests passed. Agent typecheck
+  and changed-file lint passed; root audit validation passed.
