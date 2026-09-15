@@ -3373,7 +3373,7 @@
   {
     "ids": ["pin-input.forms.1"],
     "status": "partial",
-    "reason": "One named scalar FormData entry is asserted; the un-named proxy does not receive the proposed derived ID.",
+    "reason": "Named and unnamed proxies retain their values and visually hidden clipping/tabindex/ARIA semantics. The research-derived ID for an unnamed proxy is not emitted by the adopted API.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3383,6 +3383,10 @@
       {
         "file": "packages/solid/src/pin-input/pin-input.test.tsx",
         "title": "distributes autofill and submits one scalar value with completion"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-forms.test-browser.tsx",
+        "title": "pin-input.forms.1 named and unnamed hidden proxies exist, carry values, and stay hidden"
       }
     ]
   },
@@ -3395,7 +3399,7 @@
   {
     "ids": ["pin-input.forms.3"],
     "status": "partial",
-    "reason": "Readonly proxy autofill is repaired; disabled and all callback categories are not asserted and there is no invalid callback.",
+    "reason": "Readonly proxy edits restore both empty and existing values without callbacks, and FormData retains the original scalar. Disabled fields preserve slot state/callback silence and remain omitted from FormData. Restoring a directly scripted disabled proxy DOM mutation is not an adopted guarantee; no invalid callback API exists.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3405,13 +3409,17 @@
       {
         "file": "packages/solid/src/pin-input/pin-input.test.tsx",
         "title": "readonly autofill cannot mutate the submitted proxy, and slots inherit descriptions"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-forms.test-browser.tsx",
+        "title": "pin-input.forms.3 %s proxy edits preserve form semantics for original value %s"
       }
     ]
   },
   {
     "ids": ["pin-input.forms.4"],
     "status": "partial",
-    "reason": "Native incomplete/complete required validity is asserted, but implementation relies on the full-length pattern rather than the proposed minlength/maxlength trio.",
+    "reason": "Native validity changes from incomplete to complete in the same instance and form after keyboard entry. The proxy uses the required full-length pattern; minlength/maxlength are intentionally not emitted.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3421,13 +3429,17 @@
       {
         "file": "packages/solid/src/pin-input/pin-input.test.tsx",
         "title": "inherits Field state and restores initial form value silently"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-forms.test-browser.tsx",
+        "title": "pin-input.forms.4 required proxy exposes full-length pattern validity for incomplete and complete codes"
       }
     ]
   },
   {
     "ids": ["pin-input.forms.5"],
     "status": "partial",
-    "reason": "Field required and slot descriptions have assertions; the full disabled/readonly/error-marker matrix is not asserted and disabled does not strip author invalid state.",
+    "reason": "Field required/disabled/readonly propagation, helper/error visibility and invalid markers across every slot are asserted. Disabled fields preserve invalid state rather than stripping aria-invalid, matching the adopted contract.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3437,6 +3449,10 @@
       {
         "file": "packages/solid/src/pin-input/pin-input.test.tsx",
         "title": "readonly autofill cannot mutate the submitted proxy, and slots inherit descriptions"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-forms.test-browser.tsx",
+        "title": "pin-input.forms.5 Field state reaches slots and proxy, descriptions stay available, and errors follow invalid state"
       }
     ]
   },

@@ -744,3 +744,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Astra low reproduced the native failures. Astra medium handles primary mousedown after the consumer handler and selects only the active clicked slot, preserving bound-handler veto, readonly focus and disabled/nonprimary behavior.
 - Corrected the existing Firefox paste fixture, whose ClipboardEvent constructor discarded its supplied DataTransfer. No clipboard production change.
 - Independent full PinInput browser run passed 87 cases across three engines, excluding pending forms/role slices. All 14 adapter tests passed directly after the development compilation check succeeded but hung during shutdown; medium typechecking and lint passed.
+
+### PinInput native form contracts
+
+- Expanded four partial requirements to cover named/unnamed hidden proxies, readonly autofill repair, disabled submission omission, same-instance validity transitions, and Field state/error metadata. Remaining clauses are recorded individually as unshipped or deliberately different behavior.
+- Astra low verified the disabled synthetic-input failure reflects Solid skipping delegated events on disabled nodes. Component state and form submission are correct; no new disabled DOM-repair promise was introduced.
+- Independent final Chromium run passed all seven form cases together with the five pending role-state cases.
