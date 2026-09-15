@@ -292,3 +292,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   control replacement, unselected control removal, and imperative value retention.
 - Independent runs: three jsdom and five Chromium tests passed. Agent typecheck
   and changed-file lint passed; root audit validation passed.
+
+### Tabs naming, scrolling and nested teardown
+
+- Added seven shared and one browser test, closing five gaps for naming
+  alternatives, orphan-role axe severity, part refs/handlers, real overflow
+  scrolling and nested teardown tied to outer selection.
+- Sol corrected removal expectations to the adopted silent fallback behavior.
+  Hidden/focusable-disabled successor combinations and direct tab/menu activation
+  remain partial; research null callbacks and ID stripping are not adopted.
+- Independent final runs: seven jsdom and eight Chromium tests passed. Audit
+  validation passed; Sol also checked the two removal cases in all three engines.

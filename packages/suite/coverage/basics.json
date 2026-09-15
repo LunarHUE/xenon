@@ -5248,7 +5248,7 @@
   {
     "ids": ["tabs.state.10"],
     "status": "partial",
-    "reason": "Selected-item removal falls back to the first remaining tab. The adopted behavior is silent, so the research missing-reason callback and empty-list branches are not covered.",
+    "reason": "Selected-item removal falls back to the first remaining tab. The adopted behavior is silent, so the research missing-reason callback and empty-list branches are not covered. Removing the last remaining tab leaves an empty tab list, hidden retained panels and stable labelledby IDs without callbacks. The research callback/null/attribute-removal alternative is not adopted.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -5258,6 +5258,10 @@
       {
         "file": "packages/suite/src/tabs/tabs.reactivity.additional.test.tsx",
         "title": "removing the selected tab selects the first remaining enabled tab"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+        "title": "tabs.state.10"
       }
     ]
   },
@@ -10676,8 +10680,8 @@
   },
   {
     "ids": ["tabs.a11y.1"],
-    "status": "partial",
-    "reason": "Tests nonempty accessible names in a text fixture; each author naming alternative is not exercised.",
+    "status": "covered",
+    "reason": "Checks aria-label, title with empty children, and aria-labelledby with unique label IDs as accessible naming alternatives.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -10688,13 +10692,17 @@
       {
         "file": "packages/suite/src/tabs/tabs.a11y.test.tsx",
         "title": "tabs.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+        "title": "tabs.a11y.1"
       }
     ]
   },
   {
     "ids": ["tabs.a11y.3"],
-    "status": "partial",
-    "reason": "Positive parent-role axe check is exercised; missing-parent critical severity is not asserted.",
+    "status": "covered",
+    "reason": "Runs axe on an orphan tab and asserts the critical aria-required-parent violation.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -10704,6 +10712,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.a11y.test.tsx",
+        "title": "tabs.a11y.3"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
         "title": "tabs.a11y.3"
       }
     ]
@@ -11512,8 +11524,8 @@
   },
   {
     "ids": ["tabs.notes.3"],
-    "status": "partial",
-    "reason": "Root/tab/panel props and tab ref/click are tested; ref/click forwarding on every part is not independently asserted.",
+    "status": "covered",
+    "reason": "Asserts each root/list/tab/panel ref receives its exact host and each author click handler fires.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -11523,6 +11535,10 @@
     "tests": [
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
+        "title": "tabs.notes.3"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
         "title": "tabs.notes.3"
       }
     ]
@@ -12197,12 +12213,18 @@
   },
   {
     "ids": ["tabs.roles.8"],
-    "status": "missing",
-    "reason": "Tabs forwards author aria-haspopup but no tab-menu naming/haspopup assertion exists; the old blanket unshipped-menu exclusion is stale.",
+    "status": "partial",
+    "reason": "Tabs forwards author aria-haspopup but no tab-menu naming/haspopup assertion exists; the old blanket unshipped-menu exclusion is stale. The named tab exposes aria-haspopup=menu with a shipped Menu in its associated panel; opening that menu directly from the tab is not exercised.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+        "title": "tabs.roles.8"
+      }
     ]
   },
   {
@@ -12269,7 +12291,7 @@
   {
     "ids": ["tabs.focus.14"],
     "status": "partial",
-    "reason": "Removal of the focused tab has trusted browser fallback assertions. Hidden-successor, focusable-when-disabled and repeated-removal branches are not covered.",
+    "reason": "Removal of the focused tab has trusted browser fallback assertions. Hidden-successor, focusable-when-disabled and repeated-removal branches are not covered. After removal, disabled successor remains outside the tab sequence and enabled survivor receives tabindex=0. Hidden-successor, focusable-disabled and repeated-removal paths still need coverage.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -12280,6 +12302,10 @@
       {
         "file": "packages/suite/src/tabs/tabs.native.test-browser.tsx",
         "title": "deleting the focused tab hands the tab stop to the first enabled tab and keeps the selection"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+        "title": "tabs.focus.14"
       }
     ]
   },
@@ -12382,12 +12408,18 @@
   },
   {
     "ids": ["tabs.positioning.12"],
-    "status": "missing",
-    "reason": "Focus is delegated to the browser; no Tabs-specific overflowing strip test asserts scrolling.",
+    "status": "covered",
+    "reason": "Real CSS overflow fixture uses keyboard ArrowRight navigation, then asserts scrollLeft advances and the focused distant tab is selected.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
       "packages/solid/src/tabs/parts.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test-browser.tsx",
+        "title": "tabs.positioning.12"
+      }
     ]
   },
   {
@@ -12468,8 +12500,8 @@
   },
   {
     "ids": ["tabs.state.20"],
-    "status": "partial",
-    "reason": "Nested state ownership follows distinct contexts, but the research requires outer switching to unmount inner tabs; current panels stay mounted.",
+    "status": "covered",
+    "reason": "Outer selection callback conditionally unmounts the inner Tabs; inner selection and disappearance are asserted.",
     "sources": [
       "docs/spec/tabs.md",
       "packages/solid/src/tabs/tabs.tsx",
@@ -12480,6 +12512,10 @@
       {
         "file": "packages/suite/src/tabs/tabs.additional.test.tsx",
         "title": "only the selected panel is exposed while all panels remain mounted"
+      },
+      {
+        "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+        "title": "tabs.state.20"
       }
     ]
   },
