@@ -372,9 +372,20 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
     () => ({ orientation: axis(), element: track(), viewport: ctx.viewport() }),
     ({ orientation, element, viewport }) => {
       if (!element) return
-      const measure = () => setSize({ width: element.offsetWidth, height: element.offsetHeight })
-      const observer = element.ownerDocument.defaultView?.ResizeObserver
-      const resize = observer ? new observer(measure) : undefined
+      const view = element.ownerDocument.defaultView
+      let frame: number | undefined
+      const measure = () => {
+        frame = undefined
+        const next = { width: element.offsetWidth, height: element.offsetHeight }
+        const previous = untrack(size)
+        if (next.width !== previous.width || next.height !== previous.height) setSize(next)
+      }
+      const schedule = () => {
+        if (frame !== undefined) return
+        if (view?.requestAnimationFrame) frame = view.requestAnimationFrame(measure)
+        else measure()
+      }
+      const resize = view?.ResizeObserver ? new view.ResizeObserver(schedule) : undefined
       resize?.observe(element)
       measure()
       const unregister = ctx.registerBar({ axis: orientation, size })
@@ -392,6 +403,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
         interaction?.destroy()
         interaction = undefined
         resize?.disconnect()
+        if (frame !== undefined) view?.cancelAnimationFrame(frame)
         unregister()
       }
     }
