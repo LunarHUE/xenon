@@ -1,0 +1,1817 @@
+[
+  {
+    "ids": ["controlled-state.state.1"],
+    "status": "covered",
+    "reason": "Fixed controlled checked props report proposed changes while preserving rendered checkedness.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.8"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.2"],
+    "status": "covered",
+    "reason": "Default checked state initializes the DOM silently and user activation updates it with the proposed boolean.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.7"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.3"],
+    "status": "partial",
+    "reason": "Uncontrolled empty/default mounts explicitly assert silence; controlled tests assert interaction and external echo counts but do not separately assert silence before the first controlled interaction.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.7"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.4"],
+    "status": "covered",
+    "reason": "External controlled writes update rendered ARIA checkedness while the existing change callback count stays unchanged.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.13"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.5"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.6"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.7"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.8"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.9"],
+    "status": "partial",
+    "reason": "The adopted undefined sentinel and return to internal selection are asserted. The null-as-a-valid-controlled-value clause is not established by this string-array API.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "controlled changes snap back and external writes update stable nodes"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.10"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.11"],
+    "status": "inapplicable",
+    "reason": "Selection cardinality and deselection are component-specific APIs; there is no shared inferred/coercing single/multiple type or toggle/replace-mode controlled-state primitive.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.state.12"],
+    "status": "inapplicable",
+    "reason": "Selection cardinality and deselection are component-specific APIs; there is no shared inferred/coercing single/multiple type or toggle/replace-mode controlled-state primitive.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.state.13"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.14"],
+    "status": "inapplicable",
+    "reason": "Changing defaults is supported as the next native reset baseline; there is no warn-once default immutability policy.",
+    "sources": [
+      "docs/spec/field.md",
+      "packages/solid/src/checkbox-group/checkbox-group.contracts.test.tsx"
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.15"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.16"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.17"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.18"],
+    "status": "partial",
+    "reason": "Controlled activation preserves the prop and reports a proposed next value. Repeating a rejected transition, especially mixed presentation, is not asserted in this case.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.8"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.19"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.20"],
+    "status": "inapplicable",
+    "reason": "This prescribes an arbitrary-value setter, equality algorithm, previous-value helper or store internals. The repository exposes component-specific typed props/callbacks, not the generic controlled-state/store primitive assumed by this bullet. Shared checked state is boolean and component callbacks are not host signal setters.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.21"],
+    "status": "inapplicable",
+    "reason": "Architecture explicitly adopts silent return to internal state when a controlled prop becomes undefined; warning or refusing the setter is the rejected alternative.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.state.22"],
+    "status": "inapplicable",
+    "reason": "Architecture explicitly adopts silent return to internal state when a controlled prop becomes undefined; warning or refusing the setter is the rejected alternative.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.state.23"],
+    "status": "partial",
+    "reason": "Controlled membership becomes undefined and restores the stale internal empty selection. The test does not spy on warning/error output.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "controlled changes snap back and external writes update stable nodes"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled-state.state.24"],
+    "status": "inapplicable",
+    "reason": "Public checked callbacks receive the next boolean and return void. Cancellation uses preventDefault on the author DOM event; callback return-value transformation and details.cancel are not the adopted API.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.state.25"],
+    "status": "inapplicable",
+    "reason": "Public checked callbacks receive the next boolean and return void. Cancellation uses preventDefault on the author DOM event; callback return-value transformation and details.cancel are not the adopted API.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.notes.1"],
+    "status": "inapplicable",
+    "reason": "There is no exported generic controllable signal returning an opaque getter/setter pair; adapters own component-specific internal state.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/internal/checked.tsx"]
+  },
+  {
+    "ids": ["controlled-state.notes.2"],
+    "status": "inapplicable",
+    "reason": "This is an observation about upstream research gaps, not an assertion contract. Mode switching is decided in architecture and function-valued generic state is not an exposed primitive.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.notes.3"],
+    "status": "inapplicable",
+    "reason": "HeadlessUI render-slot state and its space-separated data attribute list are foreign adapter conventions; architecture adopts explicit data-state and part-specific presence hooks.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled-state.notes.4"],
+    "status": "inapplicable",
+    "reason": "A prescribed Kobalte microtask/implementation timing is a harness concern, not a shipped observable component requirement. Solid tests use their own settle helper.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.test.tsx"]
+  },
+  {
+    "ids": ["field.roles.1"],
+    "status": "covered",
+    "reason": "The default group, state presence flags and native fieldset role suppression are directly asserted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.roles.2"],
+    "status": "deferred",
+    "reason": "The shipped field mirrors four boolean flags only. Dirty, touched, filled, focused and broader metadata are explicitly outside the first Field surface.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.3"],
+    "status": "inapplicable",
+    "reason": "Generated associations are tested, but the literal contract requires an error-message suffix. The adopted suffix is -error; author IDs derive from an initial captured base.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.4"],
+    "status": "covered",
+    "reason": "Shared contract asserts label association, name, native disabled/required, invalid and description merging; native readonly itself is asserted by the Solid four-flags case.",
+    "sources": [
+      "docs/spec/field.md",
+      "packages/suite/src/field/field.test.tsx",
+      "packages/solid/src/field/field.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.4"
+      },
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "every part mirrors the four state flags"
+      }
+    ]
+  },
+  {
+    "ids": ["field.roles.5"],
+    "status": "partial",
+    "reason": "Live explicit control ID changes and removal are asserted; replacing a generic host with a labelable host and gaining the corresponding native association is not tested.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.5"
+      }
+    ]
+  },
+  {
+    "ids": ["field.roles.6"],
+    "status": "partial",
+    "reason": "Removing the selected second control retargets the first survivor. Removing the unselected first control while preserving the selected second control association is not asserted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.6"
+      }
+    ]
+  },
+  {
+    "ids": ["field.roles.7"],
+    "status": "inapplicable",
+    "reason": "React 19 activity/effect destruction is framework-specific; this package is a Solid adapter with different owner/cleanup semantics.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.8"],
+    "status": "deferred",
+    "reason": "Field.Item, target and RequiredIndicator are explicitly outside the exported Field surface; consumer-authored indicators and CheckboxGroup.Item do not establish these Field-specific APIs.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.9"],
+    "status": "deferred",
+    "reason": "Field.Item, target and RequiredIndicator are explicitly outside the exported Field surface; consumer-authored indicators and CheckboxGroup.Item do not establish these Field-specific APIs.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.10"],
+    "status": "deferred",
+    "reason": "Field.Item, target and RequiredIndicator are explicitly outside the exported Field surface; consumer-authored indicators and CheckboxGroup.Item do not establish these Field-specific APIs.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.11"],
+    "status": "inapplicable",
+    "reason": "The shipped error is an invalid-only role=alert, not aria-live=polite. The README explicitly records that alternative.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.12"],
+    "status": "inapplicable",
+    "reason": "This requires asynchronous MutationObserver lookup as an implementation mechanism. Field parts use lifecycle registries and SSR association finalization instead.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+  },
+  {
+    "ids": ["field.roles.13"],
+    "status": "missing",
+    "reason": "Description and error associations are generated from component registries without global-document presence lookup. No test mounts Field in a shadow root and asserts its description/error associations.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+  },
+  {
+    "ids": ["field.roles.14"],
+    "status": "deferred",
+    "reason": "The shipped field mirrors four boolean flags only. Dirty, touched, filled, focused and broader metadata are explicitly outside the first Field surface.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.15"],
+    "status": "inapplicable",
+    "reason": "Disabling does not remove invalid ARIA or hide authored invalid errors; the shared four-flag contract explicitly preserves both states.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.roles.16"],
+    "status": "deferred",
+    "reason": "Field.Item, target and RequiredIndicator are explicitly outside the exported Field surface; consumer-authored indicators and CheckboxGroup.Item do not establish these Field-specific APIs.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.keyboard.1"],
+    "status": "deferred",
+    "reason": "Enter-driven validation and form orchestration require the validation controller explicitly excluded from Field scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.keyboard.2"],
+    "status": "deferred",
+    "reason": "Enter-driven validation and form orchestration require the validation controller explicitly excluded from Field scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.keyboard.3"],
+    "status": "deferred",
+    "reason": "Enter-driven validation and form orchestration require the validation controller explicitly excluded from Field scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.pointer.1"],
+    "status": "covered",
+    "reason": "Browser tests exercise label click on generic focusable controls; native label activation is separately asserted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "field.pointer.1"
+      },
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "label.pointer.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.pointer.2"],
+    "status": "deferred",
+    "reason": "Passive labels are explicitly outside the shipped native Field.Label API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.pointer.3"],
+    "status": "partial",
+    "reason": "Native ancestor fieldset rejection is asserted and labelFocus covers Field.disabled. An individually disabled control within an enabled Field is not separately asserted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "field.pointer.3"
+      },
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "label.pointer.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.focus.1"],
+    "status": "covered",
+    "reason": "Refs on root, label, control and description remain called once across unrelated/state updates.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.focus.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.focus.2"],
+    "status": "deferred",
+    "reason": "Target-based focus and Field.Item namespaces require APIs explicitly outside current Field scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.focus.3"],
+    "status": "deferred",
+    "reason": "Target-based focus and Field.Item namespaces require APIs explicitly outside current Field scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.focus.4"],
+    "status": "covered",
+    "reason": "An unlabelled focused input remains the same DOM node, focused with its typed value across invalid and description/flag updates.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.focus.4"
+      }
+    ]
+  },
+  {
+    "ids": ["field.state.1"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.2"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.3"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.4"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.5"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.6"],
+    "status": "deferred",
+    "reason": "Filled/dirty/touched baselines and validation metadata are explicitly excluded; Field.Control forwards native values without a Field-owned value controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.7"],
+    "status": "missing",
+    "reason": "Field.Control does not own/edit the native value; focus-retention tests preserve imperative text across prop changes, but none focuses a defaultValue control after an imperative DOM edit and asserts the default is not restored.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["field.state.8"],
+    "status": "deferred",
+    "reason": "Imperative validate actions require the excluded validation controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.state.9"],
+    "status": "deferred",
+    "reason": "Fieldset value/invalid inheritance through Field.Item requires the excluded fieldset/item metadata controller. Shipped CheckboxGroup membership does not provide that API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.1"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.2"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.3"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.4"],
+    "status": "partial",
+    "reason": "Required and native/data flags are asserted on shipped parts; a consumer-authored star is in the axe fixture, but no RequiredIndicator component/default behavior is shipped.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.4"
+      }
+    ]
+  },
+  {
+    "ids": ["field.forms.5"],
+    "status": "covered",
+    "reason": "Shared contract preserves helper descriptions, includes invalid error text and removes the error and its reference when valid.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.forms.5"
+      }
+    ]
+  },
+  {
+    "ids": ["field.forms.6"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.7"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.8"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.9"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.10"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.11"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.12"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.13"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.14"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.15"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.16"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.17"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.18"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.19"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.20"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.21"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.22"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.23"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.24"],
+    "status": "deferred",
+    "reason": "Field validation, server error maps, matchers, validation scheduling and imperative actions are explicitly outside current Field scope. Native validity tests do not implement or assert this Field-owned validation contract.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.forms.25"],
+    "status": "covered",
+    "reason": "Native input/textarea form batteries assert initial and edited FormData, reset to initial payload and disabled exclusion.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "input.forms.1"
+      },
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "textarea.forms.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.forms.26"],
+    "status": "covered",
+    "reason": "Empty description/error IDs leave the authored description reference unchanged.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.forms.26"
+      }
+    ]
+  },
+  {
+    "ids": ["field.forms.27"],
+    "status": "inapplicable",
+    "reason": "Architecture chooses author-first aria-describedby with descriptions then errors; separate aria-errormessage and library-first order are rejected alternatives.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["field.forms.28"],
+    "status": "covered",
+    "reason": "Shared contract explicitly asserts combined description/error IDs and absence of aria-errormessage.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.forms.28"
+      }
+    ]
+  },
+  {
+    "ids": ["field.forms.29"],
+    "status": "inapplicable",
+    "reason": "Architecture chooses author-first aria-describedby with descriptions then errors; separate aria-errormessage and library-first order are rejected alternatives.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["field.forms.30"],
+    "status": "covered",
+    "reason": "Shared contract asserts author IDs before helper and error IDs.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.forms.30"
+      }
+    ]
+  },
+  {
+    "ids": ["field.animation.1"],
+    "status": "deferred",
+    "reason": "Error enter/exit presence transitions are explicitly outside the first Field surface; current errors mount/unmount with invalid state.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.ssr.1"],
+    "status": "inapplicable",
+    "reason": "The proposed non-native-label/hydration-only naming policy is not the shipped native Field.Label policy; Field SSR finalizes references before sending markup.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.ssr.2"],
+    "status": "partial",
+    "reason": "Client label unmount removes its ARIA reference, but E2E hydration tests never remove a hydrated label.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "label.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.ssr.3"],
+    "status": "deferred",
+    "reason": "Focused metadata is outside Field scope; hydration does not synthesize data-focused.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.ssr.4"],
+    "status": "inapplicable",
+    "reason": "This combines a React useId fallback with an imperative validation API. Solid generates its own base and the validation action is not exported.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.a11y.1"],
+    "status": "covered",
+    "reason": "Axe audits a required invalid Field with native label, consumer-authored aria-hidden indicator, control, helper and error.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.a11y.1"
+      }
+    ]
+  },
+  {
+    "ids": ["field.notes.1"],
+    "status": "deferred",
+    "reason": "Field.Item is not exported; missing-context behavior for another part cannot assert this API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.notes.2"],
+    "status": "inapplicable",
+    "reason": "Field.Control deliberately requires its parent context and throws outside it; tolerant missing context is explicitly rejected.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.notes.3"],
+    "status": "covered",
+    "reason": "Generated IDs are asserted by nonempty base, suffix and cross-reference, not runtime literal strings.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.notes.3"
+      }
+    ]
+  },
+  {
+    "ids": ["field.notes.4"],
+    "status": "inapplicable",
+    "reason": "The specified React render-count arithmetic is not a Solid component contract. Native Field.Control values do not rerender the component per keystroke.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["field.notes.5"],
+    "status": "deferred",
+    "reason": "The Fieldset context/defaulted-textarea feedback scenario assumes the excluded Fieldset controller; native fieldset hosts have no such context.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["field.notes.6"],
+    "status": "partial",
+    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery.",
+    "sources": [
+      "docs/spec/field.md",
+      "packages/suite/src/field/field.test.tsx",
+      "packages/suite/src/field/contract.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.notes.6"
+      }
+    ]
+  },
+  {
+    "ids": ["label.roles.1"],
+    "status": "inapplicable",
+    "reason": "The accepted native label policy uses label[for] without redundant aria-labelledby; generic hosts use author-first ARIA IDs. Library-first/control-self naming clauses in these bullets are not adopted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.2"],
+    "status": "inapplicable",
+    "reason": "The accepted native label policy uses label[for] without redundant aria-labelledby; generic hosts use author-first ARIA IDs. Library-first/control-self naming clauses in these bullets are not adopted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.3"],
+    "status": "inapplicable",
+    "reason": "The accepted native label policy uses label[for] without redundant aria-labelledby; generic hosts use author-first ARIA IDs. Library-first/control-self naming clauses in these bullets are not adopted.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.4"],
+    "status": "deferred",
+    "reason": "Field.Label is a native label with no polymorphic as; the non-native Field.Label API is explicitly outside scope. CheckboxGroup.Label is a separate non-activating group-name span.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.5"],
+    "status": "partial",
+    "reason": "The four Field flags are asserted on labels, but the label has no asserted per-part data attribute.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "every part mirrors the four state flags"
+      }
+    ]
+  },
+  {
+    "ids": ["label.roles.6"],
+    "status": "covered",
+    "reason": "No rendered label yields no aria-labelledby on a generic control.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "label.roles.6"
+      }
+    ]
+  },
+  {
+    "ids": ["label.roles.7"],
+    "status": "inapplicable",
+    "reason": "Self-ID augmentation of aria-label is not adopted; native author naming props pass through and Field.Label owns its own context-generated ID.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.8"],
+    "status": "deferred",
+    "reason": "A standalone bare label primitive is not exported; Field.Label requires Field context and generates an ID.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.roles.9"],
+    "status": "inapplicable",
+    "reason": "CheckboxGroup naming is shipped, but Field.Label does not adopt the proposed hydration-only removal of for; CheckboxGroup.Label uses an initially non-native span with group ARIA naming.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["label.pointer.1"],
+    "status": "covered",
+    "reason": "Native browser label click focuses the input and disabled Field blocks focus.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "label.pointer.1"
+      }
+    ]
+  },
+  {
+    "ids": ["label.pointer.2"],
+    "status": "inapplicable",
+    "reason": "Standalone/passive label association is outside Field.Label scope; its registered control target remains the fallback even when author for points elsewhere.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.pointer.3"],
+    "status": "deferred",
+    "reason": "Non-native Field.Label activation is outside the exported native-only label surface. A native label focusing a generic control is a different composition.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.a11y.1"],
+    "status": "covered",
+    "reason": "Full native label/control Field composition is audited with axe.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.a11y.1"
+      }
+    ]
+  },
+  {
+    "ids": ["label.a11y.2"],
+    "status": "deferred",
+    "reason": "Missing-name warnings and nativeLabel mismatch diagnostics are explicitly outside the shipped label API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.notes.1"],
+    "status": "deferred",
+    "reason": "Missing-name warnings and nativeLabel mismatch diagnostics are explicitly outside the shipped label API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["label.notes.2"],
+    "status": "missing",
+    "reason": "Label author props pass through reactively and its generated ID is stable, but no test updates an extra authored label prop and asserts that ID remains unchanged.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["description.roles.1"],
+    "status": "covered",
+    "reason": "Multiple descriptions are asserted in DOM order with the combined accessible text.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "description.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.2"],
+    "status": "covered",
+    "reason": "Helper and error both appear in aria-describedby and the accessible description.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "description.roles.2"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.3"],
+    "status": "covered",
+    "reason": "Invalid description-only and valid error-only cases assert the correct remaining/absent reference and error DOM.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "description.roles.3"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.4"],
+    "status": "covered",
+    "reason": "Neither part produces no aria-describedby.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "description.roles.4"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.5"],
+    "status": "covered",
+    "reason": "An unrendered description creates no dangling reference.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "an unrendered description is never referenced"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.6"],
+    "status": "covered",
+    "reason": "Conditional description mounting and removal adds/removes the reference.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "description.roles.6"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.7"],
+    "status": "partial",
+    "reason": "Unrendered parts do not produce control references. Internal IDs are allocated from the root base, and no passed-but-unused description/error prop fixture asserts the entire slot-lazy allocation clause.",
+    "sources": ["docs/spec/field.md", "packages/core/src/field/field.test.ts"],
+    "tests": [
+      {
+        "file": "packages/core/src/field/field.test.ts",
+        "title": "unrendered parts and empty ids are never referenced"
+      }
+    ]
+  },
+  {
+    "ids": ["description.roles.8"],
+    "status": "partial",
+    "reason": "Shipped CheckboxGroup asserts author-first group descriptions and inherited item references, but does not combine an individual Field description with the group description to assert their relative order.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "author association IDs lead group description and conditional error IDs"
+      }
+    ]
+  },
+  {
+    "ids": ["fieldset.roles.1"],
+    "status": "covered",
+    "reason": "Native Field as=fieldset omits group role while default non-native Field has it.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["fieldset.roles.2"],
+    "status": "deferred",
+    "reason": "A dedicated Fieldset/Legend/helper/error context is explicitly outside scope; Field as=fieldset only applies native grouping/disabled semantics.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.roles.3"],
+    "status": "deferred",
+    "reason": "A dedicated Fieldset/Legend/helper/error context is explicitly outside scope; Field as=fieldset only applies native grouping/disabled semantics.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.roles.4"],
+    "status": "deferred",
+    "reason": "A dedicated Fieldset/Legend/helper/error context is explicitly outside scope; Field as=fieldset only applies native grouping/disabled semantics.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.roles.5"],
+    "status": "deferred",
+    "reason": "A dedicated Fieldset/Legend/helper/error context is explicitly outside scope; Field as=fieldset only applies native grouping/disabled semantics.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.roles.6"],
+    "status": "partial",
+    "reason": "Native fieldset disabled is asserted. The generic Field root does not generate aria-disabled, so the complete polymorphic fieldset contract is not established.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "as=\"fieldset\" drops the group role and disables natively"
+      }
+    ]
+  },
+  {
+    "ids": ["fieldset.forms.1"],
+    "status": "partial",
+    "reason": "Native disabled nesting and first-legend exception are asserted for checkboxes. The universal descendant-control matrix and further nested-legend cases are not covered.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.forms.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
+        "title": "checkbox.forms.6"
+      }
+    ]
+  },
+  {
+    "ids": ["fieldset.forms.2"],
+    "status": "deferred",
+    "reason": "Reactive Fieldset-context propagation beyond native disabling is explicitly outside scope. Shipped CheckboxGroup.disabled and outer Field flags do not constitute a Fieldset controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.forms.3"],
+    "status": "deferred",
+    "reason": "Reactive Fieldset-context propagation beyond native disabling is explicitly outside scope. Shipped CheckboxGroup.disabled and outer Field flags do not constitute a Fieldset controller.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.forms.4"],
+    "status": "inapplicable",
+    "reason": "The requirement to clear invalid ARIA/unmount errors on disable contradicts Field disabled+invalid independence. Native disabled validation/submission exclusion does not imply that rejected error policy.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.forms.5"],
+    "status": "deferred",
+    "reason": "Dedicated Fieldset helper/error/legend and hydration context are outside the shipped surface; a native Field root is not that component.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.ssr.1"],
+    "status": "deferred",
+    "reason": "Dedicated Fieldset helper/error/legend and hydration context are outside the shipped surface; a native Field root is not that component.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["fieldset.notes.1"],
+    "status": "deferred",
+    "reason": "Dedicated Fieldset helper/error/legend and hydration context are outside the shipped surface; a native Field root is not that component.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.2"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.3"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.4"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.5"],
+    "status": "inapplicable",
+    "reason": "Core Field deliberately preserves whitespace/duplicate author IDs while joining association strings; normalization/deduplication is not the adopted policy.",
+    "sources": ["docs/spec/field.md", "packages/core/src/field/field.ts"]
+  },
+  {
+    "ids": ["form.roles.6"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.roles.7"],
+    "status": "inapplicable",
+    "reason": "Field.Error defaults to p with role=alert, not span, and does not expose a React render-prop mismatch diagnostic.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["form.focus.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.2"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.3"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.4"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.5"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.6"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.7"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.8"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.focus.9"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.focus.10"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.state.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.state.2"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.state.3"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.1"],
+    "status": "covered",
+    "reason": "Native checkbox reset asserts bubbling/cancelability, reset restoration without input events and cancellation preserving the edited state.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.forms.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
+        "title": "checkbox.forms.3"
+      }
+    ]
+  },
+  {
+    "ids": ["form.forms.2"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.3"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.4"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.5"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.6"],
+    "status": "partial",
+    "reason": "Multiple controls and late reset cancellation are covered in component reset tests, but no assertion verifies bubble stopPropagation still runs every reset hook or capture cancellation suppresses every hook.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "late window reset cancellation preserves uncontrolled group membership"
+      }
+    ]
+  },
+  {
+    "ids": ["form.forms.7"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.8"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.9"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.10"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.11"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.12"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.13"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.14"],
+    "status": "inapplicable",
+    "reason": "Field.invalid is ARIA-only and independent of disabled/native validity; it neither blocks submission itself nor disappears on disable.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.native.test-browser.tsx"]
+  },
+  {
+    "ids": ["form.forms.15"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.16"],
+    "status": "inapplicable",
+    "reason": "Field.invalid is ARIA-only and independent of disabled/native validity; it neither blocks submission itself nor disappears on disable.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.native.test-browser.tsx"]
+  },
+  {
+    "ids": ["form.forms.17"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.18"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.19"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.20"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.forms.21"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.forms.22"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.forms.23"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.forms.24"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.25"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.26"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.forms.27"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.ssr.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.a11y.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.notes.1"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["form.notes.2"],
+    "status": "deferred",
+    "reason": "Nested value serialization, array field helpers, path proxies and touched-state orchestration are explicitly out of scope for this headless component set.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["form.notes.3"],
+    "status": "deferred",
+    "reason": "A Form controller, field registration/validation state and form-level parts are explicitly outside current scope. Native form elements in component fixtures do not establish this library Form API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["input.roles.1"],
+    "status": "covered",
+    "reason": "The parameterized native host case asserts tag, generated nonempty ID and verbatim author ID.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "input.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["input.roles.2"],
+    "status": "covered",
+    "reason": "Shared native Field battery asserts disabled inheritance and clearing.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "input.roles.2"
+      }
+    ]
+  },
+  {
+    "ids": ["input.roles.3"],
+    "status": "inapplicable",
+    "reason": "Native Field.Control is named by label[for], without redundant aria-labelledby; descriptions do merge, but the required label ARIA policy is explicitly rejected.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["input.roles.4"],
+    "status": "missing",
+    "reason": "Field root disabled state comes only from its own prop, but no assertion composes each individually disabled button/submit/select child and checks the wrapper remains enabled.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+  },
+  {
+    "ids": ["input.roles.5"],
+    "status": "missing",
+    "reason": "Native readonly pass-through is tested separately; the share-link/key-hint accessible-name composition has no assertion.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["input.pointer.1"],
+    "status": "partial",
+    "reason": "Native label activation and disabled Field/fieldset suppression are asserted. Passive-label API and independently disabled input branch are not covered.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "label.pointer.1"
+      }
+    ]
+  },
+  {
+    "ids": ["input.pointer.2"],
+    "status": "deferred",
+    "reason": "Prefix/target furniture focus behavior is outside the first plain native Field.Control surface.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["input.forms.1"],
+    "status": "covered",
+    "reason": "Native form battery asserts named initial/edited values, reset payload and disabled exclusion.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "input.forms.1"
+      }
+    ]
+  },
+  {
+    "ids": ["input.notes.1"],
+    "status": "inapplicable",
+    "reason": "The proposed render-prop ref-type protocol is foreign; Field.Control has an as generic with an HTMLElement callback rather than a render prop whose ref type follows the host.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["textarea.roles.1"],
+    "status": "covered",
+    "reason": "The parameterized native host case asserts tag, generated nonempty ID and verbatim author ID.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "textarea.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["textarea.roles.2"],
+    "status": "covered",
+    "reason": "Shared native Field battery asserts disabled inheritance and clearing.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "textarea.roles.2"
+      }
+    ]
+  },
+  {
+    "ids": ["textarea.roles.3"],
+    "status": "inapplicable",
+    "reason": "Native Field.Control is named by label[for], without redundant aria-labelledby; descriptions do merge, but the required label ARIA policy is explicitly rejected.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["textarea.roles.4"],
+    "status": "deferred",
+    "reason": "Submit-on-Enter textarea behavior is explicitly excluded; consumers receive ordinary native textarea editing.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["textarea.roles.5"],
+    "status": "inapplicable",
+    "reason": "There is no text-field hook stripping authored type/pattern on textarea; Field.Control forwards host attributes and relies on native capabilities.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["textarea.keyboard.1"],
+    "status": "deferred",
+    "reason": "Submit-on-Enter textarea behavior is explicitly excluded; consumers receive ordinary native textarea editing.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["textarea.pointer.1"],
+    "status": "missing",
+    "reason": "The browser labelFocus helper supports textarea but is only called for input and div. Native textarea label focus and its disabled variants have no assertion; the passive-label API is separately excluded from scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"]
+  },
+  {
+    "ids": ["textarea.forms.1"],
+    "status": "covered",
+    "reason": "Native form battery asserts named initial/edited values, reset payload and disabled exclusion.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "textarea.forms.1"
+      }
+    ]
+  },
+  {
+    "ids": ["textarea.positioning.1"],
+    "status": "deferred",
+    "reason": "Auto-growing textarea sizing is explicitly deferred to consumers.",
+    "sources": ["docs/spec/field.md", "docs/spec/field.md"]
+  },
+  {
+    "ids": ["text-field.roles.1"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.1"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.roles.2"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.2"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.roles.3"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.3"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.roles.4"],
+    "status": "inapplicable",
+    "reason": "The native-first policy emits native required/disabled/readonly instead of redundant ARIA counterparts; generic hosts receive ARIA alternatives.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["text-field.roles.5"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.5"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.roles.6"],
+    "status": "deferred",
+    "reason": "excludeFromTabOrder is not an exported Field.Control option; authors can pass tabindex directly.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.roles.7"],
+    "status": "inapplicable",
+    "reason": "Field root id is a captured base producing a -control ID, not forwarded verbatim to the control. Control IDs can override it, but the proposed root-ID routing is not adopted.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/field.tsx"]
+  },
+  {
+    "ids": ["text-field.roles.8"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.8"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.keyboard.1"],
+    "status": "covered",
+    "reason": "Real Tab focuses the native textbox and typing produces the expected rendered value.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "text-field.keyboard.1"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.pointer.1"],
+    "status": "deferred",
+    "reason": "Hover/focus-visible metadata and class orchestration are outside the plain native text-control surface.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.pointer.2"],
+    "status": "partial",
+    "reason": "Readonly direct click takes focus; the disabled branch clicks its label rather than directly clicking the disabled input.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/field.test-browser.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test-browser.tsx",
+        "title": "text-field.pointer.2"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.focus.1"],
+    "status": "missing",
+    "reason": "Native focus/blur/autofocus props are forwarded, but no text-control case counts programmatic and click focus/blur callbacks and mount autofocus exactly once.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["text-field.focus.2"],
+    "status": "deferred",
+    "reason": "Hover/focus-visible metadata and class orchestration are outside the plain native text-control surface.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.state.1"],
+    "status": "deferred",
+    "reason": "A standalone text value controller and value-based change callback are explicitly excluded. Field.Control passes native value/defaultValue/events to the host.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.state.2"],
+    "status": "deferred",
+    "reason": "A standalone text value controller and value-based change callback are explicitly excluded. Field.Control passes native value/defaultValue/events to the host.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.state.3"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.state.3"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.forms.1"],
+    "status": "covered",
+    "reason": "The native text-control conformance case directly asserts this default, passthrough, ref or native form association.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/text-field.test.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.forms.1"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.forms.2"],
+    "status": "deferred",
+    "reason": "Controlled reset/validation-message orchestration belongs to the standalone text-field controller excluded from first scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.forms.3"],
+    "status": "inapplicable",
+    "reason": "React 19 form action state is foreign to this Solid adapter.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.forms.4"],
+    "status": "deferred",
+    "reason": "Controlled reset/validation-message orchestration belongs to the standalone text-field controller excluded from first scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.forms.5"],
+    "status": "deferred",
+    "reason": "Controlled reset/validation-message orchestration belongs to the standalone text-field controller excluded from first scope.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.forms.6"],
+    "status": "inapplicable",
+    "reason": "Field.Error registers its ID based on invalid state rather than nonempty text; the described empty-content filtering is not the adopted Field association policy.",
+    "sources": ["docs/spec/field.md", "packages/solid/src/field/parts.tsx"]
+  },
+  {
+    "ids": ["text-field.forms.7"],
+    "status": "inapplicable",
+    "reason": "Architecture retains helper descriptions alongside errors rather than swapping them out during invalid state.",
+    "sources": ["docs/spec/field.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["text-field.ssr.1"],
+    "status": "partial",
+    "reason": "SSR/hydration E2E verifies native text input fields without warnings or replacement; that fixture does not include a textarea hydration case.",
+    "sources": ["docs/spec/field.md", "packages/suite/e2e/field-associations.spec.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/field-associations.spec.ts",
+        "title": "nested Field associations survive string rendering and hydration"
+      }
+    ]
+  },
+  {
+    "ids": ["text-field.a11y.1"],
+    "status": "inapplicable",
+    "reason": "Field.Control forwards native placeholder and provides no React Spectrum placeholder deprecation warning; warning furniture is outside the adopted text-control API.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  },
+  {
+    "ids": ["text-field.notes.1"],
+    "status": "inapplicable",
+    "reason": "This is a jsdom testing limitation note for the deferred submit-on-Enter feature, not a shipped component assertion.",
+    "sources": ["docs/spec/field.md", "packages/suite/src/field/README.md"]
+  }
+]

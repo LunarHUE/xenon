@@ -1,0 +1,503 @@
+[
+  {
+    "ids": ["positioning.roles.1", "positioning.roles.3"],
+    "status": "inapplicable",
+    "reason": "The adopted engine uses an explicit wrapper/ref and explicit arrow node; it does not emit Radix/Reka wrapper attributes or discover Zag arrow selectors.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.roles.2"],
+    "status": "partial",
+    "reason": "The browser asserts rendered arrow aria-hidden=true, and the Solid unit test asserts returned arrow props include role=presentation and aria-hidden=true. The rendered DOM role=presentation is not independently asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/solid-positioning.test-browser.tsx",
+        "title": "initial visibility gives way to measured geometry without changing a nested content transform"
+      },
+      {
+        "file": "packages/solid/src/positioning/positioning.test.tsx",
+        "title": "keeps engine coordinates while publishing visibility, errors and disabled state"
+      }
+    ]
+  },
+  {
+    "ids": [
+      "positioning.focus.1",
+      "positioning.positioning.42",
+      "positioning.positioning.43",
+      "positioning.positioning.44",
+      "positioning.positioning.45",
+      "positioning.positioning.46",
+      "positioning.positioning.47",
+      "positioning.positioning.48",
+      "positioning.positioning.49",
+      "positioning.positioning.50",
+      "positioning.positioning.51"
+    ],
+    "status": "deferred",
+    "reason": "Pointer-following and hovered-line/inline reference selection are explicitly deferred in the positioning contract; virtual rect support alone does not supply these interaction lifecycles.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.state.1"],
+    "status": "inapplicable",
+    "reason": "Initial x/y are null under the adopted contract, not the zero coordinates required by this Corvu observation.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.state.2"],
+    "status": "inapplicable",
+    "reason": "The adopted callback runs on accepted state changes and never after disposal; the checklist itself notes that its Zag teardown callback claim was overstated.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.dismissal.1", "positioning.dismissal.2", "positioning.dismissal.3"],
+    "status": "inapplicable",
+    "reason": "Positioning explicitly neither dismisses on scroll nor owns z-index/isolation. Overlay dismissal belongs to the consuming component.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.1"],
+    "status": "inapplicable",
+    "reason": "The public inputs are physical side plus logical align, explicitly rejecting competing placement-string input aliases.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.8"],
+    "status": "covered",
+    "reason": "The browser fixture omits sideOffset and independently asserts the floating top equals the anchor bottom, establishing default zero-gap geometry for both absolute and fixed strategies.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "converts scaled containing-block coordinates for %s"
+      }
+    ]
+  },
+  {
+    "ids": [
+      "positioning.positioning.3",
+      "positioning.positioning.5",
+      "positioning.positioning.13",
+      "positioning.positioning.40",
+      "positioning.positioning.54"
+    ],
+    "status": "inapplicable",
+    "reason": "These compound observations require bottom/right coordinate anchoring and/or engine-owned max dimensions. Xenon always writes left/top and exposes available sizes through CSS variables; the foreign compound result is not the adopted contract.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.4", "positioning.positioning.6"],
+    "status": "partial",
+    "reason": "All twelve physical box placements are asserted, but the specified larger-overlay/anchor fixtures and exact arrow/maximum-height results are not.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "%s %s aligns physical boxes"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.7"],
+    "status": "inapplicable",
+    "reason": "The adopted default sideOffset is zero and is independent of arrow height.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.positioning.9",
+      "positioning.positioning.10",
+      "positioning.positioning.11"
+    ],
+    "status": "inapplicable",
+    "reason": "The public contract has sideOffset and alignOffset, not offset.mainAxis/crossAxis, gutter, shift aliases or their null/precedence rules. Geometry is tested separately but does not establish these foreign input contracts.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.12"],
+    "status": "missing",
+    "reason": "Margin-independent geometry is relevant to the DOM engine, but the browser box helper always initializes margin:0; no target-margin fixture establishes this case.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.positioning.14",
+      "positioning.positioning.15",
+      "positioning.positioning.16"
+    ],
+    "status": "inapplicable",
+    "reason": "Adopted size and boundary decisions differ: CSS variables supply available sizes, dimension matching is explicitly width/height rather than side-dependent, and clipping ancestors are the default. The checklist introduction documents the conflations.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.17"],
+    "status": "partial",
+    "reason": "A real browser asserts opposite-side flipping and retained 10px gap; the exact left-edge arrow geometry, default-enabled flip, and shared padding consistency are not all asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "flips inside a custom boundary and retains the side gap"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.18"],
+    "status": "missing",
+    "reason": "Ordered fallbackPlacements are a documented public option; no current positioning test supplies the option or asserts the chosen fallback order. Corvu fallbackStrategy is not a Xenon API.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.19"],
+    "status": "partial",
+    "reason": "Browser tests prove clipping-ancestor detachment and reappearance with an explicit viewport collision boundary. The no-explicit-boundary premise and pointer-events restoration are not asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "hides an anchor clipped by its scroller even with viewport collisions"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.20", "positioning.positioning.23", "positioning.animation.4"],
+    "status": "deferred",
+    "reason": "Automatic most-space placement and overlapping shifts are explicitly deferred; their precedence/middleware/transform-origin variants are outside the adopted slice.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.21"],
+    "status": "partial",
+    "reason": "The browser test asserts cross-axis clipping padding and available sizes; it does not cover the exact two extreme fixtures or arrow clamping.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "shifts against custom padding and publishes usable available sizes"
+      }
+    ]
+  },
+  {
+    "ids": [
+      "positioning.positioning.22",
+      "positioning.positioning.26",
+      "positioning.positioning.30",
+      "positioning.positioning.34"
+    ],
+    "status": "missing",
+    "reason": "The engine supports arrow padding, detachment and nonnegative available sizes, but the reviewed tests do not isolate these exact extreme/edge threshold/default-arrow-padding cases.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.24", "positioning.positioning.25"],
+    "status": "inapplicable",
+    "reason": "The public wrapper accepts documented boundary forms and fixed cross-axis shift policy; it exposes neither arbitrary shift middleware options nor boundary callbacks, and hide always uses reference clipping ancestors rather than the supplied popup boundary.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.27"],
+    "status": "inapplicable",
+    "reason": "Zero-sized point anchors including the origin are explicitly valid, not automatically detached.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.28"],
+    "status": "covered",
+    "reason": "Browser test sets an all-zero point anchor and hideWhenDetached, and asserts referenceHidden=false.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "supports zero-size virtual anchors and replacement without a DOM event"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.29"],
+    "status": "inapplicable",
+    "reason": "There is no maxHeight input constraint in the engine. Authors apply CSS dimensions to published available-size variables.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.positioning.31",
+      "positioning.positioning.33",
+      "positioning.positioning.35",
+      "positioning.positioning.36",
+      "positioning.positioning.37",
+      "positioning.positioning.38"
+    ],
+    "status": "inapplicable",
+    "reason": "The adopted arrow is an author-supplied square HTML layout box with author-owned artwork. Built-in SVGs, artwork rotations, Zag tip styles, and detached fallback arrows are expressly not provided.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.32"],
+    "status": "partial",
+    "reason": "Assertions establish absolute arrow positioning and the outside top edge, but not all edge mappings and pointer-events:none in a completed browser geometry fixture.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/solid-positioning.test-browser.tsx",
+        "title": "initial visibility gives way to measured geometry without changing a nested content transform"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "restores every arrow style and attribute after a completed position"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.39"],
+    "status": "covered",
+    "reason": "Removing the arrow after measurements on two axes explicitly resets both arrowX and arrowY to null.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "positions arrows without adding an implicit gap and clears removed arrow state"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.41"],
+    "status": "partial",
+    "reason": "Virtual rect replacement and context-preserving subscriptions are asserted. Late attachment, function-form references, and the unavailable DOMRect fallback described by the compound research bullet are not established.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "supports zero-size virtual anchors and replacement without a DOM event"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "retains subscriptions when virtual anchors share a context and reads the latest anchor"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.52"],
+    "status": "covered",
+    "reason": "Browser assertions compare available-size variables to engine state, anchor-size variables to measured boxes, and transform-origin variable to computed state. Foreign prefixes are examples; the adopted prefix is positioner.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "shifts against custom padding and publishes usable available sizes"
+      },
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "positions arrows without adding an implicit gap and clears removed arrow state"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.53"],
+    "status": "partial",
+    "reason": "All side/align combinations assert wrapper data attributes, but defaults and the optional Radix-only anchor mirroring clause are not established by that parameterized fixture.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "%s %s aligns physical boxes"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.55"],
+    "status": "missing",
+    "reason": "Absolute is the documented default; browser tests exercise explicit absolute/fixed strategies but no assertion directly checks omitted-strategy output style.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.56", "positioning.positioning.57"],
+    "status": "inapplicable",
+    "reason": "Absolute is the adopted default; coordinates use device-pixel-rounded left/top, not fixed positioning or transform/half-pixel-threshold writes.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.58"],
+    "status": "partial",
+    "reason": "Browser assertions cover ancestor scroll, anchor border-box resize, content growth and disabled/disposed inactivity. Unrelated layout movement and active window resize are not both directly isolated.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "updates on rapid ancestor scroll followed by target resize"
+      },
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "updates when only the anchor border box changes"
+      },
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "recomputes after content growth and stops observing when disabled"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.59"],
+    "status": "partial",
+    "reason": "Disabling prevents observer-driven updates and clears state; the Solid adapter also asserts no engine is created before a floating ref exists. Missing-anchor no-subscription behavior is not asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "recomputes after content growth and stops observing when disabled"
+      },
+      {
+        "file": "packages/solid/src/positioning/positioning.test.tsx",
+        "title": "waits for a floating ref and updates options without replacing the controller"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.60", "positioning.positioning.61"],
+    "status": "inapplicable",
+    "reason": "The exact compound results require inline max-height writes; Xenon publishes CSS variables instead. Option updates and CSS-boundary resizing have separate test evidence but do not establish these foreign inline-style contracts.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.positioning.62"],
+    "status": "partial",
+    "reason": "Numeric option updates and virtual anchors sharing context preserve subscriptions; anchor replacement recreates observers. The Solid adapter asserts floating-node removal disposes its controller and replacement creates another. Virtual-without-context observer identity is not asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "updates options without replacing observers and never calls stale callbacks"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "retains subscriptions when virtual anchors share a context and reads the latest anchor"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "replaces observers on anchor changes and ignores old anchor results"
+      },
+      {
+        "file": "packages/solid/src/positioning/positioning.test.tsx",
+        "title": "replaces removed nodes, resets state and ignores callbacks from disposed controllers"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.63"],
+    "status": "partial",
+    "reason": "autoUpdate:false ignores automatic updates until reposition, and object-valued elementResize explicitly controls anchor, popup and arrow observation. Verbatim forwarding of the complete observer option object and every falsy-input variant are not asserted.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "keeps observers disabled until explicit updates and stops after disposal"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "respects elementResize=%s for anchor, popup, and arrow observation"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.animation.1", "positioning.animation.3"],
+    "status": "inapplicable",
+    "reason": "Initial content uses visibility:hidden and pointer-events:none. Xenon does not park it offscreen or overwrite author animation styles.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.animation.2",
+      "positioning.rtl.1",
+      "positioning.rtl.2",
+      "positioning.rtl.4"
+    ],
+    "status": "missing",
+    "reason": "The adopted transform origin follows side, logical alignment and arrow center, but current assertions compare the CSS variable to engine state rather than independently asserting all specified origin values.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.rtl.3"],
+    "status": "inapplicable",
+    "reason": "Without a dir override Xenon reads computed CSS direction; it does not universally default to LTR.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.rtl.5"],
+    "status": "partial",
+    "reason": "Direction restoration and RTL geometry are tested, but current browser assertions do not directly check wrapper dir for both explicit values.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "restores authored direction before recomputing when an override is removed"
+      },
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "insets logical %s %s offsets"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.a11y.1"],
+    "status": "missing",
+    "reason": "The arrow fixtures assert selected accessibility attributes but no positioning test runs axe over a default arrow.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.notes.1"],
+    "status": "inapplicable",
+    "reason": "This is guidance about foreign jsdom geometry harnesses, not a public runtime result. Xenon uses real browser geometry and controlled dependency mocks for unit lifecycle tests.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.notes.2",
+      "positioning.notes.3",
+      "positioning.notes.4",
+      "positioning.notes.5"
+    ],
+    "status": "inapplicable",
+    "reason": "Zag rectangle utility API shapes and exact return objects are not exported by the adopted Floating UI wrapper.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": [
+      "positioning.notes.6",
+      "positioning.notes.8",
+      "positioning.notes.9",
+      "positioning.notes.10"
+    ],
+    "status": "inapplicable",
+    "reason": "No disable-all-style-writes/deferred-setup API is adopted. The checklist explicitly identifies malformed transform-origin outputs as upstream defects not to reproduce.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"]
+  },
+  {
+    "ids": ["positioning.notes.7"],
+    "status": "partial",
+    "reason": "Unit tests verify restoration of all Xenon-owned wrapper/arrow values and priorities, but the listed foreign variable names are not owned and empty-wrapper style-attribute removal is not established.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "restores all owned properties and attributes, including priorities, while preserving unrelated edits"
+      },
+      {
+        "file": "packages/dom/src/positioning/positioning.test.ts",
+        "title": "restores every arrow style and attribute after a completed position"
+      }
+    ]
+  },
+  {
+    "ids": ["positioning.positioning.2"],
+    "status": "partial",
+    "reason": "The default-side arrow fixture asserts the floating top lies below the anchor and a centered arrow. It does not directly assert both default side and align output values.",
+    "sources": ["docs/positioning.md", "docs/spec/positioning.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/positioning/positioning.test-browser.tsx",
+        "title": "positions arrows without adding an implicit gap and clears removed arrow state"
+      }
+    ]
+  }
+]

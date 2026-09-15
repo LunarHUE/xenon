@@ -1,0 +1,1975 @@
+[
+  {
+    "ids": ["id-generation.1"],
+    "status": "partial",
+    "reason": "Field asserts generated associations and hydration preserves round-one nodes/IDs, but stable generated IDs after prop updates are not established for every component.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "wires the label, the control and one generated id base"
+      },
+      {
+        "file": "packages/suite/e2e/hydration.spec.ts",
+        "title": "round-one server markup hydrates without replacing DOM or IDs"
+      }
+    ]
+  },
+  {
+    "ids": ["id-generation.2"],
+    "status": "partial",
+    "reason": "Tabs asserts two widgets mint distinct IDs; the cross-component inventory is not exhaustively checked.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/tabs/tabs.test.tsx",
+        "title": "two widgets on one page mint distinct ids"
+      }
+    ]
+  },
+  {
+    "ids": ["id-generation.3"],
+    "status": "partial",
+    "reason": "Author IDs are asserted for Field and tab/panel links; not every part/reference family is checked here.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "an author id is the base every part derives from"
+      },
+      {
+        "file": "packages/solid/src/tabs/tabs.test.tsx",
+        "title": "an author id on a tab or a panel keeps the wiring pointing at it"
+      }
+    ]
+  },
+  {
+    "ids": ["id-generation.5"],
+    "status": "inapplicable",
+    "reason": "The adopted adapter mints one framework ID base per root and registers author part IDs; there is no injectable ID generator, random production prefix policy, merge-ID registry or React Aria registry-key object contract.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["id-generation.6"],
+    "status": "inapplicable",
+    "reason": "The adopted adapter mints one framework ID base per root and registers author part IDs; there is no injectable ID generator, random production prefix policy, merge-ID registry or React Aria registry-key object contract.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["id-generation.7"],
+    "status": "inapplicable",
+    "reason": "The adopted adapter mints one framework ID base per root and registers author part IDs; there is no injectable ID generator, random production prefix policy, merge-ID registry or React Aria registry-key object contract.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["id-generation.8"],
+    "status": "inapplicable",
+    "reason": "The adopted adapter mints one framework ID base per root and registers author part IDs; there is no injectable ID generator, random production prefix policy, merge-ID registry or React Aria registry-key object contract.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["id-generation.9"],
+    "status": "inapplicable",
+    "reason": "The accepted Field merge preserves author whitespace and duplicate IDs while joining author, description and error strings. The required normalization/deduplication is explicitly not the core tokens contract; generic spread also does not merge ID lists.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/core/src/field/field.ts"
+    ]
+  },
+  {
+    "ids": ["id-generation.10"],
+    "status": "partial",
+    "reason": "Hydration asserts generated references; Checkbox runs duplicate-id-aria with multiple instances, and virtual Listbox resolves the active descendant. The helper still ignores incomplete unresolved-ID results and all emitted reference families are not audited.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+      "packages/suite/src/listbox/listbox.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/hydration.spec.ts",
+        "title": "round-one server markup hydrates without replacing DOM or IDs"
+      },
+      {
+        "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+        "title": "checkbox.roles.11"
+      },
+      {
+        "file": "packages/suite/src/listbox/listbox.test-browser.tsx",
+        "title": "listbox.focus.2"
+      }
+    ]
+  },
+  {
+    "ids": ["ssr.1"],
+    "status": "partial",
+    "reason": "Round-one hydration asserts preserved DOM and IDs and no page/console errors, but not every shipped component or meaningful state.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/hydration.spec.ts",
+        "title": "round-one server markup hydrates without replacing DOM or IDs"
+      }
+    ]
+  },
+  {
+    "ids": ["ssr.2"],
+    "status": "partial",
+    "reason": "Round-one hydration asserts preserved DOM and IDs and no page/console errors, but not every shipped component or meaningful state.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/hydration.spec.ts",
+        "title": "round-one server markup hydrates without replacing DOM or IDs"
+      }
+    ]
+  },
+  {
+    "ids": ["ssr.3"],
+    "status": "inapplicable",
+    "reason": "The adopted API allows force-mounted hidden closed content, and positioning exposes null unmeasured coordinates rather than universally zero. These blanket upstream outcomes conflict with supported variants.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "docs/positioning.md"]
+  },
+  {
+    "ids": ["ssr.4"],
+    "status": "inapplicable",
+    "reason": "The adopted API allows force-mounted hidden closed content, and positioning exposes null unmeasured coordinates rather than universally zero. These blanket upstream outcomes conflict with supported variants.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "docs/positioning.md"]
+  },
+  {
+    "ids": ["ssr.5"],
+    "status": "inapplicable",
+    "reason": "Pure core functions create no machine entry/exit lifecycle, and DOM controllers are owner-installed on the client. The Zag server-machine exit-action protocol is not exposed by this architecture.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["ssr.6"],
+    "status": "inapplicable",
+    "reason": "Solid uses its framework server/client build condition, not a public reactive environment flag that flips during hydration. The Vue helper state transition is a foreign internal requirement.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/field/parts.tsx"
+    ]
+  },
+  {
+    "ids": ["ssr.7"],
+    "status": "partial",
+    "reason": "Hydration preserves server-native Field inputs and a separator hr without mismatches. The complete polymorphic br/hr/img/input/area/textarea children-slot matrix is not asserted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/e2e/hydration.spec.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/hydration.spec.ts",
+        "title": "round-one server markup hydrates without replacing DOM or IDs"
+      }
+    ]
+  },
+  {
+    "ids": ["ssr.8"],
+    "status": "inapplicable",
+    "reason": "These requirements are explicitly React-only; the repository currently ships the Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["ssr.10"],
+    "status": "inapplicable",
+    "reason": "These requirements are explicitly React-only; the repository currently ships the Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["ssr.9"],
+    "status": "inapplicable",
+    "reason": "The adopted styling/SSR contract does not expose Zag data-ssr markers.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.1"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.2"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.8"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.9"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.10"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.11"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.12"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.13"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.14"],
+    "status": "inapplicable",
+    "reason": "The adopted component direction comes from explicit dir or DOM ancestry, not a shared Direction/Locale provider with languagechange listeners and SSR locale defaults.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["rtl.6"],
+    "status": "inapplicable",
+    "reason": "Direction/orientation inputs are typed closed unions; no accepted API promises this specific fallback for out-of-domain strings. Implementations also use component-specific default axes rather than a universal horizontal fallback.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/core/src/listbox/listbox.ts"
+    ]
+  },
+  {
+    "ids": ["rtl.7"],
+    "status": "inapplicable",
+    "reason": "Positioning uses physical side and logical start/end align data; the bullet requires physical alignment rather than the adopted logical alignment.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "docs/positioning.md"]
+  },
+  {
+    "ids": ["polymorphism.1"],
+    "status": "partial",
+    "reason": "Button and Toggle assert their native defaults and generic div role/tabindex/activation; every polymorphic part and all forwarded props are not exhaustively checked.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "renders a native button with type=button"
+      },
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "as=\"div\" gets role, tab stop and keyboard activation"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "renders an unpressed native button"
+      }
+    ]
+  },
+  {
+    "ids": ["polymorphism.2"],
+    "status": "partial",
+    "reason": "Button and Toggle assert their native defaults and generic div role/tabindex/activation; every polymorphic part and all forwarded props are not exhaustively checked.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "renders a native button with type=button"
+      },
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "as=\"div\" gets role, tab stop and keyboard activation"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "renders an unpressed native button"
+      }
+    ]
+  },
+  {
+    "ids": ["polymorphism.3"],
+    "status": "partial",
+    "reason": "A custom Button host renders its own tag, but the fixture does not independently assert the complete custom-attribute and forwarded-prop merge.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.notes.test.tsx",
+        "title": "button.notes.5"
+      }
+    ]
+  },
+  {
+    "ids": ["polymorphism.4"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.5"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.6"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.7"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.8"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.9"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.10"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.11"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.12"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.13"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.14"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.15"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.16"],
+    "status": "inapplicable",
+    "reason": "The adopted Solid components use as with Dynamic and require custom components to forward props/ref. There is no child-cloning/slot/asChild marker/ref-renaming API or DOM-ref-derived host resolution.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["polymorphism.17"],
+    "status": "inapplicable",
+    "reason": "Changing an intrinsic element type requires a different DOM element; Dynamic does not promise to patch a tag name in place.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.1"],
+    "status": "partial",
+    "reason": "A forwarded data attribute and author type override are asserted, but the shared spread implementation has no exhaustive collision/unconsumed-attribute test.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "user attributes win over core attributes"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "ref and unconsumed props land on the host"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.20"],
+    "status": "partial",
+    "reason": "A forwarded data attribute and author type override are asserted, but the shared spread implementation has no exhaustive collision/unconsumed-attribute test.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "user attributes win over core attributes"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "ref and unconsumed props land on the host"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.21"],
+    "status": "partial",
+    "reason": "A forwarded data attribute and author type override are asserted, but the shared spread implementation has no exhaustive collision/unconsumed-attribute test.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "user attributes win over core attributes"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "ref and unconsumed props land on the host"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.2"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.3"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.4"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.5"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.6"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.11"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.18"],
+    "status": "inapplicable",
+    "reason": "spread shallowly applies author attributes over core attributes. It does not concatenate/deduplicate class/style/data-ownedby values or interpret state-function styles; those foreign merge contracts were not adopted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.7"],
+    "status": "inapplicable",
+    "reason": "The accepted Field merge preserves author whitespace and duplicate IDs while joining author, description and error strings. The required normalization/deduplication is explicitly not the core tokens contract; generic spread also does not merge ID lists.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/core/src/field/field.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.8"],
+    "status": "partial",
+    "reason": "Toggle author click runs once and the core toggles state in the same activation, demonstrating successful event composition. No shared spread fixture directly spies on both matching handlers across every event family.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts",
+      "packages/suite/src/toggle/toggle.conformance.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/toggle/toggle.conformance.test.tsx",
+        "title": "toggle.notes.2"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.10"],
+    "status": "inapplicable",
+    "reason": "The shared spread contract explicitly requires callable matching handlers and documents undefined entries as unsupported. The undefined-handler candidate is outside that helper input contract, not an unresolved behavior.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/spread.ts"
+    ]
+  },
+  {
+    "ids": ["prop-merging.9"],
+    "status": "partial",
+    "reason": "Button and Toggle cancellation assertions establish author-before-core behavior; no shared helper fixture directly records the successful pair\u2019s ordering and exactly-once counts.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "user keydown runs first and can cancel the core handler"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "a user click handler runs first and can cancel the toggle"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.12"],
+    "status": "partial",
+    "reason": "Field tests assert absent false state flags and boolean ARIA true/false is asserted on controlled selection, but no adapter test covers the complete undefined/null/false update matrix.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/field/field.test.tsx",
+      "packages/suite/src/listbox/listbox.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.roles.1"
+      },
+      {
+        "file": "packages/suite/src/listbox/listbox.test.tsx",
+        "title": "controlled single selection follows external value changes without emitting a callback"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.13"],
+    "status": "inapplicable",
+    "reason": "The as API forwards one ref; it has no delegated child cloning or public dynamically composed-ref-set contract.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["prop-merging.16"],
+    "status": "inapplicable",
+    "reason": "The as API forwards one ref; it has no delegated child cloning or public dynamically composed-ref-set contract.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/button/button.tsx"
+    ]
+  },
+  {
+    "ids": ["prop-merging.14"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only ref rerender/StrictMode requirements do not apply to the shipped Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.15"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only ref rerender/StrictMode requirements do not apply to the shipped Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.17"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only ref rerender/StrictMode requirements do not apply to the shipped Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.19"],
+    "status": "partial",
+    "reason": "False boolean markers are absent on default Toggle and present for pressed state; no generic empty/undefined state-mapping fixture asserts all user attributes remain untouched.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "renders an unpressed native button"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "uncontrolled: defaultPressed starts on and clicks flip it"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.22"],
+    "status": "missing",
+    "reason": "Solid spreading and DOM property/attribute forwarding are used throughout the adapter, but no shared test isolates symbol-key precedence, the complete HTML property matrix, CSS custom-property case/removal, or SVG spelling.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.23"],
+    "status": "partial",
+    "reason": "Field label for and native input properties, native Button value, and roving tabindex spelling are asserted. The full class/for/tabindex plus value/checked/selected property-versus-attribute matrix remains incomplete.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/field/field.test.tsx",
+      "packages/suite/src/button/button.a11y.test.tsx",
+      "packages/suite/src/listbox/listbox.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "every part mirrors the four state flags"
+      },
+      {
+        "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.1"
+      },
+      {
+        "file": "packages/suite/src/listbox/listbox.test-browser.tsx",
+        "title": "listbox.keyboard.2"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.24"],
+    "status": "missing",
+    "reason": "Solid spreading and DOM property/attribute forwarding are used throughout the adapter, but no shared test isolates symbol-key precedence, the complete HTML property matrix, CSS custom-property case/removal, or SVG spelling.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["prop-merging.25"],
+    "status": "partial",
+    "reason": "Positioner preserves externally assigned left, top and a custom property while its reactive style toggles visibility. Removing an adapter style key without clobbering other declarations is not isolated.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/positioning/positioning.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/positioning/positioning.test.tsx",
+        "title": "keeps engine coordinates while publishing visibility, errors and disabled state"
+      }
+    ]
+  },
+  {
+    "ids": ["prop-merging.26"],
+    "status": "missing",
+    "reason": "Solid spreading and DOM property/attribute forwarding are used throughout the adapter, but no shared test isolates symbol-key precedence, the complete HTML property matrix, CSS custom-property case/removal, or SVG spelling.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.1"],
+    "status": "partial",
+    "reason": "Listbox with both value and defaultValue keeps the controlled selection until the prop becomes undefined; other families require their own simultaneous-value/default assertions.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/listbox/listbox.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/listbox/listbox.test.tsx",
+        "title": "releasing control restores the last internal selection and accepts future changes"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.2"],
+    "status": "partial",
+    "reason": "Controlled multiple Listbox reports exactly one merged proposal, retains its DOM selection, then accepts the external prop update without echo. This does not establish every component family.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/listbox/listbox.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/listbox/listbox.test.tsx",
+        "title": "controlled multiple selection rejects a user proposal until the owner updates it"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.5"],
+    "status": "partial",
+    "reason": "Toggle asserts internal state and callback payload after an uncontrolled click; the universal component claim needs the remaining component assertions.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "uncontrolled: defaultPressed starts on and clicks flip it"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.6"],
+    "status": "needs-decision",
+    "reason": "The architecture uses per-component adapters and pure controller callbacks, not an exported generic controlled-signal setter. A universal Object.is/updater/custom-equality/untracked contract must be reconciled with component normalization and array equality before counting these as missing implementation tests.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.7"],
+    "status": "needs-decision",
+    "reason": "The architecture uses per-component adapters and pure controller callbacks, not an exported generic controlled-signal setter. A universal Object.is/updater/custom-equality/untracked contract must be reconciled with component normalization and array equality before counting these as missing implementation tests.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.8"],
+    "status": "needs-decision",
+    "reason": "The architecture uses per-component adapters and pure controller callbacks, not an exported generic controlled-signal setter. A universal Object.is/updater/custom-equality/untracked contract must be reconciled with component normalization and array equality before counting these as missing implementation tests.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.9"],
+    "status": "inapplicable",
+    "reason": "These prescribe updater functions, custom equality or dependency tracking for a generic state setter. The package exposes typed component props/callbacks and pure controllers, not that public controlled-signal helper. Component equality decisions are audited separately.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/checked.tsx"
+    ]
+  },
+  {
+    "ids": ["controlled.10"],
+    "status": "inapplicable",
+    "reason": "These prescribe updater functions, custom equality or dependency tracking for a generic state setter. The package exposes typed component props/callbacks and pure controllers, not that public controlled-signal helper. Component equality decisions are audited separately.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/checked.tsx"
+    ]
+  },
+  {
+    "ids": ["controlled.11"],
+    "status": "inapplicable",
+    "reason": "These prescribe updater functions, custom equality or dependency tracking for a generic state setter. The package exposes typed component props/callbacks and pure controllers, not that public controlled-signal helper. Component equality decisions are audited separately.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/checked.tsx"
+    ]
+  },
+  {
+    "ids": ["controlled.12"],
+    "status": "inapplicable",
+    "reason": "These prescribe updater functions, custom equality or dependency tracking for a generic state setter. The package exposes typed component props/callbacks and pure controllers, not that public controlled-signal helper. Component equality decisions are audited separately.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/checked.tsx"
+    ]
+  },
+  {
+    "ids": ["controlled.14"],
+    "status": "inapplicable",
+    "reason": "The documented contract permits switching via undefined and restores prior internal state; it does not adopt Radix/Base UI switching/default-change warnings or their comparison machinery.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.15"],
+    "status": "inapplicable",
+    "reason": "The documented contract permits switching via undefined and restores prior internal state; it does not adopt Radix/Base UI switching/default-change warnings or their comparison machinery.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.16"],
+    "status": "inapplicable",
+    "reason": "The documented contract permits switching via undefined and restores prior internal state; it does not adopt Radix/Base UI switching/default-change warnings or their comparison machinery.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.17"],
+    "status": "inapplicable",
+    "reason": "The documented contract permits switching via undefined and restores prior internal state; it does not adopt Radix/Base UI switching/default-change warnings or their comparison machinery.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.18"],
+    "status": "inapplicable",
+    "reason": "The documented contract permits switching via undefined and restores prior internal state; it does not adopt Radix/Base UI switching/default-change warnings or their comparison machinery.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.19"],
+    "status": "inapplicable",
+    "reason": "Selection controls specify their own explicit modes and commit rules; there is no universal deselect-on-reselect, value-shape inference, callback-return transformation or tagged-set queue.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/selection-and-forms.md"
+    ]
+  },
+  {
+    "ids": ["controlled.20"],
+    "status": "inapplicable",
+    "reason": "Selection controls specify their own explicit modes and commit rules; there is no universal deselect-on-reselect, value-shape inference, callback-return transformation or tagged-set queue.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/selection-and-forms.md"
+    ]
+  },
+  {
+    "ids": ["controlled.21"],
+    "status": "inapplicable",
+    "reason": "Selection controls specify their own explicit modes and commit rules; there is no universal deselect-on-reselect, value-shape inference, callback-return transformation or tagged-set queue.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/selection-and-forms.md"
+    ]
+  },
+  {
+    "ids": ["controlled.25"],
+    "status": "inapplicable",
+    "reason": "Selection controls specify their own explicit modes and commit rules; there is no universal deselect-on-reselect, value-shape inference, callback-return transformation or tagged-set queue.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/selection-and-forms.md"
+    ]
+  },
+  {
+    "ids": ["controlled.22"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only StrictMode/render identity requirements are outside the current Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.23"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only StrictMode/render identity requirements are outside the current Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.24"],
+    "status": "inapplicable",
+    "reason": "Explicitly React-only StrictMode/render identity requirements are outside the current Solid adapter.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.26"],
+    "status": "needs-decision",
+    "reason": "A universal command-after-disposal no-op policy is not fixed for pure controllers and owner-bound adapters; lifecycle-safe DOM handles already have their own contracts.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["controlled.27"],
+    "status": "partial",
+    "reason": "An explicitly empty controlled array remains empty after a user proposal, and an empty string item is a valid selection. Async loading and imperative empty setters across the inventory are not asserted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/checkbox-group/checkbox-group.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "controlled changes snap back and external writes update stable nodes"
+      }
+    ]
+  },
+  {
+    "ids": ["rtl.3"],
+    "status": "covered",
+    "reason": "The shared composite engine asserts right/left next/previous mapping in both LTR and RTL.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/core/src/composite/composite.test.ts",
+        "title": "horizontal: right moves forward and left moves backward"
+      },
+      {
+        "file": "packages/core/src/composite/composite.test.ts",
+        "title": "horizontal: rtl mirrors the arrows"
+      }
+    ]
+  },
+  {
+    "ids": ["rtl.4"],
+    "status": "covered",
+    "reason": "The shared composite engine asserts right/left next/previous mapping in both LTR and RTL.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/core/src/composite/composite.test.ts",
+        "title": "horizontal: right moves forward and left moves backward"
+      },
+      {
+        "file": "packages/core/src/composite/composite.test.ts",
+        "title": "horizontal: rtl mirrors the arrows"
+      }
+    ]
+  },
+  {
+    "ids": ["rtl.5"],
+    "status": "partial",
+    "reason": "Vertical Down/Up are asserted in LTR and Down in RTL; RTL Up is not separately asserted in the shared fixture.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/core/src/composite/composite.test.ts",
+        "title": "vertical: down and up move, and rtl does not mirror them"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.1"],
+    "status": "partial",
+    "reason": "Native Button tests assert disabled state and skipped focus. The entire native-control attribute and activation-handler matrix is not established by these shared examples.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/button/button.test.tsx",
+        "title": "disabled is reactive"
+      },
+      {
+        "file": "packages/suite/src/button/button.focus.test.tsx",
+        "title": "button.focus.24"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.2"],
+    "status": "inapplicable",
+    "reason": "Generic disabled Button deliberately removes tabindex rather than forcing -1; the checklist\u2019s exact attribute contract differs from the delivered behavior.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.focus.test.tsx",
+        "title": "button.focus.27"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.3"],
+    "status": "partial",
+    "reason": "Focusable-disabled Button explicitly asserts aria-disabled, absent native disabled, tabindex=0, Tab focus and blocked click/Enter/Space. Other discoverable control families and all negative tabindex cases require their own evidence.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.focus.test.tsx",
+        "title": "button.focus.28"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.22"],
+    "status": "partial",
+    "reason": "Focusable-disabled Button explicitly asserts aria-disabled, absent native disabled, tabindex=0, Tab focus and blocked click/Enter/Space. Other discoverable control families and all negative tabindex cases require their own evidence.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.focus.test.tsx",
+        "title": "button.focus.28"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.4"],
+    "status": "missing",
+    "reason": "This is a concrete native-platform baseline: aria-disabled alone does not disable browser activation, focus or constraint validation. FocusableWhenDisabled is a script policy and does not invalidate it. No bare aria-disabled fixture asserts all three native effects.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["disabled.5"],
+    "status": "missing",
+    "reason": "FocusableWhenDisabled is supported, but the shared fixture does not assert hover handler delivery while activation remains blocked.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["disabled.6"],
+    "status": "partial",
+    "reason": "Button asserts one self-disabling activation, retained focus and blocked later clicks; the same contract is not established for every focusable-disabled part.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.focus.test.tsx",
+        "title": "button.focus.29"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.7"],
+    "status": "partial",
+    "reason": "Disabled generic Collapsible trigger still delivers the author click but cannot open content or emit onOpenChange. Disabled overlays and direct controller entry with an aria-disabled host are not covered as a complete family matrix.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/collapsible/collapsible.native.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collapsible/collapsible.native.test-browser.tsx",
+        "title": "a disabled native trigger delivers no click to the author handler while a disabled generic trigger still does"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.8"],
+    "status": "inapplicable",
+    "reason": "The selection contract emits explicit selected state and controls roving stops; it does not adopt omitted aria-selected for disabled options or a blanket permission to drop their tabindex.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/listbox-coverage.md"
+    ]
+  },
+  {
+    "ids": ["disabled.9"],
+    "status": "inapplicable",
+    "reason": "The selection contract emits explicit selected state and controls roving stops; it does not adopt omitted aria-selected for disabled options or a blanket permission to drop their tabindex.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/listbox-coverage.md"
+    ]
+  },
+  {
+    "ids": ["disabled.10"],
+    "status": "needs-decision",
+    "reason": "The source inventory asks for one global enabled aria-disabled spelling, but current component contracts have native-host and custom-host distinctions; no universal spelling policy has been adopted.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["disabled.12"],
+    "status": "partial",
+    "reason": "Field tests assert inherited disabled/required/readonly flags and native fieldset behavior; not every control family is exercised.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "every part mirrors the four state flags"
+      },
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "as=\"fieldset\" drops the group role and disables natively"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.13"],
+    "status": "partial",
+    "reason": "Field label-click suppression is asserted, but retained prior focus and directly disabled versus fieldset-disabled native variants are not all established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/field/field.test.tsx",
+        "title": "a disabled field keeps a label click from focusing the control"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.14"],
+    "status": "missing",
+    "reason": "Native disabled validity exemption is asserted elsewhere as willValidate=false, but no required control assertion checks empty validationMessage while disabled and nonempty validationMessage after re-enabling.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.forms.test.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.15"],
+    "status": "missing",
+    "reason": "No real native disabled-control gesture test records pointerdown/pointerup versus mousedown/mouseup/click. user-event click suppression and disabled-link auxclick tests do not establish this native event-family sequence.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.pointer.test-browser.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.16"],
+    "status": "missing",
+    "reason": "Existing auxclick tests cover links and simulated middle clicks, not native disabled controls with Chromium/WebKit-versus-Firefox outcomes.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.pointer.test-browser.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.17"],
+    "status": "missing",
+    "reason": "Disabled component author-handler gating tests are not the required native dispatchEvent baseline. No fixture attaches a native listener and explicitly asserts scripted click delivery to a disabled control.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.forms.test.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.18"],
+    "status": "missing",
+    "reason": "No scripted disabled native checkbox/radio activation matrix asserts input/change order, cancellation rollback and preservation of listener changes to another control. Sticky library indeterminate behavior is distinct from this HTML baseline.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/checkbox/checkbox.native.test-browser.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.19"],
+    "status": "missing",
+    "reason": "Button tests block simulated clicks on disabled submit buttons, but do not explicitly dispatch click events on both disabled submit and disabled reset controls and assert neither native form action occurs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.forms.test.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.20"],
+    "status": "missing",
+    "reason": "Checkbox Enter tests include a disabled default submitter, but the required text-input trigger with directly disabled, fieldset-disabled and disabled-image submitters has no complete matching fixture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/checkbox/checkbox.forms.test-browser.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.27"],
+    "status": "missing",
+    "reason": "FocusableWhenDisabled self-disabling tests deliberately retain focus. No real native-disabled self-disabling fixture asserts the platform blur behavior.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/button/button.focus.test.tsx"
+    ]
+  },
+  {
+    "ids": ["disabled.23"],
+    "status": "inapplicable",
+    "reason": "Xenon does not expose React Aria tester exceptions or selection-only disabled behavior with nested interactive option controls.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/listbox-coverage.md"
+    ]
+  },
+  {
+    "ids": ["disabled.24"],
+    "status": "inapplicable",
+    "reason": "Xenon does not expose React Aria tester exceptions or selection-only disabled behavior with nested interactive option controls.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/plans/listbox-coverage.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.1"],
+    "status": "partial",
+    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component\u2019s emitted states.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "renders an unpressed native button"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "uncontrolled: defaultPressed starts on and clicks flip it"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.2"],
+    "status": "partial",
+    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component\u2019s emitted states.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "renders an unpressed native button"
+      },
+      {
+        "file": "packages/solid/src/toggle/toggle.test.tsx",
+        "title": "uncontrolled: defaultPressed starts on and clicks flip it"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.3"],
+    "status": "needs-decision",
+    "reason": "The styling document labels its canonical set proposed. Generic data-scope/data-part casing, focus modality markers, validation lifecycle markers and universal item-index attributes need reconciliation with delivered per-component APIs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/spec/styling-contract.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.4"],
+    "status": "needs-decision",
+    "reason": "The styling document labels its canonical set proposed. Generic data-scope/data-part casing, focus modality markers, validation lifecycle markers and universal item-index attributes need reconciliation with delivered per-component APIs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/spec/styling-contract.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.8"],
+    "status": "needs-decision",
+    "reason": "The styling document labels its canonical set proposed. Generic data-scope/data-part casing, focus modality markers, validation lifecycle markers and universal item-index attributes need reconciliation with delivered per-component APIs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/spec/styling-contract.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.9"],
+    "status": "needs-decision",
+    "reason": "The styling document labels its canonical set proposed. Generic data-scope/data-part casing, focus modality markers, validation lifecycle markers and universal item-index attributes need reconciliation with delivered per-component APIs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/spec/styling-contract.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.14"],
+    "status": "needs-decision",
+    "reason": "The styling document labels its canonical set proposed. Generic data-scope/data-part casing, focus modality markers, validation lifecycle markers and universal item-index attributes need reconciliation with delivered per-component APIs.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "docs/spec/styling-contract.md"
+    ]
+  },
+  {
+    "ids": ["data-attributes.5"],
+    "status": "inapplicable",
+    "reason": "There is no exported Zag anatomy builder/extension/renaming abstraction in the pure-controller architecture.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["data-attributes.6"],
+    "status": "inapplicable",
+    "reason": "There is no exported Zag anatomy builder/extension/renaming abstraction in the pure-controller architecture.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["data-attributes.7"],
+    "status": "partial",
+    "reason": "A visible button-host Checkbox updates data-state with controlled checkedness while its hidden native input tracks checked. Hidden-input marker absence and the full switch/radio/slider matrix are not asserted.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/checkbox/checkbox.state.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.9"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.10"],
+    "status": "partial",
+    "reason": "Disclosure conformance asserts starting-style and open state in the same update; exact one-commit lifetime across all animated components is not asserted.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/presence/presence.test.tsx",
+        "title": "presence.state.5"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.11"],
+    "status": "partial",
+    "reason": "Browser presence test asserts an exit marker while mounted and removal after animation completion; synchronous marker timing and every component are not established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/presence/presence.test-browser.tsx",
+        "title": "presence.animation.7"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.12"],
+    "status": "partial",
+    "reason": "Presence asserts starting marker gone after enter settles; it does not exhaust all neutral statuses or all adapter parts.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/internal/presence.test.tsx",
+        "title": "opening enters for a frame, then settles"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.13"],
+    "status": "partial",
+    "reason": "Default Field core flags are undefined and the mounted default text input has no state markers. There is no generic mapping helper assertion across every arbitrary state key.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/core/src/field/field.test.ts",
+      "packages/suite/src/field/text-field.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/core/src/field/field.test.ts",
+        "title": "a plain field carries no state hooks and names nothing"
+      },
+      {
+        "file": "packages/suite/src/field/text-field.test.tsx",
+        "title": "text-field.roles.2"
+      }
+    ]
+  },
+  {
+    "ids": ["data-attributes.15"],
+    "status": "inapplicable",
+    "reason": "These are documentation/test-method constraints, not public runtime results: marker ownership and browser-only geometry require review. Simulated CSS variables can be author-defined or mocked, so zero/empty is not universal.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["data-attributes.16"],
+    "status": "inapplicable",
+    "reason": "These are documentation/test-method constraints, not public runtime results: marker ownership and browser-only geometry require review. Simulated CSS variables can be author-defined or mocked, so zero/empty is not universal.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["a11y-tooling.6"],
+    "status": "partial",
+    "reason": "Tooltip renders through Portal and its browser test explicitly scans document.body, including portalled content; ordinary Field scans its mounted subtree. Audit scope for every portal/component family is not verified.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+      "packages/suite/src/field/field.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+        "title": "Tooltip focus opens immediately with description semantics and leaves focus on the trigger"
+      },
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.a11y.1"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.2"],
+    "status": "partial",
+    "reason": "The shared axe helper explicitly disables region and color-contrast on every invocation, and real component tests execute it. There is no direct options assertion or inventory check of separate raw axe.run calls, so the whole-suite configuration guarantee is not complete.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/field/field.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.a11y.1"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.3"],
+    "status": "partial",
+    "reason": "The shared axe helper explicitly disables region and color-contrast on every invocation, and real component tests execute it. There is no direct options assertion or inventory check of separate raw axe.run calls, so the whole-suite configuration guarantee is not complete.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/field/field.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.test.tsx",
+        "title": "field.a11y.1"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.5"],
+    "status": "inapplicable",
+    "reason": "This is a Reka/jsdom monkey-patch prescription, not an adopted Xenon API or runtime behavior; the suite currently delegates style queries to its installed environment.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/vitest-setup.ts"
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.10"],
+    "status": "partial",
+    "reason": "Toolbar presentational glyph is asserted to have no tabindex, focusable descendants or any aria-* attributes and passes presentation-role-conflict. Other emitted/consumer presentational parts are not fully inventoried.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/toolbar/toolbar.roles.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.roles.test.tsx",
+        "title": "toolbar.roles.6"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.13"],
+    "status": "partial",
+    "reason": "Real overflowing ScrollArea viewport becomes tabindex=0, receives native Tab focus, scrolls on ArrowDown and passes axe. Other library-created overflow surfaces still need separate evidence.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/scroll-area/scroll-area.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/scroll-area/scroll-area.test-browser.tsx",
+        "title": "scroll-area.alpha.1"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.14"],
+    "status": "partial",
+    "reason": "Button explicitly asserts visible Save is contained in its Save document accessible name and runs label-content-name-mismatch enabled. Other library-added label/text combinations are not exhaustively audited.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/a11y.ts",
+      "packages/suite/src/button/button.roles.test.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.roles.test.tsx",
+        "title": "button.roles.12"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.16"],
+    "status": "needs-decision",
+    "reason": "This upstream simplified name-resolution helper is not the full accessible-name algorithm. Xenon uses library matchers; adopting a separate priority/containment oracle needs a contract decision.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["a11y-tooling.17"],
+    "status": "partial",
+    "reason": "Field browser assertions compare the complete multi-ID accessible description, but no generic helper tests every referenced ID for nonempty text.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/field-associations.spec.ts",
+        "title": "nested Field associations survive string rendering and hydration"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.18"],
+    "status": "partial",
+    "reason": "Listbox virtual-focus browser assertions require real focus on the root, compare its active-descendant to the option ID and resolve that ID to the mounted option. The same combined assertion is not factored across every virtual-focus consumer.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/src/listbox/listbox.test-browser.tsx",
+      "packages/suite/src/selection/selection.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/listbox/listbox.test-browser.tsx",
+        "title": "listbox.focus.2"
+      },
+      {
+        "file": "packages/suite/src/selection/selection.test-browser.tsx",
+        "title": "Combobox arrow navigation keeps input focus and Escape does not commit"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.19"],
+    "status": "missing",
+    "reason": "Browser tests mainly inspect DOM attributes or matcher-computed names; the suite has no shared engine accessibility-tree assertion layer.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["a11y-tooling.20"],
+    "status": "missing",
+    "reason": "The suite setup only installs matchers and cleanup; it does not fail every unexpected console warning/error.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/vitest-setup.ts"
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.21"],
+    "status": "partial",
+    "reason": "Real-browser presence and focus tests exist, but this does not establish the entire browser-only accessibility inventory.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/vitest.config.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/presence/presence.test-browser.tsx",
+        "title": "presence.animation.7"
+      }
+    ]
+  },
+  {
+    "ids": ["reduced-motion.1"],
+    "status": "needs-decision",
+    "reason": "Xenon is headless and author CSS controls visual animation. A universal reduced-motion policy for overlays/backdrops, indeterminate artwork, scrolling and zero-size transitions is not fixed by the shared architecture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.2"],
+    "status": "needs-decision",
+    "reason": "Xenon is headless and author CSS controls visual animation. A universal reduced-motion policy for overlays/backdrops, indeterminate artwork, scrolling and zero-size transitions is not fixed by the shared architecture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.3"],
+    "status": "needs-decision",
+    "reason": "Xenon is headless and author CSS controls visual animation. A universal reduced-motion policy for overlays/backdrops, indeterminate artwork, scrolling and zero-size transitions is not fixed by the shared architecture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.4"],
+    "status": "needs-decision",
+    "reason": "Xenon is headless and author CSS controls visual animation. A universal reduced-motion policy for overlays/backdrops, indeterminate artwork, scrolling and zero-size transitions is not fixed by the shared architecture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.6"],
+    "status": "needs-decision",
+    "reason": "Xenon is headless and author CSS controls visual animation. A universal reduced-motion policy for overlays/backdrops, indeterminate artwork, scrolling and zero-size transitions is not fixed by the shared architecture.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.5"],
+    "status": "partial",
+    "reason": "Without the animations API, exit finishes immediately; the fixture does not assert that an ending marker was never emitted for a zero-animation browser exit.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/internal/presence.test.tsx",
+        "title": "without the animations api the exit finishes at once"
+      }
+    ]
+  },
+  {
+    "ids": ["reduced-motion.7"],
+    "status": "inapplicable",
+    "reason": "Presence tracks Web Animations API objects, not parsed animationName/transitionDuration strings; these upstream jsdom parser bugs are not applicable.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.8"],
+    "status": "inapplicable",
+    "reason": "Presence tracks Web Animations API objects, not parsed animationName/transitionDuration strings; these upstream jsdom parser bugs are not applicable.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.9"],
+    "status": "partial",
+    "reason": "Initially-open presence starts entered without enter phase; computed animation-name and exactly one later close/reopen animation are not asserted.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/internal/presence.test.tsx",
+        "title": "mounting open is entered with no enter phase"
+      }
+    ]
+  },
+  {
+    "ids": ["reduced-motion.10"],
+    "status": "inapplicable",
+    "reason": "The adopted architecture explicitly re-enters on reopen, rather than promising never to regain data-starting-style during the reopened phase.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/solid/src/internal/presence.tsx"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.11"],
+    "status": "inapplicable",
+    "reason": "The adopted presence implementation waits on multiple animation objects rather than forbidding simultaneous transition and keyframe animation.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+  },
+  {
+    "ids": ["reduced-motion.12"],
+    "status": "missing",
+    "reason": "No global animation-disable opt-in flag or shared MutationObserver transition-sequence assertion utility is configured; snapshot tests do not establish those tooling contracts.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/vitest-setup.ts"
+    ]
+  },
+  {
+    "ids": ["reduced-motion.13"],
+    "status": "missing",
+    "reason": "No global animation-disable opt-in flag or shared MutationObserver transition-sequence assertion utility is configured; snapshot tests do not establish those tooling contracts.",
+    "sources": [
+      "docs/spec/cross-cutting.md",
+      "docs/architecture.md",
+      "packages/suite/vitest-setup.ts"
+    ]
+  },
+  {
+    "ids": ["id-generation.4"],
+    "status": "partial",
+    "reason": "Dialog browser test asserts custom content ID in trigger aria-controls; the shared requirement is not reviewed across all popup families.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+        "title": "public Dialog associates author IDs, opens natively, and returns focus to its trigger"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.3"],
+    "status": "partial",
+    "reason": "Checkbox explicitly asserts a controlled prop update changes ARIA state without increasing the callback count. Other component families remain separately audited.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.13"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.4"],
+    "status": "partial",
+    "reason": "Checkbox explicitly asserts the uncontrolled default and zero mount callbacks. This proves that component, not the entire shared inventory.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
+        "title": "checkbox.state.7"
+      }
+    ]
+  },
+  {
+    "ids": ["controlled.13"],
+    "status": "partial",
+    "reason": "CheckboxGroup returns to its previous internal empty state after value becomes undefined. A null-as-controlled-value assertion is absent from this array API.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
+        "title": "controlled changes snap back and external writes update stable nodes"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.26"],
+    "status": "partial",
+    "reason": "Native readonly Field ignores typed text and retains its value; the fixture does not spy on input events or cover disabled text controls.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/field/field.native.test-browser.tsx",
+        "title": "a readonly field refuses native key input yet still submits its value"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.4"],
+    "status": "partial",
+    "reason": "Button explicitly enables target-size in a scoped axe run; the suite does not globally enable all three listed default-disabled rules.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.pointer.test.tsx",
+        "title": "button.pointer.6"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.11"],
+    "status": "partial",
+    "reason": "Checkbox form data explicitly omits a disabled checked control, then includes it after enabling. Other named control and host variants require their own evidence.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/checkbox/checkbox.forms.test.tsx",
+        "title": "checkbox.forms.16"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.25"],
+    "status": "partial",
+    "reason": "Native Listbox Shift+Arrow skips a disabled option and asserts focus and selection on the next enabled item; the shared rule still needs every collection family.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/listbox/listbox.native.test-browser.tsx",
+        "title": "native shift-arrow extends and walks back the inclusive range over disabled options"
+      }
+    ]
+  },
+  {
+    "ids": ["disabled.21"],
+    "status": "partial",
+    "reason": "Toolbar directly focuses an aria-disabled native button with no disabled attribute and runs axe without violations. This establishes that fixture rather than every accessible-disabled part.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.6"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.1"],
+    "status": "partial",
+    "reason": "Toolbar runs explicit ARIA role/attribute rule scans and a full default axe scan. Other component/state combinations and incomplete/manual-review findings are not fully established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.8"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.9"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.7"],
+    "status": "partial",
+    "reason": "Toolbar runs explicit ARIA role/attribute rule scans and a full default axe scan. Other component/state combinations and incomplete/manual-review findings are not fully established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.8"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.9"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.8"],
+    "status": "partial",
+    "reason": "Toolbar runs explicit ARIA role/attribute rule scans and a full default axe scan. Other component/state combinations and incomplete/manual-review findings are not fully established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.8"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.9"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.9"],
+    "status": "partial",
+    "reason": "Toolbar runs explicit ARIA role/attribute rule scans and a full default axe scan. Other component/state combinations and incomplete/manual-review findings are not fully established.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.8"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.9"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.11"],
+    "status": "partial",
+    "reason": "Button\u2019s decorative aria-hidden SVG is checked for no focusable descendants and passes aria-hidden-focus. All hidden-content states across other components remain separate evidence.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.11"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.12"],
+    "status": "partial",
+    "reason": "Toolbar\u2019s actual button fixture passes nested-interactive; the full inventory of widget triggers is not audited by this fixture.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+        "title": "toolbar.a11y.2"
+      }
+    ]
+  },
+  {
+    "ids": ["a11y-tooling.15"],
+    "status": "partial",
+    "reason": "Generic Button explicitly has tabindex=0 and role=button, and passes focus-order-semantics. Other noninteractive host parts need separate review.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
+    "tests": [
+      {
+        "file": "packages/suite/src/button/button.a11y.test.tsx",
+        "title": "button.a11y.3"
+      }
+    ]
+  }
+]

@@ -11,4 +11,3 @@ result-*
 .vitest/
 playwright-report/
 test-results/
-packages/suite/coverage
