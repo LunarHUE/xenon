@@ -240,6 +240,15 @@ function temporaryStyle(element: HTMLElement, name: string, value: string): () =
 }
 
 /**
+ * Cancel native keyboard/inertial motion before a custom drag or discrete key.
+ * Chromium keeps user-scroll animation alive after direct/instant assignments;
+ * a zero-distance smooth request cancels it without adding visible motion.
+ */
+function stopNativeMotion(viewport: HTMLElement): void {
+  viewport.scrollTo?.({ left: viewport.scrollLeft, top: viewport.scrollTop, behavior: 'smooth' })
+}
+
+/**
  * Native viewport controls for custom tracks. Invoke handlers after author event
  * cancellation checks. A track click centers the thumb under the pointer; a thumb
  * drag preserves its grab point. Only the accepted primary pointer can continue
@@ -329,6 +338,7 @@ export function createScrollbarInteraction(options: ScrollbarInteractionOptions)
           ? point(event) - (horizontal ? thumbBox.left : thumbBox.top)
           : options.thumbSize() / 2
       event.preventDefault()
+      stopNativeMotion(viewport)
       track.focus({ preventScroll: true })
       drag = {
         id: event.pointerId,
@@ -398,6 +408,7 @@ export function createScrollbarInteraction(options: ScrollbarInteractionOptions)
           return
       }
       event.preventDefault()
+      stopNativeMotion(viewport)
       scroll(next)
     },
     wheel(event) {
