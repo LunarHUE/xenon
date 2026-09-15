@@ -172,6 +172,8 @@ test('measurement follows natural content growth and sums variable heights with 
   expect(parseFloat(back.style.getPropertyValue('--toast-offset-y'))).toBeCloseTo(height() + 12, 0)
   await userEvent.hover(front)
   expect(front).toHaveAttribute('data-expanded')
+  expect(front).toHaveAttribute('data-paused')
+  expect(back).toHaveAttribute('data-paused')
   expect(back).toHaveAttribute('data-expanded')
 })
 

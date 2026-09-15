@@ -47,6 +47,7 @@ export type ToastContentProps<T extends ValidComponent = 'div', Data = unknown> 
 /**
  * Renders one interactive group and retains its DOM through exit animations.
  * Limited records stay hidden and inert; announcements begin only after admission.
+ * data-paused marks open records held by interaction, admission, or attachment policy.
  * The internal data-toast-content wrapper measures natural size independently of
  * the root's CSS height. The root publishes index, height, preceding offset and
  * first-toast height variables for consumer-owned stack styling.
@@ -276,6 +277,7 @@ export function ToastContent<T extends ValidComponent = 'div', Data = unknown>(
       data-toast-content-root=""
       data-index={retainedLayout().index}
       data-expanded={retainedExpanded() ? '' : undefined}
+      data-paused={record().open && record().paused ? '' : undefined}
       style={style()}
     >
       <div
