@@ -54,7 +54,7 @@
   {
     "ids": ["number-field.roles.4"],
     "status": "partial",
-    "reason": "Field accessible naming is asserted; the full visible-label versus explicit-label and axe naming-source matrix is not.",
+    "reason": "Field accessible naming is asserted; the full visible-label versus explicit-label and axe naming-source matrix is not. Title, explicit aria-label/labelledby, visible native labels, distinct generated IDs and actual axe naming-source applicability/serious failure now have assertions. Native visible labels deliberately use label-for rather than the research-required redundant aria-labelledby.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -64,6 +64,14 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "field flags and labels reach the input, and readonly steppers remain discoverable"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+        "title": "number-field.roles.4: title, labelledby and label sources name spinbuttons while nameless fails axe"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+        "title": "number-field.roles.4: generated labels target distinct generated input ids"
       }
     ]
   },
@@ -1954,7 +1962,7 @@
   {
     "ids": ["number-field.a11y.4"],
     "status": "partial",
-    "reason": "Field naming/description integration is present, but the exact multiple-label and description/error ordering matrix is not asserted.",
+    "reason": "Field naming/description integration is present, but the exact multiple-label and description/error ordering matrix is not asserted. Public native label associations, explicit author name references, and author/help/error description ordering now have direct reactive assertions. The shared Field contract deliberately uses native label-for without redundant label IDs or a self-ID and places author descriptions first; the research alternative ordering remains a contract divergence.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1964,6 +1972,10 @@
       {
         "file": "packages/solid/src/number-field/number-field.test.tsx",
         "title": "field flags and labels reach the input, and readonly steppers remain discoverable"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+        "title": "number-field.a11y.4: labels and descriptions compose in author-first order"
       }
     ]
   },
