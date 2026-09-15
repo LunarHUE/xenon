@@ -5716,8 +5716,8 @@
   },
   {
     "ids": ["slider.state.1"],
-    "status": "partial",
-    "reason": "Native thumb value and output update after a key/rail change; an APG RGB/hex/swatch composition and exact synchronous ARIA change are not asserted.",
+    "status": "covered",
+    "reason": "Public browser regression checks synchronous reactive flush of ARIA/RGB/hex/swatch on each key, or live neighbor removal/addition while an owning pointer gesture continues past the old/new bound.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
@@ -5727,6 +5727,10 @@
       {
         "file": "packages/solid/src/slider/slider.test.tsx",
         "title": "stable range inputs clamp neighboring keys and commit once on release"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-live-state.test-browser.tsx",
+        "title": "slider.state.1 updates aria-valuenow, RGB, hex, and swatch synchronously for every key press"
       }
     ]
   },
@@ -5834,12 +5838,22 @@
   },
   {
     "ids": ["slider.state.11"],
-    "status": "missing",
-    "reason": "Pointer moves read the live result/value array, but no test changes controlled thumb count mid-gesture.",
+    "status": "covered",
+    "reason": "Public browser regression checks synchronous reactive flush of ARIA/RGB/hex/swatch on each key, or live neighbor removal/addition while an owning pointer gesture continues past the old/new bound.",
     "sources": [
       "docs/spec/slider.md",
       "docs/plans/slider-coverage.md",
       "packages/solid/src/slider/slider.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/slider/slider.coverage-live-state.test-browser.tsx",
+        "title": "slider.state.11 shrinking a controlled range mid-drag drops the stale thumb safely"
+      },
+      {
+        "file": "packages/suite/src/slider/slider.coverage-live-state.test-browser.tsx",
+        "title": "slider.state.11 growing a controlled slider mid-drag uses the live thumb set"
+      }
     ]
   },
   {

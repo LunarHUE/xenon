@@ -675,3 +675,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed keyboard.19 with a real browser key press inside an open shadow root.
 - Expanded keyboard.10 to every specified numeric example and repeated tiny-step callback/ARIA values, including exact 25.1 text. Astra low confirmed the failures compared equivalent decimal/scientific strings; the literal fixed-decimal notation alternative remains partial.
 - Independent final Chromium run passed all four cases; verifier lint and formatting passed.
+
+### Slider synchronous display and live thumb counts
+
+- Closed state.1 with ARIA, RGB, hex and swatch assertions after each direct key dispatch and synchronous Solid flush, without awaiting a later task.
+- Closed state.11 by shrinking and growing the controlled thumb set during a gesture: movement passes the removed neighbor's old bound and clamps at the newly added neighbor.
+- Independent Chromium run passed all three cases; Luna suite typechecking and lint passed, and root formatted the final file.
