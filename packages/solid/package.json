@@ -148,6 +148,18 @@
     "./toast": {
       "types": "./src/toast/index.tsx",
       "default": "./src/toast/index.tsx"
+    },
+    "./date": {
+      "types": "./src/date/index.tsx",
+      "default": "./src/date/index.tsx"
+    },
+    "./calendar": {
+      "types": "./src/calendar/index.tsx",
+      "default": "./src/calendar/index.tsx"
+    },
+    "./range-calendar": {
+      "types": "./src/range-calendar/index.tsx",
+      "default": "./src/range-calendar/index.tsx"
     }
   },
   "scripts": {

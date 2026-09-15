@@ -63,7 +63,7 @@ for (const source of ['@tenon/solid/button', '@tenon/solid']) {
     'Button must be retained'
   )
   const unrelated = modules.filter((path) =>
-    /\/(solid|core|dom)\/src\/(checkbox|checkbox-group|listbox|select|combobox|dialog|drawer|popover|menu|positioning|tooltip|hover-card|hover-intent|context-menu|menubar|navigation-menu|toast)\//.test(
+    /\/(solid|core|dom)\/src\/(checkbox|checkbox-group|listbox|select|combobox|dialog|drawer|popover|menu|positioning|tooltip|hover-card|hover-intent|context-menu|menubar|navigation-menu|toast|date|calendar|range-calendar)\//.test(
       path
     )
   )
