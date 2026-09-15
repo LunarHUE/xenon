@@ -9216,8 +9216,8 @@
   },
   {
     "ids": ["accordion.ssr.1"],
-    "status": "partial",
-    "reason": "The shared hydration fixture renders the accordion without page/console errors; exact accordion paired-ID equality before and after hydration is not independently asserted.",
+    "status": "covered",
+    "reason": "JavaScript-disabled markup captures generated trigger/panel IDs and both aria references; the hydrated page asserts data-preserved=true (same server nodes survived) plus identical IDs and associations.",
     "sources": [
       "docs/spec/accordion.md",
       "packages/core/src/accordion/accordion.ts",
@@ -9228,6 +9228,10 @@
       {
         "file": "packages/suite/e2e/hydration.spec.ts",
         "title": "round-one server markup hydrates without replacing DOM or IDs"
+      },
+      {
+        "file": "packages/suite/e2e/group-ssr.spec.ts",
+        "title": "accordion.ssr.1 preserves generated trigger and panel associations through hydration"
       }
     ]
   },
@@ -18639,12 +18643,18 @@
   },
   {
     "ids": ["checkbox-group.ssr.1"],
-    "status": "missing",
-    "reason": "Server association finalization exists, but no group SSR fixture asserts unique IDs and server/client count parity.",
+    "status": "covered",
+    "reason": "Raw server HTML asserts at least two nonempty unique IDs, and hydrated Chromium asserts data-preserved=true, the complete ID sequence is unchanged, and uniqueness remains.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/group-ssr.spec.ts",
+        "title": "checkbox-group.ssr.1 keeps unique item ids and count across hydration"
+      }
     ]
   },
   {
@@ -18659,12 +18669,18 @@
   },
   {
     "ids": ["checkbox-group.ssr.4"],
-    "status": "missing",
-    "reason": "Nested Field labels support server finalization, but no group SSR fixture verifies native/custom per-item label targets.",
+    "status": "covered",
+    "reason": "The fixture includes a native input item and an item rendered as a button. Server and hydrated markup verify each label has a nonempty for target resolving to exactly one INPUT or BUTTON, and compare text-target pairs.",
     "sources": [
       "docs/spec/checkbox.md",
       "packages/solid/src/checkbox-group/checkbox-group.tsx",
       "packages/core/src/checkbox-group/checkbox-group.ts"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/e2e/group-ssr.spec.ts",
+        "title": "checkbox-group.ssr.4 preserves each item label target before and after hydration"
+      }
     ]
   },
   {

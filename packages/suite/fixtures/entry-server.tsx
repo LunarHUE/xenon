@@ -7,6 +7,7 @@ import { FloatingFixture } from './floating'
 import { ToastFixture } from './toast'
 import { CalendarFixture } from './calendar'
 import { UtilityCoverage } from './utility-coverage'
+import { GroupSsrFixture } from './group-ssr'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -73,4 +74,8 @@ export function renderUtilityCoverage(avatarPolicy: 'no-referrer' | 'origin' = '
     generateHydrationScript() +
     renderToString(() => <UtilityCoverage avatarPolicy={avatarPolicy} />)
   )
+}
+
+export function renderGroupSsr() {
+  return generateHydrationScript() + renderToString(() => <GroupSsrFixture />)
 }

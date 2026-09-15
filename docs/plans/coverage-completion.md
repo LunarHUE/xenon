@@ -253,3 +253,13 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent combined checks with the following form slice: 17 jsdom and 20
   Chromium tests passed. Audit validation passed. The concurrent Tabs fixture
   had a lowercase tabindex type correction pending during this typecheck.
+
+### Accordion and CheckboxGroup hydration associations
+
+- Added a dedicated SSR fixture and three Chromium end-to-end tests, closing
+  the remaining Accordion paired-ID gap and two CheckboxGroup hydration gaps.
+- The fixture includes native and custom checkbox hosts. Tests compare generated
+  IDs and label targets in JavaScript-disabled markup and after hydration; the
+  shared client fixture also verifies that server DOM nodes were preserved.
+- Independent focused E2E run: all three tests passed. Changed-file lint and
+  audit validation passed.
