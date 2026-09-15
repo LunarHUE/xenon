@@ -604,3 +604,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Added three cases for public name sources, generated native label associations, reactive description/error references, and accurate axe native/generic naming taxonomy.
 - Astra low confirmed the failing research order conflicts with the documented/tested shared Field contract. Both requirements remain partial for those alternatives; production behavior was preserved.
 - Independent jsdom and Chromium runs passed all three cases. Verifier lint/format passed.
+
+### NumberField accounting announcements and advanced locales
+
+- Closed four locale gaps: real currency-token deletion, accounting sign editing/announcements, Arabic plural stepping, and comma-decimal step grids. Typed numeral round trips supplement rtl.14, which retains the undefined universal locale scope.
+- Astra low corrected announcement timing and confirmed accounting negative ARIA lacked Unicode minus. Astra medium formats accounting announcements separately using locale minus-sign parts, preserving visible output, parsing, bidi marks and nonaccounting behavior.
+- Independent checks passed 37 core, three suite jsdom and seven Chromium tests. Core types and focused lint passed in the fix agent.

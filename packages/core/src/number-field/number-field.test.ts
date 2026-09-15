@@ -162,3 +162,37 @@ test('accounting currency formatting accepts parenthesized negative values', () 
   expect(codec.format(-1234.5)).toContain('(')
   expect(codec.parse(codec.format(-1234.5))).toBe(-1234.5)
 })
+
+test.each([
+  ['en-US', 'USD', '($10.00)', '−$10.00'],
+  ['de-DE', 'EUR', '-10,00\u00a0€', '−10,00\u00a0€'],
+  ['ar-EG', 'USD', '\u061c-\u200f١٠٫٠٠\u00a0US$', '\u061c−\u200f١٠٫٠٠\u00a0US$'],
+])(
+  'accounting announcements use an explicit minus in %s without changing the display',
+  (locale, currency, visible, spoken) => {
+    const formatOptions: Intl.NumberFormatOptions = {
+      style: 'currency',
+      currency,
+      currencySign: 'accounting',
+    }
+    const engine = numberField({ value: -10, locale, formatOptions })
+    expect(engine.parts.input.attrs.value).toBe(visible)
+    expect(engine.parts.input.attrs['aria-valuetext']).toBe(spoken)
+    expect(engine.parts.input.attrs['aria-valuenow']).toBe('-10')
+    expect(createNumberFieldFormat(locale, formatOptions).parse(visible!)).toBe(-10)
+    const positive = numberField({ value: 10, locale, formatOptions }).parts.input.attrs
+    expect(positive['aria-valuetext']).toBe(positive.value)
+  }
+)
+
+test.each(['en-US', 'de-DE', 'ar-EG'])(
+  'nonaccounting announcements retain visible formatting in %s',
+  (locale) => {
+    const engine = numberField({
+      value: -10,
+      locale,
+      formatOptions: { style: 'currency', currency: 'USD' },
+    })
+    expect(engine.parts.input.attrs['aria-valuetext']).toBe(engine.parts.input.attrs.value)
+  }
+)

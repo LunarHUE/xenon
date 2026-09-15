@@ -1803,8 +1803,8 @@
   },
   {
     "ids": ["number-field.rtl.9"],
-    "status": "partial",
-    "reason": "Currency parsing is asserted, but multi-character token editing and trailing-symbol Backspace are not.",
+    "status": "covered",
+    "reason": "Real editing deletes the trailing euro symbol with Backspace and commits the remaining digits; a separate multi-character R$ token parses to its numeric value.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1814,13 +1814,17 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test-browser.tsx",
+        "title": "number-field.rtl.9: currency and locale literals tolerate editing and trailing symbol deletion"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.10"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "Native accounting parentheses and minus-sign locale input parse negative and flip positive when the closing parenthesis/sign is removed. Accounting ARIA announces Unicode minus while visible Intl text remains unchanged, including bidi-marked Arabic core regressions.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1830,6 +1834,14 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test-browser.tsx",
+        "title": "number-field.rtl.10: accounting parentheses parse negative and closing-parenthesis deletion is exercised natively"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test-browser.tsx",
+        "title": "number-field.rtl.10: minus-sign accounting locale parses and removes its native sign"
       }
     ]
   },
@@ -1847,8 +1859,8 @@
   },
   {
     "ids": ["number-field.rtl.13"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "Arabic long-unit output covers plural categories and real ArrowUp steps through 0, 1 and 2 with exact numeric callbacks.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1858,13 +1870,21 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test.tsx",
+        "title": "number-field.rtl.13: Arabic long unit formatting preserves singular dual and plural values"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test-browser.tsx",
+        "title": "number-field.rtl.13: native Arabic stepping visits plural categories 0, 1 and 2"
       }
     ]
   },
   {
     "ids": ["number-field.rtl.14"],
     "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Representative Latin, Arabic-Indic, Han, Devanagari and Bengali numbering systems assert displayed and committed formatter output plus parsed callbacks. No finite shipped-translation-locale inventory is defined, so the universal locale scope remains unresolved.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1874,6 +1894,10 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test.tsx",
+        "title": "number-field.rtl.14: locale numbering systems format and parse Latin Arabic Han Devanagari and Bengali digits"
       }
     ]
   },
@@ -1885,8 +1909,8 @@
   },
   {
     "ids": ["number-field.rtl.16"],
-    "status": "partial",
-    "reason": "Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted.",
+    "status": "covered",
+    "reason": "German comma-decimal 1.1 follows the default step grid to 2 and down to 1 with matching numeric callbacks.",
     "sources": [
       "docs/spec/number-field.md",
       "docs/plans/number-field-coverage.md",
@@ -1896,6 +1920,10 @@
       {
         "file": "packages/core/src/number-field/number-field.test.ts",
         "title": "parses localized decimals, currency, Arabic digits, and percentages strictly"
+      },
+      {
+        "file": "packages/suite/src/number-field/number-field.coverage-locale-advanced.test.tsx",
+        "title": "number-field.rtl.16: comma-decimal stepping follows the step grid rather than typed fraction"
       }
     ]
   },

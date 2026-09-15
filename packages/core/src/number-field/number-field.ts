@@ -211,7 +211,19 @@ export function numberField(options: NumberFieldOptions = {}) {
       'aria-valuemax': max === undefined ? undefined : String(max),
       'aria-valuenow': parsed === null || !Number.isFinite(parsed) ? undefined : String(parsed),
       'aria-valuetext':
-        parsed === null || !Number.isFinite(parsed) ? undefined : format.format(parsed),
+        parsed === null || !Number.isFinite(parsed)
+          ? undefined
+          : options.formatOptions?.style === 'currency' &&
+              options.formatOptions.currencySign === 'accounting'
+            ? new Intl.NumberFormat(options.locale ?? 'en-US', {
+                ...options.formatOptions,
+                currencySign: 'standard',
+              })
+                .formatToParts(parsed)
+                // Announce accounting negatives explicitly while retaining locale order and bidi marks.
+                .map((part) => (part.type === 'minusSign' ? '−' : part.value))
+                .join('')
+            : format.format(parsed),
     },
     on: {
       input(event) {
