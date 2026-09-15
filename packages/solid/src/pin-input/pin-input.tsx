@@ -64,7 +64,7 @@ interface Context {
   /** Generated slot ID. */
   id: (index: number) => string
 }
-const Context = createContext<Context>()
+const Context = createContext<Context | null>(null)
 /** Read the required owning root. */
 function usePinInput(): Context {
   const context = useContext(Context)

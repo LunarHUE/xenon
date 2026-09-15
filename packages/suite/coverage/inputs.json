@@ -3702,12 +3702,18 @@
   },
   {
     "ids": ["pin-input.notes.2"],
-    "status": "missing",
-    "reason": "The adapter has a named required context and processes input events without data via currentTarget.value, but neither exact scenario has a scoped assertion.",
+    "status": "covered",
+    "reason": "Orphan Input throws the explicit component-named context error; a nullable context default allows the existing guard to run.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-notes.test-browser.tsx",
+        "title": "pin-input.notes.2 an Input rendered without PinInput throws a named context error"
+      }
     ]
   },
   {
@@ -3764,12 +3770,18 @@
   },
   {
     "ids": ["pin-input.notes.10"],
-    "status": "missing",
-    "reason": "The adapter has a named required context and processes input events without data via currentTarget.value, but neither exact scenario has a scoped assertion.",
+    "status": "covered",
+    "reason": "Direct slot writes followed by plain input events with no data populate the joined code and fire completion exactly once.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-notes.test-browser.tsx",
+        "title": "pin-input.notes.10 direct password-manager writes with plain input events join and complete once"
+      }
     ]
   },
   {

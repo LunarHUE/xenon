@@ -780,3 +780,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Expanded ssr.2 with native validation of emitted required/pattern markup in a page with JavaScript disabled. The same proxy accepts complete values and rejects incomplete/empty values for the expected native validity reasons.
 - Playwright sets proxy values directly for inspection; this does not claim a no-JavaScript slot editing flow. The research minlength/maxlength attribute trio remains partial because the accepted component uses pattern.
 - Independent configured Chromium E2E run passed all three numeric SSR/hydration tests. The existing two-slot fixture remains structurally unchanged apart from required state.
+
+### PinInput named context guard and plain input events
+
+- Closed the two remaining missing PinInput requirements: named orphan-part errors and password-manager-style direct writes followed by data-less input events.
+- Astra low verified Solid's generic context error bypassed the existing named guard. Astra medium supplied a nullable context default so the intended guard executes.
+- Independent full PinInput browser run passed 192 cases across Chromium, Firefox and WebKit; 14 adapter tests and suite typecheck passed. The development compilation probe printed success but hung on shutdown again; its exact process was stopped and adapter Vitest ran directly.
