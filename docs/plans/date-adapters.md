@@ -1,156 +1,110 @@
-# Date adapters for calendars and date pickers
+# Date adapters and calendars
 
-Status: proposed for later implementation. The API examples describe the intended
-shape; these exports do not exist yet.
+Status: date-only values approved. Calendar and RangeCalendar are the first
+implementation slice; segmented fields and popover pickers follow separately.
+This supersedes the earlier proposal to default to native JavaScript Date.
 
-Keep calendar behavior in Tenon and let consumers choose their date representation.
-Ship a native `Date` adapter by default, with a small contract that can also support
-date-fns, Temporal, or a consumer's own date type. Tenon should not depend directly
-on date-fns to implement calendar behavior.
+## Values and adapter ownership
 
-## Responsibility split
+The default DateValue is an immutable Gregorian `{ year, month, day }` value.
+Years are 1 through 9999, months 1 through 12, and days are validated against the
+month. Date arithmetic never mutates inputs or silently accepts invalid days.
+Month and year addition clamps to the final valid day when needed.
 
-The date adapter handles arithmetic, comparison, date fields, and formatting.
-Calendar controllers in `@tenon/core` use those operations to build grids, manage
-selection and ranges, calculate focus movement, apply min/max and disabled-date
-rules, and produce keyboard behavior and ARIA attributes. The Solid binding owns
-context, uncontrolled state, and wiring to DOM focus behavior.
+A date identifies a calendar day, not an instant. It has no time of day or time
+zone. Calendar-day arithmetic and comparison do not depend on the host time zone.
+Strict ISO date parsing and serialization use YYYY-MM-DD, independently of display
+locale. Formatting must retain Gregorian date identity and exclude time-of-day or
+time-zone options.
 
-Keep `getCalendarGrid`, `getVisibleRange`, and `getNextPage` out of the date adapter.
-Those decisions belong to Tenon and should behave the same across date types.
-Business rules such as unavailable days belong in calendar options too.
+DateAdapter<TDate> handles conversion to/from fields, arithmetic, comparison,
+weekday and month length, and display formatting. The default dateOnlyAdapter
+implements that contract. Core always receives an adapter and a resolved today
+value; it never reads a clock or framework context. The same core tests must run
+against a second representation to expose assumptions about object identity or
+plain-object date fields.
 
-## Proposed contract
+Temporal can be added through a separate adapter without changing the default
+component API. Native Date is not the default value type. Conversion to timestamps,
+zoned time, and native Date representation requires an explicit policy and is
+outside this first date-only slice.
 
-Start with the operations the calendar needs. Review this list against the first
-controller before committing to public exports, and remove unused methods.
+## Configuration and typing
 
-```typescript
-export interface DateAdapter<TDate> {
-  today(): TDate
+DateProvider shares locale, weekStartsOn, and a date-only today snapshot. Root props
+win over provider values. Deterministic defaults are en-US and Sunday/0 unless
+specified. Locale controls formatting; it does not silently change weekStartsOn.
 
-  getYear(date: TDate): number
-  getMonth(date: TDate): number
-  getDay(date: TDate): number
-  getWeekday(date: TDate): number
+Custom representations require a matching explicit adapter on the Calendar or
+RangeCalendar root. JSX ancestry cannot establish a descendant's generic type, so
+an arbitrary adapter in context must not change the value type of a default root.
+Type tests must reject mismatched values/callbacks and missing custom adapters.
 
-  addDays(date: TDate, amount: number): TDate
-  addMonths(date: TDate, amount: number): TDate
-  addYears(date: TDate, amount: number): TDate
+Without today, the Solid adapter samples local calendar fields once. For SSR,
+supply the same date-only today snapshot and locale on server and client. This
+avoids ambient time-zone or midnight differences during hydration without putting
+clock reads in core. The calendar performs no midnight polling in this slice.
 
-  startOfMonth(date: TDate): TDate
-  endOfMonth(date: TDate): TDate
-  daysInMonth(date: TDate): number
+## Anatomy
 
-  compare(a: TDate, b: TDate): number
-  isSameDay(a: TDate, b: TDate): boolean
+Calendar is the root component, with Header, Previous, Heading, Next, and Grid.
+Grid provides a default native table layout. Custom layouts can compose GridHead,
+GridBody, Row, Cell, Day and weekday-heading parts from the root render state.
+No icons, styles, or preset animation are included.
 
-  format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
-}
-```
+RangeCalendar lives in its own module and reuses calendar internals. Its committed
+value is a complete `{ start, end }` pair. The first activation starts a draft;
+the second commits a sorted valid range. Hover/focus previews do not commit.
+Escape cancels a draft and otherwise remains available to ancestor overlays.
 
-Use one set of semantics across adapters. Proposed starting rules:
+Multiple visible months use an explicit month index on each Grid. There is one
+roving day tab stop across the calendar. Adjacent-month duplicates must not create
+extra stops or ambiguous selection associations.
 
-- Months are 1 through 12. `getDay` means day of month, starting at 1.
-  `getWeekday` returns 0 for Sunday through 6 for Saturday. Consider renaming
-  `getDay` to `getDayOfMonth` before release to avoid confusion with native `Date`.
-- Operations never mutate their inputs. Adding days means calendar days.
-- Adding months or years clamps to the last valid day when needed. January 31
-  plus one month becomes February 28 in a non-leap year.
-- Comparison uses calendar-day order. Its result is negative, zero, or positive,
-  and zero agrees with `isSameDay` even when native values have different times.
-- Month boundaries represent the first and last calendar days, not timestamp
-  limits. Formatting must describe the same day used by arithmetic and comparison.
+## Behavior
 
-The first version targets Gregorian date-only controls. Swapping the representation
-does not by itself add other calendar systems or time-of-day selection.
+- Selection and focus are separate. Focus movement does not select a date.
+- Native day buttons own Enter/Space activation. Arrows move by day/week, Home/End
+  move to week boundaries, PageUp/PageDown change month, and Shift adds year paging.
+  Horizontal movement follows direction. Bounds prevent invalid navigation.
+- Unavailable dates remain inspectable through focus but cannot be selected.
+  Disabled roots block interactions; read-only roots permit navigation without
+  changing selection. No change callbacks fire on mounting.
+- Ranges cannot cross unavailable dates by default. Disabled endpoints and values
+  outside min/max cannot commit. Reverse selection sorts endpoints.
+- Heading changes announce month navigation. Date labels and weekday names use
+  locale-aware formatting while selection keys remain locale-independent.
+- Undefined means uncontrolled, matching the library's existing convention.
+  Returning a controlled prop to undefined resumes internal state silently.
 
-## Component and provider API
+## Implementation slices
 
-The single-selection root has this provisional shape, following Tenon's convention
-that an empty selection emits `undefined`:
+1. DateValue helpers, generic adapter contract, arithmetic/conformance tests.
+2. Pure Calendar and RangeCalendar behavior, bounds, draft selection and semantics.
+3. DateProvider and Solid compound parts with type, adapter and SSR tests.
+4. Shared/native Chromium and WebKit coverage and consumer-styled examples.
+5. Public subpath builds, TSDoc audit, coverage review and verification notes.
 
-```typescript
-type CalendarRootProps<TDate = Date> = {
-  adapter?: DateAdapter<TDate>
-  value?: TDate
-  defaultValue?: TDate
-  onValueChange?: (value: TDate | undefined) => void
-}
-```
+Use focused commits per slice. Write TSDoc with the implementation. Preserve
+unverified source cases as explicit coverage gaps rather than marking them passed.
 
-Ordinary use needs no adapter prop. A component can override the adapter locally:
+## Sources
 
-```tsx
-<Calendar.Root value={date()} onValueChange={setDate} />
+- Existing calendar, range-calendar, date-field and picker research in docs/research.
+- WAI-ARIA calendar keyboard and grid example:
+  https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/
 
-<Calendar.Root
-  adapter={dateFnsAdapter}
-  value={date()}
-  onValueChange={setDate}
-/>
+The APG example includes dialog dismissal that belongs to the later picker layer;
+standalone Calendar does not close an overlay merely because a date was selected.
 
-<Calendar.Root adapter={temporalAdapter} value={plainDate()} />
-```
+## Later slices
 
-`DateProvider` supplies a shared adapter for calendars and both picker variants.
-This lets a styled component library choose its date implementation once:
+DateField and DateRangeField introduce segmented editing and incomplete input.
+DatePicker and DateRangePicker compose fields, calendars and existing popovers.
+TimeField, other calendar systems, and zoned date-time selection require separate
+contracts. Adapter representation interchange does not imply support for all of
+those domains.
 
-```tsx
-<DateProvider adapter={dateFnsAdapter}>
-  <Calendar.Root />
-  <DatePicker.Root />
-  <DateRangePicker.Root />
-</DateProvider>
-```
+## Verification
 
-Resolve configuration in the Solid binding, then pass a concrete adapter to core:
-
-```typescript
-const adapter = props.adapter ?? useDateContext()?.adapter ?? nativeDateAdapter
-```
-
-A local prop wins over the nearest provider. Without either, use the native
-adapter. Core never reads Solid context or chooses a fallback.
-
-Provider inheritance needs a type design before implementation. A parent JSX
-provider cannot establish the generic type of every descendant at compile time.
-The optional prop sketch above must not allow a non-`Date` value to fall through
-to the native adapter. Prototype typed component factories or wrappers for
-provider-based use, and require a matching explicit adapter where inference
-cannot establish the pairing. Do not hide the mismatch with a cast.
-
-## Defaults and migration
-
-Keep native `Date` as the default for the initial major version. Offer other
-adapters through separate entry points so consumers only install and bundle the
-date libraries they use. Exact package and export names remain open.
-
-Add a `Temporal.PlainDate` adapter as an opt-in when we are ready to support it.
-Changing the default to Temporal changes values and callback types, so that
-requires a major release. Retain an explicit native adapter export for consumers
-who need `Date`, and document how to preserve their existing representation.
-
-## Work before implementation
-
-Decide how the native adapter interprets dates and time zones, how adapters reject
-invalid values, and which formatting options date-only controls accept. Resolve
-locale and week-start configuration separately from date arithmetic. Parsing and
-form serialization need explicit contracts when picker inputs are designed;
-display formatting is not a serialization format.
-
-Define how `today()` receives a consistent clock and zone during SSR and hydration.
-Core should receive a resolved today value so rendering does not read the clock
-again. Also decide whether changing adapters after mount requires a remount,
-especially when the new adapter uses a different value type.
-
-Implement the calendar against the native adapter first, then exercise the same
-controller with a second date representation before freezing the contract. Add
-shared adapter tests for leap years, clamping, day comparison, input immutability,
-and daylight-saving boundaries. Add type checks for adapter/value mismatches and
-provider wrappers. Calendar conformance tests should cover navigation, selection,
-ranges, constraints, announcements, and hydration across both adapters.
-
-The existing calendar and picker research in `docs/research/` can supply behavior
-requirements when this work starts. Turn the chosen requirements into conformance
-specs then; this plan does not mark any calendar behavior as implemented.
+Implementation in progress.
