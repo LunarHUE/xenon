@@ -171,22 +171,34 @@
   },
   {
     "ids": ["editable.pointer.2"],
-    "status": "missing",
-    "reason": "EditTrigger calls the accepted edit action and reveals the input, but no scoped assertion specifically checks focus following an EditTrigger click.",
+    "status": "covered",
+    "reason": "Native browser regression verifies EditTrigger click reveals the editor and focuses its input.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-pointer.test-browser.tsx",
+        "title": "editable.pointer.2 EditTrigger click reveals the editor and focuses its input"
+      }
     ]
   },
   {
     "ids": ["editable.pointer.3"],
-    "status": "missing",
-    "reason": "The public dblclick activation mode is implemented, but all scoped interaction fixtures use the default click mode.",
+    "status": "covered",
+    "reason": "Native browser regression verifies double-click activates existing and placeholder previews, then Enter commits each value.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-pointer.test-browser.tsx",
+        "title": "editable.pointer.3 double-click activates existing and placeholder previews, then Enter commits each value"
+      }
     ]
   },
   {
@@ -223,22 +235,34 @@
   },
   {
     "ids": ["editable.pointer.6"],
-    "status": "missing",
-    "reason": "The public dblclick activation mode is implemented, but all scoped interaction fixtures use the default click mode.",
+    "status": "covered",
+    "reason": "Native browser regression verifies double-click clears and replaces an existing value before Save commits it.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-pointer.test-browser.tsx",
+        "title": "editable.pointer.6 double-click clears and replaces an existing value before Save commits it"
+      }
     ]
   },
   {
     "ids": ["editable.pointer.7"],
-    "status": "missing",
-    "reason": "The public dblclick activation mode is implemented, but all scoped interaction fixtures use the default click mode.",
+    "status": "covered",
+    "reason": "Native browser regression verifies double-click followed by Escape retains the existing value.",
     "sources": [
       "docs/spec/editable.md",
       "docs/plans/editable-coverage.md",
       "packages/solid/src/editable/editable.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/editable/editable.coverage-pointer.test-browser.tsx",
+        "title": "editable.pointer.7 double-click followed by Escape retains the existing value"
+      }
     ]
   },
   {

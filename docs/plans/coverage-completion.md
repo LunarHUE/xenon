@@ -703,3 +703,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed four gaps for Enter's commit payload and hidden editor, unchanged Escape, both native maxlength examples with Backspace/replacement, and three full-deletion/cancel cycles.
 - Independent Chromium run passed all four cases. Luna suite typechecking, lint and diff checks passed.
+
+### Editable double-click and explicit edit triggers
+
+- Closed four pointer gaps: EditTrigger focus, existing/placeholder double-click activation and Enter commit, replacement with Save, and Escape restoration. Single clicks are also checked against double-click-only activation.
+- Independent final Chromium run passed all four cases; Luna suite typechecking and lint passed.
