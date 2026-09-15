@@ -1,4 +1,5 @@
 import { createSignal, untrack } from 'solid-js'
+import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { toastDuration, toastLimit, visibleToastIds } from '@tenon/core/toast'
 import type { ToastPriority, ToastType } from '@tenon/core/toast'
@@ -170,7 +171,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
       }
     }
     currentToasts = entries.map((entry) => entry.record).reverse()
-    setToasts(currentToasts)
+    if (!isServer) setToasts(currentToasts)
   }
   const message = (value: ToastMessage<T>): ToastOptions<T> => {
     if (
@@ -245,7 +246,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
         const read = () => snapshot
         const write = (value: Snapshot) => {
           snapshot = value
-          setSnapshot(value)
+          if (!isServer) setSnapshot(value)
         }
         const record = {} as Snapshot
         for (const key of [
