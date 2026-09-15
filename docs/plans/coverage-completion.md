@@ -341,3 +341,14 @@ accounting. Audit records live in `packages/suite/coverage`.
   cleanup and the expanded host matrix, the slice passed six jsdom and eleven
   Chromium cases. Audit validation passed. Astra also passed core/Solid tests,
   three-engine native keyboard tests, types and lint.
+
+### Typeahead group boundaries, origins and isolated buffers
+
+- Added four shared and three browser tests, closing six gaps for cross-group
+  matching, spaces during search, explicit textValue, Select trigger/popup
+  routing, Combobox caret keys and per-instance buffers. Nested input typing
+  gains evidence; the dialog-opened-from-composite alternative remains partial.
+- Sol corrected the empty-buffer Space expectation and strengthened group and
+  buffer-isolation fixtures. No production bug was found.
+- Independent runs passed four jsdom and seven Chromium cases; Sol passed all
+  21 cases across three engines. Audit validation passed.

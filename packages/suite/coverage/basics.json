@@ -22622,8 +22622,8 @@
   },
   {
     "ids": ["typeahead.keyboard.1"],
-    "status": "partial",
-    "reason": "Buffered prefixes move focus to matching items; crossing sections/groups is not included in the fixture.",
+    "status": "covered",
+    "reason": "Prefix matching moves from an item in one Menu group to a matching item beyond the separator in another group.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -22634,6 +22634,10 @@
       {
         "file": "packages/core/src/menu/menu.test.ts",
         "title": "buffers typeahead, keeps a prefix match, cycles repeated letters, skips disabled"
+      },
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test.tsx",
+        "title": "typeahead.keyboard.1 crosses Menu groups and sections using one prefix"
       }
     ]
   },
@@ -22718,8 +22722,8 @@
   },
   {
     "ids": ["typeahead.keyboard.7"],
-    "status": "partial",
-    "reason": "Spaces extend a matching multiword prefix; doubled-space no-match is not explicitly asserted.",
+    "status": "covered",
+    "reason": "An active foo search accepts a space without activating the Menu item; a second space leaves the current match focused without activation.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -22730,6 +22734,10 @@
       {
         "file": "packages/core/src/listbox/listbox.test.ts",
         "title": "multi-character search uses text labels, includes spaces, and preserves unmatched buffers"
+      },
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test.tsx",
+        "title": "typeahead.keyboard.7 extends an active search with space and doubled space matches nothing"
       }
     ]
   },
@@ -22752,8 +22760,8 @@
   },
   {
     "ids": ["typeahead.keyboard.9"],
-    "status": "partial",
-    "reason": "Core textValue getters override item values for matching; rendered-text versus explicit item textValue precedence is not directly asserted.",
+    "status": "covered",
+    "reason": "A rendered Menu label differs from textValue and search follows textValue.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -22764,6 +22772,10 @@
       {
         "file": "packages/core/src/listbox/listbox.test.ts",
         "title": "multi-character search uses text labels, includes spaces, and preserves unmatched buffers"
+      },
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test.tsx",
+        "title": "typeahead.keyboard.9 matches explicit Menu item textValue instead of rendered text"
       }
     ]
   },
@@ -22791,35 +22803,53 @@
   },
   {
     "ids": ["typeahead.keyboard.12"],
-    "status": "missing",
-    "reason": "Select has trigger and popup key routing, but no test drives the same search through both event origins.",
+    "status": "covered",
+    "reason": "The same prefix drives Select selection from its closed trigger and highlights the matching option from its open popup.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
       "packages/core/src/listbox/listbox.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test-browser.tsx",
+        "title": "typeahead.keyboard.12 accepts key events from a Select trigger and popup"
+      }
     ]
   },
   {
     "ids": ["typeahead.keyboard.13"],
-    "status": "missing",
-    "reason": "Combobox editable input owns caret keys, but no typeahead-focused test asserts both Home and End caret behavior.",
+    "status": "covered",
+    "reason": "Real Combobox typing followed by Home and End moves the input caret to both boundaries while retaining input focus.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
       "packages/core/src/listbox/listbox.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test-browser.tsx",
+        "title": "typeahead.keyboard.13 leaves Home and End to the actual Combobox caret"
+      }
     ]
   },
   {
     "ids": ["typeahead.keyboard.14"],
-    "status": "missing",
-    "reason": "No nested input/dialog typing fixture verifies that collection focus remains stable while characters reach the input.",
+    "status": "partial",
+    "reason": "No nested input/dialog typing fixture verifies that collection focus remains stable while characters reach the input. Typing in a Menu nested input reaches that input and retains focus. The separate dialog-opened-from-composite alternative remains untested.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
       "packages/core/src/listbox/listbox.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test-browser.tsx",
+        "title": "typeahead.keyboard.14 keeps nested input typing inside the input"
+      }
     ]
   },
   {
@@ -22852,13 +22882,19 @@
   },
   {
     "ids": ["typeahead.keyboard.17"],
-    "status": "missing",
-    "reason": "Each adapter owns its search signal and timer, but no two-instance test proves buffers remain isolated.",
+    "status": "covered",
+    "reason": "A multi-character buffer in one Menu does not alter a single-character search in a second Menu.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
       "packages/core/src/listbox/listbox.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/menu/typeahead.coverage.test.tsx",
+        "title": "typeahead.keyboard.17 keeps buffers isolated between Menu instances"
+      }
     ]
   },
   {
