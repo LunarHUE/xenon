@@ -1,4 +1,4 @@
-import { Checkbox, Field, Switch } from '@xenon/solid'
+import { Checkbox, Field, NumberField, Select, Switch } from '@xenon/solid'
 import type { JSX } from '@solidjs/web'
 import { screen } from '@testing-library/dom'
 import { Show, createSignal, omit } from 'solid-js'
@@ -8,6 +8,85 @@ import { mount } from '../harness/solid'
 
 /** Native text controls and checked controls supported by the shared Field assertions. */
 export type ControlKind = 'input' | 'textarea' | 'checkbox' | 'switch'
+
+export type FieldAdapterKind = 'number' | 'select'
+
+type SharedFieldStateOptions = {
+  name?: string
+  initialDescribedBy: string
+  remainingDescribedBy: string
+  clearProps: Record<string, unknown>
+  resolvedDescribedBy?: string[]
+}
+
+/** Common state, naming, and description/error assertions shared by every adapter battery. */
+async function assertSharedFieldState(
+  m: Awaited<ReturnType<typeof mount>>,
+  control: HTMLElement,
+  options: SharedFieldStateOptions
+) {
+  expect(screen.getByLabelText('Account')).toBe(control)
+  if (options.name) expect(control).toHaveAttribute('name', options.name)
+  expect(control).toBeDisabled()
+  expect(control).toBeRequired()
+  expect(control).toHaveAttribute('aria-invalid', 'true')
+  expect(control).toHaveAttribute('aria-describedby', options.initialDescribedBy)
+  for (const id of options.resolvedDescribedBy ?? [])
+    expect(m.container.querySelector(`[id="${id}"]`)).not.toBeNull()
+  m.setProps(options.clearProps)
+  await m.settle()
+  expect(control).not.toBeDisabled()
+  expect(control).not.toBeRequired()
+  expect(control).not.toHaveAttribute('aria-invalid')
+  expect(control).toHaveAttribute('aria-describedby', options.remainingDescribedBy)
+}
+
+export async function fieldAdapterContract(kind: FieldAdapterKind) {
+  const m = mount('field', {
+    name: 'account',
+    disabled: true,
+    required: true,
+    invalid: true,
+    children: () => (
+      <>
+        <Field.Label>Account</Field.Label>
+        <Field.Description id="help">Helpful text</Field.Description>
+        <Field.Error id="error">Fix this</Field.Error>
+        {kind === 'number' ? (
+          <NumberField>
+            <NumberField.Input />
+          </NumberField>
+        ) : (
+          <Select items={[{ value: 'one', label: 'One' }]}>
+            <Select.Trigger>
+              <Select.Value placeholder="Choose" />
+            </Select.Trigger>
+            <Select.Portal>
+              <Select.Positioner>
+                <Select.Content>
+                  <Select.Viewport>
+                    <Select.Item value="one">One</Select.Item>
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Positioner>
+            </Select.Portal>
+          </Select>
+        )}
+      </>
+    ),
+  })
+  await m.settle()
+  const control = kind === 'number' ? screen.getByRole('spinbutton') : screen.getByRole('combobox')
+  const initialDescribedBy = 'help error'
+  await assertSharedFieldState(m, control, {
+    name: undefined,
+    initialDescribedBy,
+    remainingDescribedBy: 'help',
+    clearProps: { disabled: false, required: false, invalid: false },
+    resolvedDescribedBy: ['help', 'error'],
+  })
+  expect(m.container.querySelector('[id="help"]')).toHaveTextContent('Helpful text')
+}
 
 /**
  * Selects the Field-compatible control used by shared contract fixtures.
@@ -57,6 +136,7 @@ export async function fieldContract(kind: ControlKind) {
     children: () => (
       <>
         <Field.Label>Account</Field.Label>
+        <span id="author">Author help</span>
         <Field.Description id="help">Helpful text</Field.Description>
         <Field.Error id="error">Fix this</Field.Error>
         <Control
@@ -72,23 +152,21 @@ export async function fieldContract(kind: ControlKind) {
   })
   await m.settle()
   const control = screen.getByLabelText('Account')
-  expect(control).toHaveAttribute('name', 'account')
-  expect(control).toBeDisabled()
-  expect(control).toBeRequired()
-  expect(control).toHaveAttribute('aria-invalid', 'true')
-  expect(control).toHaveAttribute('aria-describedby', 'author help error')
   expect(control).not.toHaveAttribute('aria-errormessage')
   expect(control).not.toHaveAttribute('aria-labelledby')
   for (const part of m.container.querySelectorAll('label, p, input, textarea, [role="group"]')) {
     for (const flag of ['disabled', 'required', 'readonly', 'invalid'])
       expect(part).toHaveAttribute(`data-${flag}`, '')
   }
-  m.setProps({ disabled: false, required: false, readonly: false, invalid: false })
-  await m.settle()
-  expect(control).not.toBeDisabled()
-  expect(control).not.toBeRequired()
-  expect(control).not.toHaveAttribute('aria-invalid')
-  expect(control).toHaveAttribute('aria-describedby', 'author help')
+  await assertSharedFieldState(m, control, {
+    name: 'account',
+    initialDescribedBy: 'author help error',
+    remainingDescribedBy: 'author help',
+    clearProps: { disabled: false, required: false, readonly: false, invalid: false },
+    resolvedDescribedBy: ['author', 'help', 'error'],
+  })
+  expect(control).not.toHaveAttribute('aria-errormessage')
+  expect(control).not.toHaveAttribute('aria-labelledby')
   expect(screen.queryByText('Fix this')).toBeNull()
   expect(screen.getByText('Helpful text')).toBeVisible()
   for (const flag of ['disabled', 'required', 'readonly', 'invalid'])

@@ -428,3 +428,15 @@ accounting. Audit records live in `packages/suite/coverage`.
   hidden unopened descendants and four-level Escape/outside-press unwinding.
 - Both portal modes and forceMount modes run with actual visibility/state
   assertions. Independent Chromium matrix passed; audit validation passed.
+
+### Shared Field assertions for NumberField and Select
+
+- Refactored common naming, state inheritance and description/error assertions
+  into one helper used by the original four adapters and two new adapter cases.
+  Explicit description IDs resolve to actual nodes and survive reactive clearing.
+- Restored the original invalid-state association assertions during review.
+  Other compatible adapters still need this battery, so field.notes.6 stays partial.
+- Independent runs passed 111 jsdom and 129 Chromium cases across every existing
+  caller. Final focused assertions and audit validation passed. The broad Chromium
+  run's ten failures all came from the earlier in-progress helper and are covered
+  by the successful 129-case rerun; its other 1,557 cases passed.

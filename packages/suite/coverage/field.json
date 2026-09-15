@@ -843,7 +843,7 @@
   {
     "ids": ["field.notes.6"],
     "status": "partial",
-    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery.",
+    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery. The original input/textarea/checkbox/switch battery and new NumberField/Select cases call the same naming, disabled/required/invalid and description/error assertion helper. Other compatible adapters still need the shared battery; RadioGroup does not inherit outer Field control state and is excluded from this individual-control contract.",
     "sources": [
       "docs/spec/field.md",
       "packages/suite/src/field/field.test.tsx",
@@ -853,6 +853,14 @@
       {
         "file": "packages/suite/src/field/field.test.tsx",
         "title": "field.notes.6"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-more.test.tsx",
+        "title": "field.notes.6 NumberField runs the shared Field battery"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-more.test.tsx",
+        "title": "field.notes.6 Select runs the shared Field battery"
       }
     ]
   },
