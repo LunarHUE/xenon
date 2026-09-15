@@ -617,7 +617,7 @@
   {
     "ids": ["prop-merging.9"],
     "status": "partial",
-    "reason": "Button and Toggle cancellation assertions establish author-before-core behavior; no shared helper fixture directly records the successful pair\u2019s ordering and exactly-once counts.",
+    "reason": "Button and Toggle cancellation assertions establish author-before-core behavior; no shared helper fixture directly records the successful pair’s ordering and exactly-once counts.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
@@ -768,7 +768,7 @@
   {
     "ids": ["controlled.1"],
     "status": "partial",
-    "reason": "Listbox with both value and defaultValue keeps the controlled selection until the prop becomes undefined; other families require their own simultaneous-value/default assertions.",
+    "reason": "Listbox with both value and defaultValue keeps the controlled selection until the prop becomes undefined; other families require their own simultaneous-value/default assertions. Toggle receives both pressed and defaultPressed before render; aria-pressed is true from the controlled value, proving the controlled value wins over the default. Other component families remain to be verified.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
@@ -778,13 +778,17 @@
       {
         "file": "packages/solid/src/listbox/listbox.test.tsx",
         "title": "releasing control restores the last internal selection and accepts future changes"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.1"
       }
     ]
   },
   {
     "ids": ["controlled.2"],
     "status": "partial",
-    "reason": "Controlled multiple Listbox reports exactly one merged proposal, retains its DOM selection, then accepts the external prop update without echo. This does not establish every component family.",
+    "reason": "Controlled multiple Listbox reports exactly one merged proposal, retains its DOM selection, then accepts the external prop update without echo. This does not establish every component family. A controlled Toggle click emits the proposed true value while aria-pressed remains false until its owner changes pressed. Other component families remain to be verified.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
@@ -794,18 +798,26 @@
       {
         "file": "packages/suite/src/listbox/listbox.test.tsx",
         "title": "controlled multiple selection rejects a user proposal until the owner updates it"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.2"
       }
     ]
   },
   {
     "ids": ["controlled.5"],
     "status": "partial",
-    "reason": "Toggle asserts internal state and callback payload after an uncontrolled click; the universal component claim needs the remaining component assertions.",
+    "reason": "Toggle asserts internal state and callback payload after an uncontrolled click; the universal component claim needs the remaining component assertions. An uncontrolled Toggle click changes the rendered aria-pressed state and emits the new value once. Other component families remain to be verified.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/solid/src/toggle/toggle.test.tsx",
         "title": "uncontrolled: defaultPressed starts on and clicks flip it"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.5"
       }
     ]
   },
@@ -964,7 +976,7 @@
   {
     "ids": ["controlled.27"],
     "status": "partial",
-    "reason": "An explicitly empty controlled array remains empty after a user proposal, and an empty string item is a valid selection. Async loading and imperative empty setters across the inventory are not asserted.",
+    "reason": "An explicitly empty controlled array remains empty after a user proposal, and an empty string item is a valid selection. Async loading and imperative empty setters across the inventory are not asserted. A controlled Listbox starts with an explicitly empty array before items exist; adding an item later leaves it unselected and emits no callback, proving loading does not replace the empty controlled value. Other component families remain to be verified.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
@@ -974,6 +986,10 @@
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "controlled changes snap back and external writes update stable nodes"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.27"
       }
     ]
   },
@@ -1011,13 +1027,17 @@
   },
   {
     "ids": ["rtl.5"],
-    "status": "partial",
-    "reason": "Vertical Down/Up are asserted in LTR and Down in RTL; RTL Up is not separately asserted in the shared fixture.",
+    "status": "covered",
+    "reason": "A vertical Toolbar under dir=rtl moves down to the next item and up to the previous item, showing RTL does not invert the vertical axis. Existing cited tests cover the complementary branches.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/core/src/composite/composite.test.ts",
         "title": "vertical: down and up move, and rtl does not mirror them"
+      },
+      {
+        "file": "packages/suite/src/rtl/rtl.coverage.test.tsx",
+        "title": "rtl.5"
       }
     ]
   },
@@ -1040,7 +1060,7 @@
   {
     "ids": ["disabled.2"],
     "status": "inapplicable",
-    "reason": "Generic disabled Button deliberately removes tabindex rather than forcing -1; the checklist\u2019s exact attribute contract differs from the delivered behavior.",
+    "reason": "Generic disabled Button deliberately removes tabindex rather than forcing -1; the checklist’s exact attribute contract differs from the delivered behavior.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
@@ -1270,7 +1290,7 @@
   {
     "ids": ["data-attributes.1"],
     "status": "partial",
-    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component\u2019s emitted states.",
+    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component’s emitted states.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
@@ -1286,7 +1306,7 @@
   {
     "ids": ["data-attributes.2"],
     "status": "partial",
-    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component\u2019s emitted states.",
+    "reason": "Toggle assertions establish empty boolean marker/absence and enumerated on/off state. They do not audit every component’s emitted states.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
@@ -1779,24 +1799,32 @@
   {
     "ids": ["controlled.3"],
     "status": "partial",
-    "reason": "Checkbox explicitly asserts a controlled prop update changes ARIA state without increasing the callback count. Other component families remain separately audited.",
+    "reason": "Checkbox explicitly asserts a controlled prop update changes ARIA state without increasing the callback count. Other component families remain separately audited. Changing Toggle pressed externally updates aria-pressed and does not invoke onPressedChange. Other component families remain to be verified.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.13"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.3"
       }
     ]
   },
   {
     "ids": ["controlled.4"],
     "status": "partial",
-    "reason": "Checkbox explicitly asserts the uncontrolled default and zero mount callbacks. This proves that component, not the entire shared inventory.",
+    "reason": "Checkbox explicitly asserts the uncontrolled default and zero mount callbacks. This proves that component, not the entire shared inventory. An uncontrolled Toggle renders its default pressed value and has no mount callback. Other component families remain to be verified.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.7"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled.4"
       }
     ]
   },
@@ -1939,7 +1967,7 @@
   {
     "ids": ["a11y-tooling.11"],
     "status": "partial",
-    "reason": "Button\u2019s decorative aria-hidden SVG is checked for no focusable descendants and passes aria-hidden-focus. All hidden-content states across other components remain separate evidence.",
+    "reason": "Button’s decorative aria-hidden SVG is checked for no focusable descendants and passes aria-hidden-focus. All hidden-content states across other components remain separate evidence.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
     "tests": [
       {
@@ -1951,7 +1979,7 @@
   {
     "ids": ["a11y-tooling.12"],
     "status": "partial",
-    "reason": "Toolbar\u2019s actual button fixture passes nested-interactive; the full inventory of widget triggers is not audited by this fixture.",
+    "reason": "Toolbar’s actual button fixture passes nested-interactive; the full inventory of widget triggers is not audited by this fixture.",
     "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md", "packages/suite/src/a11y.ts"],
     "tests": [
       {

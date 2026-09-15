@@ -25,13 +25,17 @@
   },
   {
     "ids": ["controlled-state.state.3"],
-    "status": "partial",
-    "reason": "Uncontrolled empty/default mounts explicitly assert silence; controlled tests assert interaction and external echo counts but do not separately assert silence before the first controlled interaction.",
+    "status": "covered",
+    "reason": "A controlled Toggle settles after mount without invoking its change callback. Existing cited tests cover the complementary branches.",
     "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.7"
+      },
+      {
+        "file": "packages/suite/src/controlled/controlled.coverage.test.tsx",
+        "title": "controlled-state.state.3"
       }
     ]
   },
@@ -136,13 +140,17 @@
   },
   {
     "ids": ["controlled-state.state.18"],
-    "status": "partial",
-    "reason": "Controlled activation preserves the prop and reports a proposed next value. Repeating a rejected transition, especially mixed presentation, is not asserted in this case.",
+    "status": "covered",
+    "reason": "A controlled mixed checkbox receives two activations while the owner rejects both proposals. The callback proposes true both times and the rendered state remains mixed, proving the retry does not advance an internal cycle. Existing cited tests cover the complementary branches.",
     "sources": ["docs/spec/field.md", "packages/suite/src/checkbox/checkbox.state.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/checkbox/checkbox.state.test.tsx",
         "title": "checkbox.state.8"
+      },
+      {
+        "file": "packages/suite/src/controlled-state/controlled-state.coverage.test.tsx",
+        "title": "controlled-state.state.18"
       }
     ]
   },
@@ -172,13 +180,17 @@
   },
   {
     "ids": ["controlled-state.state.23"],
-    "status": "partial",
-    "reason": "Controlled membership becomes undefined and restores the stale internal empty selection. The test does not spy on warning/error output.",
+    "status": "covered",
+    "reason": "CheckboxGroup starts controlled with ['apple'] while defaultValue is empty, then releases control with undefined; the checked item falls back to the stale internal empty selection without warning, callback, or selection. Existing cited tests cover the complementary branches.",
     "sources": ["docs/spec/field.md", "packages/solid/src/checkbox-group/checkbox-group.test.tsx"],
     "tests": [
       {
         "file": "packages/solid/src/checkbox-group/checkbox-group.test.tsx",
         "title": "controlled changes snap back and external writes update stable nodes"
+      },
+      {
+        "file": "packages/suite/src/controlled-state/controlled-state.coverage.test.tsx",
+        "title": "controlled-state.state.23"
       }
     ]
   },

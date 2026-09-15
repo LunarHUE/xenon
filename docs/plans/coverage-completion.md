@@ -41,3 +41,11 @@ accounting. Audit records live in `packages/suite/coverage`.
 - `toggle-group.roles.3` remains partial because its alternate radiogroup/toolbar
   modes are not implemented. The shipped group behavior is tested.
 
+### Controlled state and RTL
+
+- Added ten tests; closed four requirement gaps, retaining partial status for
+  the shared controlled-value rules that still need other component families.
+- Independent runs: ten jsdom and ten Chromium browser tests passed.
+- Verified mixed-state retries, silent controlled-to-uncontrolled handoff,
+  controlled mount silence, and both vertical arrow directions under RTL.
+- ESLint and audit validation passed.
