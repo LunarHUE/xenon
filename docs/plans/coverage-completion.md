@@ -470,3 +470,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   sampled point actually lies in the gap.
 - Independent DOM tests passed all five cases; Chromium passed all four HoverCard
   cases. Final SVG assertion cleanup and audit validation passed.
+
+### Native disabled event and cancellation matrix
+
+- Added two shared and four browser tests, closing five gaps: aria-disabled
+  platform behavior, pointer/mouse event families, engine-specific auxclick,
+  checkbox/radio activation rollback, and blocked implicit form submission.
+- Cancellation restores checkbox mixed state and the prior radio selection,
+  preserves unrelated listener mutations, and emits no committed input/change.
+- Independent initial jsdom run passed; final Chromium/Firefox/WebKit run passed
+  all 18 cases. Audit validation passed; Luna's lint/typecheck passed.

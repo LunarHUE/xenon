@@ -1095,9 +1095,15 @@
   },
   {
     "ids": ["disabled.4"],
-    "status": "missing",
-    "reason": "This is a concrete native-platform baseline: aria-disabled alone does not disable browser activation, focus or constraint validation. FocusableWhenDisabled is a script policy and does not invalidate it. No bare aria-disabled fixture asserts all three native effects.",
-    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"]
+    "status": "covered",
+    "reason": "A bare aria-disabled button remains focusable and clickable, while a required aria-disabled input remains constraint-invalid; this covers the three native effects independently.",
+    "sources": ["docs/spec/cross-cutting.md", "docs/architecture.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test.tsx",
+        "title": "disabled.4 aria-disabled alone preserves native focus, click, and validation"
+      }
+    ]
   },
   {
     "ids": ["disabled.5"],
@@ -1205,22 +1211,34 @@
   },
   {
     "ids": ["disabled.15"],
-    "status": "missing",
-    "reason": "No real native disabled-control gesture test records pointerdown/pointerup versus mousedown/mouseup/click. user-event click suppression and disabled-link auxclick tests do not establish this native event-family sequence.",
+    "status": "covered",
+    "reason": "A real browser forced left gesture records pointerdown/pointerup and asserts no mousedown/mouseup/click on the disabled native button.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.pointer.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test-browser.tsx",
+        "title": "disabled.15 native disabled click sends pointer events without mouse or click events"
+      }
     ]
   },
   {
     "ids": ["disabled.16"],
-    "status": "missing",
-    "reason": "Existing auxclick tests cover links and simulated middle clicks, not native disabled controls with Chromium/WebKit-versus-Firefox outcomes.",
+    "status": "covered",
+    "reason": "A real middle gesture records auxclick in Chromium/WebKit and expects Firefox's native absence based on the browser user agent.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/button/button.pointer.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test-browser.tsx",
+        "title": "disabled.16 disabled native middle gesture auxclick follows the browser baseline"
+      }
     ]
   },
   {
@@ -1241,12 +1259,22 @@
   },
   {
     "ids": ["disabled.18"],
-    "status": "missing",
-    "reason": "No scripted disabled native checkbox/radio activation matrix asserts input/change order, cancellation rollback and preservation of listener changes to another control. Sticky library indeterminate behavior is distinct from this HTML baseline.",
+    "status": "covered",
+    "reason": "Shared native test runs in both jsdom and browser projects: unchecked checkbox activation clears indeterminate, radio selection, input-before-change event order, checked-to-unchecked normal commit, cancelable checkbox click rollback with no extra events while preserving a listener mutation to another control, and already-selected radio silence. Browser-only companion asserts canceled disabled radio activation restores the prior selected group member and preserves an unrelated checkbox mutation.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/checkbox/checkbox.native.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test.tsx",
+        "title": "disabled.18 scripted checkbox and radio activation records native commit events"
+      },
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test-browser.tsx",
+        "title": "disabled.18 canceled disabled radio activation restores the selected group member"
+      }
     ]
   },
   {
@@ -1267,12 +1295,18 @@
   },
   {
     "ids": ["disabled.20"],
-    "status": "missing",
-    "reason": "Checkbox Enter tests include a disabled default submitter, but the required text-input trigger with directly disabled, fieldset-disabled and disabled-image submitters has no complete matching fixture.",
+    "status": "covered",
+    "reason": "Real Enter key input is tested with directly disabled button, fieldset-disabled button, and disabled image submitter; none submits the form.",
     "sources": [
       "docs/spec/cross-cutting.md",
       "docs/architecture.md",
       "packages/suite/src/checkbox/checkbox.forms.test-browser.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/disabled/disabled.coverage-native.test-browser.tsx",
+        "title": "disabled.20 Enter in text input does not submit with each disabled default submitter"
+      }
     ]
   },
   {
