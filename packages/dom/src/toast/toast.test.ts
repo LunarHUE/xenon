@@ -1,7 +1,10 @@
-import { afterEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import { createToastSwipe, createToastViewport, type ToastSwipeOptions } from './toast'
 
 const cleanups: (() => void)[] = []
+beforeEach(() => {
+  vi.spyOn(document, 'hasFocus').mockReturnValue(true)
+})
 afterEach(() => {
   cleanups.splice(0).forEach((cleanup) => cleanup())
   document.body.replaceChildren()
@@ -193,6 +196,7 @@ test('hidden documents pause immediately and visibility cannot clear a focus pau
 test('viewport follows its owner window, not the parent window', () => {
   const frame = document.createElement('iframe')
   document.body.append(frame)
+  vi.spyOn(frame.contentDocument!, 'hasFocus').mockReturnValue(true)
   const element = frame.contentDocument!.createElement('div')
   frame.contentDocument!.body.append(element)
   const pause = vi.fn()
@@ -250,4 +254,46 @@ test('author-prevented releases cannot dismiss', () => {
   pointer(m.element, 'pointerdown')
   pointer(m.element, 'pointerup', 100)
   expect(m.dismiss).not.toHaveBeenCalled()
+})
+
+test('losing window focus cancels an active swipe but preserves completed exit geometry', () => {
+  const m = setup()
+  pointer(m.element, 'pointerdown')
+  pointer(document, 'pointermove', 50)
+  window.dispatchEvent(new Event('blur'))
+  expect(m.swiping).toHaveBeenLastCalledWith(false)
+  pointer(document, 'pointerup', 100)
+  expect(m.dismiss).not.toHaveBeenCalled()
+  pointer(m.element, 'pointerdown')
+  pointer(document, 'pointerup', 60)
+  window.dispatchEvent(new Event('blur'))
+  expect(m.element.style.getPropertyValue('--toast-swipe-movement-x')).toBe('60px')
+})
+
+test('a viewport mounted in an unfocused window pauses immediately', () => {
+  vi.spyOn(document, 'hasFocus').mockReturnValue(false)
+  const element = document.createElement('div')
+  const pause = vi.fn()
+  const resume = vi.fn()
+  const controller = createToastViewport(element, { pause, resume })
+  cleanups.push(controller.dispose)
+  expect(pause).toHaveBeenCalledExactlyOnceWith('window-blur')
+  window.dispatchEvent(new Event('focus'))
+  expect(resume).toHaveBeenCalledExactlyOnceWith('window-blur')
+})
+test('outside touch presses clear stale hover while mouse presses preserve it', () => {
+  const element = document.createElement('div')
+  document.body.append(element)
+  const expanded = vi.fn()
+  const controller = createToastViewport(element, {
+    pause() {},
+    resume() {},
+    onExpandedChange: expanded,
+  })
+  cleanups.push(controller.dispose)
+  pointer(element, 'pointerenter')
+  pointer(document.body, 'pointerdown', 0, 0, 0, { pointerType: 'mouse' })
+  expect(expanded).toHaveBeenLastCalledWith(true)
+  pointer(document.body, 'pointerdown', 0, 0, 0, { pointerType: 'touch' })
+  expect(expanded).toHaveBeenLastCalledWith(false)
 })

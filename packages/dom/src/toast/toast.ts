@@ -27,7 +27,9 @@ const finiteThreshold = (value: number | undefined, fallback: number) =>
 /**
  * Capture one primary pointer and expose axis-locked movement through
  * --toast-swipe-movement-x/y and data-swipe-direction. CSS owns transforms.
- * Native controls and data-swipe-ignore descendants do not start gestures.
+ * Owns touch-action: pan-y for horizontal swipes, pan-x for vertical swipes,
+ * none when both axes are allowed, and auto when disabled. Native controls and
+ * data-swipe-ignore descendants do not start gestures.
  * Disallowed directions have logarithmic resistance. Reversing 40px from the
  * furthest outward point cancels that direction's dismissal baseline.
  * The owning document handles releases outside the toast. Canceled gestures
@@ -197,6 +199,12 @@ export function createToastSwipe(element: HTMLElement, initial: ToastSwipeOption
   const cancel = (event: PointerEvent) => {
     if (drag?.id === event.pointerId) reset()
   }
+  const blur = () => {
+    if (drag) reset()
+  }
+  const visibility = () => {
+    if (doc.hidden && drag) reset()
+  }
   const touch = (event: TouchEvent) => {
     if (swiping && event.cancelable) event.preventDefault()
   }
@@ -207,6 +215,8 @@ export function createToastSwipe(element: HTMLElement, initial: ToastSwipeOption
     event.stopImmediatePropagation()
   }
   setTouchAction()
+  doc.defaultView?.addEventListener('blur', blur)
+  doc.addEventListener('visibilitychange', visibility)
   element.addEventListener('pointerdown', down)
   doc.addEventListener('pointermove', move)
   doc.addEventListener('pointerup', up)
@@ -232,6 +242,8 @@ export function createToastSwipe(element: HTMLElement, initial: ToastSwipeOption
       if (disposed) return
       disposed = true
       reset()
+      doc.defaultView?.removeEventListener('blur', blur)
+      doc.removeEventListener('visibilitychange', visibility)
       element.removeEventListener('pointerdown', down)
       doc.removeEventListener('pointermove', move)
       doc.removeEventListener('pointerup', up)
@@ -261,7 +273,8 @@ export interface ToastViewportOptions {
  * Pause timers independently for hover, focus, swiping, window blur and document
  * visibility. Only interaction expands the stack. The caller provides a viewport
  * box covering the measured stack and its gaps so hover remains continuous.
- * All document/window events belong to the element's owning document.
+ * Initial document visibility and focus are read before returning. All
+ * document/window events belong to the element's owning document.
  */
 export function createToastViewport(element: HTMLElement, initial: ToastViewportOptions) {
   const doc = element.ownerDocument
@@ -311,6 +324,7 @@ export function createToastViewport(element: HTMLElement, initial: ToastViewport
   doc.addEventListener('visibilitychange', visibility)
   doc.addEventListener('pointerdown', outside)
   visibility()
+  if (!doc.hasFocus()) blur()
   if (element.contains(doc.activeElement)) focusin()
   return {
     /** Keep the stack expanded and timers paused until the swipe ends. */
