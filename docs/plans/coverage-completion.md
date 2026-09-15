@@ -509,3 +509,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   nodes retained during exit. Timing boundaries remain unchanged.
 - Independent final runs passed all four cases in jsdom and Chromium. Audit
   validation passed; changed-file lint and typecheck passed in the agent run.
+
+### Shared Field assertions for PinInput and Editable
+
+- Added two adapter cases. PinInput checks its first slot's associations and its
+  native form mirror's required/disabled/name state; Editable checks its input.
+- Kept strict single-control label assertions for the earlier adapters while
+  allowing PinInput's multiple named inputs. Shared state/description assertions
+  run before and after clearing Field flags.
+- Independent runs passed 115 jsdom and 133 Chromium cases. Audit validation
+  passed; Luna's types/lint passed. Slider and CheckboxGroup remain for this battery.

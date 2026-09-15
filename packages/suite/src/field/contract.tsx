@@ -1,5 +1,7 @@
 import { Checkbox, Field, NumberField, Select, Switch } from '@xenon/solid'
 import { Combobox } from '@xenon/solid/combobox'
+import { Editable } from '@xenon/solid/editable'
+import { PinInput } from '@xenon/solid/pin-input'
 import { TagsInput } from '@xenon/solid/tags-input'
 import type { JSX } from '@solidjs/web'
 import { screen } from '@testing-library/dom'
@@ -11,7 +13,7 @@ import { mount } from '../harness/solid'
 /** Native text controls and checked controls supported by the shared Field assertions. */
 export type ControlKind = 'input' | 'textarea' | 'checkbox' | 'switch'
 
-export type FieldAdapterKind = 'number' | 'select' | 'combobox' | 'tags'
+export type FieldAdapterKind = 'number' | 'select' | 'combobox' | 'tags' | 'pin' | 'editable'
 
 type SharedFieldStateOptions = {
   name?: string
@@ -21,6 +23,7 @@ type SharedFieldStateOptions = {
   resolvedDescribedBy?: string[]
   requiredAttribute?: boolean
   requiredAria?: boolean
+  mirrorSelector?: string
 }
 
 /** Common state, naming, and description/error assertions shared by every adapter battery. */
@@ -29,11 +32,19 @@ async function assertSharedFieldState(
   control: HTMLElement,
   options: SharedFieldStateOptions
 ) {
-  expect(screen.getByLabelText('Account')).toBe(control)
+  if (options.mirrorSelector) expect(screen.getAllByLabelText('Account')).toContain(control)
+  else expect(screen.getByLabelText('Account')).toBe(control)
   if (options.name) expect(control).toHaveAttribute('name', options.name)
   expect(control).toBeDisabled()
   if (options.requiredAttribute !== false) expect(control).toBeRequired()
   if (options.requiredAria) expect(control).toHaveAttribute('aria-required', 'true')
+  if (options.mirrorSelector) {
+    const mirror = m.container.querySelector<HTMLInputElement>(options.mirrorSelector)
+    expect(mirror).not.toBeNull()
+    expect(mirror).toBeRequired()
+    expect(mirror).toBeDisabled()
+    expect(mirror).toHaveAttribute('name', 'account')
+  }
   expect(control).toHaveAttribute('aria-invalid', 'true')
   expect(control).toHaveAttribute('aria-describedby', options.initialDescribedBy)
   for (const id of options.resolvedDescribedBy ?? [])
@@ -43,6 +54,11 @@ async function assertSharedFieldState(
   expect(control).not.toBeDisabled()
   if (options.requiredAttribute !== false) expect(control).not.toBeRequired()
   if (options.requiredAria) expect(control).not.toHaveAttribute('aria-required')
+  if (options.mirrorSelector) {
+    const mirror = m.container.querySelector<HTMLInputElement>(options.mirrorSelector)
+    expect(mirror).not.toBeRequired()
+    expect(mirror).not.toBeDisabled()
+  }
   expect(control).not.toHaveAttribute('aria-invalid')
   expect(control).toHaveAttribute('aria-describedby', options.remainingDescribedBy)
 }
@@ -86,13 +102,23 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
               </Combobox.Content>
             </Combobox.Positioner>
           </Combobox>
-        ) : (
+        ) : kind === 'tags' ? (
           <TagsInput defaultValue={[]}>
             <Field.Error id="inner-error">Fix this</Field.Error>
             <TagsInput.Control>
               <TagsInput.Input />
             </TagsInput.Control>
           </TagsInput>
+        ) : kind === 'pin' ? (
+          <PinInput length={2}>
+            <PinInput.Input index={0} />
+            <PinInput.Input index={1} />
+          </PinInput>
+        ) : (
+          <Editable defaultValue="Initial" defaultEditing>
+            <Editable.Input />
+            <Editable.Preview />
+          </Editable>
         )}
       </>
     ),
@@ -105,7 +131,11 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
         ? screen.getByRole('combobox')
         : kind === 'combobox'
           ? screen.getByRole('combobox')
-          : screen.getByRole('textbox')
+          : kind === 'tags'
+            ? screen.getByRole('textbox')
+            : kind === 'pin'
+              ? screen.getAllByRole('textbox')[0]!
+              : screen.getByRole('textbox')
   const initialDescribedBy = kind === 'tags' ? 'help error inner-error' : 'help error'
   await assertSharedFieldState(m, control, {
     name: undefined,
@@ -113,8 +143,9 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
     remainingDescribedBy: 'help',
     clearProps: { disabled: false, required: false, invalid: false },
     resolvedDescribedBy: kind === 'tags' ? ['help', 'error', 'inner-error'] : ['help', 'error'],
-    requiredAttribute: kind !== 'combobox',
+    requiredAttribute: kind !== 'combobox' && kind !== 'pin',
     requiredAria: kind === 'combobox',
+    mirrorSelector: kind === 'pin' ? 'input[aria-hidden="true"]' : undefined,
   })
   expect(m.container.querySelector('[id="help"]')).toHaveTextContent('Helpful text')
 }

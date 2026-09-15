@@ -843,7 +843,7 @@
   {
     "ids": ["field.notes.6"],
     "status": "partial",
-    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery. The original input/textarea/checkbox/switch battery and new NumberField/Select cases call the same naming, disabled/required/invalid and description/error assertion helper. Other compatible adapters still need the shared battery; RadioGroup does not inherit outer Field control state and is excluded from this individual-control contract. Combobox and TagsInput now run the same shared Field assertion helper. Combobox checks aria-required; TagsInput verifies distinct outer and inner error references and their removal while help remains. Additional Field-compatible adapters remain for later slices.",
+    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery. The original input/textarea/checkbox/switch battery and new NumberField/Select cases call the same naming, disabled/required/invalid and description/error assertion helper. Other compatible adapters still need the shared battery; RadioGroup does not inherit outer Field control state and is excluded from this individual-control contract. Combobox and TagsInput now run the same shared Field assertion helper. Combobox checks aria-required; TagsInput verifies distinct outer and inner error references and their removal while help remains. Additional Field-compatible adapters remain for later slices. PinInput and Editable now use the shared Field state/association battery. PinInput checks its first slot plus native mirror required/disabled/name semantics; Editable checks its mounted input. Slider and CheckboxGroup remain for the next compatible-adapter slice.",
     "sources": [
       "docs/spec/field.md",
       "packages/suite/src/field/field.test.tsx",
@@ -869,6 +869,14 @@
       {
         "file": "packages/suite/src/field/field.contract-composite.test.tsx",
         "title": "field.notes.6 TagsInput runs the shared Field battery"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-entry.test.tsx",
+        "title": "field.notes.6 PinInput adapter"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-entry.test.tsx",
+        "title": "field.notes.6 Editable adapter"
       }
     ]
   },
