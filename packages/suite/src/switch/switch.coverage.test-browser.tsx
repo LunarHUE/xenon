@@ -149,18 +149,31 @@ test('switch.pointer.2 native input click relies on native checkedness without a
 })
 
 test('switch.pointer.3 explicit labels toggle and retain focus on the native switch', async () => {
-  const m = mount('switch', { id: 'coverage-switch-label', 'aria-label': 'Lights' })
+  const change = vi.fn()
+  const m = mount('switch', {
+    id: 'coverage-switch-label',
+    'aria-label': 'Lights',
+    onCheckedChange: change,
+  })
   const input = host(m.container)
   const label = document.createElement('label')
   label.htmlFor = 'coverage-switch-label'
   label.textContent = 'Lights'
-  document.body.append(label)
+  const click = vi.fn()
+  label.addEventListener('click', click)
+  m.container.append(label)
+  await m.settle()
   await userEvent.click(label)
   await m.settle()
+  expect(click).toHaveBeenCalledTimes(1)
+  expect(change).toHaveBeenCalledExactlyOnceWith(true)
   expect(input).toBeChecked()
   expect(input).toHaveFocus()
   await userEvent.click(label)
   await m.settle()
+  expect(click).toHaveBeenCalledTimes(2)
+  expect(change).toHaveBeenCalledTimes(2)
+  expect(change).toHaveBeenLastCalledWith(false)
   expect(input).not.toBeChecked()
   expect(input).toHaveFocus()
   label.remove()

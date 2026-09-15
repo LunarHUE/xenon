@@ -232,3 +232,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   starting-style prohibition remain partial rather than being claimed as tested.
 - Independent checks passed: nine core, 31 suite jsdom and 51 Chromium tests,
   core/suite typechecks, changed-file lint and audit validation.
+
+### Switch cross-browser fixture verification
+
+- A three-browser run exposed a Firefox pointer-delivery failure for an external
+  label placed on a separate line. Sol and Astra investigated; an inert native
+  clone failed at the same position with no captured pointer events.
+- Moved the explicit label beside the Switch within its fixture, preserving the
+  for/id association and real clicks. Added exact click and change callback counts.
+- Independent Chromium/Firefox/WebKit run: all 48 tests passed across nine files.
+  No production change was needed for this failure.
