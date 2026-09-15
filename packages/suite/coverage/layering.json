@@ -1388,13 +1388,17 @@
   },
   {
     "ids": ["prevent-scroll.state.10"],
-    "status": "partial",
-    "reason": "The iframe fixture asserts its own root lock without touching the top-document body; simultaneous locks in both documents and independent final unlocks are not asserted.",
+    "status": "covered",
+    "reason": "Simultaneous top-document and iframe-document modal locks release independently; unlocking one leaves the other root locked.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/dom/src/modal/modal.test.ts",
         "title": "owner documents keep separate isolation and scroll locks"
+      },
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-edge.test.ts",
+        "title": "prevent-scroll.state.10 simultaneous owner documents lock and release independently"
       }
     ]
   },
@@ -1424,9 +1428,15 @@
   },
   {
     "ids": ["prevent-scroll.positioning.2"],
-    "status": "missing",
-    "reason": "The implementation can encounter zero scrollbar width, but the focused compensation test uses a nonzero stub and does not assert untouched padding/margin for zero.",
-    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+    "status": "covered",
+    "reason": "Zero measured scrollbar width leaves existing body padding/margin unchanged and publishes no scrollbar-width property during or after locking.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-edge.test.ts",
+        "title": "prevent-scroll.positioning.2 zero scrollbar width leaves padding and margin untouched"
+      }
+    ]
   },
   {
     "ids": ["prevent-scroll.positioning.3", "prevent-scroll.positioning.6"],
@@ -1456,9 +1466,15 @@
   },
   {
     "ids": ["prevent-scroll.notes.1"],
-    "status": "missing",
-    "reason": "Style values/priorities are verified, but a fixture with no original inline style does not directly assert removal of the final empty style attribute.",
-    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+    "status": "covered",
+    "reason": "Final release restores each written property and removes the style attribute only if empty. Root/body compensation and nested releases are tested, preserving added author styles and priorities.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-edge.test.ts",
+        "title": "prevent-scroll.notes.1 final release removes an originally absent empty style attribute"
+      }
+    ]
   },
   {
     "ids": ["prevent-scroll.notes.2", "prevent-scroll.notes.5"],

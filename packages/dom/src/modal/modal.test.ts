@@ -146,6 +146,43 @@ describe('registerModal', () => {
     unlocked.dispose()
   })
 
+  test.each([false, true])(
+    'final scroll release cleans empty attributes and preserves added author styles: %s',
+    (addStyles) => {
+      vi.spyOn(document.documentElement, 'clientWidth', 'get').mockReturnValue(
+        window.innerWidth - 20
+      )
+      expect(document.body.getAttribute('style')).toBeNull()
+      expect(document.documentElement.getAttribute('style')).toBeNull()
+      const first = modal(node())
+      const second = modal(node())
+      expect(document.body.style.paddingRight).toBe('20px')
+      if (addStyles) {
+        document.body.style.setProperty('color', 'red', 'important')
+        document.documentElement.style.setProperty('--author-color', 'blue', 'important')
+      }
+      first.dispose()
+      expect(document.body.style.paddingRight).toBe('20px')
+      expect(document.documentElement.style.overflowX).toBe('hidden')
+      second.dispose()
+      second.dispose()
+      expect(document.body.style.paddingRight).toBe('')
+      expect(document.documentElement.style.overflowX).toBe('')
+      expect(document.documentElement.style.overflowY).toBe('')
+      if (addStyles) {
+        expect(document.body.style.color).toBe('red')
+        expect(document.body.style.getPropertyPriority('color')).toBe('important')
+        expect(document.documentElement.style.getPropertyValue('--author-color')).toBe('blue')
+        expect(document.documentElement.style.getPropertyPriority('--author-color')).toBe(
+          'important'
+        )
+      } else {
+        expect(document.body.getAttribute('style')).toBeNull()
+        expect(document.documentElement.getAttribute('style')).toBeNull()
+      }
+    }
+  )
+
   test('owner documents keep separate isolation and scroll locks', () => {
     const frame = document.createElement('iframe')
     document.body.append(frame)

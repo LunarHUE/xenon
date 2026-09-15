@@ -168,8 +168,10 @@ function lockScroll(document: Document): () => void {
   const body = document.body
   const gap = view && root.clientWidth > 0 ? Math.max(0, view.innerWidth - root.clientWidth) : 0
   const saved: { style: CSSStyleDeclaration; name: string; value: string; priority: string }[] = []
+  const written = new Set<HTMLElement>()
   const write = (element: HTMLElement, name: string, value: string) => {
     const { style } = element
+    written.add(element)
     saved.push({
       style,
       name,
@@ -190,6 +192,10 @@ function lockScroll(document: Document): () => void {
     for (const { style, name, value, priority } of saved) {
       if (value) style.setProperty(name, value, priority)
       else style.removeProperty(name)
+    }
+    // Wait until every owned property is restored so author declarations survive.
+    for (const element of written) {
+      if (element.style.length === 0) element.removeAttribute('style')
     }
   }
 }

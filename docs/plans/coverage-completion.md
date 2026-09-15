@@ -621,3 +621,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed state.21 and state.29: exact focused 16-digit text commits through both callbacks, and clearing above a positive minimum stays empty after blur.
 - Untouched/unparseable blur now directly proves callback silence; state.8 remains partial for deferred wheel/scrub endpoints.
 - Independent final Chromium run passed all three cases; Luna types/lint/format passed.
+
+### Scroll-lock restoration and separate documents
+
+- Closed three gaps: empty inline-style cleanup, zero scrollbar compensation, and independent simultaneous document locks.
+- Astra low confirmed final release left an empty style attribute. Astra medium cleans only empty attributes after restoring all properties, with root/body nested-lock and added-author-style priority regressions.
+- Independent checks passed 26 DOM modal tests, 49 affected overlay Chromium tests, and DOM typechecking. NumberField checkpoint also passed all 41 jsdom and 91 Chromium tests plus suite types.
