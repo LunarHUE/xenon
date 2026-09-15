@@ -774,3 +774,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed five gaps for repeated completion after partial and full clear/refill, incomplete callback silence, clamped default/proxy/FormData, all three typed/pasted character classes, and native placeholder restoration after reset.
 - Root added native placeholder-shown assertions and requested a complete clear/refill cycle in addition to replacing the final character.
 - Independent Chromium, Firefox and WebKit run passed all 15 cases; coverage references validate.
+
+### PinInput server-rendered validation
+
+- Expanded ssr.2 with native validation of emitted required/pattern markup in a page with JavaScript disabled. The same proxy accepts complete values and rejects incomplete/empty values for the expected native validity reasons.
+- Playwright sets proxy values directly for inspection; this does not claim a no-JavaScript slot editing flow. The research minlength/maxlength attribute trio remains partial because the accepted component uses pattern.
+- Independent configured Chromium E2E run passed all three numeric SSR/hydration tests. The existing two-slot fixture remains structurally unchanged apart from required state.

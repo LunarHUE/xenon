@@ -15,7 +15,7 @@ export function NumericFixture() {
           <NumberField.IncrementTrigger />
           <NumberField.Input id="server-number-input" />
         </NumberField>
-        <Field name="otp">
+        <Field name="otp" required>
           <Field.Label>Server verification</Field.Label>
           <Field.Description>Enter the received code</Field.Description>
           <PinInput length={2} defaultValue="12">

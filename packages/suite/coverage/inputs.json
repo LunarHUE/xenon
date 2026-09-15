@@ -3621,7 +3621,7 @@
   {
     "ids": ["pin-input.ssr.2"],
     "status": "partial",
-    "reason": "Server Field label/description association is asserted; proxy length constraints and no-JavaScript validity are not checked, and only pattern is emitted.",
+    "reason": "Server-rendered proxy pattern and required validity are checked in a no-JavaScript page: the same native input accepts complete values and rejects incomplete/empty values with patternMismatch/valueMissing. Playwright directly sets proxy values to inspect native validation; user entry without JavaScript is not claimed. The accepted implementation uses pattern rather than minlength/maxlength, so that attribute trio remains partial.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -3631,6 +3631,10 @@
       {
         "file": "packages/suite/e2e/numeric.spec.ts",
         "title": "numeric server markup retains custom associations and canonical form values before hydration"
+      },
+      {
+        "file": "packages/suite/e2e/numeric.spec.ts",
+        "title": "numeric SSR emits PinInput proxy validity that works without JavaScript"
       }
     ]
   },

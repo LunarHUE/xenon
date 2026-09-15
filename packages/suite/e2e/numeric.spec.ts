@@ -32,6 +32,45 @@ test('numeric server markup retains custom associations and canonical form value
   await context.close()
 })
 
+test('numeric SSR emits PinInput proxy validity that works without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto(url)
+
+  const fixture = page.locator('#numeric-fixture')
+  const proxy = fixture.locator('input[aria-hidden="true"][name="otp"]')
+  await expect(proxy).toHaveAttribute('pattern', '.{2}')
+  await expect(proxy).toHaveAttribute('required', '')
+  await expect(proxy).toHaveAttribute('tabindex', '-1')
+
+  const validity = await proxy.evaluate((element) => {
+    const input = element as HTMLInputElement
+    const initial = input.checkValidity()
+    input.value = '1'
+    const incomplete = {
+      valid: input.checkValidity(),
+      patternMismatch: input.validity.patternMismatch,
+      valueMissing: input.validity.valueMissing,
+    }
+    input.value = ''
+    const empty = {
+      valid: input.checkValidity(),
+      patternMismatch: input.validity.patternMismatch,
+      valueMissing: input.validity.valueMissing,
+    }
+    input.value = '12'
+    const complete = input.checkValidity()
+    return { initial, incomplete, empty, complete }
+  })
+  expect(validity).toEqual({
+    initial: true,
+    incomplete: { valid: false, patternMismatch: true, valueMissing: false },
+    empty: { valid: false, patternMismatch: false, valueMissing: true },
+    complete: true,
+  })
+  await context.close()
+})
+
 test('numeric and text-entry SSR hydrate without replacing nodes and remain editable', async ({
   page,
 }) => {
