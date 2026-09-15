@@ -21308,13 +21308,19 @@
   },
   {
     "ids": ["selection.roles.4"],
-    "status": "missing",
-    "reason": "Listbox selection persists independently of focus, but no test explicitly leaves the composite and reasserts selected state.",
+    "status": "covered",
+    "reason": "A public Listbox selection remains aria-selected=true after focus moves to an outside button, proving selection persists when focus leaves the composite.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
       "packages/core/src/listbox/listbox.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/selection/selection.coverage.test.tsx",
+        "title": "selection.roles.4"
+      }
     ]
   },
   {
@@ -21393,7 +21399,7 @@
   {
     "ids": ["selection.keyboard.6"],
     "status": "partial",
-    "reason": "Ctrl+A selects enabled values and single mode is ignored; callbacks emit an array, not the all sentinel, and platform-specific Meta+A is not asserted here.",
+    "reason": "Ctrl+A selects enabled values and single mode is ignored; callbacks emit an array, not the all sentinel, and platform-specific Meta+A is not asserted here. A public multiple Listbox responds to Meta+A by selecting every enabled option and reporting the selected-value array. The shipped callback does not use the research's literal all sentinel, so that divergence remains explicit.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -21404,6 +21410,10 @@
       {
         "file": "packages/solid/src/listbox/listbox.test.tsx",
         "title": "Shift range retains its anchor while extending and shrinking, then Ctrl+A selects enabled options"
+      },
+      {
+        "file": "packages/suite/src/selection/selection.coverage.test.tsx",
+        "title": "selection.keyboard.6"
       }
     ]
   },
@@ -21420,8 +21430,8 @@
   },
   {
     "ids": ["selection.keyboard.8"],
-    "status": "partial",
-    "reason": "Tabs Home/End assert boundary focus; these registrations do not assert replacement selected state.",
+    "status": "covered",
+    "reason": "Automatic Tabs selection follows Home and End focus: Home selects A and End selects C, with both value-change callbacks observed.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -21436,6 +21446,10 @@
       {
         "file": "packages/suite/src/tabs/tabs.test.tsx",
         "title": "tabs.keyboard.10"
+      },
+      {
+        "file": "packages/suite/src/selection/selection.coverage.test.tsx",
+        "title": "selection.keyboard.8"
       }
     ]
   },
@@ -21464,7 +21478,7 @@
   {
     "ids": ["selection.keyboard.11"],
     "status": "partial",
-    "reason": "Already-selected Enter/Space emits no duplicate selection callback; Listbox has no separate row action callback.",
+    "reason": "Already-selected Enter/Space emits no duplicate selection callback; Listbox has no separate row action callback. After Apple is selected, Enter and Space on the focused selected option leave it selected and do not emit duplicate value-change callbacks. The built Listbox has no separate row action callback, so only the selection portion is asserted.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/selection/selection.ts",
@@ -21475,6 +21489,10 @@
       {
         "file": "packages/core/src/listbox/listbox.test.ts",
         "title": "single selection retains an already selected value without duplicate callbacks"
+      },
+      {
+        "file": "packages/suite/src/selection/selection.coverage.test.tsx",
+        "title": "selection.keyboard.11"
       }
     ]
   },

@@ -91,3 +91,13 @@ accounting. Audit records live in `packages/suite/coverage`.
 - The corrected readonly share-URL fixture also passed in jsdom and Chromium.
 - Input and textarea label activation now cover independently disabled controls
   and disabled ancestry. Their unbuilt passive-label alternatives remain partial.
+
+### Selection persistence and boundary navigation
+
+- Added four tests, closing focus-leave persistence and automatic Home/End
+  selection gaps. Meta+A array selection and selected-row activation also gain
+  evidence; their unbuilt all-sentinel and separate row-action alternatives
+  remain partial.
+- Independent combined Meter/Selection/Avatar run: 35 jsdom and 37 Chromium
+  tests passed. Audit validation passed.
+- Milestone after the Field fix: all 808 suite jsdom and 396 Solid tests passed.
