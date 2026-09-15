@@ -610,3 +610,8 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Closed four locale gaps: real currency-token deletion, accounting sign editing/announcements, Arabic plural stepping, and comma-decimal step grids. Typed numeral round trips supplement rtl.14, which retains the undefined universal locale scope.
 - Astra low corrected announcement timing and confirmed accounting negative ARIA lacked Unicode minus. Astra medium formats accounting announcements separately using locale minus-sign parts, preserving visible output, parsing, bidi marks and nonaccounting behavior.
 - Independent checks passed 37 core, three suite jsdom and seven Chromium tests. Core types and focused lint passed in the fix agent.
+
+### Scroll-lock holder lifecycle
+
+- Closed four gaps with direct DOM cases: reverse release order, repeated disposal with another holder still active, reacquiring a fully released lock, and opted-out registrations preserving overflow.
+- Independent DOM run passed all four cases; Luna lint/format passed.

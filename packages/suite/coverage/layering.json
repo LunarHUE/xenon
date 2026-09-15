@@ -1342,21 +1342,43 @@
   },
   {
     "ids": ["prevent-scroll.state.3"],
-    "status": "partial",
-    "reason": "Repeated modal disposal is exercised without error, but no second lock holder’s scroll state is asserted between repeated releases.",
+    "status": "covered",
+    "reason": "Repeated disposal of one holder neither throws nor unlocks the document while another holder remains; repeated final disposal stays unlocked.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/dom/src/modal/modal.test.ts",
         "title": "isolates siblings along the content path and restores exact attributes"
+      },
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-extra.test.ts",
+        "title": "prevent-scroll.state.3 repeated release decrements a scroll lock only once"
       }
     ]
   },
   {
-    "ids": ["prevent-scroll.state.4", "prevent-scroll.state.9"],
-    "status": "missing",
-    "reason": "The API supports fresh stacks and lockScroll:false, but no isolated test asserts a fresh lock after full release or the initial unlocked state with only an opted-out registration.",
-    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+    "ids": ["prevent-scroll.state.4"],
+    "status": "covered",
+    "reason": "After complete release, a fresh registration locks the document again and releases cleanly.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-extra.test.ts",
+        "title": "prevent-scroll.state.4 a fresh lock applies again after the previous lock is fully released"
+      }
+    ]
+  },
+  {
+    "ids": ["prevent-scroll.state.9"],
+    "status": "covered",
+    "reason": "A lockScroll=false registration preserves pre-existing root overflow values throughout its lifetime.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-extra.test.ts",
+        "title": "prevent-scroll.state.9 a registration with lockScroll false never locks the document"
+      }
+    ]
   },
   {
     "ids": ["prevent-scroll.state.5", "prevent-scroll.state.7", "prevent-scroll.state.8"],
@@ -1776,13 +1798,17 @@
   },
   {
     "ids": ["prevent-scroll.state.2"],
-    "status": "partial",
-    "reason": "Two holders compensate once and releasing the earlier holder keeps the lock until the last release. The reverse release order is not directly asserted for scroll state.",
+    "status": "covered",
+    "reason": "Reverse release order retains the root scroll lock until the final holder releases, supplementing existing forward-order evidence.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/dom/src/modal/modal.test.ts",
         "title": "scroll locking compensates once and preserves inline values, priorities and unrelated writes"
+      },
+      {
+        "file": "packages/dom/src/modal/modal.coverage-prevent-scroll-extra.test.ts",
+        "title": "prevent-scroll.state.2 reverse release keeps the page locked until the last holder releases"
       }
     ]
   }
