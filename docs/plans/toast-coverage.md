@@ -24,6 +24,7 @@ prefix. The complete test title is in the linked file.
 | M | [Solid imperative manager](../../packages/solid/src/toast/manager.test.ts) |
 | D | [DOM viewport and swipe controllers](../../packages/dom/src/toast/toast.test.ts) |
 | S | [Solid compound parts](../../packages/solid/src/toast/toast.test.tsx) |
+| R | [Server rendering](../../packages/solid/src/toast/ssr.test.ts) |
 | B | [Native browser component tests](../../packages/suite/src/toast/toast.test-browser.tsx) |
 | E | [Example and hydration browser tests](../../packages/suite/e2e/toast.spec.ts) |
 
@@ -102,7 +103,7 @@ Tenon API. They do not import those suites or claim their full coverage.
 | `toast.focus.8` | Partial. B `toast arrival leaves focus alone` and E `toast provider and viewport preserve server markup` check arrival does not steal focus. Removal while focus stayed external has no direct assertion. |
 | `toast.focus.9` | Deferred. Repeated hotkey activation from an inner control followed by Shift+Tab is unverified. |
 | `toast.focus.10` | Deferred. Empty-region forward and reverse Tab traversal has no native test. |
-| `toast.focus.11` | Partial. S `limited records are hidden and inert` and B `limit hides older records` verify promotion. Focus transfer to that promoted record under a limit of one is not asserted. |
+| `toast.focus.11` | Covered in adapter DOM tests. S `focused dismissal transfers to the newly promoted record` checks promotion under limit one, focus on the promoted root, and final external focus restoration. |
 
 ## State
 
@@ -171,7 +172,7 @@ Tenon API. They do not import those suites or claim their full coverage.
 | Spec ID | Status and evidence |
 | --- | --- |
 | `toast.rtl.1` | Deferred by scope. Locale bundles are not supplied. Authors can override accessible labels; default hotkey placeholder behavior needs its own assertion. |
-| `toast.ssr.1` | Covered. E `toast provider and viewport preserve server markup` checks server response, empty markup preservation through hydration, client addition, dismissal, and console/page errors. Server-prepopulated generated IDs are not covered. |
+| `toast.ssr.1` | Covered. E `toast provider and viewport preserve server markup` checks server response, empty markup preservation through hydration, client addition, dismissal, and console/page errors. R `SSR applies provider limits before rendering and resolves custom text IDs` also checks server-prepopulated author IDs, title/description associations, limits 0/1/3, inert hidden records, and empty announcement channels. Hydration with server-prepopulated generated IDs is not covered. |
 | `toast.a11y.1` | Partial. B `limit hides older records` runs axe after promotion with a visible toast. An empty-page scan and an open multi-toast scan are not both present. Manual screen-reader announcement testing remains outside automated evidence. |
 | `toast.notes.1` | Partial. M `isolates factories and preserves timers` verifies detach stops time and reattach resumes it. Provider unmount followed by clock advancement needs a direct adapter test. |
 | `toast.notes.2` | Partial. D `viewport follows its owner window` verifies iframe blur ownership and disposal. Iframe hotkey, all listener types, and empty/fill rebinding counts remain unverified. |
