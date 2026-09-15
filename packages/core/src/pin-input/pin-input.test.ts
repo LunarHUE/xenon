@@ -40,6 +40,14 @@ describe('pinInput', () => {
     result.focus(5)
     expect(focus).toHaveBeenLastCalledWith(3)
   })
+  test('Delete at an empty insertion slot preserves value and focus', () => {
+    const change = vi.fn()
+    const focus = vi.fn()
+    const result = pinInput({ value: '12', length: 4, onValueChange: change, onFocusChange: focus })
+    result.parts.input(2).on.keydown?.({ key: 'Delete', preventDefault() {} } as never)
+    expect(change).not.toHaveBeenCalled()
+    expect(focus).not.toHaveBeenCalled()
+  })
 })
 
 test('legacy composition and author-canceled keyboard events never delete a code', () => {

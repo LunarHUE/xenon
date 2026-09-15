@@ -45,6 +45,27 @@ describe('PinInput', () => {
     expect(slots.map((el) => el.value)).toEqual(['1', '2', '', ''])
     expect(complete).not.toHaveBeenCalled()
   })
+  test('invalid replacement restores the selected character before the next input', () => {
+    const change = vi.fn()
+    const view = render(() => (
+      <PinInput length={4} defaultValue="1234" onValueChange={change}>
+        <Slots />
+      </PinInput>
+    ))
+    const slots = view.getAllByRole('textbox') as HTMLInputElement[]
+    const slot = slots[1]!
+    slot.focus()
+    expect([slot.selectionStart, slot.selectionEnd]).toEqual([0, 1])
+    input(slot, 'a')
+    expect(slot.value).toBe('2')
+    expect(document.activeElement).toBe(slot)
+    expect([slot.selectionStart, slot.selectionEnd]).toEqual([0, 1])
+    expect(change).not.toHaveBeenCalled()
+    input(slot, '9')
+    expect(slots.map((el) => el.value)).toEqual(['1', '9', '3', '4'])
+    expect(document.activeElement).toBe(slots[2])
+    expect(change).toHaveBeenCalledExactlyOnceWith('1934')
+  })
   test('inherits Field state and restores initial form value silently', async () => {
     const change = vi.fn()
     const view = render(() => (

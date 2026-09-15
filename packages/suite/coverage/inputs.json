@@ -2569,12 +2569,18 @@
   },
   {
     "ids": ["pin-input.keyboard.5"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Public native-browser regression verifies replaces a filled slot while preserving following slots and advancing focus. Backspace assertions follow every press; invalid input preserves selection before the next key without another click.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.5 replaces a filled slot while preserving following slots and advancing focus"
+      }
     ]
   },
   {
@@ -2627,8 +2633,8 @@
   },
   {
     "ids": ["pin-input.keyboard.9"],
-    "status": "partial",
-    "reason": "Repeated Backspace from an empty insertion slot walks back and stops silently at the first; the full filled-slot Backspace matrix is not asserted.",
+    "status": "covered",
+    "reason": "Public native-browser regression verifies Backspace clears every filled slot and moves focus backward, including the first. Backspace assertions follow every press; invalid input preserves selection before the next key without another click.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2638,6 +2644,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "Backspace at the insertion point clears the previous slot and walks focus back to the first slot"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.9 Backspace clears every filled slot and moves focus backward, including the first"
       }
     ]
   },
@@ -2659,8 +2669,8 @@
   },
   {
     "ids": ["pin-input.keyboard.11"],
-    "status": "partial",
-    "reason": "Repeated Backspace from an empty insertion slot walks back and stops silently at the first; the full filled-slot Backspace matrix is not asserted.",
+    "status": "covered",
+    "reason": "Public native-browser regression verifies repeated Backspace from the last slot clears the whole filled value. Backspace assertions follow every press; invalid input preserves selection before the next key without another click.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
@@ -2670,6 +2680,10 @@
       {
         "file": "packages/suite/src/pin-input/pin-input.native.test-browser.tsx",
         "title": "Backspace at the insertion point clears the previous slot and walks focus back to the first slot"
+      },
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.11 repeated Backspace from the last slot clears the whole filled value"
       }
     ]
   },
@@ -2691,12 +2705,18 @@
   },
   {
     "ids": ["pin-input.keyboard.13"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Public native-browser regression verifies Delete on an empty slot is silent and keeps focus and values. Backspace assertions follow every press; invalid input preserves selection before the next key without another click.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.13 Delete on an empty slot is silent and keeps focus and values"
+      }
     ]
   },
   {
@@ -2741,12 +2761,18 @@
   },
   {
     "ids": ["pin-input.keyboard.16"],
-    "status": "missing",
-    "reason": "The accepted native slot/keyboard implementation supports this replacement, filtering or navigation boundary, but no scoped assertion isolates the complete stated case.",
+    "status": "covered",
+    "reason": "Public native-browser regression verifies invalid input preserves a filled slot and its selection for replacement. Backspace assertions follow every press; invalid input preserves selection before the next key without another click.",
     "sources": [
       "docs/spec/pin-input.md",
       "docs/plans/pin-input-coverage.md",
       "packages/solid/src/pin-input/pin-input.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/pin-input/pin-input.coverage-editing.test-browser.tsx",
+        "title": "pin-input.keyboard.16 invalid input preserves a filled slot and its selection for replacement"
+      }
     ]
   },
   {

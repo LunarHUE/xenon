@@ -726,3 +726,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed five gaps for numeric rejection/all-zero input, alphabetic acceptance and focus, Ctrl/Meta navigation, all six readonly navigation keys with edit suppression, and uncanceled disabled vertical keys.
 - Independent final Chromium run passed all five cases. Luna suite typechecking and lint passed.
+
+### PinInput editing selection and empty Delete
+
+- Closed five gaps for filled replacement, filled-slot and repeated Backspace, empty Delete, and invalid-character selection preservation.
+- Astra low confirmed two bugs. Astra medium prevents Delete on an empty slot from moving focus and restores selection after rejected input while the same slot remains focused. Core/adapter regressions failed before the fixes.
+- Independent checks passed eight core tests, eight adapter tests and all 15 editing cases across Chromium, Firefox and WebKit. Medium typechecks and lint passed. A separate pointer slice still has failures under review.

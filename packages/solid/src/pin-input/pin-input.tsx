@@ -265,6 +265,9 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
             event.data && event.data.length === 1 ? event.data : event.currentTarget.value
           context.engine().insert(props.index, text)
           context.sync()
+          if (event.currentTarget === event.currentTarget.ownerDocument.activeElement) {
+            event.currentTarget.select()
+          }
         },
         paste(event: ClipboardEvent) {
           event.preventDefault()

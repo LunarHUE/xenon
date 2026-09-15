@@ -134,6 +134,7 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
         }
         if (options.readonly || (event.key !== 'Backspace' && event.key !== 'Delete')) return
         event.preventDefault()
+        if (event.key === 'Delete' && !value[index]) return
         if (modifier && event.key === 'Backspace') {
           change('')
           options.onFocusChange?.(0)
