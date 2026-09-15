@@ -1850,13 +1850,21 @@
   },
   {
     "ids": ["text-field.ssr.1"],
-    "status": "partial",
-    "reason": "SSR/hydration E2E verifies native text input fields without warnings or replacement; that fixture does not include a textarea hydration case.",
+    "status": "covered",
+    "reason": "Uses an actual Field.Control as textarea, checks its accessible description before JavaScript, and repeats the association after hydration with no captured page errors or console warnings.",
     "sources": ["docs/spec/field.md", "packages/suite/e2e/field-associations.spec.ts"],
     "tests": [
       {
         "file": "packages/suite/e2e/field-associations.spec.ts",
         "title": "nested Field associations survive string rendering and hydration"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility SSR markup preserves Avatar fallback, Meter semantics and textarea associations before hydration"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration preserves DOM and loads Avatar only when referrer policy permits"
       }
     ]
   },

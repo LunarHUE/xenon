@@ -15,6 +15,7 @@ import { Popups } from './popups'
 import { FloatingFixture } from './floating'
 import { ToastFixture } from './toast'
 import { CalendarFixture } from './calendar'
+import { UtilityCoverage } from './utility-coverage'
 
 const root = document.getElementById('app')!
 /** Pre-hydration descendant elements; excludes the root and text/comment nodes. */
@@ -24,7 +25,11 @@ const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>
-    query.has('calendar') ? (
+    query.has('utilityCoverage') ? (
+      <UtilityCoverage
+        avatarPolicy={query.get('avatarPolicy') === 'origin' ? 'origin' : 'no-referrer'}
+      />
+    ) : query.has('calendar') ? (
       <CalendarFixture />
     ) : query.has('toast') ? (
       <ToastFixture />

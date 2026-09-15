@@ -130,3 +130,12 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Independent checks passed: 24 core, 25 suite jsdom and 26 Chromium tests.
 - Soft-disabled entry gains evidence; remaining fallback combinations and
   alternate default-loop contracts stay partial. Audit validation passed.
+
+### Utility hydration and image network policy
+
+- Added a dedicated server/client fixture and three end-to-end tests, closing
+  five Avatar, Meter and textarea hydration/network gaps.
+- Image responses are held until hydration finishes, then released to prove
+  fallback-to-image transitions. Actual Referer headers distinguish policies.
+- Independent full Chromium E2E run: all 59 tests passed. Suite typecheck,
+  changed-file lint and audit validation passed.

@@ -5047,13 +5047,21 @@
   },
   {
     "ids": ["meter.ssr.1"],
-    "status": "partial",
-    "reason": "The shared serialization fixture asserts named meter markup before JavaScript; it does not hydrate the meter or check hydration errors.",
+    "status": "covered",
+    "reason": "Checks named meter semantics before JavaScript and again after real hydration, while pageerror and console warning/error capture remains empty in the hydrated test.",
     "sources": ["docs/spec/progress.md", "packages/solid/src/pagination/ssr.test.ts"],
     "tests": [
       {
         "file": "packages/solid/src/pagination/ssr.test.ts",
         "title": "server output includes named measurement, current pages, lists and navigable hrefs"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility SSR markup preserves Avatar fallback, Meter semantics and textarea associations before hydration"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration preserves DOM and loads Avatar only when referrer policy permits"
       }
     ]
   },

@@ -6,6 +6,7 @@ import { Popups } from './popups'
 import { FloatingFixture } from './floating'
 import { ToastFixture } from './toast'
 import { CalendarFixture } from './calendar'
+import { UtilityCoverage } from './utility-coverage'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -64,4 +65,12 @@ export function renderToast() {
 /** Render date-only calendars from a shared civil-day snapshot for hydration. */
 export function renderCalendar() {
   return generateHydrationScript() + renderToString(() => <CalendarFixture />)
+}
+
+/** Render the focused utility SSR and hydration fixture. */
+export function renderUtilityCoverage(avatarPolicy: 'no-referrer' | 'origin' = 'no-referrer') {
+  return (
+    generateHydrationScript() +
+    renderToString(() => <UtilityCoverage avatarPolicy={avatarPolicy} />)
+  )
 }

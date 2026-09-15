@@ -7184,8 +7184,8 @@
   },
   {
     "ids": ["avatar.state.10"],
-    "status": "partial",
-    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Confirms referrerPolicy is forwarded to both the detached probe and visible img. A network server policy test proving success/failure solely from referrer policy is not supported by the deterministic public test harness.",
+    "status": "covered",
+    "reason": "The browser route inspects the real image request Referer header. no-referrer yields no Referer and a successful image; origin yields the page origin and the route rejects it, leaving fallback visible.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
@@ -7195,6 +7195,14 @@
       {
         "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
         "title": "avatar.roles.3 avatar.animation.1: native source props reach both the probe and the loaded image"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration preserves DOM and loads Avatar only when referrer policy permits"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration keeps Avatar fallback when a referrer-dependent request is rejected"
       }
     ]
   },
@@ -7314,25 +7322,41 @@
   },
   {
     "ids": ["avatar.ssr.1"],
-    "status": "partial",
-    "reason": "SSR asserts idle fallback and no native Image construction; hydration and post-hydration image transition are explicitly not covered by this fixture.",
+    "status": "covered",
+    "reason": "Uses a real browser context with JavaScript disabled against server-rendered utilityCoverage markup and verifies fallback text is present before hydration. The same fixture is then hydrated by the companion test.",
     "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/ssr.test.ts"],
     "tests": [
       {
         "file": "packages/solid/src/avatar/ssr.test.ts",
         "title": "SSR renders fallback and utility semantics without constructing a native image"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility SSR markup preserves Avatar fallback, Meter semantics and textarea associations before hydration"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration preserves DOM and loads Avatar only when referrer policy permits"
       }
     ]
   },
   {
     "ids": ["avatar.ssr.2"],
-    "status": "partial",
-    "reason": "SSR asserts idle fallback and no native Image construction; hydration and post-hydration image transition are explicitly not covered by this fixture.",
+    "status": "covered",
+    "reason": "A real server fixture hydrates while the image response is gated. After hydration the fallback is visible and no img exists; releasing the response mounts the image and removes the fallback. Browser hydration preserves server DOM and IDs without reported warnings/errors.",
     "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/ssr.test.ts"],
     "tests": [
       {
         "file": "packages/solid/src/avatar/ssr.test.ts",
         "title": "SSR renders fallback and utility semantics without constructing a native image"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration preserves DOM and loads Avatar only when referrer policy permits"
+      },
+      {
+        "file": "packages/suite/e2e/utility-coverage.spec.ts",
+        "title": "utility hydration keeps Avatar fallback when a referrer-dependent request is rejected"
       }
     ]
   },

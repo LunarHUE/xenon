@@ -40,8 +40,9 @@ const server = createServer((request, response) => {
         renderFloating,
         renderToast,
         renderCalendar,
+        renderUtilityCoverage,
       } = await vite.ssrLoadModule('/fixtures/entry-server.tsx')
-      /** Presence-based flags; priority is calendar, toast, floating, popups, positioning, dialogs, stream, then the default fixture. */
+      /** Presence-based flags; priority is utilityCoverage, calendar, toast, floating, popups, positioning, dialogs, stream, then the default fixture. */
       const query = new URL(request.url ?? '/', 'http://localhost').searchParams
       /**
        * Buffer the full rendered string before sending a response, including renderStream.
@@ -49,21 +50,23 @@ const server = createServer((request, response) => {
        * Menu affects only popups; async affects only the server's stream branch.
        */
       const body = (
-        query.has('calendar')
-          ? renderCalendar()
-          : query.has('toast')
-            ? renderToast()
-            : query.has('floating')
-              ? renderFloating()
-              : query.has('popups')
-                ? renderPopups(query.has('menu'))
-                : query.has('positioning')
-                  ? renderPositioning()
-                  : query.has('dialogs')
-                    ? renderDialogs()
-                    : query.has('stream')
-                      ? await renderStream(query.has('async'))
-                      : render()
+        query.has('utilityCoverage')
+          ? renderUtilityCoverage(query.get('avatarPolicy') === 'origin' ? 'origin' : 'no-referrer')
+          : query.has('calendar')
+            ? renderCalendar()
+            : query.has('toast')
+              ? renderToast()
+              : query.has('floating')
+                ? renderFloating()
+                : query.has('popups')
+                  ? renderPopups(query.has('menu'))
+                  : query.has('positioning')
+                    ? renderPositioning()
+                    : query.has('dialogs')
+                      ? renderDialogs()
+                      : query.has('stream')
+                        ? await renderStream(query.has('async'))
+                        : render()
       ) as string
       /**
        * Hydrate #app using the client entry's matching fixture priority. For RoundOne,
