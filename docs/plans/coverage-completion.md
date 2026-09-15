@@ -388,3 +388,12 @@ accounting. Audit records live in `packages/suite/coverage`.
   through the UI removes aria-labelledby entirely without errors.
 - Independent Chromium end-to-end test and suite typecheck passed. Audit
   validation passed; Luna's changed-file lint passed.
+
+### Portal Select dismissal and retained modal focus
+
+- Added two browser tests. Escape closes a portalled Select and restores focus
+  within its modal Popover, with forward/reverse Tab containment, closing one gap.
+- Outside-click dismissal gains concrete Select/Popover evidence. Its nonmodal
+  outside-focus behavior leaves the research containment clause partial.
+- Independent Portal/Toolbar overlay run passed all three cases. Suite typecheck
+  and audit validation passed.

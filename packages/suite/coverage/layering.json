@@ -1480,21 +1480,37 @@
   },
   {
     "ids": ["portal.dismissal.2"],
-    "status": "partial",
-    "reason": "Real Escape unwinds logical portal siblings one at a time; the fixture does not compose the listed concrete popup components and focus containment.",
+    "status": "covered",
+    "reason": "A portalled Select inside a modal Popover closes alone on Escape, returns focus to its trigger, and leaves forward/reverse Tab contained within the outer dialog.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
     "tests": [
       {
         "file": "packages/suite/src/layering/layering.test-browser.tsx",
         "title": "real Escape unwinds one logical layer per key press across portal siblings"
+      },
+      {
+        "file": "packages/suite/src/portal/portal.remaining.test-browser.tsx",
+        "title": "portal.dismissal.2: Escape closes a portalled Select before its containing Popover"
       }
     ]
   },
   {
-    "ids": ["portal.dismissal.3", "portal.dismissal.5"],
+    "ids": ["portal.dismissal.5"],
     "status": "missing",
     "reason": "Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices.",
     "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"]
+  },
+  {
+    "ids": ["portal.dismissal.3"],
+    "status": "partial",
+    "reason": "Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices. A real outside click closes the portalled Select while the nonmodal containing Popover remains open; focus intentionally lands on the outside button because nonmodal Popover does not claim outside focus containment. The research focus-containment clause remains unproven; this nonmodal fixture permits deliberate outside focus.",
+    "sources": ["docs/layering.md", "docs/focus-scope.md", "docs/spec/layering.md"],
+    "tests": [
+      {
+        "file": "packages/suite/src/portal/portal.remaining.test-browser.tsx",
+        "title": "portal.dismissal.3: an outside press closes the inner portalled Select but leaves the Popover open"
+      }
+    ]
   },
   {
     "ids": ["portal.dismissal.4"],
