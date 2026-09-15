@@ -5878,8 +5878,8 @@
   },
   {
     "ids": ["calendar.roles.3"],
-    "status": "partial",
-    "reason": "Polite heading and named native Previous type are asserted; the corresponding Next non-submit type is not explicitly asserted in these cases.",
+    "status": "covered",
+    "reason": "Asserts both accessible paging controls have native type=button. Existing roles evidence covers the polite heading and Previous control.",
     "sources": [
       "docs/spec/calendar.md",
       "docs/plans/calendar-coverage.md",
@@ -5889,13 +5889,17 @@
       {
         "file": "packages/suite/src/calendar/calendar.test.tsx",
         "title": "calendar.roles.1 calendar.roles.2 calendar.roles.3 calendar.config.1: provider today, named grid and weekday headers are deterministic"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "calendar.roles.3: both paging controls are explicitly named non-submit buttons"
       }
     ]
   },
   {
     "ids": ["calendar.focus.1"],
-    "status": "partial",
-    "reason": "Single tab stop, selected/default-today preference and preserved outside focus are asserted; the initial focus clamp for an out-of-interval selected/today value is not isolated.",
+    "status": "covered",
+    "reason": "Mounts defaultValue September 5 with an inclusive September 10-20 interval, asserts exactly one tabindex=0 day, and verifies September 10 owns the tab stop while September 5 is disabled. Existing focus tests cover selected/default-today preference and outside-focus preservation.",
     "sources": [
       "docs/spec/calendar.md",
       "docs/plans/calendar-coverage.md",
@@ -5914,6 +5918,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.test.tsx",
         "title": "calendar.roles.1 calendar.roles.2 calendar.roles.3 calendar.config.1: provider today, named grid and weekday headers are deterministic"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "calendar.focus.1: initial tab focus clamps an out-of-interval selected date to the minimum"
       }
     ]
   },
@@ -6056,8 +6064,8 @@
   },
   {
     "ids": ["calendar.unavailable.1"],
-    "status": "partial",
-    "reason": "Reachable unavailable day, disabled semantics and keyboard rejection are asserted; pointer activation rejection is not independently asserted here.",
+    "status": "covered",
+    "reason": "Asserts the unavailable day exposes aria-disabled=true and dispatches pointer click without an onValueChange callback. Existing evidence covers reachability and keyboard rejection.",
     "sources": [
       "docs/spec/calendar.md",
       "docs/plans/calendar-coverage.md",
@@ -6067,6 +6075,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.test-browser.tsx",
         "title": "calendar.unavailable.1 calendar.keyboard.4: unavailable dates are inspectable and native activation commits once"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "calendar.unavailable.1: pointer activation of an unavailable day does not commit a value"
       }
     ]
   },
@@ -6151,8 +6163,8 @@
   },
   {
     "ids": ["calendar.layout.1"],
-    "status": "partial",
-    "reason": "Default complete six-week grid and custom cell/day composition are asserted; absence of visual theme CSS is not an assertion.",
+    "status": "covered",
+    "reason": "Asserts the fixed six-week semantic grid has 42 gridcells, the rendered subtree has no style element, stylesheet link, or inline style, and the document head stylesheet count is unchanged. Existing layout tests cover complete weeks, headings, and custom anatomy semantics.",
     "sources": [
       "docs/spec/calendar.md",
       "docs/plans/calendar-coverage.md",
@@ -6167,6 +6179,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.test.tsx",
         "title": "calendar.cancel.1: author canceled day click and keyboard navigation do not change the calendar"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "calendar.layout.1: the calendar renders its semantics without injecting visual theme CSS"
       }
     ]
   },
@@ -6188,8 +6204,8 @@
   },
   {
     "ids": ["calendar.a11y.1"],
-    "status": "partial",
-    "reason": "Axe checks a selected calendar with unavailable dates; an explicit min/max constrained axe fixture is not included.",
+    "status": "covered",
+    "reason": "Mounts a calendar with explicit minValue and maxValue and awaits the shared expectNoViolations scan. Existing calendar.a11y.1 evidence covers the selected/unavailable fixture, so the constrained branch is now exercised.",
     "sources": [
       "docs/spec/calendar.md",
       "docs/plans/calendar-coverage.md",
@@ -6199,6 +6215,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.test-browser.tsx",
         "title": "calendar.a11y.1 range-calendar.a11y.1: selected and constrained grids satisfy the shared axe rules"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "calendar.a11y.1: an explicitly min/max constrained grid passes the shared axe rules"
       }
     ]
   },
@@ -6287,8 +6307,8 @@
   },
   {
     "ids": ["range-calendar.preview.1"],
-    "status": "partial",
-    "reason": "Hover and focus previews and committed endpoint markers are asserted; distinct draft endpoint versus interior markers are not fully checked.",
+    "status": "covered",
+    "reason": "After pointer hover preview, asserts four highlighted gridcells, exact September 14 and September 17 draft endpoint markers, and two highlighted interior cells without endpoint markers or data-selected state. Existing evidence covers hover/focus preview and committed endpoint markers.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.test-browser.tsx",
@@ -6307,6 +6327,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.native.test-browser.tsx",
         "title": "range-calendar.selection.1 range-calendar.selection.2: keyboard-only reverse drafting commits a sorted range once"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.preview.1: draft endpoint and interior markers stay distinct from committed markers"
       }
     ]
   },
@@ -6332,8 +6356,8 @@
   },
   {
     "ids": ["range-calendar.bounds.1"],
-    "status": "partial",
-    "reason": "Unavailable endpoints and interior barriers reject completion; explicit min/max range endpoint combinations are not independently asserted.",
+    "status": "covered",
+    "reason": "Starts a draft at an in-range endpoint, attempts disabled below-min and above-max endpoints with no callback, then completes at maxValue and asserts the inclusive committed range. Existing evidence covers unavailable endpoints and interior barriers.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.test-browser.tsx",
@@ -6347,6 +6371,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.native.test-browser.tsx",
         "title": "range-calendar.bounds.1 range-calendar.preview.1: an unavailable date cannot be an endpoint and clears the draft preview"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.bounds.1: min and max reject out-of-bounds endpoints before accepting a valid range"
       }
     ]
   },
@@ -6387,8 +6415,8 @@
   },
   {
     "ids": ["range-calendar.keyboard.1"],
-    "status": "partial",
-    "reason": "Native arrows, Enter and PageDown drafting are asserted; full Home/End/Shift+Page and Space matrix while drafting is not.",
+    "status": "covered",
+    "reason": "Uses real keyboard input while selecting a range, asserts Home and End destinations, exercises Shift+PageDown and Shift+PageUp with focused-date checks, then exercises unshifted PageDown and PageUp with focused-date checks before finishing with Space. Existing evidence covers arrows and Enter drafting.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.native.test-browser.tsx"
@@ -6401,13 +6429,17 @@
       {
         "file": "packages/suite/src/calendar/calendar.native.test-browser.tsx",
         "title": "range-calendar.preview.2 range-calendar.selection.2: paging keeps the range anchor and previews the next month"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.keyboard.1: Home, End and Space navigate and finish a draft once"
       }
     ]
   },
   {
     "ids": ["range-calendar.readonly.1"],
-    "status": "partial",
-    "reason": "Readonly/disabled block first and second draft activation; native range readonly navigation is not independently exercised.",
+    "status": "covered",
+    "reason": "Uses real ArrowRight and Enter input to prove read-only navigation remains available while no draft highlight is created. Existing evidence covers first and second activation blocking plus disabled policy.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.test.tsx",
@@ -6421,13 +6453,17 @@
       {
         "file": "packages/core/src/range-calendar/range-calendar.test.ts",
         "title": "blocks readonly/disabled selection and supports cross-month generic ranges"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.readonly.1: read-only range calendars allow focus navigation without drafting"
       }
     ]
   },
   {
     "ids": ["range-calendar.cancel.1"],
-    "status": "partial",
-    "reason": "Canceled first activation and Escape ownership are asserted; canceled second activation preserving an existing draft is not isolated.",
+    "status": "covered",
+    "reason": "Uses public custom Day anatomy to prevent the second activation, then asserts no committed callback and compares every highlighted date plus its endpoint markers before and after cancellation. Existing evidence covers canceled first activation and Escape ownership.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.test.tsx",
@@ -6445,6 +6481,10 @@
       {
         "file": "packages/core/src/range-calendar/range-calendar.test.ts",
         "title": "Escape consumes only an active draft and leaves committed selection unchanged"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.cancel.1: canceled second activation preserves the active draft"
       }
     ]
   },
@@ -6462,8 +6502,8 @@
   },
   {
     "ids": ["range-calendar.a11y.1"],
-    "status": "partial",
-    "reason": "Axe checks a selected range; default and unavailable range-grid axe fixtures are not all included.",
+    "status": "covered",
+    "reason": "Runs the shared axe scan against separate default/unavailable and selected range mounts. Existing evidence covers a selected range, while this adds the default and unavailable fixtures.",
     "sources": [
       "docs/spec/range-calendar.md",
       "packages/suite/src/calendar/calendar.test-browser.tsx"
@@ -6472,6 +6512,10 @@
       {
         "file": "packages/suite/src/calendar/calendar.test-browser.tsx",
         "title": "calendar.a11y.1 range-calendar.a11y.1: selected and constrained grids satisfy the shared axe rules"
+      },
+      {
+        "file": "packages/suite/src/calendar/calendar.partial.test-browser.tsx",
+        "title": "range-calendar.a11y.1: default and unavailable range grids each pass the shared axe rules"
       }
     ]
   },

@@ -49,3 +49,13 @@ accounting. Audit records live in `packages/suite/coverage`.
 - Verified mixed-state retries, silent controlled-to-uncontrolled handoff,
   controlled mount silence, and both vertical arrow directions under RTL.
 - ESLint and audit validation passed.
+
+### Calendar and RangeCalendar
+
+- Added eleven browser tests and closed all eleven partial calendar requirements.
+- Independent Chromium run: 52 tests passed across six calendar files.
+- Assertions add constrained accessibility scans, initial focus clamping,
+  non-submit paging controls, unavailable activation rejection, range bounds,
+  canceled draft preservation, draft keyboard navigation and preview markers.
+- ESLint and audit validation passed.
+- Running audit: 1,125 covered, 1,015 partial, 483 missing.
