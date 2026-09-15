@@ -1,6 +1,6 @@
 /**
  * Hydrates the existing #app fixture on module evaluation, then flushes Solid.
- * Requires matching server markup and query flags: toast takes precedence over floating,
+ * Requires matching server markup and query flags: calendar takes precedence over toast, floating,
  * popups, positioning, dialogs, then the default fixture. menu applies to popups;
  * async applies to the default fixture. Flags are tested for presence, not value.
  *
@@ -14,6 +14,7 @@ import { PositioningFixture } from './positioning'
 import { Popups } from './popups'
 import { FloatingFixture } from './floating'
 import { ToastFixture } from './toast'
+import { CalendarFixture } from './calendar'
 
 const root = document.getElementById('app')!
 /** Pre-hydration descendant elements; excludes the root and text/comment nodes. */
@@ -23,7 +24,9 @@ const serverIds = serverNodes.filter((node) => node.id).map((node) => node.id)
 const query = new URLSearchParams(location.search)
 hydrate(
   () =>
-    query.has('toast') ? (
+    query.has('calendar') ? (
+      <CalendarFixture />
+    ) : query.has('toast') ? (
       <ToastFixture />
     ) : query.has('floating') ? (
       <FloatingFixture />

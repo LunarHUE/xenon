@@ -5,6 +5,7 @@ import { PositioningFixture } from './positioning'
 import { Popups } from './popups'
 import { FloatingFixture } from './floating'
 import { ToastFixture } from './toast'
+import { CalendarFixture } from './calendar'
 
 /**
  * Renders popup fixture HTML prefixed by the hydration script.
@@ -58,4 +59,9 @@ export function renderFloating() {
 /** Render the empty request-local toast provider and viewport for hydration tests. */
 export function renderToast() {
   return generateHydrationScript() + renderToString(() => <ToastFixture />)
+}
+
+/** Render date-only calendars from a shared civil-day snapshot for hydration. */
+export function renderCalendar() {
+  return generateHydrationScript() + renderToString(() => <CalendarFixture />)
 }
