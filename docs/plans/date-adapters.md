@@ -1,7 +1,8 @@
 # Date adapters and calendars
 
 Status: date-only adapter, Calendar and RangeCalendar implemented. Segmented
-fields and popover pickers follow separately.
+fields and packaged pickers are deferred beyond the 0.1.0 alpha. Consumers can
+compose pickers from the existing parts. See [alpha scope](alpha.md).
 This supersedes the earlier proposal to default to native JavaScript Date.
 
 ## Values and adapter ownership
