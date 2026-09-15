@@ -4,11 +4,14 @@ import { toastDuration, toastLimit, visibleToastIds } from '@tenon/core/toast'
 import type { ToastPriority, ToastType } from '@tenon/core/toast'
 
 export type { ToastPriority, ToastType }
+/** Cause reported once when a notification starts closing. */
+export type ToastDismissReason =
+  'timeout' | 'close' | 'action' | 'escape' | 'swipe' | 'programmatic'
 /** An optional notification action rendered by Toast.Action. */
 export interface ToastAction {
   /** Action content. */
   label: JSX.Element
-  /** Runs when the user activates the action. Dismiss explicitly if desired. */
+  /** Runs before Toast.Action closes the notification. Prevent default to keep it open. */
   onClick: (event: MouseEvent) => void
 }
 /** Content and lifetime supplied when adding a notification. */
@@ -26,11 +29,11 @@ export interface ToastOptions<T = unknown> {
   /** Live announcement urgency. Defaults to low. */
   priority?: ToastPriority
   /** Optional action control. */
-  action?: ToastAction
+  action?: ToastAction | null
   /** Application data passed through without interpretation. */
   data?: T
   /** Called once when this notification starts dismissal. */
-  onDismiss?: () => void
+  onDismiss?: (reason: ToastDismissReason) => void
   /** Called once after the notification leaves the collection. */
   onRemove?: () => void
 }
@@ -56,11 +59,11 @@ export interface ToastRecord<T = unknown> extends Omit<
 }
 /** Content updates cannot change identity or reopen a dismissed notification. */
 export type ToastPatch<T = unknown> = Omit<ToastOptions<T>, 'id'>
-/** Provider defaults. Configuration changes apply to subsequent additions. */
+/** Provider defaults. Unattached notifications inherit duration until their first attachment. */
 export interface ToastManagerOptions {
   /** Default duration in milliseconds. Defaults to 5000. */
   duration?: number
-  /** Maximum admitted records, including exits. Defaults to 3. */
+  /** Maximum admitted open records. Defaults to 3. */
   limit?: number
 }
 /** A promise stage may be plain title content or full notification options. */
@@ -78,12 +81,12 @@ export interface ToastPromiseOptions<Value, T = unknown> {
 export interface ToastManager<T = unknown> {
   /** Reactive collection including waiting and exiting notifications. */
   toasts: () => readonly ToastRecord<T>[]
-  /** Add a notification and return its stable ID. */
+  /** Add a notification and return its stable ID. Repeated IDs restart their lifetime. */
   add: (options: ToastOptions<T>) => string
   /** Update an open notification, preserving elapsed time unless duration is supplied. */
   update: (id: string, patch: ToastPatch<T> | ((toast: ToastRecord<T>) => ToastPatch<T>)) => void
   /** Start one exit, or all current exits when no ID is supplied. */
-  dismiss: (id?: string) => void
+  dismiss: (id?: string, reason?: ToastDismissReason) => void
   /** Remove an exited notification after its animation. */
   remove: (id: string) => void
   /** Add a success notification. */
@@ -119,6 +122,8 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
     started?: number
     timer?: ReturnType<typeof setTimeout>
     generation: number
+    implicitDuration: boolean
+    pendingAttachment: boolean
   }
   let defaults = { duration: toastDuration(options.duration), limit: toastLimit(options.limit) }
   let entries: Entry[] = []
@@ -147,7 +152,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
     )
     for (const entry of entries) {
       const state = entry.read()
-      const limited = !visible.has(state.id)
+      const limited = state.open ? !visible.has(state.id) : state.limited
       if (state.limited !== limited) entry.write({ ...state, limited })
       if (
         !attached ||
@@ -161,7 +166,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
         stop(entry)
       else if (entry.timer === undefined) {
         entry.started = Date.now()
-        entry.timer = setTimeout(() => manager.dismiss(state.id), entry.remaining)
+        entry.timer = setTimeout(() => manager.dismiss(state.id, 'timeout'), entry.remaining)
       }
     }
     currentToasts = entries.map((entry) => entry.record).reverse()
@@ -198,18 +203,25 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
         const id = input.id ?? `${prefix}-${++serial}`
         const existing = find(id)
         if (existing) {
-          if (existing.read().open) manager.update(id, input)
-          else {
+          if (existing.read().open) {
+            const implicitDuration = input.duration === undefined && existing.implicitDuration
+            manager.update(id, { ...input, duration: input.duration ?? existing.read().duration })
+            existing.implicitDuration = implicitDuration
+          } else {
             stop(existing)
             const state = existing.read()
             const duration = toastDuration(input.duration, defaults.duration)
             existing.generation++
             existing.remaining = duration
+            existing.implicitDuration = input.duration === undefined
+            existing.pendingAttachment = !attached
             existing.write({
               ...state,
               ...input,
               id,
               open: true,
+              type: input.type ?? state.type,
+              priority: input.priority ?? state.priority,
               duration,
               revision: state.revision + 1,
             })
@@ -258,7 +270,15 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
               return snapshot[key]
             },
           })
-        entries.push({ record, read, write, remaining: initial.duration, generation: 0 })
+        entries.push({
+          record,
+          read,
+          write,
+          remaining: initial.duration,
+          generation: 0,
+          implicitDuration: input.duration === undefined,
+          pendingAttachment: !attached,
+        })
         sync()
         return id
       })
@@ -267,15 +287,19 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
       untrack(() => {
         const entry = find(id)
         if (!entry?.read().open) return
+        const generation = entry.generation
         const next = typeof patch === 'function' ? patch(entry.record) : patch
-        if (find(id) !== entry || !entry.read().open) return
+        if (find(id) !== entry || !entry.read().open || entry.generation !== generation) return
         stop(entry)
         const state = entry.read()
         const duration =
           next.duration === undefined
             ? state.duration
             : toastDuration(next.duration, defaults.duration)
-        if (next.duration !== undefined) entry.remaining = duration
+        if (next.duration !== undefined) {
+          entry.remaining = duration
+          entry.implicitDuration = false
+        }
         entry.generation++
         entry.write({
           ...state,
@@ -291,11 +315,11 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
         sync()
       })
     },
-    dismiss(id) {
+    dismiss(id, reason = 'programmatic') {
       untrack(() => {
         const targets =
           id === undefined ? [...entries] : entries.filter((entry) => entry.read().id === id)
-        const callbacks: (() => void)[] = []
+        const callbacks: ((reason: ToastDismissReason) => void)[] = []
         for (const entry of targets) {
           const state = entry.read()
           if (!state.open) continue
@@ -305,7 +329,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
           if (state.onDismiss) callbacks.push(state.onDismiss)
         }
         sync()
-        for (const callback of callbacks) callback()
+        for (const callback of callbacks) callback(reason)
       })
     },
     remove(id) {
@@ -313,7 +337,7 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
         const entry = find(id)
         if (!entry) return
         manager.dismiss(id)
-        if (find(id) !== entry) return
+        if (find(id) !== entry || entry.read().open) return
         stop(entry)
         entries = entries.filter((candidate) => candidate !== entry)
         sync()
@@ -337,7 +361,9 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
             ? (stage as (value: unknown) => ToastMessage<T>)(value)
             : stage
         if (find(id) !== entry || !entry.read().open || entry.generation !== generation) return
-        manager.update(id, { duration: defaults.duration, ...message(resolved), type })
+        const result = message(resolved)
+        manager.update(id, { duration: defaults.duration, ...result, type })
+        entry.implicitDuration = result.duration === undefined
       }
       void Promise.resolve(promise)
         .then(
@@ -352,10 +378,17 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
     configure(next) {
       untrack(() => {
         defaults = { duration: toastDuration(next.duration), limit: toastLimit(next.limit) }
+        for (const entry of entries) {
+          if (entry.pendingAttachment && entry.implicitDuration) {
+            entry.remaining = defaults.duration
+            entry.write({ ...entry.read(), duration: defaults.duration })
+          }
+        }
         sync()
       })
     },
     attach() {
+      for (const entry of entries) entry.pendingAttachment = false
       attached++
       untrack(sync)
       let active = true

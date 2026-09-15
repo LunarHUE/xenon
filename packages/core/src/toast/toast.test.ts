@@ -12,7 +12,7 @@ describe('toast', () => {
     })
     expect(result.parts.root.attrs).toMatchObject({
       role: 'group',
-      tabindex: -1,
+      tabindex: 0,
       'aria-labelledby': 'title',
       'aria-describedby': 'description',
       'data-type': 'error',
@@ -35,7 +35,17 @@ describe('toast', () => {
   it('admits newest records and normalizes nonfinite defaults', () => {
     expect([...visibleToastIds([{ id: 'old' }, { id: 'new' }], 1)]).toEqual(['new'])
     expect(toastLimit(NaN)).toBe(3)
-    expect(toastLimit(0)).toBe(1)
+    expect(toastLimit(0)).toBe(0)
+    expect([...visibleToastIds([{ id: 'one' }], 0)]).toEqual([])
+    expect([
+      ...visibleToastIds(
+        [
+          { id: 'older', open: true },
+          { id: 'exiting', open: false },
+        ],
+        1
+      ),
+    ]).toEqual(['older'])
     expect(toastDuration(Infinity)).toBe(Infinity)
     expect(toastDuration(0)).toBe(0)
     expect(toastDuration(NaN)).toBe(5000)

@@ -4,6 +4,169 @@ import { createManager } from './manager'
 afterEach(() => vi.useRealTimers())
 
 describe('Toast manager', () => {
+  it('queues every notification at limit zero and starts timing when a slot opens', () => {
+    vi.useFakeTimers()
+    const manager = createManager({ duration: 100, limit: 0 })
+    const detach = manager.attach()
+    manager.add({})
+    vi.advanceTimersByTime(1000)
+    expect(manager.toasts()[0]!.limited).toBe(true)
+    expect(manager.toasts()[0]!.open).toBe(true)
+    manager.configure({ duration: 100, limit: 1 })
+    expect(manager.toasts()[0]!.limited).toBe(false)
+    vi.advanceTimersByTime(100)
+    expect(manager.toasts()[0]!.open).toBe(false)
+    expect(manager.toasts()[0]!.limited).toBe(false)
+    detach()
+  })
+
+  it('resolves queued implicit durations from the provider and preserves explicit zero', () => {
+    vi.useFakeTimers()
+    const manager = createManager()
+    const implicit = manager.add({ id: 'implicit' })
+    manager.add({ id: 'persistent', duration: 0 })
+    manager.add({ id: 'explicit', duration: 200 })
+    manager.configure({ duration: 100 })
+    expect(manager.toasts().find((toast) => toast.id === implicit)!.duration).toBe(100)
+    vi.advanceTimersByTime(1000)
+    expect(manager.toasts().every((toast) => toast.open)).toBe(true)
+    const detach = manager.attach()
+    vi.advanceTimersByTime(100)
+    expect(manager.toasts().find((toast) => toast.id === implicit)!.open).toBe(false)
+    expect(manager.toasts().find((toast) => toast.id === 'persistent')!.duration).toBe(0)
+    expect(manager.toasts().find((toast) => toast.id === 'explicit')!.open).toBe(true)
+    vi.advanceTimersByTime(100)
+    expect(manager.toasts().find((toast) => toast.id === 'explicit')!.open).toBe(false)
+    expect(manager.toasts().find((toast) => toast.id === 'persistent')!.open).toBe(true)
+    detach()
+  })
+
+  it('restarts duplicate add lifetimes but preserves collection order and plain update time', () => {
+    vi.useFakeTimers()
+    const manager = createManager({ duration: 100 })
+    const detach = manager.attach()
+    const id = manager.add({ title: 'First', duration: 200 })
+    const record = manager.toasts()[0]!
+    manager.add({ title: 'Second', duration: 0 })
+    vi.advanceTimersByTime(150)
+    manager.add({ id, title: 'Restarted' })
+    expect(manager.toasts()[1]).toBe(record)
+    vi.advanceTimersByTime(150)
+    manager.update(id, { title: 'Edited' })
+    vi.advanceTimersByTime(49)
+    expect(record.open).toBe(true)
+    vi.advanceTimersByTime(1)
+    expect(record.open).toBe(false)
+    detach()
+  })
+
+  it('reports timeout and explicit dismissal reasons exactly once', () => {
+    vi.useFakeTimers()
+    const manager = createManager({ duration: 100 })
+    const detach = manager.attach()
+    const automatic = vi.fn()
+    const explicit = vi.fn()
+    manager.add({ onDismiss: automatic })
+    const id = manager.add({ onDismiss: explicit })
+    manager.dismiss(id, 'swipe')
+    manager.dismiss(id, 'close')
+    vi.advanceTimersByTime(100)
+    expect(explicit).toHaveBeenCalledExactlyOnceWith('swipe')
+    expect(automatic).toHaveBeenCalledExactlyOnceWith('timeout')
+    detach()
+  })
+
+  it('treats repeated pause reasons idempotently and keeps other reasons active', () => {
+    vi.useFakeTimers()
+    const manager = createManager({ duration: 100 })
+    const detach = manager.attach()
+    manager.add({})
+    vi.advanceTimersByTime(20)
+    manager.pause('hover')
+    manager.pause('hover')
+    manager.pause('focus')
+    vi.advanceTimersByTime(1000)
+    manager.resume('hover')
+    manager.resume('hover')
+    vi.advanceTimersByTime(1000)
+    expect(manager.toasts()[0]!.open).toBe(true)
+    manager.resume('focus')
+    vi.advanceTimersByTime(79)
+    expect(manager.toasts()[0]!.open).toBe(true)
+    vi.advanceTimersByTime(1)
+    expect(manager.toasts()[0]!.open).toBe(false)
+    detach()
+  })
+
+  it('keeps a same-record resurrection performed by an onDismiss callback', () => {
+    const manager = createManager()
+    const onRemove = vi.fn()
+    manager.add({
+      id: 'one',
+      onDismiss: () => manager.add({ id: 'one', title: 'Reopened' }),
+      onRemove,
+    })
+    const record = manager.toasts()[0]!
+    manager.remove('one')
+    expect(manager.toasts()[0]).toBe(record)
+    expect(record.open).toBe(true)
+    expect(record.title).toBe('Reopened')
+    expect(onRemove).not.toHaveBeenCalled()
+  })
+
+  it('lets a newer nested update supersede its outer updater and permits clearing actions', () => {
+    const manager = createManager()
+    const id = manager.add({ title: 'Original', action: { label: 'Undo', onClick: () => {} } })
+    manager.update(id, () => {
+      manager.update(id, { title: 'Newest', action: null })
+      return { title: 'Stale' }
+    })
+    expect(manager.toasts()[0]!.title).toBe('Newest')
+    expect(manager.toasts()[0]!.action).toBeNull()
+  })
+
+  it('allows only the newest concurrent promise for one ID to settle', async () => {
+    const manager = createManager()
+    let firstResolve!: (value: string) => void
+    let secondReject!: (value: Error) => void
+    const first = new Promise<string>((resolve) => {
+      firstResolve = resolve
+    })
+    const second = new Promise<string>((_, reject) => {
+      secondReject = reject
+    })
+    const stages = {
+      loading: { id: 'same', title: 'Loading' },
+      success: 'Saved',
+      error: (error: unknown) => ({ title: (error as Error).message }),
+    }
+    manager.promise(first, stages)
+    const record = manager.toasts()[0]!
+    manager.promise(second, stages)
+    firstResolve('old')
+    await Promise.resolve()
+    expect(record.type).toBe('loading')
+    secondReject(new Error('Latest failure'))
+    await Promise.resolve()
+    expect(manager.toasts()[0]).toBe(record)
+    expect(record.type).toBe('error')
+    expect(record.title).toBe('Latest failure')
+  })
+
+  it('does not apply promise results when the stage callback performs a newer update', async () => {
+    const manager = createManager()
+    const id = manager.promise(Promise.resolve('done'), {
+      loading: 'Loading',
+      success: () => {
+        manager.update(id, { title: 'Manual' })
+        return 'Stale'
+      },
+      error: 'Failed',
+    })
+    await Promise.resolve()
+    expect(manager.toasts()[0]!.title).toBe('Manual')
+  })
+
   it('reopens an exiting ID in place, moves it first, and restarts its full lifetime', () => {
     vi.useFakeTimers()
     const manager = createManager({ duration: 100, limit: 1 })
@@ -52,16 +215,17 @@ describe('Toast manager', () => {
     detach()
   })
 
-  it('keeps an exiting slot until removal and only times admitted records', () => {
+  it('frees the visible slot on dismissal and only times admitted open records', () => {
     vi.useFakeTimers()
     const manager = createManager({ duration: 100, limit: 1 })
     const detach = manager.attach()
     const first = manager.add({})
     const second = manager.add({})
     expect(manager.toasts()[1]!.limited).toBe(true)
-    vi.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(100)
     expect(manager.toasts()[0]!.open).toBe(false)
     expect(manager.toasts()[1]!.open).toBe(true)
+    expect(manager.toasts()[1]!.limited).toBe(false)
     manager.remove(second)
     expect(manager.toasts()[0]!.id).toBe(first)
     expect(manager.toasts()[0]!.limited).toBe(false)

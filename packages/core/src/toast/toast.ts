@@ -18,14 +18,20 @@ export function toastLimit(value: number | undefined): number {
     ? Infinity
     : value === undefined || !Number.isFinite(value)
       ? 3
-      : Math.max(1, Math.floor(value))
+      : Math.max(0, Math.floor(value))
 }
 /** Return the newest admitted IDs. Older records wait until a slot becomes available. */
-export function visibleToastIds<T extends { id: string }>(
+export function visibleToastIds<T extends { id: string; open?: boolean }>(
   records: readonly T[],
   limit: number
 ): ReadonlySet<string> {
-  return new Set(records.slice(-toastLimit(limit)).map((record) => record.id))
+  if (toastLimit(limit) === 0) return new Set()
+  return new Set(
+    records
+      .filter((record) => record.open !== false)
+      .slice(-toastLimit(limit))
+      .map((record) => record.id)
+  )
 }
 /** Pure notification semantics supplied by a framework adapter. */
 export interface ToastOptions {
@@ -73,7 +79,7 @@ export function toast(options: ToastOptions): ToastResult {
         attrs: {
           id: options.id,
           role: 'group',
-          tabindex: -1,
+          tabindex: 0,
           'aria-labelledby': options.titleId,
           'aria-describedby': options.descriptionId,
           'data-state': open ? 'open' : 'closed',
