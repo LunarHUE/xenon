@@ -144,6 +144,10 @@
     "./navigation-menu": {
       "types": "./src/navigation-menu/index.tsx",
       "default": "./src/navigation-menu/index.tsx"
+    },
+    "./toast": {
+      "types": "./src/toast/index.tsx",
+      "default": "./src/toast/index.tsx"
     }
   },
   "scripts": {
