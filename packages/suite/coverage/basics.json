@@ -20382,7 +20382,7 @@
   {
     "ids": ["collection.roles.1"],
     "status": "partial",
-    "reason": "Empty-string Listbox option values receive distinct stable IDs; rendering numeric zero keys is not exercised by the string-valued adapter.",
+    "reason": "The public collection keeps 0 and '' in items and navigable, resolves 0 as first, steps through the empty string, and includes both falsy values in an inclusive range. The public collection keeps 0 and '' in items and navigable, resolves 0 as first, steps through the empty string, and includes both falsy values in an inclusive range. Numeric zero is verified in the public core snapshot; rendering numeric keys through a collection renderer is not established.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
@@ -20392,6 +20392,10 @@
       {
         "file": "packages/core/src/listbox/listbox.test.ts",
         "title": "virtual focus has stable distinct IDs even for lone surrogates and empty values"
+      },
+      {
+        "file": "packages/core/src/collection/collection.coverage.test.ts",
+        "title": "collection.roles.1: zero and empty-string keys remain navigable"
       }
     ]
   },
@@ -20558,7 +20562,7 @@
   {
     "ids": ["collection.state.3"],
     "status": "partial",
-    "reason": "Unmounting a Listbox item removes its navigable option; registry size is private and not asserted.",
+    "reason": "Unmounting a Listbox item removes its navigable option; registry size is private and not asserted. Removing Banana removes it from navigation so Apple moves directly to Cherry; re-adding it restores Banana as the previous destination.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
@@ -20568,6 +20572,10 @@
       {
         "file": "packages/solid/src/listbox/listbox.test.tsx",
         "title": "controlled selection stays controlled and unregisters removed options"
+      },
+      {
+        "file": "packages/suite/src/collection/collection.coverage.test.tsx",
+        "title": "collection.state.3"
       }
     ]
   },
@@ -20604,7 +20612,7 @@
   {
     "ids": ["collection.state.7"],
     "status": "partial",
-    "reason": "A moved DOM option is re-sorted for navigation; wrapper/group permutations and each published numeric index are not asserted.",
+    "reason": "A moved DOM option is re-sorted for navigation; wrapper/group permutations and each published numeric index are not asserted. Moving grouped option wrappers in the DOM causes the Listbox registry to reorder; ArrowDown from Apple reaches Cherry after Cherry's wrapper moves before Banana.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
@@ -20614,6 +20622,10 @@
       {
         "file": "packages/solid/src/listbox/listbox.test.tsx",
         "title": "navigation follows moved DOM options after the mutation settles"
+      },
+      {
+        "file": "packages/suite/src/collection/collection.coverage.test.tsx",
+        "title": "collection.state.7"
       }
     ]
   },
@@ -20629,12 +20641,18 @@
   },
   {
     "ids": ["collection.state.9"],
-    "status": "missing",
-    "reason": "Polymorphic items may replace their rendered host, but no registry test checks element-less intervals and re-registration order.",
+    "status": "partial",
+    "reason": "Polymorphic items may replace their rendered host, but no registry test checks element-less intervals and re-registration order. A mounted Listbox item replaces its rendered host from div to button; the new host remains registered and arrow navigation reaches the following item without a stale host.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collection/collection.coverage.test.tsx",
+        "title": "collection.state.9"
+      }
     ]
   },
   {
@@ -20695,12 +20713,18 @@
   },
   {
     "ids": ["collection.state.15"],
-    "status": "missing",
-    "reason": "Listbox installs one observer on its root, but no test asserts observer count for many registered items.",
+    "status": "covered",
+    "reason": "A Listbox with three registered items constructs exactly one MutationObserver for its shared root; the test wraps the real observer constructor and restores it afterward.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collection/collection.coverage.test.tsx",
+        "title": "collection.state.15"
+      }
     ]
   },
   {
@@ -20798,7 +20822,7 @@
   {
     "ids": ["collection.state.24"],
     "status": "partial",
-    "reason": "Moved DOM options update navigation; full string/object renderer edits and section transfers are not asserted by a public collection renderer.",
+    "reason": "Moved DOM options update navigation; full string/object renderer edits and section transfers are not asserted by a public collection renderer. The documented public contract requires recreating a collection after item changes; the test covers append, rename, reorder, removal, index lookup, and range order on plain strings. The documented public contract requires recreating a collection after item changes; the test covers append, rename, reorder, removal, index lookup, and range order on plain strings.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
@@ -20808,6 +20832,10 @@
       {
         "file": "packages/solid/src/listbox/listbox.test.tsx",
         "title": "navigation follows moved DOM options after the mutation settles"
+      },
+      {
+        "file": "packages/core/src/collection/collection.coverage.test.ts",
+        "title": "collection.state.24: recreating from changed data reflects append, rename, swap and removal"
       }
     ]
   },
@@ -20829,12 +20857,18 @@
   },
   {
     "ids": ["collection.state.26"],
-    "status": "missing",
-    "reason": "Listbox IDs are namespaced per root; no nested-collection fixture uses colliding keys and asserts uniqueness.",
+    "status": "covered",
+    "reason": "Nested public Listbox roots may reuse the same item value, yet each option receives a distinct generated ID.",
     "sources": [
       "docs/spec/composite.md",
       "packages/core/src/collection/collection.ts",
       "packages/solid/src/listbox/listbox.tsx"
+    ],
+    "tests": [
+      {
+        "file": "packages/suite/src/collection/collection.coverage.test.tsx",
+        "title": "collection.state.26"
+      }
     ]
   },
   {

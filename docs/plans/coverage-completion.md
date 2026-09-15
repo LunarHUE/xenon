@@ -139,3 +139,13 @@ accounting. Audit records live in `packages/suite/coverage`.
   fallback-to-image transitions. Actual Referer headers distinguish policies.
 - Independent full Chromium E2E run: all 59 tests passed. Suite typecheck,
   changed-file lint and audit validation passed.
+
+### Collection keys and registry lifecycle
+
+- Added two core and five adapter tests; closed shared observer count and nested
+  collection ID uniqueness.
+- Numeric/empty keys, data snapshot edits, grouped DOM reorder, host replacement,
+  and removal/re-addition gain evidence. Private index/registry observations and
+  numeric renderer clauses remain partial.
+- Independent checks: 11 core tests, five suite jsdom and five Chromium tests
+  passed. Suite typecheck, changed-test lint and audit validation passed.
