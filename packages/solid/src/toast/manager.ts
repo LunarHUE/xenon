@@ -87,15 +87,15 @@ export interface ToastManager<T = unknown> {
   /** Remove an exited notification after its animation. */
   remove: (id: string) => void
   /** Add a success notification. */
-  success: (title: JSX.Element, options?: ToastPatch<T>) => string
+  success: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Add an error notification. */
-  error: (title: JSX.Element, options?: ToastPatch<T>) => string
+  error: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Add an informational notification. */
-  info: (title: JSX.Element, options?: ToastPatch<T>) => string
+  info: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Add a warning notification. */
-  warning: (title: JSX.Element, options?: ToastPatch<T>) => string
+  warning: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Add a persistent loading notification. */
-  loading: (title: JSX.Element, options?: ToastPatch<T>) => string
+  loading: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Follow a promise using one notification ID. */
   promise: <Value>(promise: PromiseLike<Value>, options: ToastPromiseOptions<Value, T>) => string
   /** Apply provider defaults. */
@@ -188,8 +188,9 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
       return value as ToastOptions<T>
     return { title: value as JSX.Element }
   }
-  const shortcut = (type: ToastType) => (title: JSX.Element, patch?: ToastPatch<T>) =>
-    manager.add({ ...patch, title, type })
+  const shortcut =
+    (type: ToastType) => (title: JSX.Element, patch?: Omit<ToastOptions<T>, 'title'>) =>
+      manager.add({ ...patch, title, type })
   const manager: ToastManager<T> = {
     toasts,
     add(input) {
