@@ -2,7 +2,9 @@ import { Checkbox, Field, NumberField, Select, Switch } from '@xenon/solid'
 import { Combobox } from '@xenon/solid/combobox'
 import { Editable } from '@xenon/solid/editable'
 import { PinInput } from '@xenon/solid/pin-input'
+import { Slider } from '@xenon/solid/slider'
 import { TagsInput } from '@xenon/solid/tags-input'
+import { CheckboxGroup } from '@xenon/solid'
 import type { JSX } from '@solidjs/web'
 import { screen } from '@testing-library/dom'
 import { Show, createSignal, omit } from 'solid-js'
@@ -13,7 +15,8 @@ import { mount } from '../harness/solid'
 /** Native text controls and checked controls supported by the shared Field assertions. */
 export type ControlKind = 'input' | 'textarea' | 'checkbox' | 'switch'
 
-export type FieldAdapterKind = 'number' | 'select' | 'combobox' | 'tags' | 'pin' | 'editable'
+export type FieldAdapterKind =
+  'number' | 'select' | 'combobox' | 'tags' | 'pin' | 'editable' | 'slider' | 'checkbox-group'
 
 type SharedFieldStateOptions = {
   name?: string
@@ -24,6 +27,9 @@ type SharedFieldStateOptions = {
   requiredAttribute?: boolean
   requiredAria?: boolean
   mirrorSelector?: string
+  stateFlags?: boolean
+  labelIncludes?: boolean
+  readonlyAttribute?: boolean
 }
 
 /** Common state, naming, and description/error assertions shared by every adapter battery. */
@@ -32,12 +38,21 @@ async function assertSharedFieldState(
   control: HTMLElement,
   options: SharedFieldStateOptions
 ) {
-  if (options.mirrorSelector) expect(screen.getAllByLabelText('Account')).toContain(control)
+  if (options.labelIncludes) {
+    const group = screen.getByLabelText('Account')
+    expect(group).toHaveAttribute('role', 'group')
+    expect(group).toContainElement(control)
+  } else if (options.mirrorSelector) expect(screen.getAllByLabelText('Account')).toContain(control)
   else expect(screen.getByLabelText('Account')).toBe(control)
   if (options.name) expect(control).toHaveAttribute('name', options.name)
   expect(control).toBeDisabled()
   if (options.requiredAttribute !== false) expect(control).toBeRequired()
   if (options.requiredAria) expect(control).toHaveAttribute('aria-required', 'true')
+  if (options.readonlyAttribute) expect(control).toHaveAttribute('readonly', '')
+  if (options.stateFlags) {
+    for (const flag of ['disabled', 'required', 'readonly', 'invalid'])
+      expect(control).toHaveAttribute(`data-${flag}`, '')
+  }
   if (options.mirrorSelector) {
     const mirror = m.container.querySelector<HTMLInputElement>(options.mirrorSelector)
     expect(mirror).not.toBeNull()
@@ -54,6 +69,11 @@ async function assertSharedFieldState(
   expect(control).not.toBeDisabled()
   if (options.requiredAttribute !== false) expect(control).not.toBeRequired()
   if (options.requiredAria) expect(control).not.toHaveAttribute('aria-required')
+  if (options.readonlyAttribute) expect(control).not.toHaveAttribute('readonly')
+  if (options.stateFlags) {
+    for (const flag of ['disabled', 'required', 'readonly', 'invalid'])
+      expect(control).not.toHaveAttribute(`data-${flag}`)
+  }
   if (options.mirrorSelector) {
     const mirror = m.container.querySelector<HTMLInputElement>(options.mirrorSelector)
     expect(mirror).not.toBeRequired()
@@ -68,6 +88,7 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
     name: 'account',
     disabled: true,
     required: true,
+    readonly: true,
     invalid: true,
     children: () => (
       <>
@@ -114,11 +135,23 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
             <PinInput.Input index={0} />
             <PinInput.Input index={1} />
           </PinInput>
-        ) : (
+        ) : kind === 'editable' ? (
           <Editable defaultValue="Initial" defaultEditing>
             <Editable.Input />
             <Editable.Preview />
           </Editable>
+        ) : kind === 'slider' ? (
+          <Slider min={0} max={100} defaultValue={[25]}>
+            <Slider.Control>
+              <Slider.Track />
+              <Slider.Range />
+              <Slider.Thumb />
+            </Slider.Control>
+          </Slider>
+        ) : (
+          <CheckboxGroup>
+            <CheckboxGroup.Item value="one" />
+          </CheckboxGroup>
         )}
       </>
     ),
@@ -135,17 +168,24 @@ export async function fieldAdapterContract(kind: FieldAdapterKind) {
             ? screen.getByRole('textbox')
             : kind === 'pin'
               ? screen.getAllByRole('textbox')[0]!
-              : screen.getByRole('textbox')
+              : kind === 'slider'
+                ? screen.getByRole('slider')
+                : kind === 'checkbox-group'
+                  ? screen.getByRole('checkbox')
+                  : screen.getByRole('textbox')
   const initialDescribedBy = kind === 'tags' ? 'help error inner-error' : 'help error'
   await assertSharedFieldState(m, control, {
     name: undefined,
     initialDescribedBy,
     remainingDescribedBy: 'help',
-    clearProps: { disabled: false, required: false, invalid: false },
+    clearProps: { disabled: false, required: false, readonly: false, invalid: false },
     resolvedDescribedBy: kind === 'tags' ? ['help', 'error', 'inner-error'] : ['help', 'error'],
     requiredAttribute: kind !== 'combobox' && kind !== 'pin',
     requiredAria: kind === 'combobox',
+    readonlyAttribute: kind === 'combobox',
     mirrorSelector: kind === 'pin' ? 'input[aria-hidden="true"]' : undefined,
+    stateFlags: kind !== 'combobox',
+    labelIncludes: kind === 'checkbox-group',
   })
   expect(m.container.querySelector('[id="help"]')).toHaveTextContent('Helpful text')
 }

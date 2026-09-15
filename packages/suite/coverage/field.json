@@ -842,8 +842,8 @@
   },
   {
     "ids": ["field.notes.6"],
-    "status": "partial",
-    "reason": "Reusable fieldContract runs against input, textarea, checkbox and switch. Additional shipped Field-compatible numeric/composite/group adapters have individual tests rather than the same complete shared battery. The original input/textarea/checkbox/switch battery and new NumberField/Select cases call the same naming, disabled/required/invalid and description/error assertion helper. Other compatible adapters still need the shared battery; RadioGroup does not inherit outer Field control state and is excluded from this individual-control contract. Combobox and TagsInput now run the same shared Field assertion helper. Combobox checks aria-required; TagsInput verifies distinct outer and inner error references and their removal while help remains. Additional Field-compatible adapters remain for later slices. PinInput and Editable now use the shared Field state/association battery. PinInput checks its first slot plus native mirror required/disabled/name semantics; Editable checks its mounted input. Slider and CheckboxGroup remain for the next compatible-adapter slice.",
+    "status": "covered",
+    "reason": "The shared naming, state, description/error, and reactive clearing battery runs against every shipped outer-Field adapter: input, textarea, Checkbox, Switch, NumberField, Select, Combobox, TagsInput, PinInput, Editable, Slider, and CheckboxGroup. It checks each public control or group association and emitted state attributes, including Combobox native readonly/ARIA and PinInput form mirror. RadioGroup does not consume outer Field context.",
     "sources": [
       "docs/spec/field.md",
       "packages/suite/src/field/field.test.tsx",
@@ -877,6 +877,14 @@
       {
         "file": "packages/suite/src/field/field.contract-entry.test.tsx",
         "title": "field.notes.6 Editable adapter"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-group.test.tsx",
+        "title": "field.notes.6 Slider adapter"
+      },
+      {
+        "file": "packages/suite/src/field/field.contract-group.test.tsx",
+        "title": "field.notes.6 CheckboxGroup adapter"
       }
     ]
   },

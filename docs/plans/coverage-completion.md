@@ -524,3 +524,9 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 - Closed six gaps with seven browser cases: unbounded Home/End, both negative-range seed directions, repeated keydowns, unsynced controlled drafts, IME key code 229, and default Page-key increments.
 - Independent Chromium run passed all seven cases. Suite typechecking passed.
+
+### Complete shared Field adapter battery
+
+- Added Slider and CheckboxGroup to the common battery, completing all twelve shipped outer-Field adapters and closing field.notes.6. The labeled CheckboxGroup must contain the exact item under test.
+- State clearing includes readonly and all public flags; Combobox checks its native/ARIA attributes separately.
+- Independent final runs passed 117 jsdom and 135 Chromium tests across all helper callers; typechecking passed.
