@@ -3,6 +3,8 @@ import { createRoot, Show, createSignal, flush } from 'solid-js'
 import { describe, expect, test } from 'vitest'
 
 import { Toolbar } from './toolbar'
+import { RadioGroup } from '../radio-group'
+import { ToggleGroup } from '../toggle-group'
 
 function three() {
   return (
@@ -242,5 +244,113 @@ describe('<Toolbar />', () => {
     getByText('bold').focus()
     press(getByText('bold'), 'ArrowRight')
     expect(getByText('bold')).toHaveFocus()
+  })
+})
+
+describe('Toolbar composed controls', () => {
+  test.each([
+    { orientation: 'vertical', dir: 'ltr', forward: 'ArrowDown', backward: 'ArrowUp' },
+    { orientation: 'horizontal', dir: 'rtl', forward: 'ArrowLeft', backward: 'ArrowRight' },
+  ] as const)(
+    'shares $orientation $dir navigation with composed groups',
+    ({ orientation, dir, forward, backward }) => {
+      const { getByRole, getByText, container } = render(() => (
+        <Toolbar aria-label="Composed" orientation={orientation} dir={dir}>
+          <Toolbar.Button>Start</Toolbar.Button>
+          <RadioGroup aria-label="Choice" orientation={orientation} dir={dir} defaultValue="a">
+            <RadioGroup.Item as={Toolbar.Button} value="a" aria-label="A" />
+            <RadioGroup.Item as={Toolbar.Button} value="b" aria-label="B" />
+          </RadioGroup>
+          <ToggleGroup aria-label="Style" orientation={orientation} dir={dir}>
+            <ToggleGroup.Item as={Toolbar.Button} value="bold">
+              Bold
+            </ToggleGroup.Item>
+          </ToggleGroup>
+          <Toolbar.Button>End</Toolbar.Button>
+        </Toolbar>
+      ))
+      const start = getByText('Start')
+      const a = getByRole('radio', { name: 'A' })
+      const b = getByRole('radio', { name: 'B' })
+      const bold = getByText('Bold')
+      const end = getByText('End')
+      start.focus()
+      for (const [from, to] of [
+        [start, a],
+        [a, b],
+        [b, bold],
+        [bold, end],
+      ] as const) {
+        press(from, forward)
+        expect(to).toHaveFocus()
+        expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1)
+      }
+      press(end, backward)
+      expect(bold).toHaveFocus()
+      press(bold, 'Home')
+      expect(start).toHaveFocus()
+      press(start, 'End')
+      expect(end).toHaveFocus()
+      expect(a).toHaveAttribute('aria-checked', 'true')
+      expect(b).toHaveAttribute('aria-checked', 'false')
+      expect(bold).toHaveAttribute('aria-pressed', 'false')
+    }
+  )
+
+  test('crosses disabled group items and preserves author cancellation', () => {
+    const { getByRole, getByText, container } = render(() => (
+      <Toolbar aria-label="Composed">
+        <Toolbar.Button>Start</Toolbar.Button>
+        <RadioGroup aria-label="Choice" orientation="horizontal" disabled>
+          <RadioGroup.Item as={Toolbar.Button} value="a" aria-label="A" />
+        </RadioGroup>
+        <ToggleGroup aria-label="Style" disabled>
+          <ToggleGroup.Item as={Toolbar.Button} value="bold">
+            Bold
+          </ToggleGroup.Item>
+        </ToggleGroup>
+        <ToggleGroup aria-label="Cancel">
+          <ToggleGroup.Item
+            as={Toolbar.Button}
+            value="cancel"
+            onKeyDown={(event: KeyboardEvent) => event.preventDefault()}
+          >
+            Cancel
+          </ToggleGroup.Item>
+        </ToggleGroup>
+        <Toolbar.Button>End</Toolbar.Button>
+      </Toolbar>
+    ))
+    const a = getByRole('radio')
+    const bold = getByText('Bold')
+    getByText('Start').focus()
+    press(getByText('Start'), 'ArrowRight')
+    expect(a).toHaveFocus()
+    expect(a).toHaveAttribute('aria-disabled', 'true')
+    a.click()
+    flush()
+    expect(a).toHaveAttribute('aria-checked', 'false')
+    press(a, 'ArrowRight')
+    expect(bold).toHaveFocus()
+    bold.click()
+    flush()
+    expect(bold).toHaveAttribute('aria-pressed', 'false')
+    press(bold, 'ArrowRight')
+    expect(getByText('Cancel')).toHaveFocus()
+    press(getByText('Cancel'), 'ArrowRight')
+    expect(getByText('Cancel')).toHaveFocus()
+    expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1)
+  })
+
+  test('keeps explicit composed author tab indices', () => {
+    const { getByRole } = render(() => (
+      <Toolbar aria-label="Explicit">
+        <Toolbar.Button>Start</Toolbar.Button>
+        <RadioGroup aria-label="Choice">
+          <RadioGroup.Item as={Toolbar.Button} value="a" tabindex={3} aria-label="A" />
+        </RadioGroup>
+      </Toolbar>
+    ))
+    expect(getByRole('radio')).toHaveAttribute('tabindex', '3')
   })
 })

@@ -6,6 +6,7 @@ import { createMemo, omit, onSettled } from 'solid-js'
 
 import { gate } from '../internal/gate'
 import { spread } from '../spread'
+import { toolbarHost } from '../internal/toolbar-host'
 
 /** Library-owned button props, replacing matching inherited host props. */
 interface Own {
@@ -59,7 +60,8 @@ function nativeTag(el: HTMLElement): string | undefined {
  * disabled or pending, while nonactivation keyboard handlers remain available.
  * Noninteractive links lose href. Generic hosts synthesize Enter/Space clicks,
  * except author role=link uses Enter only.
- * Custom components must forward the supplied props and ref; development checks
+ * The built-in Toolbar.Button host retains native button behavior and owns its
+ * generated tab index. Custom components must forward props and ref; development checks
  * report missing refs or native hosts rendered under generic semantics.
  */
 export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T>): JSX.Element {
@@ -74,9 +76,10 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
     'ref'
   )
   const own = props as Own & { as?: ValidComponent; href?: unknown; role?: string }
+  const composed = toolbarHost(() => own.as)
   const result = createMemo(() =>
     button({
-      host: hostOf(own.as, own.href),
+      host: composed.matches() ? 'button' : hostOf(own.as, own.href),
       role: own.role,
       disabled: own.disabled,
       pending: own.pending,
@@ -123,7 +126,7 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
     <Dynamic
       component={(own.as ?? 'button') as ValidComponent}
       ref={ref}
-      {...spread(result().parts.root, merged())}
+      {...spread(composed.part(result().parts.root), merged())}
     />
   )
 }

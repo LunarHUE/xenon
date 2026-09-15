@@ -10,6 +10,7 @@ import type { ButtonProps } from '../button'
 import { Separator } from '../separator'
 import type { SeparatorProps } from '../separator'
 import { spread } from '../spread'
+import { toolbarHosts } from '../internal/toolbar-host'
 
 /** Toolbar-owned button props layered over the shared Button adapter. */
 interface ButtonOwn {
@@ -206,3 +207,6 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
     </Dynamic>
   )
 }
+
+// Composed controls can preserve their semantics while delegating toolbar focus.
+toolbarHosts.add(ToolbarButton)

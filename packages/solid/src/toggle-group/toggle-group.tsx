@@ -10,6 +10,7 @@ import { ToggleGroupContext, useToggleGroup } from './context'
 import type { ToggleGroupContextValue, ToggleGroupEntry } from './context'
 import { gate } from '../internal/gate'
 import { spread } from '../spread'
+import { toolbarHost } from '../internal/toolbar-host'
 
 /** Unified internal payload: scalar/undefined in single mode, array in multiple mode. */
 type GroupValue = string | readonly string[] | undefined
@@ -228,6 +229,8 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
  * through lifecycle cleanup. Disabled items retain their roving focus behavior.
  * Author handlers run before core handlers and may cancel them; selected activation
  * handlers are gated while disabled. Generic hosts add Enter/Space activation.
+ * Toolbar.Button composition shares the toolbar tab stop and delegates its axis
+ * arrows, Home, and End to the toolbar, preserving explicit author overrides.
  * @throws If rendered outside a ToggleGroup.
  */
 function ToggleGroupItem<T extends ValidComponent = 'button'>(
@@ -236,12 +239,13 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
   const own = props as ItemOwn & { as?: ValidComponent }
   const rest = omit(props as Record<string, unknown>, 'as', 'value', 'disabled', 'ref')
   const context = useToggleGroup('ToggleGroup.Item')
+  const composed = toolbarHost(() => own.as)
 
   const entry: ToggleGroupEntry = {
     el: null,
     value: () => own.value,
     disabled: () => own.disabled ?? false,
-    host: () => hostOf(own.as),
+    host: () => (composed.matches() ? 'button' : hostOf(own.as)),
   }
 
   const interactive = () => !context.disabled() && !entry.disabled()
@@ -263,7 +267,7 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
     <Dynamic
       component={(own.as ?? 'button') as ValidComponent}
       ref={ref}
-      {...spread(context.part(entry), merged())}
+      {...spread(composed.part(context.part(entry)), merged())}
     />
   )
 }

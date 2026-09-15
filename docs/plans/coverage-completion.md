@@ -397,3 +397,18 @@ accounting. Audit records live in `packages/suite/coverage`.
   outside-focus behavior leaves the research containment clause partial.
 - Independent Portal/Toolbar overlay run passed all three cases. Suite typecheck
   and audit validation passed.
+
+### Toolbar shared navigation for composed controls
+
+- Sol confirmed multiple tab stops on composed RadioGroup, ToggleGroup and Menu
+  controls. Astra added private host recognition so generated tab indices and
+  toolbar-axis navigation defer to Toolbar.Button while selection stays intact.
+- Added shared and Solid regressions for boundary traversal, radio/toggle
+  selection, disabled groups, cancellation, author overrides, vertical and RTL
+  navigation. Spinbutton integration remains partial: NumberField.Input has no
+  public composition path. Axe role metadata gains evidence; superclass remains
+  unasserted.
+- Independent validation passed 53 Solid, 280 suite jsdom and 418 Chromium tests,
+  plus both package typechecks and audit validation. The development compilation
+  assertions passed but one invocation hung during shutdown; Sol could not
+  reproduce it in eight clean runs and found no code defect.

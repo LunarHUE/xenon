@@ -8,6 +8,7 @@ import type { RadioGroupEntry } from './context'
 import { gate } from '../internal/gate'
 import { changeKey, hiddenStyle } from '../internal/native'
 import { spread } from '../spread'
+import { toolbarHost } from '../internal/toolbar-host'
 
 /** Identity and local state owned by one radio item. */
 interface Own {
@@ -59,6 +60,8 @@ function hostOf(as: ValidComponent | undefined): RadioItemHost {
  * Registration occurs on settlement and unregisters with the owner. Item
  * description IDs precede group IDs. Other author host attributes override core
  * attributes. This component does not independently consume Field context.
+ * Toolbar.Button composition delegates tab stops, toolbar-axis arrows, Home, and
+ * End to the toolbar without changing selection. Cross-axis keys retain group behavior.
  */
 export function RadioGroupItem<T extends ValidComponent = 'input'>(
   props: RadioGroupItemProps<T>
@@ -74,7 +77,8 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
   )
   const context = useRadioGroup('RadioGroup.Item')
 
-  const host = () => hostOf(own.as)
+  const composed = toolbarHost(() => own.as)
+  const host = () => (composed.matches() ? 'button' : hostOf(own.as))
   const disabled = () => own.disabled ?? false
   const interactive = () => context.interactive() && !disabled()
   const checked = () => context.selected() === own.value
@@ -128,7 +132,9 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
         component={(own.as ?? 'input') as ValidComponent}
         ref={ref}
         {...spread(
-          context.part(own.value, { host: host(), describedBy: own['aria-describedby'] }),
+          composed.part(
+            context.part(own.value, { host: host(), describedBy: own['aria-describedby'] })
+          ),
           merged()
         )}
       />

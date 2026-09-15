@@ -20386,11 +20386,15 @@
   {
     "ids": ["toolbar.roles.7"],
     "status": "partial",
-    "reason": "The mixed-control fixture passes ARIA checks; axe role-table superclass/type/owned-context metadata is not directly asserted.",
+    "reason": "The mixed-control fixture passes ARIA checks; axe role-table superclass/type/owned-context metadata is not directly asserted. Installed axe metadata directly reports structure role type, allowed orientation/active-descendant/expanded attributes, no required attributes and null required context/owned roles. The superclass clause is not exposed by these metadata APIs and remains unasserted.",
     "sources": ["docs/spec/toolbar.md", "packages/suite/src/toolbar/toolbar.roles.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toolbar/toolbar.roles.test.tsx",
+        "title": "toolbar.roles.7"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-extra.test.tsx",
         "title": "toolbar.roles.7"
       }
     ]
@@ -20458,11 +20462,15 @@
   {
     "ids": ["toolbar.focus.1"],
     "status": "partial",
-    "reason": "Plain toolbar groups share one ring; nested radio/menu/spinbutton composite navigation is not exercised or merged.",
+    "reason": "Plain toolbar groups share one ring; nested radio/menu/spinbutton composite navigation is not exercised or merged. Composed RadioGroup, ToggleGroup and Menu triggers now share Toolbar navigation and one tab stop while preserving selection and overlay behavior. Solid regressions cover vertical/RTL navigation, disabled groups, cancellation and author overrides. NumberField.Input has no public polymorphic composition path, so the embedded spinbutton branch remains partial.",
     "sources": ["docs/spec/toolbar.md", "packages/suite/src/toolbar/toolbar.focus.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/toolbar/toolbar.focus.test.tsx",
+        "title": "toolbar.focus.1"
+      },
+      {
+        "file": "packages/suite/src/toolbar/toolbar.coverage-extra.test.tsx",
         "title": "toolbar.focus.1"
       }
     ]
