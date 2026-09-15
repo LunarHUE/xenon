@@ -104,10 +104,20 @@ accounting. Audit records live in `packages/suite/coverage`.
 
 ### Meter bounds, naming and author composition
 
-- Added thirteen tests, closing twelve requirement gaps.
+- Added thirteen tests, closing thirteen requirement gaps.
 - Verified finite bounds, null/nonfinite normalization, explicit label naming,
   author overrides, custom component forwarding, reactive display text and
   pointer inertness. Shared ARIA rules are explicitly selected for axe.
 - Independent Meter checks: 13 jsdom and 14 Chromium tests passed. Audit
   validation passed. Indicator-width alternatives remain partial. A fixed
   authored rounded string is not counted as proof of a generated formatter.
+
+### Avatar loading and fallback lifecycle
+
+- Added eight tests, closing nine gaps in native prop forwarding, author ARIA,
+  inverse loading states, delay timing, cached failure, stale callbacks and
+  author event cancellation.
+- Independent runs: 12 jsdom and 13 Chromium Avatar tests passed. Audit
+  validation passed. SSR and real network policy checks are a separate slice.
+- Root/fallback polymorphism is covered; the Image polymorphism alternative
+  remains partial because Image has no polymorphic public prop.

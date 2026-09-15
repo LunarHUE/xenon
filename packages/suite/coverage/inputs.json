@@ -7018,13 +7018,17 @@
   },
   {
     "ids": ["avatar.roles.3"],
-    "status": "partial",
-    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not.",
+    "status": "covered",
+    "reason": "Asserts native src, srcset, sizes, crossorigin and referrerpolicy attributes on the rendered img after load, complementing existing probe-property checks.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "responsive source config and refs reach native img; removing Image restores fallback"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.roles.3 avatar.animation.1: native source props reach both the probe and the loaded image"
       }
     ]
   },
@@ -7048,9 +7052,15 @@
   },
   {
     "ids": ["avatar.roles.6"],
-    "status": "missing",
-    "reason": "Author attributes override the generated spread in the accepted Avatar API, but the image tests do not assert an explicit author aria-hidden value.",
-    "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/index.tsx"]
+    "status": "covered",
+    "reason": "Passes aria-hidden=true through the public Image API and verifies the author value remains on the loaded native image.",
+    "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/index.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.roles.6: explicit author aria-hidden remains on the loaded image"
+      }
+    ]
   },
   {
     "ids": ["avatar.roles.7"],
@@ -7060,13 +7070,17 @@
   },
   {
     "ids": ["avatar.roles.8"],
-    "status": "partial",
-    "reason": "Mutually exclusive image/fallback rendering is asserted; data-state on each rendered Image and Fallback is not checked.",
+    "status": "covered",
+    "reason": "Checks the loading fallback data-state, then the loaded image data-state and inverse visibility after a successful probe.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "loading, loaded, error and stale source completion preserve one accessible representation"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.roles.8: fallback and image expose inverse data-state values"
       }
     ]
   },
@@ -7108,13 +7122,17 @@
   },
   {
     "ids": ["avatar.state.5"],
-    "status": "partial",
-    "reason": "Cached successful completion is asserted; the cached-complete broken-image branch is not.",
+    "status": "covered",
+    "reason": "Uses a complete probe with zero naturalWidth to exercise cached-but-broken resolution directly to error with fallback visible and no role=img. Existing evidence covers cached success.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "cached complete probes resolve immediately and zero-width loads fail"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.state.5: a cached complete probe with zero natural width resolves directly to error"
       }
     ]
   },
@@ -7132,13 +7150,17 @@
   },
   {
     "ids": ["avatar.state.7"],
-    "status": "partial",
-    "reason": "Stale callbacks and detached old load handlers are asserted after source replacement; disposal and pending-delay cancellation are not all asserted.",
+    "status": "covered",
+    "reason": "Unmounts a pending delayed avatar, verifies the timer count decreases on disposal, advances past the deadline, and invokes the obsolete probe callback to verify no fallback or image is resurrected. Existing evidence covers source replacement stale callbacks.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "loading, loaded, error and stale source completion preserve one accessible representation"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.state.7: unmounting a pending image cancels its fallback timer and obsolete callbacks"
       }
     ]
   },
@@ -7163,20 +7185,30 @@
   {
     "ids": ["avatar.state.10"],
     "status": "partial",
-    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not.",
+    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Confirms referrerPolicy is forwarded to both the detached probe and visible img. A network server policy test proving success/failure solely from referrer policy is not supported by the deterministic public test harness.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "responsive source config and refs reach native img; removing Image restores fallback"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.roles.3 avatar.animation.1: native source props reach both the probe and the loaded image"
       }
     ]
   },
   {
     "ids": ["avatar.state.11"],
-    "status": "missing",
-    "reason": "Native author image load/error props compose through spread, including preventDefault veto of the visible-image error action; no scoped test asserts both handler cardinality and veto.",
-    "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/index.tsx"]
+    "status": "covered",
+    "reason": "Dispatches native load and error events on the visible image, verifies each author handler runs once, and verifies preventDefault suppresses the library error transition.",
+    "sources": ["docs/spec/misc.md", "packages/solid/src/avatar/index.tsx"],
+    "tests": [
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.state.11: author load and prevented error handlers compose exactly once and can veto status changes"
+      }
+    ]
   },
   {
     "ids": ["avatar.state.12"],
@@ -7186,13 +7218,17 @@
   },
   {
     "ids": ["avatar.animation.1"],
-    "status": "partial",
-    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not.",
+    "status": "covered",
+    "reason": "Extends existing detached-probe evidence by asserting the same src, srcset, sizes, crossOrigin and referrerPolicy on the visible loaded img. The public Avatar API follows the adopted probe design.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "responsive source config and refs reach native img; removing Image restores fallback"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.roles.3 avatar.animation.1: native source props reach both the probe and the loaded image"
       }
     ]
   },
@@ -7216,25 +7252,33 @@
   },
   {
     "ids": ["avatar.animation.5"],
-    "status": "partial",
-    "reason": "Pending delay stays hidden at 99ms, switching to zero reveals, and increasing delay does not rehide; elapsed positive delay and fast-load flash are not asserted.",
+    "status": "covered",
+    "reason": "Uses fake timers to assert a positive delay remains hidden at 99ms and appears at 100ms, then loads a second image at 50ms and verifies the fallback stays absent after the 100ms deadline. Existing tests cover pending-delay changes and cleanup.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "missing source stays idle and fallback delay cleans up and responds to zero"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.animation.5 avatar.animation.6: positive fallback delay waits, while zero delay shows synchronously"
       }
     ]
   },
   {
     "ids": ["avatar.animation.6"],
-    "status": "partial",
-    "reason": "Pending delay stays hidden at 99ms, switching to zero reveals, and increasing delay does not rehide; elapsed positive delay and fast-load flash are not asserted.",
+    "status": "covered",
+    "reason": "Asserts fallbackDelay=0 renders fallback synchronously and combines with existing evidence for pending delay changed to zero and visible fallback not being re-hidden by later delay changes. The fast-load case also proves the delayed fallback cannot flash after a successful load.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "missing source stays idle and fallback delay cleans up and responds to zero"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.animation.5 avatar.animation.6: positive fallback delay waits, while zero delay shows synchronously"
       }
     ]
   },
@@ -7349,12 +7393,16 @@
   {
     "ids": ["avatar.notes.6"],
     "status": "partial",
-    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not.",
+    "reason": "Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Asserts the root data-avatar prop, unconsumed fallback data prop, refs, and polymorphic as tags on the root and fallback. Existing image ref and data forwarding evidence covers the image part.",
     "sources": ["docs/spec/misc.md", "packages/suite/src/avatar/avatar.test.tsx"],
     "tests": [
       {
         "file": "packages/suite/src/avatar/avatar.test.tsx",
         "title": "responsive source config and refs reach native img; removing Image restores fallback"
+      },
+      {
+        "file": "packages/suite/src/avatar/avatar.coverage.test.tsx",
+        "title": "avatar.notes.6: root and fallback props, refs, and polymorphic tags remain wired"
       }
     ]
   },
