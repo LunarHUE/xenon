@@ -43,7 +43,7 @@ function fixture(controlled = false) {
   })
   const content = container.querySelector('dialog')!
   const handle = content.querySelector('button')!
-  vi.spyOn(handle, 'setPointerCapture').mockImplementation(() => { })
+  vi.spyOn(handle, 'setPointerCapture').mockImplementation(() => {})
   const pointer = (type: string, y: number) =>
     handle.dispatchEvent(
       new PointerEvent(type, {

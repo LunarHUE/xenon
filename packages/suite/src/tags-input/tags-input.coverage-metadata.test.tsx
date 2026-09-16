@@ -8,7 +8,10 @@ import { expectNoViolations } from '../a11y'
 const cleanups: (() => void)[] = []
 
 afterEach(() => {
-  cleanups.splice(0).reverse().forEach((cleanup) => cleanup())
+  cleanups
+    .splice(0)
+    .reverse()
+    .forEach((cleanup) => cleanup())
   flush()
 })
 

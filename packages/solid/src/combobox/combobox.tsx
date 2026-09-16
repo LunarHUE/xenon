@@ -376,17 +376,17 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
     'aria-required': context.required() ? 'true' : undefined,
     'aria-activedescendant': context.associations
       ? context.associations.attribute('aria-activedescendant', () =>
-        context.source.open() && context.engine().state.activeValue !== undefined
-          ? context.optionId(context.engine().state.activeValue!)
-          : undefined
-      )
+          context.source.open() && context.engine().state.activeValue !== undefined
+            ? context.optionId(context.engine().state.activeValue!)
+            : undefined
+        )
       : context.source.open() && context.engine().state.activeValue !== undefined
         ? context.optionId(context.engine().state.activeValue!)
         : undefined,
     'aria-controls': context.associations
       ? context.associations.attribute('aria-controls', () =>
-        context.source.open() || context.props.forceMount ? context.contentId() : undefined
-      )
+          context.source.open() || context.props.forceMount ? context.contentId() : undefined
+        )
       : context.source.open() || context.props.forceMount
         ? context.contentId()
         : undefined,

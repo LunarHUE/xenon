@@ -678,9 +678,9 @@ function DialogHost(
         'aria-labelledby': semantic()['aria-label']
           ? undefined
           : context.association(
-            'aria-labelledby',
-            () => context.result().parts.content.attrs['aria-labelledby']
-          ),
+              'aria-labelledby',
+              () => context.result().parts.content.attrs['aria-labelledby']
+            ),
         'aria-describedby': context.association(
           'aria-describedby',
           () => context.result().parts.content.attrs['aria-describedby']
@@ -688,24 +688,24 @@ function DialogHost(
         ...rest,
         ...(viewport
           ? {
-            'aria-label': semantic()['aria-label'] ?? props['aria-label'],
-            'aria-labelledby':
-              semantic()['aria-labelledby'] ??
-              props['aria-labelledby'] ??
-              (semantic()['aria-label'] || props['aria-label']
-                ? undefined
-                : context.association(
-                  'aria-labelledby',
-                  () => context.result().parts.content.attrs['aria-labelledby']
-                )),
-            'aria-describedby':
-              semantic()['aria-describedby'] ??
-              props['aria-describedby'] ??
-              context.association(
-                'aria-describedby',
-                () => context.result().parts.content.attrs['aria-describedby']
-              ),
-          }
+              'aria-label': semantic()['aria-label'] ?? props['aria-label'],
+              'aria-labelledby':
+                semantic()['aria-labelledby'] ??
+                props['aria-labelledby'] ??
+                (semantic()['aria-label'] || props['aria-label']
+                  ? undefined
+                  : context.association(
+                      'aria-labelledby',
+                      () => context.result().parts.content.attrs['aria-labelledby']
+                    )),
+              'aria-describedby':
+                semantic()['aria-describedby'] ??
+                props['aria-describedby'] ??
+                context.association(
+                  'aria-describedby',
+                  () => context.result().parts.content.attrs['aria-describedby']
+                ),
+            }
           : {}),
         id: hostId(),
         ...(isServer ? { open: context.result().state.open || undefined } : {}),
@@ -725,20 +725,20 @@ function DialogHost(
             ? typeof props.style === 'string'
               ? `position:fixed;inset:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;border:0;padding:0;overflow:auto;${props.style}${context.result().state.status === 'exited' ? ';display:none' : ''}`
               : {
-                position: 'fixed',
-                inset: '0',
-                margin: '0',
-                width: '100%',
-                height: '100%',
-                'max-width': 'none',
-                'max-height': 'none',
-                background: 'transparent',
-                border: '0',
-                padding: '0',
-                overflow: 'auto',
-                ...props.style,
-                ...(context.result().state.status === 'exited' ? { display: 'none' } : {}),
-              }
+                  position: 'fixed',
+                  inset: '0',
+                  margin: '0',
+                  width: '100%',
+                  height: '100%',
+                  'max-width': 'none',
+                  'max-height': 'none',
+                  background: 'transparent',
+                  border: '0',
+                  padding: '0',
+                  overflow: 'auto',
+                  ...props.style,
+                  ...(context.result().state.status === 'exited' ? { display: 'none' } : {}),
+                }
             : props.style
         }
       >

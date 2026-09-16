@@ -267,7 +267,7 @@ export function ScrollAreaDemo() {
                     <span>
                       {
                         ['Cotton rag paper', 'Copperplate proof', 'Linen sample', 'Graphite study'][
-                        index % 4
+                          index % 4
                         ]
                       }
                     </span>

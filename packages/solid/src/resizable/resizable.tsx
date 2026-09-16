@@ -25,8 +25,8 @@ import { serverAttributes } from './server-attributes'
 /** Percent-based split layout options. */
 export interface ResizableProps
   extends
-  Omit<JSX.IntrinsicElements['div'], never>,
-  Omit<ResizableOptions, 'panels' | 'direction'> {
+    Omit<JSX.IntrinsicElements['div'], never>,
+    Omit<ResizableOptions, 'panels' | 'direction'> {
   /** Initial uncontrolled percentages; never emits a mount callback. */
   defaultSizes?: readonly number[]
   /** Receives different requested percentages; controlled sizes remain authoritative. */
@@ -41,8 +41,8 @@ export interface ResizableProps
 /** One panel in an ordered, contiguous layout. */
 export interface ResizablePanelProps
   extends
-  Omit<JSX.IntrinsicElements['div'], never>,
-  Omit<ResizablePanelOptions, 'id' | 'label' | 'labelledBy'> {
+    Omit<JSX.IntrinsicElements['div'], never>,
+    Omit<ResizablePanelOptions, 'id' | 'label' | 'labelledBy'> {
   /** Stable zero-based panel position, read once on mount. */
   index: number
 }
@@ -86,8 +86,8 @@ function style(
 ): JSX.CSSProperties | string {
   return typeof value === 'string'
     ? `${Object.entries(defaults)
-      .map(([key, item]) => `${key}:${item}`)
-      .join(';')};${value}`
+        .map(([key, item]) => `${key}:${item}`)
+        .join(';')};${value}`
     : { ...defaults, ...(typeof value === 'object' ? value : {}) }
 }
 /** Serialize structural and authored panel CSS with Solid's hyphenated property names. */
@@ -95,9 +95,9 @@ function cssText(value: JSX.CSSProperties | string): string {
   return typeof value === 'string'
     ? value
     : Object.entries(value)
-      .filter(([, item]) => item != null)
-      .map(([key, item]) => `${key}:${item}`)
-      .join(';')
+        .filter(([, item]) => item != null)
+        .map(([key, item]) => `${key}:${item}`)
+        .join(';')
 }
 /** Own uncontrolled state, live panel metadata and pointer cancellation. */
 function ResizableRoot(props: ResizableProps): JSX.Element {
@@ -159,23 +159,23 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
       const attrs = read()
       return server
         ? (Object.fromEntries(
-          Object.keys(attrs).map((name) => [
-            name,
-            server.attribute(name, () => {
-              const value = (read() as Record<string, unknown>)[name]
-              if (name === 'style' && value && typeof value === 'object')
-                return Object.entries(value)
-                  .filter(([, item]) => item != null)
-                  .map(([key, item]) => `${key}:${item}`)
-                  .join(';')
-              return value === undefined || value === false
-                ? undefined
-                : value === true
-                  ? ''
-                  : String(value)
-            }),
-          ])
-        ) as typeof attrs)
+            Object.keys(attrs).map((name) => [
+              name,
+              server.attribute(name, () => {
+                const value = (read() as Record<string, unknown>)[name]
+                if (name === 'style' && value && typeof value === 'object')
+                  return Object.entries(value)
+                    .filter(([, item]) => item != null)
+                    .map(([key, item]) => `${key}:${item}`)
+                    .join(';')
+                return value === undefined || value === false
+                  ? undefined
+                  : value === true
+                    ? ''
+                    : String(value)
+              }),
+            ])
+          ) as typeof attrs)
         : attrs
     },
     id,

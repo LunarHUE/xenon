@@ -9,11 +9,7 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-function pointer(
-  type: 'pointerdown' | 'pointerup',
-  target: EventTarget,
-  pointerId = 1
-) {
+function pointer(type: 'pointerdown' | 'pointerup', target: EventTarget, pointerId = 1) {
   const event = new PointerEvent(type, {
     bubbles: true,
     composed: true,

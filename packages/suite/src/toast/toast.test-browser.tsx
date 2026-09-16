@@ -123,7 +123,7 @@ test('action cancellation preserves a toast; successful actions dismiss once', a
   await userEvent.click(m.getByRole('button', { name: 'Try again' }))
   expect(action).toHaveBeenCalledOnce()
   expect(m.getByRole('group', { name: 'Undo' })).toBeVisible()
-  toast.update(id, { action: { label: 'Finish', onClick: () => { } } })
+  toast.update(id, { action: { label: 'Finish', onClick: () => {} } })
   await settle()
   await userEvent.click(m.getByRole('button', { name: 'Finish' }))
   await settle()

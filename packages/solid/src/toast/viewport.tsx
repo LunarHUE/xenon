@@ -356,7 +356,7 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
     const front = sizes[items[0]?.id ?? ''] ?? 0
     const height = expanded()
       ? items.reduce((sum, record) => sum + (sizes[record.id] ?? 0), 0) +
-      Math.max(0, items.length - 1) * gap()
+        Math.max(0, items.length - 1) * gap()
       : front + Math.max(0, items.length - 1) * gap()
     const variables = {
       '--toast-front-height': `${front}px`,

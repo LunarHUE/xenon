@@ -648,15 +648,15 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
         typeof props.style === 'string'
           ? `margin:0;inset:auto;border:0;padding:0;background:transparent;overflow:visible;${props.style};visibility:${positioner.positionerProps().style.visibility};pointer-events:${positioner.positionerProps().style['pointer-events']}`
           : {
-            margin: '0',
-            inset: 'auto',
-            border: '0',
-            padding: '0',
-            background: 'transparent',
-            overflow: 'visible',
-            ...props.style,
-            ...positioner.positionerProps().style,
-          }
+              margin: '0',
+              inset: 'auto',
+              border: '0',
+              padding: '0',
+              background: 'transparent',
+              overflow: 'visible',
+              ...props.style,
+              ...positioner.positionerProps().style,
+            }
       }
     >
       {children()}

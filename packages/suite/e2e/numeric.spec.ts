@@ -32,7 +32,9 @@ test('numeric server markup retains custom associations and canonical form value
   await context.close()
 })
 
-test('numeric SSR emits PinInput proxy validity that works without JavaScript', async ({ browser }) => {
+test('numeric SSR emits PinInput proxy validity that works without JavaScript', async ({
+  browser,
+}) => {
   const context = await browser.newContext({ javaScriptEnabled: false })
   const page = await context.newPage()
   await page.goto(url)

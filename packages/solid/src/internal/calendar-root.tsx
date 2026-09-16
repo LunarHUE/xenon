@@ -282,9 +282,9 @@ export function createCalendarRoot(
             'aria-labelledby': own['aria-label']
               ? undefined
               : context.association(
-                'aria-labelledby',
-                () => result().parts.root.attrs['aria-labelledby']
-              ),
+                  'aria-labelledby',
+                  () => result().parts.root.attrs['aria-labelledby']
+                ),
           },
         },
         rest

@@ -170,7 +170,7 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
       }
     },
     setDragging(axis, next) {
-      ; (axis === 'horizontal' ? setDraggingX : setDraggingY)(next)
+      ;(axis === 'horizontal' ? setDraggingX : setDraggingY)(next)
     },
     registerBar(entry) {
       currentBars = [...currentBars, entry]
@@ -489,10 +489,10 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
           'user-select': 'none',
           ...(horizontal()
             ? {
-              'inset-inline-start': '0',
-              'inset-inline-end': `${ctx.corner('vertical')}px`,
-              bottom: '0',
-            }
+                'inset-inline-start': '0',
+                'inset-inline-end': `${ctx.corner('vertical')}px`,
+                bottom: '0',
+              }
             : { top: '0', bottom: `${ctx.corner('horizontal')}px`, 'inset-inline-end': '0' }),
         },
         own.style

@@ -8,7 +8,10 @@ import { userEvent } from 'vitest/browser'
 const cleanups: (() => void)[] = []
 
 afterEach(() => {
-  cleanups.splice(0).reverse().forEach((cleanup) => cleanup())
+  cleanups
+    .splice(0)
+    .reverse()
+    .forEach((cleanup) => cleanup())
   flush()
 })
 

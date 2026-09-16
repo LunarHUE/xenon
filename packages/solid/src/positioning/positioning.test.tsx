@@ -37,7 +37,7 @@ function mockController(initial: PositioningOptions) {
       options = next
       if (!next.enabled) state = initialPositioningState(next)
     }),
-    reposition: vi.fn(async () => { }),
+    reposition: vi.fn(async () => {}),
     dispose: vi.fn(),
     getState: () => state,
     publish(next: Partial<PositioningState> = {}) {

@@ -164,12 +164,12 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
       if (!context.popup) return
       setInstant(
         reason === 'focus' ||
-        tooltipOpenDelay({
-          behavior: behavior(),
-          now: performance.now(),
-          closedAt: group.closedAt(),
-          active: group.active(),
-        }) === 0
+          tooltipOpenDelay({
+            behavior: behavior(),
+            now: performance.now(),
+            closedAt: group.closedAt(),
+            active: group.active(),
+          }) === 0
       )
       const entry = entries.get(node)
       if (entry) context.popup.activate(entry, false)
@@ -225,7 +225,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         {...rest}
         ref={(node: HTMLElement) => {
           rootElement = node
-            ; (props as { ref?: (node: HTMLElement) => void }).ref?.(node)
+          ;(props as { ref?: (node: HTMLElement) => void }).ref?.(node)
         }}
         open={open()}
         onOpenChange={change}
@@ -416,9 +416,9 @@ export function TooltipContent<T extends ValidComponent = 'div'>(
     typeof own.style === 'string'
       ? `${own.style};${context.behavior().hoverable ? '' : 'pointer-events:none;'}`
       : {
-        ...own.style,
-        ...(context.behavior().hoverable ? {} : { 'pointer-events': 'none' as const }),
-      }
+          ...own.style,
+          ...(context.behavior().hoverable ? {} : { 'pointer-events': 'none' as const }),
+        }
   return (
     <Popover.Content {...spread(part(), { ...rest })} style={style()}>
       {own.children}
