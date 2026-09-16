@@ -9,7 +9,7 @@ bun run --filter @xenon/docs typecheck
 bun run --filter @xenon/docs build
 ```
 
-The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/` are working
+The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/`, and `/dev/combobox/` are working
 playgrounds for the documentation site's primitives, with light and dark specimens.
 MDX documents can be added under `src/content/docs/`; the collection and dynamic
 route remain configured for future documentation.
@@ -66,6 +66,55 @@ Controlled selection, manual activation, vertical orientation, direction, disabl
 state, refs, and polymorphic hosts pass through to the headless library. Inactive
 panels remain mounted. Paper's selected state uses the `tab-active` color role,
 which maps to `primary` in light mode and `sidebar-primary` in dark mode.
+
+## Combobox
+
+`src/components/ui/combobox.tsx` styles `@xenon/solid/combobox` with
+`inputPlacement="popup"`. The closed button shows the selection; the popup focuses a search input.
+Search filters options without changing the committed value. Enter or a click
+selects; Escape dismisses and returns focus to the trigger.
+
+```tsx
+<Combobox items={items} defaultValue="solid">
+  <ComboboxTrigger aria-label="Framework">
+    <ComboboxValue placeholder="Choose a framework" />
+  </ComboboxTrigger>
+  <ComboboxContent aria-label="Choose framework">
+    {(items) => (
+      <>
+        <ComboboxInput aria-label="Search frameworks" placeholder="Search frameworks…" />
+        <ComboboxViewport aria-label="Frameworks">
+          <For each={items}>
+            {(item) => <ComboboxItem value={item.value}>{item.label}</ComboboxItem>}
+          </For>
+        </ComboboxViewport>
+        <ComboboxEmpty>No frameworks found.</ComboboxEmpty>
+      </>
+    )}
+  </ComboboxContent>
+</Combobox>
+```
+
+Items have a unique `value`, a searchable `label`, and optional `disabled` state.
+The trigger uses CVA sizes `default` and `sm`, with intrinsic height and em padding.
+Options reserve a checkmark column; keyboard highlight is independent of selection.
+Wrap related items in `ComboboxGroup label="Solid 0.4.x"` for a named group.
+Groups disappear when none of their options match the search.
+Supply styled `ComboboxItem` children to the list. Keep the content in the themed
+container so the native top-layer popup inherits its tokens.
+
+`Content` and `Viewport` accept static children or an `(items) => JSX` callback.
+The callback receives a live readonly array of filtered root items. Read it in
+tracked JSX, such as `<For each={items}>`; no second collection prop is needed.
+Filtering preserves the callback's sibling controls and the input's focus/caret.
+
+The headless root owns query, selection, form participation, positioning, and focus.
+`Trigger` anchors a dialog `Content`; `Input` searches the listbox inside `Viewport`.
+`Value` displays the committed label, independently of the search text.
+The default headless `inputPlacement="trigger"` keeps the editable input outside.
+Chevron artwork stays in the styled trigger. `Arrow` is only for an optional popup
+pointer, and also expects consumer-provided artwork.
+Framework/version metadata and breadcrumb navigation remain future compositions.
 
 ## Temporary Solid 2 integration
 

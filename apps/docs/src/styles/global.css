@@ -9,3 +9,17 @@
     @apply bg-background font-sans text-foreground antialiased;
   }
 }
+
+@utility scroll-area {
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  &:hover,
+  &:focus-visible,
+  &:focus-within {
+    scrollbar-color: var(--color-muted-foreground) transparent;
+  }
+}
