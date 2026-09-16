@@ -32,6 +32,61 @@ function Parts() {
   )
 }
 describe('Combobox', () => {
+  test('popup input uses a trigger, dialog and separate listbox, and resets forms while closed', async () => {
+    const selected = vi.fn()
+    const view = render(() => (
+      <form>
+        <Combobox
+          items={items}
+          inputPlacement="popup"
+          defaultValue="c"
+          name="fruit"
+          onValueChange={selected}
+        >
+          <Combobox.Trigger aria-label="Fruit">
+            <Combobox.Value placeholder="Choose fruit" />
+          </Combobox.Trigger>
+          <Combobox.Positioner>
+            <Combobox.Content id="fruit-dialog" aria-label="Choose fruit">
+              <Combobox.Input aria-label="Search fruit" />
+              <Combobox.Viewport id="fruit-options" aria-label="Fruit options" />
+            </Combobox.Content>
+          </Combobox.Positioner>
+        </Combobox>
+      </form>
+    ))
+    const trigger = view.getByRole('combobox', { name: 'Fruit' })
+    expect(trigger.textContent).toBe('Cherry')
+    expect(trigger.getAttribute('tabindex')).toBe('0')
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
+    trigger.click()
+    flush()
+    const input = (await view.findByRole('combobox', { name: 'Search fruit' })) as HTMLInputElement
+    expect(input.value).toBe('')
+    expect(trigger.getAttribute('aria-controls')).toBe('fruit-dialog')
+    expect(input.getAttribute('aria-controls')).toBe('fruit-options')
+    expect(view.getByRole('dialog').contains(view.getByRole('listbox'))).toBe(true)
+    type(input, 'ap')
+    expect(view.getAllByRole('option')).toHaveLength(2)
+    press(input, 'ArrowDown')
+    press(input, 'Enter')
+    expect(selected).toHaveBeenCalledExactlyOnceWith('a')
+    expect(trigger.textContent).toBe('Apple')
+    expect(new FormData(view.container.querySelector('form')!).get('fruit')).toBe('a')
+    trigger.click()
+    flush()
+    expect(
+      ((await view.findByRole('combobox', { name: 'Search fruit' })) as HTMLInputElement).value
+    ).toBe('')
+    press(view.getByRole('combobox', { name: 'Search fruit' }), 'Escape')
+    view.container.querySelector('form')!.reset()
+    await Promise.resolve()
+    flush()
+    expect(trigger.textContent).toBe('Cherry')
+    expect(selected).toHaveBeenCalledTimes(1)
+    expect(new FormData(view.container.querySelector('form')!).get('fruit')).toBe('c')
+  })
+
   test('controlled text rejects browser mutation and controlled selection survives native reset', async () => {
     const text = vi.fn()
     const view = render(() => (
