@@ -53,8 +53,8 @@ export function App(): JSX.Element {
   return (
     <>
       <header class="masthead">
-        <span class="masthead__mark">kit</span>
-        <span class="masthead__meta">@kit/solid · behavior sheet</span>
+        <span class="masthead__mark">xenon</span>
+        <span class="masthead__meta">@xenon/solid · behavior sheet</span>
         <span class="masthead__meta masthead__meta--end">solid 2.0.0-rc.8</span>
       </header>
       <Clock />

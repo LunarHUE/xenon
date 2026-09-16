@@ -1,6 +1,6 @@
-# @kit/example
+# @xenon/example
 
-A single page that renders every component in `@kit/solid` the way you would
+A single page that renders every component in `@xenon/solid` the way you would
 actually use it: no wrappers, no demo-only props, and no styling from the
 library. All of the CSS in `src/styles.css` hangs off the data attributes the
 core sets (`data-state`, `data-disabled`, `data-pending`, `data-orientation`),

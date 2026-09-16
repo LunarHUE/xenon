@@ -1,0 +1,26 @@
+---
+title: MDX content test
+description: A collection-loaded MDX document with interactive Solid 2 components.
+---
+
+import Counter from '../../components/Counter'
+
+## Loaded from a content collection
+
+This paragraph, the heading, and the list below come from **test.mdx**.
+Astro's glob loader reads the file, validates its frontmatter, and renders it at `/docs/test/`.
+
+- Markdown renders as HTML.
+- Tailwind styles the page and the counters.
+- Each Solid island keeps its own state after hydration.
+
+## Solid inside MDX
+
+Both counters render into the initial HTML. Click **Increment** on one and check that the other stays unchanged.
+
+<Counter client:load label="First MDX counter" initialCount={2} />
+<Counter client:load label="Second MDX counter" initialCount={10} />
+
+```tsx
+<Counter client:load label="First MDX counter" initialCount={2} />
+```
