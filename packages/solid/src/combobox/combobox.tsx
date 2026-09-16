@@ -25,50 +25,31 @@ import type { SelectionPopupProps, SelectionPopupSource } from '../internal/sele
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
 
-/** Editable single-selection root options. Items remain available while the popup is closed. */
-export interface ComboboxProps {
-  /** Unique string values with display labels and optional disabled state. */
-  items: readonly Option[]
-  /** Controlled committed selection; undefined releases control to internal state. */
-  value?: string
+/**
+ * Editable single-selection root options. Items remain available while the popup is closed.
+ * Undefined controlled values release ownership to internal state. Typing retains the
+ * committed selection. Disabled, readonly, required, and invalid state combine with Field.
+ */
+export interface ComboboxProps extends Omit<
+  ComboboxOptions,
+  'id' | 'activeValue' | 'onActiveChange'
+> {
   /** Initial uncontrolled selection and silent form-reset value. */
-  defaultValue?: string
-  /** Requests selection; typing alone retains the existing selection. */
-  onValueChange?: (value: string | undefined) => void
-  /** Controlled editable text, independent of the committed value. */
-  inputValue?: string
+  defaultValue?: ComboboxOptions['value']
   /** Initial uncontrolled query; otherwise the selected label is displayed. */
-  defaultInputValue?: string
-  /** Requests editable text after typing or accepting a suggestion. */
-  onInputValueChange?: (value: string) => void
-  /** Controlled popup visibility. */
-  open?: boolean
+  defaultInputValue?: ComboboxOptions['inputValue']
   /** Initial uncontrolled popup visibility. Defaults to false. */
-  defaultOpen?: boolean
-  /** Requests changed visibility; initialization is silent. */
-  onOpenChange?: (open: boolean) => void
+  defaultOpen?: ComboboxOptions['open']
   /** Submitted option value name, inherited from Field when omitted. */
   name?: string
   /** Explicit owning form ID; omission uses ancestry. */
   form?: string
-  /** Disables input, popup opening, and form participation. */
-  disabled?: boolean
-  /** Blocks editing and opening while retaining input focus. */
-  readonly?: boolean
-  /** Requires a committed selection, regardless of typed search text. */
-  required?: boolean
-  /** Author-owned invalid state, combined with Field state. */
-  invalid?: boolean
-  /** False disables filtering; a predicate replaces default substring matching. */
-  filter?: ComboboxOptions['filter']
-  /** Wrap enabled option navigation. Defaults to true. */
-  loop?: boolean
   /** Popup layout direction. Defaults to inherited document direction after mount. */
   dir?: 'ltr' | 'rtl'
   /** Keep popup markup mounted after exit. Defaults to false. */
   forceMount?: boolean
   /** Base for generated control and option IDs. */
-  id?: string
+  id?: ComboboxOptions['id']
   /** Compound parts rendered inside a context provider with no extra wrapper. */
   children?: JSX.Element
 }

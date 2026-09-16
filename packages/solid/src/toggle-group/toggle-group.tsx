@@ -1,3 +1,4 @@
+import type { ToggleGroupOptions } from '@xenon/core'
 import { toggleGroup } from '@xenon/core'
 import type { ToggleGroupMode } from '@xenon/core'
 import type { ToggleHost } from '@xenon/core'
@@ -13,20 +14,18 @@ import { spread } from '../spread'
 import { toolbarHost } from '../internal/toolbar-host'
 
 /** Unified internal payload: scalar/undefined in single mode, array in multiple mode. */
-type GroupValue = string | readonly string[] | undefined
+type GroupValue = ToggleGroupOptions<string>['value']
 
 /** Group-owned navigation and host props shared by both selection modes. */
-interface Shared {
-  /** Arrow-navigation axis, defaulting to horizontal; exposed through data-orientation. */
-  orientation?: 'horizontal' | 'vertical'
+interface Shared extends Pick<ToggleGroupOptions<string>, 'orientation' | 'loop' | 'disabled'> {
+  /** Single arrow-navigation axis; defaults to horizontal. */
+  orientation?: Exclude<ToggleGroupOptions<string>['orientation'], 'both'>
   /** Horizontal navigation direction. Omission reads nearest dir ancestor or document dir after settling, starting at ltr. */
-  dir?: CompositeDirection
-  /** Wrap arrow navigation at either end, including disabled items. Defaults to true. */
-  loop?: boolean
-  /** Block all selection changes and gated author activation handlers while retaining navigation. Defaults to false. */
-  disabled?: boolean
+  dir?: ToggleGroupOptions<string>['direction']
   /** Receives the rendered group host; custom components must forward it. */
   ref?: (el: HTMLElement) => void
+  /** Block all selection changes and gated author activation handlers while retaining navigation. Defaults to false. */
+  disabled?: ToggleGroupOptions<string>['disabled']
 }
 
 /** Single selection, including an empty state after pressing the selected item again. */

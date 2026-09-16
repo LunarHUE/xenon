@@ -1,3 +1,4 @@
+import type { ToggleOptions } from '@xenon/core'
 import { toggle } from '@xenon/core'
 import type { ToggleHost } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
@@ -8,19 +9,17 @@ import { gate } from '../internal/gate'
 import { spread } from '../spread'
 
 /** Library-owned pressed-state props, replacing matching host props. */
-interface Own {
+interface Own extends Pick<ToggleOptions, 'pressed' | 'onPressedChange' | 'disabled'> {
   /** Controlled pressed state when defined; undefined uses internal state. */
-  pressed?: boolean
+  pressed?: ToggleOptions['pressed']
   /** Initial uncontrolled pressed state, defaulting to false; later changes are ignored. */
-  defaultPressed?: boolean
+  defaultPressed?: ToggleOptions['pressed']
   /**
    * Reports the next boolean after an accepted toggle. Uncontrolled state is updated
    * first; controlled callers must update pressed. Initialization and canceled or
    * disabled activations do not invoke it.
    */
-  onPressedChange?: (pressed: boolean) => void
-  /** Block core changes and gated author activation handlers, defaulting to false. */
-  disabled?: boolean
+  onPressedChange?: ToggleOptions['onPressedChange']
   /** Receives the rendered host; custom components must forward the supplied ref. */
   ref?: (el: HTMLElement) => void
 }

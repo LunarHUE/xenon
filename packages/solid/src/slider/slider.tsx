@@ -22,7 +22,7 @@ import { spread } from '../spread'
 export interface SliderProps
   extends Omit<JSX.IntrinsicElements['div'], 'onChange'>, Omit<SliderOptions, 'direction'> {
   /** Initial uncontrolled values and silent form-reset destination. */
-  defaultValue?: readonly number[]
+  defaultValue?: SliderOptions['value']
   /** Receives each different requested value; controlled props remain authoritative. */
   onValueChange?: (value: number[]) => void
   /** Receives the final requested value once per changed gesture. */
@@ -32,7 +32,7 @@ export interface SliderProps
   /** Explicit owning form ID. */
   form?: string
   /** Reading direction; inherits the nearest ancestor when omitted. */
-  dir?: 'ltr' | 'rtl'
+  dir?: SliderOptions['direction']
 }
 /** Native range input options. Each index refers to a stable value position. */
 export interface SliderThumbProps extends Omit<

@@ -1,3 +1,4 @@
+import type { MenubarOptions } from '@xenon/core/menubar'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -55,11 +56,11 @@ export type MenubarProps<T extends ValidComponent = 'div'> = Omit<
   /** Reports requested open identity; null means all closed. Initialization is silent. */
   onValueChange?: (value: string | null) => void
   /** Top-level navigation axis; defaults to horizontal. */
-  orientation?: 'horizontal' | 'vertical'
+  orientation?: MenubarOptions<string>['orientation']
   /** Wrap enabled trigger navigation; defaults to true. */
-  loop?: boolean
+  loop?: MenubarOptions<string>['loop']
   /** Navigation direction; defaults to ltr. */
-  dir?: 'ltr' | 'rtl'
+  dir?: MenubarOptions<string>['dir']
 }
 /** Persistent menuitem row with one open popup and an enabled roving tab stop. Focus alone and hover over a closed bar never open a menu. */
 export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProps<T>): JSX.Element {

@@ -9,15 +9,7 @@ import { spread } from '../spread'
 import { toolbarHost } from '../internal/toolbar-host'
 
 /** Library-owned button props, replacing matching inherited host props. */
-interface Own {
-  /** Blocks core activation and gated author handlers; defaults to false. See {@link ButtonOptions.disabled}. */
-  disabled?: ButtonOptions['disabled']
-  /** Blocks activation while retaining normal focusability; defaults to false. See {@link ButtonOptions.pending}. */
-  pending?: ButtonOptions['pending']
-  /** Retains disabled native/generic tab stops, defaulting to false. Link focusability follows href removal. */
-  focusableWhenDisabled?: ButtonOptions['focusableWhenDisabled']
-  /** Native button/input type, defaulting to 'button'; ignored for link/generic semantics. */
-  type?: ButtonOptions['type']
+interface Own extends Omit<ButtonOptions, 'host' | 'role'> {
   /** Emits autofocus and requests focus through the forwarded ref after settling when true. */
   autofocus?: ButtonOptions['autofocus']
   /** Receives the rendered element. A custom component must forward this ref to its actual host. */

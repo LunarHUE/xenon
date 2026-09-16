@@ -1,6 +1,6 @@
+import type { TabsOptions } from '@xenon/core'
 import type { AnyPart, CompositeDirection } from '@xenon/core'
 import { tabs } from '@xenon/core'
-import type { TabsActivationMode, TabsOrientation } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
@@ -11,21 +11,18 @@ import { TabsList, TabsPanel, TabsTab } from './parts'
 import { spread } from '../spread'
 
 /** Library-owned selection and navigation policy for a Tabs root. */
-interface Own {
+interface Own extends Pick<
+  TabsOptions<string>,
+  'value' | 'onValueChange' | 'activationMode' | 'orientation' | 'loop'
+> {
   /** Controlled selection when defined. Unknown client values normalize to the first enabled tab, then the first tab. */
-  value?: string
+  value?: TabsOptions<string>['value']
   /** Initial uncontrolled selection, read once; omission lets the core choose the first enabled tab. */
-  defaultValue?: string
+  defaultValue?: TabsOptions<string>['value']
   /** Synchronously reports a different selection after updating uncontrolled state. Initialization is silent; controlled callers must supply the next value. */
-  onValueChange?: (value: string) => void
-  /** Automatic selection during navigation by default; manual mode waits for tab activation. */
-  activationMode?: TabsActivationMode
-  /** Arrow-navigation axis and orientation hooks. Defaults to horizontal. */
-  orientation?: TabsOrientation
+  onValueChange?: TabsOptions<string>['onValueChange']
   /** Explicit horizontal arrow direction; omission samples the nearest dir attribute after settling, starting at ltr. */
-  dir?: CompositeDirection
-  /** Wrap arrow navigation at enabled ends. Defaults to true. */
-  loop?: boolean
+  dir?: TabsOptions<string>['direction']
   /** Disable all tab buttons and exclude them from keyboard destinations. Defaults to false. */
   disabled?: boolean
   /** Receives the root host, used for ambient direction lookup; custom hosts must forward it. */

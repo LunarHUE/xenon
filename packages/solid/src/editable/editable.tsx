@@ -1,6 +1,6 @@
 import type { FieldContextValue } from '../field/context'
 import { editable } from '@xenon/core/editable'
-import type { EditableResult } from '@xenon/core/editable'
+import type { EditableOptions, EditableResult } from '@xenon/core/editable'
 import { Dynamic } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {
@@ -20,47 +20,42 @@ import { Field } from '../field/field'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { spread } from '../spread'
 
-/** Inline editor root settings and native wrapper attributes. */
-export type EditableProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onSubmit' | 'onCancel'> & {
-  /** Committed text; undefined delegates ownership to internal state. */
-  value?: string
-  /** Initial committed text and silent form reset fallback. */
-  defaultValue?: string
-  /** Reports a changed committed value. Typing only updates the local draft. */
-  onValueChange?: (value: string) => void
-  /** Reports every successful explicit or blur commit, including unchanged text. */
-  onValueCommit?: (value: string) => void
-  /** Controlled editing state; undefined is uncontrolled. */
-  editing?: boolean
-  /** Initial editing state, default false. */
-  defaultEditing?: boolean
-  /** Requests an editing-state change. Initialization is silent. */
-  onEditingChange?: (editing: boolean) => void
-  /** Reports abandonment with the text held before editing. */
-  onCancel?: (value: string) => void
-  /** Preview pointer activation. Defaults to click; keyboard activation always works. */
-  activationMode?: 'click' | 'dblclick'
-  /** Commit gestures. Defaults to both; none requires SubmitTrigger. */
-  submitMode?: 'enter' | 'blur' | 'both' | 'none'
-  /** Selects all draft text on activation. Defaults to true. */
-  selectOnFocus?: boolean
-  /** Preview and input placeholder. */
-  placeholder?: string
-  /** Native submission name. */
-  name?: string
-  /** Explicit native form owner. */
-  form?: string
-  /** Disables activation and native input. */
-  disabled?: boolean
-  /** Blocks activation and edits while keeping the preview reachable. */
-  readonly?: boolean
-  /** Native required constraint. */
-  required?: boolean
-  /** Author invalid flag, merged with Field. */
-  invalid?: boolean
-  /** Maximum draft length in UTF-16 code units, matching native maxlength. */
-  maxLength?: number
-}
+/** Inline editor root settings and native wrapper attributes. Field state is combined with local flags. */
+export type EditableProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onSubmit' | 'onCancel'> &
+  Omit<EditableOptions, 'draft' | 'onEdit' | 'onSubmit' | 'onCancel'> & {
+    /** Committed text; undefined delegates ownership to internal state. */
+    value?: EditableOptions['value']
+    /** Initial committed text and silent form reset fallback. */
+    defaultValue?: EditableOptions['value']
+    /** Reports a changed committed value. Typing only updates the local draft. */
+    onValueChange?: (value: string) => void
+    /** Reports every successful explicit or blur commit, including unchanged text. */
+    onValueCommit?: (value: string) => void
+    /** Controlled editing state; undefined is uncontrolled. */
+    editing?: EditableOptions['editing']
+    /** Initial editing state, default false. */
+    defaultEditing?: EditableOptions['editing']
+    /** Requests an editing-state change. Initialization is silent. */
+    onEditingChange?: (editing: boolean) => void
+    /** Reports abandonment with the text held before editing. */
+    onCancel?: (value: string) => void
+    /** Preview pointer activation. Defaults to click; keyboard activation always works. */
+    activationMode?: 'click' | 'dblclick'
+    /** Commit gestures. Defaults to both; none requires SubmitTrigger. */
+    submitMode?: 'enter' | 'blur' | 'both' | 'none'
+    /** Selects all draft text on activation. Defaults to true. */
+    selectOnFocus?: boolean
+    /** Preview and input placeholder. */
+    placeholder?: string
+    /** Native submission name. */
+    name?: string
+    /** Explicit native form owner. */
+    form?: string
+    /** Author invalid flag, merged with Field. */
+    invalid?: EditableOptions['invalid']
+    /** Maximum draft length in UTF-16 code units, matching native maxlength. */
+    maxLength?: number
+  }
 
 /** Internal shared editor state and focus targets. */
 interface Context {

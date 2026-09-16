@@ -1,3 +1,4 @@
+import type { CollapsibleOptions } from '@xenon/core'
 import { collapsible } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
@@ -18,17 +19,13 @@ import { createPresence, measure } from '../internal/presence'
 import { spread } from '../spread'
 
 /** Open-state and mounting options owned by the root adapter. */
-interface Own {
+interface Own extends Omit<CollapsibleOptions, 'ids' | 'status'> {
   /** Controlled expanded state while defined; undefined uses internal state. */
-  open?: boolean
+  open?: CollapsibleOptions['open']
   /** Initial uncontrolled expanded state, read once at setup. Defaults to false. */
-  defaultOpen?: boolean
+  defaultOpen?: CollapsibleOptions['open']
   /** Synchronous toggle request after updating uncontrolled state. Initialization and external prop changes are silent. */
-  onOpenChange?: (open: boolean) => void
-  /** Blocks trigger toggles and marks all parts without forcing content closed. Defaults to false. */
-  disabled?: boolean
-  /** Keep closed content mounted and hidden after its exit completes. Defaults to false. */
-  forceMount?: boolean
+  onOpenChange?: CollapsibleOptions['onOpenChange']
   /** Receives the rendered root element. */
   ref?: (el: HTMLElement) => void
 }

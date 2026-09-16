@@ -1,3 +1,4 @@
+import type { NavigationMenuOptions } from '@xenon/core/navigation-menu'
 import { navigationMenu } from '@xenon/core/navigation-menu'
 import type { AnyPart } from '@xenon/core'
 import { createFloatingLayer } from '@xenon/dom/floating-layer'
@@ -48,13 +49,13 @@ export type NavigationMenuProps<T extends ValidComponent = 'nav'> = Omit<
 > &
   DismissPolicy & {
     /** Selected item, or null for closed. */
-    value?: string | null
+    value?: NavigationMenuOptions['value']
     /** Initial selection, read once and defaulting to null. */
-    defaultValue?: string | null
+    defaultValue?: NavigationMenuOptions['value']
     /** Reports different selection requests after uncontrolled state updates. */
-    onValueChange?: (value: string | null) => void
+    onValueChange?: NavigationMenuOptions['onValueChange']
     /** Axis for list arrows, defaulting to horizontal. */
-    orientation?: 'horizontal' | 'vertical'
+    orientation?: NavigationMenuOptions['orientation']
     /** Horizontal direction; otherwise sampled from the root's nearest dir attribute. */
     dir?: 'ltr' | 'rtl'
     /** Enable mouse-hover opening, defaulting to true. Touch never starts hover timers. */

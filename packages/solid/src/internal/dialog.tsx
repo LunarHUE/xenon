@@ -63,17 +63,17 @@ interface TriggerEntry {
   payload(): unknown
 }
 /** Shared root options consumed by the dialog, alert dialog, and drawer adapters. */
-interface Own {
+interface Own extends Omit<DialogOptions, 'ids' | 'status'> {
   /** Controlled visibility while defined; undefined uses internal state. */
-  open?: boolean
+  open?: DialogOptions['open']
   /** Initial uncontrolled visibility, read once at setup. Defaults to false. */
-  defaultOpen?: boolean
+  defaultOpen?: DialogOptions['open']
   /** Reports a different visibility request after updating uncontrolled state. Same-state requests and initialization are silent. */
-  onOpenChange?: (open: boolean) => void
+  onOpenChange?: DialogOptions['onOpenChange']
   /** Use modal native presentation and focus containment by default. Alert dialogs always remain modal. */
-  modal?: boolean
+  modal?: DialogOptions['modal']
   /** Retain closed content, hidden after exit, without an active native session. Defaults to false. */
-  forceMount?: boolean
+  forceMount?: DialogOptions['forceMount']
   /** Allow Escape and native cancel dismissal requests. Defaults to true; native cancel is always prevented. */
   closeOnEscape?: boolean
   /** Allow outside-pointer dismissal. Defaults to true for dialogs/drawers; alert dialogs always disable it. */

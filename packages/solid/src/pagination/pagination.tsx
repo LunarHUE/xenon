@@ -9,7 +9,7 @@ import { gate } from '../internal/gate'
 /** Root-controlled and initial pagination inputs. */
 interface Own extends PaginationOptions {
   /** Initial uncontrolled page, read once; defaults to 1. */
-  defaultPage?: number
+  defaultPage?: PaginationOptions['page']
   /** Static content or a render function receiving reactive state getters. */
   children?: JSX.Element | ((state: PaginationState) => JSX.Element)
 }

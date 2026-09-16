@@ -1,3 +1,4 @@
+import type { CompositeOptions } from '@xenon/core'
 import { composite } from '@xenon/core'
 import type { AnyPart, CompositeDirection } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
@@ -10,13 +11,11 @@ import { ToolbarButton, ToolbarGroup, ToolbarLink, ToolbarSeparator } from './it
 import { spread } from '../spread'
 
 /** Library-owned root settings, replacing matching host props. */
-interface Own {
-  /** Arrow-key axis and styling orientation. Defaults to horizontal. */
-  orientation?: 'horizontal' | 'vertical'
+interface Own extends Pick<CompositeOptions<string>, 'orientation' | 'loop'> {
+  /** Single arrow-navigation axis; defaults to horizontal. */
+  orientation?: Exclude<CompositeOptions<string>['orientation'], 'both'>
   /** Explicit horizontal arrow direction, also forwarded to the root. Omission reads the nearest dir attribute after settling, defaulting to ltr. */
-  dir?: CompositeDirection
-  /** Wrap navigation at the enabled ends. Defaults to true. */
-  loop?: boolean
+  dir?: CompositeOptions<string>['direction']
   /** Inherited button disabled state, defaulting to false. Links remain independent. */
   disabled?: boolean
   /** Receives the root host; custom components must forward it for ambient direction lookup. */

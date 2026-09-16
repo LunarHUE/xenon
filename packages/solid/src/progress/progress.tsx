@@ -7,15 +7,7 @@ import { createEffect, createMemo, omit } from 'solid-js'
 import { spread } from '../spread'
 
 /** Library-owned progress inputs, replacing matching host props. */
-interface Own {
-  /** Amount to display; missing/nonfinite means indeterminate. Finite values are clamped to the bounds. */
-  value?: ProgressOptions['value']
-  /** Lower bound; missing/nonfinite falls back to zero. */
-  min?: ProgressOptions['min']
-  /** Upper bound; missing/nonfinite falls back to 100, then is raised to min if necessary. */
-  max?: ProgressOptions['max']
-  /** Accessible value formatter called during determinate recomputation. Defaults to rounded percentage text. */
-  format?: ProgressOptions['format']
+interface Own extends ProgressOptions {
   /** Receives the rendered host, which custom components must forward for percentage style updates. */
   ref?: (el: HTMLElement) => void
 }

@@ -18,35 +18,28 @@ import { fieldDescribedBy, fieldLabelledBy, tokens, useFieldContext } from '../f
 import { spread } from '../spread'
 
 /** Segmented one-time code with one submitted scalar value. */
-export interface PinInputProps extends Omit<ComponentProps<'div'>, 'onChange' | 'defaultValue'> {
+export interface PinInputProps
+  extends
+    Omit<ComponentProps<'div'>, keyof PinInputOptions | 'onChange' | 'defaultValue'>,
+    Omit<PinInputOptions, 'onFocusChange'> {
   /** Controlled code; rejected requests restore the visible DOM immediately. */
-  value?: string
+  value?: PinInputOptions['value']
   /** Initial uncontrolled code and silent form reset value. */
-  defaultValue?: string
+  defaultValue?: PinInputOptions['value']
   /** Called for edits that request a different normalized value. */
-  onValueChange?: (value: string) => void
+  onValueChange?: PinInputOptions['onValueChange']
   /** Called after an accepted edit changes the code to a complete value. */
   onValueComplete?: (value: string) => void
-  /** Number of slots; defaults to six. Render an Input for each index. */
-  length?: number
-  /** Accepted characters; defaults to numeric ASCII digits. */
-  type?: PinInputOptions['type']
-  /** Display slot characters as passwords. */
-  mask?: boolean
   /** Form submission name, inherited from Field when omitted. */
   name?: string
   /** Explicit native form owner ID. */
   form?: string
-  /** Disable all slots and form participation. */
-  disabled?: boolean
-  /** Prevent editing while retaining focus navigation. */
-  readonly?: boolean
+  /** Number of slots; defaults to six. Render an Input for each index. */
+  length?: PinInputOptions['length']
   /** Require every slot to be filled for native form validation. */
-  required?: boolean
+  required?: PinInputOptions['required']
   /** Author invalid state, combined with Field state. */
-  invalid?: boolean
-  /** Localized accessible name for each zero-based slot index. */
-  getSlotLabel?: PinInputOptions['getSlotLabel']
+  invalid?: PinInputOptions['invalid']
 }
 
 /** Shared slot bindings and native element registration. */

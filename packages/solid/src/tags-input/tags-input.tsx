@@ -29,7 +29,7 @@ export interface TagsInputRenderState {
 export type TagsInputProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children'> &
   TagsInputOptions & {
     /** Initial uncontrolled tags and silent form reset fallback. */
-    defaultValue?: readonly string[]
+    defaultValue?: TagsInputOptions['value']
     /** Native submission name. Each tag contributes a separate entry. */
     name?: string
     /** Explicit native form owner ID. */
