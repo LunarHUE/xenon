@@ -1,25 +1,11 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
 @import 'tailwindcss';
+@import './tokens.css';
 
 @layer base {
   body {
-    font-family: 'Verdana', sans-serif;
-  }
-}
-
-@layer components {
-  .mdx > h2 {
-    @apply mt-10 mb-4 font-serif text-2xl;
-  }
-
-  .mdx > p {
-    @apply my-4 leading-7;
-  }
-
-  .mdx > ul {
-    @apply my-4 list-disc space-y-2 pl-6;
-  }
-
-  .mdx > pre {
-    @apply my-6 overflow-x-auto p-5 text-sm;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }

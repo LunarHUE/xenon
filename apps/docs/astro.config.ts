@@ -7,5 +7,7 @@ export default defineConfig({
   integrations: [mdx(), solid()],
   vite: {
     plugins: [tailwindcss()],
+    // Workspace packages export TypeScript source and need Vite's SSR transform.
+    ssr: { noExternal: [/^@xenon\//] },
   },
 })
