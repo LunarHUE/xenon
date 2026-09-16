@@ -1,6 +1,7 @@
 node_modules
 dist
 .turbo
+.astro
 bun.lock
 .direnv
 flake.lock
