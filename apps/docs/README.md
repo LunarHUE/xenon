@@ -9,8 +9,8 @@ bun run --filter @xenon/docs typecheck
 bun run --filter @xenon/docs build
 ```
 
-The home page is intentionally minimal. `/dev/button/` is a working
-playground for the documentation site's primitives, with light and dark specimens.
+The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/` are working
+playgrounds for the documentation site's primitives, with light and dark specimens.
 MDX documents can be added under `src/content/docs/`; the collection and dynamic
 route remain configured for future documentation.
 
@@ -43,6 +43,29 @@ the shadow and position, and reduced motion removes the lift.
 
 Design source: [Xenon Docs / Docs component registry](https://app.paper.design/file/01M2F4KJ8ZEQT7KFB882SWQYQK/3-0),
 Button and Icon button artboards.
+
+## Tabs
+
+`src/components/ui/tabs.tsx` wraps `@xenon/solid/tabs` with `Tabs`, `TabsList`,
+`TabsTrigger`, and `TabsContent` exports. Supply an accessible name on the list
+and matching trigger/content values. Use these for in-page panels; route navigation
+will be a separate composition of links.
+
+```tsx
+<Tabs defaultValue="preview">
+  <TabsList aria-label="Example views">
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">Example preview</TabsContent>
+  <TabsContent value="code">Example source</TabsContent>
+</Tabs>
+```
+
+Controlled selection, manual activation, vertical orientation, direction, disabled
+state, refs, and polymorphic hosts pass through to the headless library. Inactive
+panels remain mounted. Paper's selected state uses the `tab-active` color role,
+which maps to `primary` in light mode and `sidebar-primary` in dark mode.
 
 ## Temporary Solid 2 integration
 
