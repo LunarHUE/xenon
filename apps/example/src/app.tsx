@@ -47,7 +47,6 @@ import {
   TagsInputDemo,
   EditableDemo,
 } from './demos/structured-inputs'
-import { Clock } from './timer-example'
 
 export function App(): JSX.Element {
   return (
@@ -57,7 +56,6 @@ export function App(): JSX.Element {
         <span class="masthead__meta">@xenon/solid · behavior sheet</span>
         <span class="masthead__meta masthead__meta--end">solid 2.0.0-rc.8</span>
       </header>
-      <Clock />
 
       <Tooltip.Provider openDelay={500} closeDelay={120} skipDelay={350}>
         <main>
