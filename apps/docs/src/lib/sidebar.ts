@@ -78,13 +78,15 @@ export const SIDEBAR_MOBILE_QUERY = '(max-width: 767px)'
  */
 export function createMediaMatch(query: string): () => boolean {
   const [matches, setMatches] = createSignal(false)
+  let unsubscribe: (() => void) | undefined
   onSettled(() => {
     const media = matchMedia(query)
     const update = () => setMatches(media.matches)
     update()
     media.addEventListener('change', update)
-    onCleanup(() => media.removeEventListener('change', update))
+    unsubscribe = () => media.removeEventListener('change', update)
   })
+  onCleanup(() => unsubscribe?.())
   return matches
 }
 
