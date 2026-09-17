@@ -26,16 +26,15 @@ function IconRow() {
   return (
     <div class="flex items-center gap-2">
       {tools.map((tool) => (
-        <TooltipTrigger
-          as={Button}
+        <Button
           variant="outline"
           size="icon-sm"
           aria-label={tool.label}
-          handle={hints}
-          payload={tool.label}
+          tooltipHandle={hints}
+          tooltip={tool.label}
         >
           <Icon icon={tool.icon} />
-        </TooltipTrigger>
+        </Button>
       ))}
       <Tooltip handle={hints}>
         {(state) => (

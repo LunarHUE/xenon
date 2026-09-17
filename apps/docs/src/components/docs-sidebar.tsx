@@ -1,6 +1,23 @@
 import type { JSX } from '@solidjs/web'
 import { For, Show } from 'solid-js'
 import {
+  BookOpen,
+  Download,
+  Blocks,
+  MousePointer2,
+  PanelsTopLeft,
+  ListFilter,
+  ChevronRight,
+  Code,
+  PanelLeft,
+  MessageSquare,
+  Bell,
+  FileText,
+} from 'lucide'
+import { Button } from './ui/button'
+import { Icon, type IconNode } from './ui/icon'
+import { Tooltip, TooltipContent, TooltipViewport, createTooltipHandle } from './ui/tooltip'
+import {
   Sidebar,
   SidebarHeader,
   SidebarContent,
@@ -10,10 +27,26 @@ import {
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarLink,
+  SidebarItemLabel,
+  useSidebar,
 } from './ui/sidebar'
 import { sidebar } from '../lib/sidebar'
 import type { NavSection } from '../lib/nav'
+
+const navigationIcons: Record<string, IconNode> = {
+  '/': BookOpen,
+  '/installation/': Download,
+  '/components/': Blocks,
+  '/dev/button/': MousePointer2,
+  '/dev/tabs/': PanelsTopLeft,
+  '/dev/combobox/': ListFilter,
+  '/dev/breadcrumb/': ChevronRight,
+  '/dev/codeblock/': Code,
+  '/dev/drawer/': PanelLeft,
+  '/dev/tooltip/': MessageSquare,
+  '/dev/toast/': Bell,
+  '/dev/sidebar/': PanelLeft,
+}
 
 export interface DocsSidebarProps {
   sections: NavSection[]
@@ -26,21 +59,41 @@ export interface DocsSidebarProps {
  * island boundary, so this maps plain data onto the sidebar parts.
  */
 export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
+  return (
+    <Sidebar controller={sidebar} label="Documentation">
+      <DocsSidebarContents {...props} />
+    </Sidebar>
+  )
+}
+
+/** Own one shared tooltip inside the sidebar's presentation context. */
+function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
+  const presentation = useSidebar()
+  const hints = createTooltipHandle<JSX.Element>()
   const rows = (section: NavSection) => (
     <SidebarMenu>
       <For each={section.links}>
         {(link) => (
           <SidebarMenuItem>
-            <SidebarLink href={link.href} current={link.href === props.current}>
-              {link.label}
-            </SidebarLink>
+            <Button
+              as="a"
+              variant="navigation"
+              size="sm"
+              href={link.href}
+              aria-current={link.href === props.current ? 'page' : undefined}
+              tooltip={presentation.mode() === 'compact' ? link.label : undefined}
+              tooltipHandle={hints}
+            >
+              <Icon icon={navigationIcons[link.href] ?? FileText} />
+              <SidebarItemLabel>{link.label}</SidebarItemLabel>
+            </Button>
           </SidebarMenuItem>
         )}
       </For>
     </SidebarMenu>
   )
   return (
-    <Sidebar controller={sidebar} label="Documentation">
+    <>
       <SidebarHeader>
         <div class="flex h-[42px] items-center justify-between border border-foreground bg-background px-3 text-sm shadow-[3px_3px_0_var(--color-foreground)] group-data-[mode=compact]/sidebar:hidden">
           <span class="font-medium">Solid</span>
@@ -63,6 +116,18 @@ export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
           )}
         </For>
       </SidebarContent>
-    </Sidebar>
+      <Tooltip
+        handle={hints}
+        disabled={presentation.mode() !== 'compact'}
+        openDelay={0}
+        closeDelay={0}
+      >
+        {(state) => (
+          <TooltipContent side="right">
+            <TooltipViewport>{state.payload}</TooltipViewport>
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </>
   )
 }

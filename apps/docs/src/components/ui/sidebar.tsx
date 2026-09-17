@@ -1,6 +1,6 @@
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { ChevronDown, Menu, PanelLeft } from 'lucide'
-import { Show, omit } from 'solid-js'
+import { Show, createContext, omit, useContext } from 'solid-js'
 import { cva } from 'class-variance-authority'
 import { Button, type ButtonProps } from './button'
 import {
@@ -18,6 +18,21 @@ import {
   useSidebarMode,
   type SidebarController,
 } from '../../lib/sidebar'
+
+export interface SidebarContextValue {
+  controller: SidebarController
+  /** Effective presentation. The mobile drawer is always expanded. */
+  mode: SidebarController['mode']
+}
+
+const SidebarContext = createContext<SidebarContextValue>()
+
+/** Read presentation state from the nearest Sidebar, inside a descendant component. */
+export function useSidebar(): SidebarContextValue {
+  const context = useContext(SidebarContext)
+  if (!context) throw new Error('useSidebar must be called inside Sidebar')
+  return context
+}
 
 export interface SidebarProps extends Omit<ComponentProps<'aside'>, 'children'> {
   controller: SidebarController
@@ -40,41 +55,45 @@ export function Sidebar(props: SidebarProps): JSX.Element {
   const mobile = createMediaMatch(props.mobileQuery ?? SIDEBAR_MOBILE_QUERY)
   const mode = useSidebarMode(props.controller)
   return (
-    <Show
-      when={mobile()}
-      fallback={
-        <aside
-          {...rest}
-          id={props.controller.id}
-          aria-label={props.label}
-          data-slot="sidebar"
-          data-mode={mode()}
-          inert={mode() === 'hidden' ? true : undefined}
-          class={cn(
-            'group/sidebar hidden h-full w-[var(--sidebar-width)] flex-col overflow-hidden border-e-2 border-foreground bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-out motion-reduce:transition-none md:flex',
-            'data-[mode=hidden]:border-e-0',
-            props.class
-          )}
-        >
-          {props.children}
-        </aside>
-      }
+    <SidebarContext
+      value={{ controller: props.controller, mode: () => (mobile() ? 'expanded' : mode()) }}
     >
-      <Drawer
-        handle={props.controller.drawer}
-        open={props.controller.drawerOpen()}
-        onOpenChange={props.controller.setDrawerOpen}
+      <Show
+        when={mobile()}
+        fallback={
+          <aside
+            {...rest}
+            id={props.controller.id}
+            aria-label={props.label}
+            data-slot="sidebar"
+            data-mode={mode()}
+            inert={mode() === 'hidden' ? true : undefined}
+            class={cn(
+              'group/sidebar hidden h-full w-[var(--sidebar-width)] flex-col overflow-hidden border-e-2 border-foreground bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-out motion-reduce:transition-none md:flex',
+              'data-[mode=hidden]:border-e-0',
+              props.class
+            )}
+          >
+            {props.children}
+          </aside>
+        }
       >
-        <DrawerContent
-          aria-label={props.label}
-          data-slot="sidebar"
-          data-mode="expanded"
-          class={cn('group/sidebar gap-0 p-0', props.class)}
+        <Drawer
+          handle={props.controller.drawer}
+          open={props.controller.drawerOpen()}
+          onOpenChange={props.controller.setDrawerOpen}
         >
-          {props.children}
-        </DrawerContent>
-      </Drawer>
-    </Show>
+          <DrawerContent
+            aria-label={props.label}
+            data-slot="sidebar"
+            data-mode="expanded"
+            class={cn('group/sidebar gap-0 p-0', props.class)}
+          >
+            {props.children}
+          </DrawerContent>
+        </Drawer>
+      </Show>
+    </SidebarContext>
   )
 }
 
@@ -99,6 +118,7 @@ export function SidebarContent(props: ComponentProps<'nav'>): JSX.Element {
       data-slot="sidebar-content"
       class={cn(
         'scroll-area min-h-0 flex-1 px-6 pb-6 group-data-[mode=compact]/sidebar:px-2',
+        'group-data-[mode=compact]/sidebar:[scrollbar-gutter:auto] group-data-[mode=compact]/sidebar:[scrollbar-width:none]',
         props.class
       )}
     />
@@ -145,13 +165,12 @@ export function SidebarGroup(props: SidebarGroupProps): JSX.Element {
 }
 
 /**
- * Group heading over a rule: the design gap above it is margin, so the box itself is
- * only the text, its bottom padding and the rule. Interactive when it folds the group.
- * Hidden in compact mode.
+ * Group heading over a rule. The gap above is margin; equal vertical padding
+ * keeps the label and chevron centered inside the hover area. Hidden in compact mode.
  */
 export const sidebarGroupHeadingVariants = cva(
   [
-    'mt-5 mb-1.5 flex h-7 w-full items-end gap-2 border-b border-foreground px-3 pb-2',
+    'mt-5 mb-1.5 flex min-h-8 w-full items-center gap-2 border-b border-foreground px-3 py-1.5',
     'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground',
     'group-data-[mode=compact]/sidebar:hidden',
   ],
@@ -215,57 +234,16 @@ export function SidebarMenuItem(props: ComponentProps<'li'>): JSX.Element {
   return <li {...props} data-slot="sidebar-menu-item" />
 }
 
-export interface SidebarLinkProps extends Omit<ComponentProps<'a'>, 'children'> {
-  /** Marks the current page. Sets aria-current, which drives the style. */
-  current?: boolean
-  /** Glyph shown in compact mode. Falls back to the label's first letter. */
-  icon?: JSX.Element
-  children: JSX.Element
-}
-
-/**
- * Navigation row per registry sheet 04: 32px, 12px inset, muted text, accent fill
- * on hover, a border when pressed, and the sidebar-primary outline when current.
- */
-export function SidebarLink(props: SidebarLinkProps): JSX.Element {
-  const rest = omit(props, 'current', 'icon', 'class', 'children')
+/** Visible row label. Remains the accessible name when the sidebar shows only icons. */
+export function SidebarItemLabel(props: ComponentProps<'span'>): JSX.Element {
+  const rest = omit(props, 'class')
   return (
-    <a
+    <span
       {...rest}
-      aria-current={props.current ? 'page' : undefined}
-      data-slot="sidebar-link"
-      class={cn(
-        'flex min-h-8 items-center gap-3 border border-transparent px-3 py-[5px] text-sm leading-5 text-muted-foreground',
-        'hover:bg-accent active:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
-        'aria-[current=page]:border-sidebar-primary aria-[current=page]:bg-sidebar-selected aria-[current=page]:font-medium aria-[current=page]:text-sidebar-primary',
-        'group-data-[mode=compact]/sidebar:justify-center group-data-[mode=compact]/sidebar:px-0',
-        props.class
-      )}
-    >
-      <span
-        aria-hidden="true"
-        data-slot="sidebar-link-icon"
-        class="hidden size-5 items-center justify-center font-mono text-xs uppercase group-data-[mode=compact]/sidebar:flex"
-      >
-        {props.icon ?? <Initial>{props.children}</Initial>}
-      </span>
-      <span
-        data-slot="sidebar-link-label"
-        class="truncate group-data-[mode=compact]/sidebar:sr-only"
-      >
-        {props.children}
-      </span>
-    </a>
+      data-slot="sidebar-item-label"
+      class={cn('truncate group-data-[mode=compact]/sidebar:sr-only', props.class)}
+    />
   )
-}
-
-/** First letter of a text label, for compact rows without an icon. */
-function Initial(props: { children: JSX.Element }): JSX.Element {
-  const text = () => {
-    const value = props.children
-    return typeof value === 'string' || typeof value === 'number' ? String(value).charAt(0) : ''
-  }
-  return <>{text()}</>
 }
 
 export interface SidebarTriggerProps extends Omit<ButtonProps, 'onClick' | 'children'> {
