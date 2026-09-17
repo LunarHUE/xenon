@@ -13,11 +13,11 @@ export function toastDuration(value: number | undefined, fallback = 5000): numbe
       : Math.max(0, value)
 }
 /** Resolve the number of notifications admitted at once. */
-export function toastLimit(value: number | undefined): number {
+export function toastLimit(value: number | undefined, fallback = 3): number {
   return value === Infinity
     ? Infinity
     : value === undefined || !Number.isFinite(value)
-      ? 3
+      ? fallback
       : Math.max(0, Math.floor(value))
 }
 /** Return the newest admitted IDs. Older records wait until a slot becomes available. */

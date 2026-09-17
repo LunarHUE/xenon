@@ -104,7 +104,7 @@ export interface ToastManager<T = unknown> {
   loading: (title: JSX.Element, options?: Omit<ToastOptions<T>, 'title'>) => string
   /** Follow a promise using one notification ID. */
   promise: <Value>(promise: PromiseLike<Value>, options: ToastPromiseOptions<Value, T>) => string
-  /** Apply provider defaults. */
+  /** Apply provider defaults. Undefined fields keep their current values. */
   configure: (options: ToastManagerOptions) => void
   /** Attach a provider and return its timer cleanup. Events before attachment remain queued. */
   attach: () => () => void
@@ -384,7 +384,10 @@ export function createManager<T = unknown>(options: ToastManagerOptions = {}): T
     },
     configure(next) {
       untrack(() => {
-        defaults = { duration: toastDuration(next.duration), limit: toastLimit(next.limit) }
+        defaults = {
+          duration: toastDuration(next.duration, defaults.duration),
+          limit: toastLimit(next.limit, defaults.limit),
+        }
         for (const entry of entries) {
           if (entry.pendingAttachment && entry.implicitDuration) {
             entry.remaining = defaults.duration

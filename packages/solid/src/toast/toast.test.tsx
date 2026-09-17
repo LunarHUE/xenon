@@ -179,3 +179,18 @@ test('provider unmount clears the pending timer until a provider reattaches (toa
   expect(record.open).toBe(false)
   expect(dismissed).toHaveBeenCalledExactlyOnceWith('timeout')
 })
+
+test('a provider without limit or duration props keeps an external manager configuration', async () => {
+  const manager = Toast.createManager({ limit: 1, duration: 0 })
+  const first = manager.add({ title: 'First' })
+  const second = manager.add({ title: 'Second' })
+  const m = render(() => (
+    <Toast.Provider manager={manager}>
+      <Notifications />
+    </Toast.Provider>
+  ))
+  await settle()
+  expect(m.getByTestId(first)).toHaveAttribute('hidden')
+  expect(m.getByTestId(second)).not.toHaveAttribute('hidden')
+  expect(manager.toasts().find((record) => record.id === second)?.duration).toBe(0)
+})

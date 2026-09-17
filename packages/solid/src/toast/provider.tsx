@@ -4,7 +4,11 @@ import { createManager } from './manager'
 import type { ToastManager, ToastManagerOptions } from './manager'
 import { ToastProviderContext } from './context'
 
-/** Notification lifetime and admission defaults inherited by one renderer. */
+/**
+ * Notification lifetime and admission defaults inherited by one renderer. An
+ * undefined field leaves the manager's current value alone, so an external manager
+ * created with its own options keeps them unless a prop overrides them.
+ */
 export interface ToastProviderProps<T = unknown> extends Pick<
   ToastManagerOptions,
   'duration' | 'limit'
@@ -21,9 +25,9 @@ export interface ToastProviderProps<T = unknown> extends Pick<
  */
 export function ToastProvider<T = unknown>(props: ToastProviderProps<T>): JSX.Element {
   const manager = untrack(() => props.manager ?? createManager<T>())
-  untrack(() => manager.configure({ duration: props.duration ?? 5000, limit: props.limit ?? 3 }))
+  untrack(() => manager.configure({ duration: props.duration, limit: props.limit }))
   createEffect(
-    () => ({ duration: props.duration ?? 5000, limit: props.limit ?? 3 }),
+    () => ({ duration: props.duration, limit: props.limit }),
     (options) => untrack(() => manager.configure(options))
   )
   let detach: (() => void) | undefined
