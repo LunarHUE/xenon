@@ -68,28 +68,31 @@ const initialSidebar =
       </div>
     </header>
     <div data-docs-shell data-sidebar={initialSidebar} class="docs-shell">
+      <script is:inline>
+        // Runs before the shell has children, so the grid never paints at the
+        // default width and then transitions to the stored one.
+        ;(() => {
+          const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+          if (match) document.currentScript.parentElement.dataset.sidebar = match[1]
+        })()
+      </script>
       <DocsSidebar sections={navigation} current={Astro.url.pathname} client:load />
+      <script is:inline>
+        // The island's server markup assumes expanded; patch it as soon as it exists.
+        ;(() => {
+          const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+          const aside = document.getElementById('docs-sidebar')
+          if (!match || !aside) return
+          aside.dataset.mode = match[1]
+          aside.inert = match[1] === 'hidden'
+        })()
+      </script>
       <main class="min-w-0 px-6 py-12">
         <div class="mx-auto max-w-5xl">
           <slot />
         </div>
       </main>
     </div>
-    <script is:inline>
-      // The shell renders after the head script ran; apply the stored mode now.
-      ;(() => {
-        const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
-        if (!match) return
-        const shell = document.querySelector('[data-docs-shell]')
-        if (shell) shell.dataset.sidebar = match[1]
-        // The island's server markup assumes expanded; patch it before paint too.
-        const aside = document.getElementById('docs-sidebar')
-        if (aside) {
-          aside.dataset.mode = match[1]
-          aside.inert = match[1] === 'hidden'
-        }
-      })()
-    </script>
     <Toaster client:load />
   </body>
 </html>
