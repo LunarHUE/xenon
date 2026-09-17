@@ -79,8 +79,15 @@ const initialSidebar =
       // The shell renders after the head script ran; apply the stored mode now.
       ;(() => {
         const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+        if (!match) return
         const shell = document.querySelector('[data-docs-shell]')
-        if (shell && match) shell.dataset.sidebar = match[1]
+        if (shell) shell.dataset.sidebar = match[1]
+        // The island's server markup assumes expanded; patch it before paint too.
+        const aside = document.getElementById('docs-sidebar')
+        if (aside) {
+          aside.dataset.mode = match[1]
+          aside.inert = match[1] === 'hidden'
+        }
       })()
     </script>
     <Toaster client:load />

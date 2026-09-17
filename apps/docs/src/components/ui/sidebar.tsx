@@ -1,7 +1,7 @@
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { Collapsible } from '@xenon/solid/collapsible'
 import { ChevronDown, Menu, PanelLeft } from 'lucide'
-import { Show, omit } from 'solid-js'
+import { Show, omit, onSettled } from 'solid-js'
 import { Button, type ButtonProps } from './button'
 import { Drawer, DrawerContent, DrawerTrigger } from './drawer'
 import { Icon } from './icon'
@@ -27,12 +27,21 @@ export interface SidebarProps extends Omit<ComponentProps<'aside'>, 'children'> 
 export function Sidebar(props: SidebarProps): JSX.Element {
   const rest = omit(props, 'controller', 'label', 'mobileQuery', 'class', 'children')
   const mobile = createMediaMatch(props.mobileQuery ?? SIDEBAR_MOBILE_QUERY)
+  let aside: HTMLElement | undefined
+  // Server markup assumes expanded; hydration keeps server attributes, so apply
+  // the client's initial mode once after settle.
+  onSettled(() => {
+    if (!aside) return
+    aside.dataset.mode = props.controller.mode()
+    aside.inert = props.controller.mode() === 'hidden'
+  })
   return (
     <Show
       when={mobile()}
       fallback={
         <aside
           {...rest}
+          ref={(el) => (aside = el)}
           id={props.controller.id}
           aria-label={props.label}
           data-slot="sidebar"
@@ -271,6 +280,14 @@ export function SidebarTrigger(props: SidebarTriggerProps): JSX.Element {
   const mobile = createMediaMatch(props.mobileQuery ?? SIDEBAR_MOBILE_QUERY)
   const dock = () =>
     (props.dock ?? ((c) => (c.mode() === 'hidden' ? c.expand() : c.hide())))(props.controller)
+  let button: HTMLElement | undefined
+  // Same hydration caveat as Sidebar: reflect the client's initial mode once.
+  onSettled(() => {
+    if (!button) return
+    const mode = props.controller.mode()
+    button.setAttribute('aria-expanded', mode !== 'hidden' ? 'true' : 'false')
+    if (!props['aria-label']) button.setAttribute('aria-label', desktopLabel[mode])
+  })
   return (
     <Show
       when={mobile()}
@@ -279,6 +296,7 @@ export function SidebarTrigger(props: SidebarTriggerProps): JSX.Element {
           variant="outline"
           size="icon-sm"
           {...rest}
+          ref={(el: HTMLElement) => (button = el)}
           data-slot="sidebar-trigger"
           aria-label={props['aria-label'] || desktopLabel[props.controller.mode()]}
           aria-expanded={props.controller.mode() !== 'hidden' ? 'true' : 'false'}
