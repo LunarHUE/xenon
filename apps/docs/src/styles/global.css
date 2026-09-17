@@ -86,3 +86,17 @@
     opacity: 0;
   }
 }
+
+/* Tooltips fade and nudge 4px from the anchor's side; --tooltip-from is set per resolved side. */
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    translate: var(--tooltip-from, 0 4px);
+  }
+}
+@keyframes tooltip-out {
+  to {
+    opacity: 0;
+    translate: var(--tooltip-from, 0 4px);
+  }
+}
