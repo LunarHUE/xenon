@@ -1,0 +1,24 @@
+---
+/**
+ * Resolves the theme cookie onto <html> before first paint, and again after a
+ * client-side navigation swap, where the new document skips inline scripts.
+ * Render in <head>.
+ */
+---
+
+<script is:inline>
+  ;(() => {
+    const apply = () => {
+      const match = document.cookie.match(/(?:^|; )theme=(light|dark|system)(?:;|$)/)
+      const preference = match ? match[1] : 'system'
+      document.documentElement.dataset.theme =
+        preference === 'system'
+          ? matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light'
+          : preference
+    }
+    apply()
+    document.addEventListener('astro:after-swap', apply)
+  })()
+</script>

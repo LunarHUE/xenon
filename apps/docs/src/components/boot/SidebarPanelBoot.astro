@@ -1,0 +1,22 @@
+---
+/**
+ * Patches the sidebar island's server markup, which assumes expanded, with the
+ * stored mode. Render immediately after the island so it runs as soon as the
+ * panel exists and before it paints.
+ */
+interface Props {
+  /** Id of the docked panel element. */
+  id: string
+}
+const { id } = Astro.props
+---
+
+<script is:inline define:vars={{ id }}>
+  ;(() => {
+    const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+    const aside = document.getElementById(id)
+    if (!match || !aside) return
+    aside.dataset.mode = match[1]
+    aside.inert = match[1] === 'hidden'
+  })()
+</script>

@@ -1,0 +1,14 @@
+---
+/**
+ * Applies the stored sidebar mode to its parent element. Render as the first
+ * child of the docs shell, so the grid never paints at the default width and
+ * then transitions to the stored one.
+ */
+---
+
+<script is:inline>
+  ;(() => {
+    const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+    if (match) document.currentScript.parentElement.dataset.sidebar = match[1]
+  })()
+</script>

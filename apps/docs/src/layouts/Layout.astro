@@ -1,10 +1,14 @@
 ---
 import '../styles/global.css'
+import ThemeBoot from '../components/boot/ThemeBoot.astro'
+import SidebarShellBoot from '../components/boot/SidebarShellBoot.astro'
+import SidebarPanelBoot from '../components/boot/SidebarPanelBoot.astro'
 import { ThemeToggle } from '../components/ui/theme-toggle'
 import { Toaster } from '../components/ui/toast'
 import { DocsSidebar } from '../components/docs-sidebar'
 import { DocsSidebarTrigger } from '../components/ui/sidebar-trigger-island'
 import { navigation } from '../lib/nav'
+import { sidebar } from '../lib/sidebar'
 
 interface Props {
   title: string
@@ -14,7 +18,7 @@ interface Props {
 const { title, description } = Astro.props
 
 // On-demand rendering emits stored preferences so first paint needs no script.
-// Prerendered pages have no request cookies and leave it to the boot script.
+// Prerendered pages have no request cookies and leave it to the boot components.
 const cookie = (name: string) => (Astro.isPrerendered ? undefined : Astro.cookies.get(name)?.value)
 const storedTheme = cookie('theme')
 const initialTheme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : undefined
@@ -30,32 +34,7 @@ const initialSidebar =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title} · Xenon docs</title>
-    <script is:inline>
-      // Apply stored preferences before first paint, and again after a
-      // client-side navigation swap, where the new document skips inline scripts.
-      ;(() => {
-        const read = (name, pattern) => {
-          const match = document.cookie.match(
-            new RegExp('(?:^|; )' + name + '=(' + pattern + ')(?:;|$)')
-          )
-          return match ? match[1] : undefined
-        }
-        const apply = () => {
-          const theme = read('theme', 'light|dark|system') ?? 'system'
-          document.documentElement.dataset.theme =
-            theme === 'system'
-              ? matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
-              : theme
-          const shell = document.querySelector('[data-docs-shell]')
-          if (shell)
-            shell.dataset.sidebar = read('sidebar', 'expanded|compact|hidden') ?? 'expanded'
-        }
-        apply()
-        document.addEventListener('astro:after-swap', apply)
-      })()
-    </script>
+    <ThemeBoot />
   </head>
   <body>
     <header class="flex h-14 items-center gap-4 border-b border-foreground px-6">
@@ -68,25 +47,9 @@ const initialSidebar =
       </div>
     </header>
     <div data-docs-shell data-sidebar={initialSidebar} class="docs-shell">
-      <script is:inline>
-        // Runs before the shell has children, so the grid never paints at the
-        // default width and then transitions to the stored one.
-        ;(() => {
-          const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
-          if (match) document.currentScript.parentElement.dataset.sidebar = match[1]
-        })()
-      </script>
+      <SidebarShellBoot />
       <DocsSidebar sections={navigation} current={Astro.url.pathname} client:load />
-      <script is:inline>
-        // The island's server markup assumes expanded; patch it as soon as it exists.
-        ;(() => {
-          const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
-          const aside = document.getElementById('docs-sidebar')
-          if (!match || !aside) return
-          aside.dataset.mode = match[1]
-          aside.inert = match[1] === 'hidden'
-        })()
-      </script>
+      <SidebarPanelBoot id={sidebar.id} />
       <main class="min-w-0 px-6 py-12">
         <div class="mx-auto max-w-5xl">
           <slot />
