@@ -97,7 +97,7 @@ function BottomSheet(props: { theme: 'light' | 'dark' }) {
   return (
     <Drawer side="bottom" dragThreshold="96px">
       <DrawerTrigger variant="outline">Notification settings</DrawerTrigger>
-      <DrawerContent data-theme={props.theme} class="mx-auto w-full max-w-xl">
+      <DrawerContent data-theme={props.theme}>
         <DrawerHandle aria-label="Close notification settings" />
         <DrawerHeader>
           <DrawerTitle>Notifications</DrawerTitle>
