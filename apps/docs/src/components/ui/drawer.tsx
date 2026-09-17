@@ -71,14 +71,19 @@ const sideClass = cn(
   'data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:max-h-[calc(100dvh-2rem)] data-[side=bottom]:border-t-2 data-[side=bottom]:[transform:translateY(var(--drawer-swipe-offset,0px))]'
 )
 
-/** Slide in from the edge, slide back out while `data-ending-style` is set. Keyframes live in global.css. */
+/**
+ * Slide in from the edge, slide back out while `data-ending-style` is set. Keyframes
+ * live in global.css and animate `translate`; the swipe offset uses `transform`, so
+ * the two never fight and the entry animation is left alone during a drag. A drag
+ * released short of the threshold eases back through the transform transition.
+ */
 const motionClass = cn(
   'motion-safe:[animation:var(--drawer-in)_220ms_ease-out] motion-safe:data-[ending-style]:[animation:var(--drawer-out)_180ms_ease-in]',
+  'transition-transform duration-200 ease-out data-[swiping]:transition-none motion-reduce:transition-none',
   'data-[side=left]:[--drawer-in:drawer-in-left] data-[side=left]:[--drawer-out:drawer-out-left]',
   'data-[side=right]:[--drawer-in:drawer-in-right] data-[side=right]:[--drawer-out:drawer-out-right]',
   'data-[side=top]:[--drawer-in:drawer-in-top] data-[side=top]:[--drawer-out:drawer-out-top]',
-  'data-[side=bottom]:[--drawer-in:drawer-in-bottom] data-[side=bottom]:[--drawer-out:drawer-out-bottom]',
-  'data-[swiping]:[animation:none]'
+  'data-[side=bottom]:[--drawer-in:drawer-in-bottom] data-[side=bottom]:[--drawer-out:drawer-out-bottom]'
 )
 
 /**
@@ -91,8 +96,12 @@ export function DrawerContent(props: DrawerContentProps): JSX.Element {
     <DrawerPrimitive.Portal>
       <DrawerPrimitive.Viewport
         data-slot="drawer-viewport"
+        // The primitive sets overflow:auto inline. Clip instead: while the sheet is
+        // translated off-screen its box would otherwise extend the scroll area, and
+        // initial focus scrolls the dialog by that amount, then snaps back.
+        style={{ overflow: 'clip' }}
         class={cn(
-          'overflow-hidden outline-none [&::backdrop]:bg-foreground/20',
+          'outline-none [&::backdrop]:bg-foreground/20',
           'motion-safe:[&::backdrop]:[animation:drawer-fade-in_220ms_ease-out] motion-safe:data-[ending-style]:[&::backdrop]:[animation:drawer-fade-out_180ms_ease-in]',
           props.viewportClass
         )}
