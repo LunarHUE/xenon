@@ -1,9 +1,14 @@
 import type { ComponentProps, JSX } from '@solidjs/web'
-import { Collapsible } from '@xenon/solid/collapsible'
 import { ChevronDown, Menu, PanelLeft } from 'lucide'
 import { Show, omit } from 'solid-js'
 import { cva } from 'class-variance-authority'
 import { Button, type ButtonProps } from './button'
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  type CollapsibleTriggerProps,
+} from './collapsible'
 import { Drawer, DrawerContent, DrawerTrigger } from './drawer'
 import { Icon } from './icon'
 import { cn } from '../../lib/utils'
@@ -142,7 +147,7 @@ export function SidebarGroup(props: SidebarGroupProps): JSX.Element {
 /** Group heading over a rule. Interactive when it folds the group. Hidden in compact mode. */
 export const sidebarGroupHeadingVariants = cva(
   [
-    'mb-1.5 flex min-h-8 w-full items-center gap-2 border-b border-foreground px-3 pt-5 pb-2',
+    'mb-1.5 flex h-12 w-full items-end gap-2 border-b border-foreground px-3 pb-2',
     'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground',
     'group-data-[mode=compact]/sidebar:hidden',
   ],
@@ -169,17 +174,12 @@ export function SidebarGroupLabel(props: ComponentProps<'div'>): JSX.Element {
   )
 }
 
-type GroupTriggerProps = Omit<ComponentProps<typeof Collapsible.Trigger>, 'class' | 'children'> & {
-  class?: string
-  children?: JSX.Element
-}
-
 /** Heading that folds its group. Same look as the label plus a chevron. */
-export function SidebarGroupTrigger(props: GroupTriggerProps): JSX.Element {
+export function SidebarGroupTrigger(props: CollapsibleTriggerProps): JSX.Element {
   const rest = omit(props, 'class', 'children')
   return (
-    <Collapsible.Trigger
-      {...(rest as ComponentProps<typeof Collapsible.Trigger>)}
+    <CollapsibleTrigger
+      {...rest}
       data-slot="sidebar-group-trigger"
       class={cn(
         sidebarGroupHeadingVariants({ interactive: true }),
@@ -192,20 +192,14 @@ export function SidebarGroupTrigger(props: GroupTriggerProps): JSX.Element {
         icon={ChevronDown}
         class="size-3.5 transition-transform duration-200 ease-out motion-reduce:transition-none group-data-[state=open]/sidebar-group-trigger:rotate-180"
       />
-    </Collapsible.Trigger>
+    </CollapsibleTrigger>
   )
 }
 
 /** Body of a collapsible group. */
 export function SidebarGroupContent(props: Omit<ComponentProps<'div'>, 'ref'>): JSX.Element {
   const rest = omit(props, 'class')
-  return (
-    <Collapsible.Content
-      {...rest}
-      data-slot="sidebar-group-content"
-      class={cn('[&[hidden]]:hidden', props.class)}
-    />
-  )
+  return <CollapsibleContent {...rest} data-slot="sidebar-group-content" class={cn(props.class)} />
 }
 
 export function SidebarMenu(props: ComponentProps<'ul'>): JSX.Element {
