@@ -1,7 +1,14 @@
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Collapsible } from '@xenon/solid/collapsible'
 import { ChevronDown } from 'lucide'
-import { createContext, createSignal, omit, untrack, useContext } from 'solid-js'
+import {
+  createContext,
+  createEffect,
+  createSignal,
+  omit,
+  untrack,
+  useContext,
+} from 'solid-js'
 import { Button, type ButtonProps } from '../ui/button'
 import { CopyButton, type CopyButtonProps } from '../copybutton'
 import { Icon } from '../icon'
@@ -147,10 +154,38 @@ export function CodeBlockTitle(props: ComponentProps<'span'>): JSX.Element {
   )
 }
 
+/**
+ * Contain overscroll only on axes that actually overflow. `scroll-area` sets
+ * `overscroll-behavior: contain`, which Chrome honors on any overflow:auto element,
+ * so a short block would swallow wheel input meant for the page.
+ */
 const contentClass = cn(
-  'min-w-0 [&>pre]:scroll-area [&>pre]:px-4 [&>pre]:py-5 [&>pre]:leading-6',
+  'min-w-0 [&>pre]:scroll-area [&>pre]:overscroll-auto [&>pre]:px-4 [&>pre]:py-5 [&>pre]:leading-6',
+  '[&>pre[data-scrollable-x]]:overscroll-x-contain [&>pre[data-scrollable-y]]:overscroll-y-contain',
   '[&>pre]:focus-visible:outline-2 [&>pre]:focus-visible:-outline-offset-2 [&>pre]:focus-visible:outline-sidebar-primary'
 )
+
+/**
+ * Mark the `pre` with `data-scrollable-x` / `data-scrollable-y` while it overflows,
+ * and keep it in the tab order only then. Shiki emits `tabindex="0"` unconditionally,
+ * which is only warranted for a region a keyboard user needs to scroll.
+ */
+function trackScrollable(host: HTMLElement): () => void {
+  const pre = host.querySelector('pre')
+  if (!pre) return () => {}
+  const update = () => {
+    const x = pre.scrollWidth > pre.clientWidth
+    const y = pre.scrollHeight > pre.clientHeight
+    pre.toggleAttribute('data-scrollable-x', x)
+    pre.toggleAttribute('data-scrollable-y', y)
+    if (x || y) pre.tabIndex = 0
+    else pre.removeAttribute('tabindex')
+  }
+  update()
+  const observer = new ResizeObserver(update)
+  observer.observe(pre)
+  return () => observer.disconnect()
+}
 
 /** Collapsed: clip to the collapsed height and fade the last 56px into the trigger bar. */
 const collapsibleContentClass = cn(
@@ -168,9 +203,18 @@ export function CodeBlockContent(
 ): JSX.Element {
   const rest = omit(props, 'class')
   const context = useCodeBlock('CodeBlockContent')
+  let host: HTMLElement | undefined
+  const ref = (el: HTMLElement) => (host = el)
+
+  createEffect(
+    () => context.html(),
+    () => (host ? trackScrollable(host) : undefined)
+  )
+
   return context.collapsible() ? (
     <Collapsible.Content
       {...rest}
+      ref={ref}
       hidden={undefined}
       data-slot="code-block-content"
       data-lang={context.lang()}
@@ -180,6 +224,7 @@ export function CodeBlockContent(
   ) : (
     <div
       {...rest}
+      ref={ref}
       data-slot="code-block-content"
       data-lang={context.lang()}
       class={cn(contentClass, props.class)}
