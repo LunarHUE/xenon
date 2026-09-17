@@ -66,6 +66,7 @@ function ToastItem(props: { toast: Record }): JSX.Element {
         >
           {typeLabel[props.toast.type]}
         </span>
+
         <ToastPrimitive.Close
           aria-label="Dismiss notification"
           class="-me-2 flex size-6 cursor-pointer items-center justify-center border-0 bg-transparent text-foreground hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sidebar-primary"
@@ -73,13 +74,21 @@ function ToastItem(props: { toast: Record }): JSX.Element {
           <Icon icon={X} class="size-4" />
         </ToastPrimitive.Close>
       </div>
+
       <ToastPrimitive.Title class="font-medium" />
-      <ToastPrimitive.Description class="mt-1 text-muted-foreground empty:hidden" />
-      {props.toast.action && (
-        <ToastPrimitive.Action
-          class={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'mt-3')}
-        />
-      )}
+
+      <div class="mt-1 flex items-center justify-between gap-4">
+        <ToastPrimitive.Description class="min-w-0 text-muted-foreground empty:hidden" />
+
+        {props.toast.action && (
+          <ToastPrimitive.Action
+            class={cn(
+              buttonVariants({ variant: 'outline', size: 'sm' }),
+              '-me-2 shrink-0',
+            )}
+          />
+        )}
+      </div>
     </ToastPrimitive.Content>
   )
 }
