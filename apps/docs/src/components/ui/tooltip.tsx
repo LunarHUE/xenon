@@ -63,8 +63,8 @@ const motionClass = cn(
  *
  * A shared root (one `Tooltip` with a handle, many triggers) keeps this content
  * mounted while the active trigger changes, so the positioner glides to the new
- * anchor instead of reopening. Its first placement never animates because the
- * offsets start out unset.
+ * anchor instead of reopening. The glide is gated on the viewport's transitioning
+ * state, which also bounds it to the same 200ms as the content cross-fade.
  */
 export function TooltipContent(props: TooltipContentProps): JSX.Element {
   const rest = omit(
@@ -85,7 +85,9 @@ export function TooltipContent(props: TooltipContentProps): JSX.Element {
         alignOffset={props.alignOffset}
         collisionPadding={props.collisionPadding ?? 8}
         data-slot="tooltip-positioner"
-        class="group/tooltip-positioner z-50 transition-[top,left] duration-200 ease-out motion-reduce:transition-none"
+        // Glide only while the viewport is switching content. The positioner starts
+        // at inset 0, so an unconditional transition would sweep in from the corner.
+        class="group/tooltip-positioner z-50 has-data-transitioning:transition-[top,left] has-data-transitioning:duration-200 has-data-transitioning:ease-out motion-reduce:transition-none"
       >
         <TooltipPrimitive.Content
           {...rest}
@@ -119,7 +121,7 @@ export function TooltipViewport(props: TooltipViewportProps): JSX.Element {
         'relative overflow-hidden [height:var(--viewport-height)] [width:var(--viewport-width)]',
         'transition-[width,height] duration-200 ease-out motion-reduce:transition-none',
         '[&>[data-current]]:w-max',
-        '[&>[data-current]]:transition-opacity [&>[data-previous]]:transition-opacity [&>[data-current]]:duration-150 [&>[data-previous]]:duration-150',
+        '[&>[data-current]]:transition-opacity [&>[data-previous]]:transition-opacity [&>[data-current]]:duration-200 [&>[data-previous]]:duration-200',
         '[&>[data-starting-style]]:opacity-0 [&>[data-ending-style]]:opacity-0',
         props.class
       )}
