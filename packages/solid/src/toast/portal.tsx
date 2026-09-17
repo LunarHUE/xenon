@@ -86,6 +86,8 @@ export function ToastPortal(props: ToastPortalProps): JSX.Element {
     unsubscribe?.()
     if (!isServer) untrack(host)?.remove()
   })
-  const children = createMemo(() => props.children)
+  // Client-sourced like Solid's own Portal content: evaluated only after hydration
+  // ends, so the viewport never tries to claim server nodes the portal never emitted.
+  const children = createMemo(() => props.children, { ssrSource: 'client' })
   return <Show when={host()}>{(mount) => <Portal mount={mount()}>{children()}</Portal>}</Show>
 }
