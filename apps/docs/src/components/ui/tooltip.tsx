@@ -1,17 +1,19 @@
 import {
   Tooltip as TooltipPrimitive,
   TooltipProvider,
+  createTooltipHandle,
   type TooltipProps as PrimitiveProps,
   type TooltipTriggerProps as PrimitiveTriggerProps,
   type TooltipContentProps as PrimitiveContentProps,
   type TooltipPositionerProps as PrimitivePositionerProps,
+  type TooltipViewportProps as PrimitiveViewportProps,
 } from '@xenon/solid/tooltip'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { cn } from '../../lib/utils'
 
-export { TooltipProvider }
-export type { TooltipProviderProps } from '@xenon/solid/tooltip'
+export { TooltipProvider, createTooltipHandle }
+export type { TooltipProviderProps, TooltipHandle, TooltipRenderState } from '@xenon/solid/tooltip'
 
 export type TooltipProps<T extends ValidComponent = 'div', Payload = unknown> = PrimitiveProps<
   T,
@@ -58,6 +60,11 @@ const motionClass = cn(
 /**
  * Portal, positioner, and the inverted label surface. Defaults to the top side
  * with an 8px gap; the positioner flips and shifts to stay inside the viewport.
+ *
+ * A shared root (one `Tooltip` with a handle, many triggers) keeps this content
+ * mounted while the active trigger changes, so the positioner glides to the new
+ * anchor instead of reopening. Its first placement never animates because the
+ * offsets start out unset.
  */
 export function TooltipContent(props: TooltipContentProps): JSX.Element {
   const rest = omit(
@@ -78,7 +85,7 @@ export function TooltipContent(props: TooltipContentProps): JSX.Element {
         alignOffset={props.alignOffset}
         collisionPadding={props.collisionPadding ?? 8}
         data-slot="tooltip-positioner"
-        class="group/tooltip-positioner z-50"
+        class="group/tooltip-positioner z-50 transition-[top,left] duration-200 ease-out motion-reduce:transition-none"
       >
         <TooltipPrimitive.Content
           {...rest}
@@ -92,5 +99,30 @@ export function TooltipContent(props: TooltipContentProps): JSX.Element {
         />
       </TooltipPrimitive.Positioner>
     </TooltipPrimitive.Portal>
+  )
+}
+
+export type TooltipViewportProps = Omit<PrimitiveViewportProps, 'class'> & { class?: string }
+
+/**
+ * Place inside `TooltipContent` of a shared root. When the payload changes the
+ * outgoing label fades while the box resizes to the incoming one, using the
+ * measured size variables the primitive publishes.
+ */
+export function TooltipViewport(props: TooltipViewportProps): JSX.Element {
+  const rest = omit(props, 'class')
+  return (
+    <TooltipPrimitive.Viewport
+      {...rest}
+      data-slot="tooltip-viewport"
+      class={cn(
+        'relative overflow-hidden [height:var(--viewport-height)] [width:var(--viewport-width)]',
+        'transition-[width,height] duration-200 ease-out motion-reduce:transition-none',
+        '[&>[data-current]]:w-max',
+        '[&>[data-current]]:transition-opacity [&>[data-previous]]:transition-opacity [&>[data-current]]:duration-150 [&>[data-previous]]:duration-150',
+        '[&>[data-starting-style]]:opacity-0 [&>[data-ending-style]]:opacity-0',
+        props.class
+      )}
+    />
   )
 }
