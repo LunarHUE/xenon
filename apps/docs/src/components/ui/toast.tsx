@@ -12,9 +12,11 @@ export type ToasterProps = Omit<ToastViewportProps<'div'>, 'as' | 'children' | '
 }
 
 /**
- * Renders the shared `toast` manager from `lib/toast`. Mount it once, near the
- * end of the layout. It never renders a wrapper of its own; the stack lives in a
- * portaled region at the bottom-right corner. Stack geometry and motion are in
+ * Renders the shared `toast` manager from `lib/toast`. Mount it once, as its own
+ * `client:only="xenon/solid"` island: the portal has no server output, and
+ * hydrating it makes the viewport claim DOM nodes that do not exist, which
+ * crashes the island. It never renders a wrapper of its own; the stack lives in
+ * a portaled region at the bottom-right corner. Stack geometry and motion are in
  * global.css under `[data-slot=toast]`.
  */
 export function Toaster(props: ToasterProps): JSX.Element {

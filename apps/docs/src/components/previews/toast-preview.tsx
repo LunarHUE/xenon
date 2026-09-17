@@ -1,11 +1,10 @@
 import { createSignal } from 'solid-js'
 import { Button } from '../ui/button'
-import { Toaster } from '../ui/toast'
 import { toast } from '../../lib/toast'
 
 /**
  * Every button talks to the manager in lib/toast directly. Nothing here reads
- * context; the Toaster at the bottom is the only place the manager is rendered.
+ * context; the page mounts the Toaster as a separate client-only island.
  */
 function Controls(props: { theme: 'light' | 'dark' }) {
   const [archived, setArchived] = createSignal(false)
@@ -94,7 +93,6 @@ export default function ToastPreview() {
     <div class="space-y-8">
       <Controls theme="light" />
       <Controls theme="dark" />
-      <Toaster />
     </div>
   )
 }
