@@ -48,8 +48,8 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
 
   return (
     <ButtonPrimitive<T>
-      {...(rest as PrimitiveProps<T>)}
       data-slot="button"
+      {...(rest as PrimitiveProps<T>)}
       class={cn(buttonVariants({ variant: props.variant, size: props.size }), props.class)}
     />
   )

@@ -33,6 +33,7 @@
   --color-sidebar-ring: oklch(70.9% 0.01 56.3);
   --color-sidebar-selected: oklch(59.2% 0.249 0.6 / 5%);
   --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
   --color-tab-active: var(--color-primary);
 }
 

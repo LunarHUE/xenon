@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@solidjs/web": "catalog:",
     "@xenon/solid": "workspace:*",
     "astro": "^7.3.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "shiki": "^4.4.3",
     "solid-js": "catalog:",
     "tailwind-merge": "^3.7.0"
   },

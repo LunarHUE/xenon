@@ -9,7 +9,7 @@ bun run --filter @xenon/docs typecheck
 bun run --filter @xenon/docs build
 ```
 
-The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/`, `/dev/combobox/`, and `/dev/breadcrumb/` are working
+The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/`, `/dev/combobox/`, `/dev/breadcrumb/`, and `/dev/codeblock/` are working
 playgrounds for the documentation site's primitives, with light and dark specimens.
 MDX documents can be added under `src/content/docs/`; the collection and dynamic
 route remain configured for future documentation.
@@ -145,6 +145,57 @@ than the pink control outline. `BreadcrumbList variant="compact"` drops the rule
 and height, tightens the slash to its link, and renders links in the foreground color.
 The playground composes it with a menu `Button` and a `sm` `Combobox` trigger for the
 component selector shown on the artboard; that selector is not part of this file.
+
+## Copy button
+
+`src/components/copybutton/index.tsx` is an icon button over `ui/button` with a
+`createCopy` helper. `createCopy(text, { resetAfter })` owns the clipboard call,
+the copied or error state, and the timer that returns it to idle after two seconds.
+`CopyButton text="…"` swaps its icon and accessible name between Copy, Copied,
+and Retry copy, colors the error state destructive, and announces the result through
+a visually hidden `role="status"` span so focus never moves.
+
+## Code block
+
+`src/components/codeblock/` renders highlighted source with a filename bar and actions.
+Highlighting is not a Solid concern. `highlight(code, lang)` in `highlight.ts` calls
+shiki at build time and returns markup with both palettes inlined as `--shiki-light`
+and `--shiki-dark` variables; `global.css` picks one per `data-theme`. Call it from
+Astro frontmatter and pass the result in, because the local Solid bridge only renders
+synchronous islands. Keep `highlight.ts` out of client code so shiki stays server-side.
+
+```astro
+---
+import { highlight } from '../components/codeblock/highlight'
+const html = await highlight(source, 'tsx')
+---
+
+<Snippet code={source} html={html} client:load />
+```
+
+```tsx
+<CodeBlock code={props.code} html={props.html} lang="tsx">
+  <CodeBlockHeader>
+    <CodeBlockTitle>button.tsx</CodeBlockTitle>
+    <CodeBlockAction as="a" href="/dev/button/" aria-label="Open playground">
+      <ExternalIcon />
+    </CodeBlockAction>
+    <CodeBlockCopy />
+  </CodeBlockHeader>
+  <CodeBlockContent />
+  <CodeBlockFooter>Anatomy source for Button.</CodeBlockFooter>
+</CodeBlock>
+```
+
+`CodeBlock` takes both the plain `code` for copying and the `html` for display, and
+shares them through context. `CodeBlockHeader` and `CodeBlockFooter` are only flex
+rows with the Paper bar treatment: 40px, muted background, dashed rule. The layout
+comes from the children; `CodeBlockTitle` pushes whatever follows it to the end.
+`CodeBlockAction` is the borderless 32px icon button every bar control uses, and
+`CodeBlockCopy` is that action wired to `CopyButton` with the block's source.
+`CodeBlockContent` injects the markup; shiki's `pre` is the horizontal scroll target
+and takes keyboard focus with the pink outline. Tooltips on actions come later with
+the Tooltip primitive.
 
 ## Temporary Solid 2 integration
 

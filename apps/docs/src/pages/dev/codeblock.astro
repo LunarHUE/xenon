@@ -1,0 +1,30 @@
+---
+import CodeBlockPreview, { type Snippet } from '../../components/previews/codeblock-preview'
+import { highlight } from '../../components/codeblock/highlight'
+import Layout from '../../layouts/Layout.astro'
+
+const sources = [
+  {
+    filename: 'button.tsx',
+    lang: 'tsx',
+    code: `<Button disabled>\n  Save changes\n</Button>`,
+  },
+  {
+    filename: 'button-anatomy.tsx',
+    lang: 'tsx',
+    code: `import { Button } from '@xenon/solid/button'\n\nexport function SaveButton(props: { pending: boolean }) {\n  return (\n    <Button focusableWhenDisabled disabled={props.pending} onClick={() => save({ notify: true, retries: 3 })}>\n      Save changes\n    </Button>\n  )\n}`,
+  },
+] as const
+
+const snippets: Snippet[] = await Promise.all(
+  sources.map(async (source) => ({ ...source, html: await highlight(source.code, source.lang) }))
+)
+---
+
+<Layout title="Code block playground" description="Highlighted source with copy actions.">
+  <a href="/" class="text-sm text-muted-foreground underline underline-offset-4">
+    Xenon docs
+  </a>
+  <h1 class="mt-6 mb-10 text-3xl font-medium">Code block</h1>
+  <CodeBlockPreview snippets={snippets} client:load />
+</Layout>
