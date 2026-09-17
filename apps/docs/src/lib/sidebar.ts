@@ -1,6 +1,6 @@
 import { Drawer, type DrawerHandle } from '@xenon/solid/drawer'
 import { isServer } from '@solidjs/web'
-import { createSignal, onCleanup, onSettled } from 'solid-js'
+import { createMemo, createSignal, onCleanup, onSettled } from 'solid-js'
 
 /**
  * Desktop presentation of a docked sidebar. `compact` keeps it present at rail
@@ -67,6 +67,15 @@ export function createSidebar(options: CreateSidebarOptions = {}): SidebarContro
     compact: () => setMode('compact'),
     hide: () => setMode('hidden'),
   }
+}
+
+/**
+ * Read the desktop mode inside a component that may hydrate. The server and the
+ * hydrating client both render `expanded`; the real mode is computed once
+ * hydration ends, which updates every binding. Plain client renders compute at once.
+ */
+export function useSidebarMode(controller: SidebarController): () => SidebarMode {
+  return createMemo(() => controller.mode(), { ssrSource: 'client', loadingValue: 'expanded' })
 }
 
 /** Below this the sidebar becomes a drawer. Matches the docs mobile breakpoint token. */
