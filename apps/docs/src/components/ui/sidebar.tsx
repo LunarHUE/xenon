@@ -144,10 +144,14 @@ export function SidebarGroup(props: SidebarGroupProps): JSX.Element {
   )
 }
 
-/** Group heading over a rule. Interactive when it folds the group. Hidden in compact mode. */
+/**
+ * Group heading over a rule: the design gap above it is margin, so the box itself is
+ * only the text, its bottom padding and the rule. Interactive when it folds the group.
+ * Hidden in compact mode.
+ */
 export const sidebarGroupHeadingVariants = cva(
   [
-    'mb-1.5 flex h-12 w-full items-end gap-2 border-b border-foreground px-3 pb-2',
+    'mt-5 mb-1.5 flex h-7 w-full items-end gap-2 border-b border-foreground px-3 pb-2',
     'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground',
     'group-data-[mode=compact]/sidebar:hidden',
   ],
