@@ -36,105 +36,91 @@ const components = ['Accordion', 'Button', 'Checkbox', 'Combobox', 'Dialog', 'Po
   (label) => ({ value: label.toLowerCase(), label })
 )
 
-function Specimens(props: { theme: 'light' | 'dark' }) {
+export default function ComboboxPreview() {
   const [value, setValue] = createSignal<string | undefined>('solid@0.4.5')
   return (
-    <section
-      data-theme={props.theme}
-      class="border border-border bg-background p-6 text-foreground sm:p-8"
-    >
-      <h2 class="mb-8 text-sm capitalize text-muted-foreground">{props.theme}</h2>
-      <div class="grid gap-8 sm:grid-cols-2">
-        <div class="min-w-0 space-y-3">
-          <h3 id={`${props.theme}-framework`} class="text-sm">
-            Framework
-          </h3>
-          <Combobox
-            items={frameworks}
-            value={value()}
-            onValueChange={setValue}
-            name={`${props.theme}-framework`}
-          >
-            <ComboboxTrigger aria-labelledby={`${props.theme}-framework`}>
-              <ComboboxValue />
-            </ComboboxTrigger>
-            <ComboboxContent aria-label="Choose framework">
-              <ComboboxInput
-                aria-label="Search frameworks"
-                placeholder="Search frameworks…"
-                class="mb-[0.25em] border-0 border-b focus-visible:-outline-offset-2"
-              />
-              <ComboboxViewport aria-label="Frameworks">
-                <For each={releases}>
-                  {(group) => (
-                    <ComboboxGroup label={group.label}>
-                      <For each={group.items}>
-                        {(item) => (
-                          <ComboboxItem value={item.value}>
-                            <span class="flex items-center justify-between gap-[1em]">
-                              {item.framework}
-                              <span class="text-muted-foreground tabular-nums">{item.version}</span>
-                            </span>
-                          </ComboboxItem>
-                        )}
-                      </For>
-                    </ComboboxGroup>
-                  )}
-                </For>
-              </ComboboxViewport>
-              <ComboboxEmpty>No frameworks found.</ComboboxEmpty>
-            </ComboboxContent>
-          </Combobox>
-          <p role="status" class="text-sm text-muted-foreground">
-            Selected: {value() ?? 'none'}
-          </p>
-        </div>
-        <div class="min-w-0 space-y-3">
-          <h3 id={`${props.theme}-component`} class="text-sm">
-            Component / compact
-          </h3>
-          <Combobox items={components}>
-            <ComboboxTrigger size="sm" aria-labelledby={`${props.theme}-component`}>
-              <ComboboxValue placeholder="Choose a component" />
-            </ComboboxTrigger>
-            <ComboboxContent aria-label="Choose component">
-              {(items) => (
-                <>
-                  <ComboboxInput
-                    aria-label="Search components"
-                    placeholder="Search components…"
-                    class="mb-[0.25em] border-0 border-b focus-visible:-outline-offset-2"
-                  />
-                  <ComboboxViewport aria-label="Components">
-                    <For each={items}>
-                      {(item) => <ComboboxItem value={item.value}>{item.label}</ComboboxItem>}
+    <div class="grid gap-8 sm:grid-cols-2">
+      <div class="min-w-0 space-y-3">
+        <h3 id={`combobox-framework`} class="text-sm">
+          Framework
+        </h3>
+        <Combobox
+          items={frameworks}
+          value={value()}
+          onValueChange={setValue}
+          name={`combobox-framework`}
+        >
+          <ComboboxTrigger aria-labelledby={`combobox-framework`}>
+            <ComboboxValue />
+          </ComboboxTrigger>
+          <ComboboxContent aria-label="Choose framework">
+            <ComboboxInput
+              aria-label="Search frameworks"
+              placeholder="Search frameworks…"
+              class="mb-[0.25em] border-0 border-b focus-visible:-outline-offset-2"
+            />
+            <ComboboxViewport aria-label="Frameworks">
+              <For each={releases}>
+                {(group) => (
+                  <ComboboxGroup label={group.label}>
+                    <For each={group.items}>
+                      {(item) => (
+                        <ComboboxItem value={item.value}>
+                          <span class="flex items-center justify-between gap-[1em]">
+                            {item.framework}
+                            <span class="text-muted-foreground tabular-nums">{item.version}</span>
+                          </span>
+                        </ComboboxItem>
+                      )}
                     </For>
-                  </ComboboxViewport>
-                  <ComboboxEmpty>No components found.</ComboboxEmpty>
-                </>
-              )}
-            </ComboboxContent>
-          </Combobox>
-        </div>
-        <div class="min-w-0 space-y-3 mb-50">
-          <h3 id={`${props.theme}-disabled`} class="text-sm">
-            Disabled
-          </h3>
-          <Combobox items={frameworks} defaultValue="solid@0.4.5" disabled>
-            <ComboboxTrigger aria-labelledby={`${props.theme}-disabled`}>
-              <ComboboxValue />
-            </ComboboxTrigger>
-          </Combobox>
-        </div>
+                  </ComboboxGroup>
+                )}
+              </For>
+            </ComboboxViewport>
+            <ComboboxEmpty>No frameworks found.</ComboboxEmpty>
+          </ComboboxContent>
+        </Combobox>
+        <p role="status" class="text-sm text-muted-foreground">
+          Selected: {value() ?? 'none'}
+        </p>
       </div>
-    </section>
-  )
-}
-export default function ComboboxPreview() {
-  return (
-    <div class="space-y-8">
-      <Specimens theme="light" />
-      <Specimens theme="dark" />
+      <div class="min-w-0 space-y-3">
+        <h3 id={`combobox-component`} class="text-sm">
+          Component / compact
+        </h3>
+        <Combobox items={components}>
+          <ComboboxTrigger size="sm" aria-labelledby={`combobox-component`}>
+            <ComboboxValue placeholder="Choose a component" />
+          </ComboboxTrigger>
+          <ComboboxContent aria-label="Choose component">
+            {(items) => (
+              <>
+                <ComboboxInput
+                  aria-label="Search components"
+                  placeholder="Search components…"
+                  class="mb-[0.25em] border-0 border-b focus-visible:-outline-offset-2"
+                />
+                <ComboboxViewport aria-label="Components">
+                  <For each={items}>
+                    {(item) => <ComboboxItem value={item.value}>{item.label}</ComboboxItem>}
+                  </For>
+                </ComboboxViewport>
+                <ComboboxEmpty>No components found.</ComboboxEmpty>
+              </>
+            )}
+          </ComboboxContent>
+        </Combobox>
+      </div>
+      <div class="min-w-0 space-y-3 mb-50">
+        <h3 id={`combobox-disabled`} class="text-sm">
+          Disabled
+        </h3>
+        <Combobox items={frameworks} defaultValue="solid@0.4.5" disabled>
+          <ComboboxTrigger aria-labelledby={`combobox-disabled`}>
+            <ComboboxValue />
+          </ComboboxTrigger>
+        </Combobox>
+      </div>
     </div>
   )
 }

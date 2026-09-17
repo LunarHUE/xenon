@@ -51,60 +51,45 @@ function Source(props: { snippet: Snippet; collapsible?: boolean; defaultOpen?: 
   )
 }
 
-function Specimens(props: { theme: 'light' | 'dark'; snippets: CodeBlockSnippets }) {
-  return (
-    <section
-      data-theme={props.theme}
-      class="border border-border bg-background p-6 text-foreground sm:p-8"
-    >
-      <h2 class="mb-8 text-sm capitalize text-muted-foreground">{props.theme}</h2>
-      <div class="space-y-10">
-        <div class="space-y-3">
-          <h3 class="text-sm text-muted-foreground">Example: rendered component, source collapsed</h3>
-          <Example>
-            <ExamplePreview>
-              <Button>Save changes</Button>
-              <Button variant="outline">Cancel</Button>
-            </ExamplePreview>
-            <Source snippet={props.snippets.medium} collapsible />
-          </Example>
-        </div>
-
-        <div class="grid gap-8 lg:grid-cols-2">
-          <div class="min-w-0 space-y-3">
-            <h3 class="text-sm text-muted-foreground">Collapsible, expanded by default</h3>
-            <Source snippet={props.snippets.medium} collapsible defaultOpen />
-          </div>
-          <div class="min-w-0 space-y-3">
-            <h3 class="text-sm text-muted-foreground">Plain block, no trigger</h3>
-            <Source snippet={props.snippets.short} />
-          </div>
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm text-muted-foreground">
-            Long snippet: expand and scroll, the bar sticks to the viewport bottom
-          </h3>
-          <Source snippet={props.snippets.long} collapsible />
-        </div>
-
-        <div class="space-y-3">
-          <h3 class="text-sm text-muted-foreground">Copy button on its own</h3>
-          <div class="flex items-center gap-4">
-            <CopyButton text="bun add @xenon/solid" />
-            <code class="font-mono text-xs">bun add @xenon/solid</code>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export default function CodeBlockPreview(props: { snippets: CodeBlockSnippets }) {
   return (
-    <div class="space-y-8">
-      <Specimens theme="light" snippets={props.snippets} />
-      <Specimens theme="dark" snippets={props.snippets} />
+    <div class="space-y-10">
+      <div class="space-y-3">
+        <h3 class="text-sm text-muted-foreground">Example: rendered component, source collapsed</h3>
+        <Example>
+          <ExamplePreview>
+            <Button>Save changes</Button>
+            <Button variant="outline">Cancel</Button>
+          </ExamplePreview>
+          <Source snippet={props.snippets.medium} collapsible />
+        </Example>
+      </div>
+
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="min-w-0 space-y-3">
+          <h3 class="text-sm text-muted-foreground">Collapsible, expanded by default</h3>
+          <Source snippet={props.snippets.medium} collapsible defaultOpen />
+        </div>
+        <div class="min-w-0 space-y-3">
+          <h3 class="text-sm text-muted-foreground">Plain block, no trigger</h3>
+          <Source snippet={props.snippets.short} />
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-sm text-muted-foreground">
+          Long snippet: expand and scroll, the bar sticks to the viewport bottom
+        </h3>
+        <Source snippet={props.snippets.long} collapsible />
+      </div>
+
+      <div class="space-y-3">
+        <h3 class="text-sm text-muted-foreground">Copy button on its own</h3>
+        <div class="flex items-center gap-4">
+          <CopyButton text="bun add @xenon/solid" />
+          <code class="font-mono text-xs">bun add @xenon/solid</code>
+        </div>
+      </div>
     </div>
   )
 }

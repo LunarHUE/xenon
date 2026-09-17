@@ -32,7 +32,7 @@ function NavLink(props: { label: string; current: boolean }) {
         'block min-h-8 border border-transparent px-3 py-[5px] leading-5 text-muted-foreground',
         'hover:bg-accent active:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         props.current &&
-        'border-sidebar-primary bg-sidebar-selected font-medium text-sidebar-primary'
+          'border-sidebar-primary bg-sidebar-selected font-medium text-sidebar-primary'
       )}
     >
       {props.label}
@@ -41,7 +41,7 @@ function NavLink(props: { label: string; current: boolean }) {
 }
 
 /** Compact docs page: the drawer holds the sidebar that has no room at this width. */
-function NavigationDrawer(props: { theme: 'light' | 'dark' }) {
+function NavigationDrawer() {
   const [open, setOpen] = createSignal(false)
   return (
     <div class="border border-foreground bg-muted">
@@ -57,11 +57,7 @@ function NavigationDrawer(props: { theme: 'light' | 'dark' }) {
           </DrawerTrigger>
           <span>Components / Button</span>
         </div>
-        <DrawerContent
-          aria-label={`${props.theme} navigation`}
-          data-theme={props.theme}
-          class="gap-0"
-        >
+        <DrawerContent aria-label="Navigation" class="gap-0">
           <DrawerHeader class="-mx-6 -mt-6 mb-2 border-b border-foreground bg-background p-4">
             <DrawerClose
               variant="outline"
@@ -93,11 +89,11 @@ function NavigationDrawer(props: { theme: 'light' | 'dark' }) {
 }
 
 /** Bottom sheet with the drag handle, to exercise the swipe path. */
-function BottomSheet(props: { theme: 'light' | 'dark' }) {
+function BottomSheet() {
   return (
     <Drawer side="bottom" dragThreshold="96px">
       <DrawerTrigger variant="outline">Notification settings</DrawerTrigger>
-      <DrawerContent data-theme={props.theme}>
+      <DrawerContent>
         <DrawerHandle aria-label="Close notification settings" />
         <DrawerHeader>
           <DrawerTitle>Notifications</DrawerTitle>
@@ -120,32 +116,17 @@ function BottomSheet(props: { theme: 'light' | 'dark' }) {
   )
 }
 
-function Specimens(props: { theme: 'light' | 'dark' }) {
-  return (
-    <section
-      data-theme={props.theme}
-      class="border border-border bg-background p-6 text-foreground sm:p-8"
-    >
-      <h2 class="mb-8 text-sm capitalize text-muted-foreground">{props.theme}</h2>
-      <div class="grid gap-8 lg:grid-cols-2">
-        <div class="min-w-0 space-y-3">
-          <h3 class="text-sm text-muted-foreground">Navigation drawer, left</h3>
-          <NavigationDrawer theme={props.theme} />
-        </div>
-        <div class="min-w-0 space-y-3">
-          <h3 class="text-sm text-muted-foreground">Bottom sheet with drag handle</h3>
-          <BottomSheet theme={props.theme} />
-        </div>
-      </div>
-    </section>
-  )
-}
-
 export default function DrawerPreview() {
   return (
-    <div class="space-y-8">
-      <Specimens theme="light" />
-      <Specimens theme="dark" />
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="min-w-0 space-y-3">
+        <h3 class="text-sm text-muted-foreground">Navigation drawer, left</h3>
+        <NavigationDrawer />
+      </div>
+      <div class="min-w-0 space-y-3">
+        <h3 class="text-sm text-muted-foreground">Bottom sheet with drag handle</h3>
+        <BottomSheet />
+      </div>
     </div>
   )
 }
