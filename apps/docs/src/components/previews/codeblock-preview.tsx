@@ -9,26 +9,14 @@ import {
   CodeBlockCopy,
 } from '../codeblock'
 import { CopyButton } from '../copybutton'
+import { Icon } from '../icon'
+import { ExternalLink } from 'lucide'
 
 export interface Snippet {
   filename: string
   lang: string
   code: string
   html: string
-}
-
-function ExternalIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M14 5h5v5M19 5l-8 8M18 14v5H5V6h5" />
-    </svg>
-  )
 }
 
 function Specimens(props: { theme: 'light' | 'dark'; snippets: Snippet[] }) {
@@ -50,7 +38,7 @@ function Specimens(props: { theme: 'light' | 'dark'; snippets: Snippet[] }) {
                   <CodeBlockTitle>{snippet.filename}</CodeBlockTitle>
                   {index() === 1 && (
                     <CodeBlockAction as="a" href="/dev/button/" aria-label="Open Button playground">
-                      <ExternalIcon />
+                      <Icon icon={ExternalLink} />
                     </CodeBlockAction>
                   )}
                   <CodeBlockCopy />

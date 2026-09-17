@@ -146,6 +146,23 @@ and height, tightens the slash to its link, and renders links in the foreground 
 The playground composes it with a menu `Button` and a `sm` `Combobox` trigger for the
 component selector shown on the artboard; that selector is not part of this file.
 
+## Icons
+
+`src/components/icon/index.tsx` renders icon data from the framework-free `lucide`
+package. `lucide-solid` is compiled against Solid 1's `solid-js/web` runtime and
+`splitProps`, neither of which exists in Solid 2, so it cannot load here. The core
+package exports each icon as `[tag, attrs]` tuples, and `Icon` maps them into an
+`svg` with lucide's defaults except stroke width, which is 1.5 to match the artboards.
+Icons are `aria-hidden` unless you pass a label. Named imports tree-shake; the code
+block page ships three icons in about 5KB.
+
+```tsx
+import { Copy } from 'lucide'
+import { Icon } from '../icon'
+
+;<Icon icon={Copy} />
+```
+
 ## Copy button
 
 `src/components/copybutton/index.tsx` is an icon button over `ui/button` with a

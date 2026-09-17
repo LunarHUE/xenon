@@ -8,6 +8,8 @@ import {
   BreadcrumbSeparator,
 } from '../ui/breadcrumb'
 import { Button } from '../ui/button'
+import { Icon } from '../icon'
+import { Menu } from 'lucide'
 import {
   Combobox,
   ComboboxTrigger,
@@ -22,20 +24,6 @@ import {
 const components = ['Accordion', 'Button', 'Checkbox', 'Combobox', 'Dialog', 'Popover', 'Tabs'].map(
   (label) => ({ value: label.toLowerCase(), label })
 )
-
-function MenuIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  )
-}
 
 function Specimens(props: { theme: 'light' | 'dark' }) {
   const [component, setComponent] = createSignal<string | undefined>('button')
@@ -90,7 +78,7 @@ function Specimens(props: { theme: 'light' | 'dark' }) {
           </h3>
           <div class="flex items-center gap-[14px]">
             <Button variant="outline" size="icon-sm" class="border-0" aria-label="Open navigation">
-              <MenuIcon />
+              <Icon icon={Menu} />
             </Button>
             <Breadcrumb>
               <BreadcrumbList variant="compact">

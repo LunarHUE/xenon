@@ -1,6 +1,8 @@
 import type { JSX } from '@solidjs/web'
 import { createSignal, omit, onCleanup } from 'solid-js'
+import { Check, Copy, RotateCw } from 'lucide'
 import { Button, type ButtonProps } from '../ui/button'
+import { Icon, type IconNode } from '../icon'
 import { cn } from '../../lib/utils'
 
 export type CopyState = 'idle' | 'copied' | 'error'
@@ -34,56 +36,8 @@ export function createCopy(text: () => string, options: CreateCopyOptions = {}) 
   }
 }
 
-function CopyIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <rect x="9" y="9" width="11" height="11" />
-      <path d="M15 9V5H4v11h5" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="m5 12 4 4L19 6" />
-    </svg>
-  )
-}
-
-function RetryIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M20 12a8 8 0 1 1-2.3-5.7" />
-      <path d="M20 4v5h-5" />
-    </svg>
-  )
-}
-
 const labels: Record<CopyState, string> = { idle: 'Copy', copied: 'Copied', error: 'Retry copy' }
-const icons: Record<CopyState, () => JSX.Element> = {
-  idle: CopyIcon,
-  copied: CheckIcon,
-  error: RetryIcon,
-}
+const icons: Record<CopyState, IconNode> = { idle: Copy, copied: Check, error: RotateCw }
 
 export type CopyButtonProps = Omit<ButtonProps, 'onClick' | 'children'> &
   CreateCopyOptions & {
@@ -114,7 +68,7 @@ export function CopyButton(props: CopyButtonProps): JSX.Element {
         class={cn('data-[state=error]:text-destructive', props.class)}
         onClick={() => void clipboard.copy()}
       >
-        {icons[clipboard.state()]()}
+        <Icon icon={icons[clipboard.state()]} />
       </Button>
       <span role="status" class="sr-only">
         {clipboard.message()}

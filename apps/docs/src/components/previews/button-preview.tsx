@@ -1,19 +1,7 @@
 import { createSignal } from 'solid-js'
 import { Button } from '../ui/button'
-
-function PlusIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      aria-hidden="true"
-    >
-      <path d="M12 5v14M5 12h14" />
-    </svg>
-  )
-}
+import { Icon } from '../icon'
+import { Plus } from 'lucide'
 
 function ButtonSpecimens(props: { theme: 'light' | 'dark' }) {
   const [count, setCount] = createSignal(0)
@@ -46,13 +34,13 @@ function ButtonSpecimens(props: { theme: 'light' | 'dark' }) {
           <Button>Default</Button>
           <Button size="lg">Large</Button>
           <Button variant="outline" size="icon-sm" aria-label="Add item, small">
-            <PlusIcon />
+            <Icon icon={Plus} />
           </Button>
           <Button variant="outline" size="icon" aria-label="Add item">
-            <PlusIcon />
+            <Icon icon={Plus} />
           </Button>
           <Button variant="outline" size="icon-lg" aria-label="Add item, large">
-            <PlusIcon />
+            <Icon icon={Plus} />
           </Button>
         </div>
         <Button as="a" href="/" variant="outline">
