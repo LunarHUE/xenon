@@ -2,7 +2,7 @@ import type { JSX } from '@solidjs/web'
 import { createSignal, omit, onCleanup } from 'solid-js'
 import { Check, Copy, RotateCw } from 'lucide'
 import { Button, type ButtonProps } from '../ui/button'
-import { Icon, type IconNode } from '../icon'
+import { Icon, type IconNode } from '../ui/icon'
 import { cn } from '../../lib/utils'
 
 export type CopyState = 'idle' | 'copied' | 'error'

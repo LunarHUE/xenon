@@ -10,7 +10,7 @@ import {
 import { Example, ExamplePreview } from '../example'
 import { CopyButton } from '../copybutton'
 import { Button } from '../ui/button'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 import { ExternalLink } from 'lucide'
 
 export interface Snippet {

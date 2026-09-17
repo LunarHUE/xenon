@@ -1,7 +1,7 @@
 import { Bold, Italic, Underline } from 'lucide'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../ui/tooltip'
 import { Button } from '../ui/button'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 
 const sides = ['top', 'right', 'bottom', 'left'] as const
 

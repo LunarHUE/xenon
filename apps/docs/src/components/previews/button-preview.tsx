@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js'
 import { Button } from '../ui/button'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 import { Plus } from 'lucide'
 
 function ButtonSpecimens(props: { theme: 'light' | 'dark' }) {

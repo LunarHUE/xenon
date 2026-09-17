@@ -12,7 +12,7 @@ import type { ComponentProps } from '@solidjs/web'
 import { createUniqueId, omit } from 'solid-js'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Check, ChevronDown } from 'lucide'
-import { Icon } from '../icon'
+import { Icon } from './icon'
 import { cn } from '../../lib/utils'
 
 export type ComboboxProps = PrimitiveProps

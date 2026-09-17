@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from '../ui/breadcrumb'
 import { Button } from '../ui/button'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 import { Menu } from 'lucide'
 import {
   Combobox,

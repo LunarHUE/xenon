@@ -10,7 +10,7 @@ import {
   DrawerClose,
   DrawerHandle,
 } from '../ui/drawer'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 import { cn } from '../../lib/utils'
 
 const sections = [
@@ -32,7 +32,7 @@ function NavLink(props: { label: string; current: boolean }) {
         'block min-h-8 border border-transparent px-3 py-[5px] leading-5 text-muted-foreground',
         'hover:bg-accent active:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
         props.current &&
-          'border-sidebar-primary bg-sidebar-selected font-medium text-sidebar-primary'
+        'border-sidebar-primary bg-sidebar-selected font-medium text-sidebar-primary'
       )}
     >
       {props.label}

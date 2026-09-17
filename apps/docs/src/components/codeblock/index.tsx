@@ -11,7 +11,7 @@ import {
 } from 'solid-js'
 import { Button, type ButtonProps } from '../ui/button'
 import { CopyButton, type CopyButtonProps } from '../copybutton'
-import { Icon } from '../icon'
+import { Icon } from '../ui/icon'
 import { cn } from '../../lib/utils'
 
 interface CodeBlockContextValue {
@@ -172,7 +172,7 @@ const contentClass = cn(
  */
 function trackScrollable(host: HTMLElement): () => void {
   const pre = host.querySelector('pre')
-  if (!pre) return () => {}
+  if (!pre) return () => { }
   const update = () => {
     const x = pre.scrollWidth > pre.clientWidth
     const y = pre.scrollHeight > pre.clientHeight
