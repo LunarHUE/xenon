@@ -1,9 +1,52 @@
-import { Bold, Italic, Underline } from 'lucide'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../ui/tooltip'
+import { Bold, Italic, Underline, type IconNode } from 'lucide'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipViewport,
+  createTooltipHandle,
+} from '../ui/tooltip'
 import { Button } from '../ui/button'
 import { Icon } from '../ui/icon'
 
 const sides = ['top', 'right', 'bottom', 'left'] as const
+
+const tools: { label: string; icon: IconNode }[] = [
+  { label: 'Bold', icon: Bold },
+  { label: 'Italic', icon: Italic },
+  { label: 'Underline', icon: Underline },
+]
+
+/**
+ * One tooltip root for the whole row. Moving between icons keeps it open, so the
+ * label glides to the next control and its text cross-fades instead of reopening.
+ */
+function IconRow(props: { theme: 'light' | 'dark' }) {
+  const hints = createTooltipHandle<string>()
+  return (
+    <div class="flex items-center gap-2">
+      {tools.map((tool) => (
+        <TooltipTrigger
+          as={Button}
+          variant="outline"
+          size="icon-sm"
+          aria-label={tool.label}
+          handle={hints}
+          payload={tool.label}
+        >
+          <Icon icon={tool.icon} />
+        </TooltipTrigger>
+      ))}
+      <Tooltip handle={hints}>
+        {(state) => (
+          <TooltipContent data-theme={props.theme}>
+            <TooltipViewport>{state.payload}</TooltipViewport>
+          </TooltipContent>
+        )}
+      </Tooltip>
+    </div>
+  )
+}
 
 function Specimens(props: { theme: 'light' | 'dark' }) {
   return (
@@ -15,30 +58,9 @@ function Specimens(props: { theme: 'light' | 'dark' }) {
       <div class="space-y-10">
         <div class="space-y-3">
           <h3 class="text-sm text-muted-foreground">
-            Icon controls: hover pauses, keyboard focus opens at once, neighbours skip the delay
+            Icon controls share one tooltip: hover pauses once, then the label glides between them
           </h3>
-          <TooltipProvider>
-            <div class="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger as={Button} variant="outline" size="icon-sm" aria-label="Bold">
-                  <Icon icon={Bold} />
-                </TooltipTrigger>
-                <TooltipContent data-theme={props.theme}>Bold</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger as={Button} variant="outline" size="icon-sm" aria-label="Italic">
-                  <Icon icon={Italic} />
-                </TooltipTrigger>
-                <TooltipContent data-theme={props.theme}>Italic</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger as={Button} variant="outline" size="icon-sm" aria-label="Underline">
-                  <Icon icon={Underline} />
-                </TooltipTrigger>
-                <TooltipContent data-theme={props.theme}>Underline</TooltipContent>
-              </Tooltip>
-            </div>
-          </TooltipProvider>
+          <IconRow theme={props.theme} />
         </div>
 
         <div class="space-y-3">
