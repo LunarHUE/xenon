@@ -11,6 +11,8 @@ import {
 import type { ComponentProps } from '@solidjs/web'
 import { createUniqueId, omit } from 'solid-js'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { Check, ChevronDown } from 'lucide'
+import { Icon } from '../icon'
 import { cn } from '../../lib/utils'
 
 export type ComboboxProps = PrimitiveProps
@@ -31,7 +33,7 @@ export function ComboboxValue(props: ComboboxValueProps) {
 }
 
 export const comboboxTriggerVariants = cva(
-  'relative inline-flex w-full cursor-pointer items-center justify-between gap-[0.75em] rounded-none border border-foreground bg-background font-sans text-sm leading-normal text-foreground outline-offset-[3px] focus-visible:outline-2 focus-visible:outline-sidebar-primary disabled:cursor-not-allowed disabled:opacity-40 aria-expanded:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-expanded:-translate-0.5 [&:not(:disabled):hover:not(:active)]:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:[&:not(:disabled):hover:not(:active)]:-translate-0.5 after:absolute after:inset-0 after:content-[""] motion-safe:[&:not(:disabled):hover]:after:-right-[3px] motion-safe:[&:not(:disabled):hover]:after:-bottom-[3px]',
+  'group/combobox-trigger relative inline-flex w-full cursor-pointer items-center justify-between gap-[0.75em] rounded-none border border-foreground bg-background font-sans text-sm leading-normal text-foreground outline-offset-[3px] focus-visible:outline-2 focus-visible:outline-sidebar-primary disabled:cursor-not-allowed disabled:opacity-40 aria-expanded:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-expanded:-translate-0.5 [&:not(:disabled):hover:not(:active)]:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:[&:not(:disabled):hover:not(:active)]:-translate-0.5 after:absolute after:inset-0 after:content-[""] motion-safe:[&:not(:disabled):hover]:after:-right-[3px] motion-safe:[&:not(:disabled):hover]:after:-bottom-[3px]',
   {
     variants: {
       size: {
@@ -138,16 +140,10 @@ export function ComboboxItem(props: ComboboxItemProps) {
       )}
     >
       <span class="min-w-0 flex-1">{props.children}</span>
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
+      <Icon
+        icon={Check}
         class="size-[1.25em] shrink-0 invisible group-data-[state=checked]/combobox-item:visible"
-      >
-        <path d="m5 12 4 4L19 6" />
-      </svg>
+      />
     </ComboboxPrimitive.Item>
   )
 }
@@ -163,16 +159,10 @@ export function ComboboxTrigger(
       class={cn(comboboxTriggerVariants({ size: props.size }), props.class)}
     >
       {props.children}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        class="size-[1.25em] shrink-0"
-      >
-        <path d="m6 9 6 6 6-6" />
-      </svg>
+      <Icon
+        icon={ChevronDown}
+        class="size-[1.25em] shrink-0 transition-transform duration-200 ease-out motion-reduce:transition-none group-data-[state=open]/combobox-trigger:rotate-180"
+      />
     </ComboboxPrimitive.Trigger>
   )
 }

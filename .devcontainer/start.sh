@@ -37,3 +37,12 @@ fi
 PROFILE_LINE='[ -z "${DEVCONTAINER_WORKSPACE_PATH:-}" ] || export PATH="$DEVCONTAINER_WORKSPACE_PATH"'
 touch "$HOME/.profile"
 grep -qxF "$PROFILE_LINE" "$HOME/.profile" || printf '\n%s\n' "$PROFILE_LINE" >> "$HOME/.profile"
+
+# Personal instructions and skills live on the per-user shared volume.
+# Preserve a pre-existing local directory before replacing it with the link.
+if [ -d /mnt/user-home/.agents ] && [ "$(readlink "$HOME/.agents" 2>/dev/null || true)" != /mnt/user-home/.agents ]; then
+  if [ -e "$HOME/.agents" ] || [ -L "$HOME/.agents" ]; then
+    mv "$HOME/.agents" "$HOME/.agents.before-shared-$(date +%Y%m%d-%H%M%S)"
+  fi
+  ln -s /mnt/user-home/.agents "$HOME/.agents"
+fi
