@@ -34,3 +34,55 @@
 [data-theme='dark'] .shiki span {
   color: var(--shiki-dark);
 }
+
+/* Drawer sheets slide in from their edge; the backdrop fades. The exit runs while data-ending-style is set. */
+@keyframes drawer-in-left {
+  from {
+    translate: -100% 0;
+  }
+}
+@keyframes drawer-out-left {
+  to {
+    translate: -100% 0;
+  }
+}
+@keyframes drawer-in-right {
+  from {
+    translate: 100% 0;
+  }
+}
+@keyframes drawer-out-right {
+  to {
+    translate: 100% 0;
+  }
+}
+@keyframes drawer-in-top {
+  from {
+    translate: 0 -100%;
+  }
+}
+@keyframes drawer-out-top {
+  to {
+    translate: 0 -100%;
+  }
+}
+@keyframes drawer-in-bottom {
+  from {
+    translate: 0 100%;
+  }
+}
+@keyframes drawer-out-bottom {
+  to {
+    translate: 0 100%;
+  }
+}
+@keyframes drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes drawer-fade-out {
+  to {
+    opacity: 0;
+  }
+}
