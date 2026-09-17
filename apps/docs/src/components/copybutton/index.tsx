@@ -4,6 +4,7 @@ import { Check, Copy, RotateCw } from 'lucide'
 import { Button, type ButtonProps } from '../ui/button'
 import { Icon, type IconNode } from '../ui/icon'
 import { cn } from '../../lib/utils'
+import { toast } from '../../lib/toast'
 
 export type CopyState = 'idle' | 'copied' | 'error'
 
@@ -25,12 +26,15 @@ export function createCopy(text: () => string, options: CreateCopyOptions = {}) 
   return {
     state,
     message: () => ({ idle: '', copied: 'Copied', error: 'Copy failed' })[state()],
-    async copy() {
+    /** Write the text and resolve with the outcome, so callers can react per attempt. */
+    async copy(): Promise<Exclude<CopyState, 'idle'>> {
       try {
         await navigator.clipboard.writeText(text())
         settle('copied')
+        return 'copied'
       } catch {
         settle('error')
+        return 'error'
       }
     },
   }
@@ -39,6 +43,18 @@ export function createCopy(text: () => string, options: CreateCopyOptions = {}) 
 const labels: Record<CopyState, string> = { idle: 'Copy', copied: 'Copied', error: 'Retry copy' }
 const icons: Record<CopyState, IconNode> = { idle: Copy, copied: Check, error: RotateCw }
 
+/** One shared record: rapid copies restart it instead of stacking five of them. */
+const TOAST_ID = 'clipboard'
+
+function notify(outcome: Exclude<CopyState, 'idle'>): void {
+  if (outcome === 'copied') toast.success('Copied to clipboard', { id: TOAST_ID })
+  else
+    toast.error('Copy failed', {
+      id: TOAST_ID,
+      description: 'The clipboard is not available here. Select the text and copy it instead.',
+    })
+}
+
 export type CopyButtonProps = Omit<ButtonProps, 'onClick' | 'children'> &
   CreateCopyOptions & {
     /** Text written to the clipboard on click. */
@@ -46,8 +62,9 @@ export type CopyButtonProps = Omit<ButtonProps, 'onClick' | 'children'> &
   }
 
 /**
- * Icon button that copies `text`. The icon and accessible name follow the copy state,
- * and a status region announces success or failure without moving focus.
+ * Icon button that copies `text`. The icon and accessible name follow the copy
+ * state, and each attempt reports its outcome through the shared toast manager,
+ * whose region also announces it to assistive technology.
  */
 export function CopyButton(props: CopyButtonProps): JSX.Element {
   const rest = omit(props, 'text', 'resetAfter', 'class', 'aria-label')
@@ -57,22 +74,17 @@ export function CopyButton(props: CopyButtonProps): JSX.Element {
     },
   })
   return (
-    <>
-      <Button
-        variant="outline"
-        size="icon-sm"
-        data-slot="copy-button"
-        {...rest}
-        aria-label={props['aria-label'] ?? labels[clipboard.state()]}
-        data-state={clipboard.state()}
-        class={cn('data-[state=error]:text-destructive', props.class)}
-        onClick={() => void clipboard.copy()}
-      >
-        <Icon icon={icons[clipboard.state()]} />
-      </Button>
-      <span role="status" class="sr-only">
-        {clipboard.message()}
-      </span>
-    </>
+    <Button
+      variant="outline"
+      size="icon-sm"
+      data-slot="copy-button"
+      {...rest}
+      aria-label={props['aria-label'] ?? labels[clipboard.state()]}
+      data-state={clipboard.state()}
+      class={cn('data-[state=error]:text-destructive', props.class)}
+      onClick={() => void clipboard.copy().then(notify)}
+    >
+      <Icon icon={icons[clipboard.state()]} />
+    </Button>
   )
 }
