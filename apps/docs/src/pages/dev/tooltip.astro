@@ -1,0 +1,12 @@
+---
+import TooltipPreview from '../../components/previews/tooltip-preview'
+import Layout from '../../layouts/Layout.astro'
+---
+
+<Layout title="Tooltip playground" description="Hover and focus hints for docs controls.">
+  <a href="/" class="text-sm text-muted-foreground underline underline-offset-4">
+    Xenon docs
+  </a>
+  <h1 class="mt-6 mb-10 text-3xl font-medium">Tooltip</h1>
+  <TooltipPreview client:load />
+</Layout>
