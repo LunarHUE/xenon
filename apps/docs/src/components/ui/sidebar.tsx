@@ -2,6 +2,7 @@ import type { ComponentProps, JSX } from '@solidjs/web'
 import { Collapsible } from '@xenon/solid/collapsible'
 import { ChevronDown, Menu, PanelLeft } from 'lucide'
 import { Show, omit } from 'solid-js'
+import { cva } from 'class-variance-authority'
 import { Button, type ButtonProps } from './button'
 import { Drawer, DrawerContent, DrawerTrigger } from './drawer'
 import { Icon } from './icon'
@@ -138,8 +139,23 @@ export function SidebarGroup(props: SidebarGroupProps): JSX.Element {
   )
 }
 
-const groupHeadingClass =
-  'mb-1.5 flex min-h-8 w-full items-center gap-2 border-b border-foreground px-3 pt-5 pb-2 font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground'
+/** Group heading over a rule. Interactive when it folds the group. Hidden in compact mode. */
+export const sidebarGroupHeadingVariants = cva(
+  [
+    'mb-1.5 flex min-h-8 w-full items-center gap-2 border-b border-foreground px-3 pt-5 pb-2',
+    'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground',
+    'group-data-[mode=compact]/sidebar:hidden',
+  ],
+  {
+    variants: {
+      interactive: {
+        true: 'cursor-pointer bg-transparent text-start hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sidebar-primary',
+        false: '',
+      },
+    },
+    defaultVariants: { interactive: false },
+  }
+)
 
 /** Static heading over a rule. Hidden in compact mode. */
 export function SidebarGroupLabel(props: ComponentProps<'div'>): JSX.Element {
@@ -148,7 +164,7 @@ export function SidebarGroupLabel(props: ComponentProps<'div'>): JSX.Element {
     <div
       {...rest}
       data-slot="sidebar-group-label"
-      class={cn(groupHeadingClass, 'group-data-[mode=compact]/sidebar:hidden', props.class)}
+      class={cn(sidebarGroupHeadingVariants(), props.class)}
     />
   )
 }
@@ -166,8 +182,8 @@ export function SidebarGroupTrigger(props: GroupTriggerProps): JSX.Element {
       {...(rest as ComponentProps<typeof Collapsible.Trigger>)}
       data-slot="sidebar-group-trigger"
       class={cn(
-        groupHeadingClass,
-        'group/sidebar-group-trigger cursor-pointer bg-transparent text-start hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sidebar-primary group-data-[mode=compact]/sidebar:hidden',
+        sidebarGroupHeadingVariants({ interactive: true }),
+        'group/sidebar-group-trigger',
         props.class
       )}
     >
