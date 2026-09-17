@@ -1,14 +1,15 @@
-import { For } from 'solid-js'
 import {
   CodeBlock,
   CodeBlockHeader,
   CodeBlockTitle,
   CodeBlockContent,
-  CodeBlockFooter,
+  CodeBlockTrigger,
   CodeBlockAction,
   CodeBlockCopy,
 } from '../codeblock'
+import { Example, ExamplePreview } from '../example'
 import { CopyButton } from '../copybutton'
+import { Button } from '../ui/button'
 import { Icon } from '../icon'
 import { ExternalLink } from 'lucide'
 
@@ -19,40 +20,74 @@ export interface Snippet {
   html: string
 }
 
-function Specimens(props: { theme: 'light' | 'dark'; snippets: Snippet[] }) {
+export interface CodeBlockSnippets {
+  /** Short source shown in a plain block. */
+  short: Snippet
+  /** Medium source for the collapsed and expanded specimens. */
+  medium: Snippet
+  /** Source taller than the viewport, to exercise the sticky trigger bar. */
+  long: Snippet
+}
+
+function Source(props: { snippet: Snippet; collapsible?: boolean; defaultOpen?: boolean }) {
+  return (
+    <CodeBlock
+      code={props.snippet.code}
+      html={props.snippet.html}
+      lang={props.snippet.lang}
+      collapsible={props.collapsible}
+      defaultOpen={props.defaultOpen}
+    >
+      <CodeBlockHeader>
+        <CodeBlockTitle>{props.snippet.filename}</CodeBlockTitle>
+        <CodeBlockAction as="a" href="/dev/button/" aria-label="Open Button playground">
+          <Icon icon={ExternalLink} />
+        </CodeBlockAction>
+        <CodeBlockCopy />
+      </CodeBlockHeader>
+      <CodeBlockContent />
+      {props.collapsible && <CodeBlockTrigger />}
+    </CodeBlock>
+  )
+}
+
+function Specimens(props: { theme: 'light' | 'dark'; snippets: CodeBlockSnippets }) {
   return (
     <section
       data-theme={props.theme}
       class="border border-border bg-background p-6 text-foreground sm:p-8"
     >
       <h2 class="mb-8 text-sm capitalize text-muted-foreground">{props.theme}</h2>
-      <div class="grid gap-8 lg:grid-cols-2">
-        <For each={props.snippets}>
-          {(snippet, index) => (
-            <div class="min-w-0 space-y-3">
-              <h3 class="text-sm text-muted-foreground">
-                {index() === 0 ? 'Default snippet' : 'Long line / footer / extra action'}
-              </h3>
-              <CodeBlock code={snippet.code} html={snippet.html} lang={snippet.lang}>
-                <CodeBlockHeader>
-                  <CodeBlockTitle>{snippet.filename}</CodeBlockTitle>
-                  {index() === 1 && (
-                    <CodeBlockAction as="a" href="/dev/button/" aria-label="Open Button playground">
-                      <Icon icon={ExternalLink} />
-                    </CodeBlockAction>
-                  )}
-                  <CodeBlockCopy />
-                </CodeBlockHeader>
-                <CodeBlockContent />
-                {index() === 1 && (
-                  <CodeBlockFooter>
-                    <span class="text-muted-foreground">Anatomy source for the Button page.</span>
-                  </CodeBlockFooter>
-                )}
-              </CodeBlock>
-            </div>
-          )}
-        </For>
+      <div class="space-y-10">
+        <div class="space-y-3">
+          <h3 class="text-sm text-muted-foreground">Example: rendered component, source collapsed</h3>
+          <Example>
+            <ExamplePreview>
+              <Button>Save changes</Button>
+              <Button variant="outline">Cancel</Button>
+            </ExamplePreview>
+            <Source snippet={props.snippets.medium} collapsible />
+          </Example>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-2">
+          <div class="min-w-0 space-y-3">
+            <h3 class="text-sm text-muted-foreground">Collapsible, expanded by default</h3>
+            <Source snippet={props.snippets.medium} collapsible defaultOpen />
+          </div>
+          <div class="min-w-0 space-y-3">
+            <h3 class="text-sm text-muted-foreground">Plain block, no trigger</h3>
+            <Source snippet={props.snippets.short} />
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="text-sm text-muted-foreground">
+            Long snippet: expand and scroll, the bar sticks to the viewport bottom
+          </h3>
+          <Source snippet={props.snippets.long} collapsible />
+        </div>
+
         <div class="space-y-3">
           <h3 class="text-sm text-muted-foreground">Copy button on its own</h3>
           <div class="flex items-center gap-4">
@@ -65,7 +100,7 @@ function Specimens(props: { theme: 'light' | 'dark'; snippets: Snippet[] }) {
   )
 }
 
-export default function CodeBlockPreview(props: { snippets: Snippet[] }) {
+export default function CodeBlockPreview(props: { snippets: CodeBlockSnippets }) {
   return (
     <div class="space-y-8">
       <Specimens theme="light" snippets={props.snippets} />
