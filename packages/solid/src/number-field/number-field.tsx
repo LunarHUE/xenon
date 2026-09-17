@@ -27,7 +27,7 @@ export interface NumberFieldProps extends Omit<
   'inputValue' | 'onInputValueChange'
 > {
   /** Initial uncontrolled value and silent reset value. Defaults to null. */
-  defaultValue?: number | null
+  defaultValue?: NumberFieldOptions['value']
   /** Native form entry name; inherits Field.name. */
   name?: string
   /** Explicit form owner ID. */

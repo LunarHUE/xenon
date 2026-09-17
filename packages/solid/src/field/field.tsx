@@ -1,3 +1,4 @@
+import type { FieldOptions } from '@xenon/core'
 import { field } from '@xenon/core'
 import type { PartProps } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
@@ -11,19 +12,22 @@ import { spread } from '../spread'
 import { serverAssociations } from './server-associations'
 
 /** Field-owned state and ID inputs inherited by the public root props. */
-interface Own {
+interface Own extends Pick<
+  FieldOptions,
+  'disabled' | 'required' | 'readonly' | 'invalid' | 'name'
+> {
   /** Initial base for generated part IDs, captured once; not forwarded as the root element ID. Omission generates a unique base. */
   id?: string
   /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
-  disabled?: boolean
+  disabled?: FieldOptions['disabled']
   /** Shared required flag inherited by controls; defaults to false. Does not set a root required attribute. */
-  required?: boolean
+  required?: FieldOptions['required']
   /** Shared readonly flag inherited by controls; defaults to false. */
-  readonly?: boolean
+  readonly?: FieldOptions['readonly']
   /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
-  invalid?: boolean
+  invalid?: FieldOptions['invalid']
   /** Default form name for controls that support it; a control name overrides it. */
-  name?: string
+  name?: FieldOptions['name']
   /** Receives the root host once per distinct element; custom hosts must forward the ref. */
   ref?: (el: HTMLElement) => void
 }

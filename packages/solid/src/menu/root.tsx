@@ -1,3 +1,4 @@
+import type { MenuOptions } from '@xenon/core/menu'
 import { menu } from '@xenon/core/menu'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
@@ -41,23 +42,24 @@ export interface MenuRenderState<Payload = unknown> {
 }
 
 /** Shared logical root/submenu props; neither component renders a wrapper host. */
-export interface MenuProps<Payload = unknown> {
+export interface MenuProps<Payload = unknown> extends Pick<
+  MenuOptions<unknown>,
+  'open' | 'loop' | 'dir'
+> {
   /** Static menu parts or a callback receiving live open, triggerId, and payload getters. Read callback state within JSX. */
   children?: JSX.Element | ((state: MenuRenderState<Payload>) => JSX.Element)
   /** Shares this root with detached triggers. One root may attach at a time. */
   handle?: MenuHandle<Payload>
   /** Controlled local visibility when defined; undefined uses internal state. Submenus also require their parent to be open. */
-  open?: boolean
+  open?: MenuOptions<unknown>['open']
   /** Initial uncontrolled local visibility, defaulting to false; subsequent changes are ignored. */
-  defaultOpen?: boolean
+  defaultOpen?: MenuOptions<unknown>['open']
   /** Reports changed effective visibility requests after updating uncontrolled state. Initialization and parent-driven closure are silent. */
   onOpenChange?: (open: boolean) => void
   /** Keep content present after closing; defaults to false. Does not keep the hosting session active after exit. */
   forceMount?: boolean
   /** Own submenu-key direction, otherwise inherited from parent or nearest trigger dir attribute; defaults to ltr. */
-  dir?: 'ltr' | 'rtl'
-  /** Wrap vertical arrow navigation, including disabled entries. Defaults to true through the core menu. */
-  loop?: boolean
+  dir?: MenuOptions<unknown>['dir']
 }
 /**
  * Provides an independent menu state and association scope without a wrapper element.

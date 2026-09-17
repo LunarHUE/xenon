@@ -1,5 +1,5 @@
 import { select } from '@xenon/core/select'
-import type { SelectItem } from '@xenon/core/select'
+import type { SelectOptions } from '@xenon/core/select'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -24,32 +24,21 @@ import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
 import { serverAssociations } from '../field/server-associations'
 
-/** Wrapper-free single-value select with metadata available before the popup mounts. */
-export interface SelectProps {
-  /** Unique string values and searchable labels in option order. */
-  items: readonly SelectItem[]
+/**
+ * Wrapper-free single-value select with metadata available before the popup mounts.
+ * Defined value/open props control state; callbacks report changed interaction requests.
+ * Disabled, readonly, required, and invalid state combine with Field.
+ */
+export interface SelectProps extends Omit<
+  SelectOptions,
+  'activeValue' | 'ids' | 'search' | 'onActiveChange' | 'onSearchChange'
+> {
   /** Compound parts. */
   children?: JSX.Element
-  /** Controlled selection when defined. */
-  value?: string
   /** Initial uncontrolled selection and native form reset fallback. */
-  defaultValue?: string
-  /** Called only for changed interaction requests. */
-  onValueChange?: (value: string | undefined) => void
-  /** Controlled visibility when defined. */
-  open?: boolean
+  defaultValue?: SelectOptions['value']
   /** Initial visibility, default false. */
-  defaultOpen?: boolean
-  /** Called for changed visibility requests. */
-  onOpenChange?: (open: boolean) => void
-  /** Disable interaction, combined with Field state. */
-  disabled?: boolean
-  /** Preserve focusability while blocking changes, combined with Field state. */
-  readonly?: boolean
-  /** Native required validation, combined with Field state. */
-  required?: boolean
-  /** Invalid presentation, combined with Field state. */
-  invalid?: boolean
+  defaultOpen?: SelectOptions['open']
   /** Submission name, falling back to Field. */
   name?: string
   /** Explicit native form owner ID. */

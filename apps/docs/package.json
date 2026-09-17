@@ -7,20 +7,26 @@
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1",
-    "typecheck": "astro check",
-    "test": "playwright test"
+    "typecheck": "astro check"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
     "@solidjs/web": "catalog:",
+    "@xenon/solid": "workspace:*",
     "astro": "^7.3.2",
-    "solid-js": "catalog:"
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide": "^1.46.0",
+    "shiki": "^4.4.3",
+    "solid-js": "catalog:",
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@solidjs/vite-plugin": "^3.0.0-next.43",
     "@tailwindcss/vite": "^4.3.3",
-    "playwright": "^1.63.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",
     "vite": "^8.3.0"

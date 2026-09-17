@@ -1,10 +1,22 @@
 ---
-import Counter from '../components/Counter'
 import Layout from '../layouts/Layout.astro'
 ---
 
-<Layout title="Docs scaffold" description="Astro, MDX, Tailwind CSS, and Solid 2.">
-  <p class="mt-8">This counter is rendered by Astro, then hydrated with Solid in your browser.</p>
-  <Counter client:load label="Solid in Astro" />
-  <a href="/docs/test/" class="underline underline-offset-4">Open the MDX content test →</a>
+<Layout title="Xenon" description="Xenon documentation.">
+  <h1 class="text-2xl font-medium">Xenon docs</h1>
+  <a href="/dev/button/" class="mt-6 inline-block underline underline-offset-4">
+    Button playground
+  </a>
+  <a href="/dev/tabs/" class="mt-4 block underline underline-offset-4">
+    Tabs playground
+  </a>
+  <a href="/dev/combobox/" class="mt-4 block underline underline-offset-4">
+    Combobox playground
+  </a>
+  <a href="/dev/breadcrumb/" class="mt-4 block underline underline-offset-4">
+    Breadcrumb playground
+  </a>
+  <a href="/dev/codeblock/" class="mt-4 block underline underline-offset-4">
+    Code block playground
+  </a>
 </Layout>

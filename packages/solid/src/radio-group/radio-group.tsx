@@ -1,6 +1,7 @@
+import type { RadioGroupOptions } from '@xenon/core'
 import { radioGroup } from '@xenon/core'
 import type { AnyPart, CompositeDirection } from '@xenon/core'
-import type { RadioGroupOrientation, RadioValue } from '@xenon/core'
+import type { RadioValue } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
@@ -11,31 +12,22 @@ import { RadioGroupItem } from './item'
 import { spread } from '../spread'
 
 /** Selection, navigation, and form options owned by the group adapter. */
-interface Own {
+interface Own extends Omit<
+  RadioGroupOptions,
+  'items' | 'direction' | 'describedBy' | 'itemDisabled' | 'onActiveChange'
+> {
   /** Controlled selection while defined; undefined uses internal state. Values retain their string or number type. */
-  value?: RadioValue
+  value?: RadioGroupOptions['value']
   /** Initial uncontrolled selection, read once at setup; its current value is used again on form reset. */
-  defaultValue?: RadioValue
+  defaultValue?: RadioGroupOptions['value']
   /** Synchronous request for a different selection, after updating uncontrolled state. Initialization and reset are silent. */
-  onValueChange?: (value: RadioValue) => void
+  onValueChange?: RadioGroupOptions['onValueChange']
   /** Shared native radio name. Omission generates a name for native items but creates no custom-host mirrors. */
-  name?: string
+  name?: RadioGroupOptions['name']
   /** Explicit form ID for native items and custom-host mirrors; omission uses form ancestry. */
-  form?: string
-  /** Custom-host navigation axis and group orientation. Defaults to vertical. */
-  orientation?: RadioGroupOrientation
+  form?: RadioGroupOptions['form']
   /** Horizontal navigation direction. Omission uses LTR initially, then reads ancestor/document dir on settlement. */
-  dir?: CompositeDirection
-  /** Whether custom-host arrow navigation wraps. Defaults to true. */
-  loop?: boolean
-  /** Disables every item and removes their tab stops. Defaults to false. */
-  disabled?: boolean
-  /** Blocks selection while retaining custom-host arrow focus movement. Defaults to false. */
-  readonly?: boolean
-  /** Adds required group semantics and native validation attributes to radios/mirrors. Defaults to false. */
-  required?: boolean
-  /** Author-supplied invalid state for the group and items; no validation is performed. Defaults to false. */
-  invalid?: boolean
+  dir?: RadioGroupOptions['direction']
   /** Receives the rendered group element. */
   ref?: (el: HTMLElement) => void
 }

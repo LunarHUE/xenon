@@ -1,17 +1,16 @@
 import type { JSX } from '@solidjs/web'
 import { createEffect, createMemo, onCleanup, onSettled, untrack, useContext } from 'solid-js'
 import { createManager } from './manager'
-import type { ToastManager } from './manager'
+import type { ToastManager, ToastManagerOptions } from './manager'
 import { ToastProviderContext } from './context'
 
 /** Notification lifetime and admission defaults inherited by one renderer. */
-export interface ToastProviderProps<T = unknown> {
+export interface ToastProviderProps<T = unknown> extends Pick<
+  ToastManagerOptions,
+  'duration' | 'limit'
+> {
   /** Optional externally created manager, captured once. Omission creates a provider-local manager. */
   manager?: ToastManager<T>
-  /** Default lifetime in milliseconds, defaulting to 5000. Zero and Infinity persist. */
-  duration?: number
-  /** Maximum admitted records, defaulting to 3. Waiting records do not expire. */
-  limit?: number
   /** Notification controls and renderers receiving this manager. */
   children?: JSX.Element
 }

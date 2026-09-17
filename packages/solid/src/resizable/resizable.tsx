@@ -28,7 +28,7 @@ export interface ResizableProps
     Omit<JSX.IntrinsicElements['div'], never>,
     Omit<ResizableOptions, 'panels' | 'direction'> {
   /** Initial uncontrolled percentages; never emits a mount callback. */
-  defaultSizes?: readonly number[]
+  defaultSizes?: ResizableOptions['sizes']
   /** Receives different requested percentages; controlled sizes remain authoritative. */
   onSizesChange?: (sizes: number[]) => void
   /** Receives the final request once per changed completed gesture. */
@@ -36,7 +36,7 @@ export interface ResizableProps
   /** Panel count for SSR equal defaults; inferred from sizes, then defaults, then 2. */
   panelCount?: number
   /** Reading direction, otherwise inherited from ancestors. */
-  dir?: 'ltr' | 'rtl'
+  dir?: ResizableOptions['direction']
 }
 /** One panel in an ordered, contiguous layout. */
 export interface ResizablePanelProps

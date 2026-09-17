@@ -1,3 +1,4 @@
+import type { CheckboxGroupOptions } from '@xenon/core'
 import { field, checkboxGroup } from '@xenon/core'
 import type { PartProps } from '@xenon/core'
 import { Dynamic, isServer } from '@solidjs/web'
@@ -15,29 +16,27 @@ import { CheckboxGroupItem } from './item'
 import { CheckboxGroupLabel } from './label'
 
 /** Field-owned state and ID inputs inherited by the public root props. */
-interface Own {
+interface Own extends CheckboxGroupOptions {
   /** Controlled selected string values. Undefined uses internal state. */
-  value?: readonly string[]
+  value?: CheckboxGroupOptions['value']
   /** Initial selection and reset fallback. Defaults to an empty array. */
-  defaultValue?: readonly string[]
+  defaultValue?: CheckboxGroupOptions['value']
   /** Reports accepted selection changes once; mounting and reset are silent. */
-  onValueChange?: (value: string[]) => void
+  onValueChange?: CheckboxGroupOptions['onValueChange']
   /** Native form owner shared by child inputs and form mirrors. */
-  form?: string
+  form?: CheckboxGroupOptions['form']
   /** Initial base for generated part IDs, captured once; not forwarded as the root element ID. Omission generates a unique base. */
   id?: string
-  /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
-  disabled?: boolean
-  /** Requires at least one selected value, defaulting to false. An individually required child must still be checked. */
-  required?: boolean
-  /** Shared readonly flag inherited by controls; defaults to false. */
-  readonly?: boolean
-  /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
-  invalid?: boolean
   /** Default form name for controls that support it; a control name overrides it. */
-  name?: string
+  name?: CheckboxGroupOptions['name']
   /** Receives the root host once per distinct element; custom hosts must forward the ref. */
   ref?: (el: HTMLElement) => void
+  /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
+  disabled?: CheckboxGroupOptions['disabled']
+  /** Requires at least one selected value, defaulting to false. An individually required child must still be checked. */
+  required?: CheckboxGroupOptions['required']
+  /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
+  invalid?: CheckboxGroupOptions['invalid']
 }
 
 /** Polymorphic group root props with controlled or uncontrolled multiple selection. */

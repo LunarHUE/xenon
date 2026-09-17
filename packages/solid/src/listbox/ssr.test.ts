@@ -9,6 +9,7 @@ let fixture: {
   renderCheckboxGroup(): string
   renderSelect(): string
   renderCombobox(): string
+  renderPopupCombobox(): string
 }
 beforeAll(async () => {
   server = await createServer({
@@ -71,5 +72,20 @@ test('SSR Combobox preserves selected input text, native selection, and custom p
   expect(input.getAttribute('aria-controls')).toBe('combo-options')
   expect(document.getElementById('combo-options')).not.toBeNull()
   expect(document.getElementById('combo-pear')?.getAttribute('aria-selected')).toBe('true')
+  expect(document.querySelector('select option[selected]')?.getAttribute('value')).toBe('pear')
+})
+
+test('SSR popup search separates trigger, search, dialog and listbox associations', () => {
+  const document = new DOMParser().parseFromString(fixture.renderPopupCombobox(), 'text/html')
+  const trigger = document.getElementById('popup-combo-trigger')!
+  const search = document.getElementById('popup-combo-search')!
+  expect(trigger.textContent).toBe('Pear')
+  expect(trigger.getAttribute('aria-haspopup')).toBe('dialog')
+  expect(trigger.getAttribute('aria-controls')).toBe('popup-combo-dialog')
+  expect(search.getAttribute('aria-controls')).toBe('popup-combo-options')
+  expect(search.getAttribute('value')).toBe('')
+  expect(document.querySelector('label')?.htmlFor).toBe(trigger.id)
+  expect(document.getElementById('popup-combo-dialog')?.getAttribute('role')).toBe('dialog')
+  expect(document.getElementById('popup-combo-options')?.getAttribute('role')).toBe('listbox')
   expect(document.querySelector('select option[selected]')?.getAttribute('value')).toBe('pear')
 })

@@ -1,3 +1,4 @@
+import type { AccordionOptions } from '@xenon/core'
 import type { CompositeDirection } from '@xenon/core'
 import { accordion } from '@xenon/core'
 import { Dynamic } from '@solidjs/web'
@@ -10,32 +11,21 @@ import { AccordionItem, AccordionPanel, AccordionTrigger } from './items'
 import { spread } from '../spread'
 
 /** Single-mode key or empty state, or a multiple-mode array of open keys. */
-export type AccordionValue = string | readonly string[] | undefined
+export type AccordionValue = AccordionOptions<string>['value']
 
 /** Root-owned selection, navigation, and mounting props. */
-interface Own {
+interface Own extends Omit<
+  AccordionOptions<string>,
+  'items' | 'active' | 'itemDisabled' | 'ids' | 'status' | 'direction' | 'onActiveChange'
+> {
   /** Controlled open values when defined; undefined uses internal state. Single mode uses the first array entry. */
-  value?: AccordionValue
+  value?: AccordionOptions<string>['value']
   /** Initial uncontrolled open values, defaulting to empty; subsequent changes are ignored. */
-  defaultValue?: AccordionValue
+  defaultValue?: AccordionOptions<string>['value']
   /** Reports accepted open-value proposals after updating uncontrolled state; no callback on initialization or navigation. */
-  onValueChange?: (value: AccordionValue) => void
-  /** Selection mode, defaulting to single. Multiple mode permits closing every item. */
-  mode?: 'single' | 'multiple'
-  /** Permit closing the last single-mode item. Defaults to false; ignored in multiple mode. */
-  collapsible?: boolean
-  /** Arrow-navigation axis, defaulting to vertical. */
-  orientation?: 'horizontal' | 'vertical'
+  onValueChange?: AccordionOptions<string>['onValueChange']
   /** Horizontal navigation direction. Omission samples nearest dir or document dir after settling, initially ltr; not forwarded as a root attribute. */
-  dir?: CompositeDirection
-  /** Wrap arrow navigation at enabled ends. Defaults to true through the core engine. */
-  loop?: boolean
-  /** Disable all item triggers and skip their keyboard destinations. Defaults to false. */
-  disabled?: boolean
-  /** Default panel mounting policy, false unless supplied. Items may override it with either true or false. */
-  forceMount?: boolean
-  /** Give panels region role and trigger naming by default. False omits those generated attributes. */
-  region?: boolean
+  dir?: AccordionOptions<string>['direction']
   /** Receives the root host; custom components must forward it for ambient direction lookup. */
   ref?: (el: HTMLElement) => void
 }

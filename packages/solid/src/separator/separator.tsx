@@ -7,11 +7,7 @@ import { createMemo, omit } from 'solid-js'
 import { spread } from '../spread'
 
 /** Library-owned separator semantics, replacing matching host props. */
-interface Own {
-  /** Axis for styling and ARIA, defaulting to horizontal; this does not apply dimensions. */
-  orientation?: SeparatorOptions['orientation']
-  /** Use role=none and omit aria-orientation when true. Defaults to false. */
-  decorative?: SeparatorOptions['decorative']
+interface Own extends Omit<SeparatorOptions, 'host'> {
   /** Receives the rendered separator element through the host ref. */
   ref?: (el: HTMLElement) => void
 }

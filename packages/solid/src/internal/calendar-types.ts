@@ -1,35 +1,18 @@
+import type {
+  CalendarBaseOptions,
+  CalendarDay,
+  CalendarMonth,
+  CalendarWeekday as CoreCalendarWeekday,
+} from '@xenon/core/calendar'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import type { DateAdapter, DateValue } from '@xenon/core/date'
 
 /** One visible grid slot; padding at supported year boundaries has no value. */
-export interface CalendarDateCell<T> {
-  /** Calendar date in the root adapter's representation. */
-  value: T | undefined
-  /** Stable month-and-date key, distinguishing duplicate outside days. */
-  key: string
-  /** Whether this slot belongs to a neighboring month. */
-  outsideMonth: boolean
-  /** Zero-based visible-month position. */
-  monthIndex: number
-}
+export type CalendarDateCell<T> = CalendarDay<T>
 /** One displayed calendar month and its week rows. */
-export interface CalendarMonthView<T> {
-  /** First day of the displayed month. */
-  month: T
-  /** Ordered week rows, including neighboring-month padding. */
-  weeks: CalendarDateCell<T>[][]
-  /** Localized month and year label. */
-  heading: string
-}
+export type CalendarMonthView<T> = CalendarMonth<T>
 /** Localized weekday metadata in displayed order. */
-export interface CalendarWeekday {
-  /** Sunday=0 through Saturday=6. */
-  weekday: number
-  /** Full accessible weekday name. */
-  label: string
-  /** Short visual weekday label. */
-  shortLabel: string
-}
+export type CalendarWeekday = CoreCalendarWeekday
 /** Reactive values supplied to a root's children callback. Read fields within JSX. */
 export interface CalendarRenderState<T = DateValue, Selection = T> {
   /** Current committed selection, absent before the first accepted selection. */
@@ -58,7 +41,10 @@ export interface CalendarRenderState<T = DateValue, Selection = T> {
   readonly previewValue: T | undefined
 }
 /** Calendar-owned state, localization and availability inputs. */
-export interface CalendarOwnProps<T, Selection = T> {
+export interface CalendarOwnProps<T, Selection = T> extends Omit<
+  CalendarBaseOptions<T>,
+  'adapter' | 'today' | 'headingId'
+> {
   /** Controlled selection when defined. Mounting never emits a selection callback. */
   value?: Selection
   /** Initial uncontrolled selection, read once. */
@@ -66,39 +52,25 @@ export interface CalendarOwnProps<T, Selection = T> {
   /** Reports accepted selection changes. Range roots report only completed ranges. */
   onValueChange?: (value: Selection) => void
   /** Controlled roving day when defined. */
-  focusedValue?: T
+  focusedValue?: CalendarBaseOptions<T>['focusedValue']
   /** Initial uncontrolled roving day; otherwise selection or today supplies it. */
-  defaultFocusedValue?: T
+  defaultFocusedValue?: CalendarBaseOptions<T>['focusedValue']
   /** Reports a changed focus-day request without implying selection. */
-  onFocusedValueChange?: (value: T) => void
+  onFocusedValueChange?: CalendarBaseOptions<T>['onFocusedValueChange']
   /** Controlled first visible month, identified by any day in that month. */
-  visibleMonth?: T
+  visibleMonth?: CalendarBaseOptions<T>['visibleMonth']
   /** Initial uncontrolled first visible month. */
-  defaultVisibleMonth?: T
+  defaultVisibleMonth?: CalendarBaseOptions<T>['visibleMonth']
   /** Reports a changed displayed month, including keyboard crossings. */
-  onVisibleMonthChange?: (value: T) => void
-  /** Number of consecutive months, defaulting to 1. Render one Grid per month index. */
-  visibleMonths?: number
-  /** Earliest selectable date, inclusive. */
-  minValue?: T
-  /** Latest selectable date, inclusive. */
-  maxValue?: T
-  /** Marks unavailable days without preventing focus navigation through them. */
-  isDateUnavailable?: (value: T) => boolean
-  /** Disables selection and navigation controls. */
-  disabled?: boolean
-  /** Allows navigation but blocks selection. */
-  readOnly?: boolean
+  onVisibleMonthChange?: CalendarBaseOptions<T>['onVisibleMonthChange']
   /** Formatting locale; defaults to DateProvider or en-US. */
-  locale?: string
+  locale?: CalendarBaseOptions<T>['locale']
   /** Week start, Sunday=0 through Saturday=6; overrides DateProvider. */
-  weekStartsOn?: number
+  weekStartsOn?: CalendarBaseOptions<T>['weekStartsOn']
   /** Today in the root adapter's representation; otherwise convert DateProvider's snapshot. */
-  today?: T
+  today?: CalendarBaseOptions<T>['today']
   /** Explicit horizontal direction; otherwise sample the nearest dir attribute after mount. */
-  dir?: 'ltr' | 'rtl'
-  /** Always render six rows per month when true. */
-  fixedWeeks?: boolean
+  dir?: CalendarBaseOptions<T>['dir']
   /** Receives the calendar root host. */
   ref?: (element: HTMLElement) => void
   /** Static compound parts or a callback receiving reactive calendar state. */

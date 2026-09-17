@@ -1,3 +1,4 @@
+import type { PopoverOptions } from '@xenon/core/popover'
 import type { AnyPart, PopoverResult } from '@xenon/core'
 import { popover } from '@xenon/core/popover'
 import { createPositioner } from '../positioning/positioning'
@@ -63,17 +64,17 @@ interface TriggerEntry {
 }
 
 /** Root-owned visibility, dismissal, focus, and association inputs. */
-interface Own {
+interface Own extends Omit<PopoverOptions, 'ids' | 'status'> {
   /** Controlled logical visibility when defined; undefined uses internal state. */
-  open?: boolean
+  open?: PopoverOptions['open']
   /** Initial uncontrolled visibility, defaulting to false; later changes are ignored. */
-  defaultOpen?: boolean
+  defaultOpen?: PopoverOptions['open']
   /** Reports a changed visibility request after updating uncontrolled state. Requests equal to current visibility and initialization are silent. */
-  onOpenChange?: (open: boolean) => void
+  onOpenChange?: PopoverOptions['onOpenChange']
   /** Isolate outside content, lock scrolling, and contain focus while active. Defaults to false; changing modality restarts DOM hosting. */
-  modal?: boolean
+  modal?: PopoverOptions['modal']
   /** Keep closed content mounted. Closed non-exiting positioners remain hidden and inactive. Defaults to false. */
-  forceMount?: boolean
+  forceMount?: PopoverOptions['forceMount']
   /** Allow Escape dismissal while open, defaulting to true. False still consumes Escape at the layer. */
   closeOnEscape?: boolean
   /** Allow eligible outside-pointer dismissal while open, defaulting to true. The active trigger counts as an inside branch. */

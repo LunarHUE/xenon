@@ -1,25 +1,36 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
 @import 'tailwindcss';
+@import './tokens.css';
 
 @layer base {
   body {
-    font-family: 'Verdana', sans-serif;
+    @apply bg-background font-sans text-foreground antialiased;
   }
 }
 
-@layer components {
-  .mdx > h2 {
-    @apply mt-10 mb-4 font-serif text-2xl;
-  }
+@utility scroll-area {
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 
-  .mdx > p {
-    @apply my-4 leading-7;
+  &:hover,
+  &:focus-visible,
+  &:focus-within {
+    scrollbar-color: var(--color-muted-foreground) transparent;
   }
+}
 
-  .mdx > ul {
-    @apply my-4 list-disc space-y-2 pl-6;
-  }
-
-  .mdx > pre {
-    @apply my-6 overflow-x-auto p-5 text-sm;
-  }
+/* Shiki emits --shiki-light and --shiki-dark per token; pick one per theme. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+[data-theme='dark'] .shiki,
+[data-theme='dark'] .shiki span {
+  color: var(--shiki-dark);
 }

@@ -1,5 +1,5 @@
 import { listbox, getListboxItemId } from '@xenon/core/listbox'
-import type { ListboxValue } from '@xenon/core/listbox'
+import type { ListboxOptions, ListboxValue } from '@xenon/core/listbox'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -15,34 +15,28 @@ import {
 } from 'solid-js'
 import { spread } from '../spread'
 
-/** Listbox state, navigation, and host configuration. */
-interface Own {
-  /** Current selection; undefined uses internal state. */
-  value?: ListboxValue
+/**
+ * Listbox state, navigation, and host configuration.
+ * Undefined value/activeValue props use internal state; callbacks run after state updates.
+ * Items, typeahead, and range-selection anchors are managed by the adapter.
+ */
+interface Own extends Omit<
+  ListboxOptions,
+  | 'items'
+  | 'id'
+  | 'isItemDisabled'
+  | 'textValue'
+  | 'search'
+  | 'onSearchChange'
+  | 'anchorValue'
+  | 'onAnchorChange'
+> {
   /** Initial uncontrolled selection. Later changes are ignored. */
-  defaultValue?: ListboxValue
-  /** Reports selection changes after internal state updates. */
-  onValueChange?: (value: ListboxValue) => void
-  /** Single scalar or multiple array selection; defaults to single. */
-  selectionMode?: 'single' | 'multiple'
-  /** Blocks navigation and selection. */
-  disabled?: boolean
-  /** Allows focus navigation while blocking changes. */
-  readonly?: boolean
-  /** Wrap enabled arrow destinations; defaults to true. */
-  loop?: boolean
-  /** Arrow-navigation axis; defaults to vertical. */
-  orientation?: 'vertical' | 'horizontal'
+  defaultValue?: ListboxOptions['value']
   /** Horizontal navigation direction; inherits the nearest dir after settling. */
-  dir?: 'ltr' | 'rtl'
-  /** Keep focus on the root or an external input. Defaults to false. */
-  virtualFocus?: boolean
-  /** Controlled active identity; undefined uses internal state. */
-  activeValue?: string
+  dir?: ListboxOptions['dir']
   /** Initial uncontrolled active identity. */
-  defaultActiveValue?: string
-  /** Reports active identity requests independently of selection. */
-  onActiveChange?: (value: string) => void
+  defaultActiveValue?: ListboxOptions['activeValue']
   /** Receives the rendered host. */
   ref?: (el: HTMLElement) => void
 }

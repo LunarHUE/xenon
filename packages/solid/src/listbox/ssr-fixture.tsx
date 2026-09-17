@@ -65,3 +65,23 @@ export function renderCombobox() {
     </Combobox>
   ))
 }
+
+/** Checks popup-search associations before the input or dialog has mounted in a browser. */
+export function renderPopupCombobox() {
+  return renderToString(() => (
+    <Field>
+      <Field.Label>Fruit</Field.Label>
+      <Combobox items={fruits} inputPlacement="popup" defaultValue="pear" defaultOpen name="fruit">
+        <Combobox.Trigger id="popup-combo-trigger">
+          <Combobox.Value />
+        </Combobox.Trigger>
+        <Combobox.Positioner>
+          <Combobox.Content id="popup-combo-dialog" aria-label="Choose fruit">
+            <Combobox.Input id="popup-combo-search" aria-label="Search fruit" />
+            <Combobox.Viewport id="popup-combo-options" aria-label="Fruit options" />
+          </Combobox.Content>
+        </Combobox.Positioner>
+      </Combobox>
+    </Field>
+  ))
+}
