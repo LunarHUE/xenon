@@ -9,7 +9,7 @@ bun run --filter @xenon/docs typecheck
 bun run --filter @xenon/docs build
 ```
 
-The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/`, and `/dev/combobox/` are working
+The home page is intentionally minimal. `/dev/button/`, `/dev/tabs/`, `/dev/combobox/`, and `/dev/breadcrumb/` are working
 playgrounds for the documentation site's primitives, with light and dark specimens.
 MDX documents can be added under `src/content/docs/`; the collection and dynamic
 route remain configured for future documentation.
@@ -114,7 +114,37 @@ The headless root owns query, selection, form participation, positioning, and fo
 The default headless `inputPlacement="trigger"` keeps the editable input outside.
 Chevron artwork stays in the styled trigger. `Arrow` is only for an optional popup
 pointer, and also expects consumer-provided artwork.
-Framework/version metadata and breadcrumb navigation remain future compositions.
+Framework/version metadata remains a future composition.
+
+## Breadcrumb
+
+`src/components/ui/breadcrumb.tsx` wraps `@xenon/solid/breadcrumbs` with `Breadcrumb`,
+`BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, and
+`BreadcrumbSeparator` exports. The root is a `nav` labelled "Breadcrumbs"; pass
+`aria-label` to rename it. Nothing is inferred: put a separator inside each entry
+that has one, and mark the current page with `BreadcrumbPage` or `current` on a link.
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/docs/components/">Components</BreadcrumbLink>
+      <BreadcrumbSeparator />
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+      <BreadcrumbPage>Button</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+The default list is the context strip from Paper: 48px tall with a bottom rule,
+muted links that turn `sidebar-primary` on hover, a foreground slash separator,
+and a foreground current label. Keyboard focus uses the grey `ring` outline rather
+than the pink control outline. `BreadcrumbList variant="compact"` drops the rule
+and height, tightens the slash to its link, and renders links in the foreground color.
+The playground composes it with a menu `Button` and a `sm` `Combobox` trigger for the
+component selector shown on the artboard; that selector is not part of this file.
 
 ## Temporary Solid 2 integration
 
