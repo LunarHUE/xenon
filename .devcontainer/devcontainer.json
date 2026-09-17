@@ -2,15 +2,21 @@
   "name": "${localWorkspaceFolderBasename} — Nix Dev Environment",
   "build": {
     "context": ".",
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "args": {
+      "PRETTY_HOSTNAME": "${localWorkspaceFolderBasename} Repo"
+    }
   },
 
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
 
-  "mounts": ["source=lunarhue-containers-nix-store,target=/nix,type=volume"],
+  "mounts": ["source=/mnt/user-home,target=/mnt/user-home,type=bind", "source=lunarhue-containers-nix-store,target=/nix,type=volume"],
 
   "containerEnv": {
+    "CODEX_HOME": "/mnt/user-home/codex",
+    "CLAUDE_CONFIG_DIR": "/mnt/user-home/claude",
+    "BASH_ENV": "/home/vscode/.bashrc",
     "NIX_CONFIG": "experimental-features = nix-command flakes"
   },
 

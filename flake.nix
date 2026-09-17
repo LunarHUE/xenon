@@ -66,6 +66,8 @@
           gh
           ripgrep
 
+          nodejs_24
+
           pkgs.claude-code
           pkgs.codex
         ];
