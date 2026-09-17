@@ -4,12 +4,11 @@ import { toast } from '../../lib/toast'
 
 /**
  * Every button talks to the manager in lib/toast directly. Nothing here reads
- * context; the page mounts the Toaster as a separate client-only island.
+ * context; the page mounts the Toaster as a separate island.
  */
-function Controls(props: { theme: 'light' | 'dark' }) {
+export default function ToastPreview() {
   const [archived, setArchived] = createSignal(false)
   let count = 0
-  const data = { theme: props.theme }
   const save = () => {
     count += 1
     toast.success(`Note ${count} saved`, {
@@ -17,15 +16,10 @@ function Controls(props: { theme: 'light' | 'dark' }) {
         count % 2
           ? 'A small detail, kept for later.'
           : 'This longer note takes more room. Hover the stack to read each one at its own height.',
-      data,
     })
   }
   return (
-    <section
-      data-theme={props.theme}
-      class="border border-border bg-background p-6 text-foreground sm:p-8"
-    >
-      <h2 class="mb-8 text-sm capitalize text-muted-foreground">{props.theme}</h2>
+    <div>
       <div class="flex flex-wrap items-center gap-4">
         <Button onClick={save}>Save a note</Button>
         <Button
@@ -47,7 +41,6 @@ function Controls(props: { theme: 'light' | 'dark' }) {
               description: 'Changed your mind? Bring it back.',
               duration: 8000,
               action: { label: 'Undo', onClick: () => setArchived(false) },
-              data,
             })
           }}
         >
@@ -59,9 +52,9 @@ function Controls(props: { theme: 'light' | 'dark' }) {
             toast.promise(
               new Promise<string>((resolve) => setTimeout(() => resolve('notes.txt'), 1200)),
               {
-                loading: { title: 'Preparing your export', data },
-                success: (file) => ({ title: 'Export ready', description: file, data }),
-                error: { title: 'The export could not finish', data },
+                loading: 'Preparing your export',
+                success: (file) => ({ title: 'Export ready', description: file }),
+                error: 'The export could not finish',
               }
             )
           }
@@ -70,9 +63,7 @@ function Controls(props: { theme: 'light' | 'dark' }) {
         </Button>
         <Button
           variant="outline"
-          onClick={() =>
-            toast.error('Could not save', { description: 'Check the connection.', data })
-          }
+          onClick={() => toast.error('Could not save', { description: 'Check the connection.' })}
         >
           Error
         </Button>
@@ -84,15 +75,6 @@ function Controls(props: { theme: 'light' | 'dark' }) {
         Note is {archived() ? 'archived' : 'on your desk'}. Alt+T focuses the stack, Escape
         dismisses the focused one, swipe right or down to throw one away.
       </p>
-    </section>
-  )
-}
-
-export default function ToastPreview() {
-  return (
-    <div class="space-y-8">
-      <Controls theme="light" />
-      <Controls theme="dark" />
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { X } from 'lucide'
 import { buttonVariants } from './button'
 import { Icon } from './icon'
 import { cn } from '../../lib/utils'
-import { toast, type ToastData } from '../../lib/toast'
+import { toast } from '../../lib/toast'
 
 export type ToasterProps = Omit<ToastViewportProps<'div'>, 'as' | 'children' | 'class'> & {
   class?: string
@@ -52,13 +52,11 @@ const typeLabel: { [K in Record['type']]: string } = {
 
 /** One notification: type eyebrow, close, title, description, optional action. */
 function ToastItem(props: { toast: Record }): JSX.Element {
-  const data = () => props.toast.data as ToastData | undefined
   return (
     <ToastPrimitive.Content
       toast={props.toast}
       swipeDirection={['right', 'down']}
       data-slot="toast"
-      data-theme={data()?.theme}
       class="border border-foreground bg-background px-5 py-4 font-sans text-sm leading-[22px] text-foreground shadow-[3px_3px_0_var(--color-foreground)]"
     >
       <div class="mb-1.5 flex items-center justify-between gap-4">
