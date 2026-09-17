@@ -2,6 +2,9 @@
 import '../styles/global.css'
 import { ThemeToggle } from '../components/ui/theme-toggle'
 import { Toaster } from '../components/ui/toast'
+import { DocsSidebar } from '../components/docs-sidebar'
+import { DocsSidebarTrigger } from '../components/ui/sidebar-trigger-island'
+import { navigation } from '../lib/nav'
 
 interface Props {
   title: string
@@ -10,10 +13,14 @@ interface Props {
 
 const { title, description } = Astro.props
 
-// On-demand rendering emits the stored theme so first paint needs no script.
-// Prerendered pages have no request cookie and leave it to the inline script.
-const stored = Astro.isPrerendered ? undefined : Astro.cookies.get('theme')?.value
-const initialTheme = stored === 'light' || stored === 'dark' ? stored : undefined
+// On-demand rendering emits stored preferences so first paint needs no script.
+// Prerendered pages have no request cookies and leave it to the boot script.
+const cookie = (name: string) => (Astro.isPrerendered ? undefined : Astro.cookies.get(name)?.value)
+const storedTheme = cookie('theme')
+const initialTheme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : undefined
+const storedSidebar = cookie('sidebar')
+const initialSidebar =
+  storedSidebar === 'compact' || storedSidebar === 'hidden' ? storedSidebar : 'expanded'
 ---
 
 <!doctype html>
@@ -24,19 +31,26 @@ const initialTheme = stored === 'light' || stored === 'dark' ? stored : undefine
     <meta name="description" content={description} />
     <title>{title} · Xenon docs</title>
     <script is:inline>
-      // Resolve the theme cookie before first paint. Runs again after a
+      // Apply stored preferences before first paint, and again after a
       // client-side navigation swap, where the new document skips inline scripts.
       ;(() => {
+        const read = (name, pattern) => {
+          const match = document.cookie.match(
+            new RegExp('(?:^|; )' + name + '=(' + pattern + ')(?:;|$)')
+          )
+          return match ? match[1] : undefined
+        }
         const apply = () => {
-          const match = document.cookie.match(/(?:^|; )theme=(light|dark|system)(?:;|$)/)
-          const preference = match ? match[1] : 'system'
-          const resolved =
-            preference === 'system'
+          const theme = read('theme', 'light|dark|system') ?? 'system'
+          document.documentElement.dataset.theme =
+            theme === 'system'
               ? matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light'
-              : preference
-          document.documentElement.dataset.theme = resolved
+              : theme
+          const shell = document.querySelector('[data-docs-shell]')
+          if (shell)
+            shell.dataset.sidebar = read('sidebar', 'expanded|compact|hidden') ?? 'expanded'
         }
         apply()
         document.addEventListener('astro:after-swap', apply)
@@ -44,12 +58,31 @@ const initialTheme = stored === 'light' || stored === 'dark' ? stored : undefine
     </script>
   </head>
   <body>
-    <main class="mx-auto max-w-5xl px-6 py-12">
-      <header class="mb-8 flex justify-end">
+    <header class="flex h-14 items-center gap-4 border-b border-foreground px-6">
+      <DocsSidebarTrigger client:load />
+      <a href="/" class="text-lg font-medium">
+        Xenon
+      </a>
+      <div class="ms-auto">
         <ThemeToggle client:load />
-      </header>
-      <slot />
-    </main>
+      </div>
+    </header>
+    <div data-docs-shell data-sidebar={initialSidebar} class="docs-shell">
+      <DocsSidebar sections={navigation} current={Astro.url.pathname} client:load />
+      <main class="min-w-0 px-6 py-12">
+        <div class="mx-auto max-w-5xl">
+          <slot />
+        </div>
+      </main>
+    </div>
+    <script is:inline>
+      // The shell renders after the head script ran; apply the stored mode now.
+      ;(() => {
+        const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
+        const shell = document.querySelector('[data-docs-shell]')
+        if (shell && match) shell.dataset.sidebar = match[1]
+      })()
+    </script>
     <Toaster client:load />
   </body>
 </html>

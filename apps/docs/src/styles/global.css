@@ -189,3 +189,34 @@
     }
   }
 }
+
+/*
+ * Docs shell. The sidebar controller's desktop mode is projected onto the shell
+ * as data-sidebar; the grid reads the width from it, so the sidebar never has to
+ * know about the content column.
+ */
+@layer components {
+  .docs-shell {
+    --sidebar-width: 224px;
+    display: block;
+    min-height: calc(100vh - 3.5rem);
+  }
+  .docs-shell[data-sidebar='compact'] {
+    --sidebar-width: 56px;
+  }
+  .docs-shell[data-sidebar='hidden'] {
+    --sidebar-width: 0px;
+  }
+  @media (min-width: 768px) {
+    .docs-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      transition: grid-template-columns 200ms ease-out;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .docs-shell {
+        transition: none;
+      }
+    }
+  }
+}
