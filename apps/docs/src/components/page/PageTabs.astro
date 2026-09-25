@@ -3,6 +3,10 @@
  * The Overview / Usage / API / Accessibility strip on component pages. Each tab
  * is its own page, so this is a nav of links rather than a tablist. It mirrors
  * ui/tabs: boxed triggers on a 2px rule, the current one filled with a 4px bar.
+ *
+ * Phones get tighter tabs, and the row scrolls sideways if it still doesn't
+ * fit. A scroller clips, so it pads its top and end by the hover lift and
+ * shadow, and a negative margin takes the top padding back.
  */
 import type { PageLink } from '../../lib/content'
 
@@ -15,21 +19,23 @@ interface Props {
 const { label, tabs, current } = Astro.props
 ---
 
-<nav aria-label={label} class="flex border-b-2 border-foreground">
-  {tabs.map((tab) => (
-    <a
-      href={tab.href}
-      aria-current={tab.href === current ? 'page' : undefined}
-      class:list={[
-        'relative inline-flex h-[46px] shrink-0 items-center border border-b-0 border-foreground bg-background px-[18px] text-sm leading-5 whitespace-nowrap text-muted-foreground [&:not(:first-child)]:-ms-px',
-        'aria-[current=page]:bg-[linear-gradient(var(--color-sidebar-selected),var(--color-sidebar-selected))] aria-[current=page]:font-semibold aria-[current=page]:text-tab-active',
-        'after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-1 aria-[current=page]:after:bg-tab-active',
-        'hover:z-10 [&:hover:not(:active)]:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:[&:hover:not(:active)]:-translate-0.5',
-        // Keyboard focus: a 2px ring frame with a 2px gap of page background inside it.
-        'focus-visible:z-10 focus-visible:text-tab-active focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:shadow-[inset_0_0_0_3px_var(--color-background)]',
-      ]}
-    >
-      {tab.label}
-    </a>
-  ))}
+<nav aria-label={label} class="border-b-2 border-foreground">
+  <div class="-mt-0.5 flex overflow-x-auto pt-0.5 pe-1 [scrollbar-width:none]">
+    {tabs.map((tab) => (
+      <a
+        href={tab.href}
+        aria-current={tab.href === current ? 'page' : undefined}
+        class:list={[
+          'relative inline-flex h-[46px] shrink-0 items-center border border-b-0 border-foreground bg-background px-3 text-sm leading-5 whitespace-nowrap text-muted-foreground sm:px-[18px] [&:not(:first-child)]:-ms-px',
+          'aria-[current=page]:bg-[linear-gradient(var(--color-sidebar-selected),var(--color-sidebar-selected))] aria-[current=page]:font-semibold aria-[current=page]:text-tab-active',
+          'after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-1 aria-[current=page]:after:bg-tab-active',
+          'hover:z-10 [&:hover:not(:active)]:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:[&:hover:not(:active)]:-translate-0.5',
+          // Keyboard focus: a 2px ring frame with a 2px gap of page background inside it.
+          'focus-visible:z-10 focus-visible:text-tab-active focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:shadow-[inset_0_0_0_3px_var(--color-background)]',
+        ]}
+      >
+        {tab.label}
+      </a>
+    ))}
+  </div>
 </nav>
