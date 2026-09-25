@@ -78,8 +78,12 @@ export function useSidebarMode(controller: SidebarController): () => SidebarMode
   return createMemo(() => controller.mode(), { ssrSource: 'client', loadingValue: 'expanded' })
 }
 
-/** Below this the sidebar becomes a drawer. Matches the docs mobile breakpoint token. */
-export const SIDEBAR_MOBILE_QUERY = '(max-width: 767px)'
+/**
+ * Below this the sidebar becomes a drawer and the docs use the narrow shell. It is
+ * Tailwind's `lg` breakpoint (64rem): the shell CSS uses `@variant lg` and the
+ * markup uses `lg:` classes, so change them together.
+ */
+export const SIDEBAR_MOBILE_QUERY = '(width < 64rem)'
 
 /**
  * Reactive media query match that is false during server render and hydration,

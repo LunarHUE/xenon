@@ -29,7 +29,7 @@ export default function SidebarPreview() {
 
       <div class="space-y-3">
         <h3 class="text-sm text-muted-foreground">
-          Mobile drawer: narrow the window below 768px, then open it from here or the header
+          Mobile drawer: narrow the window below 1024px, then open it from here or the header
         </h3>
         <div class="flex flex-wrap items-center gap-4">
           <Button variant="outline" onClick={sidebar.openDrawer}>

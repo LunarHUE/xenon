@@ -69,7 +69,7 @@ export function Sidebar(props: SidebarProps): JSX.Element {
             data-mode={mode()}
             inert={mode() === 'hidden' ? true : undefined}
             class={cn(
-              'group/sidebar hidden h-full w-[var(--sidebar-width)] flex-col overflow-hidden border-e-2 border-foreground bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-out motion-reduce:transition-none md:flex',
+              'group/sidebar hidden h-full w-[var(--sidebar-width)] flex-col overflow-hidden border-e-2 border-foreground bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-out motion-reduce:transition-none lg:flex',
               'data-[mode=hidden]:border-e-0',
               props.class
             )}

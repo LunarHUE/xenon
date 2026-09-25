@@ -210,7 +210,8 @@
   .docs-shell[data-sidebar='hidden'] {
     --sidebar-width: 0px;
   }
-  @media (min-width: 768px) {
+  /* Same breakpoint as SIDEBAR_MOBILE_QUERY in src/lib/sidebar.ts. */
+  @variant lg {
     .docs-shell {
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
