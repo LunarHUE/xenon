@@ -1,0 +1,113 @@
+<Props type="ButtonProps<T>" note="Native props are forwarded">
+
+<Prop name="disabled" type="boolean" default="false">
+
+Disables the button. A native disabled button is removed from the tab order.
+
+```tsx title="disabled.tsx"
+<Button disabled>
+  Save changes
+</Button>
+```
+
+</Prop>
+
+<Prop name="pending" type="boolean" default="false">
+
+Prevents activation while work is in progress. The button remains focusable and
+exposes `aria-disabled`.
+
+```tsx title="pending.tsx"
+<Button pending={isSaving()}>
+  {isSaving() ? 'Saving…' : 'Save'}
+</Button>
+```
+
+</Prop>
+
+<Prop name="focusableWhenDisabled" type="boolean" default="false">
+
+Keeps a disabled button in the tab order. Use this when users need to discover
+the action and understand why it is unavailable.
+
+Line 4 connects the reason to the button.
+
+```tsx title="focusable-when-disabled.tsx"
+<Button
+  disabled
+  focusableWhenDisabled
+  aria-describedby="reason"
+>
+  Publish
+</Button>
+<p id="reason">Add a title before publishing.</p>
+```
+
+</Prop>
+
+<Prop name="as" type="ValidComponent" default="'button'">
+
+The element or component to render. `a` with an `href` stays a native link and
+`input` a native input. Any other host gets `role="button"`, a tab stop, and
+Enter and Space activation.
+
+A custom component must pass its props and ref on to the element it renders.
+
+```tsx title="as.tsx"
+<Button as="a" href="/pricing">
+  See pricing
+</Button>
+```
+
+</Prop>
+
+<Prop name="type" type="'button' | 'submit' | 'reset'" default="'button'">
+
+The native button type. The default means a Button inside a form doesn't submit
+it unless you set `type="submit"`.
+
+Links and generic hosts ignore it.
+
+```tsx title="type.tsx"
+<form onSubmit={save}>
+  <Button type="submit">Save</Button>
+</form>
+```
+
+</Prop>
+
+<Prop name="autofocus" type="boolean" default="false">
+
+Focuses the button once it has rendered, and sets the `autofocus` attribute and
+`data-autofocus`.
+
+Focus goes through the ref, so a custom `as` component has to forward it.
+
+```tsx title="autofocus.tsx"
+<Show when={step() === 'confirm'}>
+  <Button autofocus onClick={confirm}>
+    Confirm
+  </Button>
+</Show>
+```
+
+</Prop>
+
+<Prop name="ref" type="(el: HTMLElement) => void">
+
+Receives the rendered element.
+
+In development, Button logs an error when a custom `as` component never passes
+the element back.
+
+```tsx title="ref.tsx"
+let button: HTMLElement | undefined
+
+<Button ref={(el) => (button = el)}>
+  Save
+</Button>
+```
+
+</Prop>
+
+</Props>
