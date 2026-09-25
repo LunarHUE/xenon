@@ -1,0 +1,22 @@
+<Section title="type">
+
+Button defaults to `type="button"`. Set `type="submit"` when it should submit its
+parent form. The default prevents accidental form submission.
+
+```tsx
+<Button type="submit">Save profile</Button>
+```
+
+</Section>
+
+<Section title="pending">
+
+Use `pending` while an action is in progress. Button stops activation and stays
+focusable. Provide a visible progress label, because `pending` does not add one
+for you.
+
+```tsx
+<Button pending>Saving...</Button>
+```
+
+</Section>
