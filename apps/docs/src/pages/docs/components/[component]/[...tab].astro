@@ -1,10 +1,8 @@
 ---
 import { render } from 'astro:content'
 import DocsPage from '../../../../components/page/DocsPage.astro'
-import Code from '../../../../components/codeblock/Code.astro'
-import Example from '../../../../components/example/Example.astro'
-import Section from '../../../../components/section/Section.astro'
 import Toc from '../../../../components/page/Toc.astro'
+import { mdxComponents } from '../../../../components/mdx'
 import { pageSections } from '../../../../lib/sections'
 import {
   getComponents,
@@ -53,6 +51,6 @@ const directory = (await getDocs()).some((entry) => entry.id === 'components')
   previous={previous}
   next={next}
 >
-  <Content components={{ Code, Example, Section }} />
+  <Content components={mdxComponents} />
   {toc && <Toc slot="toc" sections={sections} />}
 </DocsPage>
