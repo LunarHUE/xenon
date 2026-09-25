@@ -2,6 +2,7 @@
   "name": "@xenon/solid",
   "version": "0.1.0",
   "description": "Headless, accessible components for Solid 2.",
+  "license": "MIT",
   "keywords": [
     "solid",
     "solid-js",

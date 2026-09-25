@@ -2,6 +2,7 @@
   "name": "@xenon/core",
   "version": "0.1.0",
   "description": "Framework-free behavior for Xenon components: state, keyboard handling and ARIA attribute maps in plain TypeScript.",
+  "license": "MIT",
   "keywords": [
     "headless",
     "accessibility",
