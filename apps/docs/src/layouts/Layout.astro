@@ -13,9 +13,11 @@ import { sidebar } from '../lib/sidebar'
 interface Props {
   title: string
   description: string
+  /** Pad and center the slot. Docs pages turn this off and lay out their own columns. */
+  contained?: boolean
 }
 
-const { title, description } = Astro.props
+const { title, description, contained = true } = Astro.props
 const navigation = await getNavigation()
 
 // On-demand rendering emits stored preferences so first paint needs no script.
@@ -55,10 +57,14 @@ const initialSidebar =
         client:load
       />
       <SidebarPanelBoot id={sidebar.id} />
-      <main class="min-w-0 px-6 py-12">
-        <div class="mx-auto max-w-5xl">
+      <main class:list={['min-w-0', contained && 'px-6 py-12']}>
+        {contained ? (
+          <div class="mx-auto max-w-5xl">
+            <slot />
+          </div>
+        ) : (
           <slot />
-        </div>
+        )}
       </main>
     </div>
     <Toaster client:load />
