@@ -1,0 +1,138 @@
+---
+/**
+ * The components directory: a filter row with a count, then one numbered
+ * section per group with a row for each component. Rows come from the
+ * `components` collection (see getDirectory), so a new overview.mdx shows up
+ * here with no edit to this page.
+ *
+ * The full list is in the HTML. The script filters it by name and description,
+ * hides groups left empty, and keeps the count current. Screen readers hear the
+ * count once typing pauses rather than on every keystroke.
+ *
+ * The filter and the groups are `.docs-section` rows, so they share the
+ * article's section counter: the filter is 01 and the groups follow it.
+ */
+import { ArrowRight } from 'lucide'
+import { Icon } from '../ui/icon'
+import { componentHref, getDirectory } from '../../lib/content'
+import { sectionId } from '../../lib/sections'
+
+const groups = await getDirectory()
+const total = groups.reduce((sum, group) => sum + group.components.length, 0)
+const count = (n: number) => `${n} ${n === 1 ? 'component' : 'components'}`
+---
+
+<div data-directory class="flex flex-col">
+  <div class="docs-section flex min-h-12 items-center gap-6 border-t border-muted-foreground font-mono outline-offset-2 has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-sidebar-primary">
+    <label class="flex min-w-0 flex-1 items-center text-xs leading-[26px] font-medium">
+      <span class="sr-only">Filter components</span>
+      <input
+        data-directory-filter
+        type="search"
+        placeholder="Filter components…"
+        autocomplete="off"
+        spellcheck="false"
+        class="min-w-0 flex-1 bg-transparent py-[11px] text-foreground outline-none placeholder:text-foreground [&::-webkit-search-cancel-button]:appearance-none"
+      />
+    </label>
+    <p data-directory-count class="shrink-0 text-[13px] leading-[19px] text-muted-foreground">
+      {count(total)}
+    </p>
+  </div>
+
+  {groups.map((group) => {
+    const id = sectionId(group.label)
+    return (
+      <section
+        data-directory-group
+        aria-labelledby={id}
+        class="docs-section flex flex-col gap-4 border-t border-foreground py-5 @3xl:flex-row @3xl:gap-6"
+      >
+        <h2 id={id} class="shrink-0 scroll-mt-20 font-mono text-xs leading-5 font-medium @3xl:w-28">
+          {group.label}
+        </h2>
+        <ul class="flex max-w-none min-w-0 flex-1 list-none flex-col ps-0">
+          {group.components.map((component) => (
+            <li
+              class="mt-0"
+              data-directory-entry
+              data-search={`${component.title} ${component.description}`.toLowerCase()}
+            >
+              <a
+                href={componentHref(component.slug)}
+                class="group flex min-h-[46px] items-baseline gap-6 pb-3 text-foreground no-underline outline-offset-2 focus-visible:outline-2 focus-visible:outline-sidebar-primary"
+              >
+                <span class="flex min-w-0 flex-1 flex-col gap-1 @xl:flex-row @xl:items-baseline @xl:gap-6">
+                  <span class="text-[17px] leading-[23px] font-medium group-hover:text-link @xl:w-45 @xl:shrink-0">
+                    {component.title}
+                  </span>
+                  <span class="text-[15px] leading-[21px] text-muted-foreground">
+                    {component.description}
+                  </span>
+                </span>
+                <Icon
+                  icon={ArrowRight}
+                  class="size-4 shrink-0 self-center transition-transform duration-[120ms] group-hover:text-link motion-safe:group-hover:translate-x-0.5 motion-reduce:transition-none"
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  })}
+
+  <p
+    data-directory-empty
+    hidden
+    class="border-t border-foreground py-5 text-[15px] leading-[21px] text-muted-foreground"
+  >
+    No components match "<span data-directory-query />
+    ".
+  </p>
+  <p data-directory-status role="status" class="sr-only"></p>
+</div>
+
+<script>
+  // How long typing has to pause before the count is announced.
+  const ANNOUNCE_DELAY = 500
+
+  const count = (n: number) => `${n} ${n === 1 ? 'component' : 'components'}`
+
+  for (const directory of document.querySelectorAll<HTMLElement>('[data-directory]')) {
+    const input = directory.querySelector<HTMLInputElement>('[data-directory-filter]')!
+    const counter = directory.querySelector<HTMLElement>('[data-directory-count]')!
+    const empty = directory.querySelector<HTMLElement>('[data-directory-empty]')!
+    const query = directory.querySelector<HTMLElement>('[data-directory-query]')!
+    const status = directory.querySelector<HTMLElement>('[data-directory-status]')!
+    const groups = [...directory.querySelectorAll<HTMLElement>('[data-directory-group]')]
+    let timer: ReturnType<typeof setTimeout> | undefined
+
+    const filter = () => {
+      const text = input.value.trim().toLowerCase()
+      let shown = 0
+      for (const group of groups) {
+        let groupShown = 0
+        for (const entry of group.querySelectorAll<HTMLElement>('[data-directory-entry]')) {
+          const match = entry.dataset.search!.includes(text)
+          entry.hidden = !match
+          if (match) groupShown++
+        }
+        group.hidden = groupShown === 0
+        shown += groupShown
+      }
+      counter.textContent = count(shown)
+      empty.hidden = shown > 0
+      query.textContent = input.value.trim()
+
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        status.textContent = shown > 0 ? count(shown) : `No components match ${input.value.trim()}`
+      }, ANNOUNCE_DELAY)
+    }
+
+    input.addEventListener('input', filter)
+    // A value restored by the back button doesn't fire input.
+    if (input.value) filter()
+  }
+</script>

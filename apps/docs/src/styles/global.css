@@ -241,8 +241,10 @@
     counter-increment: docs-section;
   }
   /* The trailing "" is alt text, so screen readers skip the number. */
-  .docs-section > h2::before {
+  .docs-section > h2::before,
+  .docs-section > label::before {
     content: counter(docs-section, decimal-leading-zero) ' / ' / '';
+    white-space: pre;
   }
 
   /* Islands are display: contents and ignore margins, so space their first child. */

@@ -3,8 +3,8 @@ import { render } from 'astro:content'
 import DocsPage from '../../components/page/DocsPage.astro'
 import Toc from '../../components/page/Toc.astro'
 import { mdxComponents } from '../../components/mdx'
-import { pageSections } from '../../lib/sections'
-import { docHref, getDocs, pagination, type DocEntry } from '../../lib/content'
+import { pageSections, sectionId } from '../../lib/sections'
+import { docHref, getDirectory, getDocs, pagination, type DocEntry } from '../../lib/content'
 
 export async function getStaticPaths() {
   const entries = await getDocs()
@@ -17,7 +17,13 @@ interface Props {
 
 const { entry } = Astro.props
 const { Content, remarkPluginFrontmatter } = await render(entry)
-const sections = pageSections(remarkPluginFrontmatter)
+// The directory's groups are built from the components collection, not written
+// as Sections, so the plugin can't see them.
+const groups =
+  entry.id === 'components'
+    ? (await getDirectory()).map(({ label }) => ({ id: sectionId(label), title: label }))
+    : []
+const sections = [...pageSections(remarkPluginFrontmatter), ...groups]
 // Top plus one section is not worth a table of contents.
 const toc = sections.length >= 2
 // Start-here pages and guides read as one sequence, in sidebar order.

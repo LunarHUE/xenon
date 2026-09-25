@@ -104,6 +104,22 @@ export async function getComponents(): Promise<ComponentDoc[]> {
   return components.sort((a, b) => a.title.localeCompare(b.title))
 }
 
+/** One group of the components directory. */
+export interface DirectoryGroup {
+  group: ComponentGroup
+  label: string
+  components: ComponentDoc[]
+}
+
+/** Components by directory group, in `GROUP_LABELS` order. Empty groups are left out. */
+export async function getDirectory(): Promise<DirectoryGroup[]> {
+  const components = await getComponents()
+  return (Object.keys(GROUP_LABELS) as ComponentGroup[]).flatMap((group) => {
+    const members = components.filter((component) => component.group === group)
+    return members.length ? [{ group, label: GROUP_LABELS[group], components: members }] : []
+  })
+}
+
 /** The pages either side of `pages[index]`. */
 export function pagination(
   pages: readonly PageLink[],

@@ -3,6 +3,7 @@ import Code from '../codeblock/Code.astro'
 import Example from '../example/Example.astro'
 import Section from '../section/Section.astro'
 import Callout from './Callout.astro'
+import ComponentDirectory from './ComponentDirectory.astro'
 import Definition from './Definition.astro'
 import Definitions from './Definitions.astro'
 import Kbd from './Kbd.astro'
@@ -14,6 +15,7 @@ export const mdxComponents = {
   Anatomy,
   Callout,
   Code,
+  ComponentDirectory,
   Definition,
   Definitions,
   Example,
