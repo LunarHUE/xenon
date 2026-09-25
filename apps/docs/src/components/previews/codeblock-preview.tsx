@@ -7,9 +7,7 @@ import {
   CodeBlockAction,
   CodeBlockCopy,
 } from '../codeblock'
-import { Example, ExamplePreview } from '../example'
 import { CopyButton } from '../copybutton'
-import { Button } from '../ui/button'
 import { Icon } from '../ui/icon'
 import { ExternalLink } from 'lucide'
 
@@ -55,14 +53,8 @@ export default function CodeBlockPreview(props: { snippets: CodeBlockSnippets })
   return (
     <div class="space-y-10">
       <div class="space-y-3">
-        <h3 class="text-sm text-muted-foreground">Example: rendered component, source collapsed</h3>
-        <Example>
-          <ExamplePreview>
-            <Button>Save changes</Button>
-            <Button variant="outline">Cancel</Button>
-          </ExamplePreview>
-          <Source snippet={props.snippets.medium} collapsible />
-        </Example>
+        <h3 class="text-sm text-muted-foreground">Collapsible, collapsed by default</h3>
+        <Source snippet={props.snippets.medium} collapsible />
       </div>
 
       <div class="grid gap-8 lg:grid-cols-2">
