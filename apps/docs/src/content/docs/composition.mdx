@@ -1,0 +1,81 @@
+---
+title: Composition
+description: Choose the element. Keep the behavior.
+section: guides
+order: 0
+---
+
+<Section title="as">
+
+Components render a default element. Most parts take an `as` prop to render a
+different element or one of your own components, and the behavior moves with
+it.
+
+Button reads `as` to pick its semantics. `a` with an `href` stays a native link
+and `input` a native input. Any other host gets `role="button"`, a tab stop,
+and Enter and Space activation.
+
+```tsx title="link-button.tsx"
+<Button as="a" href="/settings">
+  Account settings
+</Button>
+```
+
+A part can render another xenon component. Here the trigger hands its props and
+ref to Button, so the tooltip opens from a native button.
+
+```tsx title="tooltip-trigger.tsx"
+<Tooltip>
+  <Tooltip.Trigger as={Button}>Save</Tooltip.Trigger>
+  <Tooltip.Portal>
+    <Tooltip.Positioner>
+      <Tooltip.Content>Saves a draft</Tooltip.Content>
+    </Tooltip.Positioner>
+  </Tooltip.Portal>
+</Tooltip>
+```
+
+</Section>
+
+<Section title="ref">
+
+`ref` takes a callback. Button calls it with the element it renders.
+
+```tsx title="editor.tsx"
+function Editor() {
+  let save: HTMLElement | undefined
+  const onKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') save?.focus()
+  }
+
+  return (
+    <>
+      <textarea onKeyDown={onKeyDown} />
+      <Button ref={(el) => (save = el)}>Save</Button>
+    </>
+  )
+}
+```
+
+A component passed to `as` must forward the props and the ref it receives to
+the element that gets the behavior. Spreading `props` onto that element does
+both.
+
+In development Button logs an error if the ref never arrives. It also logs one
+if your component renders a native button, input or link, since that element
+would get `role="button"` instead of its native semantics. Pass the tag as `as`
+instead.
+
+```tsx title="card.tsx"
+import type { ComponentProps } from '@solidjs/web'
+
+function Card(props: ComponentProps<'div'>) {
+  return <div {...props} />
+}
+
+function Project() {
+  return <Button as={Card}>Open project</Button>
+}
+```
+
+</Section>
