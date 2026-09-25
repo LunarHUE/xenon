@@ -1,0 +1,50 @@
+---
+title: Installation
+description: Add @xenon-ui/solid to a Solid 2 project.
+---
+
+Install the package. `solid-js` and `@solidjs/web` 2.0 are peer dependencies.
+
+```sh
+bun add @xenon-ui/solid
+```
+
+Import each component from its subpath so unrelated components stay out of your
+bundle. The package root re-exports everything.
+
+```tsx title="confirm.tsx"
+import { Dialog } from '@xenon-ui/solid/dialog'
+
+function Confirm() {
+  return (
+    <Dialog>
+      <Dialog.Trigger>Delete</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Viewport>
+          <Dialog.Content>
+            <Dialog.Title>Delete this file?</Dialog.Title>
+            <Dialog.Description>This cannot be undone.</Dialog.Description>
+            <Dialog.Close>Cancel</Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Viewport>
+      </Dialog.Portal>
+    </Dialog>
+  )
+}
+```
+
+The package exports a `solid` condition that points at JSX source. Vite with
+`@solidjs/vite-plugin` picks it up and compiles the components with your own
+Solid version. Server rendering needs the plugin's `ssr: true` option.
+
+```ts title="vite.config.ts"
+import solid from '@solidjs/vite-plugin'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [solid({ ssr: true })],
+})
+```
+
+Other bundlers get a precompiled ESM build. It's a client build, so importing it
+in Node throws for any component that creates DOM templates at module load.
