@@ -367,3 +367,48 @@ html:not([data-example-style='unstyled']) .example-toggle-dot {
 [data-example-stage][data-example-variant='unstyled'] astro-island * {
   all: revert;
 }
+
+/*
+ * Anatomy demos name their parts with data-anatomy="<Part>". The outermost part
+ * gets a dashed box with its name above it. Parts inside it get a leader line
+ * down to their name. Pseudo-elements, so the demo's own outline and focus
+ * styles stay untouched.
+ */
+[data-anatomy-stage] [data-anatomy] {
+  position: relative;
+}
+[data-anatomy-stage] [data-anatomy]::before,
+[data-anatomy-stage] [data-anatomy]::after {
+  position: absolute;
+  pointer-events: none;
+}
+[data-anatomy-stage] [data-anatomy]::after {
+  content: attr(data-anatomy);
+  font: 400 13px/19px var(--font-mono);
+  color: var(--color-foreground);
+  white-space: nowrap;
+}
+[data-anatomy-stage] [data-anatomy]:not([data-anatomy] *)::before {
+  content: '';
+  inset: -28px -36px;
+  border: 1px dashed var(--color-muted-foreground);
+}
+[data-anatomy-stage] [data-anatomy]:not([data-anatomy] *)::after {
+  bottom: calc(100% + 32px);
+  left: -36px;
+}
+[data-anatomy-stage] [data-anatomy] [data-anatomy] {
+  --anatomy-leader: 48px;
+}
+[data-anatomy-stage] [data-anatomy] [data-anatomy]::before {
+  content: '';
+  top: calc(100% + 4px);
+  left: 50%;
+  height: var(--anatomy-leader);
+  border-inline-start: 1px solid var(--color-muted-foreground);
+}
+[data-anatomy-stage] [data-anatomy] [data-anatomy]::after {
+  top: calc(100% + var(--anatomy-leader) + 8px);
+  left: 50%;
+  translate: -50% 0;
+}

@@ -15,6 +15,9 @@ import { defineMdastPlugin } from 'satteri'
  *
  * An unstyled twin (`pending.unstyled.tsx`) goes in the `unstyled` slot the same
  * way. The source shown under the demo is loaded by `Example.astro` itself.
+ *
+ * `<Anatomy name="button/anatomy">` works the same, except it keeps its children
+ * (the part structure as a code fence) and takes the demo in its `demo` slot.
  */
 
 /** Demos live in src/examples/<component>/<name>.tsx. */
@@ -23,7 +26,8 @@ export const EXAMPLES_DIR = fileURLToPath(new URL('../examples/', import.meta.ur
 export const exampleDemos = defineMdastPlugin({
   name: 'xenon-example-demos',
   mdxJsxFlowElement(node, ctx) {
-    if (node.name !== 'Example' || node.children.length > 0) return
+    const anatomy = node.name === 'Anatomy'
+    if (!anatomy && (node.name !== 'Example' || node.children.length > 0)) return
     const name = node.attributes.find(
       (attribute) => attribute.type === 'mdxJsxAttribute' && attribute.name === 'name'
     )?.value
@@ -48,7 +52,7 @@ export const exampleDemos = defineMdastPlugin({
     ctx.data.exampleDemos = count
     const styled = `ExampleDemo${count}`
     const unstyled = `ExampleDemo${count}Unstyled`
-    const hasTwin = existsSync(file('.unstyled'))
+    const hasTwin = !anatomy && existsSync(file('.unstyled'))
 
     const imports = [`import ${styled} from '${specifier(file(''))}'`]
     const children = [`<${styled} client:visible />`]
@@ -56,6 +60,13 @@ export const exampleDemos = defineMdastPlugin({
       imports.push(`import ${unstyled} from '${specifier(file('.unstyled'))}'`)
       children.push(`<${unstyled} slot="unstyled" client:visible />`)
     }
+    // Imports have to sit at the top level of the module, not inside a Section.
+    ctx.data.exampleImports = [...((ctx.data.exampleImports as string[]) ?? []), ...imports]
+    if (anatomy) {
+      ctx.appendChild(node, { raw: `<${styled} slot="demo" client:visible />` })
+      return
+    }
+
     const attributes = node.attributes
       .map((attribute) =>
         attribute.type === 'mdxJsxAttribute' && typeof attribute.value === 'string'
@@ -66,8 +77,6 @@ export const exampleDemos = defineMdastPlugin({
       )
       .join(' ')
 
-    // Imports have to sit at the top level of the module, not inside a Section.
-    ctx.data.exampleImports = [...((ctx.data.exampleImports as string[]) ?? []), ...imports]
     ctx.replaceNode(node, {
       raw: `<Example ${attributes}>\n${children.join('\n')}\n</Example>`,
     })

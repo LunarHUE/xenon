@@ -1,0 +1,39 @@
+---
+/**
+ * A live demo with its parts outlined, over the part structure as code:
+ *
+ *     <Anatomy name="button/anatomy" caption="Button is the root.">
+ *
+ *     ```tsx title="Anatomy"
+ *     <Button>{children}</Button>
+ *     ```
+ *
+ *     </Anatomy>
+ *
+ * lib/example-demos.ts puts the demo from src/examples/button/anatomy.tsx in the
+ * `demo` slot. The demo names its parts with `data-anatomy="Button"`, and CSS in
+ * global.css draws the outlines and labels from those attributes, so the labels
+ * can't name a part the demo doesn't render.
+ */
+interface Props {
+  /** Demo path under src/examples, without `.tsx`. */
+  name: string
+  /** Short note under the code. */
+  caption?: string
+}
+
+const { caption } = Astro.props
+---
+
+<div data-slot="anatomy" class="flex min-w-0 flex-col">
+  <div
+    data-anatomy-stage
+    class="flex min-h-60 items-center justify-center border border-foreground bg-muted px-6 py-20 text-foreground"
+  >
+    <slot name="demo" />
+  </div>
+  <div class="-mt-px flex flex-col">
+    <slot />
+  </div>
+  {caption && <p class="pt-3 text-sm leading-5 text-muted-foreground">{caption}</p>}
+</div>
