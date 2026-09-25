@@ -3,11 +3,17 @@ title: Installation
 description: Add @xenon-ui/solid to a Solid 2 project.
 ---
 
+<Section title="Install">
+
 Install the package. `solid-js` and `@solidjs/web` 2.0 are peer dependencies.
 
 ```sh
 bun add @xenon-ui/solid
 ```
+
+</Section>
+
+<Section title="Import">
 
 Import each component from its subpath so unrelated components stay out of your
 bundle. The package root re-exports everything.
@@ -33,6 +39,10 @@ function Confirm() {
 }
 ```
 
+</Section>
+
+<Section title="Vite">
+
 The package exports a `solid` condition that points at JSX source. Vite with
 `@solidjs/vite-plugin` picks it up and compiles the components with your own
 Solid version. Server rendering needs the plugin's `ssr: true` option.
@@ -46,5 +56,11 @@ export default defineConfig({
 })
 ```
 
+</Section>
+
+<Section title="Other bundlers">
+
 Other bundlers get a precompiled ESM build. It's a client build, so importing it
 in Node throws for any component that creates DOM templates at module load.
+
+</Section>
