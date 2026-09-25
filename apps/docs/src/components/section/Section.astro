@@ -4,6 +4,19 @@
  * content fills the rest. The number comes from a CSS counter on `.mdx`, so
  * reordering sections never means renumbering them. Rows stack when the article
  * is narrower than 48rem.
+ *
+ * Put an Example in the `example` slot to set it beside the text:
+ *
+ *     <Section title="pending">
+ *     Use `pending` while an action is in progress.
+ *
+ *     Provide a visible progress label.
+ *
+ *     <Example slot="example" name="button/pending" />
+ *     </Section>
+ *
+ * The first paragraph is the lead. Later paragraphs in the text column are
+ * notes and render smaller and muted.
  */
 import { sectionId } from '../../lib/sections'
 
@@ -15,6 +28,7 @@ interface Props {
 
 const { title } = Astro.props
 const id = Astro.props.id ?? sectionId(title)
+const split = Astro.slots.has('example')
 ---
 
 <section
@@ -25,6 +39,15 @@ const id = Astro.props.id ?? sectionId(title)
     {title}
   </h2>
   <div class="docs-section-body flex min-w-0 flex-1 flex-col gap-4">
-    <slot />
+    {split ? (
+      <div class="flex flex-col gap-4 @3xl:grid @3xl:grid-cols-[minmax(0,364fr)_minmax(0,436fr)] @3xl:items-start @3xl:gap-6">
+        <div class="flex min-w-0 flex-col gap-4 [&>p+p]:text-sm [&>p+p]:leading-5 [&>p+p]:text-muted-foreground">
+          <slot />
+        </div>
+        <slot name="example" />
+      </div>
+    ) : (
+      <slot />
+    )}
   </div>
 </section>
