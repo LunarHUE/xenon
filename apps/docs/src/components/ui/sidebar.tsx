@@ -40,6 +40,10 @@ export interface SidebarProps extends Omit<ComponentProps<'aside'>, 'children'> 
   label: string
   /** Media query below which the panel becomes a drawer. */
   mobileQuery?: string
+  /** Extra classes for the drawer sheet only. `class` applies to both presentations. */
+  drawerClass?: string
+  /** Classes for the drawer's full-screen viewport, which carries the backdrop. */
+  drawerViewportClass?: string
   children?: JSX.Element
 }
 
@@ -51,7 +55,16 @@ export interface SidebarProps extends Omit<ComponentProps<'aside'>, 'children'> 
  * the controller.
  */
 export function Sidebar(props: SidebarProps): JSX.Element {
-  const rest = omit(props, 'controller', 'label', 'mobileQuery', 'class', 'children')
+  const rest = omit(
+    props,
+    'controller',
+    'label',
+    'mobileQuery',
+    'class',
+    'drawerClass',
+    'drawerViewportClass',
+    'children'
+  )
   const mobile = createMediaMatch(props.mobileQuery ?? SIDEBAR_MOBILE_QUERY)
   const mode = useSidebarMode(props.controller)
   return (
@@ -87,7 +100,8 @@ export function Sidebar(props: SidebarProps): JSX.Element {
             aria-label={props.label}
             data-slot="sidebar"
             data-mode="expanded"
-            class={cn('group/sidebar gap-0 p-0', props.class)}
+            viewportClass={props.drawerViewportClass}
+            class={cn('group/sidebar gap-0 p-0', props.class, props.drawerClass)}
           >
             {props.children}
           </DrawerContent>

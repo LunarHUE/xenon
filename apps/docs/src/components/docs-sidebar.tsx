@@ -60,7 +60,13 @@ export interface DocsSidebarProps {
  */
 export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
   return (
-    <Sidebar controller={sidebar} label="Documentation">
+    <Sidebar
+      controller={sidebar}
+      label="Documentation"
+      // The menu button records where the narrow bars end; sheet and scrim start there.
+      drawerClass="data-[side=left]:top-[var(--docs-drawer-top,0px)]"
+      drawerViewportClass="[&::backdrop]:top-[var(--docs-drawer-top,0px)]"
+    >
       <DocsSidebarContents {...props} />
     </Sidebar>
   )

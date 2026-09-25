@@ -4,10 +4,15 @@ import ThemeBoot from '../components/boot/ThemeBoot.astro'
 import ExampleBoot from '../components/boot/ExampleBoot.astro'
 import SidebarShellBoot from '../components/boot/SidebarShellBoot.astro'
 import SidebarPanelBoot from '../components/boot/SidebarPanelBoot.astro'
+import PlatformBoot from '../components/boot/PlatformBoot.astro'
+import SearchButton from '../components/shell/SearchButton.astro'
+import GitHubLink from '../components/shell/GitHubLink.astro'
+import { ContextCrumbs, type SwitcherLink } from '../components/shell/context-crumbs'
+import type { Crumb } from '../components/page/docs-breadcrumb'
 import { ThemeToggle } from '../components/ui/theme-toggle'
 import { Toaster } from '../components/ui/toast'
 import { DocsSidebar } from '../components/docs-sidebar'
-import { DocsSidebarTrigger } from '../components/ui/sidebar-trigger-island'
+import { DocsMenuButton, DocsSidebarTrigger } from '../components/ui/sidebar-trigger-island'
 import { currentHref, getNavigation } from '../lib/nav'
 import { sidebar } from '../lib/sidebar'
 
@@ -16,9 +21,13 @@ interface Props {
   description: string
   /** Pad and center the slot. Docs pages turn this off and lay out their own columns. */
   contained?: boolean
+  /** Trail for the narrow bar. Docs pages pass their breadcrumb; wide screens show it in the page. */
+  crumbs?: Crumb[]
+  /** Components for the switcher in the last crumb, on component pages. */
+  switcher?: SwitcherLink[]
 }
 
-const { title, description, contained = true } = Astro.props
+const { title, description, contained = true, crumbs, switcher } = Astro.props
 const navigation = await getNavigation()
 
 // On-demand rendering emits stored preferences so first paint needs no script.
@@ -40,17 +49,41 @@ const initialSidebar =
     <title>{title} · Xenon docs</title>
     <ThemeBoot />
     <ExampleBoot />
+    <PlatformBoot />
   </head>
   <body>
-    <header class="flex h-14 items-center gap-4 border-b border-foreground px-6">
-      <DocsSidebarTrigger client:load />
-      <a href="/" class="text-lg font-medium">
-        Xenon
-      </a>
-      <div class="ms-auto">
+    <header class="flex h-14 items-center gap-3 border-b-2 border-foreground px-6 lg:gap-6">
+      <div class="flex shrink-0 items-center justify-between gap-3 lg:w-44">
+        <a
+          href="/"
+          class="text-[28px] leading-[34px] font-bold tracking-[-0.04em] outline-offset-4 focus-visible:outline-2 focus-visible:outline-sidebar-primary"
+        >
+          xenon
+        </a>
+        {/* Docks and hides the sidebar. Below lg the menu button in the bar takes over. */}
+        <div class="hidden lg:flex">
+          <DocsSidebarTrigger mobileQuery="not all" client:load />
+        </div>
+      </div>
+      <div class="ms-auto flex items-center gap-3 lg:gap-6">
+        <SearchButton class="hidden lg:inline-flex" />
+        <GitHubLink />
         <ThemeToggle client:load />
       </div>
     </header>
+    <div
+      data-docs-context-bar
+      class="sticky top-0 z-30 flex h-12 items-center gap-3 border-b border-foreground bg-background px-6 sm:gap-4 lg:hidden"
+    >
+      <DocsMenuButton client:load />
+      {crumbs &&
+        (switcher ? (
+          <ContextCrumbs crumbs={crumbs} switcher={switcher} client:load />
+        ) : (
+          <ContextCrumbs crumbs={crumbs} />
+        ))}
+      <SearchButton compact class="ms-auto" />
+    </div>
     <div data-docs-shell data-sidebar={initialSidebar} class="docs-shell">
       <SidebarShellBoot />
       <DocsSidebar

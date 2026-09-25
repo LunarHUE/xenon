@@ -5,6 +5,7 @@ import Toc from '../../../../components/page/Toc.astro'
 import { mdxComponents } from '../../../../components/mdx'
 import { pageSections } from '../../../../lib/sections'
 import {
+  componentHref,
   getComponents,
   getDocs,
   pagination,
@@ -36,6 +37,13 @@ const toc = sections.length >= 2
 const { previous, next } = pagination(component.tabs, component.tabs.indexOf(tab))
 // The Components crumb links to the directory once that page exists.
 const directory = (await getDocs()).some((entry) => entry.id === 'components')
+// The switcher keeps you on the same tab where the other component has one.
+const switcher = (await getComponents()).map((other) => ({
+  label: other.title,
+  href:
+    other.tabs.find((candidate) => candidate.tab === tab.tab)?.href ?? componentHref(other.slug),
+  current: other.slug === component.slug,
+}))
 ---
 
 <DocsPage
@@ -47,6 +55,7 @@ const directory = (await getDocs()).some((entry) => entry.id === 'components')
     { label: 'Components', href: directory ? '/docs/components/' : undefined },
     { label: component.title },
   ]}
+  switcher={switcher}
   tabs={{ label: `${component.title} pages`, links: component.tabs, current: tab.href }}
   previous={previous}
   next={next}

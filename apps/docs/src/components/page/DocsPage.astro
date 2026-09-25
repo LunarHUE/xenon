@@ -8,6 +8,7 @@
 import Layout from '../../layouts/Layout.astro'
 import type { PageLink } from '../../lib/content'
 import { DocsBreadcrumb, type Crumb } from './docs-breadcrumb'
+import type { SwitcherLink } from '../shell/context-crumbs'
 import PageTabs from './PageTabs.astro'
 import Pagination from './Pagination.astro'
 
@@ -21,22 +22,34 @@ interface Props {
   eyebrow: string
   /** Trail above the header. The last crumb is this page. */
   breadcrumb: Crumb[]
+  /** Components listed by the narrow bar's last crumb. */
+  switcher?: SwitcherLink[]
   /** Component tabs, with the href of the current one. */
   tabs?: { label: string; links: PageLink[]; current: string }
   previous?: PageLink
   next?: PageLink
 }
 
-const { title, pageTitle, description, eyebrow, breadcrumb, tabs, previous, next } = Astro.props
+const { title, pageTitle, description, eyebrow, breadcrumb, switcher, tabs, previous, next } =
+  Astro.props
 // A slot filled by a false expression still counts for slots.has(), so check what it renders.
 const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : ''
 ---
 
-<Layout title={pageTitle ?? title} description={description} contained={false}>
+<Layout
+  title={pageTitle ?? title}
+  description={description}
+  contained={false}
+  crumbs={breadcrumb}
+  switcher={switcher}
+>
   <div class="flex">
     <div class="min-w-0 flex-1 px-6 pb-10 md:px-8 xl:px-10">
       <div class="flex max-w-[60rem] flex-col">
-        <DocsBreadcrumb crumbs={breadcrumb} />
+        {/* Below lg the trail moves into the bar under the header. */}
+        <div class="hidden lg:block">
+          <DocsBreadcrumb crumbs={breadcrumb} />
+        </div>
         <header class="flex flex-col gap-3 pt-8 pb-7">
           <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{eyebrow}</p>
           <h1 class="text-4xl leading-[44px] font-bold tracking-[-0.035em] sm:text-[44px] sm:leading-[52px]">
