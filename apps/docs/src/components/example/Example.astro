@@ -9,7 +9,7 @@
  * choice is page-wide and remembered (see ExampleBoot.astro), and CSS in
  * global.css shows one variant or the other from the attribute on <html>.
  */
-import { ChevronRight, Code as CodeIcon } from 'lucide'
+import { Code as CodeIcon } from 'lucide'
 import Code from '../codeblock/Code.astro'
 import { Icon } from '../ui/icon'
 import { exampleId } from '../../lib/example-style'
@@ -36,11 +36,13 @@ const hasUnstyled = unstyledSource !== undefined && Astro.slots.has('unstyled')
 const filename = `${name.split('/').at(-1)}.tsx`
 const codeId = exampleId(name)
 
+// Both footer controls are toggles: raised on a hard shadow while on, flat while off.
 const control = [
-  'inline-flex items-center gap-1.5 border border-transparent -mx-2 px-2 py-1 cursor-pointer',
-  'motion-safe:transition-[translate,box-shadow,border-color] motion-safe:duration-[120ms]',
-  'hover:border-foreground hover:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:hover:-translate-0.5',
-  'active:translate-0 active:shadow-none',
+  'group inline-flex items-center gap-1.5 border border-foreground bg-background px-2 py-1 cursor-pointer',
+  'motion-safe:transition-[translate,box-shadow] motion-safe:duration-[120ms]',
+  'aria-expanded:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-expanded:-translate-0.5',
+  'aria-pressed:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-pressed:-translate-0.5',
+  'hover:bg-muted active:translate-0 active:shadow-none',
   'outline-offset-[3px] focus-visible:outline-2 focus-visible:outline-sidebar-primary',
 ]
 ---
@@ -71,21 +73,19 @@ const control = [
         aria-controls={codeId}
         class:list={control}
       >
-        <Icon
-          icon={ChevronRight}
-          class="size-3.5 motion-safe:transition-transform in-aria-expanded:rotate-90"
-        />
+        <span class="group-aria-expanded:hidden">Show code</span>
+        <span class="not-group-aria-expanded:hidden">Hide code</span>
         <Icon icon={CodeIcon} class="size-3.5" />
-        Show code
       </button>
       {hasUnstyled && (
-        <button type="button" data-example-toggle aria-pressed="true" class:list={control}>
+        <button
+          type="button"
+          data-example-toggle
+          aria-pressed="true"
+          aria-label="Tailwind styles"
+          class:list={control}
+        >
           Tailwind
-          <span aria-hidden="true" class="example-toggle-state" />
-          <span
-            aria-hidden="true"
-            class="example-toggle-dot size-2.5 rounded-full border border-current"
-          />
         </button>
       )}
     </div>

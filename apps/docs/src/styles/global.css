@@ -354,15 +354,6 @@ html:not([data-example-style='unstyled']) [data-example-variant='unstyled'],
 html[data-example-style='unstyled'] [data-example-variant='tailwind'] {
   display: none;
 }
-.example-toggle-state::before {
-  content: 'On';
-}
-html[data-example-style='unstyled'] .example-toggle-state::before {
-  content: 'Off';
-}
-html:not([data-example-style='unstyled']) .example-toggle-dot {
-  background: currentColor;
-}
 /* The unstyled demo falls back to browser styles, as it would in an app with no CSS. */
 [data-example-stage][data-example-variant='unstyled'] astro-island * {
   all: revert;
