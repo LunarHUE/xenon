@@ -5,6 +5,9 @@
 @import 'tailwindcss';
 @import './tokens.css';
 
+/* The docs theme lives on <html data-theme>, so `dark:` follows it instead of the OS. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 @layer base {
   body {
     @apply bg-background font-sans text-foreground antialiased;
