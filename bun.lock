@@ -39,24 +39,6 @@
         "vite": "^8.3.0",
       },
     },
-    "apps/example": {
-      "name": "@xenon/example",
-      "version": "0.0.0",
-      "dependencies": {
-        "@solidjs/web": "catalog:",
-        "@xenon-ui/solid": "workspace:*",
-        "solid-js": "catalog:",
-      },
-      "devDependencies": {
-        "@solidjs/vite-plugin": "^3.0.0-next.43",
-        "@typescript/native": "catalog:",
-        "@xenon/eslint-config": "workspace:*",
-        "@xenon/typescript-config": "workspace:*",
-        "eslint": "catalog:",
-        "typescript": "catalog:",
-        "vite": "^8.3.0",
-      },
-    },
     "packages/core": {
       "name": "@xenon-ui/core",
       "version": "0.1.0",
@@ -761,8 +743,6 @@
     "@xenon/docs": ["@xenon/docs@workspace:apps/docs"],
 
     "@xenon/eslint-config": ["@xenon/eslint-config@workspace:packages/eslint-config"],
-
-    "@xenon/example": ["@xenon/example@workspace:apps/example"],
 
     "@xenon/suite": ["@xenon/suite@workspace:packages/suite"],
 

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "headless-paper": {
+      "type": "stdio",
+      "command": "/home/vscode/.bun/bin/headless-paper",
+      "args": ["serve"],
+      "env": {},
+      "timeout": 1900000
+    }
+  }
+}
