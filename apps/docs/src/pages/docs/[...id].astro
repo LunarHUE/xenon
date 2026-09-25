@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 import Layout from '../../layouts/Layout.astro'
 import Code from '../../components/codeblock/Code.astro'
+import Section from '../../components/section/Section.astro'
 
 export async function getStaticPaths() {
   const entries = await getCollection('docs')
@@ -20,6 +21,6 @@ const { Content } = await render(entry)
   <h1 class="text-3xl font-medium">{entry.data.title}</h1>
   <p class="mt-4 text-muted-foreground">{entry.data.description}</p>
   <article class="mdx mt-10">
-    <Content components={{ Code }} />
+    <Content components={{ Code, Section }} />
   </article>
 </Layout>

@@ -220,3 +220,67 @@
     }
   }
 }
+
+/*
+ * MDX article. Sections number themselves with a counter, and the article is a
+ * size container so a section can stack on its own width instead of the
+ * viewport's. Prose rules use :where() so components inside the article can
+ * override them with a single class.
+ */
+@layer components {
+  .mdx {
+    container-type: inline-size;
+    counter-reset: docs-section;
+    font-size: 1rem;
+    line-height: 1.625rem;
+  }
+  .docs-section {
+    counter-increment: docs-section;
+  }
+  /* The trailing "" is alt text, so screen readers skip the number. */
+  .docs-section > h2::before {
+    content: counter(docs-section, decimal-leading-zero) ' / ' / '';
+  }
+
+  /* Islands are display: contents and ignore margins, so space their first child. */
+  :where(.mdx) > * + *,
+  :where(.mdx) > * + astro-island > :first-child {
+    margin-top: 1rem;
+  }
+  .mdx > .docs-section + .docs-section {
+    margin-top: 0;
+  }
+
+  .mdx :where(p, ul, ol) {
+    max-width: 41.25rem;
+  }
+  .mdx :where(ul) {
+    list-style: disc;
+    padding-inline-start: 1.25rem;
+  }
+  .mdx :where(ol) {
+    list-style: decimal;
+    padding-inline-start: 1.25rem;
+  }
+  .mdx :where(li + li) {
+    margin-top: 0.25rem;
+  }
+  .mdx :where(h3) {
+    font-weight: 600;
+  }
+  .mdx :where(strong) {
+    font-weight: 600;
+  }
+  .mdx :where(a) {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .mdx :where(:not(pre) > code) {
+    border: 1px solid var(--color-border);
+    background: var(--color-muted);
+    padding-inline: 0.25em;
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+}

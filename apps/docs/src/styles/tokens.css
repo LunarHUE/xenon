@@ -35,11 +35,13 @@
   --font-sans: 'IBM Plex Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
   --color-tab-active: var(--color-primary);
+  --color-link: var(--color-primary);
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
   --color-tab-active: var(--color-sidebar-primary);
+  --color-link: var(--color-chart-1);
   --color-background: oklch(14.7% 0.004 49.3);
   --color-foreground: oklch(98.5% 0.001 106.4);
   --color-card: oklch(21.6% 0.006 56);
@@ -77,6 +79,7 @@
 [data-theme='light'] {
   color-scheme: light;
   --color-tab-active: var(--color-primary);
+  --color-link: var(--color-primary);
   --color-background: oklch(100% 0 0);
   --color-foreground: oklch(14.7% 0.004 49.3);
   --color-card: oklch(100% 0 0);
