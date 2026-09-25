@@ -10,7 +10,7 @@
  *
  * @packageDocumentation
  */
-import { Field } from '@xenon/solid'
+import { Field } from '@xenon-ui/solid'
 import { Show, createSignal } from 'solid-js'
 import { describe, expect, test } from 'vitest'
 

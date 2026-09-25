@@ -2,7 +2,7 @@ import {
   createNumberFieldFormat,
   numberField,
   type NumberFieldOptions,
-} from '@xenon/core/number-field'
+} from '@xenon-ui/core/number-field'
 import { isServer, type ComponentProps, type JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
 import {

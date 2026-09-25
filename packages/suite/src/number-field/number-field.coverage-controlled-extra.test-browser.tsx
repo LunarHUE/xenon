@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { NumberField } from '@xenon/solid/number-field'
+import { NumberField } from '@xenon-ui/solid/number-field'
 import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { createSignal, flush } from 'solid-js'

@@ -1,5 +1,5 @@
-import { checkbox, toggleSwitch } from '@xenon/core'
-import type { CheckboxHost, CheckboxOptions } from '@xenon/core'
+import { checkbox, toggleSwitch } from '@xenon-ui/core'
+import type { CheckboxHost, CheckboxOptions } from '@xenon-ui/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'

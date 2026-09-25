@@ -1,5 +1,5 @@
-import { button } from '@xenon/core'
-import type { AnyPart } from '@xenon/core'
+import { button } from '@xenon-ui/core'
+import type { AnyPart } from '@xenon-ui/core'
 
 /**
  * Add generic-button keyboard behavior to a disclosure part when its host is nonnative.

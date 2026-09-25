@@ -21,7 +21,7 @@ const short: Source = {
 const medium: Source = {
   filename: 'save-button.tsx',
   lang: 'tsx',
-  code: `import { Button } from '@xenon/solid/button'\n\nexport function SaveButton(props: { pending: boolean }) {\n  return (\n    <div class="flex gap-4">\n      <Button focusableWhenDisabled disabled={props.pending} onClick={() => save()}>\n        Save changes\n      </Button>\n      <Button variant="outline" onClick={() => reset()}>\n        Cancel\n      </Button>\n    </div>\n  )\n}`,
+  code: `import { Button } from '@xenon-ui/solid/button'\n\nexport function SaveButton(props: { pending: boolean }) {\n  return (\n    <div class="flex gap-4">\n      <Button focusableWhenDisabled disabled={props.pending} onClick={() => save()}>\n        Save changes\n      </Button>\n      <Button variant="outline" onClick={() => reset()}>\n        Cancel\n      </Button>\n    </div>\n  )\n}`,
 }
 
 const long: Source = {
@@ -29,7 +29,7 @@ const long: Source = {
   lang: 'tsx',
   code: [
     `import { createSignal, For } from 'solid-js'`,
-    `import { Combobox } from '@xenon/solid/combobox'`,
+    `import { Combobox } from '@xenon-ui/solid/combobox'`,
     ``,
     `const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape']`,
     ``,

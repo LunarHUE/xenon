@@ -1,6 +1,6 @@
 # Layering
 
-`@xenon/dom` owns active layer registration, logical containment, Escape routing,
+`@xenon-ui/dom` owns active layer registration, logical containment, Escape routing,
 and outside-pointer dismissal. Each owner document has one stack shared across framework roots.
 Registration order determines which layer is topmost. Updating callbacks or
 dismissal policy preserves that order; closing disposes the registration and

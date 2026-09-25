@@ -1,5 +1,5 @@
-import { TagsInput } from '@xenon/solid/tags-input'
-import type { TagsInputProps } from '@xenon/solid/tags-input'
+import { TagsInput } from '@xenon-ui/solid/tags-input'
+import type { TagsInputProps } from '@xenon-ui/solid/tags-input'
 import { render } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { For, flush } from 'solid-js'

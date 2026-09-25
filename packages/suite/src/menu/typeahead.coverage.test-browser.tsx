@@ -1,5 +1,5 @@
-import { Combobox } from '@xenon/solid/combobox'
-import { Menu, Select } from '@xenon/solid'
+import { Combobox } from '@xenon-ui/solid/combobox'
+import { Menu, Select } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import { describe, expect } from 'vitest'
-import { Toolbar } from '@xenon/solid'
+import { Toolbar } from '@xenon-ui/solid'
 
 import { mount } from '../harness/solid'
 import { spec } from '../spec'

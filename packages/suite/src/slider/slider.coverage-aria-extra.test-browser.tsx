@@ -4,7 +4,7 @@ import { afterEach, expect, test } from 'vitest'
 import { flush } from 'solid-js'
 import { userEvent } from 'vitest/browser'
 
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 
 let dispose: (() => void) | undefined
 let host: HTMLDivElement | undefined

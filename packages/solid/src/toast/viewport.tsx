@@ -10,8 +10,8 @@ import {
   onSettled,
   untrack,
 } from 'solid-js'
-import { createToastViewport } from '@xenon/dom/toast'
-import { registerLayerPointerExclusion } from '@xenon/dom/layer'
+import { createToastViewport } from '@xenon-ui/dom/toast'
+import { registerLayerPointerExclusion } from '@xenon-ui/dom/layer'
 import type { ToastRecord } from './manager'
 import { useToastManager } from './provider'
 import { ToastViewportContext } from './context'

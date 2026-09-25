@@ -1,5 +1,5 @@
-import { dateKey, dateOnlyAdapter } from '@xenon/core/date'
-import type { DateAdapter } from '@xenon/core/date'
+import { dateKey, dateOnlyAdapter } from '@xenon-ui/core/date'
+import type { DateAdapter } from '@xenon-ui/core/date'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'

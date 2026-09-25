@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'solid-js'
-import type { DateAdapter } from '@xenon/core/date'
-import type { CalendarDay, CalendarOptions, CalendarResult } from '@xenon/core/calendar'
+import type { DateAdapter } from '@xenon-ui/core/date'
+import type { CalendarDay, CalendarOptions, CalendarResult } from '@xenon-ui/core/calendar'
 import type { Association } from '../field/server-associations'
 
 /** Extra draft inputs shared only with the range engine. */

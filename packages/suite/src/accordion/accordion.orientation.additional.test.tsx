@@ -1,4 +1,4 @@
-import { Accordion } from '@xenon/solid'
+import { Accordion } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { describe, expect, test } from 'vitest'
 

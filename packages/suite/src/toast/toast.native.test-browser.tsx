@@ -9,7 +9,7 @@
  */
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { Toast } from '@xenon/solid/toast'
+import { Toast } from '@xenon-ui/solid/toast'
 import { within } from '@testing-library/dom'
 import { For, flush } from 'solid-js'
 import { afterEach, expect, test } from 'vitest'

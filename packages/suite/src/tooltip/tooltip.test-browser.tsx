@@ -1,5 +1,5 @@
-import { Tooltip } from '@xenon/solid/tooltip'
-import { Dialog } from '@xenon/solid/dialog'
+import { Tooltip } from '@xenon-ui/solid/tooltip'
+import { Dialog } from '@xenon-ui/solid/dialog'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

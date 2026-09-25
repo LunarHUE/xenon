@@ -1,6 +1,6 @@
-import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@xenon/core'
-import { createDialogController } from '@xenon/dom'
-import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@xenon/dom'
+import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@xenon-ui/core'
+import { createDialogController } from '@xenon-ui/dom'
+import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@xenon-ui/dom'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

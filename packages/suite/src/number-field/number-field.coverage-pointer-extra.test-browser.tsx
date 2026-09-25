@@ -2,7 +2,7 @@ import { render } from '@solidjs/web'
 import { afterEach, expect, test, vi } from 'vitest'
 import { flush } from 'solid-js'
 
-import { NumberField } from '@xenon/solid/number-field'
+import { NumberField } from '@xenon-ui/solid/number-field'
 
 let dispose: (() => void) | undefined
 let host: HTMLDivElement | undefined

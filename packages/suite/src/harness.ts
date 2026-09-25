@@ -1,4 +1,4 @@
-import type { ButtonProps as SolidButtonProps } from '@xenon/solid'
+import type { ButtonProps as SolidButtonProps } from '@xenon-ui/solid'
 import type { JSX, ValidComponent } from '@solidjs/web'
 
 /** Allows arbitrary test attributes and widens the production polymorphic host type. */

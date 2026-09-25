@@ -1,8 +1,8 @@
-import type { NavigationMenuOptions } from '@xenon/core/navigation-menu'
-import { navigationMenu } from '@xenon/core/navigation-menu'
-import type { AnyPart } from '@xenon/core'
-import { createFloatingLayer } from '@xenon/dom/floating-layer'
-import type { FloatingLayerOptions } from '@xenon/dom/floating-layer'
+import type { NavigationMenuOptions } from '@xenon-ui/core/navigation-menu'
+import { navigationMenu } from '@xenon-ui/core/navigation-menu'
+import type { AnyPart } from '@xenon-ui/core'
+import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
+import type { FloatingLayerOptions } from '@xenon-ui/dom/floating-layer'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

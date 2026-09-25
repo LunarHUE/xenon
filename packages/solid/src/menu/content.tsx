@@ -1,5 +1,5 @@
 import { isServer } from '@solidjs/web'
-import { createFloatingLayer } from '@xenon/dom/floating-layer'
+import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

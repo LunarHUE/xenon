@@ -1,4 +1,4 @@
-import { Combobox } from '@xenon/solid/combobox'
+import { Combobox } from '@xenon-ui/solid/combobox'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

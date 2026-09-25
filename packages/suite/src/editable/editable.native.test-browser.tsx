@@ -7,7 +7,7 @@
  * synthetic events. Escape's precedence over the Enter commit path is likewise a real
  * key sequence against the focused native textbox.
  */
-import { Editable } from '@xenon/solid/editable'
+import { Editable } from '@xenon-ui/solid/editable'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

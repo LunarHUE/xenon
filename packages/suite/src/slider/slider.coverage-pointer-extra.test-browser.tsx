@@ -5,7 +5,7 @@ import { flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 
 const rail: JSX.CSSProperties = { width: '300px', height: '100px', background: '#eee' }
 

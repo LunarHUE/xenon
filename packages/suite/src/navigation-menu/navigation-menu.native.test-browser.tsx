@@ -11,7 +11,7 @@
  * Focus and pointer assertions require real browser geometry, so these run
  * only in the browser project (`*.test-browser.tsx`).
  */
-import { NavigationMenu as Nav } from '@xenon/solid/navigation-menu'
+import { NavigationMenu as Nav } from '@xenon-ui/solid/navigation-menu'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

@@ -1,5 +1,5 @@
-import { hoverCard } from '@xenon/core/hover-card'
-import { createHoverIntent } from '@xenon/dom/hover-intent'
+import { hoverCard } from '@xenon-ui/core/hover-card'
+import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

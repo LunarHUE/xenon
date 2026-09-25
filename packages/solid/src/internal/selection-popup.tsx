@@ -1,4 +1,4 @@
-import { createFloatingLayer } from '@xenon/dom/floating-layer'
+import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   Show,

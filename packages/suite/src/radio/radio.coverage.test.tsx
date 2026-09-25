@@ -1,4 +1,4 @@
-import { RadioGroup } from '@xenon/solid'
+import { RadioGroup } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { expect, test } from 'vitest'
 

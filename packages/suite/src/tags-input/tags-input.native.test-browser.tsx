@@ -3,7 +3,7 @@
  * Every fixture renders one uncontrolled collection so the assertions observe the
  * accepted tag list, the real DOM focus owner, and native text editing, not internals.
  */
-import { TagsInput } from '@xenon/solid/tags-input'
+import { TagsInput } from '@xenon-ui/solid/tags-input'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

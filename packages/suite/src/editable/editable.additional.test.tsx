@@ -1,5 +1,5 @@
-import { Editable } from '@xenon/solid/editable'
-import type { EditableProps } from '@xenon/solid/editable'
+import { Editable } from '@xenon-ui/solid/editable'
+import type { EditableProps } from '@xenon-ui/solid/editable'
 import { render } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { flush } from 'solid-js'

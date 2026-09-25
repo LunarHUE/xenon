@@ -1,4 +1,4 @@
-import type { MenubarOptions } from '@xenon/core/menubar'
+import type { MenubarOptions } from '@xenon-ui/core/menubar'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -11,7 +11,7 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { menubar } from '@xenon/core/menubar'
+import { menubar } from '@xenon-ui/core/menubar'
 import { MenuRoot } from '../menu/root'
 import type { MenuProps } from '../menu/root'
 import { MenuContent } from '../menu/content'

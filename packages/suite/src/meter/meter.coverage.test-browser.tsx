@@ -1,4 +1,4 @@
-import { Meter } from '@xenon/solid/meter'
+import { Meter } from '@xenon-ui/solid/meter'
 import { within } from '@testing-library/dom'
 import { expect, test } from 'vitest'
 import { userEvent } from 'vitest/browser'

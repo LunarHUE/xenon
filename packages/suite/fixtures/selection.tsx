@@ -1,4 +1,4 @@
-import { CheckboxGroup, Combobox, Listbox, Select } from '@xenon/solid'
+import { CheckboxGroup, Combobox, Listbox, Select } from '@xenon-ui/solid'
 import type { JSX } from '@solidjs/web'
 
 const items = [

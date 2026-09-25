@@ -5,7 +5,7 @@ import { flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 
 function mount(children: () => JSX.Element) {
   const container = document.createElement('div')

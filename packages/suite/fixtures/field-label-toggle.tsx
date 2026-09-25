@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js'
-import { Field } from '@xenon/solid'
+import { Field } from '@xenon-ui/solid'
 
 export function FieldLabelToggle() {
   const [shown, setShown] = createSignal(true)

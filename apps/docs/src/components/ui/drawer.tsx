@@ -3,7 +3,7 @@ import {
   type DrawerProps as PrimitiveProps,
   type DrawerHandle as PrimitiveHandle,
   type DialogContentProps as PrimitiveContentProps,
-} from '@xenon/solid/drawer'
+} from '@xenon-ui/solid/drawer'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { buttonVariants, type ButtonProps } from './button'

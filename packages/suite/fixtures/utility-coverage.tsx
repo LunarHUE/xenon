@@ -1,4 +1,4 @@
-import { Avatar, Field, Meter } from '@xenon/solid'
+import { Avatar, Field, Meter } from '@xenon-ui/solid'
 
 export function UtilityCoverage(props: { avatarPolicy?: 'no-referrer' | 'origin' } = {}) {
   return (

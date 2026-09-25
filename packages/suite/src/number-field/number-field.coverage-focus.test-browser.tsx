@@ -1,5 +1,5 @@
-import { Field } from '@xenon/solid'
-import { NumberField } from '@xenon/solid/number-field'
+import { Field } from '@xenon-ui/solid'
+import { NumberField } from '@xenon-ui/solid/number-field'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

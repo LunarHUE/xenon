@@ -4,7 +4,7 @@
  * and nested-submenu dismissal. Popups are portaled to the document body, so role
  * queries run against the body while the fixtures stay in disposable containers.
  */
-import { ContextMenu } from '@xenon/solid/context-menu'
+import { ContextMenu } from '@xenon-ui/solid/context-menu'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

@@ -1,5 +1,5 @@
 import { render } from '@solidjs/web'
-import { Pagination } from '@xenon/solid/pagination'
+import { Pagination } from '@xenon-ui/solid/pagination'
 import { flush } from 'solid-js'
 import { afterEach, expect, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

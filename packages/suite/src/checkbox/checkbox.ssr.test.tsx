@@ -1,4 +1,4 @@
-import { Checkbox, Field } from '@xenon/solid'
+import { Checkbox, Field } from '@xenon-ui/solid'
 import { screen } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect } from 'vitest'

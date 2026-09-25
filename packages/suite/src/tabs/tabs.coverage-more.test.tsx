@@ -1,4 +1,4 @@
-import { Menu, Tabs } from '@xenon/solid'
+import { Menu, Tabs } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { expect, vi } from 'vitest'

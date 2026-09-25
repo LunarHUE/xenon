@@ -1,4 +1,4 @@
-import { Toolbar } from '@xenon/solid'
+import { Toolbar } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { createSignal } from 'solid-js'

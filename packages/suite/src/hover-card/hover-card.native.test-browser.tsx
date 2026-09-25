@@ -4,7 +4,7 @@
  * real HoverCard so assertions observe native hosting, layer dismissal ordering,
  * the closest focus owner, and real pointer geometry rather than internals.
  */
-import { HoverCard } from '@xenon/solid/hover-card'
+import { HoverCard } from '@xenon-ui/solid/hover-card'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

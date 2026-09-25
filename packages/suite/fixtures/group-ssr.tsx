@@ -1,4 +1,4 @@
-import { Accordion, CheckboxGroup, Field } from '@xenon/solid'
+import { Accordion, CheckboxGroup, Field } from '@xenon-ui/solid'
 
 /** SSR fixture for generated accordion associations and checkbox-group item labels. */
 export function GroupSsrFixture() {

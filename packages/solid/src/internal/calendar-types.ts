@@ -3,9 +3,9 @@ import type {
   CalendarDay,
   CalendarMonth,
   CalendarWeekday as CoreCalendarWeekday,
-} from '@xenon/core/calendar'
+} from '@xenon-ui/core/calendar'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
-import type { DateAdapter, DateValue } from '@xenon/core/date'
+import type { DateAdapter, DateValue } from '@xenon-ui/core/date'
 
 /** One visible grid slot; padding at supported year boundaries has no value. */
 export type CalendarDateCell<T> = CalendarDay<T>

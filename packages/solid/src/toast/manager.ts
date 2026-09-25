@@ -1,8 +1,8 @@
 import { createSignal, untrack } from 'solid-js'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { toastDuration, toastLimit, visibleToastIds } from '@xenon/core/toast'
-import type { ToastPriority, ToastType } from '@xenon/core/toast'
+import { toastDuration, toastLimit, visibleToastIds } from '@xenon-ui/core/toast'
+import type { ToastPriority, ToastType } from '@xenon-ui/core/toast'
 
 export type { ToastPriority, ToastType }
 /** Cause reported once when a notification starts closing. */

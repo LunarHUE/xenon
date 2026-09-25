@@ -9,4 +9,4 @@ export type {
   PositioningSide,
   PositioningState,
   PositioningUpdateOptions,
-} from '@xenon/dom/positioning'
+} from '@xenon-ui/dom/positioning'

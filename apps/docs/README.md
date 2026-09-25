@@ -16,7 +16,7 @@ route remain configured for future documentation.
 
 ## UI components
 
-`src/components/ui/button.tsx` wraps `@xenon/solid/button`. CVA defines `default`
+`src/components/ui/button.tsx` wraps `@xenon-ui/solid/button`. CVA defines `default`
 and `outline` variants and `sm`, `default`, `lg`, `icon-sm`, `icon`, and `icon-lg`
 sizes. The standard button and icon sizes are 44px tall; compact icons are 32px.
 The small and large text sizes extend the Paper default using the same styling.
@@ -46,7 +46,7 @@ Button and Icon button artboards.
 
 ## Tabs
 
-`src/components/ui/tabs.tsx` wraps `@xenon/solid/tabs` with `Tabs`, `TabsList`,
+`src/components/ui/tabs.tsx` wraps `@xenon-ui/solid/tabs` with `Tabs`, `TabsList`,
 `TabsTrigger`, and `TabsContent` exports. Supply an accessible name on the list
 and matching trigger/content values. Use these for in-page panels; route navigation
 will be a separate composition of links.
@@ -69,7 +69,7 @@ which maps to `primary` in light mode and `sidebar-primary` in dark mode.
 
 ## Combobox
 
-`src/components/ui/combobox.tsx` styles `@xenon/solid/combobox` with
+`src/components/ui/combobox.tsx` styles `@xenon-ui/solid/combobox` with
 `inputPlacement="popup"`. The closed button shows the selection; the popup focuses a search input.
 Search filters options without changing the committed value. Enter or a click
 selects; Escape dismisses and returns focus to the trigger.
@@ -118,7 +118,7 @@ Framework/version metadata remains a future composition.
 
 ## Breadcrumb
 
-`src/components/ui/breadcrumb.tsx` wraps `@xenon/solid/breadcrumbs` with `Breadcrumb`,
+`src/components/ui/breadcrumb.tsx` wraps `@xenon-ui/solid/breadcrumbs` with `Breadcrumb`,
 `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbPage`, and
 `BreadcrumbSeparator` exports. The root is a `nav` labelled "Breadcrumbs"; pass
 `aria-label` to rename it. Nothing is inferred: put a separator inside each entry

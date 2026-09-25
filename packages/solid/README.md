@@ -1,16 +1,16 @@
-# @xenon/solid
+# @xenon-ui/solid
 
 Headless, accessible components for Solid 2. Each component ships behavior,
 keyboard handling and ARIA wiring. You bring the markup and the styles.
 
 ```sh
-bun add @xenon/solid
+bun add @xenon-ui/solid
 ```
 
 `solid-js` and `@solidjs/web` 2.0 are peer dependencies.
 
 ```tsx
-import { Dialog } from '@xenon/solid/dialog'
+import { Dialog } from '@xenon-ui/solid/dialog'
 
 function Confirm() {
   return (
@@ -30,7 +30,7 @@ function Confirm() {
 }
 ```
 
-Import from a subpath such as `@xenon/solid/dialog` to keep unrelated
+Import from a subpath such as `@xenon-ui/solid/dialog` to keep unrelated
 components out of your bundle. The package root re-exports everything.
 
 ## What's in 0.1

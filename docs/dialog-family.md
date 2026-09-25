@@ -1,13 +1,13 @@
 # Dialog, AlertDialog, and Drawer
 
 Each family has a separate public module in core and Solid:
-`@xenon/solid/dialog`, `@xenon/solid/alert-dialog`, and `@xenon/solid/drawer`.
+`@xenon-ui/solid/dialog`, `@xenon-ui/solid/alert-dialog`, and `@xenon-ui/solid/drawer`.
 The root barrel also exports all three. Shared Solid internals own associations,
 presence, and the native controller. Drawer gesture code belongs only to the
 Drawer module.
 
 ```tsx
-import { Dialog } from '@xenon/solid/dialog'
+import { Dialog } from '@xenon-ui/solid/dialog'
 
 ;<Dialog>
   <Dialog.Trigger>Edit profile</Dialog.Trigger>

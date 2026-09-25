@@ -1,4 +1,4 @@
-import { dialog } from '@xenon/core/dialog'
+import { dialog } from '@xenon-ui/core/dialog'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createDialogRoot, createDialogHandle, dialogParts } from '../internal/dialog'
 import type { DialogProps } from '../internal/dialog'

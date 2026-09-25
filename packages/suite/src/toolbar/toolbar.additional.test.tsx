@@ -1,4 +1,4 @@
-import { ToggleGroup, Toolbar } from '@xenon/solid'
+import { ToggleGroup, Toolbar } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { expect, vi } from 'vitest'

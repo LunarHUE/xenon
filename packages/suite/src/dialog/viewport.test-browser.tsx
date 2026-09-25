@@ -1,4 +1,4 @@
-import { Dialog, Popover } from '@xenon/solid'
+import { Dialog, Popover } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'

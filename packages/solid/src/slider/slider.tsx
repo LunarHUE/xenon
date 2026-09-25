@@ -1,6 +1,6 @@
-import { slider } from '@xenon/core/slider'
-import type { SliderOptions, SliderResult } from '@xenon/core/slider'
-import type { GlobalAttrs } from '@xenon/core'
+import { slider } from '@xenon-ui/core/slider'
+import type { SliderOptions, SliderResult } from '@xenon-ui/core/slider'
+import type { GlobalAttrs } from '@xenon-ui/core'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {

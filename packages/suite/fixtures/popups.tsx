@@ -1,5 +1,5 @@
-import { Menu } from '@xenon/solid/menu'
-import { Popover } from '@xenon/solid/popover'
+import { Menu } from '@xenon-ui/solid/menu'
+import { Popover } from '@xenon-ui/solid/popover'
 import { createSignal } from 'solid-js'
 
 export function Popups(props: { menuOpen?: boolean } = {}) {

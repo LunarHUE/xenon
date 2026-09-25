@@ -1,5 +1,5 @@
-import { Accordion } from '@xenon/solid'
-import { accordion as coreAccordion } from '@xenon/core'
+import { Accordion } from '@xenon-ui/solid'
+import { accordion as coreAccordion } from '@xenon-ui/core'
 import { fireEvent, within } from '@testing-library/dom'
 import { For } from 'solid-js'
 import { describe, expect, vi } from 'vitest'

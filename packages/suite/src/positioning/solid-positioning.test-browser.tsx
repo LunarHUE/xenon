@@ -1,5 +1,5 @@
-import { createPositioner } from '@xenon/solid/positioning'
-import type { Positioner } from '@xenon/solid/positioning'
+import { createPositioner } from '@xenon-ui/solid/positioning'
+import type { Positioner } from '@xenon-ui/solid/positioning'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { createSignal, flush, untrack } from 'solid-js'

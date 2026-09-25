@@ -1,4 +1,4 @@
-import { Collapsible, Popover } from '@xenon/solid'
+import { Collapsible, Popover } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { createSignal, flush } from 'solid-js'

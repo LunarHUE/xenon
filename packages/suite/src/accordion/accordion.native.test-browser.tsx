@@ -7,7 +7,7 @@
  * These cases supplement the registered spec assertions without claiming a new
  * research ID.
  */
-import { Accordion } from '@xenon/solid'
+import { Accordion } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'

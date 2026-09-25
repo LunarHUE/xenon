@@ -1,6 +1,6 @@
-import { presence } from '@xenon/core'
-import type { PartProps, PresenceStatus } from '@xenon/core'
-import { waitForExit } from '@xenon/dom'
+import { presence } from '@xenon-ui/core'
+import type { PartProps, PresenceStatus } from '@xenon-ui/core'
+import { waitForExit } from '@xenon-ui/dom'
 import { createEffect, createMemo, createSignal } from 'solid-js'
 
 /** Reactive visibility intent and optional mounting policy, read by owned memos. */

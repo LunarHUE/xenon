@@ -1,13 +1,13 @@
-import { Calendar } from '@xenon/solid/calendar'
-import { RangeCalendar } from '@xenon/solid/range-calendar'
+import { Calendar } from '@xenon-ui/solid/calendar'
+import { RangeCalendar } from '@xenon-ui/solid/range-calendar'
 import {
   DateProvider,
   createDate,
   parseDate,
   serializeDate,
   dateOnlyAdapter,
-} from '@xenon/solid/date'
-import type { DateAdapter } from '@xenon/solid/date'
+} from '@xenon-ui/solid/date'
+import type { DateAdapter } from '@xenon-ui/solid/date'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'

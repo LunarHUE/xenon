@@ -1,8 +1,8 @@
 # Popover and Menu
 
 Popover and Menu compose the existing positioning, presence, and layering engines.
-Their public modules are independent: `@xenon/solid/popover` and
-`@xenon/solid/menu`, with corresponding pure core modules. Both are also exported
+Their public modules are independent: `@xenon-ui/solid/popover` and
+`@xenon-ui/solid/menu`, with corresponding pure core modules. Both are also exported
 from the package barrels. Tooltip is reserved for a separate API discussion;
 this pass introduces no shared trigger provider or trigger payload API.
 
@@ -24,7 +24,7 @@ noninteractive until positioning succeeds, and initial focus waits for that
 result. Closed force-mounted content remains hidden and inactive. During exit
 animations the layer stays registered; modal locks remain until physical exit.
 
-`@xenon/dom/floating-layer` combines native hosting, focus scopes, modal locks,
+`@xenon-ui/dom/floating-layer` combines native hosting, focus scopes, modal locks,
 and the layer registry. Positioning stays separate. It recognizes nested DOM
 layers and explicit logical parents, treats the active trigger as an inside
 branch, and preserves focus placed on an outside control during dismissal.
@@ -34,7 +34,7 @@ closure causes the native popover to reopen.
 ## Popover
 
 ```tsx
-import { Popover } from '@xenon/solid/popover'
+import { Popover } from '@xenon-ui/solid/popover'
 
 ;<Popover>
   <Popover.Trigger>Edit profile</Popover.Trigger>
@@ -82,7 +82,7 @@ z-index arrow directly inside an animated opaque panel changes that paint order.
 ## Menu
 
 ```tsx
-import { Menu } from '@xenon/solid/menu'
+import { Menu } from '@xenon-ui/solid/menu'
 
 ;<Menu>
   <Menu.Trigger>Actions</Menu.Trigger>

@@ -12,7 +12,7 @@ import {
   Toggle,
   ToggleGroup,
   Toolbar,
-} from '@xenon/solid'
+} from '@xenon-ui/solid'
 import { Dynamic, render } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'

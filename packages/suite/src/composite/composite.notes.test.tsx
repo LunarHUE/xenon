@@ -1,4 +1,4 @@
-import { Toolbar } from '@xenon/solid'
+import { Toolbar } from '@xenon-ui/solid'
 import { screen, within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { describe, expect } from 'vitest'

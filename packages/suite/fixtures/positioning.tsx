@@ -1,4 +1,4 @@
-import { createPositioner } from '@xenon/solid/positioning'
+import { createPositioner } from '@xenon-ui/solid/positioning'
 import { createSignal } from 'solid-js'
 
 export function PositioningFixture() {

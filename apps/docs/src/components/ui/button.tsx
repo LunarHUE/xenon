@@ -1,4 +1,7 @@
-import { Button as ButtonPrimitive, type ButtonProps as PrimitiveProps } from '@xenon/solid/button'
+import {
+  Button as ButtonPrimitive,
+  type ButtonProps as PrimitiveProps,
+} from '@xenon-ui/solid/button'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { Show, omit } from 'solid-js'

@@ -3,10 +3,10 @@
  * boundaries, RTL week semantics, and range drafting/reversal from real key input.
  * A fixed DateProvider today keeps every traversal deterministic.
  */
-import { Calendar } from '@xenon/solid/calendar'
-import { RangeCalendar } from '@xenon/solid/range-calendar'
-import { DateProvider, createDate } from '@xenon/solid/date'
-import type { DateValue } from '@xenon/solid/date'
+import { Calendar } from '@xenon-ui/solid/calendar'
+import { RangeCalendar } from '@xenon-ui/solid/range-calendar'
+import { DateProvider, createDate } from '@xenon-ui/solid/date'
+import type { DateValue } from '@xenon-ui/solid/date'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { flush } from 'solid-js'

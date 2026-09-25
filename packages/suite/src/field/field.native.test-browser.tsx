@@ -7,7 +7,7 @@
  *
  * @packageDocumentation
  */
-import { Field } from '@xenon/solid'
+import { Field } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { describe, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

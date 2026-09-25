@@ -9,7 +9,7 @@
  * from the shared suite: interactions/forms only cover the vertical default
  * axis, statically disabled items, and an explicit external form ID.
  */
-import { RadioGroup } from '@xenon/solid'
+import { RadioGroup } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { describe, expect, onTestFinished, test, vi } from 'vitest'

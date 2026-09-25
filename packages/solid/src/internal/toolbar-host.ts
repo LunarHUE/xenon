@@ -1,4 +1,4 @@
-import type { AnyPart } from '@xenon/core'
+import type { AnyPart } from '@xenon-ui/core'
 import type { ValidComponent } from '@solidjs/web'
 import { useContext } from 'solid-js'
 

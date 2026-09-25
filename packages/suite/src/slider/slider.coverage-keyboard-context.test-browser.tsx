@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 import { within } from '@testing-library/dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

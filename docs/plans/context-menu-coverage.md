@@ -1,7 +1,7 @@
 # Context menu coverage
 
-The public entry points are `@xenon/core/context-menu` and
-`@xenon/solid/context-menu`. ContextMenu owns the opening region and pointer
+The public entry points are `@xenon-ui/core/context-menu` and
+`@xenon-ui/solid/context-menu`. ContextMenu owns the opening region and pointer
 geometry. Popup items, selection, submenu state, presence, portals, arrow geometry,
 and native hosting reuse Menu. No additional positioning or dismissal dependency
 is introduced.

@@ -1,5 +1,5 @@
-import { select } from '@xenon/core/select'
-import type { SelectOptions } from '@xenon/core/select'
+import { select } from '@xenon-ui/core/select'
+import type { SelectOptions } from '@xenon-ui/core/select'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -505,4 +505,4 @@ export const Select = Object.assign(SelectRoot, {
   /** Measured decorative arrow box. */
   Arrow: SelectArrow,
 })
-export type { SelectItem } from '@xenon/core/select'
+export type { SelectItem } from '@xenon-ui/core/select'

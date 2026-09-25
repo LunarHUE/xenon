@@ -26,11 +26,11 @@ coverage for focus, keyboard navigation, dismissal, and native forms.
 
 ## Delivered API
 
-Each component has its own `@xenon/solid/<component>` entrypoint.
+Each component has its own `@xenon-ui/solid/<component>` entrypoint.
 
 ```tsx
-import { Select } from '@xenon/solid/select'
-import { Combobox } from '@xenon/solid/combobox'
+import { Select } from '@xenon-ui/solid/select'
+import { Combobox } from '@xenon-ui/solid/combobox'
 
 const fruits = [
   { value: 'apple', label: 'Apple' },

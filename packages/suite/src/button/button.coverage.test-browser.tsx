@@ -2,7 +2,7 @@ import type { ButtonProps } from '../harness'
 import axe from 'axe-core'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
-import { Button } from '@xenon/solid'
+import { Button } from '@xenon-ui/solid'
 
 import { mount } from '../harness/solid'
 

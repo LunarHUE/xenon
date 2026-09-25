@@ -1,5 +1,5 @@
 /** Native form submission, validation, reset, and controlled-cancellation behavior for Select. */
-import { Select } from '@xenon/solid'
+import { Select } from '@xenon-ui/solid'
 import type { JSX } from '@solidjs/web'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'

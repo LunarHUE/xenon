@@ -1,4 +1,4 @@
-import { HoverCard } from '@xenon/solid/hover-card'
+import { HoverCard } from '@xenon-ui/solid/hover-card'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

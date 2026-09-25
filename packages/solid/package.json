@@ -1,5 +1,5 @@
 {
-  "name": "@xenon/solid",
+  "name": "@xenon-ui/solid",
   "version": "0.1.0",
   "description": "Headless, accessible components for Solid 2.",
   "license": "MIT",
@@ -220,8 +220,8 @@
     "test": "node scripts/check-dev.mjs && vitest run"
   },
   "dependencies": {
-    "@xenon/core": "workspace:*",
-    "@xenon/dom": "workspace:*"
+    "@xenon-ui/core": "workspace:*",
+    "@xenon-ui/dom": "workspace:*"
   },
   "peerDependencies": {
     "@solidjs/web": "^2.0.0-rc.8",

@@ -1,4 +1,4 @@
-import { Menubar } from '@xenon/solid/menubar'
+import { Menubar } from '@xenon-ui/solid/menubar'
 import { render } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { createSignal, flush } from 'solid-js'

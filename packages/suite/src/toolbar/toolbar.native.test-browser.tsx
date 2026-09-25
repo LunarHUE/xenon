@@ -2,7 +2,7 @@
  * Browser-native toolbar boundaries: live orientation and direction changes, the
  * nested-group Tab boundary, native anchor activation, and a text-input item.
  */
-import { Toolbar } from '@xenon/solid'
+import { Toolbar } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { describe, expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

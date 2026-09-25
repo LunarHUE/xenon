@@ -1,8 +1,8 @@
 /** Native pointer geometry, axis direction, restore and multi-group behavior for Resizable. */
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { Resizable } from '@xenon/solid/resizable'
-import type { ResizableProps } from '@xenon/solid/resizable'
+import { Resizable } from '@xenon-ui/solid/resizable'
+import type { ResizableProps } from '@xenon-ui/solid/resizable'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'

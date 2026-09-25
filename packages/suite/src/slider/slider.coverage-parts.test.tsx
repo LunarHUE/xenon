@@ -1,5 +1,5 @@
 import { render } from '@solidjs/web'
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 import { createSignal, flush } from 'solid-js'
 import { expect, onTestFinished, test } from 'vitest'
 

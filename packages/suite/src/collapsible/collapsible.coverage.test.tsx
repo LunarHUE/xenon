@@ -1,5 +1,5 @@
 import axe from 'axe-core'
-import { Collapsible } from '@xenon/solid'
+import { Collapsible } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { expect, vi } from 'vitest'
 

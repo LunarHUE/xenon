@@ -17,9 +17,9 @@
     "test:browser:all": "xenon_BROWSERS=chromium,firefox,webkit vitest run --project browser"
   },
   "dependencies": {
-    "@xenon/core": "workspace:*",
-    "@xenon/dom": "workspace:*",
-    "@xenon/solid": "workspace:*",
+    "@xenon-ui/core": "workspace:*",
+    "@xenon-ui/dom": "workspace:*",
+    "@xenon-ui/solid": "workspace:*",
     "@solidjs/web": "catalog:",
     "solid-js": "catalog:"
   },

@@ -2,7 +2,7 @@ import { render } from '@solidjs/testing-library'
 import { createSignal, flush } from 'solid-js'
 import { expect, test } from 'vitest'
 
-import type { MeterFormatDetails } from '@xenon/core/meter'
+import type { MeterFormatDetails } from '@xenon-ui/core/meter'
 import { Meter } from './meter'
 import type { MeterProps } from './meter'
 

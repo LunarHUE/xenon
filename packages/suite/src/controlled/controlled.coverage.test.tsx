@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/dom'
-import { Listbox } from '@xenon/solid'
+import { Listbox } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
 import { describe, expect, onTestFinished, vi } from 'vitest'

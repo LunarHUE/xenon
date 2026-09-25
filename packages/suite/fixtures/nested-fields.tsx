@@ -1,4 +1,4 @@
-import { Checkbox, Field, Switch } from '@xenon/solid'
+import { Checkbox, Field, Switch } from '@xenon-ui/solid'
 import { Show, omit } from 'solid-js'
 import type { ComponentProps } from '@solidjs/web'
 

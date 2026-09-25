@@ -1,4 +1,4 @@
-import { Dialog, RadioGroup, Tabs } from '@xenon/solid'
+import { Dialog, RadioGroup, Tabs } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { describe, expect, vi } from 'vitest'

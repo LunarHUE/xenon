@@ -3,7 +3,7 @@ import {
   type CollapsibleProps as PrimitiveProps,
   type CollapsibleTriggerProps as PrimitiveTriggerProps,
   type CollapsibleContentProps as PrimitiveContentProps,
-} from '@xenon/solid/collapsible'
+} from '@xenon-ui/solid/collapsible'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { cn } from '../../lib/utils'

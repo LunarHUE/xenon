@@ -1,4 +1,4 @@
-import { Field } from '@xenon/solid'
+import { Field } from '@xenon-ui/solid'
 import { screen } from '@testing-library/dom'
 import { createSignal } from 'solid-js'
 import { expect, test } from 'vitest'

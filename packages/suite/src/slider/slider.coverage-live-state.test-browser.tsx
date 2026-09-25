@@ -3,7 +3,7 @@ import { within } from '@testing-library/dom'
 import { createSignal, For, flush } from 'solid-js'
 import { afterEach, expect, test } from 'vitest'
 
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 
 let dispose: (() => void) | undefined
 let host: HTMLDivElement | undefined

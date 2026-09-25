@@ -5,8 +5,8 @@
  */
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { Slider } from '@xenon/solid/slider'
-import type { SliderProps } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
+import type { SliderProps } from '@xenon-ui/solid/slider'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'

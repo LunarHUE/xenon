@@ -1,4 +1,4 @@
-import { Menubar } from '@xenon/solid/menubar'
+import { Menubar } from '@xenon-ui/solid/menubar'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { flush } from 'solid-js'

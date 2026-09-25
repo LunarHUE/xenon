@@ -6,7 +6,7 @@ import {
   type BreadcrumbsLinkProps,
   type BreadcrumbsCurrentProps,
   type BreadcrumbsSeparatorProps,
-} from '@xenon/solid/breadcrumbs'
+} from '@xenon-ui/solid/breadcrumbs'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { omit } from 'solid-js'

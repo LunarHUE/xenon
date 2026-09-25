@@ -4,7 +4,7 @@
  * Complements the keyboard/forms suites, which cover plain keys, typeahead, reset,
  * pointer commitment, and the non-portal native form path.
  */
-import { Select } from '@xenon/solid'
+import { Select } from '@xenon-ui/solid'
 import type { JSX } from '@solidjs/web'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'

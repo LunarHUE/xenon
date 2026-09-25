@@ -10,7 +10,7 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { subscribeModalContent } from '@xenon/dom/modal'
+import { subscribeModalContent } from '@xenon-ui/dom/modal'
 import { OverlayPortalMountContext } from '../internal/overlay-portal'
 
 /** Destination policy for the notification renderer. */

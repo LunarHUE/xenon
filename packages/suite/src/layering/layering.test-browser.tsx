@@ -1,4 +1,4 @@
-import { registerLayer } from '@xenon/dom'
+import { registerLayer } from '@xenon-ui/dom'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 

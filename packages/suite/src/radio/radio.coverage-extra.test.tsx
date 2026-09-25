@@ -2,7 +2,7 @@ import axe from 'axe-core'
 import { within } from '@testing-library/dom'
 import { expect, test } from 'vitest'
 
-import { RadioGroup } from '@xenon/solid'
+import { RadioGroup } from '@xenon-ui/solid'
 
 import { mount } from '../harness/solid'
 

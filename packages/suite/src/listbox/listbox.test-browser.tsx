@@ -1,4 +1,4 @@
-import { Listbox } from '@xenon/solid'
+import { Listbox } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

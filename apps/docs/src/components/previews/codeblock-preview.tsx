@@ -86,8 +86,8 @@ export default function CodeBlockPreview(props: { snippets: CodeBlockSnippets })
       <div class="space-y-3">
         <h3 class="text-sm text-muted-foreground">Copy button on its own</h3>
         <div class="flex items-center gap-4">
-          <CopyButton text="bun add @xenon/solid" />
-          <code class="font-mono text-xs">bun add @xenon/solid</code>
+          <CopyButton text="bun add @xenon-ui/solid" />
+          <code class="font-mono text-xs">bun add @xenon-ui/solid</code>
         </div>
       </div>
     </div>

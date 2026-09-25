@@ -5,16 +5,16 @@
  * reactive children render callback. Inline grids mount no popup, so a single
  * Solid flush settles each transition. Every case uses a fixed provider today.
  */
-import { Calendar } from '@xenon/solid/calendar'
-import { RangeCalendar } from '@xenon/solid/range-calendar'
+import { Calendar } from '@xenon-ui/solid/calendar'
+import { RangeCalendar } from '@xenon-ui/solid/range-calendar'
 import {
   DateProvider,
   createDate,
   dateOnlyAdapter,
   parseDate,
   serializeDate,
-} from '@xenon/solid/date'
-import type { DateAdapter, DateValue } from '@xenon/solid/date'
+} from '@xenon-ui/solid/date'
+import type { DateAdapter, DateValue } from '@xenon-ui/solid/date'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'

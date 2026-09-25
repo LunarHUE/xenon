@@ -1,4 +1,4 @@
-import { RadioGroup } from '@xenon/solid'
+import { RadioGroup } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { For, createSignal } from 'solid-js'
 import { expect, test } from 'vitest'

@@ -3,7 +3,7 @@ import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { createSignal, flush, Show } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'
-import { Tooltip } from '@xenon/solid/tooltip'
+import { Tooltip } from '@xenon-ui/solid/tooltip'
 
 const cleanups: (() => void)[] = []
 

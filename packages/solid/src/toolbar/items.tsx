@@ -1,4 +1,4 @@
-import type { AnyPart } from '@xenon/core'
+import type { AnyPart } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'

@@ -1,6 +1,6 @@
 import axe from 'axe-core'
 import { within } from '@testing-library/dom'
-import { Field, Switch } from '@xenon/solid'
+import { Field, Switch } from '@xenon-ui/solid'
 import { expect, onTestFinished, test } from 'vitest'
 import { userEvent } from 'vitest/browser'
 

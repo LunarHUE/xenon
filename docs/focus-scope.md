@@ -1,6 +1,6 @@
 # Focus scopes
 
-`registerFocusScope` in `@xenon/dom` owns initial focus, Tab containment, and focus
+`registerFocusScope` in `@xenon-ui/dom` owns initial focus, Tab containment, and focus
 restoration. It is separate from `registerLayer`: dismissal and focus management
 can end at different points during a component's close sequence. Neither handle
 creates a portal or makes the page modal.

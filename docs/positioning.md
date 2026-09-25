@@ -1,8 +1,8 @@
 # Positioning
 
-xenon uses `@floating-ui/dom` 1.8 behind `@xenon/dom/positioning`. Geometry stays
+xenon uses `@floating-ui/dom` 1.8 behind `@xenon-ui/dom/positioning`. Geometry stays
 in the DOM package. Solid binds refs and reactive options through
-`@xenon/solid/positioning`; core has no browser dependency or duplicate geometry
+`@xenon-ui/solid/positioning`; core has no browser dependency or duplicate geometry
 controller. Positioning does not open overlays, dismiss them, assign roles,
 move focus, create portals, or choose a z-index.
 
@@ -50,7 +50,7 @@ middleware writes against obsolete async requests.
 ## DOM API
 
 ```ts
-import { createPositioner } from '@xenon/dom/positioning'
+import { createPositioner } from '@xenon-ui/dom/positioning'
 
 const positioner = createPositioner(wrapper, {
   anchor: trigger,
@@ -170,7 +170,7 @@ observer callbacks, results, size writes, and automatic errors.
 ## Solid API
 
 ```tsx
-import { createPositioner } from '@xenon/solid/positioning'
+import { createPositioner } from '@xenon-ui/solid/positioning'
 import { createSignal } from 'solid-js'
 
 const [anchor, setAnchor] = createSignal<HTMLElement>()

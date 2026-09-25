@@ -1,10 +1,10 @@
-import { resizable } from '@xenon/core/resizable'
+import { resizable } from '@xenon-ui/core/resizable'
 import type {
   ResizableOptions,
   ResizablePanelOptions,
   ResizableResult,
-} from '@xenon/core/resizable'
-import { startResizableDrag } from '@xenon/dom/resizable'
+} from '@xenon-ui/core/resizable'
+import { startResizableDrag } from '@xenon-ui/dom/resizable'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {

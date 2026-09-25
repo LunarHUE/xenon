@@ -1,7 +1,7 @@
 import solid from '@solidjs/vite-plugin'
 import { createServer, type ViteDevServer } from 'vite'
 import { afterAll, beforeAll, expect, test } from 'vitest'
-import { getListboxItemId } from '@xenon/core/listbox'
+import { getListboxItemId } from '@xenon-ui/core/listbox'
 
 let server: ViteDevServer
 let fixture: {

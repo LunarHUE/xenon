@@ -1,7 +1,7 @@
 /** Native coverage adapted from Base UI toast focus/stack tests and Sonner interactions. */
-import { Toast } from '@xenon/solid/toast'
-import { Dialog } from '@xenon/solid/dialog'
-import { Popover } from '@xenon/solid/popover'
+import { Toast } from '@xenon-ui/solid/toast'
+import { Dialog } from '@xenon-ui/solid/dialog'
+import { Popover } from '@xenon-ui/solid/popover'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { For, flush } from 'solid-js'

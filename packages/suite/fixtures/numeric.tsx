@@ -1,9 +1,9 @@
-import { Field } from '@xenon/solid/field'
-import { NumberField } from '@xenon/solid/number-field'
-import { PinInput } from '@xenon/solid/pin-input'
-import { Slider } from '@xenon/solid/slider'
-import { TagsInput } from '@xenon/solid/tags-input'
-import { Editable } from '@xenon/solid/editable'
+import { Field } from '@xenon-ui/solid/field'
+import { NumberField } from '@xenon-ui/solid/number-field'
+import { PinInput } from '@xenon-ui/solid/pin-input'
+import { Slider } from '@xenon-ui/solid/slider'
+import { TagsInput } from '@xenon-ui/solid/tags-input'
+import { Editable } from '@xenon-ui/solid/editable'
 
 /** Numeric and text-entry forms rendered identically on server and client. */
 export function NumericFixture() {

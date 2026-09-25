@@ -1,4 +1,4 @@
-import { createDialogController, type DialogControllerOptions } from '@xenon/dom'
+import { createDialogController, type DialogControllerOptions } from '@xenon-ui/dom'
 import type {} from '@vitest/browser-playwright'
 import { expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

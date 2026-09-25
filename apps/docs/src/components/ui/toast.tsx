@@ -1,4 +1,4 @@
-import { Toast as ToastPrimitive, type ToastViewportProps } from '@xenon/solid/toast'
+import { Toast as ToastPrimitive, type ToastViewportProps } from '@xenon-ui/solid/toast'
 import type { JSX } from '@solidjs/web'
 import { For, omit } from 'solid-js'
 import { X } from 'lucide'

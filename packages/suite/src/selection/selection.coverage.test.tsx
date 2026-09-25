@@ -1,4 +1,4 @@
-import { Listbox, Tabs } from '@xenon/solid'
+import { Listbox, Tabs } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { flush } from 'solid-js'

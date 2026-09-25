@@ -1,6 +1,6 @@
 import type { FieldContextValue } from '../field/context'
-import { tagsInput } from '@xenon/core/tags-input'
-import type { TagsInputOptions, TagsInputResult } from '@xenon/core/tags-input'
+import { tagsInput } from '@xenon-ui/core/tags-input'
+import type { TagsInputOptions, TagsInputResult } from '@xenon-ui/core/tags-input'
 import type { JSX } from '@solidjs/web'
 import {
   For,

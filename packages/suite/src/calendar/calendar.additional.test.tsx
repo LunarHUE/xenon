@@ -1,5 +1,5 @@
-import { Calendar } from '@xenon/solid/calendar'
-import { DateProvider, createDate } from '@xenon/solid/date'
+import { Calendar } from '@xenon-ui/solid/calendar'
+import { DateProvider, createDate } from '@xenon-ui/solid/date'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'

@@ -1,5 +1,5 @@
-import { HoverCard } from '@xenon/solid/hover-card'
-import { Dialog } from '@xenon/solid/dialog'
+import { HoverCard } from '@xenon-ui/solid/hover-card'
+import { Dialog } from '@xenon-ui/solid/dialog'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

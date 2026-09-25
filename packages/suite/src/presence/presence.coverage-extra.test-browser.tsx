@@ -1,5 +1,5 @@
-import { Collapsible } from '@xenon/solid'
-import { waitForExit } from '@xenon/dom'
+import { Collapsible } from '@xenon-ui/solid'
+import { waitForExit } from '@xenon-ui/dom'
 import { within } from '@testing-library/dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { mount } from '../harness/solid'

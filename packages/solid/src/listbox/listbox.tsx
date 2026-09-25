@@ -1,5 +1,5 @@
-import { listbox, getListboxItemId } from '@xenon/core/listbox'
-import type { ListboxOptions, ListboxValue } from '@xenon/core/listbox'
+import { listbox, getListboxItemId } from '@xenon-ui/core/listbox'
+import type { ListboxOptions, ListboxValue } from '@xenon-ui/core/listbox'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

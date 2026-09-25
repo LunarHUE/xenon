@@ -1,7 +1,7 @@
-import type { menu } from '@xenon/core/menu'
+import type { menu } from '@xenon-ui/core/menu'
 import { createContext, useContext } from 'solid-js'
 import type { Presence } from '../internal/presence'
-import type { LayerHandle } from '@xenon/dom'
+import type { LayerHandle } from '@xenon-ui/dom'
 import type { PositioningAnchor } from '../positioning'
 
 /** One locally rendered or detached trigger with live author metadata. */

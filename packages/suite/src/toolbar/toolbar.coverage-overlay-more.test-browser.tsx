@@ -1,4 +1,4 @@
-import { AlertDialog, Dialog, Popover, Select, Toolbar } from '@xenon/solid'
+import { AlertDialog, Dialog, Popover, Select, Toolbar } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { expect, test } from 'vitest'
 import { userEvent } from 'vitest/browser'

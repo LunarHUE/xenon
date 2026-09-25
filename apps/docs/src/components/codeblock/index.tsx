@@ -1,5 +1,5 @@
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
-import { Collapsible } from '@xenon/solid/collapsible'
+import { Collapsible } from '@xenon-ui/solid/collapsible'
 import { ChevronDown } from 'lucide'
 import {
   createContext,

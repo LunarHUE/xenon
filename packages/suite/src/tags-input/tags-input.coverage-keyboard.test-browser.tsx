@@ -1,4 +1,4 @@
-import { TagsInput } from '@xenon/solid/tags-input'
+import { TagsInput } from '@xenon-ui/solid/tags-input'
 import { render } from '@solidjs/web'
 import { For, flush } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'

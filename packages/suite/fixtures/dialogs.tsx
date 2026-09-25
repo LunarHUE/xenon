@@ -1,4 +1,4 @@
-import { AlertDialog, Dialog, Drawer } from '@xenon/solid'
+import { AlertDialog, Dialog, Drawer } from '@xenon-ui/solid'
 
 export function Dialogs() {
   return (

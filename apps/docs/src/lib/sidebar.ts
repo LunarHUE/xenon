@@ -1,4 +1,4 @@
-import { Drawer, type DrawerHandle } from '@xenon/solid/drawer'
+import { Drawer, type DrawerHandle } from '@xenon-ui/solid/drawer'
 import { isServer } from '@solidjs/web'
 import { createMemo, createSignal, onCleanup, onSettled } from 'solid-js'
 

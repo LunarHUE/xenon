@@ -10,7 +10,7 @@
  * live in editable.native.test-browser.tsx; commit-on-blur precedence
  * and real form resets live in editable.test-browser.tsx and reset.test-browser.tsx.
  */
-import { Editable } from '@xenon/solid'
+import { Editable } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'

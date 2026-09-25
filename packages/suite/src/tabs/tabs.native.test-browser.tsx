@@ -8,7 +8,7 @@
  * default actions instead of dispatched events. These cases supplement the
  * registered spec assertions without claiming a new research ID.
  */
-import { Tabs } from '@xenon/solid'
+import { Tabs } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { For, Show, createSignal } from 'solid-js'
 import { describe, expect, onTestFinished, test, vi } from 'vitest'

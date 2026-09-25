@@ -1,8 +1,8 @@
-import { Tooltip } from '@xenon/solid/tooltip'
-import { HoverCard } from '@xenon/solid/hover-card'
-import { ContextMenu } from '@xenon/solid/context-menu'
-import { Menubar } from '@xenon/solid/menubar'
-import { NavigationMenu } from '@xenon/solid/navigation-menu'
+import { Tooltip } from '@xenon-ui/solid/tooltip'
+import { HoverCard } from '@xenon-ui/solid/hover-card'
+import { ContextMenu } from '@xenon-ui/solid/context-menu'
+import { Menubar } from '@xenon-ui/solid/menubar'
+import { NavigationMenu } from '@xenon-ui/solid/navigation-menu'
 import { createSignal } from 'solid-js'
 
 /** Closed floating components rendered on the server, then exercised after hydration. */

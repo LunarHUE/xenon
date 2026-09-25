@@ -10,7 +10,7 @@
  *
  * @packageDocumentation
  */
-import { Menubar } from '@xenon/solid/menubar'
+import { Menubar } from '@xenon-ui/solid/menubar'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

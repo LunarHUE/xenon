@@ -1,7 +1,7 @@
-import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon/core/tooltip'
-import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon/core/tooltip'
-import { createHoverIntent } from '@xenon/dom/hover-intent'
-import type { HoverIntent } from '@xenon/dom/hover-intent'
+import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon-ui/core/tooltip'
+import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon-ui/core/tooltip'
+import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
+import type { HoverIntent } from '@xenon-ui/dom/hover-intent'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

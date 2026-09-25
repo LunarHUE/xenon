@@ -1,4 +1,4 @@
-import { Menu, Toolbar } from '@xenon/solid'
+import { Menu, Toolbar } from '@xenon-ui/solid'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'
 import { expect, vi } from 'vitest'

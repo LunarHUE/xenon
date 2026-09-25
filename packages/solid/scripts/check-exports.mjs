@@ -46,7 +46,7 @@ async function bundle(source) {
 }
 
 for (const subpath of Object.keys(manifest.exports).filter((key) => key !== '.')) {
-  const name = `@xenon/solid/${subpath.slice(2)}`
+  const name = `@xenon-ui/solid/${subpath.slice(2)}`
   const chunks = await bundle(`export * from '${name}'`)
   assert(
     chunks.some((chunk) => chunk.exports.length > 0),
@@ -55,7 +55,7 @@ for (const subpath of Object.keys(manifest.exports).filter((key) => key !== '.')
 }
 
 // Check both public import styles against emitted modules, not bundle size.
-for (const source of ['@xenon/solid/button', '@xenon/solid']) {
+for (const source of ['@xenon-ui/solid/button', '@xenon-ui/solid']) {
   const chunks = await bundle(`export { Button } from '${source}'`)
   const modules = chunks.flatMap((chunk) => Object.keys(chunk.modules))
   assert(

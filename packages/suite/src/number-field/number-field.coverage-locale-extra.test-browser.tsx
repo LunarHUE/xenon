@@ -3,7 +3,7 @@ import { within } from '@testing-library/dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { flush } from 'solid-js'
 import { userEvent } from 'vitest/browser'
-import { NumberField } from '@xenon/solid/number-field'
+import { NumberField } from '@xenon-ui/solid/number-field'
 
 let dispose: (() => void) | undefined
 let host: HTMLDivElement | undefined

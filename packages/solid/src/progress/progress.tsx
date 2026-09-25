@@ -1,5 +1,5 @@
-import { progress } from '@xenon/core'
-import type { ProgressOptions } from '@xenon/core'
+import { progress } from '@xenon-ui/core'
+import type { ProgressOptions } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createEffect, createMemo, omit } from 'solid-js'

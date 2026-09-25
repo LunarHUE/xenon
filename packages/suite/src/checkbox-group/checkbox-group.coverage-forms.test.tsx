@@ -1,4 +1,4 @@
-import { CheckboxGroup } from '@xenon/solid'
+import { CheckboxGroup } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'

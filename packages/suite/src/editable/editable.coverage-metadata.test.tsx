@@ -1,6 +1,6 @@
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
-import { Editable, Field } from '@xenon/solid'
+import { Editable, Field } from '@xenon-ui/solid'
 import { createSignal, flush } from 'solid-js'
 import { fireEvent } from '@testing-library/dom'
 import { afterEach, expect, test } from 'vitest'

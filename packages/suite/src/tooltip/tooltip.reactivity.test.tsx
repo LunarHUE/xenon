@@ -1,4 +1,4 @@
-import { Tooltip } from '@xenon/solid/tooltip'
+import { Tooltip } from '@xenon-ui/solid/tooltip'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'

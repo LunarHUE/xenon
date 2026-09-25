@@ -6,8 +6,8 @@
  * the jsdom and browser projects; no OS IME, clipboard, pointer, or native
  * focus behavior is exercised here.
  */
-import { Field } from '@xenon/solid'
-import { TagsInput } from '@xenon/solid/tags-input'
+import { Field } from '@xenon-ui/solid'
+import { TagsInput } from '@xenon-ui/solid/tags-input'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { fireEvent, within } from '@testing-library/dom'

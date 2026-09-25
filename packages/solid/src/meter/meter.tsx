@@ -1,5 +1,5 @@
-import { meter } from '@xenon/core/meter'
-import type { MeterOptions } from '@xenon/core/meter'
+import { meter } from '@xenon-ui/core/meter'
+import type { MeterOptions } from '@xenon-ui/core/meter'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createEffect, omit } from 'solid-js'

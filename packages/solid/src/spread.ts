@@ -1,4 +1,4 @@
-import type { AnyPart } from '@xenon/core'
+import type { AnyPart } from '@xenon-ui/core'
 
 /** Callable event shape used after erasing the core part's host-specific event type. */
 type Handler = (event: Event) => void

@@ -1,5 +1,5 @@
 import { render } from '@solidjs/web'
-import { PinInput } from '@xenon/solid/pin-input'
+import { PinInput } from '@xenon-ui/solid/pin-input'
 import { For, flush } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'

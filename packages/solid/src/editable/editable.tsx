@@ -1,6 +1,6 @@
 import type { FieldContextValue } from '../field/context'
-import { editable } from '@xenon/core/editable'
-import type { EditableOptions, EditableResult } from '@xenon/core/editable'
+import { editable } from '@xenon-ui/core/editable'
+import type { EditableOptions, EditableResult } from '@xenon-ui/core/editable'
 import { Dynamic } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import {

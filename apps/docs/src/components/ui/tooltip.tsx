@@ -7,13 +7,17 @@ import {
   type TooltipContentProps as PrimitiveContentProps,
   type TooltipPositionerProps as PrimitivePositionerProps,
   type TooltipViewportProps as PrimitiveViewportProps,
-} from '@xenon/solid/tooltip'
+} from '@xenon-ui/solid/tooltip'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { cn } from '../../lib/utils'
 
 export { TooltipProvider, createTooltipHandle }
-export type { TooltipProviderProps, TooltipHandle, TooltipRenderState } from '@xenon/solid/tooltip'
+export type {
+  TooltipProviderProps,
+  TooltipHandle,
+  TooltipRenderState,
+} from '@xenon-ui/solid/tooltip'
 
 export type TooltipProps<T extends ValidComponent = 'div', Payload = unknown> = PrimitiveProps<
   T,

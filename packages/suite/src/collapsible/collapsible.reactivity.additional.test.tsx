@@ -1,4 +1,4 @@
-import { Collapsible } from '@xenon/solid'
+import { Collapsible } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { describe, expect, test, vi } from 'vitest'
 

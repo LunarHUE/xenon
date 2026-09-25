@@ -1,4 +1,4 @@
-import { ToggleGroup } from '@xenon/solid'
+import { ToggleGroup } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import tlUserEvent from '@testing-library/user-event'
 import { describe, expect, onTestFinished, test, vi } from 'vitest'

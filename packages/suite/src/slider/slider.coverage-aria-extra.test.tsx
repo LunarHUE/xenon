@@ -4,7 +4,7 @@ import axe from 'axe-core'
 import { flush } from 'solid-js'
 import { afterEach, expect, test } from 'vitest'
 
-import { Slider } from '@xenon/solid/slider'
+import { Slider } from '@xenon-ui/solid/slider'
 import { expectNoViolations } from '../a11y'
 
 const cleanups: (() => void)[] = []

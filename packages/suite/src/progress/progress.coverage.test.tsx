@@ -1,4 +1,4 @@
-import { Progress } from '@xenon/solid/progress'
+import { Progress } from '@xenon-ui/solid/progress'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { afterEach, expect, test } from 'vitest'

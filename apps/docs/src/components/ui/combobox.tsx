@@ -7,7 +7,7 @@ import {
   type ComboboxTriggerProps,
   type ComboboxValueProps,
   type ComboboxViewportProps,
-} from '@xenon/solid/combobox'
+} from '@xenon-ui/solid/combobox'
 import type { ComponentProps } from '@solidjs/web'
 import { createUniqueId, omit } from 'solid-js'
 import { cva, type VariantProps } from 'class-variance-authority'

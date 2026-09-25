@@ -27,7 +27,7 @@ const manifest = JSON.parse(await readFile(join(pkgDir, 'package.json'), 'utf8')
 
 /** Read a sibling workspace package's version so workspace:* becomes a real range. */
 async function workspaceVersion(name: string): Promise<string> {
-  const dir = join(root, 'packages', name.replace(/^@xenon\//, ''))
+  const dir = join(root, 'packages', name.replace(/^@xenon-ui\//, ''))
   const json = JSON.parse(await readFile(join(dir, 'package.json'), 'utf8'))
   return json.version
 }

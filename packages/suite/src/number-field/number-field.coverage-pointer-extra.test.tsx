@@ -3,7 +3,7 @@ import { within } from '@testing-library/dom'
 import { afterEach, expect, test, vi } from 'vitest'
 import { flush } from 'solid-js'
 
-import { NumberField } from '@xenon/solid/number-field'
+import { NumberField } from '@xenon-ui/solid/number-field'
 
 const disposers: (() => void)[] = []
 afterEach(() => {

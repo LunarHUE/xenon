@@ -1,4 +1,4 @@
-import { Collapsible } from '@xenon/solid'
+import { Collapsible } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import { userEvent } from 'vitest/browser'
 import { describe, expect, vi } from 'vitest'

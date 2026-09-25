@@ -1,5 +1,5 @@
-import type { DrawerDragThreshold } from '@xenon/solid/drawer'
-import { Drawer } from '@xenon/solid/drawer'
+import type { DrawerDragThreshold } from '@xenon-ui/solid/drawer'
+import { Drawer } from '@xenon-ui/solid/drawer'
 import { render } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
 import { expect, onTestFinished, test, vi } from 'vitest'

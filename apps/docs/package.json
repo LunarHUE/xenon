@@ -14,7 +14,7 @@
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@solidjs/web": "catalog:",
-    "@xenon/solid": "workspace:*",
+    "@xenon-ui/solid": "workspace:*",
     "astro": "^7.3.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

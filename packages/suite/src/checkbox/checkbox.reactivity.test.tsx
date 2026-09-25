@@ -6,7 +6,7 @@
  * Every interaction is a synthetic `fireEvent` dispatch, so these cases never
  * claim OS or native input timing.
  */
-import { Checkbox, Field } from '@xenon/solid'
+import { Checkbox, Field } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import { Show, createSignal } from 'solid-js'
 import { afterEach, describe, expect, test, vi } from 'vitest'

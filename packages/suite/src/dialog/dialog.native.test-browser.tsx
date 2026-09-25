@@ -1,4 +1,4 @@
-import { AlertDialog, Dialog } from '@xenon/solid'
+import { AlertDialog, Dialog } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

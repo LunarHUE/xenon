@@ -1,4 +1,4 @@
-import type { AnyPart } from '@xenon/core'
+import type { AnyPart } from '@xenon-ui/core'
 import { createContext, useContext } from 'solid-js'
 
 /** Stable identity registered for one navigable toolbar item. */

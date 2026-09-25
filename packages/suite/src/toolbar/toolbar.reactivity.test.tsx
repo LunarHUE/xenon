@@ -4,7 +4,7 @@
  * provider isolation, and controlled toggle-group membership inside a toolbar.
  * Shared between the jsdom and browser projects; no popup or native input is used.
  */
-import { ToggleGroup, Toolbar } from '@xenon/solid'
+import { ToggleGroup, Toolbar } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { createSignal } from 'solid-js'

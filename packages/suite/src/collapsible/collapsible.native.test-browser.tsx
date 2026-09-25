@@ -5,7 +5,7 @@
  * browser suite (which compares published sizes against the same element's live
  * scroll size) with real-pointer, real-focus and fixed-geometry cases.
  */
-import { Collapsible } from '@xenon/solid'
+import { Collapsible } from '@xenon-ui/solid'
 import { within } from '@testing-library/dom'
 import domUserEvent from '@testing-library/user-event'
 import { expect, test, vi } from 'vitest'

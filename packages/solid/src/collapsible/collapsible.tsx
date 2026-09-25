@@ -1,5 +1,5 @@
-import type { CollapsibleOptions } from '@xenon/core'
-import { collapsible } from '@xenon/core'
+import type { CollapsibleOptions } from '@xenon-ui/core'
+import { collapsible } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

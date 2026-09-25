@@ -1,5 +1,5 @@
-import { resolveTooltipBehavior } from '@xenon/core/tooltip'
-import type { TooltipBehavior, TooltipBehaviorOptions } from '@xenon/core/tooltip'
+import { resolveTooltipBehavior } from '@xenon-ui/core/tooltip'
+import type { TooltipBehavior, TooltipBehaviorOptions } from '@xenon-ui/core/tooltip'
 import type { JSX } from '@solidjs/web'
 import { createContext, untrack, useContext } from 'solid-js'
 

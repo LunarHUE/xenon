@@ -1,5 +1,5 @@
-import { pinInput } from '@xenon/core/pin-input'
-import type { PinInputOptions } from '@xenon/core/pin-input'
+import { pinInput } from '@xenon-ui/core/pin-input'
+import type { PinInputOptions } from '@xenon-ui/core/pin-input'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,

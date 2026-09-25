@@ -1,4 +1,4 @@
-import { createManager, type ToastManager } from '@xenon/solid/toast'
+import { createManager, type ToastManager } from '@xenon-ui/solid/toast'
 
 /**
  * The one notification manager for the docs. Import it anywhere, including

@@ -4,7 +4,7 @@ import {
   type TabsListProps as PrimitiveListProps,
   type TabsTabProps as PrimitiveTabProps,
   type TabsPanelProps as PrimitivePanelProps,
-} from '@xenon/solid/tabs'
+} from '@xenon-ui/solid/tabs'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { cn } from '../../lib/utils'

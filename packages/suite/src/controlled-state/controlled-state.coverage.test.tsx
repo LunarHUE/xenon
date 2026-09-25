@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/dom'
-import { Checkbox, CheckboxGroup } from '@xenon/solid'
+import { Checkbox, CheckboxGroup } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { createSignal, flush } from 'solid-js'
 import { describe, expect, vi } from 'vitest'

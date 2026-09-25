@@ -1,4 +1,4 @@
-import { breadcrumbs } from '@xenon/core/breadcrumbs'
+import { breadcrumbs } from '@xenon-ui/core/breadcrumbs'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit } from 'solid-js'

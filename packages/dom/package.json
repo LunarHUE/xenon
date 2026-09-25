@@ -1,5 +1,5 @@
 {
-  "name": "@xenon/dom",
+  "name": "@xenon-ui/dom",
   "version": "0.1.0",
   "description": "Framework-free DOM interactions for Xenon components: focus scopes, layers, positioning, modals and toasts.",
   "license": "MIT",

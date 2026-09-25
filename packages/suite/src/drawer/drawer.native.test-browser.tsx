@@ -1,4 +1,4 @@
-import { Drawer } from '@xenon/solid/drawer'
+import { Drawer } from '@xenon-ui/solid/drawer'
 import { render } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
 import { within } from '@testing-library/dom'

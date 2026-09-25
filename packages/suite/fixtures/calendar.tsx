@@ -1,6 +1,6 @@
-import { Calendar } from '@xenon/solid/calendar'
-import { RangeCalendar } from '@xenon/solid/range-calendar'
-import { DateProvider, createDate, serializeDate } from '@xenon/solid/date'
+import { Calendar } from '@xenon-ui/solid/calendar'
+import { RangeCalendar } from '@xenon-ui/solid/range-calendar'
+import { DateProvider, createDate, serializeDate } from '@xenon-ui/solid/date'
 import { createSignal } from 'solid-js'
 
 /** Shared civil-day snapshot makes server and client independent of the ambient clock. */

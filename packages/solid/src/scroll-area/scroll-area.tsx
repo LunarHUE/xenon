@@ -3,8 +3,8 @@ import {
   observeScrollArea,
   readScrollArea,
   scrollbarGeometry,
-} from '@xenon/dom/scroll-area'
-import type { ScrollAreaAxis, ScrollAreaMetrics, ScrollbarGeometry } from '@xenon/dom/scroll-area'
+} from '@xenon-ui/dom/scroll-area'
+import type { ScrollAreaAxis, ScrollAreaMetrics, ScrollbarGeometry } from '@xenon-ui/dom/scroll-area'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {

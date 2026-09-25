@@ -1,4 +1,4 @@
-import { Menu, RadioGroup, ToggleGroup, Toolbar } from '@xenon/solid'
+import { Menu, RadioGroup, ToggleGroup, Toolbar } from '@xenon-ui/solid'
 import { fireEvent, within } from '@testing-library/dom'
 import axe from 'axe-core'
 import { expect } from 'vitest'
