@@ -1,0 +1,58 @@
+---
+/**
+ * The frame around every docs page: breadcrumb, eyebrow, title and description,
+ * the component tab strip, the article, and prev/next cards. The row has room
+ * for a right-hand column: anything passed in the `toc` slot sits beside the
+ * document on wide screens.
+ */
+import Layout from '../../layouts/Layout.astro'
+import type { PageLink } from '../../lib/content'
+import { DocsBreadcrumb, type Crumb } from './docs-breadcrumb'
+import PageTabs from './PageTabs.astro'
+import Pagination from './Pagination.astro'
+
+interface Props {
+  /** The H1. */
+  title: string
+  /** Document title, when it differs from the H1. */
+  pageTitle?: string
+  description: string
+  /** Mono line above the H1, usually the import path. */
+  eyebrow: string
+  /** Trail above the header. The last crumb is this page. */
+  breadcrumb: Crumb[]
+  /** Component tabs, with the href of the current one. */
+  tabs?: { label: string; links: PageLink[]; current: string }
+  previous?: PageLink
+  next?: PageLink
+}
+
+const { title, pageTitle, description, eyebrow, breadcrumb, tabs, previous, next } = Astro.props
+---
+
+<Layout title={pageTitle ?? title} description={description} contained={false}>
+  <div class="flex">
+    <div class="min-w-0 flex-1 px-6 pb-10 md:px-8 xl:px-10">
+      <div class="flex max-w-[60rem] flex-col">
+        <DocsBreadcrumb crumbs={breadcrumb} />
+        <header class="flex flex-col gap-3 pt-8 pb-7">
+          <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{eyebrow}</p>
+          <h1 class="text-4xl leading-[44px] font-bold tracking-[-0.035em] sm:text-[44px] sm:leading-[52px]">
+            {title}
+          </h1>
+          <p class="max-w-[42.5rem] text-lg leading-7">{description}</p>
+        </header>
+        {tabs && <PageTabs label={tabs.label} tabs={tabs.links} current={tabs.current} />}
+        <article class="mdx">
+          <slot />
+        </article>
+        <Pagination previous={previous} next={next} />
+      </div>
+    </div>
+    {Astro.slots.has('toc') && (
+      <aside class="hidden w-44 shrink-0 pe-4 xl:block">
+        <slot name="toc" />
+      </aside>
+    )}
+  </div>
+</Layout>

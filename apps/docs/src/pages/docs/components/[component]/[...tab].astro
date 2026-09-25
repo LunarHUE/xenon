@@ -1,10 +1,11 @@
 ---
 import { render } from 'astro:content'
-import Layout from '../../../../layouts/Layout.astro'
+import DocsPage from '../../../../components/page/DocsPage.astro'
 import Code from '../../../../components/codeblock/Code.astro'
 import Section from '../../../../components/section/Section.astro'
 import {
   getComponents,
+  getDocs,
   pagination,
   type ComponentDoc,
   type ComponentTab,
@@ -29,28 +30,22 @@ interface Props {
 const { component, tab } = Astro.props
 const { Content } = await render(tab.entry)
 const { previous, next } = pagination(component.tabs, component.tabs.indexOf(tab))
-const title = tab.tab === 'overview' ? component.title : `${component.title} ${tab.label}`
+// The Components crumb links to the directory once that page exists.
+const directory = (await getDocs()).some((entry) => entry.id === 'components')
 ---
 
-<Layout title={title} description={component.description}>
-  <p class="font-mono text-xs text-muted-foreground">
-    {component.package}
-    {component.status === 'draft' && ' · Draft API'}
-  </p>
-  <h1 class="mt-3 text-3xl font-medium">{component.title}</h1>
-  <p class="mt-4 text-muted-foreground">{component.description}</p>
-  <nav aria-label={`${component.title} pages`} class="mt-6 flex gap-4 text-sm">
-    {component.tabs.map((link) => (
-      <a href={link.href} aria-current={link === tab ? 'page' : undefined}>
-        {link.label}
-      </a>
-    ))}
-  </nav>
-  <article class="mdx mt-10">
-    <Content components={{ Code, Section }} />
-  </article>
-  <nav aria-label="Pagination" class="mt-10 flex justify-between text-sm">
-    {previous ? <a href={previous.href}>Previous: {previous.label}</a> : <span />}
-    {next && <a href={next.href}>Next: {next.label}</a>}
-  </nav>
-</Layout>
+<DocsPage
+  title={component.title}
+  pageTitle={tab.tab === 'overview' ? component.title : `${component.title} ${tab.label}`}
+  description={component.description}
+  eyebrow={component.status === 'draft' ? `${component.package} · Draft API` : component.package}
+  breadcrumb={[
+    { label: 'Components', href: directory ? '/docs/components/' : undefined },
+    { label: component.title },
+  ]}
+  tabs={{ label: `${component.title} pages`, links: component.tabs, current: tab.href }}
+  previous={previous}
+  next={next}
+>
+  <Content components={{ Code, Section }} />
+</DocsPage>

@@ -1,6 +1,6 @@
 ---
 import { render } from 'astro:content'
-import Layout from '../../layouts/Layout.astro'
+import DocsPage from '../../components/page/DocsPage.astro'
 import Code from '../../components/codeblock/Code.astro'
 import Section from '../../components/section/Section.astro'
 import { docHref, getDocs, pagination, type DocEntry } from '../../lib/content'
@@ -22,16 +22,16 @@ const { previous, next } = pagination(
   pages,
   pages.findIndex((page) => page.href === docHref(entry))
 )
+const guide = entry.data.section === 'guides'
 ---
 
-<Layout title={entry.data.title} description={entry.data.description}>
-  <h1 class="text-3xl font-medium">{entry.data.title}</h1>
-  <p class="mt-4 text-muted-foreground">{entry.data.description}</p>
-  <article class="mdx mt-10">
-    <Content components={{ Code, Section }} />
-  </article>
-  <nav aria-label="Pagination" class="mt-10 flex justify-between text-sm">
-    {previous ? <a href={previous.href}>Previous: {previous.label}</a> : <span />}
-    {next && <a href={next.href}>Next: {next.label}</a>}
-  </nav>
-</Layout>
+<DocsPage
+  title={entry.data.title}
+  description={entry.data.description}
+  eyebrow={guide ? 'Guides / Solid' : '@xenon-ui/solid'}
+  breadcrumb={[{ label: guide ? 'Guides' : 'Start here' }, { label: entry.data.title }]}
+  previous={previous}
+  next={next}
+>
+  <Content components={{ Code, Section }} />
+</DocsPage>
