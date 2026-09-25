@@ -1,22 +1,36 @@
 <Section title="type">
 
 Button defaults to `type="button"`. Set `type="submit"` when it should submit its
-parent form. The default prevents accidental form submission.
+parent form.
 
-```tsx
-<Button type="submit">Save profile</Button>
-```
+The default prevents accidental form submission.
+
+<Example slot="example" name="button/submit-form" />
 
 </Section>
 
 <Section title="pending">
 
 Use `pending` while an action is in progress. Button stops activation and stays
-focusable. Provide a visible progress label, because `pending` does not add one
-for you.
+focusable.
 
-```tsx
-<Button pending>Saving...</Button>
-```
+Provide a visible progress label. `pending` does not add one for you.
+
+<Example slot="example" name="button/pending" />
+
+</Section>
+
+<Section title="Tailwind">
+
+Apply your own classes and use the state attributes, like `data-pending`, to
+style the button. The previews on these pages use example styles.
+
+Keep keyboard focus visible in every state.
+
+<Example
+  slot="example"
+  name="button/save-changes"
+  caption="Tailwind classes stay in the example.tsx source."
+/>
 
 </Section>
