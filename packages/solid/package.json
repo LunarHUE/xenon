@@ -1,6 +1,22 @@
 {
   "name": "@xenon/solid",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Headless, accessible components for Solid 2.",
+  "keywords": [
+    "solid",
+    "solid-js",
+    "headless",
+    "accessibility",
+    "components",
+    "ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LunarHUE/xenon.git",
+    "directory": "packages/solid"
+  },
+  "homepage": "https://github.com/LunarHUE/xenon#readme",
+  "bugs": "https://github.com/LunarHUE/xenon/issues",
   "type": "module",
   "private": true,
   "sideEffects": false,
@@ -195,6 +211,7 @@
     }
   },
   "scripts": {
+    "build": "bun ../../scripts/build-package.ts",
     "test:dev": "node scripts/check-dev.mjs",
     "test:exports": "node scripts/check-exports.mjs",
     "lint": "eslint .",

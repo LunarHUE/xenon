@@ -1,6 +1,21 @@
 {
   "name": "@xenon/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Framework-free behavior for Xenon components: state, keyboard handling and ARIA attribute maps in plain TypeScript.",
+  "keywords": [
+    "headless",
+    "accessibility",
+    "aria",
+    "components",
+    "state-machine"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LunarHUE/xenon.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/LunarHUE/xenon#readme",
+  "bugs": "https://github.com/LunarHUE/xenon/issues",
   "type": "module",
   "private": true,
   "sideEffects": false,
@@ -15,6 +30,7 @@
     }
   },
   "scripts": {
+    "build": "bun ../../scripts/build-package.ts",
     "gen": "bun scripts/gen-attrs.ts",
     "lint": "eslint . && bun scripts/gen-attrs.ts --check",
     "typecheck": "tsc --noEmit",

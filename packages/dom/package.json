@@ -1,6 +1,21 @@
 {
   "name": "@xenon/dom",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Framework-free DOM interactions for Xenon components: focus scopes, layers, positioning, modals and toasts.",
+  "keywords": [
+    "headless",
+    "accessibility",
+    "focus",
+    "positioning",
+    "dom"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LunarHUE/xenon.git",
+    "directory": "packages/dom"
+  },
+  "homepage": "https://github.com/LunarHUE/xenon#readme",
+  "bugs": "https://github.com/LunarHUE/xenon/issues",
   "type": "module",
   "private": true,
   "sideEffects": false,
@@ -15,6 +30,7 @@
     }
   },
   "scripts": {
+    "build": "bun ../../scripts/build-package.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
