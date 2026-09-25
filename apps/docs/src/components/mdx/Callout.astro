@@ -1,0 +1,42 @@
+---
+/**
+ * A boxed aside for something the reader should not skip:
+ *
+ *     <Callout type="warning">
+ *     `pending` does not add a progress label.
+ *     </Callout>
+ *
+ * A note is plain. A warning gets the pink bar the TOC uses for the current
+ * section. Keep it rare, or readers learn to skip it.
+ */
+interface Props {
+  type?: 'note' | 'warning'
+  /** Label above the text. Defaults to "Note" or "Warning". */
+  title?: string
+}
+
+const { type = 'note' } = Astro.props
+const title = Astro.props.title ?? (type === 'warning' ? 'Warning' : 'Note')
+---
+
+<div
+  role="note"
+  aria-label={title}
+  class:list={[
+    'flex max-w-165 flex-col gap-1.5 border border-foreground bg-background px-4 py-3 text-sm leading-[22px]',
+    type === 'warning' && 'border-s-[3px] border-s-sidebar-primary ps-[14px]',
+  ]}
+>
+  <p
+    aria-hidden="true"
+    class:list={[
+      'font-mono text-[11px] leading-[19px] font-medium tracking-[0.06em] uppercase',
+      type === 'warning' ? 'text-sidebar-primary' : 'text-muted-foreground',
+    ]}
+  >
+    {title}
+  </p>
+  <div class="flex flex-col gap-2">
+    <slot />
+  </div>
+</div>
