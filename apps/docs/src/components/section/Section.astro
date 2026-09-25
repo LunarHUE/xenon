@@ -5,6 +5,7 @@
  * reordering sections never means renumbering them. Rows stack when the article
  * is narrower than 48rem.
  */
+import { sectionId } from '../../lib/sections'
 
 interface Props {
   title: string
@@ -13,12 +14,7 @@ interface Props {
 }
 
 const { title } = Astro.props
-const id =
-  Astro.props.id ??
-  title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
+const id = Astro.props.id ?? sectionId(title)
 ---
 
 <section
