@@ -1,0 +1,142 @@
+---
+/**
+ * A live demo over its own source. Write `<Example name="button/pending" />` in
+ * MDX; lib/example-demos.ts fills the slots with the hydrated demo from
+ * src/examples/button/pending.tsx, and its `.unstyled.tsx` twin if there is one.
+ *
+ * The source comes from the same files through `?raw`, so the code shown is
+ * always the code running. With a twin, the footer gets a Tailwind toggle. The
+ * choice is page-wide and remembered (see ExampleBoot.astro), and CSS in
+ * global.css shows one variant or the other from the attribute on <html>.
+ */
+import { ChevronRight, Code as CodeIcon } from 'lucide'
+import Code from '../codeblock/Code.astro'
+import { Icon } from '../ui/icon'
+import { exampleId } from '../../lib/example-style'
+
+interface Props {
+  /** Demo path under src/examples, without `.tsx`. */
+  name: string
+  /** Short note under the frame. */
+  caption?: string
+}
+
+const sources = import.meta.glob<string>('../../examples/**/*.tsx', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+})
+
+const { name, caption } = Astro.props
+const source = sources[`../../examples/${name}.tsx`]
+if (source === undefined) throw new Error(`No example at src/examples/${name}.tsx`)
+const unstyledSource = sources[`../../examples/${name}.unstyled.tsx`]
+const hasUnstyled = unstyledSource !== undefined && Astro.slots.has('unstyled')
+// Readers copy one component, so both variants show the same filename.
+const filename = `${name.split('/').at(-1)}.tsx`
+const codeId = exampleId(name)
+
+const control = [
+  'inline-flex items-center gap-1.5 border border-transparent -mx-2 px-2 py-1 cursor-pointer',
+  'motion-safe:transition-[translate,box-shadow,border-color] motion-safe:duration-[120ms]',
+  'hover:border-foreground hover:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:hover:-translate-0.5',
+  'active:translate-0 active:shadow-none',
+  'outline-offset-[3px] focus-visible:outline-2 focus-visible:outline-sidebar-primary',
+]
+---
+
+<div data-slot="example" data-example class="flex min-w-0 flex-col gap-4">
+  <div class="flex min-w-0 flex-col border border-foreground shadow-[3px_3px_0_var(--color-border)]">
+    <div
+      data-example-stage
+      data-example-variant={hasUnstyled ? 'tailwind' : undefined}
+      class="flex min-h-39 flex-wrap items-center justify-center gap-4 bg-muted p-6 text-foreground"
+    >
+      <slot />
+    </div>
+    {hasUnstyled && (
+      <div
+        data-example-stage
+        data-example-variant="unstyled"
+        class="flex min-h-39 flex-wrap items-center justify-center gap-4 bg-muted p-6 text-foreground"
+      >
+        <slot name="unstyled" />
+      </div>
+    )}
+    <div class="flex min-h-12 items-center justify-between gap-4 border-t border-foreground bg-background px-4 font-mono text-xs leading-5">
+      <button
+        type="button"
+        data-example-disclosure
+        aria-expanded="false"
+        aria-controls={codeId}
+        class:list={control}
+      >
+        <Icon
+          icon={ChevronRight}
+          class="size-3.5 motion-safe:transition-transform in-aria-expanded:rotate-90"
+        />
+        <Icon icon={CodeIcon} class="size-3.5" />
+        Show code
+      </button>
+      {hasUnstyled && (
+        <button type="button" data-example-toggle aria-pressed="true" class:list={control}>
+          Tailwind
+          <span aria-hidden="true" class="example-toggle-state" />
+          <span
+            aria-hidden="true"
+            class="example-toggle-dot size-2.5 rounded-full border border-current"
+          />
+        </button>
+      )}
+    </div>
+    <div id={codeId} hidden class="border-t border-foreground [&_[data-slot=code-block]]:border-0">
+      <div data-example-variant={hasUnstyled ? 'tailwind' : undefined}>
+        <Code code={source} lang="tsx" title={filename} />
+      </div>
+      {hasUnstyled && (
+        <div data-example-variant="unstyled">
+          <Code code={unstyledSource} lang="tsx" title={filename} />
+        </div>
+      )}
+    </div>
+  </div>
+  {caption && <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{caption}</p>}
+</div>
+
+<script>
+  import { EXAMPLE_STYLE_KEY } from '../../lib/example-style'
+
+  const root = document.documentElement
+
+  const syncToggles = () => {
+    const pressed = String(root.dataset.exampleStyle !== 'unstyled')
+    for (const toggle of document.querySelectorAll('[data-example-toggle]')) {
+      toggle.setAttribute('aria-pressed', pressed)
+    }
+  }
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element
+    const disclosure = target.closest<HTMLButtonElement>('[data-example-disclosure]')
+    if (disclosure) {
+      const expanded = disclosure.getAttribute('aria-expanded') !== 'true'
+      disclosure.setAttribute('aria-expanded', String(expanded))
+      const region = document.getElementById(disclosure.getAttribute('aria-controls')!)
+      if (region) region.hidden = !expanded
+      return
+    }
+    const toggle = target.closest('[data-example-toggle]')
+    if (toggle) {
+      const style = toggle.getAttribute('aria-pressed') === 'true' ? 'unstyled' : 'tailwind'
+      if (style === 'unstyled') root.dataset.exampleStyle = style
+      else delete root.dataset.exampleStyle
+      try {
+        localStorage.setItem(EXAMPLE_STYLE_KEY, style)
+      } catch {
+        // Storage can be off; the choice still holds for this page.
+      }
+      syncToggles()
+    }
+  })
+  syncToggles()
+</script>

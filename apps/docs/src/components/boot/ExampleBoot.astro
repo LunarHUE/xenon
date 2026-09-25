@@ -1,0 +1,15 @@
+---
+/**
+ * Applies the stored Tailwind On/Off choice for examples before first paint, so
+ * a reader who turned Tailwind off never sees the styled variant flash. Render
+ * in <head>. The key matches EXAMPLE_STYLE_KEY in lib/example-style.ts.
+ */
+---
+
+<script is:inline>
+  try {
+    if (localStorage.getItem('example-style') === 'unstyled') {
+      document.documentElement.dataset.exampleStyle = 'unstyled'
+    }
+  } catch {}
+</script>

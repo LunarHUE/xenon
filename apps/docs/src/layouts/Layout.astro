@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import ThemeBoot from '../components/boot/ThemeBoot.astro'
+import ExampleBoot from '../components/boot/ExampleBoot.astro'
 import SidebarShellBoot from '../components/boot/SidebarShellBoot.astro'
 import SidebarPanelBoot from '../components/boot/SidebarPanelBoot.astro'
 import { ThemeToggle } from '../components/ui/theme-toggle'
@@ -38,6 +39,7 @@ const initialSidebar =
     <meta name="description" content={description} />
     <title>{title} · Xenon docs</title>
     <ThemeBoot />
+    <ExampleBoot />
   </head>
   <body>
     <header class="flex h-14 items-center gap-4 border-b border-foreground px-6">

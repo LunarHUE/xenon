@@ -2,6 +2,7 @@
 import { render } from 'astro:content'
 import DocsPage from '../../components/page/DocsPage.astro'
 import Code from '../../components/codeblock/Code.astro'
+import Example from '../../components/example/Example.astro'
 import Section from '../../components/section/Section.astro'
 import Toc from '../../components/page/Toc.astro'
 import { pageSections } from '../../lib/sections'
@@ -38,6 +39,6 @@ const guide = entry.data.section === 'guides'
   previous={previous}
   next={next}
 >
-  <Content components={{ Code, Section }} />
+  <Content components={{ Code, Example, Section }} />
   {toc && <Toc slot="toc" sections={sections} />}
 </DocsPage>
