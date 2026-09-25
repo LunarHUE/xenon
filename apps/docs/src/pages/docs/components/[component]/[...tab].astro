@@ -3,6 +3,8 @@ import { render } from 'astro:content'
 import DocsPage from '../../../../components/page/DocsPage.astro'
 import Code from '../../../../components/codeblock/Code.astro'
 import Section from '../../../../components/section/Section.astro'
+import Toc from '../../../../components/page/Toc.astro'
+import { pageSections } from '../../../../lib/sections'
 import {
   getComponents,
   getDocs,
@@ -28,7 +30,10 @@ interface Props {
 }
 
 const { component, tab } = Astro.props
-const { Content } = await render(tab.entry)
+const { Content, remarkPluginFrontmatter } = await render(tab.entry)
+const sections = pageSections(remarkPluginFrontmatter)
+// Top plus one section is not worth a table of contents.
+const toc = sections.length >= 2
 const { previous, next } = pagination(component.tabs, component.tabs.indexOf(tab))
 // The Components crumb links to the directory once that page exists.
 const directory = (await getDocs()).some((entry) => entry.id === 'components')
@@ -48,4 +53,5 @@ const directory = (await getDocs()).some((entry) => entry.id === 'components')
   next={next}
 >
   <Content components={{ Code, Section }} />
+  {toc && <Toc slot="toc" sections={sections} />}
 </DocsPage>

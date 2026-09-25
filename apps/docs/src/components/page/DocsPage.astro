@@ -28,6 +28,8 @@ interface Props {
 }
 
 const { title, pageTitle, description, eyebrow, breadcrumb, tabs, previous, next } = Astro.props
+// A slot filled by a false expression still counts for slots.has(), so check what it renders.
+const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : ''
 ---
 
 <Layout title={pageTitle ?? title} description={description} contained={false}>
@@ -49,9 +51,9 @@ const { title, pageTitle, description, eyebrow, breadcrumb, tabs, previous, next
         <Pagination previous={previous} next={next} />
       </div>
     </div>
-    {Astro.slots.has('toc') && (
-      <aside class="hidden w-44 shrink-0 pe-4 xl:block">
-        <slot name="toc" />
+    {toc && (
+      <aside class="hidden w-44 shrink-0 pt-28 pe-4 pb-6 xl:block">
+        <Fragment set:html={toc} />
       </aside>
     )}
   </div>

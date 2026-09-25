@@ -3,6 +3,8 @@ import { render } from 'astro:content'
 import DocsPage from '../../components/page/DocsPage.astro'
 import Code from '../../components/codeblock/Code.astro'
 import Section from '../../components/section/Section.astro'
+import Toc from '../../components/page/Toc.astro'
+import { pageSections } from '../../lib/sections'
 import { docHref, getDocs, pagination, type DocEntry } from '../../lib/content'
 
 export async function getStaticPaths() {
@@ -15,7 +17,10 @@ interface Props {
 }
 
 const { entry } = Astro.props
-const { Content } = await render(entry)
+const { Content, remarkPluginFrontmatter } = await render(entry)
+const sections = pageSections(remarkPluginFrontmatter)
+// Top plus one section is not worth a table of contents.
+const toc = sections.length >= 2
 // Start-here pages and guides read as one sequence, in sidebar order.
 const pages = (await getDocs()).map((page) => ({ label: page.data.title, href: docHref(page) }))
 const { previous, next } = pagination(
@@ -34,4 +39,5 @@ const guide = entry.data.section === 'guides'
   next={next}
 >
   <Content components={{ Code, Section }} />
+  {toc && <Toc slot="toc" sections={sections} />}
 </DocsPage>

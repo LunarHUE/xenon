@@ -1,0 +1,96 @@
+---
+/**
+ * "On this page": Top, then one link per `<Section>`. The list is built at
+ * compile time (see lib/section-toc.ts), so it is plain links without
+ * JavaScript. The script only marks the section being read with
+ * `aria-current="location"`, which draws the pink bar.
+ */
+import type { PageSection } from '../../lib/sections'
+
+interface Props {
+  sections: PageSection[]
+}
+
+const { sections } = Astro.props
+const links = [{ id: 'top', title: 'Top' }, ...sections]
+---
+
+<nav aria-label="On this page" data-docs-toc class="sticky top-6 flex flex-col">
+  <p class="mb-2 border-t-2 border-b border-t-foreground border-b-muted-foreground py-[10px] font-mono text-[11px] leading-[19px] font-medium tracking-[0.06em] uppercase [border-bottom-style:dashed]">
+    On this page
+  </p>
+  <ul class="flex flex-col">
+    {links.map((link) => (
+      <li class="flex">
+        <a
+          href={`#${link.id}`}
+          class:list={[
+            'flex-1 border-s border-foreground py-[7px] ps-3 text-[13px] leading-5 [overflow-wrap:anywhere] text-muted-foreground transition-colors hover:text-foreground',
+            // The bar grows to 3px; the padding gives the 2px back so the text doesn't move.
+            'aria-[current=location]:border-s-[3px] aria-[current=location]:border-sidebar-primary aria-[current=location]:bg-sidebar-selected aria-[current=location]:ps-[10px] aria-[current=location]:text-sidebar-primary',
+            'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring',
+          ]}
+        >
+          {link.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  // The current section is the last one whose heading has scrolled up past this
+  // line. Headings land at 80px (scroll-mt-20) after a jump, so they clear it.
+  const LINE = 120
+
+  const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
+  if (toc) {
+    const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
+    // Index 0 is Top, which has no element: it is current until a heading passes the line.
+    const headings = links.map((link, index) =>
+      index === 0 ? null : document.getElementById(decodeURIComponent(link.hash.slice(1)))
+    )
+    // A clicked link stays current while the page scrolls to it. Short last
+    // sections can never reach the line, so without this they'd never light up.
+    let clicked: number | undefined
+    let frame = 0
+
+    const update = () => {
+      frame = 0
+      let current = clicked ?? 0
+      if (clicked === undefined) {
+        headings.forEach((heading, index) => {
+          if (heading && heading.getBoundingClientRect().top <= LINE) current = index
+        })
+        const bottom =
+          scrollY > 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 1
+        if (bottom) current = links.length - 1
+      }
+      links.forEach((link, index) => {
+        if (index === current) link.setAttribute('aria-current', 'location')
+        else link.removeAttribute('aria-current')
+      })
+    }
+    const schedule = () => {
+      frame ||= requestAnimationFrame(update)
+    }
+
+    links.forEach((link, index) =>
+      link.addEventListener('click', () => {
+        clicked = index
+        schedule()
+      })
+    )
+    // Scrolling by hand hands control back to the scroll position. Keys and
+    // presses inside the TOC are the ones that follow a link, so they don't count.
+    const release = (event: Event) => {
+      if (event.type === 'wheel' || !toc.contains(event.target as Node)) clicked = undefined
+    }
+    for (const type of ['wheel', 'touchstart', 'keydown', 'pointerdown']) {
+      addEventListener(type, release, { passive: true })
+    }
+    addEventListener('scroll', schedule, { passive: true })
+    addEventListener('resize', schedule)
+    update()
+  }
+</script>
