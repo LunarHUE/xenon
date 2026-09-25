@@ -1,0 +1,54 @@
+---
+/**
+ * A group of `<Prop>` rows under one heading: every prop of a component, or of
+ * one part of a compound component.
+ *
+ *     <Props type="ButtonProps<T>" note="Native props are forwarded">
+ *     <Prop name="disabled" type="boolean" default="false">...</Prop>
+ *     </Props>
+ *
+ * A compound component gets one group per part, each with a short lead:
+ *
+ *     <Props title="Trigger" type="PopoverTriggerProps">
+ *     Opens the popover and exposes its expanded state.
+ *
+ *     <Prop name="as" type="ValidComponent" default="'button'">...</Prop>
+ *     </Props>
+ *
+ * The heading is in the "On this page" list. With one group on the page its
+ * props are listed too; with several, only the groups are (see
+ * lib/section-toc.ts, which also gives each prop its anchor).
+ */
+import { sectionId } from '../../lib/sections'
+
+interface Props {
+  /** Heading. Use the part name for a compound component. */
+  title?: string
+  /** Props type the group documents, like `ButtonProps<T>`. */
+  type?: string
+  /** A short remark after the type. Hidden when the article is narrow. */
+  note?: string
+  /** Anchor for the heading. Defaults to the title in kebab case. */
+  id?: string
+}
+
+const { title = 'Props', type, note } = Astro.props
+const id = Astro.props.id ?? sectionId(title)
+---
+
+<section aria-labelledby={id} class="docs-props flex flex-col">
+  <header class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pt-6 pb-4 font-mono text-muted-foreground">
+    <h2 id={id} class="scroll-mt-20 text-sm leading-5">
+      {title}
+    </h2>
+    {type && (
+      <p class="text-[13px] leading-[19px]">
+        <span>{type}</span>
+        {note && <span class="hidden @3xl:inline"> · {note}</span>}
+      </p>
+    )}
+  </header>
+  <div class="flex flex-col [&>p]:max-w-165 [&>p]:pb-5 [&>p+p]:text-sm [&>p+p]:leading-5 [&>p+p]:text-muted-foreground">
+    <slot />
+  </div>
+</section>

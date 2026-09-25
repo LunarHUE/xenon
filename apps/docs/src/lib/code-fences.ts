@@ -9,6 +9,9 @@ import { defineMdastPlugin } from 'satteri'
  *
  *     ```tsx title="button.tsx" collapsible open
  *
+ * A fence directly inside `<Prop>` is that row's sample, so it goes in the
+ * `code` slot.
+ *
  * Only register this for MDX. Plain markdown can't hold JSX nodes.
  */
 
@@ -34,6 +37,8 @@ function parseMeta(meta: string): Attribute[] {
 export const codeFences = defineMdastPlugin({
   name: 'xenon-code-fences',
   code(node, ctx) {
+    const parent = ctx.parent(node)
+    const inProp = parent.type === 'mdxJsxFlowElement' && parent.name === 'Prop'
     ctx.replaceNode(node, {
       type: 'mdxJsxFlowElement',
       name: 'Code',
@@ -41,6 +46,7 @@ export const codeFences = defineMdastPlugin({
         attribute('code', node.value),
         attribute('lang', node.lang ?? 'text'),
         ...parseMeta(node.meta ?? ''),
+        ...(inProp ? [attribute('slot', 'code')] : []),
       ],
       children: [],
     })

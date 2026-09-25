@@ -1,0 +1,65 @@
+---
+/**
+ * One prop: name, type and default beside the description, and a titled code
+ * sample on the right. The sample is the fence inside the element;
+ * lib/code-fences.ts moves it into the `code` slot.
+ *
+ *     <Prop name="pending" type="boolean" default="false">
+ *     Prevents activation while work is in progress.
+ *
+ *     ```tsx title="pending.tsx"
+ *     <Button pending={isSaving()}>Save</Button>
+ *     ```
+ *     </Prop>
+ *
+ * The first paragraph is the description. Later ones are muted notes. Rows
+ * stack when the article is narrower than 48rem, with the type and default
+ * moving up beside the name.
+ *
+ * Everything but the two slots is a plain string, so a page generated from
+ * type data can render the same rows by passing `<Code slot="code">` itself.
+ */
+import { sectionId } from '../../lib/sections'
+
+interface Props {
+  name: string
+  /** The type as written in source, like `boolean` or `'button' | 'submit'`. */
+  type: string
+  /** Default value as code. Leave out when the prop has none. */
+  default?: string
+  /** Anchor. lib/section-toc.ts sets it inside a part's `<Props>` group. */
+  id?: string
+}
+
+const { name, type, default: fallback } = Astro.props
+const id = Astro.props.id ?? sectionId(name)
+const code = Astro.slots.has('code')
+---
+
+<article aria-labelledby={id} data-code={code || undefined} class="docs-prop">
+  <h3 id={id} class="docs-prop-name scroll-mt-20 font-mono text-[13px] leading-[26px] font-medium">
+    {name}
+  </h3>
+  <p class="docs-prop-meta flex flex-wrap justify-end gap-x-2 gap-y-2 font-mono text-[13px] leading-[19px] text-muted-foreground @3xl:flex-col @3xl:justify-start">
+    <span class="text-foreground @3xl:text-muted-foreground">{type}</span>
+    {fallback !== undefined && (
+      <>
+        <span aria-hidden="true" class="@3xl:hidden">
+          ·
+        </span>
+        <span class="text-foreground @3xl:text-muted-foreground">
+          <span class="sr-only @3xl:not-sr-only">Default: </span>
+          {fallback}
+        </span>
+      </>
+    )}
+  </p>
+  <div class="docs-prop-description flex min-w-0 flex-col gap-2 [&>p+p]:text-sm [&>p+p]:leading-5 [&>p+p]:text-muted-foreground">
+    <slot />
+  </div>
+  {code && (
+    <div class="docs-prop-code min-w-0">
+      <slot name="code" />
+    </div>
+  )}
+</article>

@@ -6,6 +6,8 @@ import Callout from './Callout.astro'
 import Definition from './Definition.astro'
 import Definitions from './Definitions.astro'
 import Kbd from './Kbd.astro'
+import Prop from './Prop.astro'
+import Props from './Props.astro'
 
 /** Everything MDX pages can use without importing it. Pass to `<Content components>`. */
 export const mdxComponents = {
@@ -16,5 +18,7 @@ export const mdxComponents = {
   Definitions,
   Example,
   Kbd,
+  Prop,
+  Props,
   Section,
 }

@@ -336,6 +336,60 @@
       overflow-wrap: anywhere;
     }
   }
+
+  /*
+   * Prop rows (components/mdx/Prop.astro). Narrow: the name with its type and
+   * default on one line, then the description, then the sample. Wide: type and
+   * default under the name beside the description, the sample on the right
+   * spanning both rows. A row without a sample gives the description the width.
+   */
+  .docs-prop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'name meta'
+      'description description'
+      'code code';
+    align-items: start;
+    gap: 1rem 1.5rem;
+    border-top: 1px solid var(--color-foreground);
+    padding-block: 1.25rem 1.5rem;
+  }
+  .docs-prop-name {
+    grid-area: name;
+    overflow-wrap: anywhere;
+  }
+  .docs-prop-meta {
+    grid-area: meta;
+    max-width: none;
+    /* Lines the 19px meta text up with the 26px name and description. */
+    padding-top: 3.5px;
+    overflow-wrap: anywhere;
+  }
+  .docs-prop-description {
+    grid-area: description;
+  }
+  /* The column is narrow; an attribute like aria-disabled shouldn't split at its hyphen. */
+  .docs-prop-description :where(code) {
+    white-space: nowrap;
+  }
+  .docs-prop-code {
+    grid-area: code;
+  }
+  @container (width >= 48rem) {
+    .docs-prop {
+      grid-template-columns: 9.75rem minmax(0, 276fr) minmax(0, 480fr);
+      grid-template-areas:
+        'name name code'
+        'meta description code';
+      grid-template-rows: auto 1fr;
+    }
+    .docs-prop:not([data-code]) {
+      grid-template-areas:
+        'name name name'
+        'meta description description';
+    }
+  }
 }
 
 /* TOC links glide to their section, unless the reader asked for less motion. */
