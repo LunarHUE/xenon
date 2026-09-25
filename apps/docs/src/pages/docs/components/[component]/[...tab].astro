@@ -1,0 +1,56 @@
+---
+import { render } from 'astro:content'
+import Layout from '../../../../layouts/Layout.astro'
+import Code from '../../../../components/codeblock/Code.astro'
+import Section from '../../../../components/section/Section.astro'
+import {
+  getComponents,
+  pagination,
+  type ComponentDoc,
+  type ComponentTab,
+} from '../../../../lib/content'
+
+export async function getStaticPaths() {
+  const components = await getComponents()
+  return components.flatMap((component) =>
+    component.tabs.map((tab) => ({
+      // Overview is the component's own URL; the other tabs sit under it.
+      params: { component: component.slug, tab: tab.tab === 'overview' ? undefined : tab.tab },
+      props: { component, tab },
+    }))
+  )
+}
+
+interface Props {
+  component: ComponentDoc
+  tab: ComponentTab
+}
+
+const { component, tab } = Astro.props
+const { Content } = await render(tab.entry)
+const { previous, next } = pagination(component.tabs, component.tabs.indexOf(tab))
+const title = tab.tab === 'overview' ? component.title : `${component.title} ${tab.label}`
+---
+
+<Layout title={title} description={component.description}>
+  <p class="font-mono text-xs text-muted-foreground">
+    {component.package}
+    {component.status === 'draft' && ' · Draft API'}
+  </p>
+  <h1 class="mt-3 text-3xl font-medium">{component.title}</h1>
+  <p class="mt-4 text-muted-foreground">{component.description}</p>
+  <nav aria-label={`${component.title} pages`} class="mt-6 flex gap-4 text-sm">
+    {component.tabs.map((link) => (
+      <a href={link.href} aria-current={link === tab ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))}
+  </nav>
+  <article class="mdx mt-10">
+    <Content components={{ Code, Section }} />
+  </article>
+  <nav aria-label="Pagination" class="mt-10 flex justify-between text-sm">
+    {previous ? <a href={previous.href}>Previous: {previous.label}</a> : <span />}
+    {next && <a href={next.href}>Next: {next.label}</a>}
+  </nav>
+</Layout>

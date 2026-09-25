@@ -1,20 +1,27 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { render } from 'astro:content'
 import Layout from '../../layouts/Layout.astro'
 import Code from '../../components/codeblock/Code.astro'
 import Section from '../../components/section/Section.astro'
+import { docHref, getDocs, pagination, type DocEntry } from '../../lib/content'
 
 export async function getStaticPaths() {
-  const entries = await getCollection('docs')
+  const entries = await getDocs()
   return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }))
 }
 
 interface Props {
-  entry: CollectionEntry<'docs'>
+  entry: DocEntry
 }
 
 const { entry } = Astro.props
 const { Content } = await render(entry)
+// Start-here pages and guides read as one sequence, in sidebar order.
+const pages = (await getDocs()).map((page) => ({ label: page.data.title, href: docHref(page) }))
+const { previous, next } = pagination(
+  pages,
+  pages.findIndex((page) => page.href === docHref(entry))
+)
 ---
 
 <Layout title={entry.data.title} description={entry.data.description}>
@@ -23,4 +30,8 @@ const { Content } = await render(entry)
   <article class="mdx mt-10">
     <Content components={{ Code, Section }} />
   </article>
+  <nav aria-label="Pagination" class="mt-10 flex justify-between text-sm">
+    {previous ? <a href={previous.href}>Previous: {previous.label}</a> : <span />}
+    {next && <a href={next.href}>Next: {next.label}</a>}
+  </nav>
 </Layout>
