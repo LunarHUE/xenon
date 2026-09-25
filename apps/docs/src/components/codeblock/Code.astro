@@ -1,18 +1,20 @@
 ---
 import { highlight } from './highlight'
-import { DocsCode } from './docs-code'
+import { DocsCode, type DocsCodeProps } from './docs-code'
 
 interface Props {
   code: string
   lang?: string
   title?: string
+  meta?: DocsCodeProps['meta']
+  closes?: DocsCodeProps['closes']
   collapsible?: boolean
   defaultOpen?: boolean
 }
 
 // Highlighting is async, which the Solid renderer can't await, so it happens here
 // and the island only receives the finished markup.
-const { lang = 'text', title, collapsible, defaultOpen } = Astro.props
+const { lang = 'text', title, meta, closes, collapsible, defaultOpen } = Astro.props
 const code = Astro.props.code.replace(/\n$/, '')
 const html = await highlight(code, lang)
 ---
@@ -22,6 +24,8 @@ const html = await highlight(code, lang)
   html={html}
   lang={lang}
   title={title}
+  meta={meta}
+  closes={closes}
   collapsible={collapsible}
   defaultOpen={defaultOpen}
   client:visible

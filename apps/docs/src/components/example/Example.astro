@@ -8,6 +8,10 @@
  * always the code running. With a twin, the footer gets a Tailwind toggle. The
  * choice is page-wide and remembered (see ExampleBoot.astro), and CSS in
  * global.css shows one variant or the other from the attribute on <html>.
+ *
+ * Show code opens the source as its own panel after the frame and caption. In
+ * a split Section the root drops out of the layout (display: contents), so the
+ * frame takes the example column and the panel spans the whole row below.
  */
 import { Code as CodeIcon } from 'lucide'
 import Code from '../codeblock/Code.astro'
@@ -35,6 +39,9 @@ const hasUnstyled = unstyledSource !== undefined && Astro.slots.has('unstyled')
 // Readers copy one component, so both variants show the same filename.
 const filename = `${name.split('/').at(-1)}.tsx`
 const codeId = exampleId(name)
+const lines = (code: string) => code.replace(/\n$/, '').split('\n').length
+const meta = (code: string, variant?: string) =>
+  [`${lines(code)} lines`, variant].filter(Boolean).join(' · ')
 
 // Both footer controls are toggles: raised on a hard shadow while on, flat while off.
 const control = [
@@ -48,65 +55,90 @@ const control = [
 ---
 
 <div data-slot="example" data-example class="flex min-w-0 flex-col gap-4">
-  <div class="flex min-w-0 flex-col border border-foreground shadow-[3px_3px_0_var(--color-border)]">
-    <div
-      data-example-stage
-      data-example-variant={hasUnstyled ? 'tailwind' : undefined}
-      class="flex min-h-39 flex-wrap items-center justify-center gap-4 bg-muted p-6 text-foreground"
-    >
-      <slot />
-    </div>
-    {hasUnstyled && (
+  <div data-example-figure class="flex min-w-0 flex-col gap-4">
+    <div class="flex min-w-0 flex-col border border-foreground shadow-[3px_3px_0_var(--color-border)]">
       <div
         data-example-stage
-        data-example-variant="unstyled"
+        data-example-variant={hasUnstyled ? 'tailwind' : undefined}
         class="flex min-h-39 flex-wrap items-center justify-center gap-4 bg-muted p-6 text-foreground"
       >
-        <slot name="unstyled" />
+        <slot />
       </div>
-    )}
-    <div class="flex min-h-12 items-center justify-between gap-4 border-t border-foreground bg-background px-4 font-mono text-xs leading-5">
-      <button
-        type="button"
-        data-example-disclosure
-        aria-expanded="false"
-        aria-controls={codeId}
-        class:list={control}
-      >
-        <span class="group-aria-expanded:hidden">Show code</span>
-        <span class="not-group-aria-expanded:hidden">Hide code</span>
-        <Icon icon={CodeIcon} class="size-3.5" />
-      </button>
       {hasUnstyled && (
-        <button
-          type="button"
-          data-example-toggle
-          aria-pressed="true"
-          aria-label="Tailwind styles"
-          class:list={control}
+        <div
+          data-example-stage
+          data-example-variant="unstyled"
+          class="flex min-h-39 flex-wrap items-center justify-center gap-4 bg-muted p-6 text-foreground"
         >
-          Tailwind
-        </button>
-      )}
-    </div>
-    <div id={codeId} hidden class="border-t border-foreground [&_[data-slot=code-block]]:border-0">
-      <div data-example-variant={hasUnstyled ? 'tailwind' : undefined}>
-        <Code code={source} lang="tsx" title={filename} />
-      </div>
-      {hasUnstyled && (
-        <div data-example-variant="unstyled">
-          <Code code={unstyledSource} lang="tsx" title={filename} />
+          <slot name="unstyled" />
         </div>
       )}
+      <div class="flex min-h-12 items-center justify-between gap-4 border-t border-foreground bg-background px-4 font-mono text-xs leading-5">
+        <button
+          type="button"
+          data-example-disclosure
+          aria-expanded="false"
+          aria-controls={codeId}
+          class:list={control}
+        >
+          <span class="group-aria-expanded:hidden">Show code</span>
+          <span class="not-group-aria-expanded:hidden">Hide code</span>
+          <Icon icon={CodeIcon} class="size-3.5" />
+        </button>
+        {hasUnstyled && (
+          <button
+            type="button"
+            data-example-toggle
+            aria-pressed="true"
+            aria-label="Tailwind styles"
+            class:list={control}
+          >
+            Tailwind
+          </button>
+        )}
+      </div>
     </div>
+    {caption && <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{caption}</p>}
   </div>
-  {caption && <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{caption}</p>}
+  <div
+    id={codeId}
+    hidden
+    data-example-code
+    class="min-w-0 [&_[data-slot=code-block]]:shadow-[3px_3px_0_var(--color-border)]"
+  >
+    <div data-example-variant={hasUnstyled ? 'tailwind' : undefined}>
+      <Code
+        code={source}
+        lang="tsx"
+        title={filename}
+        meta={meta(source, hasUnstyled ? 'Tailwind' : undefined)}
+        closes={codeId}
+      />
+    </div>
+    {hasUnstyled && (
+      <div data-example-variant="unstyled">
+        <Code
+          code={unstyledSource}
+          lang="tsx"
+          title={filename}
+          meta={meta(unstyledSource, 'Unstyled')}
+          closes={codeId}
+        />
+      </div>
+    )}
+  </div>
 </div>
 
 <script>
   import { EXAMPLE_STYLE_KEY } from '../../lib/example-style'
 
   const root = document.documentElement
+
+  const setOpen = (disclosure: HTMLButtonElement, open: boolean) => {
+    disclosure.setAttribute('aria-expanded', String(open))
+    const region = document.getElementById(disclosure.getAttribute('aria-controls')!)
+    if (region) region.hidden = !open
+  }
 
   const syncToggles = () => {
     const pressed = String(root.dataset.exampleStyle !== 'unstyled')
@@ -119,10 +151,20 @@ const control = [
     const target = event.target as Element
     const disclosure = target.closest<HTMLButtonElement>('[data-example-disclosure]')
     if (disclosure) {
-      const expanded = disclosure.getAttribute('aria-expanded') !== 'true'
-      disclosure.setAttribute('aria-expanded', String(expanded))
-      const region = document.getElementById(disclosure.getAttribute('aria-controls')!)
-      if (region) region.hidden = !expanded
+      setOpen(disclosure, disclosure.getAttribute('aria-expanded') !== 'true')
+      return
+    }
+    // The panel sits outside the frame, so closing it hands focus back to Show code.
+    const close = target.closest('[data-example-close]')
+    if (close) {
+      const id = close.getAttribute('aria-controls')
+      const owner = document.querySelector<HTMLButtonElement>(
+        `[data-example-disclosure][aria-controls="${id}"]`
+      )
+      if (owner) {
+        setOpen(owner, false)
+        owner.focus()
+      }
       return
     }
     const toggle = target.closest('[data-example-toggle]')

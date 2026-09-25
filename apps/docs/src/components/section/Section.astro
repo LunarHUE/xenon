@@ -15,6 +15,10 @@
  *     <Example slot="example" name="button/pending" />
  *     </Section>
  *
+ * The columns share the row 364:436 until the text column reaches 364px, which
+ * it then keeps; the example column takes the rest. An opened code panel spans
+ * both columns under the row (see Example.astro).
+ *
  * The first paragraph is the lead. Later paragraphs in the text column are
  * notes and render smaller and muted.
  */
@@ -40,7 +44,13 @@ const split = Astro.slots.has('example')
   </h2>
   <div class="docs-section-body flex min-w-0 flex-1 flex-col gap-4">
     {split ? (
-      <div class="flex flex-col gap-4 @3xl:grid @3xl:grid-cols-[minmax(0,364fr)_minmax(0,436fr)] @3xl:items-start @3xl:gap-6">
+      <div
+        class:list={[
+          'flex flex-col gap-4 [&>[data-slot=example]]:contents',
+          '@3xl:grid @3xl:grid-cols-[minmax(0,364fr)_minmax(0,436fr)] @3xl:items-start @3xl:gap-6 @3xl:[&_[data-example-code]]:col-span-full',
+          '@min-[60rem]:grid-cols-[22.75rem_minmax(0,1fr)]',
+        ]}
+      >
         <div class="flex min-w-0 flex-col gap-4 [&>p+p]:text-sm [&>p+p]:leading-5 [&>p+p]:text-muted-foreground">
           <slot />
         </div>
