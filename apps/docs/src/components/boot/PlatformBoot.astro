@@ -1,0 +1,18 @@
+---
+/**
+ * Marks Apple platforms on <html data-platform="mac"> before first paint, so
+ * shortcut hints can show ⌘ instead of Ctrl through the `mac:` variant without
+ * swapping text after load. Render in <head>.
+ */
+---
+
+<script is:inline>
+  ;(() => {
+    const apply = () => {
+      const platform = navigator.userAgentData?.platform || navigator.platform || ''
+      if (/mac|iphone|ipad|ipod/i.test(platform)) document.documentElement.dataset.platform = 'mac'
+    }
+    apply()
+    document.addEventListener('astro:after-swap', apply)
+  })()
+</script>

@@ -7,6 +7,8 @@
 
 /* The docs theme lives on <html data-theme>, so `dark:` follows it instead of the OS. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+/* PlatformBoot sets data-platform before paint, so shortcut hints switch without a shift. */
+@custom-variant mac (&:where([data-platform='mac'] *));
 
 @layer base {
   body {
