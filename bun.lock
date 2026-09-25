@@ -5,9 +5,12 @@
     "": {
       "name": "xenon",
       "devDependencies": {
+        "@solidjs/vite-plugin": "^3.0.0-next.43",
+        "@types/bun": "catalog:",
         "prettier": "^3.9.6",
         "prettier-plugin-astro": "^1.0.0",
         "turbo": "^2.10.12",
+        "vite": "^8.3.0",
       },
     },
     "apps/docs": {
@@ -56,7 +59,7 @@
     },
     "packages/core": {
       "name": "@xenon/core",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "devDependencies": {
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
@@ -71,7 +74,7 @@
     },
     "packages/dom": {
       "name": "@xenon/dom",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@floating-ui/dom": "^1.8.0",
         "tabbable": "^6.5.0",
@@ -105,7 +108,7 @@
     },
     "packages/solid": {
       "name": "@xenon/solid",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "dependencies": {
         "@xenon/core": "workspace:*",
         "@xenon/dom": "workspace:*",
