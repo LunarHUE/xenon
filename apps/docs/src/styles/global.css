@@ -286,6 +286,56 @@
     font-family: var(--font-mono);
     font-size: 0.875em;
   }
+
+  /*
+   * Markdown tables: keyboard, state and other reference tables. A rule above
+   * every row and none below the last, like the section rows. The last column
+   * is the description and takes the spare width; the others shrink to their
+   * content, and the first (keys, states, props) stays on one line and keeps
+   * at least 8rem, so the descriptions line up from table to table. Code in a
+   * cell is already set apart by its column, so it drops the chip.
+   */
+  .mdx :where(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  .mdx :where(th, td) {
+    border-top: 1px solid var(--color-border);
+    padding: 12px 24px 15px 0;
+    text-align: start;
+    vertical-align: top;
+  }
+  .mdx :where(th) {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .mdx :where(th:first-child, td:first-child) {
+    min-width: 8rem;
+    white-space: nowrap;
+  }
+  .mdx :where(th:last-child, td:last-child) {
+    width: 100%;
+    padding-inline-end: 0;
+  }
+  .mdx :where(td code) {
+    border: 0;
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+  /* Narrow: columns share the width by content, and long names may break anywhere. */
+  @container (width < 28rem) {
+    .mdx :where(th, td) {
+      width: auto;
+      padding-inline-end: 16px;
+      white-space: normal;
+    }
+    .mdx :where(td code) {
+      overflow-wrap: anywhere;
+    }
+  }
 }
 
 /* TOC links glide to their section, unless the reader asked for less motion. */
