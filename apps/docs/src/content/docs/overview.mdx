@@ -1,0 +1,53 @@
+---
+title: Overview
+description: Headless, accessible components for Solid 2.
+section: start
+order: 0
+---
+
+<Section title="Headless">
+
+Each component handles behavior, keyboard interaction and ARIA wiring. None of
+them ship CSS. You write the markup and the styles, and the component attaches
+roles, attributes and event handlers to the elements it renders.
+
+</Section>
+
+<Section title="Styling">
+
+Components expose their state as data attributes, such as `data-disabled` on a
+disabled Button or `data-state="open"` on an open Collapsible. Style states with
+attribute selectors instead of tracking them yourself. Props the component
+doesn't use, `class` included, pass through to the element.
+
+```tsx title="save.tsx"
+<Button class="border data-disabled:opacity-40" disabled={!dirty()}>
+  Save
+</Button>
+```
+
+</Section>
+
+<Section title="Packages">
+
+Applications install `@xenon-ui/solid`. The behavior behind it lives in
+`@xenon-ui/core`, which is plain TypeScript with no framework and no DOM. Each
+core component is a function that takes options and returns state plus
+attribute and listener maps for its parts. You only need core directly to write
+an adapter for another framework.
+
+</Section>
+
+<Section title="Components">
+
+Accordion, AlertDialog, Avatar, Breadcrumbs, Button, Calendar, Checkbox,
+CheckboxGroup, Collapsible, Combobox, ContextMenu, Dialog, Drawer, Editable,
+Field, HoverCard, Listbox, Menu, Menubar, Meter, NavigationMenu, NumberField,
+Pagination, PinInput, Popover, Progress, RadioGroup, RangeCalendar, Resizable,
+ScrollArea, Select, Separator, Slider, Switch, Tabs, TagsInput, Toast, Toggle,
+ToggleGroup, Toolbar, Tooltip, plus AccessibleIcon and VisuallyHidden.
+
+These docs cover Button so far. This is a pre-release, and APIs can still move
+before 1.0.
+
+</Section>
