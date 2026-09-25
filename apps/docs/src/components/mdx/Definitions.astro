@@ -1,0 +1,25 @@
+---
+/**
+ * A short list of terms, each beside a one-line description. Used for
+ * behavior choices, "When to use" and author checklists:
+ *
+ *     <Definitions>
+ *     <Definition term="Button">Trigger an action.</Definition>
+ *     <Definition term="Link">Navigate to another location.</Definition>
+ *     </Definitions>
+ *
+ * Terms are bold by default. Pass `mono` when they read as labels rather than
+ * names, as in the author checklist. Rows stack when the article is narrower
+ * than 28rem.
+ */
+interface Props {
+  /** Set the terms in mono instead of bold sans. */
+  mono?: boolean
+}
+
+const { mono = false } = Astro.props
+---
+
+<dl data-mono={mono || undefined} class="group/definitions flex flex-col gap-4">
+  <slot />
+</dl>
