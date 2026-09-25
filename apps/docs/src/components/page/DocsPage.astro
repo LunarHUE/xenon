@@ -1,9 +1,10 @@
 ---
 /**
  * The frame around every docs page: breadcrumb, eyebrow, title and description,
- * the component tab strip, the article, and prev/next cards. The row has room
- * for a right-hand column: anything passed in the `toc` slot sits beside the
- * document on wide screens.
+ * the component tab strip, the article, and prev/next cards. The document
+ * column grows with the window up to 90rem, and anything passed in the `toc`
+ * slot docks 40px after it on wide screens rather than at the window edge.
+ * Prose keeps its own measure inside the column (see .mdx in global.css).
  */
 import Layout from '../../layouts/Layout.astro'
 import type { PageLink } from '../../lib/content'
@@ -43,9 +44,9 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
   crumbs={breadcrumb}
   switcher={switcher}
 >
-  <div class="flex">
-    <div class="min-w-0 flex-1 px-6 pb-10 md:px-8 xl:px-10">
-      <div class="flex max-w-[60rem] flex-col">
+  <div class="flex gap-10 px-6 md:px-8 xl:ps-10 xl:pe-6">
+    <div class="min-w-0 flex-1 pb-10 xl:max-w-[90rem]">
+      <div class="flex flex-col">
         {/* Below lg the trail moves into the bar under the header. */}
         <div class="hidden lg:block">
           <DocsBreadcrumb crumbs={breadcrumb} />
@@ -65,7 +66,7 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
       </div>
     </div>
     {toc && (
-      <aside class="hidden w-44 shrink-0 pt-28 pe-4 pb-6 xl:block">
+      <aside class="hidden w-44 shrink-0 pt-28 pb-6 xl:block">
         <Fragment set:html={toc} />
       </aside>
     )}
