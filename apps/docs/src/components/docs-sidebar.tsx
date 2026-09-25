@@ -34,9 +34,9 @@ import { sidebar } from '../lib/sidebar'
 import type { NavSection } from '../lib/nav'
 
 const navigationIcons: Record<string, IconNode> = {
-  '/': BookOpen,
-  '/installation/': Download,
-  '/components/': Blocks,
+  '/docs/overview/': BookOpen,
+  '/docs/installation/': Download,
+  '/docs/components/': Blocks,
   '/dev/button/': MousePointer2,
   '/dev/tabs/': PanelsTopLeft,
   '/dev/combobox/': ListFilter,
@@ -50,8 +50,8 @@ const navigationIcons: Record<string, IconNode> = {
 
 export interface DocsSidebarProps {
   sections: NavSection[]
-  /** Current pathname, from Astro, so the server renders the current row. */
-  current: string
+  /** Href of the current row, from Astro, so the server renders it marked. */
+  current?: string
 }
 
 /**
