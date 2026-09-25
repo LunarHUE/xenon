@@ -1,0 +1,47 @@
+---
+/**
+ * Previous and next cards at the foot of a docs page. Next always sits at the
+ * end of the row, so it stays put whether or not there is a previous page.
+ * Cards lift on hover like the other shell controls and flatten when pressed.
+ */
+import { ArrowLeft, ArrowRight } from 'lucide'
+import { Icon } from '../ui/icon'
+import type { PageLink } from '../../lib/content'
+
+interface Props {
+  previous?: PageLink
+  next?: PageLink
+}
+
+const { previous, next } = Astro.props
+
+const card = [
+  'flex min-w-[150px] flex-col gap-1 border border-foreground bg-background px-4 py-[10px] shadow-[2px_2px_0_var(--color-foreground)]',
+  'transition-[translate,box-shadow] duration-[120ms] motion-reduce:transition-none',
+  '[&:hover:not(:active)]:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:[&:hover:not(:active)]:-translate-0.5 active:shadow-none',
+  'outline-offset-[3px] focus-visible:outline-2 focus-visible:outline-sidebar-primary',
+]
+---
+
+{(previous || next) && (
+  <nav aria-label="Pagination" class="flex gap-6 border-t border-foreground pt-6">
+    {previous && (
+      <a href={previous.href} rel="prev" class:list={[card, 'items-start']}>
+        <span class="text-xs leading-[18px] text-muted-foreground">Previous</span>
+        <span class="inline-flex items-center gap-1 text-base leading-6 text-link">
+          <Icon icon={ArrowLeft} class="size-4" />
+          {previous.label}
+        </span>
+      </a>
+    )}
+    {next && (
+      <a href={next.href} rel="next" class:list={[card, 'ms-auto items-end text-end']}>
+        <span class="text-xs leading-[18px] text-muted-foreground">Next</span>
+        <span class="inline-flex items-center gap-1 text-base leading-6 text-link">
+          {next.label}
+          <Icon icon={ArrowRight} class="size-4" />
+        </span>
+      </a>
+    )}
+  </nav>
+)}
