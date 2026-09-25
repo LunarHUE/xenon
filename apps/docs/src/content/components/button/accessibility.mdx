@@ -1,0 +1,49 @@
+<Section title="Semantics">
+
+The default host is a native button. Its visible label provides the accessible
+name. For icon-only actions, supply an explicit name.
+
+```tsx title="accessible-name.tsx"
+<Button aria-label="Close dialog">
+  <CloseIcon aria-hidden="true" />
+</Button>
+```
+
+</Section>
+
+<Section title="Keyboard">
+
+For the default native button host.
+
+| Key                               | Behavior                                      |
+| --------------------------------- | --------------------------------------------- |
+| <Kbd>Tab</Kbd>                    | Move focus to the button.                     |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Move focus to the previous focusable element. |
+| <Kbd>Enter</Kbd>                  | Activate the button.                          |
+| <Kbd>Space</Kbd>                  | Activate the button on release.               |
+
+</Section>
+
+<Section title="Focus">
+
+| State                                | In tab order | Activation |
+| ------------------------------------ | ------------ | ---------- |
+| Enabled                              | Yes          | Allowed    |
+| `disabled`                           | No           | Prevented  |
+| `pending`                            | Yes          | Prevented  |
+| `disabled` + `focusableWhenDisabled` | Yes          | Prevented  |
+
+A focusable disabled button uses `aria-disabled`. If its unavailability needs
+explanation, connect a description with `aria-describedby`.
+
+</Section>
+
+<Section title="Author">
+
+<Definitions mono>
+  <Definition term="Name">Use a clear action label or an explicit accessible name.</Definition>
+  <Definition term="Focus">Style `:focus-visible` so keyboard focus stays visible.</Definition>
+  <Definition term="Feedback">Show pending progress and announce results when needed.</Definition>
+</Definitions>
+
+</Section>
