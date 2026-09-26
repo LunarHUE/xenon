@@ -1,19 +1,6 @@
 import type { JSX } from '@solidjs/web'
 import { For, Show } from 'solid-js'
-import {
-  BookOpen,
-  Download,
-  Blocks,
-  MousePointer2,
-  PanelsTopLeft,
-  ListFilter,
-  ChevronRight,
-  Code,
-  PanelLeft,
-  MessageSquare,
-  Bell,
-  FileText,
-} from 'lucide'
+import { BookOpen, Download, Blocks, FileText } from 'lucide'
 import { Button } from './ui/button'
 import { Icon, type IconNode } from './ui/icon'
 import { Tooltip, TooltipContent, TooltipViewport, createTooltipHandle } from './ui/tooltip'
@@ -37,15 +24,6 @@ const navigationIcons: Record<string, IconNode> = {
   '/docs/overview/': BookOpen,
   '/docs/installation/': Download,
   '/docs/components/': Blocks,
-  '/dev/button/': MousePointer2,
-  '/dev/tabs/': PanelsTopLeft,
-  '/dev/combobox/': ListFilter,
-  '/dev/breadcrumb/': ChevronRight,
-  '/dev/codeblock/': Code,
-  '/dev/drawer/': PanelLeft,
-  '/dev/tooltip/': MessageSquare,
-  '/dev/toast/': Bell,
-  '/dev/sidebar/': PanelLeft,
 }
 
 export interface DocsSidebarProps {

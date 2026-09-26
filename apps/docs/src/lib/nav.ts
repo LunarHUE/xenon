@@ -14,23 +14,6 @@ export interface NavSection {
   collapsible?: boolean
 }
 
-/** Component playgrounds for working on the docs UI. Not part of the content. */
-const playgrounds: NavSection = {
-  label: 'Playgrounds',
-  collapsible: true,
-  links: [
-    { label: 'Button', href: '/dev/button/' },
-    { label: 'Tabs', href: '/dev/tabs/' },
-    { label: 'Combobox', href: '/dev/combobox/' },
-    { label: 'Breadcrumb', href: '/dev/breadcrumb/' },
-    { label: 'Code block', href: '/dev/codeblock/' },
-    { label: 'Drawer', href: '/dev/drawer/' },
-    { label: 'Tooltip', href: '/dev/tooltip/' },
-    { label: 'Toast', href: '/dev/toast/' },
-    { label: 'Sidebar', href: '/dev/sidebar/' },
-  ],
-}
-
 /** The sidebar, built from the content collections. Sections with no pages are left out. */
 export async function getNavigation(): Promise<NavSection[]> {
   const docs = await getDocs()
@@ -49,7 +32,6 @@ export async function getNavigation(): Promise<NavSection[]> {
         href: componentHref(component.slug),
       })),
     },
-    playgrounds,
   ]
   return sections.filter((section) => section.links.length > 0)
 }
