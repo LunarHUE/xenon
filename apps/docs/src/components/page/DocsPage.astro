@@ -64,8 +64,12 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
         <Pagination previous={previous} next={next} />
       </div>
     </div>
+    {/*
+      The breadcrumb row is 3.5rem with a rule at its foot; the TOC's 2px top
+      rule ends on the same line, and Toc.astro sticks it there.
+    */}
     {toc && (
-      <aside class="hidden w-44 shrink-0 pt-28 pb-6 xl:block">
+      <aside class="hidden w-44 shrink-0 pt-[calc(3.5rem-2px)] pb-6 xl:block">
         <Fragment set:html={toc} />
       </aside>
     )}
