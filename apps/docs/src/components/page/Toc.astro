@@ -1,9 +1,15 @@
 ---
 /**
- * "On this page": Top, then one link per `<Section>`. The list is built at
- * compile time (see lib/section-toc.ts), so it is plain links without
- * JavaScript. The script only marks the section being read with
- * `aria-current="location"`, which draws the pink bar.
+ * "On this page": Top, then one link per `<Section>` (and per `<Props>` group
+ * and prop on API pages). The list is built at compile time (see
+ * lib/section-toc.ts), so it is plain links without JavaScript. The script
+ * marks every row whose part of the page is on screen with `data-in-view`,
+ * which turns that row's rule into the pink bar. Marked neighbours touch, so
+ * together they read as one bar the height of what you can see.
+ *
+ * There's no `aria-current`: it names one current item, and several rows can
+ * be marked at once. The bar only mirrors the viewport, which a screen reader
+ * user doesn't navigate by, so it stays visual.
  */
 import type { PageSection } from '../../lib/sections'
 
@@ -25,9 +31,9 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
         <a
           href={`#${link.id}`}
           class:list={[
-            'flex-1 border-s border-foreground py-[7px] ps-3 text-[13px] leading-5 [overflow-wrap:anywhere] text-muted-foreground transition-colors hover:text-foreground',
-            // The bar grows to 3px; the padding gives the 2px back so the text doesn't move.
-            'aria-[current=location]:border-s-[3px] aria-[current=location]:border-sidebar-primary aria-[current=location]:bg-sidebar-selected aria-[current=location]:ps-[10px] aria-[current=location]:text-sidebar-primary',
+            'relative flex-1 border-s border-foreground py-[7px] ps-3 text-[13px] leading-5 [overflow-wrap:anywhere] text-muted-foreground hover:underline hover:underline-offset-4',
+            // The bar sits over the 1px rule and grows 2px into the padding, so the text never moves.
+            'before:absolute before:inset-y-0 before:-start-px before:w-[3px] before:bg-sidebar-primary before:opacity-0 before:transition-opacity before:duration-150 motion-reduce:before:transition-none data-in-view:before:opacity-100',
             'focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring',
           ]}
         >
@@ -39,58 +45,39 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
 </nav>
 
 <script>
-  // The current section is the last one whose heading has scrolled up past this
-  // line. Headings land at 80px (scroll-mt-20) after a jump, so they clear it.
-  const LINE = 120
-
+  // A row is in view while any of its stretch of the page is on screen. A
+  // stretch starts at the top of the heading's section (or prop row) and ends
+  // where that element ends or the next entry begins, whichever comes first,
+  // so a Props group's own stretch is its heading and lead, not its props.
+  // Top runs from the start of the document to the first entry.
   const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
   if (toc) {
     const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
-    // Index 0 is Top, which has no element: it is current until a heading passes the line.
-    const headings = links.map((link, index) =>
-      index === 0 ? null : document.getElementById(decodeURIComponent(link.hash.slice(1)))
-    )
-    // A clicked link stays current while the page scrolls to it. Short last
-    // sections can never reach the line, so without this they'd never light up.
-    let clicked: number | undefined
+    const blocks = links.map((link, index) => {
+      if (index === 0) return null
+      const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)))
+      return heading?.closest<HTMLElement>('section, article') ?? heading
+    })
     let frame = 0
 
     const update = () => {
       frame = 0
-      let current = clicked ?? 0
-      if (clicked === undefined) {
-        headings.forEach((heading, index) => {
-          if (heading && heading.getBoundingClientRect().top <= LINE) current = index
-        })
-        const bottom =
-          scrollY > 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 1
-        if (bottom) current = links.length - 1
-      }
+      const boxes = blocks.map((block) => block?.getBoundingClientRect())
       links.forEach((link, index) => {
-        if (index === current) link.setAttribute('aria-current', 'location')
-        else link.removeAttribute('aria-current')
+        const box = index === 0 ? { top: -scrollY, bottom: Infinity } : boxes[index]
+        const next = boxes.slice(index + 1).find(Boolean)
+        const bottom = Math.min(box?.bottom ?? -Infinity, next?.top ?? Infinity)
+        link.toggleAttribute('data-in-view', !!box && box.top < innerHeight && bottom > 0)
       })
     }
     const schedule = () => {
       frame ||= requestAnimationFrame(update)
     }
 
-    links.forEach((link, index) =>
-      link.addEventListener('click', () => {
-        clicked = index
-        schedule()
-      })
-    )
-    // Scrolling by hand hands control back to the scroll position. Keys and
-    // presses inside the TOC are the ones that follow a link, so they don't count.
-    const release = (event: Event) => {
-      if (event.type === 'wheel' || !toc.contains(event.target as Node)) clicked = undefined
-    }
-    for (const type of ['wheel', 'touchstart', 'keydown', 'pointerdown']) {
-      addEventListener(type, release, { passive: true })
-    }
     addEventListener('scroll', schedule, { passive: true })
     addEventListener('resize', schedule)
+    // Opening a code panel or switching example styles moves everything below it.
+    new ResizeObserver(schedule).observe(document.body)
     update()
   }
 </script>
