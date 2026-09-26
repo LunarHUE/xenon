@@ -244,7 +244,7 @@ export function SearchPalette(props: SearchPaletteProps): JSX.Element {
             <div
               {...bind(engine().parts.content)}
               aria-label="Results"
-              class="min-h-0 flex-1 overflow-y-auto overscroll-contain py-2 [scrollbar-width:thin] empty:hidden"
+              class="scroll-area min-h-0 flex-1 py-2 empty:hidden"
             >
               <For each={results()}>
                 {(entry) => (

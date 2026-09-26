@@ -15,19 +15,63 @@
   body {
     @apply bg-background font-sans text-foreground antialiased;
   }
+
+  /*
+   * Scrollbars: thin, square, no arrows, a muted thumb on a clear track, in
+   * the theme's colors. The page reserves its gutter so moving between short
+   * and long pages doesn't shift the shell sideways.
+   */
+  :root {
+    --scrollbar-thumb: color-mix(in oklab, var(--color-muted-foreground) 55%, transparent);
+    --scrollbar-thumb-active: var(--color-muted-foreground);
+    scrollbar-gutter: stable;
+  }
+  /*
+   * Chrome and Safari draw from the pseudo-elements, which are the only way to
+   * drop the arrow buttons. Chrome ignores them on any element that sets
+   * scrollbar-width or scrollbar-color, so the standard properties go to
+   * Firefox alone. scrollbar-width: none still hides a bar everywhere.
+   */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 0;
+    background: var(--scrollbar-thumb) padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover,
+  ::-webkit-scrollbar-thumb:active {
+    background-color: var(--scrollbar-thumb-active);
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    :root {
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
+    * {
+      scrollbar-width: thin;
+    }
+  }
 }
 
+/* A contained scroller whose thumb darkens while the pointer or focus is inside it. */
 @utility scroll-area {
   overflow: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
 
   &:hover,
   &:focus-visible,
   &:focus-within {
-    scrollbar-color: var(--color-muted-foreground) transparent;
+    --scrollbar-thumb: var(--scrollbar-thumb-active);
   }
 }
 
