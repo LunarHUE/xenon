@@ -24,7 +24,7 @@ export function DocsBreadcrumb(props: { crumbs: Crumb[] }) {
   const last = () => props.crumbs.length - 1
   return (
     <Breadcrumb>
-      <BreadcrumbList variant="compact" class="min-h-14 gap-x-0 border-b border-muted-foreground">
+      <BreadcrumbList variant="compact" class="gap-x-0">
         <For each={props.crumbs}>
           {(crumb, index) => (
             <BreadcrumbItem class="group-data-[variant=compact]/breadcrumb-list:gap-0">

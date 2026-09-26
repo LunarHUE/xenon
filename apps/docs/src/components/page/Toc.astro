@@ -53,10 +53,12 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
 </nav>
 
 <script>
+  import { pinnedLine } from '../../lib/pinned'
+
   // A row is in view while its heading is on screen: the section title, the
   // Props group title or the prop name, and the page H1 for Top. A heading
-  // under the pinned bar (the context bar below lg, the header from lg up)
-  // doesn't count. Deep inside a long section no heading shows, so the row
+  // under the pinned chrome (the context bar below lg, the header and the
+  // page trail from lg up) doesn't count. Deep inside a long section no heading shows, so the row
   // whose heading was last scrolled past is marked instead and the rail is
   // never empty.
   const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
@@ -67,13 +69,11 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
         ? document.querySelector('h1')
         : document.getElementById(decodeURIComponent(link.hash.slice(1)))
     )
-    const bars = [...document.querySelectorAll('[data-docs-context-bar], [data-docs-header]')]
     let frame = 0
 
     const update = () => {
       frame = 0
-      // The context bar is display: none from lg up, which gives it a zero rect.
-      const line = Math.max(0, ...bars.map((bar) => bar.getBoundingClientRect().bottom))
+      const line = pinnedLine()
       const boxes = headings.map((heading) => heading?.getBoundingClientRect())
       const shown = boxes.map((box) => !!box && box.bottom > line && box.top < innerHeight)
       if (!shown.includes(true)) {

@@ -33,6 +33,7 @@ interface Props {
 
 const { title, pageTitle, description, eyebrow, breadcrumb, switcher, tabs, previous, next } =
   Astro.props
+const tab = tabs?.links.find((link) => link.href === tabs.current)?.label
 // A slot filled by a false expression still counts for slots.has(), so check what it renders.
 const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : ''
 ---
@@ -46,9 +47,21 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
   <div class="flex gap-10 px-6 md:px-8 xl:ps-10 xl:pe-6">
     <div class="min-w-0 flex-1 pb-10 xl:max-w-[90rem]">
       <div class="flex flex-col">
-        {/* Below lg the trail moves into the bar under the header. */}
-        <div class="hidden lg:block">
+        {/*
+          Below lg the trail moves into the bar under the header. From lg it
+          pins under the header, and once the H1 has scrolled away it adds the
+          current tab and the section in view (the script below). Both are
+          aria-hidden: the H1, the tab strip and the TOC already say them.
+        */}
+        <div data-docs-trail class="docs-trail">
           <DocsBreadcrumb crumbs={breadcrumb} />
+          {tab && (
+            <span aria-hidden="true" class="docs-trail-late docs-trail-tab">
+              {' / '}
+              {tab}
+            </span>
+          )}
+          <span aria-hidden="true" data-docs-readout class="docs-trail-late docs-trail-readout" />
         </div>
         <header class="flex flex-col gap-3 pt-8 pb-7">
           <p class="font-mono text-[13px] leading-[19px] text-muted-foreground">{eyebrow}</p>
@@ -75,3 +88,46 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
     )}
   </div>
 </Layout>
+
+<script>
+  import { pinnedLine } from '../../lib/pinned'
+
+  // Sets html[data-title-gone] once the H1 is under the pinned chrome, and
+  // writes the section in view into the trail: `02 / pending` for a numbered
+  // section, the bare name for a Props group or a prop.
+  const root = document.documentElement
+  const title = document.querySelector('main h1')
+  const readout = document.querySelector('[data-docs-readout]')
+  const sections = [...document.querySelectorAll('.docs-section > h2')]
+  const marks = [
+    ...document.querySelectorAll<HTMLElement>(
+      '.docs-section > h2, .docs-props h2, .docs-prop-name'
+    ),
+  ]
+  const label = (mark: HTMLElement) => {
+    const index = sections.indexOf(mark)
+    const name = mark.textContent?.trim() ?? ''
+    return index >= 0 ? `${String(index + 1).padStart(2, '0')} / ${name}` : name
+  }
+
+  let frame = 0
+  const update = () => {
+    frame = 0
+    const line = pinnedLine()
+    root.toggleAttribute('data-title-gone', !!title && title.getBoundingClientRect().bottom <= line)
+    if (!readout) return
+    // The section you're reading: the last heading in the top quarter of the
+    // space under the chrome.
+    const reading = line + (innerHeight - line) / 4
+    const current = marks.findLast((mark) => mark.getBoundingClientRect().top <= reading)
+    const text = current ? label(current) : ''
+    if (readout.textContent !== text) readout.textContent = text
+  }
+  const schedule = () => {
+    frame ||= requestAnimationFrame(update)
+  }
+  addEventListener('scroll', schedule, { passive: true })
+  addEventListener('resize', schedule)
+  new ResizeObserver(schedule).observe(document.body)
+  update()
+</script>

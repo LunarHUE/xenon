@@ -317,6 +317,90 @@
 }
 
 /*
+ * Pinned chrome. --docs-chrome is where everything pinned at the top of the
+ * page ends: the header (or the context bar below lg), plus the page trail
+ * from lg. Labels that pin inside the article sit under it, and the scroll
+ * padding keeps anchor jumps and keyboard focus clear of it.
+ */
+@layer components {
+  :root {
+    --docs-chrome: var(--docs-header-height);
+    scroll-padding-top: calc(var(--docs-chrome) + 1rem);
+  }
+
+  /*
+   * The breadcrumb row (DocsPage.astro). Once the H1 is gone it adds the tab
+   * and, at the end, the section in view with the TOC's pink tick, and its
+   * rule darkens to 2px, drawn inside the row so the TOC's top rule still
+   * ends on the same line.
+   */
+  .docs-trail {
+    display: none;
+    align-items: center;
+    min-height: 3.5rem;
+    border-bottom: 1px solid var(--color-muted-foreground);
+    background: var(--color-background);
+  }
+  .docs-trail-tab {
+    font-size: 0.875rem;
+    line-height: 22px;
+    white-space: pre;
+  }
+  .docs-trail-readout {
+    min-width: 0;
+    max-width: 40%;
+    margin-inline-start: auto;
+    border-inline-start: 3px solid var(--color-sidebar-primary);
+    padding-inline-start: 0.5rem;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .docs-trail-late {
+    display: none;
+  }
+  html[data-title-gone] .docs-trail {
+    border-bottom-color: var(--color-foreground);
+    box-shadow: inset 0 -1px 0 var(--color-foreground);
+  }
+  html[data-title-gone] .docs-trail-late:not(:empty) {
+    display: block;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-title-gone] .docs-trail-late {
+      animation: trail-in 160ms ease-out;
+    }
+  }
+  @variant lg {
+    :root:has(.docs-trail) {
+      --docs-chrome: calc(var(--docs-header-height) + 3.5rem);
+    }
+    .docs-trail {
+      display: flex;
+      position: sticky;
+      top: var(--docs-header-height);
+      z-index: 20;
+    }
+  }
+  /* The TOC beside the column marks the same section with the same tick. */
+  @variant xl {
+    html[data-title-gone]:has([data-docs-toc]) .docs-trail-readout {
+      display: none;
+    }
+  }
+}
+
+@keyframes trail-in {
+  from {
+    opacity: 0;
+    translate: 0 -4px;
+  }
+}
+
+/*
  * MDX article. Sections number themselves with a counter, and the article is a
  * size container so a section can stack on its own width instead of the
  * viewport's. Prose rules use :where() so components inside the article can
