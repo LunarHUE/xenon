@@ -3,6 +3,9 @@
  * pages/search-index.json.ts; the palette fetches it once and ranks it here.
  */
 
+/** The one framework and version the docs cover. The sidebar's picker shows the same. */
+export const DOCS_VERSION = 'Solid 0.0.0'
+
 /** What a result is. Pages are start pages and component tabs; guides get their own label. */
 export type SearchType = 'Page' | 'Guide' | 'Section' | 'Property' | 'Example'
 

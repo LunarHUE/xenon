@@ -1,8 +1,7 @@
 ---
 /**
- * Opens the search palette. The palette itself is wired up separately: it finds
- * every `[data-docs-search]` button and listens for clicks, so this stays plain
- * markup. The shortcut hint shows ⌘K on Apple platforms and Ctrl K elsewhere;
+ * Opens the search palette. SearchBoot.astro listens for clicks on every
+ * `[data-docs-search]` button and for the shortcuts, so this stays plain markup. The shortcut hint shows ⌘K on Apple platforms and Ctrl K elsewhere;
  * PlatformBoot picks before first paint.
  */
 import { cn } from '../../lib/utils'
@@ -19,6 +18,7 @@ const { compact = false, class: className } = Astro.props
 <button
   type="button"
   data-docs-search
+  aria-keyshortcuts="Control+K Meta+K /"
   class={cn(
     'inline-flex h-8 cursor-pointer items-center text-sm leading-5 whitespace-nowrap text-foreground hover:text-sidebar-primary',
     'outline-offset-4 focus-visible:outline-2 focus-visible:outline-sidebar-primary',

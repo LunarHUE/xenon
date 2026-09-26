@@ -1,11 +1,8 @@
 import type { APIRoute } from 'astro'
 import { render } from 'astro:content'
 import { componentHref, docHref, getComponents, getDocs } from '../lib/content'
-import type { SearchIndex, SearchResult } from '../lib/search'
+import { DOCS_VERSION, type SearchIndex, type SearchResult } from '../lib/search'
 import { pageEntries, type PageEntry } from '../lib/sections'
-
-/** The one version the docs cover. The sidebar's picker shows the same. */
-const VERSION = 'Solid 0.0.0'
 
 /** The results inside one page: its sections, props and examples. */
 function inner(entries: PageEntry[], href: string, path: string[]): SearchResult[] {
@@ -75,7 +72,7 @@ export const GET: APIRoute = async () => {
     }
   }
 
-  const index: SearchIndex = { version: VERSION, results }
+  const index: SearchIndex = { version: DOCS_VERSION, results }
   return new Response(JSON.stringify(index), {
     headers: { 'Content-Type': 'application/json' },
   })

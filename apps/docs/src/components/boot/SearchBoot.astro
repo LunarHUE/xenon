@@ -1,0 +1,39 @@
+---
+/**
+ * Catches requests to open the search palette before the palette has loaded.
+ * The palette is an idle island, so a click or shortcut in the first moments
+ * would otherwise do nothing. This script owns the triggers instead: clicks on
+ * any `[data-docs-search]` button, Ctrl K or ⌘K anywhere, and "/" outside text
+ * fields. Each one records the opener on `window.__docsSearch` and fires
+ * `docs-search:open`; the palette reads the opener when it mounts and listens
+ * for the event after that. Render in <head>.
+ */
+---
+
+<script is:inline>
+  ;(() => {
+    if (window.__docsSearch) return
+    const state = (window.__docsSearch = { opener: null })
+    const open = (opener) => {
+      state.opener = opener
+      document.dispatchEvent(new CustomEvent('docs-search:open'))
+    }
+    const typing = (el) =>
+      el instanceof HTMLElement &&
+      (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))
+
+    document.addEventListener('click', (event) => {
+      const button = event.target instanceof Element && event.target.closest('[data-docs-search]')
+      if (button) open(button)
+    })
+    document.addEventListener('keydown', (event) => {
+      if (event.defaultPrevented || event.isComposing || event.altKey) return
+      const shortcut =
+        event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey) && !event.shiftKey
+      const slash = event.key === '/' && !event.metaKey && !event.ctrlKey && !typing(event.target)
+      if (!shortcut && !slash) return
+      event.preventDefault()
+      open(document.activeElement)
+    })
+  })()
+</script>
