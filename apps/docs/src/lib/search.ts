@@ -51,11 +51,11 @@ function score(result: SearchResult, query: string): number {
   if (title.startsWith(query)) return 80
   if (wordStart(result.title, query)) return 60
   if (title.includes(query)) return 40
-  const path = result.path.join(' / ').toLowerCase()
-  if (path.includes(query)) return 20
   const text = `${result.detail ?? ''} ${result.text}`.toLowerCase()
   if (text.includes(query)) return 10
-  // Several words can match across fields: "button pending".
+  // Several words can match across fields, path included: "button pending".
+  // A path alone never matches, or "comp" would return every component page.
+  const path = result.path.join(' / ').toLowerCase()
   const words = query.split(/\s+/)
   const haystack = `${title} ${path} ${text}`
   return words.length > 1 && words.every((word) => haystack.includes(word)) ? 5 : 0
@@ -63,7 +63,7 @@ function score(result: SearchResult, query: string): number {
 
 /**
  * Results for a query, best first: exact title, title prefix, a title word
- * prefix, title substring, then path, then description. Ties keep type order
+ * prefix, title substring, then description, then words spread across fields. Ties keep type order
  * and then index order, which is sidebar order.
  */
 export function search(results: SearchResult[], query: string, limit = 50): SearchResult[] {
