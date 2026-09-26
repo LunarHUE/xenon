@@ -8,6 +8,8 @@ import { exampleDemos } from './src/lib/example-demos'
 import { sectionToc } from './src/lib/section-toc'
 
 export default defineConfig({
+  // The docs start at the overview; there is no separate landing page yet.
+  redirects: { '/': '/docs/overview/' },
   integrations: [mdx({ processor: satteri({ mdastPlugins: [codeFences, exampleDemos, sectionToc] }) }), solid()],
   vite: {
     plugins: [tailwindcss()],
