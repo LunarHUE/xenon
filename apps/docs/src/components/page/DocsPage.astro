@@ -90,11 +90,13 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
 </Layout>
 
 <script>
-  import { pinnedLine } from '../../lib/pinned'
+  import { isPinned, pinnedLine } from '../../lib/pinned'
 
   // Sets html[data-title-gone] once the H1 is under the pinned chrome, and
   // writes the section in view into the trail: `02 / pending` for a numbered
-  // section, the bare name for a Props group or a prop.
+  // section, the bare name for a Props group or a prop. Labels that pin
+  // inside the article get data-stuck while they are pinned, so CSS can
+  // change their rule.
   const root = document.documentElement
   const title = document.querySelector('main h1')
   const readout = document.querySelector('[data-docs-readout]')
@@ -104,6 +106,8 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
       '.docs-section > h2, .docs-props h2, .docs-prop-name'
     ),
   ]
+  // Looked up every frame: code headers belong to islands, which can re-render.
+  const pinnable = '[data-example-code] [data-slot="code-block-header"]'
   const label = (mark: HTMLElement) => {
     const index = sections.indexOf(mark)
     const name = mark.textContent?.trim() ?? ''
@@ -113,6 +117,9 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
   let frame = 0
   const update = () => {
     frame = 0
+    for (const element of document.querySelectorAll(pinnable)) {
+      element.toggleAttribute('data-stuck', isPinned(element))
+    }
     const line = pinnedLine()
     root.toggleAttribute('data-title-gone', !!title && title.getBoundingClientRect().bottom <= line)
     if (!readout) return
