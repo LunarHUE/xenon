@@ -10,8 +10,6 @@ export interface NavLink {
 export interface NavSection {
   label: string
   links: NavLink[]
-  /** Fold the group behind a disclosure. */
-  collapsible?: boolean
 }
 
 /** The sidebar, built from the content collections. Sections with no pages are left out. */

@@ -1,5 +1,5 @@
 import type { JSX } from '@solidjs/web'
-import { For, Show } from 'solid-js'
+import { For } from 'solid-js'
 import { BookOpen, Download, Blocks, FileText } from 'lucide'
 import { Button } from './ui/button'
 import { Icon, type IconNode } from './ui/icon'
@@ -10,8 +10,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarGroupTrigger,
-  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuItem,
   SidebarItemLabel,
@@ -87,15 +85,9 @@ function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
       <SidebarContent aria-label="Documentation sections">
         <For each={props.sections}>
           {(section) => (
-            <SidebarGroup collapsible={section.collapsible}>
-              <Show
-                when={section.collapsible}
-                fallback={<SidebarGroupLabel>{section.label}</SidebarGroupLabel>}
-              >
-                <SidebarGroupTrigger>{section.label}</SidebarGroupTrigger>
-                <SidebarGroupContent>{rows(section)}</SidebarGroupContent>
-              </Show>
-              <Show when={!section.collapsible}>{rows(section)}</Show>
+            <SidebarGroup>
+              <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
+              {rows(section)}
             </SidebarGroup>
           )}
         </For>
