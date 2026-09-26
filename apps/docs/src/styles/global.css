@@ -436,10 +436,12 @@
    * default on one line, then the description, then the sample. Wide: type and
    * default under the name beside the description, the sample on the right
    * spanning both rows. A row without a sample gives the description the width.
+   * Narrow, the name keeps its own width and a long type wraps beside it
+   * instead of squeezing the name to one letter per line.
    */
   .docs-prop {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
     grid-template-areas:
       'name meta'
       'description description'
