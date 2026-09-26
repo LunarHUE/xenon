@@ -107,7 +107,8 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
     ),
   ]
   // Looked up every frame: code headers belong to islands, which can re-render.
-  const pinnable = '[data-example-code] [data-slot="code-block-header"]'
+  const pinnable =
+    '.docs-section > h2, .docs-prop-head, [data-example-code] [data-slot="code-block-header"]'
   const label = (mark: HTMLElement) => {
     const index = sections.indexOf(mark)
     const name = mark.textContent?.trim() ?? ''
@@ -127,7 +128,9 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
     // space under the chrome.
     const reading = line + (innerHeight - line) / 4
     const current = marks.findLast((mark) => mark.getBoundingClientRect().top <= reading)
-    const text = current ? label(current) : ''
+    // A gutter label riding down its section already says it.
+    const riding = !!current && getComputedStyle(current).position === 'sticky'
+    const text = current && !riding ? label(current) : ''
     if (readout.textContent !== text) readout.textContent = text
   }
   const schedule = () => {

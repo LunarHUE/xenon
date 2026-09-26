@@ -325,7 +325,9 @@
 @layer components {
   :root {
     --docs-chrome: var(--docs-header-height);
-    scroll-padding-top: calc(var(--docs-chrome) + 1rem);
+    /* Room taken by a label pinned inside a section; 0 unless labels pin. */
+    --docs-inblock: 0px;
+    scroll-padding-top: calc(var(--docs-chrome) + var(--docs-inblock) + 1rem);
   }
 
   /*
@@ -403,16 +405,55 @@
  * turns solid.
  */
 @layer components {
-  :root {
-    /* Room taken by labels pinned inside a section; 0 unless they pin. */
-    --docs-inblock: 0px;
-  }
   [data-example-code] [data-slot='code-block-header'] {
     position: sticky;
     top: calc(var(--docs-chrome) + var(--docs-inblock));
     z-index: 10;
   }
 }
+/*
+ * Section labels. Wide, the gutter label rides down its section, 24px under
+ * the chrome as it sits under the section rule. On phones the label, and a
+ * prop's name and type, become a full-bleed strip under the chrome, like a
+ * frozen header row. Padding and negative margin cancel, so nothing moves when
+ * a strip pins; only its rule darkens. Code headers pin under the strip.
+ */
+@layer components {
+  @container (width >= 48rem) {
+    .docs-section > h2 {
+      position: sticky;
+      top: calc(var(--docs-chrome) + 1.5rem);
+      align-self: flex-start;
+    }
+  }
+  @media (width < 48rem) {
+    :root {
+      --docs-inblock: 2.25rem;
+    }
+    .docs-section > h2,
+    .docs-prop-head {
+      position: sticky;
+      top: var(--docs-chrome);
+      z-index: 10;
+      /* The page gutter is px-6 at this width. */
+      margin: -0.5rem -1.5rem;
+      border-bottom: 1px solid transparent;
+      background: var(--color-background);
+      padding: 0.5rem 1.5rem;
+    }
+    :is(.docs-section > h2, .docs-prop-head)[data-stuck] {
+      border-bottom-color: var(--color-foreground);
+    }
+    /* An anchor jump lands the strip where it pins, not a strip's height below. */
+    .docs-section > h2 {
+      scroll-margin-top: calc(-1 * var(--docs-inblock) - 1rem);
+    }
+    .docs-prop-name {
+      scroll-margin-top: calc(-1 * var(--docs-inblock) - 0.5rem);
+    }
+  }
+}
+
 /* Unlayered, to win over the header's own border utilities. */
 [data-example-code] [data-slot='code-block-header'][data-stuck] {
   border-bottom-style: solid;
@@ -546,27 +587,40 @@
    * default on one line, then the description, then the sample. Wide: type and
    * default under the name beside the description, the sample on the right
    * spanning both rows. A row without a sample gives the description the width.
-   * Narrow, the name keeps its own width and a long type wraps beside it
-   * instead of squeezing the name to one letter per line.
+   *
+   * Narrow, name and type share one row (.docs-prop-head), which can pin as a
+   * strip on phones. The name keeps its own width and a long type wraps
+   * beside it instead of squeezing the name to one letter per line. Wide, the
+   * row is display: contents and name and type take their own grid areas.
    */
   .docs-prop {
     display: grid;
-    grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
-      'name meta'
-      'description description'
-      'code code';
+      'head'
+      'description'
+      'code';
     align-items: start;
     gap: 1rem 1.5rem;
     border-top: 1px solid var(--color-foreground);
     padding-block: 1.25rem 1.5rem;
   }
+  .docs-prop-head {
+    grid-area: head;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
   .docs-prop-name {
     grid-area: name;
+    flex: none;
+    max-width: 60%;
     overflow-wrap: anywhere;
   }
   .docs-prop-meta {
     grid-area: meta;
+    flex: 1;
+    min-width: 0;
     max-width: none;
     /* Lines the 19px meta text up with the 26px name and description. */
     padding-top: 3.5px;
@@ -583,6 +637,12 @@
     grid-area: code;
   }
   @container (width >= 48rem) {
+    .docs-prop-head {
+      display: contents;
+    }
+    .docs-prop-name {
+      max-width: none;
+    }
     .docs-prop {
       grid-template-columns: 9.75rem minmax(0, 276fr) minmax(0, 480fr);
       grid-template-areas:
