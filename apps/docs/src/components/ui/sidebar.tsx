@@ -87,7 +87,18 @@ export function Sidebar(props: SidebarProps): JSX.Element {
               props.class
             )}
           >
-            {props.children}
+            {/*
+             * The contents keep the width of the mode they are in, not the width
+             * the aside is animating through, so nothing reflows mid-transition;
+             * the aside clips them instead. --sidebar-content-width is set by the
+             * host layout and falls back to the aside's own width.
+             */}
+            <div
+              data-slot="sidebar-inner"
+              class="flex h-full w-[var(--sidebar-content-width,100%)] shrink-0 flex-col"
+            >
+              {props.children}
+            </div>
           </aside>
         }
       >
@@ -185,7 +196,7 @@ export function SidebarGroup(props: SidebarGroupProps): JSX.Element {
 export const sidebarGroupHeadingVariants = cva(
   [
     'mt-5 mb-1.5 flex min-h-8 w-full items-center gap-2 border-b border-foreground px-3 py-1.5',
-    'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] text-foreground',
+    'font-mono text-[11px] font-medium uppercase leading-[19px] tracking-[0.08em] whitespace-nowrap text-foreground',
     'group-data-[mode=compact]/sidebar:hidden',
   ],
   {
@@ -201,13 +212,15 @@ export const sidebarGroupHeadingVariants = cva(
 
 /** Static heading over a rule. Hidden in compact mode. */
 export function SidebarGroupLabel(props: ComponentProps<'div'>): JSX.Element {
-  const rest = omit(props, 'class')
+  const rest = omit(props, 'class', 'children')
   return (
     <div
       {...rest}
       data-slot="sidebar-group-label"
       class={cn(sidebarGroupHeadingVariants(), props.class)}
-    />
+    >
+      <span class="truncate">{props.children}</span>
+    </div>
   )
 }
 
@@ -224,7 +237,7 @@ export function SidebarGroupTrigger(props: CollapsibleTriggerProps): JSX.Element
         props.class
       )}
     >
-      <span class="me-auto">{props.children}</span>
+      <span class="me-auto truncate">{props.children}</span>
       <Icon
         icon={ChevronDown}
         class="size-3.5 transition-transform duration-200 ease-out motion-reduce:transition-none group-data-[state=open]/sidebar-group-trigger:rotate-180"

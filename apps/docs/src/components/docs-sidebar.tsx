@@ -102,9 +102,9 @@ function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
         </div>
       </div>
       <SidebarHeader>
-        <div class="flex h-[42px] items-center justify-between border border-foreground bg-background px-3 text-sm shadow-[3px_3px_0_var(--color-foreground)] group-data-[mode=compact]/sidebar:hidden">
-          <span class="font-medium">Solid</span>
-          <span class="font-mono text-xs text-muted-foreground">0.0.0</span>
+        <div class="flex h-[42px] items-center justify-between gap-3 border border-foreground bg-background px-3 text-sm whitespace-nowrap shadow-[3px_3px_0_var(--color-foreground)] group-data-[mode=compact]/sidebar:hidden">
+          <span class="truncate font-medium">Solid</span>
+          <span class="shrink-0 font-mono text-xs text-muted-foreground">0.0.0</span>
         </div>
       </SidebarHeader>
       <SidebarContent aria-label="Documentation sections">

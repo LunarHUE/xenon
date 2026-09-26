@@ -253,13 +253,20 @@
   :root {
     --docs-header-height: 3rem;
   }
+  /*
+   * --sidebar-content-width is what the sidebar lays its contents out at: the
+   * expanded width less the 2px end border, or the rail's. It stays put while
+   * hiding so the contents are clipped by the shrinking column, not reflowed.
+   */
   .docs-shell {
     --sidebar-width: 224px;
+    --sidebar-content-width: 222px;
     display: block;
     min-height: 100vh;
   }
   .docs-shell[data-sidebar='compact'] {
     --sidebar-width: 56px;
+    --sidebar-content-width: 54px;
   }
   .docs-shell[data-sidebar='hidden'] {
     --sidebar-width: 0px;
@@ -294,7 +301,7 @@
       position: fixed;
       inset-block-start: 0;
       inset-inline-start: 0;
-      width: calc(var(--sidebar-width) - 2px);
+      width: var(--sidebar-content-width);
     }
     .docs-shell[data-sidebar='hidden'] [data-docs-header-brand] {
       position: fixed;
