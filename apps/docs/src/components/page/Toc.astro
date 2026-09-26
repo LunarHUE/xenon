@@ -3,9 +3,9 @@
  * "On this page": Top, then one link per `<Section>` (and per `<Props>` group
  * and prop on API pages). The list is built at compile time (see
  * lib/section-toc.ts), so it is plain links without JavaScript. The script
- * marks every row whose part of the page is on screen with `data-in-view`,
- * which turns that row's rule into the pink bar. Marked neighbours touch, so
- * together they read as one bar the height of what you can see.
+ * marks every row whose heading is on screen with `data-in-view`, which turns
+ * that row's rule into the pink bar. Marked neighbours touch, so together they
+ * read as one bar.
  *
  * There's no `aria-current`: it names one current item, and several rows can
  * be marked at once. The bar only mirrors the viewport, which a screen reader
@@ -45,30 +45,33 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
 </nav>
 
 <script>
-  // A row is in view while any of its stretch of the page is on screen. A
-  // stretch starts at the top of the heading's section (or prop row) and ends
-  // where that element ends or the next entry begins, whichever comes first,
-  // so a Props group's own stretch is its heading and lead, not its props.
-  // Top runs from the start of the document to the first entry.
+  // A row is in view while its heading is on screen: the section title, the
+  // Props group title or the prop name, and the page H1 for Top. A heading
+  // under the narrow context bar doesn't count. Deep inside a long section no
+  // heading shows, so the row whose heading was last scrolled past is marked
+  // instead and the rail is never empty.
   const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
   if (toc) {
     const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
-    const blocks = links.map((link, index) => {
-      if (index === 0) return null
-      const heading = document.getElementById(decodeURIComponent(link.hash.slice(1)))
-      return heading?.closest<HTMLElement>('section, article') ?? heading
-    })
+    const headings = links.map((link, index) =>
+      index === 0
+        ? document.querySelector('h1')
+        : document.getElementById(decodeURIComponent(link.hash.slice(1)))
+    )
+    const bar = document.querySelector('[data-docs-context-bar]')
     let frame = 0
 
     const update = () => {
       frame = 0
-      const boxes = blocks.map((block) => block?.getBoundingClientRect())
-      links.forEach((link, index) => {
-        const box = index === 0 ? { top: -scrollY, bottom: Infinity } : boxes[index]
-        const next = boxes.slice(index + 1).find(Boolean)
-        const bottom = Math.min(box?.bottom ?? -Infinity, next?.top ?? Infinity)
-        link.toggleAttribute('data-in-view', !!box && box.top < innerHeight && bottom > 0)
-      })
+      // The bar is display: none from lg up, which gives it a zero rect.
+      const line = Math.max(0, bar?.getBoundingClientRect().bottom ?? 0)
+      const boxes = headings.map((heading) => heading?.getBoundingClientRect())
+      const shown = boxes.map((box) => !!box && box.bottom > line && box.top < innerHeight)
+      if (!shown.includes(true)) {
+        const above = boxes.findLastIndex((box) => !!box && box.top < line)
+        shown[Math.max(0, above)] = true
+      }
+      links.forEach((link, index) => link.toggleAttribute('data-in-view', shown[index]))
     }
     const schedule = () => {
       frame ||= requestAnimationFrame(update)
