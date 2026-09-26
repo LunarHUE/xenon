@@ -202,10 +202,17 @@
  * know about the content column.
  */
 @layer components {
+  /*
+   * Height of the bar pinned to the top of the viewport: the context bar below
+   * lg, the header from lg up. Offsets for anything else that sticks read it.
+   */
+  :root {
+    --docs-header-height: 3rem;
+  }
   .docs-shell {
     --sidebar-width: 224px;
     display: block;
-    min-height: calc(100vh - 3.5rem);
+    min-height: 100vh;
   }
   .docs-shell[data-sidebar='compact'] {
     --sidebar-width: 56px;
@@ -215,10 +222,40 @@
   }
   /* Same breakpoint as SIDEBAR_MOBILE_QUERY in src/lib/sidebar.ts. */
   @variant lg {
+    :root {
+      --docs-header-height: 3.5rem;
+    }
     .docs-shell {
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
       transition: grid-template-columns 200ms ease-out;
+    }
+    /* The sidebar spans both rows; header and page sit beside it. */
+    .docs-shell [data-slot='sidebar'] {
+      grid-column: 1;
+      grid-row: 1 / -1;
+    }
+    .docs-shell > [data-docs-header],
+    .docs-shell > [data-docs-main] {
+      grid-column: 2;
+    }
+    /*
+     * The wordmark and dock button hold still while the sidebar docks or hides.
+     * Expanded, the sidebar's top row is fixed to the viewport corner, so the
+     * aside's width transition can't clip it. Hidden, the header's copy is fixed
+     * to the same spot, so the header sliding back doesn't carry it along.
+     */
+    .docs-shell[data-sidebar='expanded'] [data-docs-sidebar-brand] {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      width: calc(var(--sidebar-width) - 2px);
+    }
+    .docs-shell[data-sidebar='hidden'] [data-docs-header-brand] {
+      position: fixed;
+      inset-block-start: 0.625rem;
+      inset-inline-start: 1.5rem;
     }
     @media (prefers-reduced-motion: reduce) {
       .docs-shell {

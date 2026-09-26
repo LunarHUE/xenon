@@ -54,47 +54,62 @@ const initialSidebar =
     <SearchBoot />
   </head>
   <body>
-    <header class="flex h-14 items-center gap-3 border-b-2 border-foreground px-6 lg:gap-6">
-      <div class="flex shrink-0 items-center justify-between gap-3 lg:w-44">
-        <a
-          href="/docs/overview/"
-          class="text-[28px] leading-[34px] font-bold tracking-[-0.04em] outline-offset-4 focus-visible:outline-2 focus-visible:outline-sidebar-primary"
-        >
-          xenon
-        </a>
-        {/* Docks and hides the sidebar. Below lg the menu button in the bar takes over. */}
-        <div class="hidden lg:flex">
-          <DocsSidebarTrigger mobileQuery="not all" client:load />
-        </div>
-      </div>
-      <div class="ms-auto flex items-center gap-3 lg:gap-6">
-        <SearchButton class="hidden lg:inline-flex" />
-        <GitHubLink />
-        <ThemeToggle client:load />
-      </div>
-    </header>
-    <div
-      data-docs-context-bar
-      class="sticky top-0 z-30 flex h-12 items-center gap-3 border-b border-foreground bg-background px-6 sm:gap-4 lg:hidden"
-    >
-      <DocsMenuButton client:load />
-      {crumbs &&
-        (switcher ? (
-          <ContextCrumbs crumbs={crumbs} switcher={switcher} client:load />
-        ) : (
-          <ContextCrumbs crumbs={crumbs} />
-        ))}
-      <SearchButton compact class="ms-auto" />
-    </div>
+    {/*
+     * At lg the shell is a two-column grid: the docked sidebar runs the full height
+     * in the first column and carries the wordmark and dock button in its top row;
+     * the header and page share the second. The header shows its own wordmark while
+     * the sidebar is compact or hidden, and its own button while it is hidden. Both
+     * columns stay pinned while the document scrolls; --docs-header-height in
+     * global.css tracks whichever bar is pinned at the top.
+     */}
     <div data-docs-shell data-sidebar={initialSidebar} class="docs-shell">
       <SidebarShellBoot />
+      {/* First in source so the wordmark and dock button lead the tab order at lg. */}
       <DocsSidebar
         sections={navigation}
         current={currentHref(navigation, Astro.url.pathname)}
         client:load
       />
       <SidebarPanelBoot id={sidebar.id} />
-      <main class="min-w-0">
+      <header
+        data-docs-header
+        class="flex h-14 items-center gap-3 border-b-2 border-foreground bg-background px-6 lg:sticky lg:top-0 lg:z-30 lg:gap-6"
+      >
+        <div
+          data-docs-header-brand
+          class="flex shrink-0 items-center justify-between gap-3 lg:w-44 lg:in-data-[sidebar=expanded]:hidden"
+        >
+          <a
+            href="/docs/overview/"
+            class="text-[28px] leading-[34px] font-bold tracking-[-0.04em] outline-offset-4 focus-visible:outline-2 focus-visible:outline-sidebar-primary"
+          >
+            xenon
+          </a>
+          {/* Docks the sidebar back while it is hidden. Below lg the menu button in the bar takes over. */}
+          <div class="hidden lg:in-data-[sidebar=hidden]:flex">
+            <DocsSidebarTrigger mobileQuery="not all" client:load />
+          </div>
+        </div>
+        <div class="ms-auto flex items-center gap-3 lg:gap-6">
+          <SearchButton class="hidden lg:inline-flex" />
+          <GitHubLink />
+          <ThemeToggle client:load />
+        </div>
+      </header>
+      <div
+        data-docs-context-bar
+        class="sticky top-0 z-30 flex h-12 items-center gap-3 border-b border-foreground bg-background px-6 sm:gap-4 lg:hidden"
+      >
+        <DocsMenuButton client:load />
+        {crumbs &&
+          (switcher ? (
+            <ContextCrumbs crumbs={crumbs} switcher={switcher} client:load />
+          ) : (
+            <ContextCrumbs crumbs={crumbs} />
+          ))}
+        <SearchButton compact class="ms-auto" />
+      </div>
+      <main data-docs-main class="min-w-0">
         <slot />
       </main>
     </div>

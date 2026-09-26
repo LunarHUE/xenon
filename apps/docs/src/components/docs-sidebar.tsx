@@ -15,6 +15,7 @@ import {
   SidebarItemLabel,
   useSidebar,
 } from './ui/sidebar'
+import { DocsSidebarTrigger } from './ui/sidebar-trigger-island'
 import { sidebar } from '../lib/sidebar'
 import type { NavSection } from '../lib/nav'
 
@@ -39,6 +40,9 @@ export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
     <Sidebar
       controller={sidebar}
       label="Documentation"
+      // Docked, the panel is pinned to the viewport and its navigation scrolls on its own.
+      // It stacks over the header, which slides under it while the width animates.
+      class="lg:sticky lg:top-0 lg:z-40 lg:h-dvh lg:self-start"
       // The menu button records where the narrow bars end; sheet and scrim start there.
       drawerClass="data-[side=left]:top-[var(--docs-drawer-top,0px)]"
       drawerViewportClass="[&::backdrop]:top-[var(--docs-drawer-top,0px)]"
@@ -76,6 +80,27 @@ function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
   )
   return (
     <>
+      {/*
+       * Docked only; the drawer opens under the header, which already shows the
+       * wordmark. The row is as tall as the header so their rules meet, and
+       * global.css pins it while expanded (data-docs-sidebar-brand). The aside's
+       * 2px end border sits inside its width, so 22px of end padding puts the
+       * button where the header's own trigger sits when the sidebar is hidden.
+       */}
+      <div class="hidden h-14 shrink-0 lg:block group-data-[mode=hidden]/sidebar:invisible">
+        <div
+          data-docs-sidebar-brand
+          class="flex h-14 items-center justify-between gap-3 border-b-2 border-foreground bg-sidebar ps-6 pe-[22px] group-data-[mode=compact]/sidebar:justify-center group-data-[mode=compact]/sidebar:px-0"
+        >
+          <a
+            href="/docs/overview/"
+            class="text-[28px] leading-[34px] font-bold tracking-[-0.04em] whitespace-nowrap outline-offset-4 focus-visible:outline-2 focus-visible:outline-sidebar-primary group-data-[mode=compact]/sidebar:hidden"
+          >
+            xenon
+          </a>
+          <DocsSidebarTrigger mobileQuery="not all" class="shrink-0" />
+        </div>
+      </div>
       <SidebarHeader>
         <div class="flex h-[42px] items-center justify-between border border-foreground bg-background px-3 text-sm shadow-[3px_3px_0_var(--color-foreground)] group-data-[mode=compact]/sidebar:hidden">
           <span class="font-medium">Solid</span>
