@@ -40,7 +40,6 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
 <Layout
   title={pageTitle ?? title}
   description={description}
-  contained={false}
   crumbs={breadcrumb}
   switcher={switcher}
 >
