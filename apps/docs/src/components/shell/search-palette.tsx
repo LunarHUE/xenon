@@ -9,6 +9,7 @@ import {
   createUniqueId,
   onSettled,
 } from 'solid-js'
+import { navigate } from 'astro:transitions/client'
 import type { AnyPart } from '@xenon-ui/core'
 import { combobox, getComboboxItemId } from '@xenon-ui/core/combobox'
 import { Dialog } from '@xenon-ui/solid/dialog'
@@ -115,7 +116,7 @@ export function SearchPalette(props: SearchPaletteProps): JSX.Element {
     const entry = results().find((candidate) => candidate.value === value)
     if (!entry) return
     setOpen(false)
-    window.location.assign(entry.href)
+    void navigate(entry.href)
   }
 
   const engine = createMemo(() =>
