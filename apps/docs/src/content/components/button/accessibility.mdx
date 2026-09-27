@@ -1,7 +1,19 @@
 <Section title="Semantics">
 
-The default host is a native button. Its visible label provides the accessible
-name. For icon-only actions, supply an explicit name.
+Button follows the [WAI-ARIA button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/).
+The default host is a native button, and its visible label is the accessible
+name.
+
+What Button sets depends on the host you pass to `as`.
+
+| Host               | Role            | Disabled                   | Pending                    |
+| ------------------ | --------------- | -------------------------- | -------------------------- |
+| `button`, default  | Native button   | `disabled`                 | `aria-disabled`            |
+| `input`            | Native input    | `disabled`                 | `aria-disabled`            |
+| `a` with an `href` | Native link     | `aria-disabled`, no `href` | `aria-disabled`, no `href` |
+| Anything else      | `role="button"` | `aria-disabled`            | `aria-disabled`            |
+
+An icon-only button has no visible label, so give it one with `aria-label`.
 
 ```tsx title="accessible-name.tsx"
 <Button aria-label="Close dialog">
@@ -13,14 +25,14 @@ name. For icon-only actions, supply an explicit name.
 
 <Section title="Keyboard">
 
-For the default native button host.
+Every host except a link activates like a native button.
 
-| Key                               | Behavior                                      |
-| --------------------------------- | --------------------------------------------- |
-| <Kbd>Tab</Kbd>                    | Move focus to the button.                     |
-| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Move focus to the previous focusable element. |
-| <Kbd>Enter</Kbd>                  | Activate the button.                          |
-| <Kbd>Space</Kbd>                  | Activate the button on release.               |
+| Key                               | Behavior                                                            |
+| --------------------------------- | ------------------------------------------------------------------- |
+| <Kbd>Tab</Kbd>                    | Moves focus to the button.                                          |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Moves focus to the previous focusable element.                      |
+| <Kbd>Enter</Kbd>                  | Activates the button when the key goes down. On a link, follows it. |
+| <Kbd>Space</Kbd>                  | Activates the button when the key is released. Links ignore it.     |
 
 </Section>
 
@@ -33,17 +45,26 @@ For the default native button host.
 | `pending`                            | Yes          | Prevented  |
 | `disabled` + `focusableWhenDisabled` | Yes          | Prevented  |
 
-A focusable disabled button uses `aria-disabled`. If its unavailability needs
-explanation, connect a description with `aria-describedby`.
+A link leaves the tab order while disabled or pending, because Button removes
+its `href`.
+
+A focusable disabled button uses `aria-disabled`. If it needs to explain why it
+is unavailable, connect the reason with `aria-describedby`.
 
 </Section>
 
 <Section title="Author">
 
 <Definitions mono>
-  <Definition term="Name">Use a clear action label or an explicit accessible name.</Definition>
-  <Definition term="Focus">Style `:focus-visible` so keyboard focus stays visible.</Definition>
-  <Definition term="Feedback">Show pending progress and announce results when needed.</Definition>
+  <Definition term="Name">
+    Give every button a visible label, or an `aria-label` when it only has an icon.
+  </Definition>
+  <Definition term="Focus">
+    Style `:focus-visible` so keyboard focus stays visible in every state.
+  </Definition>
+  <Definition term="Feedback">
+    Change the label while pending, and announce the result with a live region.
+  </Definition>
 </Definitions>
 
 </Section>
