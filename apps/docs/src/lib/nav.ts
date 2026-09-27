@@ -1,16 +1,7 @@
 import { componentHref, docHref, getComponents, getDocs } from './content'
+import type { NavSection } from './nav-links'
 
-/** One navigation row. */
-export interface NavLink {
-  label: string
-  href: string
-}
-
-/** A titled group of rows. */
-export interface NavSection {
-  label: string
-  links: NavLink[]
-}
+export { currentHref, type NavLink, type NavSection } from './nav-links'
 
 /** The sidebar, built from the content collections. Sections with no pages are left out. */
 export async function getNavigation(): Promise<NavSection[]> {
@@ -34,15 +25,3 @@ export async function getNavigation(): Promise<NavSection[]> {
   return sections.filter((section) => section.links.length > 0)
 }
 
-/**
- * The sidebar row for `pathname`: the longest link that prefixes it, so every
- * tab of a component marks the component's row.
- */
-export function currentHref(sections: NavSection[], pathname: string): string | undefined {
-  const path = pathname.endsWith('/') ? pathname : `${pathname}/`
-  let best: string | undefined
-  for (const { href } of sections.flatMap((section) => section.links)) {
-    if (path.startsWith(href) && href.length > (best?.length ?? 0)) best = href
-  }
-  return best
-}
