@@ -86,7 +86,7 @@ const initialSidebar =
       >
         <div
           data-docs-header-brand
-          class="flex shrink-0 items-center justify-between gap-3 lg:w-44 lg:in-data-[sidebar=expanded]:hidden"
+          class="flex shrink-0 items-center justify-between gap-3 lg:w-44 lg:in-data-[sidebar=expanded]:not-in-data-docking:hidden"
         >
           <a
             href="/docs/overview/"
@@ -94,8 +94,8 @@ const initialSidebar =
           >
             xenon
           </a>
-          {/* Docks the sidebar back while it is hidden. Below lg the menu button in the bar takes over. */}
-          <div class="hidden lg:in-data-[sidebar=hidden]:flex">
+          {/* Docks the sidebar back while it is hidden, and holds its place while it docks. Below lg the menu button in the bar takes over. */}
+          <div class="hidden lg:in-data-[sidebar=hidden]:flex lg:in-data-docking:flex">
             <DocsSidebarTrigger mobileQuery="not all" client:load />
           </div>
         </div>

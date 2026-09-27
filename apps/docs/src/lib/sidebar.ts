@@ -121,6 +121,34 @@ export const sidebar: SidebarController = createSidebar({
   mode: isServer ? 'expanded' : readMode(),
   onModeChange(mode) {
     document.cookie = `${COOKIE}=${mode}; Path=/; Max-Age=${ONE_YEAR}; SameSite=Lax`
-    document.querySelector('[data-docs-shell]')?.setAttribute('data-sidebar', mode)
+    const shell = document.querySelector<HTMLElement>('[data-docs-shell]')
+    if (!shell) return
+    if (mode === 'expanded' && shell.dataset.sidebar !== 'expanded') markDocking(shell)
+    shell.setAttribute('data-sidebar', mode)
   },
 })
+
+/*
+ * The sidebar stacks under the header, so while its column widens the header
+ * would cover the sidebar's top row. data-docking keeps the header's own wordmark
+ * and dock button pinned over that spot until the column settles.
+ */
+let settleDocking: (() => void) | undefined
+
+function markDocking(shell: HTMLElement) {
+  settleDocking?.()
+  shell.toggleAttribute('data-docking', true)
+  const settle = () => {
+    shell.removeEventListener('transitionend', onEnd)
+    clearTimeout(fallback)
+    shell.removeAttribute('data-docking')
+    settleDocking = undefined
+  }
+  const onEnd = (event: TransitionEvent) => {
+    if (event.target === shell && event.propertyName === 'grid-template-columns') settle()
+  }
+  // No transition runs under reduced motion or below lg, so a timer settles it too.
+  const fallback = setTimeout(settle, 300)
+  shell.addEventListener('transitionend', onEnd)
+  settleDocking = settle
+}

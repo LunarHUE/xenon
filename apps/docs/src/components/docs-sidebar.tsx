@@ -64,8 +64,8 @@ export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
       controller={sidebar}
       label="Documentation"
       // Docked, the panel is pinned to the viewport and its navigation scrolls on its own.
-      // It stacks over the header, which slides under it while the width animates.
-      class="lg:sticky lg:top-0 lg:z-40 lg:h-dvh lg:self-start"
+      // It stacks under the header, whose wordmark covers the corner while the width animates.
+      class="lg:sticky lg:top-0 lg:z-20 lg:h-dvh lg:self-start"
       // The menu button records where the narrow bars end; sheet and scrim start there.
       drawerClass="data-[side=left]:top-[var(--docs-drawer-top,0px)]"
       drawerViewportClass="[&::backdrop]:top-[var(--docs-drawer-top,0px)]"

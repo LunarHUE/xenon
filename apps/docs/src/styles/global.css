@@ -294,8 +294,9 @@
     /*
      * The wordmark and dock button hold still while the sidebar docks or hides.
      * Expanded, the sidebar's top row is fixed to the viewport corner, so the
-     * aside's width transition can't clip it. Hidden, the header's copy is fixed
-     * to the same spot, so the header sliding back doesn't carry it along.
+     * aside's width transition can't clip it. Hidden or docking, the header's copy
+     * is fixed to the same spot and covers the sidebar's while the column widens
+     * under the header.
      */
     .docs-shell[data-sidebar='expanded'] [data-docs-sidebar-brand] {
       position: fixed;
@@ -303,7 +304,8 @@
       inset-inline-start: 0;
       width: var(--sidebar-content-width);
     }
-    .docs-shell[data-sidebar='hidden'] [data-docs-header-brand] {
+    .docs-shell[data-sidebar='hidden'] [data-docs-header-brand],
+    .docs-shell[data-docking] [data-docs-header-brand] {
       position: fixed;
       inset-block-start: 0.625rem;
       inset-inline-start: 1.5rem;
