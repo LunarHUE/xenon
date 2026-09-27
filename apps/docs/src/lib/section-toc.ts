@@ -22,6 +22,17 @@ const literal = (node: Element, name: string) => {
 /** A `<Props>` group's title, which defaults to "Props" like the component. */
 const groupTitle = (node: Element) => literal(node, 'title') ?? 'Props'
 
+/** The part a `<Props>` group documents, or undefined for a single group titled Props. */
+const part = (node: Element | undefined) => {
+  if (node?.type !== 'mdxJsxFlowElement' || node.name !== 'Props') return undefined
+  const title = groupTitle(node)
+  return title === 'Props' ? undefined : title
+}
+
+/** Anchor for a prop or attribute row, prefixed with its part's so parts can share names. */
+const rowId = (name: string, group: string | undefined) =>
+  group ? `${sectionId(group)}-${sectionId(name)}` : sectionId(name)
+
 /** Plain text of a node: text and inline code values, with markup dropped. */
 const plain = (node: Element): string =>
   typeof node.value === 'string'
@@ -36,22 +47,24 @@ const lead = (node: Element) => {
 }
 
 /**
- * Collect each `<Section title>`, `<Props>` group and `<Prop name>` in an MDX
- * page for the "On this page" list.
+ * Collect each `<Section title>`, `<Props>` group, `<Prop name>` and
+ * `<Attribute name>` in an MDX page for the "On this page" list.
  *
  * Sections are JSX, not markdown headings, so Astro's `headings` never sees
  * them. The list goes on the module's frontmatter as `sections`, which
  * `render()` hands back as `remarkPluginFrontmatter`. It's built at compile
  * time, so the list is in the server HTML.
  *
- * A page with one props group lists its props too. With several (one per part
- * of a compound component) the list keeps to the groups, and each prop's
- * anchor is prefixed with its group's so two parts can both have `as`. The
- * prefixed id is written onto the `<Prop>` here, so the link and the heading
- * can't disagree.
+ * A page with one props group lists its props and data attributes too. With
+ * several (one per part of a compound component) the list keeps to the
+ * groups, and each row's anchor is prefixed with its group's so two parts can
+ * both have `as` or `data-state`. The prefixed id is written onto the `<Prop>`
+ * or `<Attribute>` here, so the link and the row can't disagree. An
+ * `<Attributes>` table in a group gets the part name for its caption.
  *
  * The same walk fills `entries` for the search index: each Section with its
- * first paragraph, each Prop with its type, part and description, and each
+ * first paragraph, each Prop with its type, part and description, each
+ * Attribute with its part and description, and each
  * `<Example>` with the Section it sits in. Examples have no anchor of their
  * own, so they link to that Section.
  *
@@ -68,7 +81,10 @@ export const sectionToc = defineMdastPlugin({
     }
   },
   mdxJsxFlowElement(node, ctx) {
-    if (!['Section', 'Props', 'Prop', 'Example'].includes(node.name ?? '')) return
+    if (
+      !['Section', 'Props', 'Prop', 'Attributes', 'Attribute', 'Example'].includes(node.name ?? '')
+    )
+      return
     const astro = ctx.data.astro as { frontmatter: Frontmatter } | undefined
     if (!astro) return
     const { sections, entries } = astro.frontmatter
@@ -101,14 +117,10 @@ export const sectionToc = defineMdastPlugin({
         })
         return
       }
-      const parent = ctx.parent(node) as Element
-      const group =
-        parent.type === 'mdxJsxFlowElement' && parent.name === 'Props'
-          ? groupTitle(parent)
-          : undefined
+      const group = part(ctx.parent(node) as Element)
       let id = literal(node, 'id')
       if (!id) {
-        id = group && group !== 'Props' ? `${sectionId(group)}-${sectionId(name)}` : sectionId(name)
+        id = rowId(name, group)
         ctx.replaceNode(node, {
           ...node,
           attributes: [...node.attributes, { type: 'mdxJsxAttribute', name: 'id', value: id }],
@@ -120,8 +132,52 @@ export const sectionToc = defineMdastPlugin({
         id,
         title: name,
         type: literal(node, 'type') ?? '',
-        group: group === 'Props' ? undefined : group,
+        group,
         text: lead(node),
+      })
+      return
+    }
+
+    if (node.name === 'Attributes') {
+      const group = part(ctx.parent(node) as Element)
+      if (group && !literal(node, 'part')) {
+        ctx.replaceNode(node, {
+          ...node,
+          attributes: [...node.attributes, { type: 'mdxJsxAttribute', name: 'part', value: group }],
+        })
+      }
+      return
+    }
+
+    if (node.name === 'Attribute') {
+      const name = literal(node, 'name')
+      if (!name) {
+        ctx.report({
+          message: 'Attribute name is not a string literal; left out of the TOC',
+          node,
+          severity: 'warning',
+        })
+        return
+      }
+      const value = literal(node, 'value')
+      const title = value === undefined ? name : `${name}="${value}"`
+      const table = ctx.parent(node) as Element
+      const group = part(ctx.parent(table as never) as Element | undefined)
+      let id = literal(node, 'id')
+      if (!id) {
+        id = rowId(title, group)
+        ctx.replaceNode(node, {
+          ...node,
+          attributes: [...node.attributes, { type: 'mdxJsxAttribute', name: 'id', value: id }],
+        })
+      }
+      sections.push({ id, title, kind: 'attribute' })
+      entries.push({
+        kind: 'attribute',
+        id,
+        title,
+        group,
+        text: plain(node).replace(/\s+/g, ' ').trim(),
       })
       return
     }
@@ -145,7 +201,7 @@ export const sectionToc = defineMdastPlugin({
     const groups = astro.frontmatter.sections.filter((section) => section.kind === 'props').length
     if (groups > 1) {
       astro.frontmatter.sections = astro.frontmatter.sections.filter(
-        (section) => section.kind !== 'prop'
+        (section) => section.kind !== 'prop' && section.kind !== 'attribute'
       )
     }
   },

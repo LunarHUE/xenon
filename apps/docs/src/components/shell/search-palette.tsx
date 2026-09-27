@@ -267,7 +267,8 @@ export function SearchPalette(props: SearchPaletteProps): JSX.Element {
                         <span
                           class={cn(
                             'truncate text-sm leading-5 font-medium group-data-highlighted:text-sidebar-primary',
-                            entry.type === 'Property' && 'font-mono text-[13px]'
+                            (entry.type === 'Property' || entry.type === 'Attribute') &&
+                              'font-mono text-[13px]'
                           )}
                         >
                           {entry.title}

@@ -3,12 +3,12 @@
  * id and the link pointing at it come from the same function.
  */
 
-/** One `<Section>`, `<Props>` group or `<Prop>` on a page, in document order. */
+/** One `<Section>`, `<Props>` group, `<Prop>` or `<Attribute>` on a page, in document order. */
 export interface PageSection {
   id: string
   title: string
   /** Set for API entries. Sections leave it out. */
-  kind?: 'props' | 'prop'
+  kind?: 'props' | 'prop' | 'attribute'
 }
 
 /**
@@ -18,6 +18,7 @@ export interface PageSection {
 export type PageEntry =
   | { kind: 'section'; id: string; title: string; text: string }
   | { kind: 'prop'; id: string; title: string; type: string; group?: string; text: string }
+  | { kind: 'attribute'; id: string; title: string; group?: string; text: string }
   | { kind: 'example'; id?: string; title: string; section?: string; text: string }
 
 /** The anchor for a section title: lowercase, runs of anything else become one dash. */

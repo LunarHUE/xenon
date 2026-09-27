@@ -7,7 +7,7 @@
 export const DOCS_VERSION = 'Solid 0.0.0'
 
 /** What a result is. Pages are start pages and component tabs; guides get their own label. */
-export type SearchType = 'Page' | 'Guide' | 'Section' | 'Property' | 'Example'
+export type SearchType = 'Page' | 'Guide' | 'Section' | 'Property' | 'Attribute' | 'Example'
 
 export interface SearchResult {
   type: SearchType
@@ -32,8 +32,9 @@ const TYPE_ORDER: Record<SearchType, number> = {
   Page: 0,
   Guide: 1,
   Property: 2,
-  Section: 3,
-  Example: 4,
+  Attribute: 3,
+  Section: 4,
+  Example: 5,
 }
 
 /** A title word starts here: after a space or dash, or at a camelCase hump. */

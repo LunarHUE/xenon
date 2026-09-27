@@ -4,7 +4,7 @@ import { componentHref, docHref, getComponents, getDocs } from '../lib/content'
 import { DOCS_VERSION, type SearchIndex, type SearchResult } from '../lib/search'
 import { pageEntries, type PageEntry } from '../lib/sections'
 
-/** The results inside one page: its sections, props and examples. */
+/** The results inside one page: its sections, props, data attributes and examples. */
 function inner(entries: PageEntry[], href: string, path: string[]): SearchResult[] {
   return entries.map((entry): SearchResult => {
     const anchor = entry.id ? `${href}#${entry.id}` : href
@@ -19,6 +19,14 @@ function inner(entries: PageEntry[], href: string, path: string[]): SearchResult
           href: anchor,
           text: entry.text,
           detail: entry.type,
+        }
+      case 'attribute':
+        return {
+          type: 'Attribute',
+          title: entry.title,
+          path: entry.group ? [...path, entry.group] : path,
+          href: anchor,
+          text: entry.text,
         }
       case 'example':
         return {
