@@ -92,6 +92,29 @@ Disables the trigger. The popover can't open from it.
   `"'button'"` or `"false"`.
 - Only the first group gets `note="Native props are forwarded"`.
 
+## Attributes and Attribute
+
+```mdx
+<Props title="Trigger" type="PopoverTriggerProps<T>">
+
+<Prop name="disabled" type="boolean" default="false">...</Prop>
+
+<Attributes>
+<Attribute name="data-disabled">Present while `disabled` is set.</Attribute>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+</Attributes>
+
+</Props>
+```
+
+- Put the table inside the part's `<Props>`, after the last `<Prop>`. The
+  group gives each row's anchor its part prefix, like `#trigger-data-state-open`.
+- `value` makes an enum row: `name="data-state" value="open"` shows
+  `data-state="open"`. Leave it out for a boolean attribute.
+- Keep each description on the same line as its tags. Write it with the stems
+  in `references/patterns.md`.
+
 ## Definitions
 
 ```mdx
@@ -114,7 +137,8 @@ one line.
 | <Kbd>Escape</Kbd>                 | Closes the popover and moves focus to the trigger. |
 ```
 
-Use plain Markdown tables for keyboard, focus and data attributes. Name keys
+Use plain Markdown tables for keyboard and focus. Data attributes use
+`<Attributes>`. Name keys
 the way the keyboard prints them: Enter, Space, Escape, Tab, Shift, Arrow Down,
 Home, End, Page Up.
 

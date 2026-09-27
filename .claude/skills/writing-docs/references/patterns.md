@@ -58,7 +58,9 @@ does.
 
 ## Data attributes
 
-Table columns are `Attribute | Present when`.
+`<Attributes>` renders the columns `Attribute | Present when`. An enum row is
+`<Attribute name="data-state" value="open">`; a value attribute like
+`data-orientation` gets one row without `value`.
 
 | Kind | Stem |
 | --- | --- |

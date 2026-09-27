@@ -124,9 +124,9 @@ group titled Props.
   prop a code sample only when the sample shows something the sentence can't.
 - Put the default in the `default` attribute and nowhere else. If the default
   depends on another prop, write it out: `default="true when modal"`.
-- After the props, add a data-attribute table for the part:
-  `| Attribute | Present when |`. Use one row per attribute, and give each
-  value of an enum attribute its own row.
+- After the props, add an `<Attributes>` table for the part, inside its
+  `<Props>` group. Use one `<Attribute>` per attribute, and give each value of
+  an enum attribute its own row with `value`.
 - Shared props like `as`, `ref` and `class` pass-through belong in the
   Composition guide. Document them on a part only when the part does something
   unusual with them, for example a non-default `as`, or a ref the part reads.
