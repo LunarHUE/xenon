@@ -1,6 +1,6 @@
 ---
 title: Button
-description: A button with consistent keyboard, focus, and disabled behavior.
+description: A button that blocks activation while disabled or pending, on any element.
 group: actions
 ---
 
@@ -17,7 +17,7 @@ default.
 
 <Anatomy
   name="button/anatomy"
-  caption="Button is the root. Its children supply the visible label."
+  caption="Button is the only part. Its children are the visible label."
 >
 
 ```tsx title="Anatomy"
@@ -30,12 +30,15 @@ default.
 
 </Section>
 
-<Section title="Behavior">
+<Section title="When to use">
 
 <Definitions>
-  <Definition term="Button">Trigger an action.</Definition>
-  <Definition term="Toggle">Represent an on/off pressed state.</Definition>
-  <Definition term="Link">Navigate to another location.</Definition>
+  <Definition term="Button">Runs an action, like saving a form or opening a dialog.</Definition>
+  <Definition term="Toggle">Switches something on or off and exposes `aria-pressed`.</Definition>
+  <Definition term="Link">
+    Goes to another page. Use an `a`, or Button with `as="a"` when the link needs a pending or
+    disabled state.
+  </Definition>
 </Definitions>
 
 </Section>
