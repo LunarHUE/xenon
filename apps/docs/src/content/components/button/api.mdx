@@ -1,8 +1,14 @@
 <Props type="ButtonProps<T>" note="Native props are forwarded">
 
+The button. Renders a `<button>`, or the element you pass to `as`.
+
 <Prop name="disabled" type="boolean" default="false">
 
-Disables the button. A native disabled button is removed from the tab order.
+Disables the button. Clicks, Enter and Space don't activate it, and your
+`onClick` doesn't run.
+
+A native button or input gets the `disabled` attribute and leaves the tab order.
+Other hosts get `aria-disabled` and lose their tab stop.
 
 ```tsx title="disabled.tsx"
 <Button disabled>
@@ -14,8 +20,10 @@ Disables the button. A native disabled button is removed from the tab order.
 
 <Prop name="pending" type="boolean" default="false">
 
-Prevents activation while work is in progress. The button remains focusable and
-exposes `aria-disabled`.
+Blocks activation while work is in progress. The button stays focusable and gets
+`aria-disabled`.
+
+A link loses its `href` while pending, so it can't be followed.
 
 ```tsx title="pending.tsx"
 <Button pending={isSaving()}>
@@ -27,10 +35,10 @@ exposes `aria-disabled`.
 
 <Prop name="focusableWhenDisabled" type="boolean" default="false">
 
-Keeps a disabled button in the tab order. Use this when users need to discover
-the action and understand why it is unavailable.
+Keeps a disabled button in the tab order. Use it when users need to find the
+action and learn why it is unavailable.
 
-Line 4 connects the reason to the button.
+Line 4 connects the reason to the button. Links ignore this prop.
 
 ```tsx title="focusable-when-disabled.tsx"
 <Button
@@ -52,6 +60,7 @@ The element or component to render. `a` with an `href` stays a native link and
 Enter and Space activation.
 
 A custom component must pass its props and ref on to the element it renders.
+See [Composition](/docs/composition/#ref).
 
 ```tsx title="as.tsx"
 <Button as="a" href="/pricing">
@@ -63,15 +72,29 @@ A custom component must pass its props and ref on to the element it renders.
 
 <Prop name="type" type="'button' | 'submit' | 'reset'" default="'button'">
 
-The native button type. The default means a Button inside a form doesn't submit
-it unless you set `type="submit"`.
+The native button type. `submit` submits the parent form and `reset` resets it.
 
-Links and generic hosts ignore it.
+Links and other non-native hosts ignore it.
 
 ```tsx title="type.tsx"
 <form onSubmit={save}>
   <Button type="submit">Save</Button>
 </form>
+```
+
+</Prop>
+
+<Prop name="role" type="string" default="'button'">
+
+The role for a host that isn't a button, input or link. With `role="link"`, only
+Enter activates it, as with a native link.
+
+Native hosts keep their own keyboard behavior.
+
+```tsx title="role.tsx"
+<Button as="span" role="link" onClick={openProfile}>
+  Ada Lovelace
+</Button>
 ```
 
 </Prop>
@@ -111,3 +134,13 @@ let button: HTMLElement | undefined
 </Prop>
 
 </Props>
+
+<Section title="Data attributes">
+
+| Attribute        | Present when        |
+| ---------------- | ------------------- |
+| `data-disabled`  | `disabled` is set.  |
+| `data-pending`   | `pending` is set.   |
+| `data-autofocus` | `autofocus` is set. |
+
+</Section>
