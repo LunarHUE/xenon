@@ -1,0 +1,32 @@
+---
+/**
+ * One row of an `<Attributes>` table. The description is the slot.
+ *
+ *     <Attribute name="data-pending">Present while `pending` is set.</Attribute>
+ *     <Attribute name="data-state" value="open">The popover is open.</Attribute>
+ *
+ * Give each value of an enum attribute its own row with `value`; the row
+ * shows `data-state="open"`. Both are plain strings, so a page generated from
+ * type data can render the same rows.
+ */
+import { sectionId } from '../../lib/sections'
+
+interface Props {
+  name: string
+  /** One value of an enum attribute. Leave out for a boolean attribute. */
+  value?: string
+  /** Anchor. lib/section-toc.ts sets it inside a part's `<Props>` group. */
+  id?: string
+}
+
+const { name, value } = Astro.props
+const label = value === undefined ? name : `${name}="${value}"`
+const id = Astro.props.id ?? sectionId(label)
+---
+
+<tr id={id}>
+  <th scope="row">{label}</th>
+  <td>
+    <slot />
+  </td>
+</tr>

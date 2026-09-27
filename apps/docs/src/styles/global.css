@@ -585,6 +585,27 @@
   }
 
   /*
+   * Data-attribute tables (components/mdx/Attributes.astro) are Markdown
+   * tables with the attribute set like a prop name. Wide, the name column
+   * matches a prop row's name column and gap, so the descriptions start on
+   * the prop descriptions' line. A longer name widens the column.
+   */
+  .docs-attributes tbody th {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  @container (width >= 48rem) {
+    .docs-attributes :is(th, td):first-child {
+      min-width: 11.25rem;
+    }
+  }
+  @container (width < 28rem) {
+    .docs-attributes tbody th {
+      overflow-wrap: anywhere;
+    }
+  }
+
+  /*
    * Prop rows (components/mdx/Prop.astro). Narrow: the name with its type and
    * default on one line, then the description, then the sample. Wide: type and
    * default under the name beside the description, the sample on the right

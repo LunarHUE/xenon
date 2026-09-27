@@ -1,0 +1,43 @@
+---
+/**
+ * The data attributes a part sets, as an `Attribute | Present when` table.
+ * It goes inside the part's `<Props>` group, after the last `<Prop>`:
+ *
+ *     <Props title="Trigger" type="PopoverTriggerProps<T>">
+ *     <Prop name="disabled" type="boolean" default="false">...</Prop>
+ *
+ *     <Attributes>
+ *     <Attribute name="data-disabled">Present while `disabled` is set.</Attribute>
+ *     <Attribute name="data-state" value="open">The popover is open.</Attribute>
+ *     <Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+ *     </Attributes>
+ *     </Props>
+ *
+ * Inside a group, lib/section-toc.ts prefixes each row's anchor with the
+ * part's, so Trigger and Content can both list `data-state`. The rows follow
+ * the same TOC and search rules as props.
+ *
+ * It's a real table, styled by the article's Markdown table rules, so it
+ * matches the keyboard and focus tables. Wide, the descriptions start on the
+ * same line as the prop descriptions above.
+ */
+interface Props {
+  /** The part, for the table's accessible name. lib/section-toc.ts sets it from the group. */
+  part?: string
+}
+
+const { part } = Astro.props
+---
+
+<table class="docs-attributes">
+  <caption class="sr-only">{part ? `${part} data attributes` : 'Data attributes'}</caption>
+  <thead>
+    <tr>
+      <th scope="col">Attribute</th>
+      <th scope="col">Present when</th>
+    </tr>
+  </thead>
+  <tbody>
+    <slot />
+  </tbody>
+</table>

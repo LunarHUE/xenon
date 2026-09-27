@@ -2,6 +2,8 @@ import Anatomy from '../anatomy/Anatomy.astro'
 import Code from '../codeblock/Code.astro'
 import Example from '../example/Example.astro'
 import Section from '../section/Section.astro'
+import Attribute from './Attribute.astro'
+import Attributes from './Attributes.astro'
 import Callout from './Callout.astro'
 import ComponentDirectory from './ComponentDirectory.astro'
 import Definition from './Definition.astro'
@@ -13,6 +15,8 @@ import Props from './Props.astro'
 /** Everything MDX pages can use without importing it. Pass to `<Content components>`. */
 export const mdxComponents = {
   Anatomy,
+  Attribute,
+  Attributes,
   Callout,
   Code,
   ComponentDirectory,
