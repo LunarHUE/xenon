@@ -138,9 +138,8 @@ one line.
 ```
 
 Use plain Markdown tables for keyboard and focus. Data attributes use
-`<Attributes>`. Name keys
-the way the keyboard prints them: Enter, Space, Escape, Tab, Shift, Arrow Down,
-Home, End, Page Up.
+`<Attributes>`. Name keys the way the keyboard prints them: Enter, Space,
+Escape, Tab, Shift, Arrow Down, Home, End, Page Up.
 
 ## Callout
 
