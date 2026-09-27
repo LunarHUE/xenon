@@ -53,6 +53,7 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
 </nav>
 
 <script>
+  import { onPage } from '../../lib/page'
   import { pinnedLine } from '../../lib/pinned'
 
   // A row is in view while its heading is on screen: the section title, the
@@ -61,8 +62,9 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
   // page trail from lg up) doesn't count. Deep inside a long section no heading shows, so the row
   // whose heading was last scrolled past is marked instead and the rail is
   // never empty.
-  const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
-  if (toc) {
+  onPage((signal) => {
+    const toc = document.querySelector<HTMLElement>('[data-docs-toc]')
+    if (!toc) return
     const links = [...toc.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')]
     const headings = links.map((link, index) =>
       index === 0
@@ -86,10 +88,15 @@ const links = [{ id: 'top', title: 'Top' }, ...sections]
       frame ||= requestAnimationFrame(update)
     }
 
-    addEventListener('scroll', schedule, { passive: true })
-    addEventListener('resize', schedule)
+    addEventListener('scroll', schedule, { passive: true, signal })
+    addEventListener('resize', schedule, { signal })
     // Opening a code panel or switching example styles moves everything below it.
-    new ResizeObserver(schedule).observe(document.body)
+    const observer = new ResizeObserver(schedule)
+    observer.observe(document.body)
+    signal.addEventListener('abort', () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    })
     update()
-  }
+  })
 </script>

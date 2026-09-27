@@ -131,6 +131,7 @@ const control = [
 
 <script>
   import { EXAMPLE_STYLE_KEY } from '../../lib/example-style'
+  import { onPage } from '../../lib/page'
 
   const root = document.documentElement
 
@@ -180,5 +181,6 @@ const control = [
       syncToggles()
     }
   })
-  syncToggles()
+  // The click handler lives on the document; each page only needs its toggles synced.
+  onPage(syncToggles)
 </script>

@@ -1,5 +1,6 @@
 import type { JSX } from '@solidjs/web'
-import { For } from 'solid-js'
+import { For, createSignal, onSettled } from 'solid-js'
+import type { TransitionBeforeSwapEvent } from 'astro:transitions/client'
 import { BookOpen, Download, Blocks, FileText } from 'lucide'
 import { Button } from './ui/button'
 import { Icon, type IconNode } from './ui/icon'
@@ -17,7 +18,7 @@ import {
 } from './ui/sidebar'
 import { DocsSidebarTrigger } from './ui/sidebar-trigger-island'
 import { sidebar } from '../lib/sidebar'
-import type { NavSection } from '../lib/nav'
+import { currentHref, type NavSection } from '../lib/nav-links'
 
 const navigationIcons: Record<string, IconNode> = {
   '/docs/overview/': BookOpen,
@@ -27,15 +28,37 @@ const navigationIcons: Record<string, IconNode> = {
 
 export interface DocsSidebarProps {
   sections: NavSection[]
-  /** Href of the current row, from Astro, so the server renders it marked. */
+  /**
+   * Href of the current row, from Astro, so the server renders it marked. The
+   * layout keeps the island across client-side navigations without new props,
+   * so from then on the sidebar follows the route itself.
+   */
   current?: string
 }
+
+/**
+ * The row picked by the last client-side navigation. Module state, because the
+ * docked panel and the drawer each render their own rows, and the drawer only
+ * renders them once it first opens.
+ */
+const [navigated, setNavigated] = createSignal<string>()
 
 /**
  * The docs navigation as an island. Astro cannot pass Solid children across the
  * island boundary, so this maps plain data onto the sidebar parts.
  */
 export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
+  onSettled(() => {
+    // Before the swap, so the new row is marked in the same frame as the new page.
+    // A link picked from the drawer closes it on the way.
+    const follow = (event: Event) => {
+      const { to } = event as TransitionBeforeSwapEvent
+      setNavigated(currentHref(props.sections, to.pathname) ?? '')
+      sidebar.closeDrawer()
+    }
+    document.addEventListener('astro:before-swap', follow)
+    return () => document.removeEventListener('astro:before-swap', follow)
+  })
   return (
     <Sidebar
       controller={sidebar}
@@ -56,6 +79,7 @@ export function DocsSidebar(props: DocsSidebarProps): JSX.Element {
 function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
   const presentation = useSidebar()
   const hints = createTooltipHandle<JSX.Element>()
+  const current = () => navigated() ?? props.current
   const rows = (section: NavSection) => (
     <SidebarMenu>
       <For each={section.links}>
@@ -66,7 +90,7 @@ function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
               variant="navigation"
               size="sm"
               href={link.href}
-              aria-current={link.href === props.current ? 'page' : undefined}
+              aria-current={link.href === current() ? 'page' : undefined}
               tooltip={presentation.mode() === 'compact' ? link.label : undefined}
               tooltipHandle={hints}
             >

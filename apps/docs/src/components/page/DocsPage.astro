@@ -90,6 +90,7 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
 </Layout>
 
 <script>
+  import { onPage } from '../../lib/page'
   import { isPinned, pinnedLine } from '../../lib/pinned'
 
   // Sets html[data-title-gone] once the H1 is under the pinned chrome, and
@@ -97,47 +98,58 @@ const toc = Astro.slots.has('toc') ? (await Astro.slots.render('toc')).trim() : 
   // section, the bare name for a Props group or a prop. Labels that pin
   // inside the article get data-stuck while they are pinned, so CSS can
   // change their rule.
-  const root = document.documentElement
-  const title = document.querySelector('main h1')
-  const readout = document.querySelector('[data-docs-readout]')
-  const sections = [...document.querySelectorAll('.docs-section > h2')]
-  const marks = [
-    ...document.querySelectorAll<HTMLElement>(
-      '.docs-section > h2, .docs-props h2, .docs-prop-name'
-    ),
-  ]
   // Looked up every frame: code headers belong to islands, which can re-render.
   const pinnable =
     '.docs-section > h2, .docs-prop-head, [data-example-code] [data-slot="code-block-header"]'
-  const label = (mark: HTMLElement) => {
-    const index = sections.indexOf(mark)
-    const name = mark.textContent?.trim() ?? ''
-    return index >= 0 ? `${String(index + 1).padStart(2, '0')} / ${name}` : name
-  }
 
-  let frame = 0
-  const update = () => {
-    frame = 0
-    for (const element of document.querySelectorAll(pinnable)) {
-      element.toggleAttribute('data-stuck', isPinned(element))
+  onPage((signal) => {
+    const root = document.documentElement
+    const title = document.querySelector('main h1')
+    const readout = document.querySelector('[data-docs-readout]')
+    const sections = [...document.querySelectorAll('.docs-section > h2')]
+    const marks = [
+      ...document.querySelectorAll<HTMLElement>(
+        '.docs-section > h2, .docs-props h2, .docs-prop-name'
+      ),
+    ]
+    const label = (mark: HTMLElement) => {
+      const index = sections.indexOf(mark)
+      const name = mark.textContent?.trim() ?? ''
+      return index >= 0 ? `${String(index + 1).padStart(2, '0')} / ${name}` : name
     }
-    const line = pinnedLine()
-    root.toggleAttribute('data-title-gone', !!title && title.getBoundingClientRect().bottom <= line)
-    if (!readout) return
-    // The section you're reading: the last heading in the top quarter of the
-    // space under the chrome.
-    const reading = line + (innerHeight - line) / 4
-    const current = marks.findLast((mark) => mark.getBoundingClientRect().top <= reading)
-    // A gutter label riding down its section already says it.
-    const riding = !!current && getComputedStyle(current).position === 'sticky'
-    const text = current && !riding ? label(current) : ''
-    if (readout.textContent !== text) readout.textContent = text
-  }
-  const schedule = () => {
-    frame ||= requestAnimationFrame(update)
-  }
-  addEventListener('scroll', schedule, { passive: true })
-  addEventListener('resize', schedule)
-  new ResizeObserver(schedule).observe(document.body)
-  update()
+
+    let frame = 0
+    const update = () => {
+      frame = 0
+      for (const element of document.querySelectorAll(pinnable)) {
+        element.toggleAttribute('data-stuck', isPinned(element))
+      }
+      const line = pinnedLine()
+      root.toggleAttribute(
+        'data-title-gone',
+        !!title && title.getBoundingClientRect().bottom <= line
+      )
+      if (!readout) return
+      // The section you're reading: the last heading in the top quarter of the
+      // space under the chrome.
+      const reading = line + (innerHeight - line) / 4
+      const current = marks.findLast((mark) => mark.getBoundingClientRect().top <= reading)
+      // A gutter label riding down its section already says it.
+      const riding = !!current && getComputedStyle(current).position === 'sticky'
+      const text = current && !riding ? label(current) : ''
+      if (readout.textContent !== text) readout.textContent = text
+    }
+    const schedule = () => {
+      frame ||= requestAnimationFrame(update)
+    }
+    addEventListener('scroll', schedule, { passive: true, signal })
+    addEventListener('resize', schedule, { signal })
+    const observer = new ResizeObserver(schedule)
+    observer.observe(document.body)
+    signal.addEventListener('abort', () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    })
+    update()
+  })
 </script>

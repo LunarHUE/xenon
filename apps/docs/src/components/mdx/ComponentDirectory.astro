@@ -94,45 +94,50 @@ const count = (n: number) => `${n} ${n === 1 ? 'component' : 'components'}`
 </div>
 
 <script>
+  import { onPage } from '../../lib/page'
+
   // How long typing has to pause before the count is announced.
   const ANNOUNCE_DELAY = 500
 
   const count = (n: number) => `${n} ${n === 1 ? 'component' : 'components'}`
 
-  for (const directory of document.querySelectorAll<HTMLElement>('[data-directory]')) {
-    const input = directory.querySelector<HTMLInputElement>('[data-directory-filter]')!
-    const counter = directory.querySelector<HTMLElement>('[data-directory-count]')!
-    const empty = directory.querySelector<HTMLElement>('[data-directory-empty]')!
-    const query = directory.querySelector<HTMLElement>('[data-directory-query]')!
-    const status = directory.querySelector<HTMLElement>('[data-directory-status]')!
-    const groups = [...directory.querySelectorAll<HTMLElement>('[data-directory-group]')]
-    let timer: ReturnType<typeof setTimeout> | undefined
+  onPage((signal) => {
+    for (const directory of document.querySelectorAll<HTMLElement>('[data-directory]')) {
+      const input = directory.querySelector<HTMLInputElement>('[data-directory-filter]')!
+      const counter = directory.querySelector<HTMLElement>('[data-directory-count]')!
+      const empty = directory.querySelector<HTMLElement>('[data-directory-empty]')!
+      const query = directory.querySelector<HTMLElement>('[data-directory-query]')!
+      const status = directory.querySelector<HTMLElement>('[data-directory-status]')!
+      const groups = [...directory.querySelectorAll<HTMLElement>('[data-directory-group]')]
+      let timer: ReturnType<typeof setTimeout> | undefined
 
-    const filter = () => {
-      const text = input.value.trim().toLowerCase()
-      let shown = 0
-      for (const group of groups) {
-        let groupShown = 0
-        for (const entry of group.querySelectorAll<HTMLElement>('[data-directory-entry]')) {
-          const match = entry.dataset.search!.includes(text)
-          entry.hidden = !match
-          if (match) groupShown++
+      const filter = () => {
+        const text = input.value.trim().toLowerCase()
+        let shown = 0
+        for (const group of groups) {
+          let groupShown = 0
+          for (const entry of group.querySelectorAll<HTMLElement>('[data-directory-entry]')) {
+            const match = entry.dataset.search!.includes(text)
+            entry.hidden = !match
+            if (match) groupShown++
+          }
+          group.hidden = groupShown === 0
+          shown += groupShown
         }
-        group.hidden = groupShown === 0
-        shown += groupShown
+        counter.textContent = count(shown)
+        empty.hidden = shown > 0
+        query.textContent = input.value.trim()
+
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          status.textContent = shown > 0 ? count(shown) : `No components match ${input.value.trim()}`
+        }, ANNOUNCE_DELAY)
       }
-      counter.textContent = count(shown)
-      empty.hidden = shown > 0
-      query.textContent = input.value.trim()
 
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        status.textContent = shown > 0 ? count(shown) : `No components match ${input.value.trim()}`
-      }, ANNOUNCE_DELAY)
+      input.addEventListener('input', filter)
+      signal.addEventListener('abort', () => clearTimeout(timer))
+      // A value restored by the back button doesn't fire input.
+      if (input.value) filter()
     }
-
-    input.addEventListener('input', filter)
-    // A value restored by the back button doesn't fire input.
-    if (input.value) filter()
-  }
+  })
 </script>

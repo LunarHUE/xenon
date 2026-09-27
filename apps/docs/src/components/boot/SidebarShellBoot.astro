@@ -2,7 +2,9 @@
 /**
  * Applies the stored sidebar mode to its parent element. Render as the first
  * child of the docs shell, so the grid never paints at the default width and
- * then transitions to the stored one.
+ * then transitions to the stored one. The router skips inline scripts it has
+ * already run, so on a client-side navigation the mode is copied onto the
+ * incoming shell before it replaces this one.
  */
 ---
 
@@ -10,5 +12,10 @@
   ;(() => {
     const match = document.cookie.match(/(?:^|; )sidebar=(expanded|compact|hidden)(?:;|$)/)
     if (match) document.currentScript.parentElement.dataset.sidebar = match[1]
+    document.addEventListener('astro:before-swap', (event) => {
+      const mode = document.querySelector('[data-docs-shell]')?.dataset.sidebar
+      const next = event.newDocument.querySelector('[data-docs-shell]')
+      if (mode && next) next.dataset.sidebar = mode
+    })
   })()
 </script>

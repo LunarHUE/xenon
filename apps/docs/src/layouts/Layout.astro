@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { ClientRouter } from 'astro:transitions'
 import ThemeBoot from '../components/boot/ThemeBoot.astro'
 import ExampleBoot from '../components/boot/ExampleBoot.astro'
 import SidebarShellBoot from '../components/boot/SidebarShellBoot.astro'
@@ -42,7 +43,7 @@ const initialSidebar =
 ---
 
 <!doctype html>
-<html lang="en" data-theme={initialTheme}>
+<html lang="en" data-theme={initialTheme} transition:animate="none">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,6 +53,11 @@ const initialSidebar =
     <ExampleBoot />
     <PlatformBoot />
     <SearchBoot />
+    {/*
+     * Links swap the page in place (see lib/shell-swap.ts). The shell parts marked
+     * transition:persist stay mounted with their state, and only <main> fades over.
+     */}
+    <ClientRouter />
   </head>
   <body>
     {/*
@@ -69,10 +75,13 @@ const initialSidebar =
         sections={navigation}
         current={currentHref(navigation, Astro.url.pathname)}
         client:load
+        transition:persist="docs-sidebar"
+        transition:persist-props
       />
       <SidebarPanelBoot id={sidebar.id} />
       <header
         data-docs-header
+        transition:persist="docs-header"
         class="flex h-14 items-center gap-3 border-b-2 border-foreground bg-background px-6 lg:sticky lg:top-0 lg:z-30 lg:gap-6"
       >
         <div
@@ -109,7 +118,7 @@ const initialSidebar =
           ))}
         <SearchButton compact class="ms-auto" />
       </div>
-      <main data-docs-main class="min-w-0">
+      <main data-docs-main class="min-w-0" transition:animate="fade">
         <slot />
       </main>
     </div>
@@ -117,3 +126,9 @@ const initialSidebar =
     <SearchPalette indexUrl="/search-index.json" version={DOCS_VERSION} client:idle />
   </body>
 </html>
+
+<script>
+  import { swapShell } from '../lib/shell-swap'
+
+  document.addEventListener('astro:before-swap', swapShell)
+</script>
