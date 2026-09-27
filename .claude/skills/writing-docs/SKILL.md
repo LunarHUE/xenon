@@ -225,6 +225,8 @@ demo is the code sample. `references/mdx.md` has the conventions. In short:
 ## 7. Before you finish
 
 - Run `bun run build` in `apps/docs`. A missing demo or bad MDX fails here.
+- Don't run Prettier on MDX. It puts multi-line JSX in code fences on one line,
+  and it can put a `;` before a sample that follows a statement.
 - Look at every tab you touched in the browser, in light and dark mode.
 - Grep your pages for the banned words, `—`, `will `, `we ` and `e.g.`.
 - Grep for the names of sibling components. If the Slider page says "switch",
