@@ -3,7 +3,7 @@
 Button defaults to `type="button"`. Set `type="submit"` when it should submit its
 parent form.
 
-The default prevents accidental form submission.
+The default stops a button from submitting a form by accident.
 
 <Example slot="example" name="button/submit-form" />
 
@@ -14,23 +14,37 @@ The default prevents accidental form submission.
 Use `pending` while an action is in progress. Button stops activation and stays
 focusable.
 
-Provide a visible progress label. `pending` does not add one for you.
+Change the label yourself, like "Saving…". `pending` doesn't add one.
 
 <Example slot="example" name="button/pending" />
 
 </Section>
 
+<Section title="Links">
+
+Render Button as a link with `as="a"` and an `href`. It stays a native link, so
+only Enter follows it.
+
+While the link is disabled or pending, Button removes the `href`. The link can't
+be followed and leaves the tab order until the state clears.
+
+```tsx title="upgrade.tsx"
+<Button as="a" href="/billing" pending={isRedirecting()}>
+  Upgrade plan
+</Button>
+```
+
+</Section>
+
 <Section title="Tailwind">
 
-Apply your own classes and use the state attributes, like `data-pending`, to
-style the button. The previews on these pages use example styles.
+Style each state through the attribute Button sets for it. For example,
+`data-pending:opacity-70` dims a pending button.
 
-Keep keyboard focus visible in every state.
+The [API tab](/docs/components/button/api/#data-attributes) lists every
+attribute. The previews on these pages use example styles. Keep keyboard focus
+visible in every state.
 
-<Example
-  slot="example"
-  name="button/save-changes"
-  caption="Tailwind classes stay in the example.tsx source."
-/>
+<Example slot="example" name="button/save-changes" />
 
 </Section>
