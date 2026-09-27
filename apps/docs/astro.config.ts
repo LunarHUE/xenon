@@ -10,6 +10,9 @@ import { sectionToc } from './src/lib/section-toc'
 export default defineConfig({
   // The docs start at the overview; there is no separate landing page yet.
   redirects: { '/': '/docs/overview/' },
+  // Every internal link fetches its page on hover or touch, so the client router
+  // usually swaps from cache by the time the click lands.
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   integrations: [mdx({ processor: satteri({ mdastPlugins: [codeFences, exampleDemos, sectionToc] }) }), solid()],
   vite: {
     plugins: [tailwindcss()],
