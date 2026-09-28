@@ -1,0 +1,245 @@
+---
+title: Controlled state
+description: Let a component keep its own state, or own it yourself with a signal.
+section: guides
+order: 2
+---
+
+<Section title="Uncontrolled">
+
+Every stateful component keeps its own state until you pass a value for it. Set
+the starting value with a `default` prop, like `defaultOpen`, `defaultValue` or
+`defaultChecked`.
+
+```tsx title="settings-dialog.tsx"
+<Dialog defaultOpen>
+  <Dialog.Trigger>Settings</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Viewport>
+      <Dialog.Content>
+        <Dialog.Title>Settings</Dialog.Title>
+        <Dialog.Close>Done</Dialog.Close>
+      </Dialog.Content>
+    </Dialog.Viewport>
+  </Dialog.Portal>
+</Dialog>
+```
+
+The component reads the `default` prop once, on first render. Later changes to
+it are ignored, so passing a signal there doesn't keep the component in sync.
+
+A form reset is the exception. Form controls go back to the current `default`
+value when their form resets.
+
+</Section>
+
+<Section title="Controlled">
+
+Pass the value and its change handler to own the state. The component shows the
+value you pass and calls the handler when a user asks for a change.
+
+```tsx title="settings-dialog.tsx"
+import { createSignal } from 'solid-js'
+import { Dialog } from '@xenon-ui/solid/dialog'
+
+function Settings() {
+  const [open, setOpen] = createSignal(false)
+
+  return (
+    <Dialog open={open()} onOpenChange={setOpen}>
+      <Dialog.Trigger>Settings</Dialog.Trigger>
+      {/* Portal, Viewport and Content as before */}
+    </Dialog>
+  )
+}
+```
+
+Each state comes as three props with the same names across components:
+
+| State   | Controlled | Initial          | Change handler    |
+| ------- | ---------- | ---------------- | ----------------- |
+| Open    | `open`     | `defaultOpen`    | `onOpenChange`    |
+| Value   | `value`    | `defaultValue`   | `onValueChange`   |
+| Checked | `checked`  | `defaultChecked` | `onCheckedChange` |
+| Pressed | `pressed`  | `defaultPressed` | `onPressedChange` |
+| Page    | `page`     | `defaultPage`    | `onPageChange`    |
+
+The handler receives one argument, the new value. There is no event object, so
+a signal setter works as the handler. Slider and Resizable pass a fresh array
+each time.
+
+The handler runs only for user requests and handle commands. It doesn't run on
+first render, and it doesn't run when you change the value yourself. Dialog,
+Popover and Menu also skip it when the request matches the current state.
+
+Call the signal in JSX, as in `open={open()}`. Passing `open` hands over the function
+itself, which TypeScript rejects.
+
+</Section>
+
+<Section title="Handler required">
+
+A controlled component doesn't change its own state. It asks through the
+handler. If nothing updates the value, the request is dropped and the component
+stays where it is.
+
+```tsx title="wrong.tsx"
+<label>
+  <Checkbox checked={accepted()} />
+  Accept terms
+</label>
+```
+
+Clicking the box does nothing. Checkbox sets the native input back to
+`accepted()` after every click.
+
+```tsx title="right.tsx"
+<label>
+  <Checkbox checked={accepted()} onCheckedChange={setAccepted} />
+  Accept terms
+</label>
+```
+
+The handler writes the new value, and the component shows it.
+
+</Section>
+
+<Section title="Reject or change a request">
+
+Because you write the value, you decide what to keep. Skip the setter to reject
+a request, or pass a different value to change it.
+
+```tsx title="save-dialog.tsx"
+const [open, setOpen] = createSignal(false)
+const [saving, setSaving] = createSignal(false)
+
+<Dialog
+  open={open()}
+  onOpenChange={(next) => {
+    if (!saving()) setOpen(next)
+  }}
+>
+  {/* parts */}
+</Dialog>
+```
+
+While `saving()` is true, Escape and the Close button leave the dialog open.
+
+To stop a request before it reaches the handler, call `event.preventDefault()`
+in the part's own handler, for example `onClick` on `Dialog.Trigger`. The
+handler isn't called.
+
+</Section>
+
+<Section title="undefined means uncontrolled">
+
+A component checks on every read whether the value prop is `undefined`. Setting
+it to `undefined` hands control back to the component, and setting a value takes
+it again. Xenon logs no warning for either switch.
+
+```tsx title="pagination.tsx"
+const [page, setPage] = createSignal<number | undefined>(3)
+
+<Pagination count={5} page={page()} defaultPage={2}>
+  {/* items */}
+</Pagination>
+
+setPage(undefined) // Pagination shows page 2 again
+```
+
+The component keeps its own value while you control it, and only updates it
+while uncontrolled. After a switch back it shows the value it had before you
+took control, not the last value you passed.
+
+So `undefined` can't mean "nothing selected" in a controlled component.
+NavigationMenu, Menubar and NumberField take `null` for that, and treat it as a
+controlled value.
+
+</Section>
+
+<Section title="Handles">
+
+Dialog, AlertDialog, Drawer, Popover, Tooltip, HoverCard and Menu can be opened
+from outside their tree. Create a handle with `createHandle`, and pass it to the
+root.
+
+```tsx title="rename-dialog.tsx"
+import { Dialog } from '@xenon-ui/solid/dialog'
+
+const rename = Dialog.createHandle<{ name: string }>()
+
+function ProjectRow() {
+  return (
+    <button onClick={() => rename.openWithPayload({ name: 'Roadmap' })}>
+      Rename
+    </button>
+  )
+}
+
+function RenameDialog() {
+  return (
+    <Dialog handle={rename}>
+      {(state) => (
+        <Dialog.Portal>
+          <Dialog.Viewport>
+            <Dialog.Content>
+              <Dialog.Title>Rename {state.payload?.name}</Dialog.Title>
+              <Dialog.Close>Cancel</Dialog.Close>
+            </Dialog.Content>
+          </Dialog.Viewport>
+        </Dialog.Portal>
+      )}
+    </Dialog>
+  )
+}
+```
+
+A handle has these members:
+
+- `open(triggerId?)` opens the root. Pass a trigger's `id` to open from that
+  trigger. An unknown `id` is ignored.
+- `openWithPayload(payload)` opens the root and sets `payload` in its render
+  state.
+- `close()` closes the root.
+- `isOpen` is the root's current open state, or `false` while no root is
+  mounted.
+
+A trigger can use the handle too: `<Dialog.Trigger handle={rename}>`. It opens
+the root from anywhere on the page.
+
+The handle holds no state. Its commands go through the root's open logic, so a
+controlled root calls `onOpenChange` and only opens if you set `open`.
+
+Commands sent while no root is mounted are dropped, not queued. A handle
+attaches to one mounted root at a time, and a second root throws. The root
+reads `handle` once, so create the handle outside the component or keep it
+stable.
+
+Dialog, AlertDialog and Drawer open without a trigger. Popover, Tooltip and
+HoverCard need a mounted trigger or `Popover.Anchor` to position against, and
+Menu needs a registered trigger. Without one, the command does nothing.
+
+</Section>
+
+<Section title="Render callbacks">
+
+The roots that take a handle also take a function as `children`. It receives
+`open`, `triggerId` and `payload`, the last one set by a trigger's `payload`
+prop or by `openWithPayload`.
+
+```tsx title="share-popover.tsx"
+<Popover>
+  {(state) => (
+    <>
+      <Popover.Trigger payload="Roadmap">Share</Popover.Trigger>
+      <p>{state.open ? 'Sharing' : 'Private'}</p>
+    </>
+  )}
+</Popover>
+```
+
+The properties are getters. Read them inside JSX or an effect, where Solid
+tracks them. Destructuring `state` reads each value once, and the copy never
+updates.
+
+</Section>
