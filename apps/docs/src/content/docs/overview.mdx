@@ -15,16 +15,10 @@ roles, attributes and event handlers to the elements it renders.
 
 <Section title="Styling">
 
-Components expose their state as data attributes, such as `data-disabled` on a
-disabled Button or `data-state="open"` on an open Collapsible. Style states with
-attribute selectors instead of tracking them yourself. Props the component
-doesn't use, `class` included, pass through to the element.
-
-```tsx title="save.tsx"
-<Button class="border data-disabled:opacity-40" disabled={!dirty()}>
-  Save
-</Button>
-```
+`class` and `style` pass through to the element each part renders, and state
+shows up as data attributes like `data-disabled`. The
+[Styling guide](/docs/styling/) covers the attributes, focus styles and CSS
+variables.
 
 </Section>
 
