@@ -1,0 +1,97 @@
+<Section title="Controlled state">
+
+Pass `checked` and `onCheckedChange` to control the checkbox. `onCheckedChange`
+runs when a click, a label click or Space asks to toggle, and receives the new
+state, so a signal setter works as is.
+
+Without a handler that writes `checked`, the box snaps back after every click.
+See [Handler required](/docs/controlled-state/#handler-required).
+
+Leave `checked` out and use `defaultChecked` to let Checkbox keep its own
+state.
+
+<Example slot="example" name="checkbox/controlled" />
+
+</Section>
+
+<Section title="indeterminate">
+
+Use `indeterminate` to show a mixed state, like a "select all" box when only
+some items are selected. It sets `data-state="indeterminate"` whatever the
+value of `checked`.
+
+Checkbox never clears `indeterminate` itself. A click still asks for the
+opposite of `checked`, so derive both props from your data, as the demo does.
+
+On the default input, Checkbox sets the `indeterminate` DOM property after
+render. The server HTML has no mixed state.
+
+<Example slot="example" name="checkbox/select-all" />
+
+</Section>
+
+<Section title="Forms">
+
+Give the checkbox a `name` to submit it with its form. A checked box submits its
+`value`, or `on` without one. An unchecked or disabled box submits nothing.
+
+A form reset returns an uncontrolled checkbox to `defaultChecked`, and
+`onCheckedChange` doesn't run. See [Reset](/docs/forms/#reset).
+
+Use `form` with a form's id to submit with a form the checkbox isn't inside.
+
+<Example slot="example" name="checkbox/form" />
+
+</Section>
+
+<Section title="Field">
+
+Put Checkbox in a [Field](/docs/forms/#field) in place of Field.Control. It
+takes the Field's `name` and id, and Field.Label points its `for` at the
+checkbox.
+
+`disabled`, `readonly`, `required` and `invalid` on the Field apply to the
+checkbox too. A flag set on either one applies.
+
+```tsx title="terms.tsx"
+<Field name="terms" required invalid={!accepted()}>
+  <Checkbox checked={accepted()} onCheckedChange={setAccepted} />
+  <Field.Label>I accept the terms</Field.Label>
+  <Field.Error>Accept the terms to continue.</Field.Error>
+</Field>
+```
+
+</Section>
+
+<Section title="as">
+
+Checkbox renders a native `<input type="checkbox">`. Pass `as="button"` or
+another element to put content inside the checkbox, like a label and an icon.
+
+Any other host gets `role="checkbox"` and `aria-checked`. With a `name`,
+Checkbox also renders a visually hidden native checkbox next to it, so the form
+still submits.
+
+A custom component must pass its props and ref to the element it renders. See
+[Composition](/docs/composition/#ref).
+
+<Example slot="example" name="checkbox/button-host" />
+
+</Section>
+
+<Section title="Tailwind">
+
+Style each state through the attribute Checkbox sets for it. For example,
+`data-[state=checked]:bg-neutral-950` fills a checked box, and
+`data-[state=indeterminate]:` styles the mixed state.
+
+Add `appearance-none` to drop the browser's box and draw your own. The demo puts
+the check mark in a sibling and shows it with `peer-data-[state=checked]:`.
+
+The [API tab](/docs/components/checkbox/api/#data-state-checked) lists every
+attribute. The [Styling guide](/docs/styling/) covers data variants and focus
+styles.
+
+<Example slot="example" name="checkbox/product-updates" />
+
+</Section>
