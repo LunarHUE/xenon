@@ -1,0 +1,155 @@
+<Props type="CheckboxProps<T>" note="Native props are forwarded">
+
+The checkbox. Renders an `<input type="checkbox">`, or the element you pass to
+`as`.
+
+<Prop name="checked" type="boolean">
+
+The checked state. Pair it with `onCheckedChange` to control the checkbox.
+
+Setting it back to `undefined` hands the state back to Checkbox.
+
+```tsx title="checked.tsx"
+<Checkbox checked={accepted()} onCheckedChange={setAccepted} />
+```
+
+</Prop>
+
+<Prop name="defaultChecked" type="boolean" default="false">
+
+The checked state on first render. Use `checked` to control it.
+
+Later changes don't toggle the box, but a form reset returns it to the latest
+value.
+
+</Prop>
+
+<Prop name="onCheckedChange" type="(checked: boolean) => void">
+
+Called when a click, a label click or Space asks to toggle the checkbox.
+Receives the new state.
+
+It doesn't run on first render, on a form reset, or while the checkbox is
+disabled or read-only.
+
+</Prop>
+
+<Prop name="indeterminate" type="boolean" default="false">
+
+Shows the checkbox as mixed, whatever `checked` is. Sets
+`data-state="indeterminate"`.
+
+Clicking doesn't clear it, and still asks for the opposite of `checked`. The
+default input gets the `indeterminate` DOM property. Other hosts get
+`aria-checked="mixed"`.
+
+```tsx title="indeterminate.tsx"
+<Checkbox
+  checked={all()}
+  indeterminate={some()}
+  onCheckedChange={selectAll}
+/>
+```
+
+</Prop>
+
+<Prop name="disabled" type="boolean" default="false">
+
+Disables the checkbox. Clicks and Space don't change it, and your `onClick`
+doesn't run.
+
+An input or button host gets the native `disabled` attribute. Other hosts get
+`aria-disabled` and lose their tab stop. A disabled checkbox submits nothing.
+
+</Prop>
+
+<Prop name="readonly" type="boolean" default="false">
+
+Blocks changes and keeps the checkbox in the tab order. Sets `aria-readonly`.
+
+</Prop>
+
+<Prop name="required" type="boolean" default="false">
+
+Marks the checkbox as required. The input gets the native `required`
+attribute, so the browser won't submit its form while the box is unchecked.
+
+Other hosts get `aria-required`.
+
+</Prop>
+
+<Prop name="invalid" type="boolean" default="false">
+
+Marks the checkbox as invalid with `aria-invalid`. Checkbox doesn't validate
+anything itself.
+
+</Prop>
+
+<Prop name="name" type="string">
+
+The name the checkbox submits under. Defaults to the name of the Field around
+it.
+
+On a host other than an input, a `name` adds a visually hidden native checkbox
+next to the element. It carries the name, value and checked state, and stays
+out of the tab order.
+
+</Prop>
+
+<Prop name="value" type="string | number">
+
+The value a checked box submits. Without it, the browser submits `on`.
+
+</Prop>
+
+<Prop name="form" type="string">
+
+The id of the form to submit with, when the checkbox isn't inside it.
+
+</Prop>
+
+<Prop name="autofocus" type="boolean" default="false">
+
+Focuses the checkbox once it has rendered, and sets the `autofocus` attribute
+and `data-autofocus`.
+
+</Prop>
+
+<Prop name="as" type="ValidComponent" default="'input'">
+
+The element or component to render. `button` gets `type="button"`. Any host
+other than an input gets `role="checkbox"`, `aria-checked`, and Space to toggle.
+
+A host that isn't a native button also gets a tab stop. A custom component must
+pass its props and ref on to the element it renders. See
+[Composition](/docs/composition/#ref).
+
+```tsx title="as.tsx"
+<Checkbox as="button" name="archived">
+  Include archived projects
+</Checkbox>
+```
+
+</Prop>
+
+<Prop name="ref" type="(el: HTMLElement) => void">
+
+Receives the rendered element. With another host, that's the visible element,
+never the hidden input.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="checked">The checkbox is checked.</Attribute>
+<Attribute name="data-state" value="unchecked">The checkbox is unchecked.</Attribute>
+<Attribute name="data-state" value="indeterminate">`indeterminate` is set. It wins over `checked`.</Attribute>
+<Attribute name="data-checked">Present while the checkbox is checked, including while it shows as mixed.</Attribute>
+<Attribute name="data-indeterminate">Present while `indeterminate` is set.</Attribute>
+<Attribute name="data-disabled">Present while `disabled` is set, on the checkbox or its Field.</Attribute>
+<Attribute name="data-readonly">Present while `readonly` is set, on the checkbox or its Field.</Attribute>
+<Attribute name="data-required">Present while `required` is set, on the checkbox or its Field.</Attribute>
+<Attribute name="data-invalid">Present while `invalid` is set, on the checkbox or its Field.</Attribute>
+<Attribute name="data-autofocus">Present while `autofocus` is set.</Attribute>
+</Attributes>
+
+</Props>
