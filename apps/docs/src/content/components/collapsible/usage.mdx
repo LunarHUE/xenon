@@ -1,0 +1,104 @@
+<Section title="defaultOpen">
+
+Collapsible starts closed. Set `defaultOpen` to show the content on first
+render.
+
+Collapsible reads `defaultOpen` once. Later changes are ignored, so use `open`
+to change the state from outside. Content that is open on first render skips
+the [enter phase](/docs/animation/#enter) and doesn't animate on page load.
+
+```tsx title="default-open.tsx"
+<Collapsible defaultOpen>
+  <Collapsible.Trigger>Shipping details</Collapsible.Trigger>
+  <Collapsible.Content>Orders ship within two business days.</Collapsible.Content>
+</Collapsible>
+```
+
+</Section>
+
+<Section title="Controlled state">
+
+Pass `open` and `onOpenChange` to control the collapsible. `onOpenChange` runs
+when the trigger is activated and receives the new state, so a signal setter
+works as is.
+
+Setting `open` yourself doesn't call `onOpenChange`. To stop a toggle, call
+`event.preventDefault()` in the trigger's `onClick`, or skip the setter as the
+[Controlled state guide](/docs/controlled-state/#reject-or-change-a-request)
+shows.
+
+<Example slot="example" name="collapsible/controlled" />
+
+</Section>
+
+<Section title="disabled">
+
+Use `disabled` to stop the trigger from toggling. Clicks, Enter and Space do
+nothing, and `onOpenChange` doesn't run.
+
+The trigger gets the native `disabled` attribute and leaves the tab order.
+`disabled` doesn't close open content, and `open` still controls it.
+
+<Example slot="example" name="collapsible/disabled" />
+
+</Section>
+
+<Section title="Animate height">
+
+Collapsible.Content sets `--collapsible-panel-height` while it opens and
+closes. Transition `height` between the variable and `0` to slide the panel.
+
+The variable holds the panel's height in pixels while it enters or exits, and
+`auto` once it is open. The open end needs `interpolate-size: allow-keywords`.
+Without it, the height jumps instead of animating.
+
+Put padding and borders on a child, not on Content. Content collapses to a
+height of `0`, and its own padding would stay visible. The
+[Animation guide](/docs/animation/#size-variables) covers the width variable
+and the phase attributes.
+
+<Example slot="example" name="collapsible/animated-height" />
+
+</Section>
+
+<Section title="forceMount">
+
+Content leaves the DOM when it closes. Set `forceMount` on the root to keep
+Content in the DOM from first render and hide it while closed.
+
+Closed content gets the `hidden` attribute once its exit finishes. The exit
+phases run as usual, and the trigger's `aria-controls` always points at an
+element that exists.
+
+```tsx title="force-mount.tsx"
+<Collapsible forceMount>
+  <Collapsible.Trigger>Shipping details</Collapsible.Trigger>
+  <Collapsible.Content>Orders ship within two business days.</Collapsible.Content>
+</Collapsible>
+```
+
+<Callout type="warning">
+A `display` rule on Content overrides `hidden`, so closed content stays
+visible. Tailwind's preflight puts `hidden` back. Without it, add
+`[hidden] { display: none }`.
+</Callout>
+
+</Section>
+
+<Section title="Tailwind">
+
+Style each state through the attributes Collapsible sets. Every part gets
+`data-state`, set to `open` or `closed`.
+
+In this demo, the trigger has `group` and the arrow has
+`group-data-[state=open]:rotate-180`, so the arrow turns while open.
+
+The [API tab](/docs/components/collapsible/api/#content-data-state-open) lists
+every attribute. Keep keyboard focus visible on the trigger in every state.
+
+The [Styling guide](/docs/styling/) covers data variants and focus styles for
+every component.
+
+<Example slot="example" name="collapsible/shipping-details" />
+
+</Section>
