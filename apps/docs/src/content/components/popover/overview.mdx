@@ -1,0 +1,70 @@
+---
+title: Popover
+description: A dialog that opens from a button and stays anchored to it.
+group: overlays
+---
+
+<Section title="Example">
+
+Use Popover for a small form or a few details that open next to a button.
+Content renders a `<div role="dialog">` in the browser's top layer.
+
+<Example name="popover/share-link" />
+
+</Section>
+
+<Section title="Anatomy">
+
+<Anatomy
+  name="popover/anatomy"
+  caption="Root, Trigger, Positioner and Content are required. Portal renders no element, and the preview leaves out the optional Anchor, Portal and Viewport."
+>
+
+```tsx title="Anatomy"
+<Popover>
+  <Popover.Trigger />
+  <Popover.Anchor /> {/* optional */}
+  <Popover.Portal> {/* optional */}
+    <Popover.Positioner>
+      <Popover.Content>
+        <Popover.Arrow /> {/* optional */}
+        <Popover.Viewport> {/* optional */}
+          <Popover.Title />
+          <Popover.Description /> {/* optional */}
+          <Popover.Close /> {/* optional */}
+        </Popover.Viewport>
+      </Popover.Content>
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover>
+```
+
+</Anatomy>
+
+<Definitions>
+  <Definition term="Popover">Holds the open state. Renders a `<div>`.</Definition>
+  <Definition term="Trigger">The button that opens and closes the popover.</Definition>
+  <Definition term="Anchor">Optional. An element to position against instead of the trigger.</Definition>
+  <Definition term="Portal">Optional. Moves the positioner to `document.body`.</Definition>
+  <Definition term="Positioner">Places the content next to the trigger or anchor.</Definition>
+  <Definition term="Content">The dialog. Focus moves here on open.</Definition>
+  <Definition term="Arrow">Optional. A box that points at the anchor. You draw the arrow inside it.</Definition>
+  <Definition term="Viewport">Optional. Keeps the old content on screen while another trigger swaps it.</Definition>
+  <Definition term="Title">Names the dialog. Leave it out only if Content has an `aria-label`.</Definition>
+  <Definition term="Description">Optional. Describes the dialog.</Definition>
+  <Definition term="Close">Optional. A button that closes the popover.</Definition>
+</Definitions>
+
+</Section>
+
+<Section title="When to use">
+
+<Definitions>
+  <Definition term="Popover">Opens on click. Focus moves into the content, which can hold any control.</Definition>
+  <Definition term="Tooltip">Opens on hover or focus and holds a short description. Focus stays on the trigger.</Definition>
+  <Definition term="HoverCard">Opens from a link after a hover or focus delay. Focus stays on the link.</Definition>
+  <Definition term="Dialog">Not anchored to anything, and modal by default.</Definition>
+  <Definition term="Menu">A list of actions. Arrow keys move between items, and typing jumps to one.</Definition>
+</Definitions>
+
+</Section>
