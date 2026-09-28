@@ -50,7 +50,7 @@ kind of question.
 ### overview.mdx: what is it, and is it the right one?
 
 Frontmatter carries `title`, `description` and `group` (`actions`, `forms`,
-`structure`). Add `status: draft` while the API can still move.
+`structure`, `overlays`). Add `status: draft` while the API can still move.
 
 The `description` is the line under the H1, and the directory and search reuse
 it. Write a fragment: "A" or "An", a concrete noun, then the one fact that sets
