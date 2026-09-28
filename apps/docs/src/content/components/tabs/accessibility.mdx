@@ -1,0 +1,87 @@
+<Section title="Semantics">
+
+Tabs follows the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+The list gets `role="tablist"`, each tab `role="tab"` and each panel
+`role="tabpanel"`.
+
+| Part  | Attributes Tabs sets                                                  |
+| ----- | --------------------------------------------------------------------- |
+| List  | `role="tablist"`, and `aria-orientation="vertical"` when vertical     |
+| Tab   | `role="tab"`, `aria-selected`, `aria-controls` pointing at its panel  |
+| Panel | `role="tabpanel"`, `aria-labelledby` pointing at its tab, `hidden`    |
+
+Every tab points at its panel, including panels that are hidden. A panel takes
+its name from its tab's label.
+
+The list has no name of its own. Give it one with `aria-label`, or with
+`aria-labelledby` when a visible heading names it.
+
+```tsx title="accessible-name.tsx"
+<h2 id="settings-heading">Project settings</h2>
+<Tabs>
+  <Tabs.List aria-labelledby="settings-heading">
+    {/* tabs */}
+  </Tabs.List>
+  {/* panels */}
+</Tabs>
+```
+
+</Section>
+
+<Section title="Keyboard">
+
+The arrow keys move within the list. Tab moves in and out of it.
+
+| Key                                       | Behavior                                                                                                        |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| <Kbd>Tab</Kbd>                            | Moves focus into the list, onto the selected tab. From a tab, moves focus to the next element after the list.  |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd>         | Moves focus to the previous focusable element. Entering the list this way lands on the selected tab.           |
+| <Kbd>Arrow Right</Kbd>, <Kbd>Arrow Left</Kbd> | Moves focus to the next or previous enabled tab, and selects it in automatic mode. Horizontal only. Swapped under `dir="rtl"`. |
+| <Kbd>Arrow Down</Kbd>, <Kbd>Arrow Up</Kbd> | Moves focus to the next or previous enabled tab, and selects it in automatic mode. Only with `orientation="vertical"`. |
+| <Kbd>Home</Kbd>, <Kbd>End</Kbd>           | Moves focus to the first or last enabled tab, and selects it in automatic mode.                                 |
+| <Kbd>Enter</Kbd>, <Kbd>Space</Kbd>        | Selects the focused tab.                                                                                         |
+
+With `loop`, the default, the arrow keys wrap from the last tab to the first
+and back. With `loop={false}` they stop at the ends. An arrow key with Shift,
+Ctrl, Alt or Meta held does nothing.
+
+</Section>
+
+<Section title="Focus">
+
+The list is one tab stop. It sits on the selected tab, follows focus while
+focus is inside the list, and returns to the selected tab when focus leaves.
+
+| Element                                | In tab order                        |
+| -------------------------------------- | ----------------------------------- |
+| Selected tab                           | Yes                                 |
+| Other enabled tabs                     | No, the arrow keys reach them       |
+| Disabled tab                           | No, it has native `disabled`        |
+| Selected panel with only text          | Yes, it gets `tabindex="0"`         |
+| Selected panel with a focusable child  | No, its focusable content is        |
+| Hidden panel                           | No                                  |
+
+Tabs checks the panel for links, buttons, form fields and elements with a
+`tabindex`. It checks again whenever the panel's content changes. The check
+reads markup only, so a focusable element hidden with CSS still counts.
+
+</Section>
+
+<Section title="Author">
+
+<Definitions mono>
+  <Definition term="Name">
+    Give Tabs.List an `aria-label`, or an `aria-labelledby` that points at a visible heading.
+  </Definition>
+  <Definition term="Focus">
+    Style `:focus-visible` on tabs and on panels, since a text-only panel takes focus.
+  </Definition>
+  <Definition term="Layout">
+    Stack the list for `orientation="vertical"`. The arrow keys follow the prop, not the layout.
+  </Definition>
+  <Definition term="Hidden">
+    Keep `display` classes off panels, or hidden panels show and stay readable.
+  </Definition>
+</Definitions>
+
+</Section>
