@@ -7,8 +7,8 @@ interface Props {
 const { term } = Astro.props
 ---
 
-<div class="flex flex-col gap-1 @md:flex-row @md:gap-6">
-  <dt class="shrink-0 font-medium @md:w-22 group-data-mono/definitions:font-mono group-data-mono/definitions:text-sm group-data-mono/definitions:leading-[26px] group-data-mono/definitions:font-normal">
+<div class="flex flex-col gap-1 @md:contents">
+  <dt class="font-medium @md:min-w-22 group-data-mono/definitions:font-mono group-data-mono/definitions:text-sm group-data-mono/definitions:leading-[26px] group-data-mono/definitions:font-normal">
     {term}
   </dt>
   <dd class="min-w-0 flex-1">

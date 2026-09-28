@@ -10,7 +10,7 @@
  *
  * Terms are bold by default. Pass `mono` when they read as labels rather than
  * names, as in the author checklist. Rows stack when the article is narrower
- * than 28rem.
+ * than 28rem. The term column grows to fit the longest term, up to 12rem.
  */
 interface Props {
   /** Set the terms in mono instead of bold sans. */
@@ -20,6 +20,6 @@ interface Props {
 const { mono = false } = Astro.props
 ---
 
-<dl data-mono={mono || undefined} class="group/definitions flex flex-col gap-4">
+<dl data-mono={mono || undefined} class="group/definitions flex flex-col gap-4 @md:grid @md:grid-cols-[fit-content(12rem)_1fr] @md:gap-x-6">
   <slot />
 </dl>
