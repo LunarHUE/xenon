@@ -1,0 +1,51 @@
+---
+title: Tabs
+description: A row of tabs where selecting one shows its panel and hides the rest.
+group: structure
+---
+
+<Section title="Example">
+
+Use Tabs to split related content into views the reader switches between in
+place. Each tab is a native button, and each panel is a `<div>`.
+
+<Example name="tabs/project-settings" />
+
+</Section>
+
+<Section title="Anatomy">
+
+<Anatomy
+  name="tabs/anatomy"
+  caption="Render one Tab and one Panel per view, paired by the same value."
+>
+
+```tsx title="Anatomy"
+<Tabs>
+  <Tabs.List>
+    <Tabs.Tab />
+  </Tabs.List>
+  <Tabs.Panel />
+</Tabs>
+```
+
+</Anatomy>
+
+<Definitions>
+  <Definition term="Tabs">Holds the selected value and the navigation settings.</Definition>
+  <Definition term="Tabs.List">Groups the tabs and takes the accessible name.</Definition>
+  <Definition term="Tabs.Tab">Selects the panel with the same `value`.</Definition>
+  <Definition term="Tabs.Panel">Shows its content while its tab is selected.</Definition>
+</Definitions>
+
+</Section>
+
+<Section title="When to use">
+
+<Definitions>
+  <Definition term="Tabs">One view at a time, picked from a short row of labels.</Definition>
+  <Definition term="Accordion">Stacked sections that open in place, where more than one can be open.</Definition>
+  <Definition term="Toolbar">A row of controls that run actions. Nothing gets selected.</Definition>
+</Definitions>
+
+</Section>
