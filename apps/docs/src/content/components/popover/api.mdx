@@ -1,0 +1,478 @@
+<Props title="Root" type="PopoverProps<T, Payload>" note="Native props are forwarded">
+
+Groups the parts and holds the open state. Renders a `<div>`, or the element
+you pass to `as`. `Popover.Root` is the same component.
+
+<Prop name="open" type="boolean">
+
+The open state. Pair it with `onOpenChange` to control the popover.
+
+</Prop>
+
+<Prop name="defaultOpen" type="boolean" default="false">
+
+The open state on first render. Later changes are ignored. Use `open` to
+control it.
+
+</Prop>
+
+<Prop name="onOpenChange" type="(open: boolean) => void">
+
+Called when a trigger, Popover.Close, Escape, an outside click, focus leaving
+the content or a handle asks to open or close. Receives the new state.
+
+A request that matches the current state doesn't call it.
+
+</Prop>
+
+<Prop name="modal" type="boolean" default="false">
+
+Locks page scroll, keeps focus inside the content, and hides the rest of the
+page from screen readers while open. Also sets `aria-modal="true"` on Content.
+
+The lock stays on until the exit animation finishes.
+
+</Prop>
+
+<Prop name="forceMount" type="boolean" default="false">
+
+Keeps the content in the DOM while closed, so you can animate it out or measure
+it. Closed content gets `hidden`.
+
+See [Keep content mounted](/docs/animation/#keep-content-mounted).
+
+</Prop>
+
+<Prop name="closeOnEscape" type="boolean" default="true">
+
+Closes the popover on Escape. With `false`, Escape does nothing while this
+popover is on top, and a popover underneath doesn't close either.
+
+</Prop>
+
+<Prop name="closeOnOutside" type="boolean" default="true">
+
+Closes the popover when a press and its release both land outside the content.
+Clicks on any of its triggers count as inside.
+
+</Prop>
+
+<Prop name="closeOnFocusOutside" type="boolean" default="true">
+
+Closes the popover when keyboard focus moves outside the content, for example
+with Tab past the last control. Ignored when `modal` is set.
+
+Focus stays where it moved to.
+
+</Prop>
+
+<Prop name="onEscapeKeyDown" type="(event: KeyboardEvent) => void">
+
+Called when Escape is pressed while open. Call `event.preventDefault()` to
+keep the popover open.
+
+Not called when `closeOnEscape` is `false`.
+
+</Prop>
+
+<Prop name="onPointerOutside" type="(event: LayerPointerOutsideEvent) => void">
+
+Called after a press and release outside the content. Call
+`event.preventDefault()` to keep the popover open.
+
+`event.originalEvent` is the `pointerup`. Preventing the event doesn't cancel
+the click itself.
+
+</Prop>
+
+<Prop name="onFocusOutside" type="(event: FloatingFocusOutsideEvent) => void">
+
+Called when keyboard focus moves outside non-modal content. Call
+`event.preventDefault()` to keep the popover open.
+
+`event.originalEvent` is the `focusin`.
+
+</Prop>
+
+<Prop name="initialFocus" type="HTMLElement | false" default="first tab stop">
+
+The element to focus when the popover opens. `false` leaves focus where it is.
+
+Without it, an element with `autofocus` goes first, then the first tab stop,
+then Content itself.
+
+</Prop>
+
+<Prop name="finalFocus" type="HTMLElement" default="the trigger">
+
+The element to focus when the popover closes. If it can't take focus, the
+trigger does.
+
+</Prop>
+
+<Prop name="restoreFocus" type="boolean" default="true">
+
+Moves focus back to the trigger or `finalFocus` when the popover closes. Focus
+the user moved outside the popover stays there either way.
+
+</Prop>
+
+<Prop name="handle" type="PopoverHandle<Payload>">
+
+Connects triggers outside the root and lets you open and close the popover from
+code. Create it with `Popover.createHandle()`. The root reads it once.
+
+See [Handles](/docs/controlled-state/#handles).
+
+</Prop>
+
+<Prop name="children" type="JSX.Element | ((state: PopoverRenderState<Payload>) => JSX.Element)">
+
+The parts, or a function that receives `state` with `open`, `triggerId` and
+`payload` getters. Read them inside JSX or an effect.
+
+See [Render callbacks](/docs/controlled-state/#render-callbacks).
+
+</Prop>
+
+<Prop name="contentId" type="string">
+
+The id of Content. Defaults to a generated id. An `id` on Content wins.
+
+</Prop>
+
+<Prop name="titleId" type="string">
+
+The id of Title. Defaults to a generated id. Without a Title, Content's
+`aria-labelledby` still points at this id, so you can name the popover with
+your own heading.
+
+</Prop>
+
+<Prop name="descriptionId" type="string">
+
+The id of Description. Defaults to a generated id. Without a Description,
+Content's `aria-describedby` still points at this id.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Trigger" type="PopoverTriggerProps<T, Payload>">
+
+The button that opens and closes the popover. Renders a `<button>`. Built on
+[Button](/docs/components/button/api/), so it takes the same props, including
+`disabled`.
+
+<Prop name="payload" type="Payload">
+
+The value the root's `state.payload` takes when this trigger opens the popover.
+
+</Prop>
+
+<Prop name="handle" type="PopoverHandle<Payload>">
+
+Connects a trigger outside the root to the root that has the same handle.
+
+</Prop>
+
+<Prop name="id" type="string">
+
+The id of the trigger. Defaults to a generated id. `handle.open(id)` opens the
+popover from this trigger, and `state.triggerId` reads it.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open. Every trigger of the popover gets it.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Anchor" type="PopoverAnchorProps<T>">
+
+An element to position the content against instead of the trigger. Renders a
+`<div>`, or the element you pass to `as`. Optional.
+
+It adds no role or behavior, and clicks on it count as outside the popover.
+
+</Props>
+
+<Props title="Portal" type="OverlayPortalProps">
+
+Moves its children to the end of `document.body`. Renders no element.
+Optional.
+
+Inside a modal Dialog, it mounts into the dialog instead. The server renders
+nothing, and the content renders on the client.
+
+<Prop name="container" type="Element">
+
+The element to mount into.
+
+</Prop>
+
+</Props>
+
+<Props title="Positioner" type="PopoverPositionerProps">
+
+Places the content next to the anchor or trigger. Renders a
+`<div popover="manual">` in the browser's top layer.
+
+It writes `position`, `left`, `top`, `visibility` and `pointer-events` inline
+and stays hidden until it has measured. Style it, but animate Content instead.
+
+<Prop name="side" type="'top' | 'right' | 'bottom' | 'left'" default="'bottom'">
+
+The side of the anchor to place the content on. Collisions can flip it.
+
+</Prop>
+
+<Prop name="align" type="'start' | 'center' | 'end'" default="'center'">
+
+The alignment along that side. `start` and `end` follow the reading direction
+on the top and bottom sides.
+
+</Prop>
+
+<Prop name="sideOffset" type="number" default="0">
+
+The gap between the anchor and the content, in pixels. The arrow's size isn't
+added.
+
+</Prop>
+
+<Prop name="alignOffset" type="number" default="0">
+
+The shift along the anchor's edge, in pixels. Positive values move toward the
+inline end, or inward from an `end` alignment.
+
+</Prop>
+
+<Prop name="collisionBoundary" type="'clipping-ancestors' | 'viewport' | Element | Element[] | Rect" default="'clipping-ancestors'">
+
+The region the content has to fit in when it flips, shifts, and measures the
+available space.
+
+</Prop>
+
+<Prop name="collisionPadding" type="number | Partial<Record<Side, number>>" default="8">
+
+The distance to keep from the boundary's edges, in pixels.
+
+</Prop>
+
+<Prop name="flip" type="boolean" default="true">
+
+Moves the content to another side when it doesn't fit.
+
+</Prop>
+
+<Prop name="shift" type="boolean" default="true">
+
+Slides the content along the anchor's edge to keep it inside the boundary.
+
+</Prop>
+
+<Prop name="tether" type="boolean" default="true">
+
+Limits `shift` so the content stays in contact with the anchor.
+
+</Prop>
+
+<Prop name="fallbackPlacements" type="Placement[]">
+
+The placements to try, in order, when the content flips. For example,
+`['top', 'right-start']`. Ignored when `flip` is `false`.
+
+</Prop>
+
+<Prop name="hideWhenDetached" type="boolean" default="false">
+
+Hides the content while the anchor is fully clipped, for example scrolled out
+of its container. The content stays mounted.
+
+</Prop>
+
+<Prop name="matchAnchorSize" type="'width' | 'height' | false" default="false">
+
+Sets the Positioner's width or height to the anchor's.
+
+</Prop>
+
+<Prop name="arrowPadding" type="number" default="4">
+
+The closest the arrow gets to the content's corners, in pixels.
+
+</Prop>
+
+<Prop name="autoUpdate" type="boolean | PositioningUpdateOptions" default="true">
+
+Repositions on scroll, resize and layout shifts. With `false`, the content is
+placed on open and when these props change.
+
+Pass `{ animationFrame: true }` to follow an anchor that moves with a
+transform.
+
+</Prop>
+
+<Prop name="pointerEvents" type="'auto' | 'none'" default="'auto'">
+
+The Positioner's `pointer-events` while visible.
+
+</Prop>
+
+<Prop name="dir" type="'ltr' | 'rtl'">
+
+The reading direction for `align`. Defaults to the Positioner's computed
+direction.
+
+</Prop>
+
+<Prop name="onPositioned" type="(state: PositioningState) => void">
+
+Called when the placement changes. Receives the side, alignment, coordinates
+and available space.
+
+</Prop>
+
+<Prop name="onError" type="(error: unknown) => void">
+
+Called when a background measurement fails. Without it, the error is thrown.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed and still mounted, during the exit or with `forceMount`.</Attribute>
+<Attribute name="data-side">Set to the side the content ended up on, after any flip.</Attribute>
+<Attribute name="data-align">Set to the alignment the content ended up with.</Attribute>
+<Attribute name="data-positioned">Present once the content has been measured and placed.</Attribute>
+<Attribute name="data-reference-hidden">Present while the anchor is fully clipped and `hideWhenDetached` is set.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Content" type="PopoverContentProps<T>">
+
+The dialog. Renders a `<div role="dialog" tabindex="-1">`, or the element you
+pass to `as`. Must be inside the Positioner.
+
+Title names it through `aria-labelledby`. An `aria-label` on Content replaces
+that.
+
+<Prop name="aria-label" type="string">
+
+Names the popover when there is no Title. Content then drops `aria-labelledby`.
+
+</Prop>
+
+<Prop name="ref" type="(el: HTMLElement) => void">
+
+Receives the rendered element. Popover also reads it, to hold focus and to wait
+for the exit animation.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+<Attribute name="data-starting-style">Present for the first frame after the popover opens.</Attribute>
+<Attribute name="data-ending-style">Present while the exit animation runs.</Attribute>
+<Attribute name="data-side">Set to the side the content ended up on.</Attribute>
+<Attribute name="data-align">Set to the alignment the content ended up with.</Attribute>
+<Attribute name="data-placement">Set to the side and alignment together, like `bottom-start`. Centered placements are the side alone.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Arrow" type="PopoverArrowProps<T>">
+
+A box that points at the anchor. Renders a `<div>`, or the element you pass to
+`as`, with `aria-hidden="true"` and `role="presentation"`. Optional, and must
+be inside the Positioner.
+
+Xenon sizes nothing. Give it a square size and draw the arrow inside it.
+
+<Attributes>
+<Attribute name="data-side">Set to the side of the content the arrow is on.</Attribute>
+<Attribute name="data-uncentered">Present when the arrow can't line up with the anchor. The arrow is hidden then.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Viewport" type="PopoverViewportProps">
+
+Keeps a copy of the old content on screen while another trigger or `payload`
+replaces it, so you can animate between them. Renders a `<div>` with your
+children in a `<div data-current>`. Optional, and goes inside Content.
+
+The copy is a `<div data-previous>` with `inert` and `aria-hidden`, removed
+once both animations finish. The Viewport and Content get `--viewport-width`,
+`--viewport-height`, `--popup-width` and `--popup-height`, in pixels.
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+<Attribute name="data-transitioning">Present while the old and new content are both on screen.</Attribute>
+<Attribute name="data-activation-direction">Set to where the new trigger is from the old one, like `right` or `left down`.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Title" type="PopoverTitleProps<T>">
+
+The heading that names the popover. Renders an `<h2>`, or the element you pass
+to `as`. Without it, give Content an `aria-label`.
+
+<Prop name="id" type="string">
+
+The id Content's `aria-labelledby` points at. Defaults to `titleId`, or a
+generated id.
+
+</Prop>
+
+</Props>
+
+<Props title="Description" type="PopoverDescriptionProps<T>">
+
+Text that describes the popover. Renders a `<p>`, or the element you pass to
+`as`. Optional. Content's `aria-describedby` points at it.
+
+<Prop name="id" type="string">
+
+The id Content's `aria-describedby` points at. Defaults to `descriptionId`, or
+a generated id.
+
+</Prop>
+
+</Props>
+
+<Props title="Close" type="PopoverCloseProps<T>">
+
+A button that closes the popover. Renders a `<button>`. Built on
+[Button](/docs/components/button/api/), so it takes the same props.
+
+<Prop name="aria-label" type="string" default="'Close popover'">
+
+The accessible name. It replaces the visible text, so set it to match when the
+button has a text label.
+
+```tsx title="close.tsx"
+<Popover.Close aria-label="Done">Done</Popover.Close>
+```
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The popover is open.</Attribute>
+<Attribute name="data-state" value="closed">The popover is closed.</Attribute>
+</Attributes>
+
+</Props>
