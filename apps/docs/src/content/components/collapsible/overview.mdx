@@ -1,0 +1,53 @@
+---
+title: Collapsible
+description: An inline panel that one button opens and closes, with its own state.
+group: structure
+---
+
+<Section title="Example">
+
+Use Collapsible to tuck secondary content behind a button, like shipping terms
+or a list of order items. It renders a `<div>` with a native button inside.
+
+<Example name="collapsible/shipping-details" />
+
+</Section>
+
+<Section title="Anatomy">
+
+<Anatomy
+  name="collapsible/anatomy"
+  caption="Content is in the DOM only while open, unless you set forceMount."
+>
+
+```tsx title="Anatomy"
+<Collapsible>
+  <Collapsible.Trigger />
+  <Collapsible.Content />
+</Collapsible>
+```
+
+</Anatomy>
+
+<Definitions>
+  <Definition term="Collapsible">Holds the open state and wraps the other parts.</Definition>
+  <Definition term="Collapsible.Trigger">The button that opens and closes the content.</Definition>
+  <Definition term="Collapsible.Content">The panel that shows while open.</Definition>
+</Definitions>
+
+</Section>
+
+<Section title="When to use">
+
+<Definitions>
+  <Definition term="Collapsible">One trigger and one panel with their own open state.</Definition>
+  <Definition term="Accordion">
+    A stack of panels with arrow keys between triggers. Each panel gets `role="region"`.
+  </Definition>
+  <Definition term="details">
+    The native `<details>` and `<summary>`. No JavaScript, but closed content stays in the DOM and
+    there are no phase attributes to animate the close.
+  </Definition>
+</Definitions>
+
+</Section>
