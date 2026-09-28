@@ -199,8 +199,8 @@ finishes, Xenon sets `hidden` on it instead of unmounting it.
 
 <Callout type="warning">
 A `display` rule on the content overrides the `hidden` attribute, so closed
-content stays visible. Add `[hidden] { display: none }` for that element, or
-`[&[hidden]]:hidden` in Tailwind.
+content stays visible. Tailwind's preflight puts `hidden` back. Without it, add
+`[hidden] { display: none }`.
 </Callout>
 
 </Section>

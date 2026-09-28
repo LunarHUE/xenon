@@ -105,9 +105,9 @@ A panel hides at once and gets none of the
 [animation phase attributes](/docs/animation/#phases), so it can't play an exit.
 
 <Callout type="warning">
-A `display` class like `flex` or `grid` on a panel overrides `hidden`, and
-every panel shows at once. Put the layout on an element inside the panel, or
-add `[&[hidden]]:hidden`.
+A `display` rule on a panel overrides `hidden`, and every panel shows at
+once. Tailwind's preflight puts `hidden` back. Without it, add
+`[hidden] { display: none }`.
 </Callout>
 
 </Section>
