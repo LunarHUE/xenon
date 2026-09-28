@@ -1,0 +1,72 @@
+<Section title="Semantics">
+
+Collapsible follows the [WAI-ARIA disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+The trigger is a native button, and its visible label is the accessible name.
+
+The trigger gets `aria-expanded`, `true` while open and `false` while closed.
+Its `aria-controls` holds the content's id. Content gets no role and no
+accessible name.
+
+`aria-controls` is set while closed too, when the content isn't in the DOM.
+Set `forceMount` if the id must always resolve.
+
+Content is a plain container. To make it a named region, give the trigger an
+id and point the content at it.
+
+```tsx title="region.tsx"
+<Collapsible>
+  <Collapsible.Trigger id="shipping-trigger">Shipping details</Collapsible.Trigger>
+  <Collapsible.Content role="region" aria-labelledby="shipping-trigger">
+    Orders ship within two business days.
+  </Collapsible.Content>
+</Collapsible>
+```
+
+</Section>
+
+<Section title="Keyboard">
+
+| Key                               | Behavior                                                      |
+| --------------------------------- | ------------------------------------------------------------- |
+| <Kbd>Tab</Kbd>                    | Moves focus to the trigger. Closed content adds no tab stops. |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Moves focus to the previous focusable element.                |
+| <Kbd>Enter</Kbd>, <Kbd>Space</Kbd> | Opens or closes the content. Does nothing while `disabled`.  |
+
+</Section>
+
+<Section title="Focus">
+
+Collapsible doesn't move focus. After a toggle, focus stays on the trigger.
+
+| State                  | Trigger in tab order | Content                           |
+| ---------------------- | -------------------- | --------------------------------- |
+| Closed                 | Yes                  | Not in the DOM                    |
+| Closed with `forceMount` | Yes                | In the DOM with `hidden`          |
+| Closing                | Yes                  | `inert` until the exit finishes   |
+| Open                   | Yes                  | Focusable in DOM order            |
+| `disabled`             | No                   | Unchanged                         |
+
+The exiting content gets `inert`, so its links and buttons can't take focus
+while it animates out.
+
+</Section>
+
+<Section title="Author">
+
+<Definitions mono>
+  <Definition term="Name">
+    Give the trigger a visible label, or an `aria-label` when it only has an icon.
+  </Definition>
+  <Definition term="Focus">
+    Style `:focus-visible` on the trigger so keyboard focus stays visible.
+  </Definition>
+  <Definition term="Arrow">
+    Mark an arrow or chevron inside the trigger `aria-hidden="true"`. `aria-expanded` already
+    announces the state.
+  </Definition>
+  <Definition term="Order">
+    Place the content right after the trigger in the DOM, so Tab reaches it next.
+  </Definition>
+</Definitions>
+
+</Section>
