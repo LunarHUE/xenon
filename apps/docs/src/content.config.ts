@@ -27,7 +27,7 @@ const components = defineCollection({
     title: z.string().optional(),
     description: z.string().optional(),
     /** Directory group. */
-    group: z.enum(['actions', 'forms', 'structure']).optional(),
+    group: z.enum(['actions', 'forms', 'overlays', 'structure']).optional(),
     /** Import path in the eyebrow. Defaults to `@xenon-ui/solid/<component>`. */
     package: z.string().optional(),
     /** A draft API gets "· Draft API" after the eyebrow. */

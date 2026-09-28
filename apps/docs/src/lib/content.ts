@@ -19,6 +19,7 @@ export type ComponentGroup = NonNullable<ComponentEntry['data']['group']>
 export const GROUP_LABELS: Record<ComponentGroup, string> = {
   actions: 'Actions',
   forms: 'Forms',
+  overlays: 'Overlays',
   structure: 'Structure',
 }
 
