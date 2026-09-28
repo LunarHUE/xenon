@@ -1,0 +1,281 @@
+---
+title: Forms
+description: Submit with a native form. Wire labels, descriptions and errors with Field.
+section: guides
+order: 4
+---
+
+<Section title="Native submission">
+
+Every Xenon form control submits through a native form element. A plain
+`<form>` and `FormData` read the values, and no form library is required.
+
+Some controls are the native element. Others render a visually hidden one next
+to the visible parts and keep it in sync.
+
+<Definitions>
+  <Definition term="Field.Control">The `<input>`, `<select>` or `<textarea>` it renders.</Definition>
+  <Definition term="Checkbox, Switch">The native checkbox they render by default. Another host gets a hidden checkbox once it has a `name`.</Definition>
+  <Definition term="CheckboxGroup">One entry per checked item, with the item's `value`.</Definition>
+  <Definition term="RadioGroup">The native radios it renders by default. Another host gets a hidden radio once the group has a `name`.</Definition>
+  <Definition term="Select, Combobox">A hidden `<select>` with the selected value. Typed Combobox text is never submitted.</Definition>
+  <Definition term="Slider">One `<input type="range">` per thumb, all under the same name.</Definition>
+  <Definition term="NumberField">A hidden input with the number, or an empty string when there is none.</Definition>
+  <Definition term="PinInput">A hidden input with the whole code as one string.</Definition>
+  <Definition term="TagsInput">One hidden input per tag.</Definition>
+  <Definition term="Editable">Its text input, which stays mounted while the preview shows.</Definition>
+</Definitions>
+
+Toggle and ToggleGroup take no `name` and submit nothing.
+
+</Section>
+
+<Section title="name">
+
+A control needs a `name` to submit. Without one, the browser leaves it out of
+the form data.
+
+Set `name` on the control, or on a Field around it. A `name` on the control wins
+over the Field's.
+
+```tsx title="Wrong"
+<Checkbox value="weekly" />
+```
+
+The checkbox renders and toggles, but `FormData` has no entry for it.
+
+```tsx title="Right"
+<Checkbox name="digest" value="weekly" />
+```
+
+A checked box submits `digest=weekly`. Without `value`, it submits the browser
+default, `on`.
+
+RadioGroup generates a `name` when you leave it out, so its radios still act as
+one group. The entry is keyed by that generated name, so set your own.
+
+</Section>
+
+<Section title="Field">
+
+Field connects a label, a description and an error to one control. It sets the
+ids and the references between them, and passes its state down to the control.
+
+```tsx title="email-field.tsx"
+import { Field } from '@xenon-ui/solid/field'
+
+<Field id="email" name="email" required invalid={!!error()}>
+  <Field.Label>Work email</Field.Label>
+  <Field.Control type="email" />
+  <Field.Description>Invoices go to this address.</Field.Description>
+  <Field.Error>{error()}</Field.Error>
+</Field>
+```
+
+The parts take their ids from the Field's `id` with a suffix: `-label`,
+`-control`, `-description` and `-error`. Without an `id`, Field generates the
+base. An `id` on a part replaces its generated one.
+
+```html title="Output while invalid"
+<div role="group">
+  <label id="email-label" for="email-control">Work email</label>
+  <input
+    id="email-control"
+    type="email"
+    name="email"
+    required
+    aria-invalid="true"
+    aria-describedby="email-description email-error"
+  />
+  <p id="email-description">Invoices go to this address.</p>
+  <p id="email-error" role="alert">Enter your work email.</p>
+</div>
+```
+
+The output leaves out the data attributes. They're covered under
+[Styling state](#styling-state).
+
+Field.Control renders an `<input>`. Pass `as="select"` or `as="textarea"` for
+the other native controls. Checkbox, Switch, CheckboxGroup, Select, Combobox,
+Slider, NumberField, PinInput, TagsInput and Editable also read the Field around
+them, so put them in a Field in place of Field.Control.
+
+RadioGroup doesn't read Field. Give it an `aria-label` or `aria-labelledby`
+yourself.
+
+</Section>
+
+<Section title="Labels">
+
+Field.Label renders a `<label>` whose `for` points at the control. A native
+input, select, textarea or button gets its name from that label, so the control
+gets no `aria-labelledby`.
+
+Any other host, like a Checkbox with `as="div"`, gets `aria-labelledby` with the
+label's id. Clicking the label focuses that control, unless the Field is
+disabled.
+
+Your own `aria-labelledby` on the control comes first, followed by any ids
+Field adds.
+
+</Section>
+
+<Section title="Descriptions and errors">
+
+The control's `aria-describedby` lists your own ids first, then each
+Field.Description, then each Field.Error while the Field is invalid.
+
+Field.Error renders only while the Field is invalid. It renders a `<p>` with
+`role="alert"`, so screen readers announce it when it appears. Field doesn't set
+`aria-errormessage`.
+
+Two descriptions in one Field share the generated description id. Give each one
+its own `id`.
+
+```tsx title="password-field.tsx"
+<Field name="password" invalid={tooShort()}>
+  <Field.Label>Password</Field.Label>
+  <Field.Control type="password" />
+  <Field.Description id="password-length">At least 12 characters.</Field.Description>
+  <Field.Description id="password-reuse">Don't reuse an old password.</Field.Description>
+  <Field.Error>This password is too short.</Field.Error>
+</Field>
+```
+
+</Section>
+
+<Section title="Server rendering">
+
+On the server, Field fills in `for`, `aria-labelledby` and `aria-describedby`
+after its whole subtree has rendered. The HTML has the final ids even when a
+description comes after the control.
+
+This covers native hosts. A custom component passed to `as` gets the ids that
+exist when it renders, so parts placed after it are missing from its HTML.
+
+</Section>
+
+<Section title="required, disabled and readonly">
+
+Set `required`, `disabled` or `readonly` on the Field or on the control. The
+control is required if either one is, and the same goes for the other two
+flags.
+
+A native host gets the native attribute. Any other host gets `aria-required`,
+`aria-disabled` or `aria-readonly` instead. These ARIA attributes don't block
+input, so a custom host has to ignore events itself.
+
+A disabled control submits nothing, like a disabled native input.
+
+```tsx title="shipping.tsx"
+<Field as="fieldset" disabled={sameAsBilling()}>
+  <legend>Shipping address</legend>
+  <input name="street" />
+  <input name="city" />
+</Field>
+```
+
+Field renders a `<div>` with `role="group"`. With `as="fieldset"` it drops the
+role and sets the native `disabled`, which disables every native control
+inside.
+
+</Section>
+
+<Section title="invalid">
+
+Field doesn't validate anything. Run your own checks and pass the result to
+`invalid`. The control gets `aria-invalid="true"` and Field.Error appears.
+
+`invalid` sets attributes only. The browser still submits the form, and native
+constraints like `required` and `type="email"` still run on their own.
+
+A few controls add native constraints of their own:
+
+- NumberField marks its input invalid while the text isn't a number or is out
+  of range, and while `invalid` is set. The browser won't submit the form until
+  that clears.
+- A required TagsInput with no tags blocks submission with "Add at least one
+  tag."
+- A PinInput with some slots empty blocks submission until all are filled.
+  With `required`, an empty one blocks it too.
+- Select, Combobox and PinInput suppress the browser's validation bubble and
+  move focus to the control instead.
+
+</Section>
+
+<Section title="Styling state">
+
+Field sets `data-disabled`, `data-required`, `data-readonly` and `data-invalid`
+on the root, Label, Description, Error and Control while the matching flag is
+on. Style the whole field from any of its parts.
+
+```tsx title="email-field.tsx"
+<Field name="email" invalid={!!error()}>
+  <Field.Label class="data-invalid:text-red-600">Email</Field.Label>
+  <Field.Control class="border data-invalid:border-red-600 data-disabled:opacity-50" />
+</Field>
+```
+
+Checkbox, Switch, CheckboxGroup, RadioGroup, Select, Slider, NumberField,
+PinInput, TagsInput and Editable set the same four attributes on their own
+parts. Combobox sets only `data-disabled`.
+
+</Section>
+
+<Section title="Reset">
+
+A form reset returns each uncontrolled control to its default, such as
+`defaultChecked` or `defaultValue`. Change callbacks don't run.
+
+A controlled control keeps the value you pass, and its native element is set
+back to match it. Update your own state in the form's `onReset` if the reset
+should clear it.
+
+```tsx title="preferences.tsx"
+<form>
+  <Switch name="alerts" defaultChecked />
+  <Button type="reset">Restore defaults</Button>
+</form>
+```
+
+Calling `event.preventDefault()` in `onReset` cancels the reset, and the
+controls keep their values.
+
+</Section>
+
+<Section title="Submit">
+
+Button defaults to `type="button"`, so it never submits by accident. Set
+`type="submit"` on the button that sends the form.
+
+```tsx title="signup.tsx"
+function Signup() {
+  const submit = (event: SubmitEvent) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget as HTMLFormElement)
+    save(data.get('email'), data.get('terms') === 'on')
+  }
+
+  return (
+    <form onSubmit={submit}>
+      <Field name="email" required>
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" />
+      </Field>
+      <Field name="terms" required>
+        <Checkbox />
+        <Field.Label>I accept the terms</Field.Label>
+      </Field>
+      <Button type="submit">Create account</Button>
+    </form>
+  )
+}
+```
+
+A native checkbox doesn't submit on Enter. A Switch that renders its default
+input does. Enter on it submits the form the way Enter in a text input does.
+
+See [Button's `type`](/docs/components/button/usage/#type) for the other
+values.
+
+</Section>
