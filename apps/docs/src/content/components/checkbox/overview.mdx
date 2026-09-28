@@ -1,0 +1,43 @@
+---
+title: Checkbox
+description: A native checkbox input with controlled state and an optional mixed state.
+group: forms
+---
+
+<Section title="Example">
+
+Use Checkbox for a single yes or no choice, like opting in to email. It renders
+a native `<input type="checkbox">` by default.
+
+<Example name="checkbox/product-updates" />
+
+</Section>
+
+<Section title="Anatomy">
+
+<Anatomy
+  name="checkbox/anatomy"
+  caption="Checkbox is the only part. The label is your own element."
+>
+
+```tsx title="Anatomy"
+<label>
+  <Checkbox />
+  {/* Label text */}
+</label>
+```
+
+</Anatomy>
+
+</Section>
+
+<Section title="When to use">
+
+<Definitions>
+  <Definition term="Checkbox">One choice that is checked or not. The only one here with a mixed state.</Definition>
+  <Definition term="Switch">A setting that is on or off, like notifications. Sets `role="switch"` and has no mixed state.</Definition>
+  <Definition term="CheckboxGroup">A set of checkboxes under one name. Submits one entry per checked item.</Definition>
+  <Definition term="Toggle">A button that stays pressed and exposes `aria-pressed`. Submits nothing with a form.</Definition>
+</Definitions>
+
+</Section>
