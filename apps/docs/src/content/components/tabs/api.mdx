@@ -1,0 +1,176 @@
+<Props title="Tabs" type="TabsProps<T>" note="Native props are forwarded">
+
+Groups the parts and holds the selected value. Renders a `<div>`.
+
+<Prop name="value" type="string">
+
+The selected tab. Pair it with `onValueChange` to control the tabs.
+
+A value that matches no tab falls back to the first enabled tab.
+
+</Prop>
+
+<Prop name="defaultValue" type="string" default="first enabled tab">
+
+The selected tab on first render. Later changes are ignored. Use `value` to
+control it.
+
+</Prop>
+
+<Prop name="onValueChange" type="(value: string) => void">
+
+Called when a click, Enter or Space asks to select a different tab, or in
+automatic mode when arrow navigation reaches one. Receives the new value.
+
+It doesn't run on first render or when the selected tab is clicked again.
+
+</Prop>
+
+<Prop name="activationMode" type="'automatic' | 'manual'" default="'automatic'">
+
+When a tab gets selected. `automatic` selects the tab that receives focus.
+`manual` moves focus alone and selects on Enter, Space or a click.
+
+</Prop>
+
+<Prop name="orientation" type="'horizontal' | 'vertical'" default="'horizontal'">
+
+Which arrow keys move between tabs. `horizontal` uses Arrow Left and Arrow
+Right, and `vertical` uses Arrow Up and Arrow Down.
+
+Also sets `data-orientation` on every part, and `aria-orientation` on the list
+when vertical.
+
+</Prop>
+
+<Prop name="loop" type="boolean" default="true">
+
+Wraps arrow navigation from the last tab to the first, and back.
+
+</Prop>
+
+<Prop name="dir" type="'ltr' | 'rtl'" default="nearest dir attribute">
+
+The reading direction for Arrow Left and Arrow Right. `rtl` swaps them.
+
+Without it, Tabs reads the nearest `dir` attribute after mount and doesn't watch
+it afterward.
+
+</Prop>
+
+<Prop name="disabled" type="boolean" default="false">
+
+Disables every tab. No tab can be clicked, focused or reached with the arrow
+keys.
+
+</Prop>
+
+<Prop name="as" type="ValidComponent" default="'div'">
+
+The element or component to render. A custom component must pass its props and
+ref on, because Tabs reads the element to find `dir`. See
+[Composition](/docs/composition/#ref).
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-orientation">Set to the orientation, `horizontal` or `vertical`.</Attribute>
+<Attribute name="data-disabled">Present while `disabled` is set on the root.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="List" type="TabsListProps<T>">
+
+The row that holds the tabs. Renders a `<div>` with `role="tablist"`.
+
+Give it an `aria-label`, or an `aria-labelledby` that points at a visible
+heading.
+
+<Prop name="as" type="ValidComponent" default="'div'">
+
+The element or component to render.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-orientation">Set to the orientation, `horizontal` or `vertical`.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Tab" type="TabsTabProps<T>">
+
+The button that selects its panel. Renders a `<button>` with `role="tab"`.
+Built on [Button](/docs/components/button/).
+
+<Prop name="value" type="string">
+
+The key that pairs the tab with the panel of the same `value`. Required, and
+unique within the tabs.
+
+</Prop>
+
+<Prop name="disabled" type="boolean" default="false">
+
+Disables the tab. It gets the native `disabled` attribute, leaves the tab order,
+and the arrow keys skip it.
+
+</Prop>
+
+<Prop name="id" type="string" default="generated id">
+
+The id of the tab. The panel's `aria-labelledby` follows it.
+
+</Prop>
+
+<Prop name="as" type="ValidComponent" default="'button'">
+
+The element or component to render. Tabs reads the element to order the tabs
+and move focus, so a custom component must pass its ref on.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="active">The tab is selected.</Attribute>
+<Attribute name="data-state" value="inactive">The tab is not selected.</Attribute>
+<Attribute name="data-selected">Present while the tab is selected.</Attribute>
+<Attribute name="data-disabled">Present while the tab or the root is disabled.</Attribute>
+<Attribute name="data-orientation">Set to the orientation, `horizontal` or `vertical`.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Panel" type="TabsPanelProps<T>">
+
+The content for one tab. Renders a `<div>` with `role="tabpanel"`. It stays
+mounted, with `hidden` set while its tab is not selected.
+
+<Prop name="value" type="string">
+
+The key that pairs the panel with its tab. Keep it the same while the panel is
+mounted.
+
+</Prop>
+
+<Prop name="id" type="string" default="generated id">
+
+The id of the panel. The tab's `aria-controls` follows it.
+
+</Prop>
+
+<Prop name="as" type="ValidComponent" default="'div'">
+
+The element or component to render. Tabs reads the element to check for
+focusable content, so a custom component must pass its ref on.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="active">The panel's tab is selected.</Attribute>
+<Attribute name="data-state" value="inactive">The panel's tab is not selected.</Attribute>
+<Attribute name="data-selected">Present while the panel's tab is selected.</Attribute>
+<Attribute name="data-orientation">Set to the orientation, `horizontal` or `vertical`.</Attribute>
+</Attributes>
+
+</Props>
