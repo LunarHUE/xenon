@@ -1,0 +1,91 @@
+<Section title="Semantics">
+
+WAI-ARIA has no popover pattern of its own. Content is a dialog, named and
+described as in the [dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/),
+and Trigger reports its state like a
+[disclosure button](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+
+| Part        | What Xenon sets                                                                  |
+| ----------- | -------------------------------------------------------------------------------- |
+| Trigger     | `aria-haspopup="dialog"`, `aria-expanded`, and `aria-controls` while open        |
+| Content     | `role="dialog"`, `tabindex="-1"`, `aria-labelledby`, `aria-describedby`          |
+| Content     | `aria-modal="true"` when `modal` is set                                          |
+| Close       | `aria-label="Close popover"` unless you pass your own                            |
+| Arrow       | `aria-hidden="true"` and `role="presentation"`                                   |
+
+With several triggers, only the one that opened the popover gets
+`aria-expanded="true"` and `aria-controls`.
+
+Title is the accessible name. Without a Title, name the popover with
+`aria-label` on Content.
+
+```tsx title="accessible-name.tsx"
+<Popover.Content aria-label="Share this draft">
+  <input aria-label="Draft link" readOnly value={link} />
+</Popover.Content>
+```
+
+<Callout type="warning">
+Popover.Close always has an `aria-label`, and it replaces the button's text. A
+Close that reads "Done" is announced as "Close popover". Pass
+`aria-label="Done"` to match.
+</Callout>
+
+</Section>
+
+<Section title="Keyboard">
+
+| Key                               | Behavior                                                                                                                         |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| <Kbd>Enter</Kbd>, <Kbd>Space</Kbd> | When focus is on the trigger, opens or closes the popover.                                                                      |
+| <Kbd>Tab</Kbd>                    | Moves focus to the next tab stop in the content. From the last one, leaves the content and closes the popover. With `modal`, wraps to the first. |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Moves focus to the previous tab stop. From the first one, moves to the trigger and keeps the popover open. With `modal`, wraps to the last. |
+| <Kbd>Escape</Kbd>                 | Closes the popover and moves focus to the trigger.                                                                               |
+
+Escape only closes the popover on top. A popover opened from inside another
+one closes first.
+
+</Section>
+
+<Section title="Focus">
+
+| Event                                | Focus goes to                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------- |
+| Open                                 | `initialFocus`, an `autofocus` element, the first tab stop, or Content     |
+| Escape, Popover.Close or the trigger | The trigger, or `finalFocus`                                               |
+| Click outside on plain page content  | The trigger, or `finalFocus`                                               |
+| Click outside on a focusable element | That element                                                               |
+| Tab out of non-modal content         | The next element in the page. Focus doesn't go back                        |
+
+Focus moves in once the Positioner has measured, so it doesn't land on content
+that is still hidden.
+
+Without Popover.Portal, the content stays where you render it. Put the
+Positioner right after the trigger, and Tab moves between them in reading order. A portal puts the content at the
+end of the page, so Tab from the trigger moves to the next element on the page
+instead.
+
+A disabled trigger doesn't open the popover. See
+[Button](/docs/components/button/accessibility/#focus) for how it leaves or keeps
+its tab stop.
+
+</Section>
+
+<Section title="Author">
+
+<Definitions mono>
+  <Definition term="Name">
+    Render a Popover.Title, or give Content an `aria-label`.
+  </Definition>
+  <Definition term="Close">
+    Set `aria-label` on a Popover.Close that has a text label, so the name matches the text.
+  </Definition>
+  <Definition term="Focus">
+    Style `:focus-visible` on Content as well as its controls. Content takes focus when it has no tab stop.
+  </Definition>
+  <Definition term="Modal">
+    Set `modal` when the rest of the page shouldn't be used until the popover closes.
+  </Definition>
+</Definitions>
+
+</Section>
