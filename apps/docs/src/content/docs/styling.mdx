@@ -1,0 +1,195 @@
+---
+title: Styling
+description: Write the CSS. Read state from data attributes.
+section: guides
+order: 1
+---
+
+<Section title="class and style">
+
+Xenon ships no CSS. Each part renders an element, and the `class` and `style`
+you pass land on that element. Style it with Tailwind, CSS modules, plain CSS
+or anything else that targets the DOM.
+
+Components don't set classes of their own, so there is nothing to override or
+reset.
+
+```tsx title="save.tsx"
+import { Button } from '@xenon-ui/solid/button'
+
+<Button class="save-button" style={{ 'min-width': '8rem' }}>
+  Save changes
+</Button>
+```
+
+</Section>
+
+<Section title="State attributes">
+
+Components write their state onto the element as `data-*` attributes. Style
+the attribute instead of tracking the state yourself.
+
+A boolean state is an attribute with an empty value, and the attribute is
+absent when the state is off. A disabled Button gets `data-disabled=""`. An
+enabled one has no `data-disabled` at all, never `data-disabled="false"`.
+
+```html title="Rendered"
+<button type="button" data-disabled="" disabled>Save changes</button>
+```
+
+A state with more than two values is one attribute with a value. Most of them
+use `data-state`:
+
+- `open` and `closed` on disclosures and overlays, such as Collapsible and
+  Popover.
+- `checked`, `unchecked` and `indeterminate` on Checkbox.
+- `on` and `off` on Toggle.
+- `active` and `inactive` on a tab and its panel.
+
+Layout comes as a value too. `data-orientation` is `horizontal` or `vertical`,
+and positioned parts get `data-side` and `data-align`.
+
+ARIA attributes are there as well, such as `aria-expanded` on a Collapsible
+trigger and `aria-disabled` on a pending Button. You can style them, but they
+follow what assistive tech needs, so they don't map one to one to the `data-*`
+states.
+
+</Section>
+
+<Section title="Tailwind">
+
+Tailwind reads the attributes through its data variants. A boolean attribute
+gets a named variant, like `data-pending:`. A value attribute needs the
+bracket form, like `data-[state=open]:`.
+
+```tsx title="save.tsx"
+<Button
+  pending={saving()}
+  class="bg-neutral-950 text-white data-pending:cursor-progress
+    data-pending:opacity-70 data-disabled:opacity-40"
+>
+  {saving() ? 'Saving…' : 'Save changes'}
+</Button>
+```
+
+To style a child from its part's state, mark the part as a `group` and use
+`group-data-*` on the child. Here the chevron turns while the section is open.
+
+```tsx title="details.tsx"
+<Collapsible.Trigger class="group flex items-center gap-2">
+  Shipping details
+  <span aria-hidden="true" class="transition-transform group-data-[state=open]:rotate-180">
+    ▾
+  </span>
+</Collapsible.Trigger>
+```
+
+</Section>
+
+<Section title="CSS">
+
+In plain CSS, the same attributes work as attribute selectors.
+
+```css title="save.css"
+.save-button[data-pending] {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.save-button[data-disabled] {
+  opacity: 0.4;
+}
+
+.details-trigger[data-state='open'] .chevron {
+  rotate: 180deg;
+}
+```
+
+Match a boolean with `[data-pending]`, not `[data-pending='true']`. The value
+is always empty.
+
+</Section>
+
+<Section title="Find a component's attributes">
+
+Each component's API tab lists the attributes of every part in an Attributes
+table, with the prop or state that sets each one. For example, Button's
+[`data-disabled`](/docs/components/button/api/#data-disabled) is present while
+`disabled` is set.
+
+Each row has its own anchor, so you can link to a single attribute.
+
+</Section>
+
+<Section title="Focus">
+
+Components don't add a focus attribute. Style focus with the `:focus-visible`
+pseudo-class, or the `focus-visible:` variant in Tailwind. The browser matches
+it for keyboard focus and skips it for most mouse clicks.
+
+Keep the focus style in every state. A pending Button keeps its tab stop, and
+so does a disabled Button with `focusableWhenDisabled`. Dimming the button
+with `opacity` also dims its outline, so check the ring stays visible.
+
+Removing the outline with nothing in its place leaves keyboard users unable to
+see where they are.
+
+```tsx title="Wrong"
+<Button class="outline-none">Save changes</Button>
+```
+
+Replace the outline with a `focus-visible` style instead.
+
+```tsx title="Right"
+<Button
+  class="outline-none focus-visible:outline-2
+    focus-visible:outline-offset-4 focus-visible:outline-pink-600"
+>
+  Save changes
+</Button>
+```
+
+</Section>
+
+<Section title="CSS variables">
+
+Some parts publish measurements as CSS custom properties on their element.
+Children inherit them, so you can read them anywhere inside the part.
+
+Every Positioner part, such as `Popover.Positioner`, sets these while it is
+positioned:
+
+- `--positioner-anchor-width` and `--positioner-anchor-height`, the size of the
+  trigger or anchor.
+- `--positioner-available-width` and `--positioner-available-height`, the room
+  left before the collision boundary.
+- `--positioner-transform-origin`, an `x y` pair that points at the anchor.
+  Use it so a scale animation grows out of the trigger.
+
+```css title="popover.css"
+.popover-content {
+  max-height: var(--positioner-available-height);
+  min-width: var(--positioner-anchor-width);
+  transform-origin: var(--positioner-transform-origin);
+}
+```
+
+The Positioner writes `left`, `top` and `visibility` inline. Leave those to it,
+and move the content with `sideOffset` and `alignOffset` instead.
+
+`Collapsible.Content` sets `--collapsible-panel-height` and
+`--collapsible-panel-width` while it opens or closes, in pixels, and `auto`
+once it settles. `Accordion.Panel` sets `--accordion-panel-height` and
+`--accordion-panel-width` the same way.
+
+Progress sets `--progress-percentage` to the percentage as a plain number, like
+`40`, and removes it while the progress is indeterminate. Meter sets
+`--meter-percentage` on its element.
+
+```css title="progress.css"
+.progress-fill {
+  width: calc(var(--progress-percentage) * 1%);
+}
+```
+
+</Section>
