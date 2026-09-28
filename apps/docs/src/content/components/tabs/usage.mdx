@@ -1,0 +1,129 @@
+<Section title="Manual activation">
+
+Tabs selects a tab as soon as focus reaches it. Set `activationMode="manual"` to
+let the arrow keys move focus alone, and select on Enter, Space or a click.
+
+Use manual when showing a panel costs something, like a fetch or a heavy chart.
+Readers can then pass over tabs without loading each one.
+
+<Example slot="example" name="tabs/manual" />
+
+</Section>
+
+<Section title="orientation">
+
+Tabs moves between tabs with Arrow Left and Arrow Right. Set
+`orientation="vertical"` to use Arrow Up and Arrow Down instead.
+
+Tabs sets `aria-orientation` and `data-orientation`, but lays nothing out. Stack
+the list and place the panel beside it yourself.
+
+<Example slot="example" name="tabs/vertical" />
+
+</Section>
+
+<Section title="loop">
+
+The arrow keys wrap from the last tab to the first, and back. Set `loop={false}`
+to stop at either end.
+
+Home and End still move to the first and last tab.
+
+```tsx title="loop.tsx"
+<Tabs loop={false}>
+  {/* parts */}
+</Tabs>
+```
+
+</Section>
+
+<Section title="dir">
+
+Tabs reads the nearest `dir` attribute once it mounts. Under `rtl`, Arrow Left
+moves to the next tab and Arrow Right to the previous one.
+
+Pass `dir` when the direction doesn't come from the page. Tabs doesn't notice a
+`dir` that changes on an ancestor after mount. Up and down arrows never flip.
+
+```tsx title="rtl.tsx"
+<Tabs dir="rtl">
+  {/* parts */}
+</Tabs>
+```
+
+</Section>
+
+<Section title="Disabled tabs">
+
+Set `disabled` on a tab to take it out of use. It can't be clicked or focused,
+and the arrow keys skip it.
+
+Set `disabled` on the root to disable every tab. Without a value, Tabs selects
+the first enabled tab. A value that names a disabled tab keeps it selected.
+
+<Example slot="example" name="tabs/disabled" />
+
+</Section>
+
+<Section title="defaultValue">
+
+Tabs selects the first enabled tab. Set `defaultValue` to start on another one.
+
+Tabs reads it once, so later changes are ignored. Use `value` to change the tab
+from your code.
+
+```tsx title="default-value.tsx"
+<Tabs defaultValue="billing">
+  {/* parts */}
+</Tabs>
+```
+
+</Section>
+
+<Section title="Controlled state">
+
+Pass `value` and `onValueChange` to control the selected tab. `onValueChange`
+runs when a click, Enter or Space picks a different tab, and in automatic mode
+when an arrow key, Home or End moves to one. It receives the new value, so a
+signal setter works as is.
+
+Clicking the selected tab doesn't call it. A value that matches no tab falls
+back to the first enabled tab. The
+[Controlled state guide](/docs/controlled-state/#controlled) covers the pattern
+for every component.
+
+<Example slot="example" name="tabs/controlled" />
+
+</Section>
+
+<Section title="Panels">
+
+Panels stay mounted. Tabs sets `hidden` on every panel but the selected one, so
+text typed into a hidden panel is still there when its tab comes back.
+
+A panel hides at once and gets none of the
+[animation phase attributes](/docs/animation/#phases), so it can't play an exit.
+
+<Callout type="warning">
+A `display` class like `flex` or `grid` on a panel overrides `hidden`, and
+every panel shows at once. Put the layout on an element inside the panel, or
+add `[&[hidden]]:hidden`.
+</Callout>
+
+</Section>
+
+<Section title="Tailwind">
+
+Style each state through the attribute Tabs sets for it. For example,
+`data-selected:border-neutral-950` underlines the selected tab.
+
+The [API tab](/docs/components/tabs/api/#tab-data-state-active) lists every
+attribute. A panel with only text takes a tab stop, so give it a focus style
+too.
+
+The [Styling guide](/docs/styling/) covers data variants and focus styles for
+every component.
+
+<Example slot="example" name="tabs/project-settings" />
+
+</Section>
