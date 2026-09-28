@@ -1,0 +1,81 @@
+<Section title="Semantics">
+
+Checkbox follows the [WAI-ARIA checkbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
+The default host is a native checkbox, so the browser reports its role and
+state.
+
+What Checkbox sets depends on the host you pass to `as`.
+
+| Host             | Role and state                    | Disabled                     |
+| ---------------- | --------------------------------- | ---------------------------- |
+| `input`, default | Native checkbox                   | `disabled`                   |
+| `button`         | `role="checkbox"`, `aria-checked` | `disabled`                   |
+| Anything else    | `role="checkbox"`, `aria-checked` | `aria-disabled`, no tab stop |
+
+`aria-checked` is `true`, `false` or `mixed`, and is never left out. The native
+input carries no `aria-checked`, since the browser reports its state from the
+`checked` and `indeterminate` properties.
+
+Every host gets `aria-readonly` while `readonly` is set and `aria-invalid` while
+`invalid` is set. The hidden input that backs a named custom host has
+`aria-hidden="true"`, so screen readers skip it.
+
+A native checkbox takes its name from a `<label>` around it or pointing at it
+with `for`. Any other host takes its name from the text inside it.
+
+```tsx title="accessible-name.tsx"
+<label>
+  <Checkbox name="terms" />
+  I accept the terms
+</label>
+
+<Checkbox as="button" name="archived">
+  Include archived projects
+</Checkbox>
+```
+
+</Section>
+
+<Section title="Keyboard">
+
+| Key                               | Behavior                                          |
+| --------------------------------- | ------------------------------------------------- |
+| <Kbd>Tab</Kbd>                    | Moves focus to the checkbox.                      |
+| <Kbd>Shift</Kbd> + <Kbd>Tab</Kbd> | Moves focus to the previous focusable element.    |
+| <Kbd>Space</Kbd>                  | Toggles the checkbox when the key is released.    |
+| <Kbd>Enter</Kbd>                  | Doesn't toggle the checkbox or submit the form.   |
+
+Each checkbox is its own tab stop, including in a list of them.
+
+</Section>
+
+<Section title="Focus">
+
+| State                             | In tab order | Toggle    |
+| --------------------------------- | ------------ | --------- |
+| Enabled                           | Yes          | Allowed   |
+| `disabled`                        | No           | Prevented |
+| `readonly`                        | Yes          | Prevented |
+
+Clicking a label moves focus to the native checkbox and toggles it.
+
+</Section>
+
+<Section title="Author">
+
+<Definitions mono>
+  <Definition term="Name">
+    Wrap the checkbox in a `<label>`, point one at it with `for`, or give it an `aria-label`.
+  </Definition>
+  <Definition term="Focus">
+    Style `:focus-visible` so keyboard focus stays visible on a box you draw yourself.
+  </Definition>
+  <Definition term="Mixed">
+    Clear `indeterminate` yourself when every item or none is selected.
+  </Definition>
+  <Definition term="Content">
+    Keep links and buttons out of a checkbox with another host. Screen readers treat its content as plain text.
+  </Definition>
+</Definitions>
+
+</Section>
