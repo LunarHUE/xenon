@@ -1,0 +1,106 @@
+---
+title: Why Xenon
+description: What Xenon is for, and the decisions behind how it's built.
+section: start
+order: 1
+---
+
+<Section title="Solid 2">
+
+Xenon is written for Solid 2 from the first line. Solid 2 splits effects in
+two, drops `classList` and changes how async rendering works, so a library
+built for Solid 1 needs more than a version bump.
+
+The established Solid libraries, Kobalte and Corvu, still target Solid 1.
+Kobalte lists `solid-js` 1.9 as its peer dependency. Xenon's peer dependency is
+`solid-js` 2.0, and its tests cover server rendering and hydration on 2.0.
+
+</Section>
+
+<Section title="Behavior in plain TypeScript">
+
+Every component's behavior lives in `@xenon-ui/core`, as a function that takes
+options and returns state plus the attributes and listeners for each part. It
+has no framework, no DOM access and no dependencies.
+
+```ts title="core.ts"
+import { button } from '@xenon-ui/core/button'
+
+const { state, parts } = button({ host: 'generic', pending: true })
+
+state.interactive // false
+parts.root.attrs // { role: 'button', tabindex: 0, 'aria-disabled': 'true', 'data-pending': '' }
+parts.root.on // { click, keydown, keyup }
+```
+
+The Solid components call these functions and spread the result onto the
+element. Browser work that needs a live document, like focus scopes, layering
+and positioning, lives in `@xenon-ui/dom`, which is also framework-free. An
+adapter for another framework reuses both packages and only writes the binding.
+
+</Section>
+
+<Section title="Nothing from core leaks">
+
+You use `@xenon-ui/solid` as a Solid library. There is no `connect`, no
+`normalizeProps` and no machine to wire up. Props are Solid props, refs are
+Solid refs, and controlled state takes a signal setter as is.
+
+Ark UI builds on Zag, and Zag's `connect` and `normalizeProps` reach your own
+code. Xenon keeps its equivalent of those inside the adapter.
+
+</Section>
+
+<Section title="Tested against other libraries' tests">
+
+Before a component is written, Xenon collects the behaviors that other
+libraries test for it. The sources are the WAI-ARIA Authoring Practices, React
+Aria, Radix, Base UI, Zag, Ark, Ariakit, Headless UI, Kobalte, Corvu, Reka,
+Melt and Bits UI.
+
+The merged list is the spec in `docs/spec`, with one file per component and
+each behavior tagged by the libraries that test it. The Authoring Practices
+are normative. Where the libraries disagree, the spec records both sides and
+the decision.
+
+A separate package, `packages/suite`, runs one test per behavior against the
+finished Solid components. Only the harness that mounts a component is Solid
+code, so a second adapter runs the same suite.
+
+</Section>
+
+<Section title="Native elements first">
+
+When the browser already does the job, Xenon uses the native element instead
+of rebuilding it with ARIA. Native elements bring form submission, reset,
+`fieldset` disabling, label association and constraint validation.
+
+<Definitions>
+  <Definition term="Checkbox, Switch">A real `<input type="checkbox">` by default.</Definition>
+  <Definition term="RadioGroup">Native radios share a `name`, so the browser owns arrow keys.</Definition>
+  <Definition term="Field.Label">Always a `<label>` with `for`.</Definition>
+  <Definition term="Dialog">A `<dialog>`, opened with `showModal()` when modal.</Definition>
+  <Definition term="Separator">An `<hr>`.</Definition>
+</Definitions>
+
+Other elements still work through `as`. A checkbox rendered as a `<button>`
+gets `role="checkbox"`, `aria-checked`, and a hidden input when it has a
+`name`.
+
+</Section>
+
+<Section title="Headless">
+
+Xenon ships no CSS. Each part renders one element that you style, and state
+reaches your CSS through `data-*` attributes, like `data-state="open"` and
+`data-disabled`. Your props win over Xenon's attributes, and your event
+handlers run first. Call `event.preventDefault()` in one to skip Xenon's.
+
+</Section>
+
+<Section title="Status">
+
+Xenon is a pre-release. The APIs can change before 1.0. Solid is the only
+adapter so far.
+
+</Section>
