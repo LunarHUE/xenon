@@ -1,0 +1,110 @@
+<Props title="Root" type="CollapsibleProps<T>" note="Native props are forwarded">
+
+Groups the parts and holds the open state. Renders a `<div>`.
+
+<Prop name="open" type="boolean">
+
+The open state. Pair it with `onOpenChange` to control the collapsible.
+
+Leave it `undefined` to let Collapsible keep its own state.
+
+```tsx title="open.tsx"
+const [open, setOpen] = createSignal(false)
+
+<Collapsible open={open()} onOpenChange={setOpen}>
+  {/* parts */}
+</Collapsible>
+```
+
+</Prop>
+
+<Prop name="defaultOpen" type="boolean" default="false">
+
+The open state on first render. Later changes are ignored. Use `open` to
+control it.
+
+</Prop>
+
+<Prop name="onOpenChange" type="(open: boolean) => void">
+
+Called when the trigger asks to open or close. Receives the new state.
+
+It also runs while uncontrolled, after Collapsible updates its own state. It
+doesn't run on first render or when you change `open`.
+
+</Prop>
+
+<Prop name="disabled" type="boolean" default="false">
+
+Disables the trigger. Clicks, Enter and Space don't toggle the content.
+
+The open state stays as it was, so open content stays open.
+
+</Prop>
+
+<Prop name="forceMount" type="boolean" default="false">
+
+Keeps the content in the DOM while closed and sets `hidden` on it after the
+exit.
+
+It goes on the root, not on Collapsible.Content.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The content is open.</Attribute>
+<Attribute name="data-state" value="closed">The content is closed.</Attribute>
+<Attribute name="data-disabled">Present while `disabled` is set.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Trigger" type="CollapsibleTriggerProps<T>">
+
+The button that opens and closes the content. Renders a `<button>` with
+`type="button"`.
+
+<Prop name="as" type="ValidComponent" default="'button'">
+
+The element or component to render. `'button'` and `'input'` keep native
+keyboard behavior. Any other host, including a custom component, gets
+`role="button"`, a tab stop, and Enter and Space activation.
+
+A custom component must pass its props and ref on to the element it renders.
+See [Composition](/docs/composition/#ref).
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The content is open.</Attribute>
+<Attribute name="data-state" value="closed">The content is closed.</Attribute>
+<Attribute name="data-disabled">Present while `disabled` is set on the root.</Attribute>
+</Attributes>
+
+</Props>
+
+<Props title="Content" type="CollapsibleContentProps<T>">
+
+The panel the trigger shows and hides. Renders a `<div>` while open or closing.
+With `forceMount`, it stays rendered while closed.
+
+It sets `--collapsible-panel-height` and `--collapsible-panel-width` for size
+animations. See [Animate height](/docs/components/collapsible/usage/#animate-height).
+
+<Prop name="id" type="string">
+
+The id of the content. Defaults to a generated id.
+
+The trigger's `aria-controls` follows it.
+
+</Prop>
+
+<Attributes>
+<Attribute name="data-state" value="open">The content is open.</Attribute>
+<Attribute name="data-state" value="closed">The content is closed, including during the exit.</Attribute>
+<Attribute name="data-starting-style">Present for one frame after the content opens.</Attribute>
+<Attribute name="data-ending-style">Present from close until the content's animations finish.</Attribute>
+<Attribute name="data-disabled">Present while `disabled` is set on the root.</Attribute>
+</Attributes>
+
+</Props>
