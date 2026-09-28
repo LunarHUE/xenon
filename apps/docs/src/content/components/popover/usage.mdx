@@ -1,0 +1,225 @@
+<Section title="Placement">
+
+Popover.Positioner places the content below the trigger, centered on it. Set
+`side`, `align` and `sideOffset` on the Positioner to change that.
+
+`sideOffset` is the gap between the trigger and the content, in pixels.
+`alignOffset` moves the content along the edge.
+
+When there isn't room, the content flips to the opposite side and slides along
+the edge to stay 8 pixels inside the boundary. Content gets `data-side` and
+`data-align` with the placement it ended up in.
+
+<Example slot="example" name="popover/placement" />
+
+</Section>
+
+<Section title="Arrow">
+
+Add Popover.Arrow inside the Positioner to point at the trigger. Xenon positions
+an empty box and you draw the arrow inside it.
+
+The box sits half outside the content's edge, so raise `sideOffset` to make room.
+It gets `data-side`, and Xenon hides it when it can't line up with the trigger.
+
+Here the diamond sits behind the panel, so the panel's border covers its inner
+half on every side.
+
+<Example slot="example" name="popover/arrow" />
+
+</Section>
+
+<Section title="Anchor">
+
+Popover positions the content against the trigger. Wrap a different element in
+Popover.Anchor to position against that instead.
+
+`matchAnchorSize="width"` on the Positioner makes the content as wide as the
+anchor. Clicks on the anchor still count as outside the popover, unless they
+land on the trigger.
+
+<Example slot="example" name="popover/anchor" />
+
+</Section>
+
+<Section title="Controlled state">
+
+Pass `open` and `onOpenChange` to control the popover. `onOpenChange` runs when
+the trigger, Popover.Close, Escape, an outside click or focus leaving the
+content asks to open or close, and receives the new state.
+
+A request that matches the current state doesn't call it. For uncontrolled use,
+`defaultOpen` sets the first state, and later changes to it are ignored. The
+[Controlled state guide](/docs/controlled-state/#controlled) covers both modes.
+
+<Example slot="example" name="popover/controlled" />
+
+</Section>
+
+<Section title="modal">
+
+Popover is non-modal by default. The page stays scrollable, and Tab can move
+focus out of the content. Set `modal` to lock page scroll, keep focus inside, and
+hide the rest of the page from screen readers while open.
+
+`modal` also sets `aria-modal="true"` on Content. Use it when the popover holds
+a task the user should finish or cancel before going back to the page.
+
+```tsx title="modal.tsx"
+<Popover modal>
+  <Popover.Trigger>Rename</Popover.Trigger>
+  <Popover.Positioner>
+    <Popover.Content>
+      <Popover.Title>Rename project</Popover.Title>
+      <input aria-label="Project name" />
+      <Popover.Close aria-label="Save name">Save</Popover.Close>
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover>
+```
+
+</Section>
+
+<Section title="Focus">
+
+Opening moves focus to the first tab stop in the content, or to Content itself
+when it has none. Pass `initialFocus` an element to focus that instead, or
+`false` to leave focus on the trigger.
+
+Closing moves focus back to the trigger. Pass `finalFocus` to send it somewhere
+else, or `restoreFocus={false}` to leave it where it is.
+
+```tsx title="initial-focus.tsx"
+let search!: HTMLInputElement
+
+<Popover initialFocus={search}>
+  <Popover.Trigger>Find a member</Popover.Trigger>
+  <Popover.Positioner>
+    <Popover.Content aria-label="Find a member">
+      <button>Invite by email</button>
+      <input ref={search} aria-label="Search members" />
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover>
+```
+
+</Section>
+
+<Section title="Dismissal">
+
+Escape, a click outside and focus leaving the content each close the popover.
+Turn one off with `closeOnEscape`, `closeOnOutside` or `closeOnFocusOutside`.
+
+To decide case by case, call `event.preventDefault()` in `onEscapeKeyDown`,
+`onPointerOutside` or `onFocusOutside`. The popover stays open, and the next
+Escape or click asks again.
+
+```tsx title="unsaved-note.tsx"
+<Popover
+  onPointerOutside={(event) => {
+    if (draft()) event.preventDefault()
+  }}
+>
+  <Popover.Trigger>Add note</Popover.Trigger>
+  <Popover.Positioner>
+    <Popover.Content aria-label="Add note">
+      <textarea
+        aria-label="Note"
+        onInput={(event) => setDraft(event.currentTarget.value)}
+      />
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover>
+```
+
+</Section>
+
+<Section title="Several triggers">
+
+A popover can have more than one Popover.Trigger. The content opens against the
+trigger that was clicked, and clicking another trigger moves it there without
+remounting it.
+
+Give each trigger a `payload` and read it from the root's render callback. See
+[Render callbacks](/docs/controlled-state/#render-callbacks) for how to read
+`state`, and [Handles](/docs/controlled-state/#handles) to put triggers outside
+the root.
+
+```tsx title="member-card.tsx"
+<Popover>
+  {(state) => (
+    <>
+      <Popover.Trigger payload="Ada">Ada</Popover.Trigger>
+      <Popover.Trigger payload="Grace">Grace</Popover.Trigger>
+      <Popover.Positioner>
+        <Popover.Content aria-label="Member">
+          <p>{state.payload} is an admin.</p>
+        </Popover.Content>
+      </Popover.Positioner>
+    </>
+  )}
+</Popover>
+```
+
+</Section>
+
+<Section title="Portal">
+
+The Positioner renders in the browser's top layer, above every `z-index` and
+outside any `overflow` clip, so most popovers don't need a portal. Wrap it in
+Popover.Portal to move it to the end of `document.body`.
+
+Inside a modal Dialog, Portal mounts into the dialog instead. Portaled content
+renders on the client only, and its form controls belong to the form around
+their new location.
+
+Without Portal, the content follows the trigger in the tab order.
+
+```tsx title="portal.tsx"
+<Popover>
+  <Popover.Trigger>Share</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Positioner>
+      <Popover.Content aria-label="Share" />
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover>
+```
+
+</Section>
+
+<Section title="Animation">
+
+Animate Popover.Content, not the Positioner. The Positioner writes `left`,
+`top` and `visibility` inline, and it measures its own size.
+
+Content gets `data-starting-style` as it opens and `data-ending-style` as it
+closes, and Xenon waits for the exit animation before unmounting it. The
+[Animation guide](/docs/animation/) covers the phases, and
+[Transform origin](/docs/animation/#transform-origin) makes a scale grow out of
+the trigger.
+
+```tsx title="popover.tsx"
+<Popover.Content
+  class="origin-(--positioner-transform-origin) transition-[opacity,scale]
+    data-starting-style:scale-95 data-starting-style:opacity-0
+    data-ending-style:scale-95 data-ending-style:opacity-0"
+/>
+```
+
+</Section>
+
+<Section title="Tailwind">
+
+Style open and closed with `data-state`, which Trigger, Content and the
+Positioner all get. For example, `data-[state=open]:bg-neutral-100` marks the
+trigger of an open popover.
+
+The [API tab](/docs/components/popover/api/#content-data-state-open) lists
+every attribute, and the [Styling guide](/docs/styling/#css-variables) covers
+the Positioner's CSS variables. Keep keyboard focus visible on Content, since
+it takes focus when it has no tab stop.
+
+<Example slot="example" name="popover/share-link" />
+
+</Section>
