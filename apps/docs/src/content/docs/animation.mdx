@@ -1,0 +1,280 @@
+---
+title: Animation
+description: Animate open and close with CSS. Xenon keeps content mounted until the exit ends.
+section: guides
+order: 3
+---
+
+<Section title="Phases">
+
+Xenon ships no motion. Components that open and close mark each phase with a
+data attribute, and your CSS animates between them.
+
+| Attribute             | Present when                                                  |
+| --------------------- | ------------------------------------------------------------- |
+| `data-state="open"`   | The content is open, including the first frame of the enter.  |
+| `data-state="closed"` | The content is closed, including the whole exit.              |
+| `data-starting-style` | For one frame after the content opens.                        |
+| `data-ending-style`   | From close until every animation on the element has finished. |
+
+The attributes go on the part that holds the content: Collapsible.Content,
+Accordion.Panel, the Content of Dialog, AlertDialog, Drawer, Popover, Tooltip,
+HoverCard, Menu, Select and Combobox, and Toast.Content. That part is also the
+element Xenon watches during the exit.
+
+Tabs panels and NavigationMenu content stay mounted and toggle `hidden`. They
+get neither phase attribute.
+
+</Section>
+
+<Section title="Enter">
+
+Write the closed look under `data-starting-style` and put a transition on the
+element. The content renders with the attribute, Xenon removes it on the next
+frame, and the browser transitions to the open styles.
+
+```css title="popover.css"
+.popover-content {
+  transition:
+    opacity 150ms ease-out,
+    scale 150ms ease-out;
+}
+
+.popover-content[data-starting-style] {
+  opacity: 0;
+  scale: 0.96;
+}
+```
+
+Content that is open on first render skips this phase. With `defaultOpen` or
+an `open` signal that starts true, `data-starting-style` is never set, so the
+transition doesn't run on page load.
+
+</Section>
+
+<Section title="Exit">
+
+Write the closed look under `data-ending-style`. When the content closes,
+Xenon sets the attribute, waits for the element's animations to finish, then
+unmounts it.
+
+```css title="popover.css"
+.popover-content[data-ending-style] {
+  opacity: 0;
+  scale: 0.96;
+}
+```
+
+Xenon reads the element's animations with `getAnimations()` on the frame after
+close and waits for each one to finish or cancel. CSS transitions and keyframe
+animations both count. With no animation, the content unmounts on that frame.
+
+The exiting element gets `inert`, so its buttons and links can't be clicked
+or focused while it fades.
+
+Opening again during the exit cancels the wait. The same element stays
+mounted and enters again with `data-starting-style`.
+
+Only animations on the element itself count. A fade on a child isn't waited
+for, and an infinite or paused animation on the element keeps it mounted
+until you remove it.
+
+</Section>
+
+<Section title="Declare the transition on every state">
+
+A transition declared only for the open state disappears the moment the
+content closes. `data-state` flips to `closed` on the same frame
+`data-ending-style` appears, so the exit has no transition to run and the
+content unmounts on the next frame.
+
+```css title="wrong.css"
+.popover-content[data-state='open'] {
+  transition: opacity 150ms;
+}
+
+.popover-content[data-ending-style] {
+  opacity: 0;
+}
+```
+
+Put the transition on the base selector, so every phase has it.
+
+```css title="right.css"
+.popover-content {
+  transition: opacity 150ms;
+}
+
+.popover-content[data-starting-style],
+.popover-content[data-ending-style] {
+  opacity: 0;
+}
+```
+
+</Section>
+
+<Section title="Keyframe animations">
+
+Keyframes work too. Put the enter animation on the element and the exit
+animation under `data-ending-style`. Xenon waits for the exit animation the
+same way it waits for a transition.
+
+```css title="dialog.css"
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+.dialog-content {
+  animation: fade-in 200ms ease-out;
+}
+
+.dialog-content[data-ending-style] {
+  animation: fade-out 150ms ease-in forwards;
+}
+```
+
+Unlike a transition, a keyframe animation plays whenever the element renders,
+including content that is open on first render. Use it, or the CSS
+`@starting-style` rule, for content that mounts open. A toast mounts open, so
+it never gets `data-starting-style`.
+
+```css title="toast.css"
+.toast {
+  transition:
+    opacity 180ms,
+    translate 180ms;
+}
+
+@starting-style {
+  .toast {
+    opacity: 0;
+    translate: 0 100%;
+  }
+}
+```
+
+</Section>
+
+<Section title="Tailwind">
+
+Tailwind turns each attribute into a variant: `data-starting-style:`,
+`data-ending-style:` and `data-[state=open]:`. Keep the `transition` classes
+unprefixed, for the reason in the section above.
+
+```tsx title="popover.tsx"
+<Popover.Content
+  class="transition-[opacity,scale] duration-150 ease-out
+    data-starting-style:scale-95 data-starting-style:opacity-0
+    data-ending-style:scale-95 data-ending-style:opacity-0"
+>
+  Your changes are saved.
+</Popover.Content>
+```
+
+</Section>
+
+<Section title="Keep content mounted">
+
+Set `forceMount` on the root to keep the content in the DOM while closed.
+Collapsible, Accordion and Accordion.Item, Dialog, AlertDialog, Drawer,
+Popover, Tooltip, HoverCard, Menu, Select and Combobox take it.
+
+```tsx title="details.tsx"
+<Collapsible forceMount>
+  <Collapsible.Trigger>Shipping details</Collapsible.Trigger>
+  <Collapsible.Content>Orders ship within two business days.</Collapsible.Content>
+</Collapsible>
+```
+
+Force-mounted content still goes through every phase. Once the exit
+finishes, Xenon sets `hidden` on it instead of unmounting it.
+
+<Callout type="warning">
+A `display` rule on the content overrides the `hidden` attribute, so closed
+content stays visible. Add `[hidden] { display: none }` for that element, or
+`[&[hidden]]:hidden` in Tailwind.
+</Callout>
+
+</Section>
+
+<Section title="Size variables">
+
+Collapsible.Content and Accordion.Panel publish their size as CSS variables
+for height and width animations.
+
+| Variable                     | Set on              |
+| ---------------------------- | ------------------- |
+| `--collapsible-panel-height` | Collapsible.Content |
+| `--collapsible-panel-width`  | Collapsible.Content |
+| `--accordion-panel-height`   | Accordion.Panel     |
+| `--accordion-panel-width`    | Accordion.Panel     |
+
+While the panel enters or exits, each variable holds the panel's scroll size
+in pixels. Once the panel is open it is `auto`, and once it is closed Xenon
+removes it.
+
+```css title="collapsible.css"
+.collapsible-content {
+  overflow: hidden;
+  interpolate-size: allow-keywords;
+  height: var(--collapsible-panel-height, auto);
+  transition: height 250ms ease-out;
+}
+
+.collapsible-content[data-starting-style],
+.collapsible-content[data-ending-style] {
+  height: 0;
+}
+```
+
+The open value is `auto`, so a height transition into or out of it needs
+`interpolate-size: allow-keywords`. Where the browser doesn't support that
+property, the height changes without animating.
+
+</Section>
+
+<Section title="Transform origin">
+
+A Positioner sets `--positioner-transform-origin` to the point on its edge
+that faces the anchor. Content inside inherits it, so a scale grows out of the
+trigger on every side.
+
+```css title="popover.css"
+.popover-content {
+  transform-origin: var(--positioner-transform-origin);
+}
+```
+
+The value accounts for `sideOffset`, the placement after a flip, and a
+centered arrow. The Positioner also sets `--positioner-anchor-width`,
+`--positioner-anchor-height`, `--positioner-available-width` and
+`--positioner-available-height`, in pixels.
+
+</Section>
+
+<Section title="Reduced motion">
+
+Xenon doesn't read `prefers-reduced-motion`. Turn the animations off yourself.
+With no animation left on the element, the exit finishes on the next frame and
+the content unmounts.
+
+```css title="popover.css"
+@media (prefers-reduced-motion: reduce) {
+  .popover-content {
+    transition: none;
+  }
+}
+```
+
+In Tailwind, add `motion-reduce:transition-none`, or wrap the motion classes in
+`motion-safe:`.
+
+</Section>
