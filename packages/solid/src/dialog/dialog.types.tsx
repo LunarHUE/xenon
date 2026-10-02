@@ -43,9 +43,9 @@ export function hostTypes() {
 }
 
 export function rejectedHostTypes() {
-  // @ts-expect-error Content may be a div and cannot promise an HTMLDialogElement.
   return (
     <Dialog.Content
+      // @ts-expect-error Content may be a div and cannot promise an HTMLDialogElement.
       ref={(node: HTMLDialogElement) => {
         void node
       }}

@@ -58,9 +58,9 @@ export function customHostTypes() {
   )
 }
 export function rejectedHostTypes() {
-  // @ts-expect-error A paragraph host cannot supply a button ref.
   return (
     <Popover.Description
+      // @ts-expect-error A paragraph host cannot supply a button ref.
       ref={(node: HTMLButtonElement) => {
         void node
       }}
