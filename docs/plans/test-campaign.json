@@ -1690,19 +1690,19 @@
     {"ids":["combobox.keyboard.42"],"historicalStatus":"partial","domain":"popup-selection","reason":"Input never loses DOM focus during virtual highlight; actual clipboard paste shortcut/inserted text is not tested.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":249},"status":"queued"},
     {"ids":["combobox.keyboard.51"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled skipping and disabled-only no-highlight are asserted; singleton enabled Up/Down no-change matrix is not.","evidence":599,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":256},"status":"queued"},
     {"ids":["combobox.keyboard.55","combobox.forms.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native highlighted Enter selects without submit and closed Enter submits; open no-highlight native submit is established in code but not browser-asserted.","evidence":600,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":260},"status":"queued"},
-    {"ids":["combobox.keyboard.71"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core modified ArrowDown is ignored without callback; full already-open native Control+Down preserving highlight scenario is not tested.","evidence":601,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":263},"status":"queued"},
+    {"ids":["combobox.keyboard.71"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core modified ArrowDown is ignored without callback; full already-open native Control+Down preserving highlight scenario is not tested.","evidence":601,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":263},"status":"verified"},
     {"ids":["combobox.keyboard.72"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic isComposing Enter is not committed in native browser; keyCode=229 without isComposing and actual OS IME are not covered.","evidence":602,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":264},"status":"queued"},
     {"ids":["combobox.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed native click stays closed until typing/arrow; configurable open-on-input-click flag is not supplied.","evidence":603,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":266},"status":"queued"},
     {"ids":["combobox.pointer.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic pointermove updates active descendant; highlightOnHover=false option is not supplied and real native hover is not tested.","evidence":604,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":270},"status":"queued"},
     {"ids":["combobox.pointer.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hover does not rewrite plain query in adapter test; inline-completion rollback mode is excluded.","evidence":604,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":271},"status":"queued"},
-    {"ids":["combobox.pointer.8"],"historicalStatus":"missing","domain":"popup-selection","reason":"No pointerleave clears active highlight, but pointer exit retention assertion is absent; optional deferred-close timing is not a supplied mode.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":272},"status":"queued"},
-    {"ids":["combobox.pointer.9"],"historicalStatus":"missing","domain":"popup-selection","reason":"Arrow navigation uses existing highlighted value, but hover-leave-then-arrow continuation is not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":273},"status":"queued"},
+    {"ids":["combobox.pointer.8"],"historicalStatus":"missing","domain":"popup-selection","reason":"No pointerleave clears active highlight, but pointer exit retention assertion is absent; optional deferred-close timing is not a supplied mode.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":272},"status":"reconciled"},
+    {"ids":["combobox.pointer.9"],"historicalStatus":"missing","domain":"popup-selection","reason":"Arrow navigation uses existing highlighted value, but hover-leave-then-arrow continuation is not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":273},"status":"verified"},
     {"ids":["combobox.pointer.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Primary pointerdown is prevented and native click retains input focus; distinct mousedown defaultPrevented assertion is absent.","evidence":605,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":274},"status":"queued"},
     {"ids":["combobox.pointer.15"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared outside dismissal closes without committing or resetting query, but native outside press with pending highlight/query verification is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":276},"status":"verified"},
     {"ids":["combobox.pointer.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core disabled option cannot commit; disabled root suppresses selection but does not promise skipping every composed author handler.","evidence":606,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":280},"status":"queued"},
     {"ids":["combobox.pointer.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native input cannot focus and core ignores edits/navigation; full input/Trigger click plus typing matrix is not directly asserted.","evidence":607,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":281},"status":"queued"},
     {"ids":["combobox.pointer.27","combobox.pointer.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click activation retains input focus, but touch-device trigger toggle and mobile option tap/focus are not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":285},"status":"queued"},
-    {"ids":["combobox.focus.5"],"historicalStatus":"missing","domain":"popup-selection","reason":"Adapter scrollIntoView(nearest) ships for active option, but actual out-of-view option visibility is not measured.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":292},"status":"queued"},
+    {"ids":["combobox.focus.5"],"historicalStatus":"missing","domain":"popup-selection","reason":"Adapter scrollIntoView(nearest) ships for active option, but actual out-of-view option visibility is not measured.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":292},"status":"verified"},
     {"ids":["combobox.focus.6"],"historicalStatus":"missing","domain":"popup-selection","reason":"DOM focus remains input during typing, but six-character typing plus exact onFocus callback count is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":293},"status":"verified"},
     {"ids":["combobox.focus.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click on a custom option descendant ends with input focused; core verifies pointerdown is prevented, but browser focus is not sampled between pointerdown and pointerup.","evidence":608,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":294},"status":"queued"},
     {"ids":["combobox.focus.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Filtering updates options without moving focus, but removed-then-reappearing selected option and iOS keyboard continuity are not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":296},"status":"queued"},
@@ -1729,7 +1729,7 @@
     {"ids":["combobox.forms.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native selected value is refused by metadata guard; exact no-callback unknown autofill case is not tested (multiple mode excluded).","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":350},"status":"reconciled"},
     {"ids":["combobox.forms.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled gates preserve native committed value, not necessarily empty; server-error preservation is not a supplied Combobox lifecycle.","evidence":622,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":351},"status":"queued"},
     {"ids":["combobox.forms.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field disabled/required/invalid and description/error reach input; Field name inheritance plus every focus/touched/dirty/filled/valid marker on Trigger is not supplied/asserted.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":353},"status":"queued"},
-    {"ids":["combobox.forms.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden select owns committed FormData and portal contains no native proxy; explicit only-one-name/visible-input-nameless DOM assertion is not present.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":357},"status":"queued"},
+    {"ids":["combobox.forms.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden select owns committed FormData and portal contains no native proxy; explicit only-one-name/visible-input-nameless DOM assertion is not present.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":357},"status":"verified"},
     {"ids":["combobox.dismissal.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Escape closes preserving input focus; native outside-click then focus transfer is not directly asserted for Combobox.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":358},"status":"queued"},
     {"ids":["combobox.positioning.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared available-size positioning middleware ships, but first-pass height-cap/side retention is not directly asserted in Combobox fixture.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":365},"status":"queued"},
     {"ids":["combobox.positioning.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared native popup positioning and input focus aim to avoid scroll drift, but no native scrolled-page typing/arrow/programmatic open fixture measures it.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":371},"status":"queued"},
@@ -4080,6 +4080,44 @@
           "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
         }
       ]
+    },
+    {
+      "id": "combobox-native-hover-scroll-and-form-value",
+      "status": "verified",
+      "ids": [
+        "combobox.pointer.9",
+        "combobox.keyboard.71",
+        "combobox.focus.5",
+        "combobox.forms.27"
+      ],
+      "acceptedClauses": [
+        "Native arrows resume retained pointer highlight; Control+Down preserves current open highlight; virtual navigation scrolls row 20 fully into a measured overflowing viewport; the visible query input stays nameless while one native select submits only committed selection."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/combobox/combobox.native-interactions.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator verified all 4 tests in Chromium, Firefox and WebKit: 12 passed.",
+      "limits": [
+        "Form value case pins the shipped hidden-control ownership branch of the research divergence."
+      ]
+    },
+    {
+      "id": "combobox-pointer-retention-policy",
+      "status": "reconciled",
+      "ids": [
+        "combobox.pointer.8"
+      ],
+      "acceptedClauses": [
+        "Leaving a hovered option for the input retains its highlight and keeps the popup open without committing."
+      ],
+      "remainingClauses": [
+        "Optional timed non-forced close and cancellation policy is not shipped or asserted by this fixture."
+      ],
+      "files": [
+        "packages/suite/src/combobox/combobox.native-interactions.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator verified native pointer retention in Chromium, Firefox and WebKit."
     }
   ],
   "knownLimits": {
