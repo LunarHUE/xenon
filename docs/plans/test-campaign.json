@@ -1071,23 +1071,23 @@
     {"ids":["editable.keyboard.5"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native textarea Enter inserts a newline and does not commit; the proposed src=keydown.enter callback detail is not in the API.","evidence":225,"historicalRecord":{"file":"packages/suite/coverage/editable.json","index":10},"status":"excluded"},
     {"ids":["editable.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Disabled preview cannot activate and regains reachability when enabled; EditTrigger is natively disabled rather than hidden.","evidence":226,"historicalRecord":{"file":"packages/suite/coverage/editable.json","index":26},"status":"excluded"},
     {"ids":["field.forms.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Required and native/data flags are asserted on shipped parts; a consumer-authored star is in the axe fixture, but no RequiredIndicator component/default behavior is shipped.","evidence":227,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":67},"status":"excluded"},
-    {"ids":["description.roles.7"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Unrendered parts do not produce control references. Internal IDs are allocated from the root base, and no passed-but-unused description/error prop fixture asserts the entire slot-lazy allocation clause.","evidence":228,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":128},"status":"queued"},
-    {"ids":["description.roles.8"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Shipped CheckboxGroup asserts author-first group descriptions and inherited item references, but does not combine an individual Field description with the group description to assert their relative order.","evidence":229,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":129},"status":"queued"},
-    {"ids":["fieldset.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native fieldset disabled is asserted. The generic Field root does not generate aria-disabled, so the complete polymorphic fieldset contract is not established.","evidence":230,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":135},"status":"queued"},
-    {"ids":["fieldset.forms.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native disabled nesting and first-legend exception are asserted for checkboxes. The universal descendant-control matrix and further nested-legend cases are not covered.","evidence":231,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":136},"status":"queued"},
-    {"ids":["form.forms.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Multiple controls and late reset cancellation are covered in component reset tests, but no assertion verifies bubble stopPropagation still runs every reset hook or capture cancellation suppresses every hook.","evidence":232,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":168},"status":"queued"},
-    {"ids":["input.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native label activation and disabled Field/fieldset suppression are asserted. Passive-label API and independently disabled input branch are not covered. Real browser label activation, independently disabled input label suppression, disabled Field label suppression, ancestor fieldset suppression, and direct disabled input click suppression are covered. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.","evidence":233,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":200},"status":"queued"},
-    {"ids":["textarea.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The browser labelFocus helper supports textarea but is only called for input and div. Native textarea label focus and its disabled variants have no assertion; the passive-label API is separately excluded from scope. Real browser label clicks focus enabled textarea controls and stay on body for independently disabled textarea, disabled Field, and disabled ancestor fieldset cases. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.","evidence":234,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":210},"status":"queued"},
-    {"ids":["number-field.roles.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Field accessible naming is asserted; the full visible-label versus explicit-label and axe naming-source matrix is not. Title, explicit aria-label/labelledby, visible native labels, distinct generated IDs and actual axe naming-source applicability/serious failure now have assertions. Native visible labels deliberately use label-for rather than the research-required redundant aria-labelledby.","evidence":235,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":3},"status":"queued"},
-    {"ids":["number-field.roles.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination. Plain root/input omit all listed flags; isolated required/disabled/readonly/invalid states expose only their own flag. The positive data-valid state remains unbuilt because the component does not emit data-valid.","evidence":236,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":15},"status":"queued"},
-    {"ids":["number-field.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Enter/blur native callback cardinality is asserted; wheel and scrub endpoints are explicitly deferred. A real untouched blur produces no change or commit callback; a real unparseable draft restores the prior 4 value and still produces no callbacks. Existing evidence covers Enter and supported blur/stepper commit cardinality.","evidence":237,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":104},"status":"queued"},
+    {"ids":["description.roles.7"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Unrendered parts do not produce control references. Internal IDs are allocated from the root base, and no passed-but-unused description/error prop fixture asserts the entire slot-lazy allocation clause.","evidence":228,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":128},"status":"excluded"},
+    {"ids":["description.roles.8"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Shipped CheckboxGroup asserts author-first group descriptions and inherited item references, but does not combine an individual Field description with the group description to assert their relative order.","evidence":229,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":129},"status":"reconciled"},
+    {"ids":["fieldset.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native fieldset disabled is asserted. The generic Field root does not generate aria-disabled, so the complete polymorphic fieldset contract is not established.","evidence":230,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":135},"status":"excluded"},
+    {"ids":["fieldset.forms.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native disabled nesting and first-legend exception are asserted for checkboxes. The universal descendant-control matrix and further nested-legend cases are not covered.","evidence":231,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":136},"status":"reconciled"},
+    {"ids":["form.forms.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Multiple controls and late reset cancellation are covered in component reset tests, but no assertion verifies bubble stopPropagation still runs every reset hook or capture cancellation suppresses every hook.","evidence":232,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":168},"status":"reconciled"},
+    {"ids":["input.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native label activation and disabled Field/fieldset suppression are asserted. Passive-label API and independently disabled input branch are not covered. Real browser label activation, independently disabled input label suppression, disabled Field label suppression, ancestor fieldset suppression, and direct disabled input click suppression are covered. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.","evidence":233,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":200},"status":"excluded"},
+    {"ids":["textarea.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The browser labelFocus helper supports textarea but is only called for input and div. Native textarea label focus and its disabled variants have no assertion; the passive-label API is separately excluded from scope. Real browser label clicks focus enabled textarea controls and stay on body for independently disabled textarea, disabled Field, and disabled ancestor fieldset cases. The requested passive-label branch remains explicitly unsupported because Field.Label has no passive API.","evidence":234,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":210},"status":"excluded"},
+    {"ids":["number-field.roles.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Field accessible naming is asserted; the full visible-label versus explicit-label and axe naming-source matrix is not. Title, explicit aria-label/labelledby, visible native labels, distinct generated IDs and actual axe naming-source applicability/serious failure now have assertions. Native visible labels deliberately use label-for rather than the research-required redundant aria-labelledby.","evidence":235,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":3},"status":"excluded"},
+    {"ids":["number-field.roles.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The core emits these numeric ARIA/group/conditional state attributes, but scoped assertions do not exercise the full stated attribute combination. Plain root/input omit all listed flags; isolated required/disabled/readonly/invalid states expose only their own flag. The positive data-valid state remains unbuilt because the component does not emit data-valid.","evidence":236,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":15},"status":"excluded"},
+    {"ids":["number-field.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Enter/blur native callback cardinality is asserted; wheel and scrub endpoints are explicitly deferred. A real untouched blur produces no change or commit callback; a real unparseable draft restores the prior 4 value and still produces no callbacks. Existing evidence covers Enter and supported blur/stepper commit cardinality.","evidence":237,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":104},"status":"excluded"},
     {"ids":["number-field.state.11"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Minimum-anchored step progression and reachable unaligned max are asserted; all off-grid directional examples are not. Public tests now assert both off-grid examples, 18.98 up to 19 and 18.11 down to 18. Existing minimum-anchored and reachable-bound evidence remains. The research-specific min=2/max=21/step=3 stopping at 20 diverges from the adopted reachable-bound contract; exact outside-bound 13-to-10 example remains unasserted. A real decrement-trigger click on defaultValue 13 with max 10 and step 3 reaches 10, covering the missing outside-bound 13-to-10 example.","evidence":238,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":107},"status":"queued"},
-    {"ids":["number-field.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Readonly retains canonical submission; hidden native readonly and disabled exclusion are not all asserted and type=hidden does not need readonly. A real browser form asserts the disabled canonical hidden input is disabled and excluded from FormData, while the readonly canonical hidden input remains enabled and submits value 3. It also explicitly observes that the hidden readonly input has no readonly attribute/property, so the exact requested hidden-readonly branch remains unsupported by the shipped adapter.","evidence":239,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":128},"status":"queued"},
-    {"ids":["number-field.rtl.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Public locale props verify US/German separators and Polish NBSP grouping at 10000.5. The research-specific Polish 1000 grouping differs from Intl default grouping thresholds, so that literal example remains a contract divergence.","evidence":240,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":149},"status":"queued"},
-    {"ids":["number-field.rtl.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Percent text 2.11 commits approximately 0.0211 while unit-percent text commits its numeric value without division. The research 5.2-to-52% example conflicts with the adopted fraction conversion and remains unresolved.","evidence":241,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":151},"status":"queued"},
-    {"ids":["number-field.rtl.14"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Representative Latin, Arabic-Indic, Han, Devanagari and Bengali numbering systems assert displayed and committed formatter output plus parsed callbacks. No finite shipped-translation-locale inventory is defined, so the universal locale scope remains unresolved.","evidence":242,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":162},"status":"queued"},
-    {"ids":["number-field.a11y.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Field naming/description integration is present, but the exact multiple-label and description/error ordering matrix is not asserted. Public native label associations, explicit author name references, and author/help/error description ordering now have direct reactive assertions. The shared Field contract deliberately uses native label-for without redundant label IDs or a self-ID and places author descriptions first; the research alternative ordering remains a contract divergence.","evidence":243,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":171},"status":"queued"},
-    {"ids":["number-field.notes.23"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Author-canceled input restores the DOM with no callback; canceled blur/reformat is not asserted and touched metadata is unshipped. A canceled cancelable synthetic blur preserves the dirty draft and emits no commit callback; a noncancelable blur positive control commits. Native blur cannot be canceled with preventDefault, so this does not establish the research native-blur cancellation branch. Touched metadata remains unshipped.","evidence":244,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":198},"status":"queued"},
+    {"ids":["number-field.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Readonly retains canonical submission; hidden native readonly and disabled exclusion are not all asserted and type=hidden does not need readonly. A real browser form asserts the disabled canonical hidden input is disabled and excluded from FormData, while the readonly canonical hidden input remains enabled and submits value 3. It also explicitly observes that the hidden readonly input has no readonly attribute/property, so the exact requested hidden-readonly branch remains unsupported by the shipped adapter.","evidence":239,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":128},"status":"excluded"},
+    {"ids":["number-field.rtl.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Public locale props verify US/German separators and Polish NBSP grouping at 10000.5. The research-specific Polish 1000 grouping differs from Intl default grouping thresholds, so that literal example remains a contract divergence.","evidence":240,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":149},"status":"excluded"},
+    {"ids":["number-field.rtl.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Percent text 2.11 commits approximately 0.0211 while unit-percent text commits its numeric value without division. The research 5.2-to-52% example conflicts with the adopted fraction conversion and remains unresolved.","evidence":241,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":151},"status":"decision"},
+    {"ids":["number-field.rtl.14"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Locale numeric parsing/formatting and native localized editing have representative assertions, but this full multi-locale/options/interaction matrix is not asserted. Representative Latin, Arabic-Indic, Han, Devanagari and Bengali numbering systems assert displayed and committed formatter output plus parsed callbacks. No finite shipped-translation-locale inventory is defined, so the universal locale scope remains unresolved.","evidence":242,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":162},"status":"decision"},
+    {"ids":["number-field.a11y.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Field naming/description integration is present, but the exact multiple-label and description/error ordering matrix is not asserted. Public native label associations, explicit author name references, and author/help/error description ordering now have direct reactive assertions. The shared Field contract deliberately uses native label-for without redundant label IDs or a self-ID and places author descriptions first; the research alternative ordering remains a contract divergence.","evidence":243,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":171},"status":"excluded"},
+    {"ids":["number-field.notes.23"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Author-canceled input restores the DOM with no callback; canceled blur/reformat is not asserted and touched metadata is unshipped. A canceled cancelable synthetic blur preserves the dirty draft and emits no commit callback; a noncancelable blur positive control commits. Native blur cannot be canceled with preventDefault, so this does not establish the research native-blur cancellation branch. Touched metadata remains unshipped.","evidence":244,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":198},"status":"excluded"},
     {"ids":["pin-input.roles.7"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Numeric and alphabetic slot input modes plus an explicit first-slot native override are asserted. Root inputmode attributes do not configure the slots or submission proxy; a proxy override is not exposed.","evidence":245,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":211},"status":"excluded"},
     {"ids":["pin-input.keyboard.17"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Ctrl and Cmd Backspace clear the entire code and Home plus Delete splices its first character. Cross-slot Select All/Cut is excluded by the accepted native-slot API.","evidence":246,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":244},"status":"excluded"},
     {"ids":["pin-input.keyboard.18"],"historicalStatus":"partial","domain":"inputs-forms","reason":"ArrowUp moves to the first slot and ArrowDown to the insertion slot or complete final slot. Both cancel native behavior; propagation stopping is explicitly excluded by the accepted plan.","evidence":247,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":245},"status":"excluded"},
@@ -1096,33 +1096,33 @@
     {"ids":["pin-input.forms.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native validity changes from incomplete to complete in the same instance and form after keyboard entry. The proxy uses the required full-length pattern; minlength/maxlength are intentionally not emitted.","evidence":250,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":304},"status":"excluded"},
     {"ids":["pin-input.forms.5"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Field required/disabled/readonly propagation, helper/error visibility and invalid markers across every slot are asserted. Disabled fields preserve invalid state rather than stripping aria-invalid, matching the adopted contract.","evidence":251,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":305},"status":"excluded"},
     {"ids":["pin-input.ssr.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Server-rendered proxy pattern and required validity are checked in a no-JavaScript page: the same native input accepts complete values and rejects incomplete/empty values with patternMismatch/valueMissing. Playwright directly sets proxy values to inspect native validation; user entry without JavaScript is not claimed. The accepted implementation uses pattern rather than minlength/maxlength, so that attribute trio remains partial.","evidence":252,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":313},"status":"excluded"},
-    {"ids":["tags-input.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named editor visibility/focus and hiding after cancel are asserted; its tabindex and localization override are not fully checked.","evidence":253,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":358},"status":"queued"},
+    {"ids":["tags-input.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named editor visibility/focus and hiding after cancel are asserted; its tabindex and localization override are not fully checked.","evidence":253,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":358},"status":"reconciled"},
     {"ids":["tags-input.roles.12"],"historicalStatus":"missing","domain":"inputs-forms","reason":"ItemText renders data-part=item-text; no scoped test directly asserts this named-part attribute.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":364},"status":"queued"},
     {"ids":["tags-input.roles.14"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The accepted no-collection-role contract is implemented, but the scoped tests do not assert absent listbox/option roles.","evidence":255,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":366},"status":"queued"},
     {"ids":["tags-input.keyboard.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Arrows traverse tags and End restores textbox focus; Home-to-first-tag is not included in these native assertions.","evidence":256,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":368},"status":"queued"},
     {"ids":["tags-input.keyboard.6"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The implementation supports Delete-to-input and empty Enter no-op/recovery; scoped tests do not assert those full sequences.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":372},"status":"queued"},
     {"ids":["tags-input.keyboard.11"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The implementation supports Delete-to-input and empty Enter no-op/recovery; scoped tests do not assert those full sequences.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":377},"status":"queued"},
     {"ids":["tags-input.keyboard.13"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Printable typing from a tag moves focus and text into textbox; subsequent End re-selection of that text is not asserted.","evidence":256,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":379},"status":"queued"},
-    {"ids":["tags-input.keyboard.15"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Per-item disabled blocks editor/removal and remains isolated from enabled neighbors; repeated Backspace and remove-event semantics are not asserted.","evidence":257,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":381},"status":"queued"},
-    {"ids":["tags-input.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"A removal trigger reports the right whole-array proposal; pointer removal focus followed by ArrowLeft is not asserted.","evidence":258,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":386},"status":"queued"},
-    {"ids":["tags-input.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Double-click reveals the named editor and Enter requests a replacement; native focus on double-click is not independently asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":387},"status":"queued"},
-    {"ids":["tags-input.pointer.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":388},"status":"queued"},
-    {"ids":["tags-input.pointer.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Clear removes the collection and is silent when already empty; resulting native textbox focus is not checked.","evidence":260,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":389},"status":"queued"},
-    {"ids":["tags-input.pointer.5"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":390},"status":"queued"},
-    {"ids":["tags-input.pointer.6"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":391},"status":"queued"},
-    {"ids":["tags-input.pointer.9"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An undelimited synthetic paste is left unprevented without adding tags; browser insertion and paste from focused tags are not asserted.","evidence":261,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":394},"status":"queued"},
-    {"ids":["tags-input.pointer.12"],"historicalStatus":"partial","domain":"inputs-forms","reason":"addOnPaste=false keeps a pasted delimiter draft; uncanceled Enter and second-paste-after-clear are not asserted.","evidence":262,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":397},"status":"queued"},
-    {"ids":["tags-input.pointer.13"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core batch addition deduplicates accepted values, but duplicate-allowed paste through the adapter is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":398},"status":"queued"},
-    {"ids":["tags-input.focus.1"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":399},"status":"queued"},
-    {"ids":["tags-input.focus.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":401},"status":"queued"},
+    {"ids":["tags-input.keyboard.15"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Per-item disabled blocks editor/removal and remains isolated from enabled neighbors; repeated Backspace and remove-event semantics are not asserted.","evidence":257,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":381},"status":"excluded"},
+    {"ids":["tags-input.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"A removal trigger reports the right whole-array proposal; pointer removal focus followed by ArrowLeft is not asserted.","evidence":258,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":386},"status":"reconciled"},
+    {"ids":["tags-input.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Double-click reveals the named editor and Enter requests a replacement; native focus on double-click is not independently asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":387},"status":"reconciled"},
+    {"ids":["tags-input.pointer.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":388},"status":"reconciled"},
+    {"ids":["tags-input.pointer.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Clear removes the collection and is silent when already empty; resulting native textbox focus is not checked.","evidence":260,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":389},"status":"reconciled"},
+    {"ids":["tags-input.pointer.5"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":390},"status":"reconciled"},
+    {"ids":["tags-input.pointer.6"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":391},"status":"reconciled"},
+    {"ids":["tags-input.pointer.9"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An undelimited synthetic paste is left unprevented without adding tags; browser insertion and paste from focused tags are not asserted.","evidence":261,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":394},"status":"reconciled"},
+    {"ids":["tags-input.pointer.12"],"historicalStatus":"partial","domain":"inputs-forms","reason":"addOnPaste=false keeps a pasted delimiter draft; uncanceled Enter and second-paste-after-clear are not asserted.","evidence":262,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":397},"status":"reconciled"},
+    {"ids":["tags-input.pointer.13"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core batch addition deduplicates accepted values, but duplicate-allowed paste through the adapter is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":398},"status":"reconciled"},
+    {"ids":["tags-input.focus.1"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":399},"status":"reconciled"},
+    {"ids":["tags-input.focus.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":401},"status":"reconciled"},
     {"ids":["tags-input.state.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Default tag instances are queried by their data-value and focus behavior; exact text content/count per default entry is not asserted together.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":402},"status":"queued"},
-    {"ids":["tags-input.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Rejected duplicate remains editable with no callback; duplicate-allowed insertion is not asserted in this case.","evidence":265,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":404},"status":"queued"},
-    {"ids":["tags-input.state.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An edit into an existing value is rejected and a valid controlled proposal retains owner state; the duplicate-allowed edit branch is not asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":405},"status":"queued"},
-    {"ids":["tags-input.state.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core trim precedes duplicate rejection, but a spaced duplicate draft retaining its exact original text is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":407},"status":"queued"},
-    {"ids":["tags-input.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"FormData follows native addition/removal and controlled rejection; an actual submit after all add/remove/clear paths is not asserted.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":410},"status":"queued"},
-    {"ids":["tags-input.forms.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Reactive Field invalid/error/disabled behavior is asserted on visible parts; repeated hidden entries do not own required validation as the research proposes.","evidence":266,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":411},"status":"queued"},
+    {"ids":["tags-input.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Rejected duplicate remains editable with no callback; duplicate-allowed insertion is not asserted in this case.","evidence":265,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":404},"status":"reconciled"},
+    {"ids":["tags-input.state.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An edit into an existing value is rejected and a valid controlled proposal retains owner state; the duplicate-allowed edit branch is not asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":405},"status":"reconciled"},
+    {"ids":["tags-input.state.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core trim precedes duplicate rejection, but a spaced duplicate draft retaining its exact original text is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":407},"status":"reconciled"},
+    {"ids":["tags-input.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"FormData follows native addition/removal and controlled rejection; an actual submit after all add/remove/clear paths is not asserted.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":410},"status":"reconciled"},
+    {"ids":["tags-input.forms.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Reactive Field invalid/error/disabled behavior is asserted on visible parts; repeated hidden entries do not own required validation as the research proposes.","evidence":266,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":411},"status":"excluded"},
     {"ids":["tags-input.a11y.1"],"historicalStatus":"missing","domain":"inputs-forms","reason":"No TagsInput scoped fixture invokes an axe scan; native focus/form tests are not an accessibility scan.","evidence":255,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":413},"status":"queued"},
-    {"ids":["tags-input.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Literal pipe splitting is asserted; the complete dot/plus/pipe examples are not all exercised.","evidence":267,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":416},"status":"queued"},
+    {"ids":["tags-input.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Literal pipe splitting is asserted; the complete dot/plus/pipe examples are not all exercised.","evidence":267,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":416},"status":"reconciled"},
     {"ids":["slider.keyboard.10"],"historicalStatus":"partial","domain":"collections-layout","reason":"All specified ordinary and tiny numeric increments, repeated callbacks and numeric ARIA values are asserted, including exact 25.1 text. Fixed-decimal notation remains a research divergence: the engine rounds numeric precision then serializes tiny values in equivalent scientific notation rather than forcing decimal strings.","evidence":268,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":504},"status":"excluded"},
     {"ids":["slider.focus.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"Native input[type=range] tabIndex=0 and actual Tab between thumbs are asserted. The literal explicit tabindex attribute differs from the native-thumb contract documented in docs/plans/slider-coverage.md; no redundant attribute is emitted.","evidence":269,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":537},"status":"excluded"},
     {"ids":["slider.state.16"],"historicalStatus":"partial","domain":"collections-layout","reason":"Unformatted thumbs omit aria-valuetext as chosen; the positional start/end default in this research bullet is explicitly rejected.","evidence":270,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":562},"status":"excluded"},
@@ -2511,6 +2511,498 @@
       ],
       "verification": "Coordinator ran all 7 cases across Chromium, Firefox and WebKit after the final recovery fix: 21 passed. Broader prior domain run: 456 passed. Final full DOM suite: 255 passed.",
       "relatedFix": "Recover lost focus in nonmodal popup scopes"
+    },
+    {
+      "id": "input-form-scope-alternatives",
+      "status": "excluded",
+      "ids": [
+        "tags-input.keyboard.15",
+        "tags-input.forms.3",
+        "number-field.roles.4",
+        "number-field.roles.16",
+        "number-field.state.8",
+        "number-field.forms.2",
+        "number-field.rtl.1",
+        "number-field.a11y.4",
+        "number-field.notes.23",
+        "field.forms.4",
+        "description.roles.7",
+        "fieldset.roles.6",
+        "input.pointer.1",
+        "textarea.pointer.1"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "tags-input.keyboard.15: Protected disabled-tag repeated Backspace and one array callback asserted; no per-item remove-event API exists.",
+        "tags-input.forms.3: Hidden entries intentionally have name/form/disabled/value; required/readOnly hidden-input attributes are not delivered. Visible Field validation covered.",
+        "number-field.roles.4: Delivered native label-for, explicit names/title/generated IDs and axe naming covered; redundant visible-label aria-labelledby is divergent.",
+        "number-field.roles.16: No data-valid API; absence and supported isolated state flags asserted.",
+        "number-field.state.8: Wheel/scrub unshipped; delivered untouched/unparseable blur callback cardinality covered.",
+        "number-field.forms.2: Hidden readonly attribute unshipped; readonly canonical submission and disabled exclusion explicitly covered.",
+        "number-field.rtl.1: Exact Polish1000 grouping literal conflicts with adopted Intl threshold; locale prop and US/German/Polish larger-value formatting asserted.",
+        "number-field.a11y.4: Author-first describedBy and native label-for are adopted; self-redundant label reference/order alternative diverges.",
+        "number-field.notes.23: Native blur cancellation/touched metadata not delivered; cancelable synthetic blur supported and asserted.",
+        "field.forms.4: RequiredIndicator component/default unshipped; authors can render their own indicator.",
+        "description.roles.7: Lazy slot-prop ID minting API unshipped; Field eagerly allocates base-derived IDs while registration controls references.",
+        "fieldset.roles.6: Dedicated polymorphic Fieldset API unshipped; native Field-as-fieldset supported, generic root aria-disabled alternative not delivered.",
+        "input.pointer.1: Passive-label API unshipped; native supported label-focus matrix already tested.",
+        "textarea.pointer.1: Passive-label API unshipped; native supported label-focus matrix already tested."
+      ],
+      "files": [
+        "packages/suite/src/tags-input/tags-input.coverage-keyboard.test-browser.tsx",
+        "packages/core/src/tags-input/tags-input.ts",
+        "packages/solid/src/tags-input/tags-input.tsx",
+        "packages/suite/src/tags-input/tags-input.reactivity.test.tsx",
+        "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+        "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx",
+        "packages/core/src/number-field/number-field.ts",
+        "packages/suite/src/number-field/number-field.coverage-commit-extra.test-browser.tsx",
+        "packages/solid/src/number-field/number-field.tsx",
+        "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx",
+        "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "packages/suite/src/number-field/number-field.coverage-notes-extra.test.tsx",
+        "packages/solid/src/field/field.tsx",
+        "packages/suite/src/field/field.native.test-browser.tsx"
+      ],
+      "verification": "Read-only contract/source/assertion review; this disposition does not claim passing execution or new test completion.",
+      "scopeReview": [
+        {
+          "id": "tags-input.keyboard.15",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/suite/src/tags-input/tags-input.coverage-keyboard.test-browser.tsx:129",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/solid/src/tags-input/tags-input.tsx"
+          ],
+          "rationale": "Protected disabled-tag repeated Backspace and one array callback asserted; no per-item remove-event API exists."
+        },
+        {
+          "id": "tags-input.forms.3",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx:319",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Hidden entries intentionally have name/form/disabled/value; required/readOnly hidden-input attributes are not delivered. Visible Field validation covered."
+        },
+        {
+          "id": "number-field.roles.4",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx:71",
+            "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx:136"
+          ],
+          "rationale": "Delivered native label-for, explicit names/title/generated IDs and axe naming covered; redundant visible-label aria-labelledby is divergent."
+        },
+        {
+          "id": "number-field.roles.16",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx:93",
+            "packages/suite/src/number-field/number-field.coverage-state-extra.test.tsx:111",
+            "packages/core/src/number-field/number-field.ts"
+          ],
+          "rationale": "No data-valid API; absence and supported isolated state flags asserted."
+        },
+        {
+          "id": "number-field.state.8",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-commit-extra.test-browser.tsx:77",
+            "packages/solid/src/number-field/number-field.tsx"
+          ],
+          "rationale": "Wheel/scrub unshipped; delivered untouched/unparseable blur callback cardinality covered."
+        },
+        {
+          "id": "number-field.forms.2",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-validation-extra.test-browser.tsx:33"
+          ],
+          "rationale": "Hidden readonly attribute unshipped; readonly canonical submission and disabled exclusion explicitly covered."
+        },
+        {
+          "id": "number-field.rtl.1",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx:35"
+          ],
+          "rationale": "Exact Polish1000 grouping literal conflicts with adopted Intl threshold; locale prop and US/German/Polish larger-value formatting asserted."
+        },
+        {
+          "id": "number-field.a11y.4",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx:31",
+            "packages/solid/src/number-field/number-field.tsx:230"
+          ],
+          "rationale": "Author-first describedBy and native label-for are adopted; self-redundant label reference/order alternative diverges."
+        },
+        {
+          "id": "number-field.notes.23",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-notes-extra.test.tsx:96"
+          ],
+          "rationale": "Native blur cancellation/touched metadata not delivered; cancelable synthetic blur supported and asserted."
+        },
+        {
+          "id": "field.forms.4",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/solid/src/field/field.tsx"
+          ],
+          "rationale": "RequiredIndicator component/default unshipped; authors can render their own indicator."
+        },
+        {
+          "id": "description.roles.7",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/solid/src/field/field.tsx:113"
+          ],
+          "rationale": "Lazy slot-prop ID minting API unshipped; Field eagerly allocates base-derived IDs while registration controls references."
+        },
+        {
+          "id": "fieldset.roles.6",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/solid/src/field/field.tsx"
+          ],
+          "rationale": "Dedicated polymorphic Fieldset API unshipped; native Field-as-fieldset supported, generic root aria-disabled alternative not delivered."
+        },
+        {
+          "id": "input.pointer.1",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/suite/src/field/field.native.test-browser.tsx"
+          ],
+          "rationale": "Passive-label API unshipped; native supported label-focus matrix already tested."
+        },
+        {
+          "id": "textarea.pointer.1",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/suite/src/field/field.native.test-browser.tsx"
+          ],
+          "rationale": "Passive-label API unshipped; native supported label-focus matrix already tested."
+        }
+      ]
+    },
+    {
+      "id": "number-field-contract-decisions",
+      "status": "decision",
+      "ids": [
+        "number-field.rtl.3",
+        "number-field.rtl.14"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "number-field.rtl.3: Spec percent examples contradict arithmetic:5.2=>52%/.52 versus2.11=>.0211. Delivered fraction conversion asserted; choose intended literal.",
+        "number-field.rtl.14: Universal all-shipped-locales claim has no finite translation inventory. Existing explicit en-US/ar-EG/Han/deva/Bengali matrix cannot prove universal statement."
+      ],
+      "files": [
+        "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx",
+        "packages/suite/src/number-field/number-field.coverage-locale-advanced.test.tsx"
+      ],
+      "verification": "Read-only contract/source/assertion review; this disposition does not claim passing execution or new test completion.",
+      "scopeReview": [
+        {
+          "id": "number-field.rtl.3",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-locale-extra.test.tsx:103"
+          ],
+          "rationale": "Spec percent examples contradict arithmetic:5.2=>52%/.52 versus2.11=>.0211. Delivered fraction conversion asserted; choose intended literal."
+        },
+        {
+          "id": "number-field.rtl.14",
+          "spec": "docs/spec/number-field.md",
+          "evidence": [
+            "packages/suite/src/number-field/number-field.coverage-locale-advanced.test.tsx:50"
+          ],
+          "rationale": "Universal all-shipped-locales claim has no finite translation inventory. Existing explicit en-US/ar-EG/Han/deva/Bengali matrix cannot prove universal statement."
+        }
+      ]
+    },
+    {
+      "id": "input-form-writable-queue",
+      "status": "reconciled",
+      "ids": [
+        "description.roles.8",
+        "fieldset.forms.1",
+        "form.forms.6",
+        "tags-input.roles.6",
+        "tags-input.pointer.1",
+        "tags-input.pointer.2",
+        "tags-input.pointer.3",
+        "tags-input.pointer.4",
+        "tags-input.pointer.5",
+        "tags-input.pointer.6",
+        "tags-input.pointer.9",
+        "tags-input.pointer.12",
+        "tags-input.pointer.13",
+        "tags-input.focus.1",
+        "tags-input.focus.3",
+        "tags-input.state.3",
+        "tags-input.state.4",
+        "tags-input.state.6",
+        "tags-input.forms.2",
+        "tags-input.notes.2"
+      ],
+      "acceptedClauses": [
+        "Current shipped clauses have concrete missing assertions, listed per requirement below."
+      ],
+      "remainingClauses": [
+        "description.roles.8: Group description plus per-item Field description ordering is supported but lacks combined assertion.",
+        "fieldset.forms.1: Native input/button/select/textarea, nested-fieldset and multiple-legend/first-legend disabled exceptions need full matrix.",
+        "form.forms.6: Native reset stopPropagation/capture preventDefault across registered controls remains concrete gap; document bubble listeners may fail propagation case.",
+        "tags-input.roles.6: Author translated per-item editor aria-label override still needs assertion.",
+        "tags-input.pointer.1: Native remove click then input focus and ArrowLeft to new last tag.",
+        "tags-input.pointer.2: Native double-click and editing replacement; jsdom dblclick and keyboard editing are partial.",
+        "tags-input.pointer.3: Control click clears highlight, subsequent Backspace does not delete old highlighted tag.",
+        "tags-input.pointer.4: Clear-trigger native input focus.",
+        "tags-input.pointer.5: Native item click focus.",
+        "tags-input.pointer.6: Control-padding click focus, including display-contents author layout.",
+        "tags-input.pointer.9: Native ordinary input clipboard insertion remains writable; focused-tag paste redirection alternative is unshipped.",
+        "tags-input.pointer.12: addOnPaste=false then native Enter; second paste after clear.",
+        "tags-input.pointer.13: allowDuplicates=true full paste path.",
+        "tags-input.focus.1: Outside-click and Tab clear highlight.",
+        "tags-input.focus.3: Field label focuses visible input, never hidden tag editor.",
+        "tags-input.state.3: allowDuplicates INSERT branch, not just externally supplied duplicate rendering.",
+        "tags-input.state.4: allowDuplicates EDIT branch.",
+        "tags-input.state.6: Trim/deduplicate while preserving rejected original spaced draft.",
+        "tags-input.forms.2: Actual native submission after add/remove/clear; current FormData assertions are partial.",
+        "tags-input.notes.2: Literal delimiters dot and plus; existing pipe coverage alone is partial."
+      ],
+      "files": [
+        "packages/solid/src/internal/checked.tsx",
+        "packages/solid/src/checkbox-group/checkbox-group.tsx",
+        "packages/suite/src/field/field.test-browser.tsx",
+        "packages/solid/src/field/field.tsx",
+        "packages/solid/src/radio-group/radio-group.tsx",
+        "packages/solid/src/tags-input/tags-input.tsx",
+        "packages/core/src/tags-input/tags-input.ts",
+        "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+        "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+      ],
+      "verification": "Read-only contract/source/assertion review; this disposition does not claim passing execution or new test completion.",
+      "scopeReview": [
+        {
+          "id": "description.roles.8",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/solid/src/internal/checked.tsx:232",
+            "packages/solid/src/checkbox-group/checkbox-group.tsx"
+          ],
+          "rationale": "Group description plus per-item Field description ordering is supported but lacks combined assertion."
+        },
+        {
+          "id": "fieldset.forms.1",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/suite/src/field/field.test-browser.tsx",
+            "packages/solid/src/field/field.tsx"
+          ],
+          "rationale": "Native input/button/select/textarea, nested-fieldset and multiple-legend/first-legend disabled exceptions need full matrix."
+        },
+        {
+          "id": "form.forms.6",
+          "spec": "docs/spec/field.md",
+          "evidence": [
+            "packages/solid/src/internal/checked.tsx:340",
+            "packages/solid/src/radio-group/radio-group.tsx:201",
+            "packages/solid/src/tags-input/tags-input.tsx:265"
+          ],
+          "rationale": "Native reset stopPropagation/capture preventDefault across registered controls remains concrete gap; document bubble listeners may fail propagation case."
+        },
+        {
+          "id": "tags-input.roles.6",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Author translated per-item editor aria-label override still needs assertion."
+        },
+        {
+          "id": "tags-input.pointer.1",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Native remove click then input focus and ArrowLeft to new last tag."
+        },
+        {
+          "id": "tags-input.pointer.2",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Native double-click and editing replacement; jsdom dblclick and keyboard editing are partial."
+        },
+        {
+          "id": "tags-input.pointer.3",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Control click clears highlight, subsequent Backspace does not delete old highlighted tag."
+        },
+        {
+          "id": "tags-input.pointer.4",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Clear-trigger native input focus."
+        },
+        {
+          "id": "tags-input.pointer.5",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Native item click focus."
+        },
+        {
+          "id": "tags-input.pointer.6",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Control-padding click focus, including display-contents author layout."
+        },
+        {
+          "id": "tags-input.pointer.9",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Native ordinary input clipboard insertion remains writable; focused-tag paste redirection alternative is unshipped."
+        },
+        {
+          "id": "tags-input.pointer.12",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "addOnPaste=false then native Enter; second paste after clear."
+        },
+        {
+          "id": "tags-input.pointer.13",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "allowDuplicates=true full paste path."
+        },
+        {
+          "id": "tags-input.focus.1",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Outside-click and Tab clear highlight."
+        },
+        {
+          "id": "tags-input.focus.3",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Field label focuses visible input, never hidden tag editor."
+        },
+        {
+          "id": "tags-input.state.3",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "allowDuplicates INSERT branch, not just externally supplied duplicate rendering."
+        },
+        {
+          "id": "tags-input.state.4",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "allowDuplicates EDIT branch."
+        },
+        {
+          "id": "tags-input.state.6",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Trim/deduplicate while preserving rejected original spaced draft."
+        },
+        {
+          "id": "tags-input.forms.2",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Actual native submission after add/remove/clear; current FormData assertions are partial."
+        },
+        {
+          "id": "tags-input.notes.2",
+          "spec": "docs/spec/tags-input.md",
+          "evidence": [
+            "packages/solid/src/tags-input/tags-input.tsx",
+            "packages/core/src/tags-input/tags-input.ts",
+            "packages/suite/src/tags-input/tags-input.native.test-browser.tsx",
+            "packages/suite/src/tags-input/tags-input.reactivity.test.tsx"
+          ],
+          "rationale": "Literal delimiters dot and plus; existing pipe coverage alone is partial."
+        }
+      ]
     }
   ],
   "knownLimits": {
