@@ -1200,15 +1200,15 @@
     {"ids":["hover-card.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser checks losing content focus closes, and adapter checks blur cancels pending opening. The complete open-trigger blur/Tab close-delay sequence is not directly asserted.","evidence":315,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":25},"status":"queued"},
     {"ids":["hover-card.focus.2","hover-card.focus.10","hover-card.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Accepted shared-trigger and independent focus/pointer intent behavior lacks a direct HoverCard assertion for this complete interaction sequence.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":26},"status":"queued"},
     {"ids":["hover-card.focus.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter proves delayed focus and cancellation with 100ms/99ms boundaries; exact 300ms/150ms source sequence is not exercised.","evidence":316,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":30},"status":"queued"},
-    {"ids":["hover-card.state.1","hover-card.state.2","hover-card.state.5","hover-card.state.8","hover-card.state.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Controlled/default visibility and forceMount use the shared implementation, but the scope ledger identifies these complete HoverCard lifecycle sequences as lacking dedicated checks.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":31},"status":"queued"},
+    {"ids":["hover-card.state.1","hover-card.state.2","hover-card.state.5","hover-card.state.8","hover-card.state.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Controlled/default visibility and forceMount use the shared implementation, but the scope ledger identifies these complete HoverCard lifecycle sequences as lacking dedicated checks.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":31},"status":"verified"},
     {"ids":["hover-card.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter asserts exactly one boolean opening report. No-equal-request callback behavior is not checked here; previous-value callback argument is deliberately not provided.","evidence":317,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":32},"status":"queued"},
-    {"ids":["hover-card.dismissal.3","hover-card.dismissal.4","hover-card.dismissal.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Escape/outside policy exists; dedicated HoverCard ignore-Escape and outside-press enable/disable fixtures remain absent.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":36},"status":"queued"},
+    {"ids":["hover-card.dismissal.3","hover-card.dismissal.4","hover-card.dismissal.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Escape/outside policy exists; dedicated HoverCard ignore-Escape and outside-press enable/disable fixtures remain absent.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":36},"status":"verified"},
     {"ids":["hover-card.dismissal.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native drag from one card to outside does not dismiss. The specified parent-plus-child topology is absent.","evidence":318,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":37},"status":"queued"},
     {"ids":["hover-card.dismissal.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nested Escape closes only child and then parent. The fixture does not explicitly establish/assert focus outside both cards.","evidence":319,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":39},"status":"queued"},
     {"ids":["hover-card.dismissal.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nonmodal content is asserted for hover and delayed keyboard opening is checked separately. The keyboard-open test does not explicitly inspect absence of underlay.","evidence":320,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":40},"status":"queued"},
     {"ids":["hover-card.positioning.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached triggers reanchor the same native content. Reanchoring across a retained portal close/reopen is not asserted.","evidence":321,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":42},"status":"queued"},
     {"ids":["hover-card.animation.1","hover-card.animation.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared presence supplies lazy mounting and starting/ending styles; complete HoverCard hover/unhover lifecycle assertions are absent.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":45},"status":"queued"},
-    {"ids":["hover-card.animation.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves forced closed presence and hidden state; author gating versus forced mounting is not exercised together.","evidence":322,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":46},"status":"queued"},
+    {"ids":["hover-card.animation.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves forced closed presence and hidden state; author gating versus forced mounting is not exercised together.","evidence":322,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":46},"status":"reconciled"},
     {"ids":["hover-card.animation.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves exit retention, but browser animation completion and completion callbacks are not asserted; completion callbacks are not supplied.","evidence":323,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":47},"status":"queued"},
     {"ids":["hover-card.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached hover payload switching and browser reanchoring are asserted. The universal focus/activation/delay parity claim is broader than these cases.","evidence":324,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":51},"status":"queued"},
     {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"queued"},
@@ -2071,6 +2071,62 @@
         {
           "command": "Parent Chromium, Firefox and WebKit run",
           "result": "All12 Menubar executions passed; axe rule applicability verified in installed source before correcting fixture"
+        }
+      ]
+    },
+    {
+      "id": "hover-card-lifecycle-1",
+      "status": "verified",
+      "ids": [
+        "hover-card.state.1",
+        "hover-card.state.2",
+        "hover-card.state.5",
+        "hover-card.state.8",
+        "hover-card.state.9",
+        "hover-card.dismissal.3",
+        "hover-card.dismissal.4",
+        "hover-card.dismissal.5"
+      ],
+      "acceptedClauses": [
+        "Default-open and controlled cards mount silently and control wins over opposing defaults",
+        "Two-way Escape updates the author binding, unmounts and supports external reopening",
+        "Force-mounted content retains identity through pointer close and reentry",
+        "Escape/outside-dismissal policies retain content when disabled and close when reenabled"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/hover-card/hover-card.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent Chromium, Firefox and WebKit four-file run",
+          "result": "All15 HoverCard executions passed independently"
+        },
+        {
+          "command": "Scoped ESLint and suite typecheck",
+          "result": "passed"
+        }
+      ]
+    },
+    {
+      "id": "hover-card-retained-presence-1",
+      "status": "reconciled",
+      "ids": [
+        "hover-card.animation.3"
+      ],
+      "acceptedClauses": [
+        "Force-mounted closed content remains connected and hidden, retaining identity on reentry"
+      ],
+      "remainingClauses": [
+        "Consumer rendering gated by exposed open state is not asserted in this batch"
+      ],
+      "files": [
+        "packages/suite/src/hover-card/hover-card.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent Chromium, Firefox and WebKit run",
+          "result": "Retained-content case passed in all three engines"
         }
       ]
     }
