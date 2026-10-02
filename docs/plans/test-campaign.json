@@ -1593,17 +1593,17 @@
     {"ids":["menu.notes.18"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Shared spread and Dynamic support author props and canceled selection; exhaustive every-part ref/class/polymorphic conformance is not a Menu behavioral test.","evidence":537,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":872},"status":"queued"},
     {"ids":["menu.notes.21"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger ID getter registration is reactive; changed-ID no-leak/collection-size fixture is absent.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":874},"status":"queued"},
     {"ids":["menu.notes.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Explicit root trigger/content IDs are asserted in SSR; full explicit submenu-trigger/content ID quartet is not checked.","evidence":535,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":875},"status":"queued"},
-    {"ids":["select.roles.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Combobox role is asserted in core and browser; explicit haspopup=listbox is emitted but not directly asserted.","evidence":549,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":0},"status":"reconciled"},
-    {"ids":["select.roles.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native trigger defaults type=button and form fixture opens without submitting; explicit type attribute is not checked.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":2},"status":"reconciled"},
-    {"ids":["select.roles.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Open controls resolves and closed code omits it; exact attribute absence before first open and after close is not asserted.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":5},"status":"reconciled"},
-    {"ids":["select.roles.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Content omits implicit vertical orientation, but no explicit no-aria-orientation Select assertion exists.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":12},"status":"reconciled"},
-    {"ids":["select.roles.18"],"historicalStatus":"missing","domain":"popup-selection","reason":"No-label trigger does not invent labelledby; exact absent attribute case is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":14},"status":"reconciled"},
+    {"ids":["select.roles.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Combobox role is asserted in core and browser; explicit haspopup=listbox is emitted but not directly asserted.","evidence":549,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":0},"status":"verified"},
+    {"ids":["select.roles.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native trigger defaults type=button and form fixture opens without submitting; explicit type attribute is not checked.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":2},"status":"verified"},
+    {"ids":["select.roles.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Open controls resolves and closed code omits it; exact attribute absence before first open and after close is not asserted.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":5},"status":"verified"},
+    {"ids":["select.roles.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Content omits implicit vertical orientation, but no explicit no-aria-orientation Select assertion exists.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":12},"status":"verified"},
+    {"ids":["select.roles.18"],"historicalStatus":"missing","domain":"popup-selection","reason":"No-label trigger does not invent labelledby; exact absent attribute case is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":14},"status":"verified"},
     {"ids":["select.roles.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field description reaches trigger; merged author description and invalid Error reference combination is not fully tested on Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":16},"status":"reconciled"},
     {"ids":["select.roles.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/custom trigger ID is asserted server-side; live root-ID change with regenerated field label and association is not tested.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":17},"status":"reconciled"},
-    {"ids":["select.roles.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Placeholder text changes to selected label; trigger and Value placeholder marker removal is implemented but not directly asserted.","evidence":555,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":18},"status":"reconciled"},
+    {"ids":["select.roles.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Placeholder text changes to selected label; trigger and Value placeholder marker removal is implemented but not directly asserted.","evidence":555,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":18},"status":"verified"},
     {"ids":["select.roles.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native disabled controls refuse focus, skip Tab and omit submission; reactive disable/re-enable and all data/ARIA markers are not enumerated.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":22},"status":"reconciled"},
     {"ids":["select.roles.33"],"historicalStatus":"partial","domain":"popup-selection","reason":"Viewport supports author role=presentation and no tab stop; built-in scroll-button parts and their aria-hidden attributes are not supplied.","evidence":557,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":25},"status":"reconciled"},
-    {"ids":["select.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom active option ID resolution, disabled selection blocking and aria-selected are asserted; complete generated ID/data-value/state/highlight/disabled marker matrix is not.","evidence":558,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":26},"status":"reconciled"},
+    {"ids":["select.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom active option ID resolution, disabled selection blocking and aria-selected are asserted; complete generated ID/data-value/state/highlight/disabled marker matrix is not.","evidence":558,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":26},"status":"verified"},
     {"ids":["select.roles.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native change requests are handled and controlled value repaired; data-autofill marker is not supplied and OS autofill is not asserted.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":30},"status":"reconciled"},
     {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"reconciled"},
     {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"verified"},
@@ -1641,7 +1641,7 @@
     {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"reconciled"},
     {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"reconciled"},
     {"ids":["select.state.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native name is reactive, but toggling name during open with same popup identity and FormData changes is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":114},"status":"verified"},
-    {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"reconciled"},
+    {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"verified"},
     {"ids":["select.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default string submitted value is asserted; object serializer variant is outside nonempty-string API.","evidence":581,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":121},"status":"reconciled"},
     {"ids":["select.forms.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Empty required Select is invalid and committed value becomes valid; multiple-selection required-attribute switching is excluded.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":123},"status":"reconciled"},
     {"ids":["select.forms.13"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form ID is forwarded to native select and reset listener uses native.form, but external-form submit/reset is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":125},"status":"verified"},
@@ -5330,6 +5330,31 @@
         "packages/suite/src/navigation-menu/navigation-menu.focus.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator independently verified all 9 cases across Chromium, Firefox and WebKit after correcting portal-aware fixture queries: 27 passed."
+    },
+    {
+      "id": "select-native-metadata-and-form-structure",
+      "status": "verified",
+      "ids": [
+        "select.roles.1",
+        "select.roles.3",
+        "select.roles.6",
+        "select.roles.14",
+        "select.roles.18",
+        "select.roles.22",
+        "select.roles.34",
+        "select.forms.2"
+      ],
+      "acceptedClauses": [
+        "Explicit combobox/listbox popup metadata and native non-submit button; lazy controls association lifecycle; implicit vertical orientation and authored naming; placeholder marker removal; stable encoded-value option identity across reordering with independent highlight/selection/disabled markers; complete native select option and FormData structure."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.metadata-native.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently ran all 8 tests in Chromium, Firefox and WebKit: 24 passed.",
+      "limits": [
+        "roles.6 pins shipped removable closed controls references. forms.2 pins the delivered native SELECT mirror; alternative hidden-control APIs are not claimed."
+      ]
     }
   ],
   "knownLimits": {
