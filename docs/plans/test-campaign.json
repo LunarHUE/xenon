@@ -1418,18 +1418,18 @@
     {"ids":["popover.roles.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks old trigger collapsed/unassociated and new trigger expanded. Active trigger controls is not directly asserted in the switch fixture.","evidence":457,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":475},"status":"verified"},
     {"ids":["popover.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Empty Close has default Close popover name in adapter; localized defaults and explicit undefined-label case are not supplied/tested.","evidence":458,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":478},"status":"reconciled"},
     {"ids":["popover.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disabled div trigger click emits no change; full native disabled/ARIA/data/Tab matrix is not asserted and Popover has no hover activation.","evidence":459,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":480},"status":"verified"},
-    {"ids":["popover.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Enter opens and click toggles; Space and div Enter/Space round-trip are not asserted.","evidence":460,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":485},"status":"reconciled"},
+    {"ids":["popover.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Enter opens and click toggles; Space and div Enter/Space round-trip are not asserted.","evidence":460,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":485},"status":"verified"},
     {"ids":["popover.keyboard.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape from content restores trigger; same key on trigger is not directly asserted.","evidence":461,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":486},"status":"reconciled"},
     {"ids":["popover.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled-Escape keeps content focus, controlled veto retries request after cancellation clears. A native unprevented retry that independently closes an uncontrolled root is not covered by those assertions.","evidence":462,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":488},"status":"reconciled"},
     {"ids":["popover.keyboard.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Button disabled activation is supported; exact native Enter/Space disabled Popover trigger fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":489},"status":"verified"},
     {"ids":["popover.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonfocusable inner click preserves both nested layers. Focusable/nonfocusable focus outcome and absence of outside callbacks are not all asserted.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":492},"status":"reconciled"},
     {"ids":["popover.pointer.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native Button does not activate on secondary click; no direct right-click-closed Popover trigger assertion is present.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":493},"status":"verified"},
-    {"ids":["popover.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native opening focuses first textbox; hidden/nonvisible candidate skipping is not tested in a Popover fixture.","evidence":464,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":495},"status":"reconciled"},
+    {"ids":["popover.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native opening focuses first textbox; hidden/nonvisible candidate skipping is not tested in a Popover fixture.","evidence":464,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":495},"status":"verified"},
     {"ids":["popover.focus.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native default Popover allows Tab exit and outside clicks; no direct page-scroll assertion accompanies these tests.","evidence":465,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":497},"status":"reconciled"},
     {"ids":["popover.focus.5","popover.focus.6","popover.focus.13","popover.focus.19"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared focus controller supports fallback, disabled initial focus, force-mount reopening and preventScroll; these full Popover-native scenarios lack direct assertions.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":498},"status":"queued"},
-    {"ids":["popover.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native modal fixture asserts forward Tab wrap with two controls. Shift+Tab and single-effective-tab-stop cases are not directly asserted.","evidence":466,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":501},"status":"reconciled"},
+    {"ids":["popover.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native modal fixture asserts forward Tab wrap with two controls. Shift+Tab and single-effective-tab-stop cases are not directly asserted.","evidence":466,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":501},"status":"verified"},
     {"ids":["popover.focus.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Tab exits to After and closes. Last-page-trigger focus leaving the page is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":502},"status":"reconciled"},
-    {"ids":["popover.focus.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Shift+Tab returns to trigger, stays open and re-enters by Tab. Portaled Tab order parity is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":503},"status":"reconciled"},
+    {"ids":["popover.focus.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Shift+Tab returns to trigger, stays open and re-enters by Tab. Portaled Tab order parity is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":503},"status":"verified"},
     {"ids":["popover.focus.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native outside focus closes without restoration; blur with no replacement/browser-tab switch is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":504},"status":"reconciled"},
     {"ids":["popover.focus.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nested trigger-click opening and layered restoration are asserted. Programmatic child opening from a distinct button is not tested.","evidence":468,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":507},"status":"reconciled"},
     {"ids":["popover.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Default-open parent mounting is asserted in lifecycle fixture; direct subsequent trigger-toggle of default-open state is not.","evidence":469,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":508},"status":"verified"},
@@ -47860,6 +47860,49 @@
       "limits": [
         "Broad fully shipped Toast interactions still require finite clause matrices. Dialog absent APIs remain visible and not automatically excluded."
       ]
+    },
+    {
+      "id": "popover-focus-composition-native",
+      "status": "verified",
+      "ids": [
+        "popover.keyboard.1",
+        "popover.focus.1",
+        "popover.focus.9",
+        "popover.focus.11"
+      ],
+      "acceptedClauses": [
+        "Native button/div trigger Enter and Space each toggle twice with exact open callbacks using supported initialFocus=false.",
+        "Default mouse opening and keyboard reopening focus first usable child, skipping hidden/display-none/disabled targets.",
+        "Modal single-stop repeated Tab/ShiftTab and two-stop backward first→last wrap remain within content; existing forward boundary coverage retained.",
+        "Separate portal container before root: ShiftTab first→trigger then Tab→first retains same content and only one open callback; existing inline path retained."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/popover/popover.focus-composition.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator broad Chromium/Firefox/WebKit Popover/RadioGroup/Toolbar/Floating-layer run:120 engine-files765 tests passed, including9 new Popover cases×3 (27). Full DOM22files257pass. Logs /tmp/xenon-popover-radio-logical-tab-domain.log and /tmp/xenon-dom-logical-tab-full.log. Source fix unit failed before fix; portal native case previously failed in all3.",
+      "relatedFix": "31968b5",
+      "limits": [
+        "focus.1 closes shipped first-usable default policy; does not impose alternate research focus.2 policy.",
+        "Logical Tab bridge is opt-in only for Popover; author cancellation, unusable trigger, closed/positioned state, topmost ownership and disposal guarded in DOM regression."
+      ]
+    },
+    {
+      "id": "popover-inside-pointer-native-partial",
+      "status": "reconciled",
+      "ids": [
+        "popover.pointer.3"
+      ],
+      "acceptedClauses": [
+        "Focusable button retains focus; button and plain text clicks retain same open content and invoke neither pointer-outside nor focus-outside hooks."
+      ],
+      "remainingClauses": [
+        "Literal nonfocusable clicked element retaining focus is not a platform guarantee. Test asserts focus stays within content; no invented tabindex on plain text."
+      ],
+      "files": [
+        "packages/suite/src/popover/popover.focus-composition.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator broad Chromium/Firefox/WebKit Popover/RadioGroup/Toolbar/Floating-layer run:120 engine-files765 tests passed, including9 new Popover cases×3 (27). Full DOM22files257pass. Logs /tmp/xenon-popover-radio-logical-tab-domain.log and /tmp/xenon-dom-logical-tab-full.log. Source fix unit failed before fix; portal native case previously failed in all3."
     }
   ],
   "knownLimits": {
