@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { setRef } from '../internal/host'
 import { separator } from '@xenon-ui/core'
 import type { SeparatorHost, SeparatorOptions } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
@@ -9,15 +11,15 @@ import { spread } from '../spread'
 /** Library-owned separator semantics, replacing matching host props. */
 interface Own extends Omit<SeparatorOptions, 'host'> {
   /** Receives the rendered separator element through the host ref. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic host props with structural or decorative separator semantics. */
 export type SeparatorProps<T extends ValidComponent = 'hr'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Host or forwarding component, defaulting to hr. Other as values receive an explicit role. */
     as?: T
   }
@@ -47,7 +49,7 @@ export function Separator<T extends ValidComponent = 'hr'>(props: SeparatorProps
     })
   )
 
-  const ref = (node: HTMLElement) => own.ref?.(node)
+  const ref = (node: HTMLElement) => setRef(own.ref, node)
 
   return (
     <Dynamic
