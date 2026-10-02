@@ -102,7 +102,7 @@ export type CalendarAdapterProps<T> =
         adapter: DateAdapter<T>
       }
 /** Native host attributes with the usual polymorphic escape hatch. */
-export type CalendarHostProps<As extends ValidComponent> = ComponentProps<As> & {
+export type CalendarHostProps<As extends ValidComponent> = Omit<ComponentProps<As>, 'as'> & {
   /** Native tag or a component forwarding its props and ref. */
   as?: As
 }

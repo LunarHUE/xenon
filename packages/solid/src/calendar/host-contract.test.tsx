@@ -49,3 +49,17 @@ test('compound parts forward native ref arrays', () => {
   expect(new Set(first.mock.calls.map(([node]) => node)).size).toBe(1)
   expect(second.mock.calls).toEqual(first.mock.calls)
 })
+
+test('calendar parts infer the selected native host ref', () => {
+  render(() => (
+    <Calendar today={{ year: 2024, month: 2, day: 15 }}>
+      <Calendar.Heading
+        as="a"
+        href="#month"
+        ref={(node) => {
+          expectTypeOf(node).toEqualTypeOf<HTMLAnchorElement>()
+        }}
+      />
+    </Calendar>
+  ))
+})
