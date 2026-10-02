@@ -1474,7 +1474,7 @@
     {"ids":["dialog.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nonmodal closure preserves deliberate outside focus; underlying activation and modal swallowing of the same press are not both checked.","evidence":494,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":591},"status":"queued"},
     {"ids":["dialog.pointer.12","dialog.pointer.15","dialog.pointer.16","dialog.pointer.18","dialog.focus.33","dialog.dismissal.16","dialog.dismissal.22"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"These gesture/scroll/listener edge cases concern shipped outside dismissal, focus and presence behavior, but the inspected Dialog tests do not assert the specified sequence.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":593},"status":"queued"},
     {"ids":["dialog.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit finalFocus fallback and pre-open native opener restoration are asserted; the full explicit initial/final target plus captured opener matrix is not.","evidence":495,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":599},"status":"queued"},
-    {"ids":["dialog.focus.14","dialog.focus.26"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Autofocus and captured pre-open focus restoration are supported, but these exact public component cases are not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":602},"status":"queued"},
+    {"ids":["dialog.focus.14","dialog.focus.26"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Autofocus and captured pre-open focus restoration are supported, but these exact public component cases are not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":602},"status":"verified"},
     {"ids":["dialog.focus.17"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Element finalFocus and ineligible fallback are supported/tested, but false-to-suppress-restoration is not a shipped finalFocus type.","evidence":496,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":605},"status":"queued"},
     {"ids":["dialog.focus.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Retained closed host stays hidden/nonmodal, opening reuses it and closing restores trigger. Initial closed focus inactivity and each reopen initial target are not explicitly sampled.","evidence":497,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":606},"status":"queued"},
     {"ids":["dialog.focus.24","dialog.dismissal.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"DOM nonmodal show has no modal locks and browser outside focus survives closure; unrestricted Tab sequence and absence of visual backdrop are not directly checked.","evidence":498,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":608},"status":"queued"},
@@ -2491,6 +2491,26 @@
       "limits": [
         "Logical child owners persist after first opening; closed lazy DOM detaches and native hosting is disposed. Author removal or Positioner disposal performs owner cleanup, explicitly documented and tested."
       ]
+    },
+    {
+      "id": "popup-focus-recovery-and-return",
+      "status": "verified",
+      "ids": [
+        "popover.focus.5",
+        "popover.focus.6",
+        "popover.focus.13",
+        "dialog.focus.14",
+        "dialog.focus.26"
+      ],
+      "acceptedClauses": [
+        "Empty, removed-child and display-none-child focus fallback; disabled initial focus; retained-content reopening past hidden input; authored native autofocus priority; programmatic dialog return to pre-open focus."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/popover/popover.focus.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator ran all 7 cases across Chromium, Firefox and WebKit after the final recovery fix: 21 passed. Broader prior domain run: 456 passed. Final full DOM suite: 255 passed.",
+      "relatedFix": "Recover lost focus in nonmodal popup scopes"
     }
   ],
   "knownLimits": {
