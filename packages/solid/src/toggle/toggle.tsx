@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { ToggleOptions } from '@xenon-ui/core'
 import { toggle } from '@xenon-ui/core'
 import type { ToggleHost } from '@xenon-ui/core'
@@ -21,15 +23,15 @@ interface Own extends Pick<ToggleOptions, 'pressed' | 'onPressedChange' | 'disab
    */
   onPressedChange?: ToggleOptions['onPressedChange']
   /** Receives the rendered host; custom components must forward the supplied ref. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic host props with controlled/uncontrolled pressed state; remaining attributes override core defaults. */
 export type ToggleProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Omitted or literal button uses button semantics; literal input uses input-button semantics. Remaining hosts use generic button semantics. */
     as?: T
   }
@@ -82,7 +84,7 @@ export function Toggle<T extends ValidComponent = 'button'>(props: ToggleProps<T
     toggle({
       host: hostOf(own.as),
       pressed: current(),
-      disabled: own.disabled,
+      disabled: booleanAttribute(own.disabled),
       onPressedChange: change,
     })
   )
@@ -98,7 +100,7 @@ export function Toggle<T extends ValidComponent = 'button'>(props: ToggleProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
