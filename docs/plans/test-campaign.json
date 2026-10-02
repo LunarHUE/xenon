@@ -1304,9 +1304,9 @@
     {"ids":["navigation-menu.roles.7"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled state hook is implemented but its add/remove lifecycle is not directly asserted.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":255},"status":"verified"},
     {"ids":["navigation-menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Enter opens with trigger focus preserved; native repeated Enter and Space toggling are not both asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":258},"status":"verified"},
     {"ids":["navigation-menu.keyboard.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser ArrowRight walks through trigger and native link. LTR ArrowLeft reverse traversal is not asserted in that fixture.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":261},"status":"verified"},
-    {"ids":["navigation-menu.keyboard.6","navigation-menu.keyboard.8","navigation-menu.keyboard.11","navigation-menu.keyboard.12","navigation-menu.keyboard.18","navigation-menu.keyboard.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"List registry navigation, endpoint keys, nonwrapping panel navigation and disabled/silent requests are accepted, but these complete native interaction assertions are absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":262},"status":"reconciled"},
-    {"ids":["navigation-menu.keyboard.10"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser checks ArrowDown moves to next panel link; full Up/Down/Left/Right matrix is not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":265},"status":"reconciled"},
-    {"ids":["navigation-menu.keyboard.16"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape returns to trigger and closes; Enter reopening afterwards and all panel positions are not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":267},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.6","navigation-menu.keyboard.8","navigation-menu.keyboard.11","navigation-menu.keyboard.12","navigation-menu.keyboard.18","navigation-menu.keyboard.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"List registry navigation, endpoint keys, nonwrapping panel navigation and disabled/silent requests are accepted, but these complete native interaction assertions are absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":262},"status":"verified"},
+    {"ids":["navigation-menu.keyboard.10"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser checks ArrowDown moves to next panel link; full Up/Down/Left/Right matrix is not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":265},"status":"verified"},
+    {"ids":["navigation-menu.keyboard.16"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape returns to trigger and closes; Enter reopening afterwards and all panel positions are not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":267},"status":"verified"},
     {"ids":["navigation-menu.pointer.12"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter click switches panels and reports values; physical touch switching is not tested.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":275},"status":"reconciled"},
     {"ids":["navigation-menu.pointer.13"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies panel-leave delayed close, but trigger-leave without reaching panel and exact custom close boundary are not checked.","evidence":382,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":276},"status":"reconciled"},
     {"ids":["navigation-menu.pointer.27"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter rejects touch hover; touch tap and subsequent hover recovery/nested behavior are not asserted, and nested controllers are deferred.","evidence":383,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":278},"status":"reconciled"},
@@ -1319,12 +1319,12 @@
     {"ids":["navigation-menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Empty string selection is asserted; number/boolean identities are excluded by the string-only API and nested propagation is deferred.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":290},"status":"excluded"},
     {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"verified"},
     {"ids":["navigation-menu.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter reject disabled clicks and pending hover on disabling; touch and native key variants are not fully checked.","evidence":387,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":292},"status":"reconciled"},
-    {"ids":["navigation-menu.state.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Retained inactive panels are accepted; a direct inactive-handler/active-panel pointerdown assertion is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":294},"status":"reconciled"},
+    {"ids":["navigation-menu.state.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Retained inactive panels are accepted; a direct inactive-handler/active-panel pointerdown assertion is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":294},"status":"verified"},
     {"ids":["navigation-menu.dismissal.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared outside-pointer dismissal is accepted; inspected native fixtures directly test outside focus, not this complete outside pointer path.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":295},"status":"verified"},
     {"ids":["navigation-menu.positioning.14"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser renders top-level Content without Viewport; absence of a viewport and nested no-viewport placement are not asserted, with nesting deferred.","evidence":388,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":300},"status":"reconciled"},
     {"ids":["navigation-menu.animation.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts inactive panel remains mounted and hidden inside shared Viewport. Moving panels from item into viewport and retained portal lifecycle are not checked.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":302},"status":"reconciled"},
     {"ids":["navigation-menu.ssr.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Server test asserts exactly one hidden panel; floating hydration checks global identity retention but does not explicitly count this panel hidden after hydration.","evidence":389,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":305},"status":"reconciled"},
-    {"ids":["navigation-menu.a11y.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser scans open navigation container. A separate closed-state scan is not present.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":306},"status":"reconciled"},
+    {"ids":["navigation-menu.a11y.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser scans open navigation container. A separate closed-state scan is not present.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":306},"status":"verified"},
     {"ids":["navigation-menu.notes.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter/native fixtures exercise native links and cancelable handlers; universal refs/class/style forwarding on every part is not asserted.","evidence":390,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":308},"status":"reconciled"},
     {"ids":["toast.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. C `separates focusable notification semantics` checks the title association; S `record updates preserve content DOM` checks the accessible name after an update. Replacing a title element and removing the title entirely remain unverified.","evidence":391,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":312},"status":"queued"},
     {"ids":["toast.roles.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. S `limited records are hidden and inert` activates the default-labeled close control. Explicit type=button and localization assertions remain deferred.","evidence":392,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":315},"status":"queued"},
@@ -5379,6 +5379,44 @@
       "limits": [
         "state.6 uses the supported trim option; no custom add-function API is claimed. Editor visibility is asserted on current DOM after keyed replacement, rather than on disposed nodes."
       ]
+    },
+    {
+      "id": "navigation-menu-live-interaction-contracts",
+      "status": "verified",
+      "ids": [
+        "navigation-menu.keyboard.8",
+        "navigation-menu.keyboard.19",
+        "navigation-menu.keyboard.10",
+        "navigation-menu.keyboard.16",
+        "navigation-menu.state.9",
+        "navigation-menu.a11y.1"
+      ],
+      "acceptedClauses": [
+        "Surviving list registry after item removal; focused disabled custom-host opening guards with enabled positive control; panel arrows; Escape from every link then reopen; inactive retained panel dismissal isolation; scoped axe while closed and open."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/navigation-menu/navigation-menu.interactions.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 8 file cases across Chromium, Firefox and WebKit: 24 passed."
+    },
+    {
+      "id": "navigation-menu-top-level-layout",
+      "status": "reconciled",
+      "ids": [
+        "navigation-menu.roles.4",
+        "navigation-menu.positioning.14"
+      ],
+      "acceptedClauses": [
+        "Nonnested root/list reactive orientation markers without composite ARIA; direct content remains inside its item without a viewport."
+      ],
+      "remainingClauses": [
+        "Coordinated nested root/list orientation and nested sub-viewport alternatives remain unshipped and unasserted."
+      ],
+      "files": [
+        "packages/suite/src/navigation-menu/navigation-menu.interactions.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator verified the two supported layout cases across Chromium, Firefox and WebKit."
     }
   ],
   "knownLimits": {
