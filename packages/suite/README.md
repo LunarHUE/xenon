@@ -8,7 +8,7 @@ Run commands from `packages/suite`, or use `bun run --cwd packages/suite <script
 | `bun run test:browser`                       | Conformance plus browser-only cases in Chromium                     |
 | `xenon_BROWSERS=webkit bun run test:browser` | Same component suite in WebKit                                      |
 | `bun run test:browser:all`                   | Chromium, Firefox and WebKit                                        |
-| `bun run test:e2e`                           | Full-page flows against the built example app in Chromium           |
+| `bun run test:e2e`                           | Full-page flows against the built suite fixture app in Chromium     |
 | `bunx playwright test --project webkit`      | Same E2E flows in WebKit                                            |
 | `bunx playwright test --project firefox`     | Same E2E flows in Firefox                                           |
 | `bun run test:e2e:all`                       | E2E in all three engines                                            |
@@ -35,7 +35,8 @@ Browser test commands then work without a manual `PATH` prefix.
 
 WebKit is an engine target; this does not claim testing on shipping Safari or iOS.
 
-E2E launches a fresh production build and preview server on port 4173, plus a
+E2E builds the suite-owned app in `fixtures/e2e-app` with `vite.e2e.config.ts`
+and launches its preview server on port 4173, plus a
 Solid SSR fixture server on port 4174. Occupied ports fail the run so stale
 servers cannot supply a false passing result. Startup waits for each server's
 readiness output; it does not probe closed ports, which can stall under WSL
