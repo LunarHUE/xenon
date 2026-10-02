@@ -7527,6 +7527,28 @@
       "limits": [
         "Classification is not test completion."
       ]
+    },
+    {
+      "id": "native-form-reset-propagation-and-cancellation",
+      "status": "reconciled",
+      "ids": [
+        "form.forms.6"
+      ],
+      "acceptedClauses": [
+        "Checkbox, RadioGroup, NumberField, TagsInput, Select and Combobox restore native values, semantic state and submission values silently after uncanceled native reset; stopped propagation is observed, early/late cancellation is respected, and current form ownership is followed.",
+        "Disposal during dispatch produces no late error or change callback; helper unit tests verify pending timer cancellation."
+      ],
+      "remainingClauses": [
+        "Research public reset-hook API is unshipped and is not asserted."
+      ],
+      "files": [
+        "packages/suite/src/field/form.reset-propagation.remaining.test-browser.tsx"
+      ],
+      "relatedFix": "28ef28c",
+      "verification": "Coordinator reproduced 15 failures and 3 passes before fix, then independently verified all 18 native checks across Chromium, Firefox and WebKit after fix. Coordinator separately verified 83 focused Solid unit tests.",
+      "limits": [
+        "Browser disposal case bounds observable errors/callbacks; private cancellation is established by helper unit assertions."
+      ]
     }
   ],
   "knownLimits": {
