@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { setRef } from '../internal/host'
 import { progress } from '@xenon-ui/core'
 import type { ProgressOptions } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
@@ -9,15 +11,15 @@ import { spread } from '../spread'
 /** Library-owned progress inputs, replacing matching host props. */
 interface Own extends ProgressOptions {
   /** Receives the rendered host, which custom components must forward for percentage style updates. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic host props combined with numeric progress state and formatting. */
 export type ProgressProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Host or forwarding component, defaulting to div; progressbar semantics remain explicit. */
     as?: T
   }
@@ -43,7 +45,7 @@ export function Progress<T extends ValidComponent = 'div'>(props: ProgressProps<
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   createEffect(
