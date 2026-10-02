@@ -1732,10 +1732,10 @@
     {"ids":["combobox.forms.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden select owns committed FormData and portal contains no native proxy; explicit only-one-name/visible-input-nameless DOM assertion is not present.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":357},"status":"verified"},
     {"ids":["combobox.dismissal.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Escape closes preserving input focus; native outside-click then focus transfer is not directly asserted for Combobox.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":358},"status":"reconciled"},
     {"ids":["combobox.positioning.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared available-size positioning middleware ships, but first-pass height-cap/side retention is not directly asserted in Combobox fixture.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":365},"status":"queued"},
-    {"ids":["combobox.positioning.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared native popup positioning and input focus aim to avoid scroll drift, but no native scrolled-page typing/arrow/programmatic open fixture measures it.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":371},"status":"reconciled"},
-    {"ids":["combobox.animation.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Normal input opening mounts options and accepted close unmounts popup; Positioner identity/removal itself is not directly checked.","evidence":623,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":374},"status":"reconciled"},
+    {"ids":["combobox.positioning.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared native popup positioning and input focus aim to avoid scroll drift, but no native scrolled-page typing/arrow/programmatic open fixture measures it.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":371},"status":"verified"},
+    {"ids":["combobox.animation.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Normal input opening mounts options and accepted close unmounts popup; Positioner identity/removal itself is not directly checked.","evidence":623,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":374},"status":"verified"},
     {"ids":["combobox.animation.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"forceMount hidden popup is supported; Combobox-specific closed retained markup and author conditional gating assertion is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":375},"status":"queued"},
-    {"ids":["combobox.animation.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence exposes transition phases, but real Combobox filtered-content retention through enter/exit animation is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":376},"status":"reconciled"},
+    {"ids":["combobox.animation.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence exposes transition phases, but real Combobox filtered-content retention through enter/exit animation is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":376},"status":"verified"},
     {"ids":["combobox.animation.7","combobox.animation.8"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence cleanup and committed state exist, but native early-selection-during-exit/reopen and pending-timer-unmount scenarios are not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":379},"status":"queued"},
     {"ids":["combobox.rtl.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic composing events suppress opening/navigation/commit until compositionend; query text/filter state can update while already open, and actual OS IME/one callback only at end is not asserted.","evidence":624,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":380},"status":"reconciled"},
     {"ids":["combobox.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server fixture verifies combobox role and selected text/custom controls; starts open and does not assert closed expanded/autocomplete/haspopup matrix; popup-input variant excluded.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":386},"status":"reconciled"},
@@ -17109,6 +17109,26 @@
         "packages/suite/src/select/select.spaced-search.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator inspected the active-search exclusion in core keydown and independently verified both native cases across Chromium, Firefox and WebKit: 6 passed. Initial fixture highlight expectation was corrected by starting from a nonmatching item; production behavior was already correct."
+    },
+    {
+      "id": "combobox-page-scroll-and-animation-presence",
+      "status": "verified",
+      "ids": [
+        "combobox.positioning.12",
+        "combobox.animation.1",
+        "combobox.animation.3"
+      ],
+      "acceptedClauses": [
+        "Opening on a genuinely scrolled document by native typing, ArrowDown or external controlled state preserves page scroll and commitment; default lazy mounting omits initial items and removes the positioner on dismissal; real held exit animations retain filtered content and ending markers until completion, and stale completion after reopening preserves the same content owner."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/combobox/combobox.scroll-presence.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 6 cases across Chromium, Firefox and WebKit: 18 passed.",
+      "limits": [
+        "Presence asserts shipped default lazy/unmount behavior and real paused Web Animations; no optional presence flags, public completion callback, or prolonged entering animation API claimed."
+      ]
     }
   ],
   "knownLimits": {
