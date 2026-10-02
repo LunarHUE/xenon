@@ -1211,12 +1211,12 @@
     {"ids":["hover-card.animation.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves forced closed presence and hidden state; author gating versus forced mounting is not exercised together.","evidence":322,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":46},"status":"reconciled"},
     {"ids":["hover-card.animation.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves exit retention, but browser animation completion and completion callbacks are not asserted; completion callbacks are not supplied.","evidence":323,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":47},"status":"queued"},
     {"ids":["hover-card.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached hover payload switching and browser reanchoring are asserted. The universal focus/activation/delay parity claim is broader than these cases.","evidence":324,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":51},"status":"queued"},
-    {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"reconciled"},
-    {"ids":["tooltip.roles.5","tooltip.roles.6","tooltip.roles.13"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Placement/state, author tab order and shared arrow semantics are implemented; no inspected Tooltip test asserts this complete attribute contract.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":56},"status":"reconciled"},
+    {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"verified"},
+    {"ids":["tooltip.roles.5","tooltip.roles.6","tooltip.roles.13"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Placement/state, author tab order and shared arrow semantics are implemented; no inspected Tooltip test asserts this complete attribute contract.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":56},"status":"verified"},
     {"ids":["tooltip.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test asserts aria-disabled remains focusable and native disabled suppresses hover. Native disabled tabindex omission and pointer-events styling are not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":57},"status":"reconciled"},
     {"ids":["tooltip.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter explicitly retains tooltip role and author aria-label. The resolved accessible description text is not asserted.","evidence":328,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":58},"status":"reconciled"},
-    {"ids":["tooltip.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core/native tests assert tooltip role and absent tabindex; absence of all listed dialog ARIA attributes is not asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":60},"status":"reconciled"},
-    {"ids":["tooltip.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"closeOnEscape is accepted policy, but native ignore-Escape retention is not directly asserted in the inspected fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":62},"status":"reconciled"},
+    {"ids":["tooltip.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core/native tests assert tooltip role and absent tabindex; absence of all listed dialog ARIA attributes is not asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":60},"status":"verified"},
+    {"ids":["tooltip.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"closeOnEscape is accepted policy, but native ignore-Escape retention is not directly asserted in the inspected fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":62},"status":"verified"},
     {"ids":["tooltip.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Click dismissal and disabled press policy are tested, but native Enter press/release and specified close-delay behavior are not.","evidence":329,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":63},"status":"decision"},
     {"ids":["tooltip.pointer.2","tooltip.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Tests cover inherited delay changes and representative delays; the complete enumerated delay matrix and all reentry boundaries are not asserted.","evidence":330,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":65},"status":"reconciled"},
     {"ids":["tooltip.pointer.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Zero close delay is exercised by group fixtures; negative close-delay immediate behavior is not asserted.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":67},"status":"reconciled"},
@@ -1228,12 +1228,12 @@
     {"ids":["tooltip.pointer.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser proves pointer-events pass through content and wrapper to a real underlying control; moving onto content then eventual close is not asserted in this fixture.","evidence":336,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":74},"status":"reconciled"},
     {"ids":["tooltip.pointer.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native fixture checks aria-disabled focus opening and real focusability; every nested composition order is not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":77},"status":"reconciled"},
     {"ids":["tooltip.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Root disabled cancellation and native disabled hover rejection are asserted. Inner-button composition parity is not checked; aria-disabled alone intentionally permits explanations.","evidence":337,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":78},"status":"reconciled"},
-    {"ids":["tooltip.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled blur reports a close request and retains author-controlled visibility; native uncontrolled blur with no pointer intent is not directly asserted here.","evidence":338,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":84},"status":"reconciled"},
-    {"ids":["tooltip.focus.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Group fixture focuses the second trigger after hover opened the first; focus-to-focus switching is not the exact exercised sequence.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":86},"status":"reconciled"},
+    {"ids":["tooltip.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled blur reports a close request and retains author-controlled visibility; native uncontrolled blur with no pointer intent is not directly asserted here.","evidence":338,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":84},"status":"verified"},
+    {"ids":["tooltip.focus.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Group fixture focuses the second trigger after hover opened the first; focus-to-focus switching is not the exact exercised sequence.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":86},"status":"verified"},
     {"ids":["tooltip.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves blur leaves pointer-held content open and ending hover then closes. The reverse order is not asserted.","evidence":339,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":87},"status":"reconciled"},
     {"ids":["tooltip.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native click closes without reopening after browser focus, but the ensuing focus event is not separately recorded.","evidence":340,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":89},"status":"reconciled"},
-    {"ids":["tooltip.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native focus opening is covered, but explicit Tab/Shift+Tab modality establishment is not asserted in the inspected Tooltip tests.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":91},"status":"reconciled"},
-    {"ids":["tooltip.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core checks absent expansion; absent selected and checked state are not explicitly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":92},"status":"reconciled"},
+    {"ids":["tooltip.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native focus opening is covered, but explicit Tab/Shift+Tab modality establishment is not asserted in the inspected Tooltip tests.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":91},"status":"verified"},
+    {"ids":["tooltip.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core checks absent expansion; absent selected and checked state are not explicitly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":92},"status":"verified"},
     {"ids":["tooltip.state.4","tooltip.state.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter and core check warm reuse, expiry and zero skip; the entire source timing matrix is not exercised.","evidence":341,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":95},"status":"reconciled"},
     {"ids":["tooltip.state.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Fixtures assert controlled focus/blur and open requests without author feedback; all hover/focus/blur transitions in one controlled fixture are not checked.","evidence":342,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":96},"status":"queued"},
     {"ids":["tooltip.state.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser asserts default-open visibility and ancestor-scroll close; immediate next mouseleave remains unasserted.","evidence":343,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":97},"status":"queued"},
@@ -7645,6 +7645,30 @@
         "packages/suite/src/alert-dialog/alert-dialog.metadata-focus.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator verified all 9 cases across Chromium, Firefox and WebKit: 27 passed. Removed two unsupported closed-controls absence assertions after checking the actual roles.8 clause; production unchanged."
+    },
+    {
+      "id": "tooltip-native-metadata-and-focus-intent",
+      "status": "verified",
+      "ids": [
+        "tooltip.roles.4",
+        "tooltip.roles.5",
+        "tooltip.roles.6",
+        "tooltip.roles.13",
+        "tooltip.roles.12",
+        "tooltip.state.1",
+        "tooltip.keyboard.3",
+        "tooltip.focus.2",
+        "tooltip.focus.11",
+        "tooltip.focus.5"
+      ],
+      "acceptedClauses": [
+        "Open/closed trigger state, positioned content metadata, authored native tab order, decorative arrow semantics, absence of dialog/composite state, disabled Escape dismissal, native focus/blur opening and closing, and exclusive focus switching are asserted."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/tooltip/tooltip.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 9 file cases across Chromium, Firefox and WebKit: 27 passed. Shared focus/hover retention case also passes, with full two-order coverage pending existing-file verification."
     }
   ],
   "knownLimits": {
