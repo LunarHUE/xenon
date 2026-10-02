@@ -1214,7 +1214,7 @@
     {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"verified"},
     {"ids":["tooltip.roles.5","tooltip.roles.6","tooltip.roles.13"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Placement/state, author tab order and shared arrow semantics are implemented; no inspected Tooltip test asserts this complete attribute contract.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":56},"status":"verified"},
     {"ids":["tooltip.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test asserts aria-disabled remains focusable and native disabled suppresses hover. Native disabled tabindex omission and pointer-events styling are not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":57},"status":"reconciled"},
-    {"ids":["tooltip.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter explicitly retains tooltip role and author aria-label. The resolved accessible description text is not asserted.","evidence":328,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":58},"status":"reconciled"},
+    {"ids":["tooltip.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter explicitly retains tooltip role and author aria-label. The resolved accessible description text is not asserted.","evidence":328,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":58},"status":"decision"},
     {"ids":["tooltip.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core/native tests assert tooltip role and absent tabindex; absence of all listed dialog ARIA attributes is not asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":60},"status":"verified"},
     {"ids":["tooltip.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"closeOnEscape is accepted policy, but native ignore-Escape retention is not directly asserted in the inspected fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":62},"status":"verified"},
     {"ids":["tooltip.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Click dismissal and disabled press policy are tested, but native Enter press/release and specified close-delay behavior are not.","evidence":329,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":63},"status":"decision"},
@@ -7669,6 +7669,46 @@
         "packages/suite/src/tooltip/tooltip.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator independently verified all 9 file cases across Chromium, Firefox and WebKit: 27 passed. Shared focus/hover retention case also passes, with full two-order coverage pending existing-file verification."
+    },
+    {
+      "id": "tooltip-authored-label-description-review",
+      "status": "decision",
+      "ids": [
+        "tooltip.roles.8"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "Retained tooltip role and authored aria-label already asserted. Verify actual accessible-description behavior before adopting label-over-content wording."
+      ],
+      "scopeReview": [
+        {
+          "id": "tooltip.roles.8",
+          "historicalStatus": "partial",
+          "classification": "contractDecision",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 12,
+            "clause": "- [ ] `tooltip.roles.8` Divergence: given `aria-label` on the tooltip content, when the tooltip opens, then the element keeps `role=\"tooltip\"` and the description resolves to the label instead of the visible children (decision needed). [radix]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 84,
+              "anchor": "focus describes without expansion"
+            }
+          ],
+          "remainingAcceptedAssertions": "Retained tooltip role and authored aria-label already asserted. Verify actual accessible-description behavior before adopting label-over-content wording.",
+          "scopeLimitOrAlternative": "Installed dom-accessibility-api computes aria-describedby references in description mode, while aria-label consumption is restricted to name mode. The component forwards aria-label but does not create a separate hidden description containing it; native accessibility evidence or an explicit contract decision is needed.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only source and installed accessibility-algorithm inspection; local probe yields tooltip accessible name from authored aria-label but trigger description from visible text. No assistive-technology behavior claimed.",
+      "limits": [
+        "Determine intended accessible-description contract and suitable oracle before claiming requirement completion."
+      ]
     }
   ],
   "knownLimits": {
