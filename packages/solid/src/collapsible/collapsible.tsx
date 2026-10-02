@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { CollapsibleOptions } from '@xenon-ui/core'
 import { collapsible } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
@@ -27,21 +29,21 @@ interface Own extends Omit<CollapsibleOptions, 'ids' | 'status'> {
   /** Synchronous toggle request after updating uncontrolled state. Initialization and external prop changes are silent. */
   onOpenChange?: CollapsibleOptions['onOpenChange']
   /** Receives the rendered root element. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Ref option shared by the trigger and content adapters. */
 interface PartOwn {
   /** Receives the rendered part element whenever its ref attaches. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Root options combined with the selected host props. */
 export type CollapsibleProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Rendered root host; defaults to div. */
     as?: T
   }
@@ -49,9 +51,9 @@ export type CollapsibleProps<T extends ValidComponent = 'div'> = Omit<
 /** Trigger host props, including an optional author ID synchronized to the group context. */
 export type CollapsibleTriggerProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof PartOwn | 'as'
+  Exclude<keyof PartOwn, 'ref'> | 'as'
 > &
-  PartOwn & {
+  Omit<PartOwn, 'ref'> & {
     /** Rendered trigger host; defaults to button. */
     as?: T
   }
@@ -59,9 +61,9 @@ export type CollapsibleTriggerProps<T extends ValidComponent = 'button'> = Omit<
 /** Content host props, including an optional author ID used by trigger aria-controls. */
 export type CollapsibleContentProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof PartOwn | 'as'
+  Exclude<keyof PartOwn, 'ref'> | 'as'
 > &
-  PartOwn & {
+  Omit<PartOwn, 'ref'> & {
     /** Rendered content host; defaults to div. */
     as?: T
   }
@@ -124,7 +126,7 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
       open: open(),
       status: life.status(),
       forceMount: forceMount(),
-      disabled: own.disabled ?? false,
+      disabled: booleanAttribute(own.disabled),
       onOpenChange: change,
     })
   )
@@ -148,7 +150,7 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
   return (
     <Dynamic
       component={(own.as ?? 'div') as ValidComponent}
-      ref={own.ref}
+      ref={(node: HTMLElement) => setRef(own.ref, node)}
       {...spread(result().parts.root, { ...rest })}
     >
       {inner()}
@@ -185,7 +187,7 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
   return (
     <Dynamic
       component={(own.as ?? 'button') as ValidComponent}
-      ref={own.ref}
+      ref={(node: HTMLElement) => setRef(own.ref, node)}
       {...spread(
         disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
         { ...rest, id: own.id ?? context.trigger().attrs.id }
@@ -220,7 +222,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     el = node
     context.contentRef(node)
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   createEffect(
