@@ -1497,13 +1497,13 @@
     {"ids":["dialog.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Prop composition preserves built-in activation, but explicitly undefined trigger onClick is not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":645},"status":"queued"},
     {"ids":["dialog.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser native isolation rejects programmatic focus on inert lower content; click and sequential Tab attempts on that same inert target are not both asserted.","evidence":505,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":648},"status":"queued"},
     {"ids":["alert-dialog.roles.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"aria-modal true and ignored outside press are asserted; author-provided visual obscuring is not checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":650},"status":"reconciled"},
-    {"ids":["alert-dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared Dialog naming is tested and Alert missing-name warning exists; explicit Alert title reference and author-label alternative are not both directly asserted.","evidence":510,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":651},"status":"reconciled"},
-    {"ids":["alert-dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit Alert description forwarding and missing-description warning are asserted; automatic generated-description resolution is not directly asserted.","evidence":511,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":652},"status":"reconciled"},
-    {"ids":["alert-dialog.roles.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Alert inherits Button trigger haspopup=dialog, expanded and controls, but no direct complete Alert trigger attribute assertion exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":656},"status":"reconciled"},
-    {"ids":["alert-dialog.roles.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Author description reference reaches native viewport; absence of every unused generated ID is not asserted.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":657},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared Dialog naming is tested and Alert missing-name warning exists; explicit Alert title reference and author-label alternative are not both directly asserted.","evidence":510,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":651},"status":"verified"},
+    {"ids":["alert-dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit Alert description forwarding and missing-description warning are asserted; automatic generated-description resolution is not directly asserted.","evidence":511,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":652},"status":"verified"},
+    {"ids":["alert-dialog.roles.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Alert inherits Button trigger haspopup=dialog, expanded and controls, but no direct complete Alert trigger attribute assertion exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":656},"status":"verified"},
+    {"ids":["alert-dialog.roles.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Author description reference reaches native viewport; absence of every unused generated ID is not asserted.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":657},"status":"verified"},
     {"ids":["alert-dialog.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title uses shared native h2; explicit aria-level and vendor level override are not supplied/tested.","evidence":514,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":658},"status":"reconciled"},
-    {"ids":["alert-dialog.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape closes and restores focus; Alert forward and reverse Tab wrap are not asserted.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":659},"status":"reconciled"},
-    {"ids":["alert-dialog.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Canceled Action click inside Alert preserves content; arbitrary non-action content click is not separately asserted.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":665},"status":"reconciled"},
+    {"ids":["alert-dialog.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape closes and restores focus; Alert forward and reverse Tab wrap are not asserted.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":659},"status":"verified"},
+    {"ids":["alert-dialog.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Canceled Action click inside Alert preserves content; arbitrary non-action content click is not separately asserted.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":665},"status":"verified"},
     {"ids":["alert-dialog.focus.3","alert-dialog.focus.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Explicit element initialFocus/finalFocus overrides ship through the shared dialog family, but Alert-specific target overrides are not asserted.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":669},"status":"reconciled"},
     {"ids":["alert-dialog.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape restores trigger in normal Alert presence; force-mounted Alert Escape restoration is not directly checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":672},"status":"reconciled"},
     {"ids":["alert-dialog.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Actions dismiss and controlled callback semantics are shared; reason and trigger-detail objects are deliberately absent.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":674},"status":"reconciled"},
@@ -1511,8 +1511,8 @@
     {"ids":["alert-dialog.state.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared typed detached handles are inherited by AlertDialog, but no Alert-specific multi-trigger ownership/payload/node-reuse fixture exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":677},"status":"reconciled"},
     {"ids":["alert-dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core forces modality and browser nested Alert is native modal; explicit Alert outside accessibility-tree snapshot is not asserted.","evidence":516,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":678},"status":"reconciled"},
     {"ids":["alert-dialog.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit description ID points to rendered Description; axe incomplete-result semantics for broken reference are not tested.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":684},"status":"reconciled"},
-    {"ids":["alert-dialog.a11y.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No closed/open Alert axe audit exists in the inspected suite.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":685},"status":"reconciled"},
-    {"ids":["alert-dialog.notes.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared modal containment is shipped, but Alert Shift+Tab wrap lacks an assertion.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":687},"status":"reconciled"},
+    {"ids":["alert-dialog.a11y.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No closed/open Alert axe audit exists in the inspected suite.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":685},"status":"verified"},
+    {"ids":["alert-dialog.notes.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared modal containment is shipped, but Alert Shift+Tab wrap lacks an assertion.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":687},"status":"verified"},
     {"ids":["menu.roles.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"haspopup=menu is emitted but no inspected Menu test directly asserts it.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":689},"status":"verified"},
     {"ids":["menu.roles.6","menu.roles.41"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Closed core omits controls and open SSR controls points to rendered menu ID; client document.getElementById identity and lazy mount transition are not directly asserted.","evidence":518,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":691},"status":"queued"},
     {"ids":["menu.roles.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Active trigger naming follows registration changes, but replacing the disclosure element and checking stale labelledby removal is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":693},"status":"queued"},
@@ -7605,6 +7605,46 @@
       ],
       "relatedFix": "a26707d",
       "verification": "Coordinator independently verified all 8 cases across Chromium, Firefox and WebKit: 24 passed. The popup label case failed in all three engines before the fix; focused Combo/Field units passed 40/40 afterward."
+    },
+    {
+      "id": "alert-dialog-native-metadata-focus-and-a11y",
+      "status": "verified",
+      "ids": [
+        "alert-dialog.roles.3",
+        "alert-dialog.roles.4",
+        "alert-dialog.roles.8",
+        "alert-dialog.roles.9",
+        "alert-dialog.keyboard.1",
+        "alert-dialog.notes.2",
+        "alert-dialog.pointer.3",
+        "alert-dialog.focus.3",
+        "alert-dialog.a11y.3"
+      ],
+      "acceptedClauses": [
+        "Generated and author naming/description references resolve; popup semantics and expanded state follow opening; native Tab wraps both ways and Escape restores focus; ordinary content clicks retain modality; explicit finalFocus wins; open and closed fixtures pass scoped axe."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/alert-dialog/alert-dialog.metadata-focus.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator verified all 9 cases across Chromium, Firefox and WebKit: 27 passed. Removed two unsupported closed-controls absence assertions after checking the actual roles.8 clause; production unchanged."
+    },
+    {
+      "id": "alert-dialog-native-heading-level-override",
+      "status": "reconciled",
+      "ids": [
+        "alert-dialog.roles.10"
+      ],
+      "acceptedClauses": [
+        "Native h2 exposes heading level two and reactive authored aria-level overrides and restores that level."
+      ],
+      "remainingClauses": [
+        "Research literal default aria-level=\"2\" attribute is not emitted on the native h2; no literal attribute claim."
+      ],
+      "files": [
+        "packages/suite/src/alert-dialog/alert-dialog.metadata-focus.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator verified all 9 cases across Chromium, Firefox and WebKit: 27 passed. Removed two unsupported closed-controls absence assertions after checking the actual roles.8 clause; production unchanged."
     }
   ],
   "knownLimits": {
