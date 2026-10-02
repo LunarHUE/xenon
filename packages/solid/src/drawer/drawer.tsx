@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import { drawer } from '@xenon-ui/core/drawer'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -80,9 +81,9 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
     <DialogClose
       aria-label="Close drawer"
       {...props}
-      ref={(el) => {
+      ref={(el: HTMLElement) => {
         setElement(el)
-        props.ref?.(el)
+        setRef((props as { ref?: unknown }).ref, el)
       }}
     />
   )
