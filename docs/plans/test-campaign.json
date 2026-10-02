@@ -947,9 +947,9 @@
     {"ids":["checkbox-group.forms.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native group validity tracks empty versus nonempty selection; generated invalid state and browser-default error text are not adopted.","evidence":124,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1535},"status":"reconciled"},
     {"ids":["checkbox-group.forms.13"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Disabled descendants are excluded while enabled selection submits; unmounted, externally owned and re-enabled projections plus logical validation values are not all asserted. The own form initially submits the mounted selected child while excluding disabled and external-owner values; after removal and re-enable it submits the enabled child, and remounting restores the removed selected child checked with its own-form entry.","evidence":125,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1537},"status":"reconciled"},
     {"ids":["checkbox-group.forms.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Reset follows the live native owner; required submission ownership and unmounted custom validators are not covered or exported.","evidence":126,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1540},"status":"reconciled"},
-    {"ids":["radio-group.pointer.5"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Disabled group control clicks are checked; every label path is not asserted.","evidence":127,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1565},"status":"reconciled"},
+    {"ids":["radio-group.pointer.5"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Disabled group control clicks are checked; every label path is not asserted.","evidence":127,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1565},"status":"verified"},
     {"ids":["radio-group.a11y.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native/custom fixtures pass axe; disabled and all composable variants are not all represented.","evidence":128,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1577},"status":"reconciled"},
-    {"ids":["radio-group.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Canceled native activation restores the old checked radio; disappearance of that prior radio is not exercised.","evidence":129,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1591},"status":"reconciled"},
+    {"ids":["radio-group.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Canceled native activation restores the old checked radio; disappearance of that prior radio is not exercised.","evidence":129,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1591},"status":"verified"},
     {"ids":["radio-group.roles.5"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The generic role fixture passes axe; exact widget/composite role-table metadata is not asserted.","evidence":130,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1615},"status":"reconciled"},
     {"ids":["radio-group.keyboard.10"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Tab leaves and Shift+Tab returns to the checked item; a modal composition and unchecked highlighted return are not asserted. With Express selected, Tab leaves the group for the following button and Shift+Tab returns to Express.","evidence":131,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1617},"status":"reconciled"},
     {"ids":["radio-group.notes.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The core test asserts the selected-or-first-navigable tab stop; the comparative behavior of Tabs/Listbox/Tree/Menu/Toolbar is not all asserted.","evidence":132,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1621},"status":"reconciled"},
@@ -47903,6 +47903,47 @@
         "packages/suite/src/popover/popover.focus-composition.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator broad Chromium/Firefox/WebKit Popover/RadioGroup/Toolbar/Floating-layer run:120 engine-files765 tests passed, including9 new Popover cases×3 (27). Full DOM22files257pass. Logs /tmp/xenon-popover-radio-logical-tab-domain.log and /tmp/xenon-dom-logical-tab-full.log. Source fix unit failed before fix; portal native case previously failed in all3."
+    },
+    {
+      "id": "radio-group-canceled-click-and-disabled-label-native",
+      "status": "verified",
+      "ids": [
+        "radio-group.pointer.2",
+        "radio-group.pointer.5"
+      ],
+      "acceptedClauses": [
+        "Existing canceled native activation restores previous selected radio. New trusted activation removes previous synchronously and cancels candidate: candidate remains unchecked, no callback, no submitted value.",
+        "Disabled native input/button explicit and wrapping labels and generic div with labelable native mirror do not select/notify/submit; forced native click bypasses runner actionability only and trusted label event is required. Existing direct input/button/div disabled activation assertions pass."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/radio-group/radio-group.labels-modal.remaining.test-browser.tsx",
+        "packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx",
+        "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
+      ],
+      "verification": "Coordinator full Popover/RadioGroup/Toolbar/Floating-layer browser run:120 engine-files765 tests passed, including9 new RadioGroup cases×3 (27). RadioGroup jsdom4files52pass. Logs /tmp/xenon-popover-radio-logical-tab-domain.log and /tmp/xenon-radio-group-labels-unit.log. Initial native run had fixture errors (runner disabled-label actionability and querying correctly aria-hidden outside button), corrected without production changes.",
+      "limits": [
+        "Explicit label-for on a div has no native label activation contract; generic named wrapping case exercises its native mirror."
+      ]
+    },
+    {
+      "id": "radio-group-modal-tab-native-partial",
+      "status": "reconciled",
+      "ids": [
+        "radio-group.keyboard.10"
+      ],
+      "acceptedClauses": [
+        "Native Tab exits input/button/div radio group inside real modal to following control; ShiftTab returns selected radio, preserving values/callback silence/FormData and modal isolation. Existing nonmodal selected reentry retained."
+      ],
+      "remainingClauses": [
+        "Shipped reentry is selected-or-first policy. Historical last-highlighted alternative when highlight differs from selected is not claimed; no automatic policy exclusion."
+      ],
+      "files": [
+        "packages/suite/src/radio-group/radio-group.labels-modal.remaining.test-browser.tsx",
+        "packages/suite/src/radio-group/radio-group.interactions.test-browser.tsx",
+        "packages/suite/src/radio-group/radio-group.conformance.test.tsx"
+      ],
+      "verification": "Coordinator full Popover/RadioGroup/Toolbar/Floating-layer browser run:120 engine-files765 tests passed, including9 new RadioGroup cases×3 (27). RadioGroup jsdom4files52pass. Logs /tmp/xenon-popover-radio-logical-tab-domain.log and /tmp/xenon-radio-group-labels-unit.log. Initial native run had fixture errors (runner disabled-label actionability and querying correctly aria-hidden outside button), corrected without production changes."
     }
   ],
   "knownLimits": {
