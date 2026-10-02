@@ -1,4 +1,5 @@
 import type { AnyPart } from '@xenon-ui/core'
+import { callEventHandler } from './internal/events'
 
 /** Callable event shape used after erasing the core part's host-specific event type. */
 type Handler = (event: Event) => void
@@ -15,8 +16,8 @@ type Handler = (event: Event) => void
  * event; duplicate case variants are not removed. Without a match, the core
  * listener is copied to an `on`-prefixed prop without a cancellation wrapper.
  *
- * Matching author handlers and supplied core entries must be callable functions;
- * this helper does not interpret tuples or guard undefined handlers. Recompute
+ * Author handlers accept Solid functions and bound tuples, plus runtime listener
+ * objects. Undefined author handlers leave core behavior intact. Recompute
  * the merge when inputs change so Solid's JSX spread can apply new values.
  * This helper creates no reactive computation and binds no DOM listeners. Call it
  * from a tracked scope when its inputs are reactive.
@@ -39,9 +40,9 @@ export function spread(
       out[`on${name}`] = core
       continue
     }
-    const user = props[userKey] as Handler
+    const user = props[userKey]
     out[userKey] = (event: Event) => {
-      user(event)
+      callEventHandler(user, event)
       if (!event.defaultPrevented) core(event)
     }
   }
