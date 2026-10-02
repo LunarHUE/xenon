@@ -43,7 +43,7 @@ export function spread(
     const user = props[userKey]
     out[userKey] = (event: Event) => {
       callEventHandler(user, event)
-      if (!event.defaultPrevented) core(event)
+      if (!event.defaultPrevented) callEventHandler(core, event)
     }
   }
   return out

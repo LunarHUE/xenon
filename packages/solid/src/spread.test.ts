@@ -23,6 +23,13 @@ describe('Solid event composition', () => {
     expect(core).toHaveBeenCalledOnce()
   })
 
+  test('an optional core entry leaves the consumer handler working', () => {
+    const consumer = vi.fn()
+    const part: AnyPart = { attrs: {}, on: { click: undefined } }
+    dispatch(spread(part, { onClick: consumer }))
+    expect(consumer).toHaveBeenCalledOnce()
+  })
+
   test.each([undefined, false, 0, ''])(
     'bound handlers preserve data %s, order, and receiver',
     (data) => {
