@@ -2027,6 +2027,52 @@
           "result": "These17 residual alternatives are excluded from test-writing scope; no test completion or new passing execution is claimed"
         }
       ]
+    },
+    {
+      "id": "menubar-accessibility-1",
+      "status": "verified",
+      "ids": [
+        "menubar.a11y.1"
+      ],
+      "acceptedClauses": [
+        "Closed and open Menubar trees pass the shared axe audit with action, checkbox and radio items"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/menubar/menubar.accessibility.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/menubar/menubar.accessibility.remaining.test-browser.tsx",
+          "result": "Included in coordinator four-file run: all12 Menubar executions passed after negative fixture applicability correction"
+        }
+      ]
+    },
+    {
+      "id": "menubar-aria-matrix-1",
+      "status": "reconciled",
+      "ids": [
+        "menubar.roles.21",
+        "menubar.a11y.3"
+      ],
+      "acceptedClauses": [
+        "Named nested groups and menus, checked states and unique resolved ARIA associations",
+        "Negative generic menuitem naming and menuitemcheckbox nested-interactive violations",
+        "Negative required checkbox state and disallowed ARIA attribute violations"
+      ],
+      "remainingClauses": [
+        "Complete required-parent and role taxonomy",
+        "Complete invalid/deprecated role and unresolved-reference incomplete-result matrix"
+      ],
+      "files": [
+        "packages/suite/src/menubar/menubar.accessibility.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent Chromium, Firefox and WebKit run",
+          "result": "All12 Menubar executions passed; axe rule applicability verified in installed source before correcting fixture"
+        }
+      ]
     }
   ],
   "knownLimits": {
