@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createUniqueId, omit, onCleanup, onSettled, untrack } from 'solid-js'
@@ -14,13 +15,14 @@ import { spread } from '../spread'
 /** Context-menu visibility, direction, presence, and item navigation options. */
 export type ContextMenuProps<Payload = unknown> = MenuProps<Payload>
 /** Region props. The default div has a tab stop for keyboard context-menu access. */
-export type ContextMenuTriggerProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type ContextMenuTriggerProps<T extends ValidComponent = 'div'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Region host; defaults to div. */
   as?: T
   /** Allow the native context menu and suppress all custom opening gestures. */
-  disabled?: boolean
-  /** Receives the region host. */
-  ref?: (element: HTMLElement) => void
+  disabled?: JSX.BooleanAttribute
 }
 /** Provides shared Menu state for a context-menu region and popup. */
 export function ContextMenuRoot<Payload = unknown>(props: ContextMenuProps<Payload>): JSX.Element {
@@ -43,7 +45,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'ref', 'disabled')
   const entry: MenuTriggerEntry = {
     id: () => (typeof own.id === 'string' ? own.id : id),
-    disabled: () => !!own.disabled,
+    disabled: () => booleanAttribute(own.disabled),
     payload: () => undefined,
   }
   onCleanup(context.registerTrigger(entry))
@@ -110,7 +112,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
     const engine = contextMenu({
       items: [],
       open: context.open() && context.activeTrigger(entry),
-      triggerDisabled: own.disabled,
+      triggerDisabled: booleanAttribute(own.disabled),
       onOpenRequest: open,
     })
     return {
@@ -136,7 +138,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       {...spread(part(), { tabindex: 0, ...rest, id: entry.id() })}
       ref={(element: HTMLElement) => {
         entry.element = element
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
     >
       {children()}
@@ -153,7 +155,7 @@ export function ContextMenuContent<T extends ValidComponent = 'div'>(
   const rest = omit(props as Record<string, unknown>, 'children')
   const children = createMemo(() => props.children)
   return (
-    <MenuContent
+    <MenuContent<ValidComponent>
       {...spread(
         {
           attrs: {},
