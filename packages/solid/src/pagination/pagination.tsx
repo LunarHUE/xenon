@@ -29,7 +29,10 @@ export type PaginationProps<T extends ValidComponent = 'nav'> = Omit<
     as?: T
   }
 /** Button or link host props shared by directional controls. */
-export type PaginationControlProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {
+export type PaginationControlProps<T extends ValidComponent = 'button'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered host, default button; anchors with href remain native links. */
   as?: T
   /** Blocks this control in addition to root and boundary disabling. */
@@ -41,7 +44,10 @@ export type PaginationItemProps<T extends ValidComponent = 'button'> = Paginatio
   page: number
 }
 /** Decorative omission marker host props. */
-export type PaginationEllipsisProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type PaginationEllipsisProps<T extends ValidComponent = 'span'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Host, default span; content is author supplied. */
   as?: T
 }

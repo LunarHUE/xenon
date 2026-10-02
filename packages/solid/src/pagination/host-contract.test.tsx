@@ -37,3 +37,35 @@ test('Pagination infers the selected native host ref', () => {
     </Pagination>
   ))
 })
+
+test('pagination controls infer the selected native host ref', () => {
+  render(() => (
+    <Pagination count={5}>
+      <Pagination.Next
+        as="a"
+        href="#next"
+        ref={(node) => {
+          expectTypeOf(node).toEqualTypeOf<HTMLAnchorElement>()
+        }}
+      >
+        Next
+      </Pagination.Next>
+    </Pagination>
+  ))
+})
+
+test('pagination ellipsis infers the selected native host ref', () => {
+  render(() => (
+    <Pagination count={5}>
+      <Pagination.Ellipsis
+        as="a"
+        href="#pages"
+        ref={(node) => {
+          expectTypeOf(node).toEqualTypeOf<HTMLAnchorElement>()
+        }}
+      >
+        ...
+      </Pagination.Ellipsis>
+    </Pagination>
+  ))
+})
