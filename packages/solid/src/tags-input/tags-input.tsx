@@ -229,6 +229,7 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
       } else if (event.key === 'End' || event.key === 'Escape') {
         event.preventDefault()
         context.focus(-1)
+        if (event.key === 'End') node?.select()
       } else if (event.key === 'Backspace' || event.key === 'Delete') {
         event.preventDefault()
         context.remove(index, event.key === 'Backspace' ? index - 1 : -1)
