@@ -3,11 +3,11 @@
   width: min(22rem, calc(100vw - 2rem));
   overflow: visible;
   isolation: isolate;
-  animation: popover-paint-in 160ms ease-out;
+  animation: popover-paint-in 160ms ease-out paused;
 }
 
 .demo-popover[data-ending-style] {
-  animation: popover-paint-out 140ms ease-in;
+  animation: popover-paint-out 140ms ease-in paused;
 }
 
 .demo-popover__surface {
