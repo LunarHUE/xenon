@@ -675,6 +675,16 @@ function DialogHost(
           'AlertDialog.Content requires a description. Render AlertDialog.Description or provide aria-describedby.'
         )
     })
+    /** Surface attributes take precedence by presence, including explicit removal. */
+    const authored = (
+      name: 'aria-label' | 'aria-labelledby' | 'aria-describedby',
+      fallback: () => unknown
+    ) => {
+      const surface = surfaceProps()
+      if (surface && name in surface) return surface[name]
+      if (name in props) return props[name]
+      return fallback()
+    }
     /** Combine deferred server associations with author overrides and a concrete content ID. */
     const attributes = () =>
       spread(context.result().parts.content, {
@@ -691,23 +701,21 @@ function DialogHost(
         ...rest,
         ...(viewport
           ? {
-              'aria-label': semantic()['aria-label'] ?? props['aria-label'],
-              'aria-labelledby':
-                semantic()['aria-labelledby'] ??
-                props['aria-labelledby'] ??
-                (semantic()['aria-label'] || props['aria-label']
+              'aria-label': authored('aria-label', () => undefined),
+              'aria-labelledby': authored('aria-labelledby', () =>
+                authored('aria-label', () => undefined)
                   ? undefined
                   : context.association(
                       'aria-labelledby',
                       () => context.result().parts.content.attrs['aria-labelledby']
-                    )),
-              'aria-describedby':
-                semantic()['aria-describedby'] ??
-                props['aria-describedby'] ??
+                    )
+              ),
+              'aria-describedby': authored('aria-describedby', () =>
                 context.association(
                   'aria-describedby',
                   () => context.result().parts.content.attrs['aria-describedby']
-                ),
+                )
+              ),
             }
           : {}),
         id: hostId(),

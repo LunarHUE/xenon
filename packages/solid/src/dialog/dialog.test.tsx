@@ -409,3 +409,56 @@ test('removes name associations when title and description IDs become undefined'
   expect(view.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
   expect(view.getByRole('dialog')).not.toHaveAttribute('aria-describedby')
 })
+
+test('viewport semantics preserve authored undefined through reactive removal', () => {
+  const [label, setLabel] = createSignal<string | undefined>('Surface name')
+  const [reference, setReference] = createSignal<string | undefined>('surface-reference')
+  const view = render(() => (
+    <Dialog defaultOpen>
+      <Dialog.Viewport
+        aria-label="Viewport name"
+        aria-labelledby="viewport-title"
+        aria-describedby="viewport-description"
+      >
+        <Dialog.Content
+          aria-label={label()}
+          aria-labelledby={reference()}
+          aria-describedby={reference()}
+        >
+          <Dialog.Title id="generated-title">Title</Dialog.Title>
+          <Dialog.Description id="generated-description">Description</Dialog.Description>
+        </Dialog.Content>
+      </Dialog.Viewport>
+    </Dialog>
+  ))
+  const host = view.container.querySelector('dialog')!
+  expect(host).toHaveAttribute('aria-label', 'Surface name')
+  expect(host).toHaveAttribute('aria-labelledby', 'surface-reference')
+  setLabel(undefined)
+  setReference(undefined)
+  flush()
+  expect(host).not.toHaveAttribute('aria-label')
+  expect(host).not.toHaveAttribute('aria-labelledby')
+  expect(host).not.toHaveAttribute('aria-describedby')
+})
+
+test('explicit viewport undefined suppresses generated content associations', () => {
+  const view = render(() => (
+    <Dialog defaultOpen>
+      <Dialog.Viewport
+        aria-label={undefined}
+        aria-labelledby={undefined}
+        aria-describedby={undefined}
+      >
+        <Dialog.Content>
+          <Dialog.Title>Title</Dialog.Title>
+          <Dialog.Description>Description</Dialog.Description>
+        </Dialog.Content>
+      </Dialog.Viewport>
+    </Dialog>
+  ))
+  const host = view.container.querySelector('dialog')!
+  expect(host).not.toHaveAttribute('aria-label')
+  expect(host).not.toHaveAttribute('aria-labelledby')
+  expect(host).not.toHaveAttribute('aria-describedby')
+})
