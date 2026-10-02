@@ -160,22 +160,6 @@ function createSelect(props: SelectProps) {
     })
   const memo = createMemo(compute)
   const engine = isServer ? compute : memo
-  createEffect(
-    () => {
-      const activeValue = engine().state.activeValue
-      return {
-        open: open(),
-        content: content(),
-        id: activeValue === undefined ? undefined : optionId(activeValue),
-      }
-    },
-    (state) => {
-      if (state.open && state.id)
-        state.content?.ownerDocument
-          .getElementById(state.id)
-          ?.scrollIntoView?.({ block: 'nearest' })
-    }
-  )
   return {
     props,
     associations,
@@ -410,6 +394,24 @@ export function SelectContent<T extends ValidComponent = 'div'>(
   const own = props as SelectContentProps<'div'>
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children', 'id')
   onCleanup(context.registerId('content', () => (typeof own.id === 'string' ? own.id : undefined)))
+  createEffect(
+    () => {
+      const activeValue = context.engine().state.activeValue
+      return {
+        open: context.open(),
+        positioned: positioning.state().positioned,
+        content: context.content(),
+        id: activeValue === undefined ? undefined : context.optionId(activeValue),
+      }
+    },
+    (state) => {
+      // Initial selection can mount while the native popup is still hidden and unmeasurable.
+      if (state.open && state.positioned && state.id)
+        state.content?.ownerDocument
+          .getElementById(state.id)
+          ?.scrollIntoView?.({ block: 'nearest' })
+    }
+  )
   return (
     <Dynamic
       component={own.as ?? 'div'}
