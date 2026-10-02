@@ -1072,7 +1072,7 @@
     {"ids":["editable.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Disabled preview cannot activate and regains reachability when enabled; EditTrigger is natively disabled rather than hidden.","evidence":226,"historicalRecord":{"file":"packages/suite/coverage/editable.json","index":26},"status":"excluded"},
     {"ids":["field.forms.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Required and native/data flags are asserted on shipped parts; a consumer-authored star is in the axe fixture, but no RequiredIndicator component/default behavior is shipped.","evidence":227,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":67},"status":"excluded"},
     {"ids":["description.roles.7"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Unrendered parts do not produce control references. Internal IDs are allocated from the root base, and no passed-but-unused description/error prop fixture asserts the entire slot-lazy allocation clause.","evidence":228,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":128},"status":"excluded"},
-    {"ids":["description.roles.8"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Shipped CheckboxGroup asserts author-first group descriptions and inherited item references, but does not combine an individual Field description with the group description to assert their relative order.","evidence":229,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":129},"status":"reconciled"},
+    {"ids":["description.roles.8"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Shipped CheckboxGroup asserts author-first group descriptions and inherited item references, but does not combine an individual Field description with the group description to assert their relative order.","evidence":229,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":129},"status":"verified"},
     {"ids":["fieldset.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native fieldset disabled is asserted. The generic Field root does not generate aria-disabled, so the complete polymorphic fieldset contract is not established.","evidence":230,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":135},"status":"excluded"},
     {"ids":["fieldset.forms.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Native disabled nesting and first-legend exception are asserted for checkboxes. The universal descendant-control matrix and further nested-legend cases are not covered.","evidence":231,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":136},"status":"reconciled"},
     {"ids":["form.forms.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Multiple controls and late reset cancellation are covered in component reset tests, but no assertion verifies bubble stopPropagation still runs every reset hook or capture cancellation suppresses every hook.","evidence":232,"historicalRecord":{"file":"packages/suite/coverage/field.json","index":168},"status":"reconciled"},
@@ -7708,6 +7708,24 @@
       "verification": "Read-only source and installed accessibility-algorithm inspection; local probe yields tooltip accessible name from authored aria-label but trigger description from visible text. No assistive-technology behavior claimed.",
       "limits": [
         "Determine intended accessible-description contract and suitable oracle before claiming requirement completion."
+      ]
+    },
+    {
+      "id": "group-and-item-description-order",
+      "status": "verified",
+      "ids": [
+        "description.roles.8"
+      ],
+      "acceptedClauses": [
+        "CheckboxGroup with nested Fields preserves author-first group references and item-before-group description order, isolates sibling descriptions, resolves every referenced ID, and updates references/descriptions through reactive IDs, removal and remount."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/field/description.group-items.remaining.test.tsx"
+      ],
+      "verification": "Coordinator inspected assertions and independently ran all 3 shared jsdom cases: 3 passed.",
+      "limits": [
+        "Pins the shipped CheckboxGroup/Field composition; no native focus or universal behavior across unrelated group families claimed."
       ]
     }
   ],
