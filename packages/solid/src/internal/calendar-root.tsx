@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from './host'
 import { dateKey, dateOnlyAdapter } from '@xenon-ui/core/date'
 import type { DateAdapter } from '@xenon-ui/core/date'
 import { Dynamic, isServer } from '@solidjs/web'
@@ -50,7 +51,7 @@ export function createCalendarRoot(
       minValue: own.minValue,
       maxValue: own.maxValue,
       isDateUnavailable: own.isDateUnavailable,
-      disabled: own.disabled,
+      disabled: booleanAttribute(own.disabled),
       readOnly: own.readOnly,
       locale: own.locale ?? environment?.locale() ?? 'en-US',
       weekStartsOn: own.weekStartsOn ?? environment?.weekStartsOn(),
@@ -95,7 +96,7 @@ export function createCalendarRoot(
     minValue: own.minValue,
     maxValue: own.maxValue,
     isDateUnavailable: own.isDateUnavailable,
-    disabled: own.disabled,
+    disabled: booleanAttribute(own.disabled),
     readOnly: own.readOnly,
     locale: own.locale ?? environment?.locale() ?? 'en-US',
     weekStartsOn: own.weekStartsOn ?? environment?.weekStartsOn(),
@@ -272,7 +273,7 @@ export function createCalendarRoot(
       component={own.as ?? 'div'}
       ref={(node: HTMLElement) => {
         element = node
-        own.ref?.(node)
+        setRef(own.ref, node)
       }}
       {...spread(
         {
