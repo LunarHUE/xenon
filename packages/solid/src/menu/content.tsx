@@ -58,6 +58,10 @@ const PositionContext = createContext<
  * active during exit. Physical unmount disposes the layer; replacing the wrapper
  * ref disposes its previous controller. Closed force-mounted wrappers remain
  * rendered without an active native layer.
+ * Children initialize on first presence and retain their logical owners across
+ * popup closure, preserving uncontrolled item state. Closed lazy wrappers are
+ * detached from the document. Child owner cleanup runs on author removal or
+ * Positioner disposal, rather than ordinary popup closure.
  *
  * The wrapper is always a div with popover=manual. Author styles override the
  * native-popover baseline, but managed visibility and pointer-events win. Generated
@@ -91,7 +95,11 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     'onPositioned',
     'onError'
   )
-  /** Own one physical wrapper lifetime and the positioner context for its children. */
+  const [initialized, setInitialized] = createSignal(untrack(() => context.life.present()))
+  createEffect(context.life.present, (present) => {
+    if (present) setInitialized(true)
+  })
+  /** Retain logical children while attaching and disposing physical hosting by presence. */
   function Mounted(): JSX.Element {
     const [element, setElement] = createSignal<HTMLDivElement>()
     /** Native-show result prevents measuring the wrapper while it is still hidden. */
@@ -147,38 +155,52 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     )
     let controller: ReturnType<typeof createFloatingLayer> | undefined
     let attached: HTMLElement | undefined
-    createEffect(
-      () => ({
-        element: element(),
-        options: {
-          content: context.content(),
-          parent: context.parent?.layer(),
-          trigger: context.trigger(),
-          branches: context.triggerElements(),
-          open: context.open(),
-          active: context.open() || context.life.status() === 'exiting',
-          positioned: positioning.state().positioned,
-          initialFocus: context.initial(),
-          finalFocus: context.trigger(),
-          restoreFocus: context.restore(),
-          onDismiss(reason: string) {
-            if (reason === 'escape') context.change(false)
-            else context.closeAll(false)
-          },
+    const hosting = () => ({
+      present: context.life.present(),
+      element: element(),
+      options: {
+        content: context.content(),
+        parent: context.parent?.layer(),
+        trigger: context.trigger(),
+        branches: context.triggerElements(),
+        open: context.open(),
+        active: context.open() || context.life.status() === 'exiting',
+        positioned: positioning.state().positioned,
+        initialFocus: context.initial(),
+        finalFocus: context.trigger(),
+        restoreFocus: context.restore(),
+        onDismiss(reason: string) {
+          if (reason === 'escape') context.change(false)
+          else context.closeAll(false)
         },
-      }),
-      (value) => {
-        if (!value.element || !value.options.content) return
-        const options = { ...value.options, content: value.options.content }
-        if (attached !== value.element) {
-          controller?.dispose()
-          attached = value.element
-          controller = createFloatingLayer(value.element, options)
-        } else controller?.update(options)
-        context.setLayer(controller?.layer)
-        setShown(controller?.isShown() ?? false)
-      }
-    )
+      },
+    })
+    createEffect(hosting, () => {
+      // Retained nested wrappers may detach before their own exit phase finishes.
+      // Reconcile native hosting after DOM updates, using the latest parent layer.
+      onSettled(() =>
+        untrack(() => {
+          const value = hosting()
+          if (!value.present || !value.element?.isConnected) {
+            controller?.dispose()
+            controller = undefined
+            attached = undefined
+            context.setLayer(undefined)
+            setShown(false)
+            return
+          }
+          if (!value.element || !value.options.content) return
+          const options = { ...value.options, content: value.options.content }
+          if (attached !== value.element) {
+            controller?.dispose()
+            attached = value.element
+            controller = createFloatingLayer(value.element, options)
+          } else controller?.update(options)
+          context.setLayer(controller?.layer)
+          setShown(controller?.isShown() ?? false)
+        })
+      )
+    })
     onCleanup(() => {
       controller?.dispose()
       if (!isServer) context.setLayer(undefined)
@@ -204,7 +226,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
     const children = createMemo(() => (
       <PositionContext value={{ ...positioning, setArrow }}>{props.children}</PositionContext>
     ))
-    return (
+    const wrapper = createMemo(() => (
       <div
         {...rest}
         {...positioning.positionerProps()}
@@ -219,10 +241,11 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
       >
         {children()}
       </div>
-    )
+    ))
+    return <Show when={context.life.present()}>{wrapper()}</Show>
   }
   return (
-    <Show when={context.life.present()}>
+    <Show when={initialized()}>
       <Mounted />
     </Show>
   )

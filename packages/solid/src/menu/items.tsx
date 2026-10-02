@@ -4,6 +4,7 @@ import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
   createContext,
+  createEffect,
   createMemo,
   createSignal,
   createUniqueId,
@@ -208,6 +209,12 @@ function createItem<T extends ValidComponent>(
     return context.register(entry)
   })
   onCleanup(() => clearTimeout(hoverTimer))
+  createEffect(context.open, (open) => {
+    if (!open) {
+      clearTimeout(hoverTimer)
+      hoverTimer = undefined
+    }
+  })
   /** Orders disabled blocking, submenu opening, cancelable selection, state commit, and optional ancestor closure. */
   const activate = (event: MouseEvent) => {
     if (entry.disabled()) {
