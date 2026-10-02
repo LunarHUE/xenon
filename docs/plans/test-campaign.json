@@ -1593,28 +1593,28 @@
     {"ids":["menu.notes.18"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Shared spread and Dynamic support author props and canceled selection; exhaustive every-part ref/class/polymorphic conformance is not a Menu behavioral test.","evidence":537,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":872},"status":"queued"},
     {"ids":["menu.notes.21"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger ID getter registration is reactive; changed-ID no-leak/collection-size fixture is absent.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":874},"status":"queued"},
     {"ids":["menu.notes.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Explicit root trigger/content IDs are asserted in SSR; full explicit submenu-trigger/content ID quartet is not checked.","evidence":535,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":875},"status":"queued"},
-    {"ids":["select.roles.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Combobox role is asserted in core and browser; explicit haspopup=listbox is emitted but not directly asserted.","evidence":549,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":0},"status":"queued"},
-    {"ids":["select.roles.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native trigger defaults type=button and form fixture opens without submitting; explicit type attribute is not checked.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":2},"status":"queued"},
-    {"ids":["select.roles.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Open controls resolves and closed code omits it; exact attribute absence before first open and after close is not asserted.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":5},"status":"queued"},
-    {"ids":["select.roles.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Content omits implicit vertical orientation, but no explicit no-aria-orientation Select assertion exists.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":12},"status":"queued"},
-    {"ids":["select.roles.18"],"historicalStatus":"missing","domain":"popup-selection","reason":"No-label trigger does not invent labelledby; exact absent attribute case is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":14},"status":"queued"},
-    {"ids":["select.roles.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field description reaches trigger; merged author description and invalid Error reference combination is not fully tested on Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":16},"status":"queued"},
-    {"ids":["select.roles.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/custom trigger ID is asserted server-side; live root-ID change with regenerated field label and association is not tested.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":17},"status":"queued"},
-    {"ids":["select.roles.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Placeholder text changes to selected label; trigger and Value placeholder marker removal is implemented but not directly asserted.","evidence":555,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":18},"status":"queued"},
-    {"ids":["select.roles.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native disabled controls refuse focus, skip Tab and omit submission; reactive disable/re-enable and all data/ARIA markers are not enumerated.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":22},"status":"queued"},
-    {"ids":["select.roles.33"],"historicalStatus":"partial","domain":"popup-selection","reason":"Viewport supports author role=presentation and no tab stop; built-in scroll-button parts and their aria-hidden attributes are not supplied.","evidence":557,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":25},"status":"queued"},
-    {"ids":["select.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom active option ID resolution, disabled selection blocking and aria-selected are asserted; complete generated ID/data-value/state/highlight/disabled marker matrix is not.","evidence":558,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":26},"status":"queued"},
-    {"ids":["select.roles.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native change requests are handled and controlled value repaired; data-autofill marker is not supplied and OS autofill is not asserted.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":30},"status":"queued"},
-    {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"queued"},
+    {"ids":["select.roles.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Combobox role is asserted in core and browser; explicit haspopup=listbox is emitted but not directly asserted.","evidence":549,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":0},"status":"reconciled"},
+    {"ids":["select.roles.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native trigger defaults type=button and form fixture opens without submitting; explicit type attribute is not checked.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":2},"status":"reconciled"},
+    {"ids":["select.roles.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Open controls resolves and closed code omits it; exact attribute absence before first open and after close is not asserted.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":5},"status":"reconciled"},
+    {"ids":["select.roles.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Content omits implicit vertical orientation, but no explicit no-aria-orientation Select assertion exists.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":12},"status":"reconciled"},
+    {"ids":["select.roles.18"],"historicalStatus":"missing","domain":"popup-selection","reason":"No-label trigger does not invent labelledby; exact absent attribute case is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":14},"status":"reconciled"},
+    {"ids":["select.roles.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field description reaches trigger; merged author description and invalid Error reference combination is not fully tested on Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":16},"status":"reconciled"},
+    {"ids":["select.roles.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/custom trigger ID is asserted server-side; live root-ID change with regenerated field label and association is not tested.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":17},"status":"reconciled"},
+    {"ids":["select.roles.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Placeholder text changes to selected label; trigger and Value placeholder marker removal is implemented but not directly asserted.","evidence":555,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":18},"status":"reconciled"},
+    {"ids":["select.roles.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native disabled controls refuse focus, skip Tab and omit submission; reactive disable/re-enable and all data/ARIA markers are not enumerated.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":22},"status":"reconciled"},
+    {"ids":["select.roles.33"],"historicalStatus":"partial","domain":"popup-selection","reason":"Viewport supports author role=presentation and no tab stop; built-in scroll-button parts and their aria-hidden attributes are not supplied.","evidence":557,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":25},"status":"reconciled"},
+    {"ids":["select.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom active option ID resolution, disabled selection blocking and aria-selected are asserted; complete generated ID/data-value/state/highlight/disabled marker matrix is not.","evidence":558,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":26},"status":"reconciled"},
+    {"ids":["select.roles.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native change requests are handled and controlled value repaired; data-autofill marker is not supplied and OS autofill is not asserted.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":30},"status":"reconciled"},
+    {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"reconciled"},
     {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"verified"},
     {"ids":["select.keyboard.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Space, Enter and Alt+Up commit label/form value and close; aria-selected attribute transfer after reopening is not directly asserted by those cases.","evidence":562,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":38},"status":"verified"},
     {"ids":["select.keyboard.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without committing; retained force-mounted option tabindex cleanup is not directly checked.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":40},"status":"verified"},
     {"ids":["select.keyboard.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native open Home/End reach endpoints; actual option scroll-into-view result is not measured.","evidence":564,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":45},"status":"verified"},
     {"ids":["select.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native arrows skip disabled metadata; live collection removal without a dead slot is not directly tested.","evidence":565,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":46},"status":"verified"},
-    {"ids":["select.keyboard.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Idle reset and fresh matching search are asserted; no-match character immediately after timeout is not.","evidence":566,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":53},"status":"queued"},
-    {"ids":["select.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled-only match commits nothing and ordinary disabled option navigation is excluded; rapid double-letter disabled match among enabled same-letter matches is not asserted.","evidence":567,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":54},"status":"queued"},
+    {"ids":["select.keyboard.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Idle reset and fresh matching search are asserted; no-match character immediately after timeout is not.","evidence":566,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":53},"status":"reconciled"},
+    {"ids":["select.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled-only match commits nothing and ordinary disabled option navigation is excluded; rapid double-letter disabled match among enabled same-letter matches is not asserted.","evidence":567,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":54},"status":"reconciled"},
     {"ids":["select.keyboard.29","select.keyboard.30"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active buffer consumes Space before commit in code; trailing-Space pointer selection and post-timeout Space commit matrix is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":55},"status":"queued"},
-    {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"queued"},
+    {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"reconciled"},
     {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"verified"},
     {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"verified"},
     {"ids":["select.pointer.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click-based trigger opening supports touch release semantics, but native touch down/scroll/click no-open-before-release sequence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":65},"status":"queued"},
@@ -1624,30 +1624,30 @@
     {"ids":["select.pointer.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Commit compares current value and still closes on reselect, but same-option click no-deselection fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":72},"status":"verified"},
     {"ids":["select.pointer.17","select.dismissal.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Outside layer dismissal clears active without commit, but native outside click with pending highlight and placeholder/committed value assertion is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":75},"status":"verified"},
     {"ids":["select.pointer.21"],"historicalStatus":"missing","domain":"popup-selection","reason":"Mouseup alone cannot commit in selected click implementation; touch-scroll followed by synthetic mouseup no-change case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":77},"status":"queued"},
-    {"ids":["select.pointer.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native author preventDefault veto keeps popup/input state until subsequent accepted click; exact author callback once count is not asserted.","evidence":571,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":79},"status":"queued"},
+    {"ids":["select.pointer.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native author preventDefault veto keeps popup/input state until subsequent accepted click; exact author callback once count is not asserted.","evidence":571,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":79},"status":"reconciled"},
     {"ids":["select.pointer.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly core/adapter refuses key opening; clicked readonly trigger refusal is implemented but not directly asserted.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":82},"status":"queued"},
     {"ids":["select.pointer.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared spread invokes author event before blocked selection, but disabled option author onClick occurrence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":83},"status":"queued"},
     {"ids":["select.focus.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reopen highlights committed Pear; actual scrolling selected item into view is not asserted.","evidence":573,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":87},"status":"verified"},
     {"ids":["select.focus.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled controls reject focus; passive-label flag is not supplied and label-click across Field/Fieldset is not tested.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":92},"status":"queued"},
-    {"ids":["select.focus.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Invalid hidden native control forwards focus to visible trigger; dynamic proxy tabindex 0/-1 policy is not supplied (native stays -1).","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":93},"status":"queued"},
+    {"ids":["select.focus.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Invalid hidden native control forwards focus to visible trigger; dynamic proxy tabindex 0/-1 policy is not supplied (native stays -1).","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":93},"status":"reconciled"},
     {"ids":["select.focus.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without stolen focus; programmatic blur into own popup relatedTarget case is not directly asserted.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":96},"status":"queued"},
-    {"ids":["select.focus.16"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native autofocus/event props forward to trigger; autofocus and exact focus-callback count on mount lack a Select test.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":97},"status":"queued"},
-    {"ids":["select.focus.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab respects trigger document order and option selection retains focus; exact focus/blur callback count/no-blur-on-select is not asserted.","evidence":574,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":98},"status":"queued"},
+    {"ids":["select.focus.16"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native autofocus/event props forward to trigger; autofocus and exact focus-callback count on mount lack a Select test.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":97},"status":"reconciled"},
+    {"ids":["select.focus.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab respects trigger document order and option selection retains focus; exact focus/blur callback count/no-blur-on-select is not asserted.","evidence":574,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":98},"status":"reconciled"},
     {"ids":["select.focus.19"],"historicalStatus":"missing","domain":"popup-selection","reason":"Disabled options keep tabindex=-1 and are programmatically focusable, but exact disabled-option focus() case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":100},"status":"queued"},
     {"ids":["select.state.1","select.state.2","select.state.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Controlled/default visibility and deduplicated boolean change callbacks ship, but initial-open silence plus exact Escape counts/full open-close callback sequence are not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":102},"status":"verified"},
-    {"ids":["select.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reactive controlled prop updates closed Value label without mounting; popup option selected state and changed metadata label lookup are not both asserted.","evidence":575,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":105},"status":"queued"},
+    {"ids":["select.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reactive controlled prop updates closed Value label without mounting; popup option selected state and changed metadata label lookup are not both asserted.","evidence":575,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":105},"status":"reconciled"},
     {"ids":["select.state.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default label/form value and later selection changes are asserted; rendered matching option aria-selected transition is not directly checked.","evidence":576,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":106},"status":"verified"},
-    {"ids":["select.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pinned controlled selection attempt followed by reopen/Escape keeps exact count one; exact uncontrolled newly-chosen then reopen/Escape sequence is not asserted.","evidence":577,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":108},"status":"queued"},
-    {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"queued"},
-    {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"queued"},
+    {"ids":["select.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pinned controlled selection attempt followed by reopen/Escape keeps exact count one; exact uncontrolled newly-chosen then reopen/Escape sequence is not asserted.","evidence":577,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":108},"status":"reconciled"},
+    {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"reconciled"},
+    {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"reconciled"},
     {"ids":["select.state.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native name is reactive, but toggling name during open with same popup identity and FormData changes is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":114},"status":"verified"},
-    {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"queued"},
-    {"ids":["select.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default string submitted value is asserted; object serializer variant is outside nonempty-string API.","evidence":581,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":121},"status":"queued"},
-    {"ids":["select.forms.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Empty required Select is invalid and committed value becomes valid; multiple-selection required-attribute switching is excluded.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":123},"status":"queued"},
+    {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"reconciled"},
+    {"ids":["select.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default string submitted value is asserted; object serializer variant is outside nonempty-string API.","evidence":581,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":121},"status":"reconciled"},
+    {"ids":["select.forms.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Empty required Select is invalid and committed value becomes valid; multiple-selection required-attribute switching is excluded.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":123},"status":"reconciled"},
     {"ids":["select.forms.13"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form ID is forwarded to native select and reset listener uses native.form, but external-form submit/reset is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":125},"status":"verified"},
-    {"ids":["select.forms.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic native change requests controlled value then repairs denial; successful uncontrolled adoption/selected attribute/callback exactly once is not all asserted, and actual OS autofill is not simulated.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":127},"status":"queued"},
+    {"ids":["select.forms.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic native change requests controlled value then repairs denial; successful uncontrolled adoption/selected attribute/callback exactly once is not all asserted, and actual OS autofill is not simulated.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":127},"status":"reconciled"},
     {"ids":["select.forms.17"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native change is refused by metadata membership guard, but unknown autofill no-callback case is not tested.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":128},"status":"verified"},
-    {"ids":["select.forms.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled change gate ships; hidden value remains committed rather than necessarily empty, and server-error behavior is not a Select contract.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":129},"status":"queued"},
+    {"ids":["select.forms.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled change gate ships; hidden value remains committed rather than necessarily empty, and server-error behavior is not a Select contract.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":129},"status":"reconciled"},
     {"ids":["select.forms.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field name, required and description inheritance are asserted; disabled/readonly Field inheritance with error text full matrix is not tested for Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":134},"status":"queued"},
     {"ids":["select.dismissal.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared topmost layering supports Select inside outer layers, but exact native parent Dialog/Popover Escape and inside-parent outside-Select click matrix is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":136},"status":"queued"},
     {"ids":["select.positioning.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared fixed native Positioner waits for placement before visibility; exact vendor transform/isolation/variable/offscreen CSS attribute matrix is not asserted for Select.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":142},"status":"queued"},
@@ -1655,41 +1655,41 @@
     {"ids":["select.positioning.9","select.positioning.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active descendant scrollIntoView ships, but real scrolled-page no-drift and oversized/inner-viewport selected-option visibility are not measured.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":146},"status":"queued"},
     {"ids":["select.animation.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native portal begins absent and is removed after click close; default Positioner itself absence/identity is not directly enumerated.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":147},"status":"verified"},
     {"ids":["select.animation.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"forceMount closed hidden content ships, but Select-specific retained closed rendering/conditional author gating fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":148},"status":"reconciled"},
-    {"ids":["select.animation.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared presence supplies starting/ending lifecycle, but no Select real-animation assertion exists; completion callback is not supplied.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":149},"status":"queued"},
+    {"ids":["select.animation.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared presence supplies starting/ending lifecycle, but no Select real-animation assertion exists; completion callback is not supplied.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":149},"status":"reconciled"},
     {"ids":["select.animation.6","select.animation.7"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence cleanup and committed value state ship; Select-specific animated early-selection/no-scroll and unmount-with-pending-timers cases are not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":150},"status":"queued"},
-    {"ids":["select.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Actual server transform preserves selected label/native option and IDs; no hydration run exists for Select, explicitly noted by scope.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":153},"status":"queued"},
+    {"ids":["select.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Actual server transform preserves selected label/native option and IDs; no hydration run exists for Select, explicitly noted by scope.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":153},"status":"reconciled"},
     {"ids":["select.a11y.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Baseline/open Select passes axe; clear trigger, groups and indicator are not supplied and full listed anatomy is not scanned.","evidence":582,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":155},"status":"queued"},
     {"ids":["select.a11y.2","select.a11y.4","select.a11y.9","select.a11y.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Valid baseline/open fixtures pass axe with combobox/listbox/option naming and IDs; exhaustive alternate naming/invalid child/duplicate reference matrices are not asserted.","evidence":582,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":156},"status":"queued"},
     {"ids":["select.a11y.5"],"historicalStatus":"missing","domain":"popup-selection","reason":"Polymorphic div trigger is supported but div combobox tabindex=0 focus-order axe case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":158},"status":"queued"},
     {"ids":["select.a11y.7"],"historicalStatus":"missing","domain":"popup-selection","reason":"Option tabindex=-1 provides focusable descendants, but overflowing Select popup axe fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":160},"status":"queued"},
     {"ids":["select.a11y.11"],"historicalStatus":"missing","domain":"popup-selection","reason":"Author aria-label without generated labelledby is supported, but trigger and option exact absent-labelledBy matrix is not directly checked.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":162},"status":"queued"},
     {"ids":["select.notes.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Public trigger/option native handler cancellation and Viewport props are tested; exhaustive every foreign part/polymorphic ref/style matrix exceeds supplied anatomy.","evidence":583,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":169},"status":"queued"},
-    {"ids":["combobox.roles.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"filter=false explicitly produces none and unfiltered items; default filtering is asserted, but list token is not directly checked and both inline completion is excluded.","evidence":584,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":172},"status":"queued"},
+    {"ids":["combobox.roles.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"filter=false explicitly produces none and unfiltered items; default filtering is asserted, but list token is not directly checked and both inline completion is excluded.","evidence":584,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":172},"status":"reconciled"},
     {"ids":["combobox.roles.9"],"historicalStatus":"missing","domain":"popup-selection","reason":"Input and Trigger compute same expanded state, but direct both-elements transition assertion is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":178},"status":"verified"},
-    {"ids":["combobox.roles.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom controls and active option IDs are asserted; explicit absence of aria-owns is not checked.","evidence":586,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":179},"status":"queued"},
+    {"ids":["combobox.roles.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom controls and active option IDs are asserted; explicit absence of aria-owns is not checked.","evidence":586,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":179},"status":"reconciled"},
     {"ids":["combobox.roles.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server selected option aria-selected=true is asserted; grid/tree/row variants are not supplied and live selection attribute update is not separately asserted.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":187},"status":"queued"},
     {"ids":["combobox.roles.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label and author aria-label yield accessible input names; complete native-label versus labelledby/title fallback matrix is not asserted.","evidence":588,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":192},"status":"queued"},
-    {"ids":["combobox.roles.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared Field label names input without Value part; exact input labelledby token list is not directly checked.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":193},"status":"queued"},
-    {"ids":["combobox.roles.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Description and Error resolve in exact order on input; merging author-supplied description alongside both is not tested for Combobox.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":196},"status":"queued"},
-    {"ids":["combobox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Trigger has native button role/name and toggles; exact tabindex/controls/expanded mirror matrix is not asserted.","evidence":590,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":197},"status":"queued"},
+    {"ids":["combobox.roles.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared Field label names input without Value part; exact input labelledby token list is not directly checked.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":193},"status":"reconciled"},
+    {"ids":["combobox.roles.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Description and Error resolve in exact order on input; merging author-supplied description alongside both is not tested for Combobox.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":196},"status":"reconciled"},
+    {"ids":["combobox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Trigger has native button role/name and toggles; exact tabindex/controls/expanded mirror matrix is not asserted.","evidence":590,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":197},"status":"reconciled"},
     {"ids":["combobox.roles.33"],"historicalStatus":"missing","domain":"popup-selection","reason":"Input aria-required=true is emitted, but direct attribute assertion is absent in inspected Combobox tests (native committed-value validation is tested).","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":199},"status":"verified"},
-    {"ids":["combobox.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/Field disabled input and disabled native submission are tested; trigger disabled plus local-prop-wins matrix is not directly asserted.","evidence":591,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":200},"status":"queued"},
-    {"ids":["combobox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox omits implicit orientation, but no direct no-aria-orientation assertion exists; grid is excluded.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":202},"status":"queued"},
-    {"ids":["combobox.roles.40"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native tabindex=-1, custom ID resolution, false selected and disabled ARIA are checked; data-value is not emitted and remaining complete marker matrix is not asserted.","evidence":592,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":206},"status":"queued"},
+    {"ids":["combobox.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/Field disabled input and disabled native submission are tested; trigger disabled plus local-prop-wins matrix is not directly asserted.","evidence":591,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":200},"status":"reconciled"},
+    {"ids":["combobox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox omits implicit orientation, but no direct no-aria-orientation assertion exists; grid is excluded.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":202},"status":"reconciled"},
+    {"ids":["combobox.roles.40"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native tabindex=-1, custom ID resolution, false selected and disabled ARIA are checked; data-value is not emitted and remaining complete marker matrix is not asserted.","evidence":592,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":206},"status":"reconciled"},
     {"ids":["combobox.roles.52"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core listbox tabindex=-1 ships; empty list and author-tabindex-overwrite matrix is not asserted, and author props can override defaults.","evidence":593,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":216},"status":"queued"},
     {"ids":["combobox.roles.53"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom input/popup IDs work server-side and custom option ID resolves; live ID changes across Field label and unsupported Clear control are not asserted.","evidence":594,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":217},"status":"queued"},
     {"ids":["combobox.keyboard.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab leaves input for next form control while options remain virtual; complete Trigger/popup/all-descendant tabindex enumeration is not asserted.","evidence":595,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":219},"status":"queued"},
     {"ids":["combobox.keyboard.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Home/Right/End caret movement and ordinary typing are asserted; every standard edit shortcut/Delete/word-selection combination is not exercised.","evidence":596,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":220},"status":"queued"},
     {"ids":["combobox.keyboard.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Down opens first active option while DOM focus stays input; automatic-selection-next variant is excluded.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":222},"status":"queued"},
     {"ids":["combobox.keyboard.8"],"historicalStatus":"missing","domain":"popup-selection","reason":"loop=false is an accepted public option, but no direct Combobox nonwrapping edge assertion exists.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":226},"status":"verified"},
-    {"ids":["combobox.keyboard.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core clears highlight without preventing all four caret keys; browser proves caret positions for Home/Right/End but not highlighted initial state plus every key.","evidence":598,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":229},"status":"queued"},
-    {"ids":["combobox.keyboard.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Right moves caret with absent active descendant; exact no-highlight-callback count and Left path are not directly asserted.","evidence":596,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":231},"status":"queued"},
-    {"ids":["combobox.keyboard.16"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native input editing is preserved, but overflowing horizontal scroll Home/End fixture is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":232},"status":"queued"},
+    {"ids":["combobox.keyboard.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core clears highlight without preventing all four caret keys; browser proves caret positions for Home/Right/End but not highlighted initial state plus every key.","evidence":598,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":229},"status":"reconciled"},
+    {"ids":["combobox.keyboard.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Right moves caret with absent active descendant; exact no-highlight-callback count and Left path are not directly asserted.","evidence":596,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":231},"status":"reconciled"},
+    {"ids":["combobox.keyboard.16"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native input editing is preserved, but overflowing horizontal scroll Home/End fixture is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":232},"status":"reconciled"},
     {"ids":["combobox.keyboard.32"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native ordinary popup Tab skips virtual options; overflowing, empty and author-tabindex override variants are not exercised.","evidence":595,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":245},"status":"queued"},
     {"ids":["combobox.keyboard.38","combobox.keyboard.39"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native input events refilter/open on edits including deletion, but Backspace-shortening and Escape-then-delete reopening are not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":248},"status":"verified"},
     {"ids":["combobox.keyboard.42"],"historicalStatus":"partial","domain":"popup-selection","reason":"Input never loses DOM focus during virtual highlight; actual clipboard paste shortcut/inserted text is not tested.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":249},"status":"queued"},
-    {"ids":["combobox.keyboard.51"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled skipping and disabled-only no-highlight are asserted; singleton enabled Up/Down no-change matrix is not.","evidence":599,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":256},"status":"queued"},
-    {"ids":["combobox.keyboard.55","combobox.forms.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native highlighted Enter selects without submit and closed Enter submits; open no-highlight native submit is established in code but not browser-asserted.","evidence":600,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":260},"status":"queued"},
+    {"ids":["combobox.keyboard.51"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled skipping and disabled-only no-highlight are asserted; singleton enabled Up/Down no-change matrix is not.","evidence":599,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":256},"status":"reconciled"},
+    {"ids":["combobox.keyboard.55","combobox.forms.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native highlighted Enter selects without submit and closed Enter submits; open no-highlight native submit is established in code but not browser-asserted.","evidence":600,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":260},"status":"reconciled"},
     {"ids":["combobox.keyboard.71"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core modified ArrowDown is ignored without callback; full already-open native Control+Down preserving highlight scenario is not tested.","evidence":601,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":263},"status":"verified"},
     {"ids":["combobox.keyboard.72"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic isComposing Enter is not committed in native browser; keyCode=229 without isComposing and actual OS IME are not covered.","evidence":602,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":264},"status":"queued"},
     {"ids":["combobox.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed native click stays closed until typing/arrow; configurable open-on-input-click flag is not supplied.","evidence":603,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":266},"status":"queued"},
@@ -1704,30 +1704,30 @@
     {"ids":["combobox.pointer.27","combobox.pointer.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click activation retains input focus, but touch-device trigger toggle and mobile option tap/focus are not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":285},"status":"queued"},
     {"ids":["combobox.focus.5"],"historicalStatus":"missing","domain":"popup-selection","reason":"Adapter scrollIntoView(nearest) ships for active option, but actual out-of-view option visibility is not measured.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":292},"status":"verified"},
     {"ids":["combobox.focus.6"],"historicalStatus":"missing","domain":"popup-selection","reason":"DOM focus remains input during typing, but six-character typing plus exact onFocus callback count is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":293},"status":"verified"},
-    {"ids":["combobox.focus.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click on a custom option descendant ends with input focused; core verifies pointerdown is prevented, but browser focus is not sampled between pointerdown and pointerup.","evidence":608,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":294},"status":"queued"},
-    {"ids":["combobox.focus.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Filtering updates options without moving focus, but removed-then-reappearing selected option and iOS keyboard continuity are not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":296},"status":"queued"},
+    {"ids":["combobox.focus.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click on a custom option descendant ends with input focused; core verifies pointerdown is prevented, but browser focus is not sampled between pointerdown and pointerup.","evidence":608,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":294},"status":"reconciled"},
+    {"ids":["combobox.focus.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Filtering updates options without moving focus, but removed-then-reappearing selected option and iOS keyboard continuity are not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":296},"status":"reconciled"},
     {"ids":["combobox.focus.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native filter-then-click commits the intended row while retaining input focus; explicit null-relatedTarget blur between down and up plus collection node identity is not exercised.","evidence":609,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":297},"status":"queued"},
     {"ids":["combobox.focus.22"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native blur is not stopped, but input and wrapping blur callbacks both firing is not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":303},"status":"verified"},
-    {"ids":["combobox.focus.26"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab external focus is preserved; exact programmatic same-task move while popup opens/closes is not asserted.","evidence":595,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":306},"status":"queued"},
-    {"ids":["combobox.focus.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden native invalid forwards to input and portal retains native owner; explicit focused-proxy with missing-input fallback matrix is not asserted.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":307},"status":"queued"},
-    {"ids":["combobox.focus.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label resolves input name; native label click focus without popup opening is not asserted, and popup-input/trigger variant is excluded.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":308},"status":"queued"},
+    {"ids":["combobox.focus.26"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab external focus is preserved; exact programmatic same-task move while popup opens/closes is not asserted.","evidence":595,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":306},"status":"reconciled"},
+    {"ids":["combobox.focus.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden native invalid forwards to input and portal retains native owner; explicit focused-proxy with missing-input fallback matrix is not asserted.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":307},"status":"reconciled"},
+    {"ids":["combobox.focus.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label resolves input name; native label click focus without popup opening is not asserted, and popup-input/trigger variant is excluded.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":308},"status":"reconciled"},
     {"ids":["combobox.state.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Controlled open can deny changes in implementation and author native key events can cancel; cancelable open-change event API is not supplied and denied-close filtering is not asserted.","evidence":611,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":315},"status":"queued"},
-    {"ids":["combobox.state.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Case-insensitive contains filtering is asserted; Turkish locale-specific collation/locale prop is not supplied or tested.","evidence":612,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":316},"status":"queued"},
-    {"ids":["combobox.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core custom item predicate and filter=false bypass are tested; null disabling is not supplied and exact source item/query argument plus other-field matching matrix is not checked.","evidence":613,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":317},"status":"queued"},
+    {"ids":["combobox.state.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Case-insensitive contains filtering is asserted; Turkish locale-specific collation/locale prop is not supplied or tested.","evidence":612,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":316},"status":"reconciled"},
+    {"ids":["combobox.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core custom item predicate and filter=false bypass are tested; null disabling is not supplied and exact source item/query argument plus other-field matching matrix is not checked.","evidence":613,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":317},"status":"reconciled"},
     {"ids":["combobox.state.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Controlled input rejects typed mutation and emits one attempted text value; external reactive controlled-input prop replacement is not directly asserted.","evidence":614,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":326},"status":"verified"},
-    {"ids":["combobox.state.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Controlled native selection is repaired and controlled input stays pinned; option-click intent plus both-controlled blur-no-extra-callback matrix is not asserted.","evidence":614,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":327},"status":"queued"},
+    {"ids":["combobox.state.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Controlled native selection is repaired and controlled input stays pinned; option-click intent plus both-controlled blur-no-extra-callback matrix is not asserted.","evidence":614,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":327},"status":"reconciled"},
     {"ids":["combobox.state.22"],"historicalStatus":"partial","domain":"popup-selection","reason":"Selected-value changes update uncontrolled query and controlled query rejects typing; full input-only-controlled option selection plus value-only-controlled typing pair is not asserted.","evidence":615,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":328},"status":"queued"},
-    {"ids":["combobox.state.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Late labels fill untouched query and external value updates label; missing-item raw-value fallback is not selected (fallback is empty label), and exact callback count is not asserted.","evidence":616,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":331},"status":"queued"},
-    {"ids":["combobox.state.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default/controlled selected label, explicit default query and controlled query precedence are tested; object, multiple and input-inside-popup variants are excluded.","evidence":617,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":332},"status":"queued"},
-    {"ids":["combobox.state.36"],"historicalStatus":"partial","domain":"popup-selection","reason":"Changed async label leaves active search intact and fills untouched query; explicit focused-versus-blurred gating is not selected (query equality controls synchronization).","evidence":618,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":336},"status":"queued"},
+    {"ids":["combobox.state.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Late labels fill untouched query and external value updates label; missing-item raw-value fallback is not selected (fallback is empty label), and exact callback count is not asserted.","evidence":616,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":331},"status":"reconciled"},
+    {"ids":["combobox.state.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default/controlled selected label, explicit default query and controlled query precedence are tested; object, multiple and input-inside-popup variants are excluded.","evidence":617,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":332},"status":"reconciled"},
+    {"ids":["combobox.state.36"],"historicalStatus":"partial","domain":"popup-selection","reason":"Changed async label leaves active search intact and fills untouched query; explicit focused-versus-blurred gating is not selected (query equality controls synchronization).","evidence":618,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":336},"status":"reconciled"},
     {"ids":["combobox.state.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom/filter=false collection and absent selected key preservation work; exact server-window coordinate selection and raw-value label fallback are not asserted/supplied.","evidence":613,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":337},"status":"queued"},
     {"ids":["combobox.forms.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native disabled input/proxy omits form value; author-only aria-disabled suppression is not part of native disabled contract.","evidence":619,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":342},"status":"queued"},
     {"ids":["combobox.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Required hidden native select stays invalid for nonempty uncommitted query and becomes valid on commit; multiple selection toggling is excluded.","evidence":620,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":343},"status":"queued"},
     {"ids":["combobox.forms.7"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form owner is forwarded to hidden select; external-form FormData plus visible-input implicit submission full behavior is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":345},"status":"verified"},
     {"ids":["combobox.forms.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native single-string reset and controlled repair are tested; object/multiple variants are excluded.","evidence":621,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":346},"status":"queued"},
-    {"ids":["combobox.forms.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic hidden change participates in controlled repair; successful uncontrolled adoption, all-items reopening and exact callback matrix are not tested, and reason=none is not supplied.","evidence":614,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":348},"status":"queued"},
+    {"ids":["combobox.forms.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic hidden change participates in controlled repair; successful uncontrolled adoption, all-items reopening and exact callback matrix are not tested, and reason=none is not supplied.","evidence":614,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":348},"status":"reconciled"},
     {"ids":["combobox.forms.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native selected value is refused by metadata guard; exact no-callback unknown autofill case is not tested (multiple mode excluded).","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":350},"status":"reconciled"},
-    {"ids":["combobox.forms.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled gates preserve native committed value, not necessarily empty; server-error preservation is not a supplied Combobox lifecycle.","evidence":622,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":351},"status":"queued"},
+    {"ids":["combobox.forms.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled gates preserve native committed value, not necessarily empty; server-error preservation is not a supplied Combobox lifecycle.","evidence":622,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":351},"status":"reconciled"},
     {"ids":["combobox.forms.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field disabled/required/invalid and description/error reach input; Field name inheritance plus every focus/touched/dirty/filled/valid marker on Trigger is not supplied/asserted.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":353},"status":"queued"},
     {"ids":["combobox.forms.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden select owns committed FormData and portal contains no native proxy; explicit only-one-name/visible-input-nameless DOM assertion is not present.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":357},"status":"verified"},
     {"ids":["combobox.dismissal.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Escape closes preserving input focus; native outside-click then focus transfer is not directly asserted for Combobox.","evidence":597,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":358},"status":"queued"},
@@ -1738,7 +1738,7 @@
     {"ids":["combobox.animation.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence exposes transition phases, but real Combobox filtered-content retention through enter/exit animation is not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":376},"status":"queued"},
     {"ids":["combobox.animation.7","combobox.animation.8"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence cleanup and committed state exist, but native early-selection-during-exit/reopen and pending-timer-unmount scenarios are not asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":379},"status":"queued"},
     {"ids":["combobox.rtl.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic composing events suppress opening/navigation/commit until compositionend; query text/filter state can update while already open, and actual OS IME/one callback only at end is not asserted.","evidence":624,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":380},"status":"queued"},
-    {"ids":["combobox.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server fixture verifies combobox role and selected text/custom controls; starts open and does not assert closed expanded/autocomplete/haspopup matrix; popup-input variant excluded.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":386},"status":"queued"},
+    {"ids":["combobox.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server fixture verifies combobox role and selected text/custom controls; starts open and does not assert closed expanded/autocomplete/haspopup matrix; popup-input variant excluded.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":386},"status":"reconciled"},
     {"ids":["combobox.ssr.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server transform verifies selected text and native option; no hydration or external-filter-window hydration is exercised.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":388},"status":"queued"},
     {"ids":["combobox.ssr.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server native selected option exists and client form ownership is tested; exactly one named control plus real hydration preservation is not asserted.","evidence":625,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":389},"status":"queued"},
     {"ids":["combobox.ssr.5","combobox.ssr.6"],"historicalStatus":"missing","domain":"popup-selection","reason":"Actual Combobox hydration with refs, opening and proxy label ownership is not tested; scope explicitly distinguishes server-transform tests from hydration.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":390},"status":"queued"},
@@ -4210,6 +4210,1102 @@
       "relatedFix": "Focus tags when their static text is clicked",
       "limits": [
         "Translated editor naming uses supported author aria-label overrides, not an automatic translation-provider API."
+      ]
+    },
+    {
+      "id": "popup-selection-clause-review",
+      "status": "reconciled",
+      "ids": [
+        "select.roles.1",
+        "select.roles.3",
+        "select.roles.6",
+        "select.roles.14",
+        "select.roles.18",
+        "select.roles.20",
+        "select.roles.21",
+        "select.roles.22",
+        "select.roles.27",
+        "select.roles.33",
+        "select.roles.34",
+        "select.roles.38",
+        "select.keyboard.3",
+        "select.keyboard.27",
+        "select.keyboard.28",
+        "select.keyboard.44",
+        "select.pointer.23",
+        "select.focus.12",
+        "select.focus.16",
+        "select.focus.17",
+        "select.state.6",
+        "select.state.9",
+        "select.state.23",
+        "select.state.24",
+        "select.forms.2",
+        "select.forms.5",
+        "select.forms.11",
+        "select.forms.15",
+        "select.forms.19",
+        "select.animation.3",
+        "combobox.roles.2",
+        "combobox.roles.10",
+        "combobox.roles.24",
+        "combobox.roles.29",
+        "combobox.roles.31",
+        "combobox.roles.34",
+        "combobox.roles.36",
+        "combobox.roles.40",
+        "combobox.keyboard.12",
+        "combobox.keyboard.15",
+        "combobox.keyboard.16",
+        "combobox.keyboard.51",
+        "combobox.keyboard.55",
+        "combobox.forms.23",
+        "combobox.focus.8",
+        "combobox.focus.10",
+        "combobox.focus.26",
+        "combobox.focus.27",
+        "combobox.focus.28",
+        "combobox.state.5",
+        "combobox.state.6",
+        "combobox.state.21",
+        "combobox.state.28",
+        "combobox.state.29",
+        "combobox.state.36",
+        "combobox.forms.10",
+        "combobox.forms.13",
+        "combobox.ssr.1",
+        "select.ssr.1"
+      ],
+      "acceptedClauses": [
+        "Current source and existing assertions reviewed per requirement below. Shipped policies guide tests; research decision labels alone do not require changing the deployed API."
+      ],
+      "remainingClauses": [
+        "select.roles.1: Add explicit role/haspopup/type assertion in compact metadata batch.",
+        "select.roles.3: Native trigger click with form submit spy must open without submitting.",
+        "select.roles.6: Record accepted removable-controls policy before full closure.",
+        "select.roles.14: Assert absence on Content and inner Viewport arrangement without inventing inner role semantics.",
+        "select.roles.18: Assert no labelledby on explicitly aria-labelled trigger without Field.",
+        "select.roles.20: Add authored+Field helper+error reference resolution/cleanup; no Select.Description export.",
+        "select.roles.21: Test root id/Field label for reactive updates; keep proprietary label-id regeneration alternative excluded.",
+        "select.roles.22: Assert both marker presences when empty then both absent and real label after native commitment; alternate marker names are library alternatives.",
+        "select.roles.27: Toggle disabled signal; exact attrs, native Tab skip, click/open callbacks and restored behavior.",
+        "select.roles.33: Do not close via ID-only viewport existence. Contract decision required for presentation; scroll arrows excluded.",
+        "select.roles.34: Reactive metadata transition plus reorder id stability with exact selected/highlighted separation.",
+        "select.roles.38: Successful native-change behavior belongs forms15; data-autofill requires feature decision.",
+        "select.keyboard.3: Add default selected Enter and Space active-descendant assertions; retain virtual-focus accepted scope.",
+        "select.keyboard.27: Wait1000ms, unmatched key leaves value/callback unchanged then fresh matching key verifies restart.",
+        "select.keyboard.28: Add disabled-first matches and disabled double-letter among enabled same-letter cycling; retain closed-commit policy.",
+        "select.keyboard.44: Native attempted click and programmatic dispatch to disabled trigger; do not claim keyboard delivery to unreachable element.",
+        "select.pointer.23: Accepted preventDefault scope covered; proprietary prevent handle not exposed.",
+        "select.focus.12: Write native programmatic mirror-focus assertion; exclude dynamic proxy tabindex branch.",
+        "select.focus.16: Native autofocus mount and exact1focus callback, no opening.",
+        "select.focus.17: Sequential native Tab in/out then pointer selection has no extra blur, real callbacks.",
+        "select.state.6: Reactive external selection before first open and while open, attrs+label+silent callbacks; label replacement without remount.",
+        "select.state.9: Already same-native-click fixture closure; link coordinator execution.",
+        "select.state.23: External controlled change with Positioner absent, label updates; reopen selected true and fresh DOM.",
+        "select.state.24: Static child precedence test accepted; function/array/raw fallback unsupported, do not claim whole ID.",
+        "select.forms.2: Accepted native SELECT decision; enumerate disabled/value/label/order incl initial empty.",
+        "select.forms.5: Single string default clause supported/mostly asserted; no object closure.",
+        "select.forms.11: Explicit mirror.required and validity.valid transitions for single; multi required dropping excluded.",
+        "select.forms.15: Native SELECT value then change, trigger label and reopenselected, exact callback once, mount silent.",
+        "select.forms.19: Unknown/server errors branch excluded; test known native change rejection empty and preselected for disabled/readonly.",
+        "select.animation.3: Separate presence retention supported slice from unavailable completion callback.",
+        "combobox.roles.2: none/list supported; both excluded.",
+        "combobox.roles.10: Add owns absence plus forceMount closed valid controls if chosen.",
+        "combobox.roles.24: Exact Field label-only labelledby no value aggregation assertion writable.",
+        "combobox.roles.29: Authored id + Field helper/error lifecycle and no duplicate/dangling refs.",
+        "combobox.roles.31: Assert separate button accessible name, tabindex and native input-only tab order.",
+        "combobox.roles.34: Test root/Field attrs on BOTH input+trigger, document local override scope separately.",
+        "combobox.roles.36: Explicit absence on inline Content and popup Viewport; exclude grid.",
+        "combobox.roles.40: Supported transition/id stability assertions writable; data-value requires decision/fix.",
+        "combobox.keyboard.12: Accept current editing policy then test all4keys from actual active option/caret/open/query.",
+        "combobox.keyboard.15: Native both horizontal caret movements no active; exact highlight callback only core regression.",
+        "combobox.keyboard.16: Narrow input long query scrollWidth>clientWidth; End scrollLeftpositive, Home near0; native keys no mock rect.",
+        "combobox.keyboard.51: Browser0/1-enabled mounts ensure no stale id/commit, exact callbacks and inputfocus.",
+        "combobox.keyboard.55: Accept shipped nohighlight submission policy and add real form path; pair forms23.",
+        "combobox.forms.23: Native form submission/nohighlight once and no value commit; optional submit-on-item-click excluded.",
+        "combobox.focus.8: Partial until pointer-down-only focus-loss observer assertion; full click endfocus alone not full beforeup clause.",
+        "combobox.focus.10: Defaultselected Apple→queryPear→clear query restores selected option no DOMfocus theft/value callbacks.",
+        "combobox.focus.26: Exact same-task programmatic close+outsidefocus not same as outside click; add exact task if required.",
+        "combobox.focus.27: Programmatic hidden-select focus inline/popup/missing hosts; object-only autofill variants excluded.",
+        "combobox.focus.28: Native Field.Label click each placement focuses correct host and remains closed.",
+        "combobox.state.5: Do not close Turkish locale clause under ambient lowercase; locale API absent.",
+        "combobox.state.6: Add custom metadatafield predicate exact received objects/query; retain false accepted disable equivalent, null unsupported.",
+        "combobox.state.21: Bothcontrolled draft+commit rejecting attempts exactpayload, markers and blur noextra callback.",
+        "combobox.state.28: External value updates silent closed/no popup; async fill already asserted; raw fallback conflicts current contract.",
+        "combobox.state.29: Four mount variants explicit defaults/control override and popupempty; exclude multi/object.",
+        "combobox.state.36: Native focus typedquery itemupdate then blur labelupdate; source guards query===previousLabel, not focused flag, possible contract difference.",
+        "combobox.forms.10: Successful native change exact once/no popup/selected marker writable; none reason and allitems reopen policy unavailable/conflicts.",
+        "combobox.forms.13: Known-value autofill againstempty and existing selections; callbacks+query/mirror preserved; Field server-error feature excluded.",
+        "combobox.ssr.1: Create dedicated SSR fixture/serverHTML label and native hydration noerror; do not close via jsdom/render.",
+        "select.ssr.1: ServerHTML default label + hydration errors captured + native posthydrate commit/FormData."
+      ],
+      "files": [
+        "packages/core/src/select/select.ts",
+        "packages/solid/src/select/index.tsx",
+        "packages/suite/src/select/select.native.test-browser.tsx",
+        "packages/solid/src/select/select.test.tsx",
+        "packages/suite/src/select/select.keyboard.test-browser.tsx",
+        "packages/suite/src/select/select.forms.test-browser.tsx",
+        "packages/suite/src/select/select.remaining.test-browser.tsx",
+        "packages/suite/src/combobox/combobox.test.tsx",
+        "packages/suite/src/combobox/combobox.state-forms.remaining.test-browser.tsx",
+        "packages/solid/src/combobox/combobox.test.tsx",
+        "packages/solid/src/combobox/combobox.tsx",
+        "packages/core/src/combobox/combobox.ts",
+        "packages/suite/src/combobox/combobox.test-browser.tsx",
+        "packages/suite/src/combobox/combobox.editing.remaining.test-browser.tsx",
+        "packages/suite/src/combobox/combobox.native.test-browser.tsx",
+        "packages/suite/src/combobox/combobox.popup-input.test-browser.tsx",
+        "packages/suite/e2e"
+      ],
+      "verification": "Read-only source/spec/assertion review. Existing evidence may cover only part of a row; no fresh execution or full requirement closure claimed.",
+      "scopeReview": [
+        {
+          "id": "select.roles.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 17,
+            "clause": "- [ ] `select.roles.1` Given the element that displays the value and opens the popup, then it has `role=\"combobox\"`, and `combobox` carries an implicit `aria-haspopup=\"listbox\"` that implementations also write explicitly. [apg, react-aria, radix, base-ui, zag, ark, reka, kobalte, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Trigger role is exercised by role queries; explicit haspopup=listbox plus host assertions still useful.",
+          "evidencePaths": [
+            "packages/core/src/select/select.ts"
+          ],
+          "remainingOrNext": "Add explicit role/haspopup/type assertion in compact metadata batch.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.3",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 26,
+            "clause": "- [ ] `select.roles.3` Given a trigger rendered as a native `button`, then it carries `type=\"button\"` so it never submits the surrounding form. [zag, reka, melt, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native Trigger default is button; no dedicated surrounding-form non-submit callback assertion found.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Native trigger click with form submit spy must open without submitting.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.6",
+          "category": "decision",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 21,
+            "clause": "- [ ] `select.roles.6` Divergence: given a closed select, then the trigger has no `aria-controls` attribute at all, and it appears with the listbox id on open and is removed again on close, so the reference never dangles. [react-aria, radix, base-ui, kobalte, reka] (decision needed)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Source removes controls closed; existing native portal association test verifies open resolution, not full closed/open/closed controls transitions.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Record accepted removable-controls policy before full closure.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.14",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 46,
+            "clause": "- [ ] `select.roles.14` Given a listbox popup, then it has no `aria-orientation` attribute, because a listbox is implicitly vertical. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core Content emits listbox without orientation; existing tests do not explicitly assert attribute absence.",
+          "evidencePaths": [
+            "packages/core/src/select/select.ts"
+          ],
+          "remainingOrNext": "Assert absence on Content and inner Viewport arrangement without inventing inner role semantics.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.18",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 47,
+            "clause": "- [ ] `select.roles.18` Given a select with no label part at all, then the trigger has no `aria-labelledby` and no fallback id is invented. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Trigger passes authored labelledby or undefined when no Field; no fallback invented.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Assert no labelledby on explicitly aria-labelled trigger without Field.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.20",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 35,
+            "clause": "- [ ] `select.roles.20` Given a description part, then it has an id and the trigger's `aria-describedby` points at it; an error message part is referenced the same way, and a field-level description id is appended to an author-supplied `aria-describedby` rather than replacing it. [react-aria, base-ui, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Solid adapter test checks Field.Description reference; error concatenation with authored description is not asserted there.",
+          "evidencePaths": [
+            "packages/solid/src/select/select.test.tsx"
+          ],
+          "remainingOrNext": "Add authored+Field helper+error reference resolution/cleanup; no Select.Description export.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.21",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 48,
+            "clause": "- [ ] `select.roles.21` Given a root id, then the trigger takes that id and a `label for` (native or field) resolves to it; changing the root id moves the trigger id, regenerates the label id and rewrites `aria-labelledby` in step. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Root id and Field registration shipped; automatic Select label regeneration is not a separate shipped part.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Test root id/Field label for reactive updates; keep proprietary label-id regeneration alternative excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.22",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 36,
+            "clause": "- [ ] `select.roles.22` Given nothing selected, then the trigger and the value element both carry a placeholder marker (`data-placeholder`, `data-placeholder-shown`) and the value element renders the placeholder text; selecting a value removes it. [radix, base-ui, zag, reka, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core Trigger emits data-placeholder and Solid Value also emits data-placeholder; current tests check placeholder text but not both marker removals after commitment.",
+          "evidencePaths": [
+            "packages/core/src/select/select.ts",
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Assert both marker presences when empty then both absent and real label after native commitment; alternate marker names are library alternatives.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.27",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 40,
+            "clause": "- [ ] `select.roles.27` Given a disabled select, then the trigger carries the native `disabled` attribute plus `data-disabled` and `aria-disabled=\"true\"`, is skipped by Tab, and ignores clicks; toggling the prop back adds and removes all of it. [base-ui, zag, ark, kobalte, ariakit, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core and adapter root disabled semantics shipped; adapter test exercises inertness and FormData omission, not reactive full marker/Tab transitions.",
+          "evidencePaths": [
+            "packages/solid/src/select/select.test.tsx"
+          ],
+          "remainingOrNext": "Toggle disabled signal; exact attrs, native Tab skip, click/open callbacks and restored behavior.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.33",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 52,
+            "clause": "- [ ] `select.roles.33` Given the popup viewport and scroll-button parts, then the viewport carries `role=\"presentation\"` and the scroll buttons are `aria-hidden=\"true\"`. [radix] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Viewport shipped as generic data-part/state div; scroll-button parts not exported; role presentation absent.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Do not close via ID-only viewport existence. Contract decision required for presentation; scroll arrows excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.34",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 44,
+            "clause": "- [ ] `select.roles.34` Given each item, then it carries a stable id derived from its value, a `data-value`, a checked/unchecked state attribute, a highlighted marker and, when disabled, both `data-disabled` and `aria-disabled`. [radix, base-ui, zag, kobalte, reka, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core supplies encoded id, data-value, state, highlighted and disabled markers; tests inspect fragments only.",
+          "evidencePaths": [
+            "packages/core/src/select/select.ts"
+          ],
+          "remainingOrNext": "Reactive metadata transition plus reorder id stability with exact selected/highlighted separation.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.roles.38",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 55,
+            "clause": "- [ ] `select.roles.38` Given a browser autofill on the hidden native control, then the trigger gains a `data-autofill` marker and its text follows the new value. (candidate) [ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native change updates selected value but no data-autofill marker emitted.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Successful native-change behavior belongs forms15; data-autofill requires feature decision.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.keyboard.3",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 60,
+            "clause": "- [ ] `select.keyboard.3` Given a closed select, when Space or Enter is pressed on the trigger, then the popup opens and focus lands on the first option (or the selected one if there is a value). [apg, react-aria, kobalte, zag, base-ui, melt, bits, reka]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native keyboard test verifies empty Enter/Space openingfirst; default selected case exists in scroll fixture but uses ArrowDown. DOM focus intentionally stays Trigger.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.keyboard.test-browser.tsx"
+          ],
+          "remainingOrNext": "Add default selected Enter and Space active-descendant assertions; retain virtual-focus accepted scope.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.keyboard.27",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 81,
+            "clause": "- [ ] `select.keyboard.27` Given a select typeahead whose buffer has timed out, when a character that matches nothing on its own is typed, then nothing changes; a character that does match starts a fresh search and wraps around the collection from the current position. [react-aria, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Existing typeahead test waits800ms then matching a, not unmatched new character with reset.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.keyboard.test-browser.tsx"
+          ],
+          "remainingOrNext": "Wait1000ms, unmatched key leaves value/callback unchanged then fresh matching key verifies restart.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.keyboard.28",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 92,
+            "clause": "- [ ] `select.keyboard.28` Given typeahead over a list with disabled matches, then disabled items are skipped and the next enabled match is committed; when the only match is disabled nothing is committed, and a disabled double-letter item does not block rapid same-letter cycling among enabled matches. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Existing exact native test covers disabled-only u; repeated p test has no disabled p/double-letter collision.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.keyboard.test-browser.tsx"
+          ],
+          "remainingOrNext": "Add disabled-first matches and disabled double-letter among enabled same-letter cycling; retain closed-commit policy.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.keyboard.44",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 85,
+            "clause": "- [ ] `select.keyboard.44` Given a disabled select, when Space or Enter is pressed on the trigger, then nothing opens, no open-change callback fires, `aria-expanded` stays `\"false\"` and the trigger does not even take focus. [react-aria, kobalte, base-ui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter synthetic disabled test exists; native Enter/Space no focus/no callback/full expanded clause unasserted.",
+          "evidencePaths": [
+            "packages/solid/src/select/select.test.tsx"
+          ],
+          "remainingOrNext": "Native attempted click and programmatic dispatch to disabled trigger; do not claim keyboard delivery to unreachable element.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.pointer.23",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 136,
+            "clause": "- [ ] `select.pointer.23` Given an option press, then the consumer's own `onClick` fires exactly once for a regular click and can veto the library's selection with the provided prevent handle. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native author-canceled option click asserts exact consumer1/value0/open true/trigger focus/no FormData value.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Accepted preventDefault scope covered; proprietary prevent handle not exposed.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.focus.12",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 157,
+            "clause": "- [ ] `select.focus.12` Given the hidden native control or focus proxy, when the browser or an extension focuses it, then focus is redirected to the real trigger so focus is never stranded on an `aria-hidden` element; the proxy's `tabindex` flips to `-1` while the trigger holds focus and back to `0` on blur. [react-aria, base-ui, kobalte, zag]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Hidden SELECT onFocus forwards Trigger; fixed tabindex -1 rather than proxy flipping0/-1.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Write native programmatic mirror-focus assertion; exclude dynamic proxy tabindex branch.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.focus.16",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 164,
+            "clause": "- [ ] `select.focus.16` Given a select with autofocus, then the trigger is the active element on mount and the focus callbacks fire once with the focused state. (candidate) [react-aria]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Trigger accepts native autofocus/focus handler forwarding. No autofocus count assertion found.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Native autofocus mount and exact1focus callback, no opening.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.focus.17",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 165,
+            "clause": "- [ ] `select.focus.17` Given a closed select being tabbed through, then focus enters and leaves the trigger as one tab stop, with the focus and blur callbacks firing once per crossing; selecting an item never fires a blur. [react-aria] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native Tab dismissal and pointer commit focus tested; focus/blur callback crossing counts not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.keyboard.test-browser.tsx"
+          ],
+          "remainingOrNext": "Sequential native Tab in/out then pointer selection has no extra blur, real callbacks.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.state.6",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 178,
+            "clause": "- [ ] `select.state.6` Given a controlled value changed from outside, then the trigger text and the selected option follow it, whether or not the popup has ever been opened, and the label lookup is never stale. [base-ui, kobalte, zag, melt, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter controlled test externally sets c and checks label but never opens/checks selected marker or changing label same value.",
+          "evidencePaths": [
+            "packages/solid/src/select/select.test.tsx"
+          ],
+          "remainingOrNext": "Reactive external selection before first open and while open, attrs+label+silent callbacks; label replacement without remount.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.state.9",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 181,
+            "clause": "- [ ] `select.state.9` Given a select where a value was chosen and the popup reopened and closed with Escape, then the value change has still fired only once and the selection is unchanged: closing without picking never clears. [react-aria, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "pointer2 commits Pear, reopens/checks selected Pear, Escape, callback still exactlyonce.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.forms.test-browser.tsx"
+          ],
+          "remainingOrNext": "Already same-native-click fixture closure; link coordinator execution.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.state.23",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 189,
+            "clause": "- [ ] `select.state.23` Given a select whose popup unmounts on close, then reopening restores the registered items and the selected option still reports selected; a value change made programmatically never force-mounts the popup just to resolve a label. [base-ui, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Commit/reopen selected markers covered; external value update without mounting popup is not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "External controlled change with Positioner absent, label updates; reopen selected true and fresh DOM.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.state.24",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 202,
+            "clause": "- [ ] `select.state.24` Given a value render part, then it accepts a string child, a function of the current value (or array of values), and falls back to a label lookup from an items prop and then to the raw value; children win over the items lookup, and both win over the placeholder. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Value supports static children/metadata label/placeholder; function child and raw-value fallback absent from current API/body.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Static child precedence test accepted; function/array/raw fallback unsupported, do not claim whole ID.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.forms.2",
+          "category": "decision",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 211,
+            "clause": "- [ ] `select.forms.2` Divergence: the hidden control is a real `select` element holding one `option` per item plus a leading empty option, which is what makes native autofill work. [react-aria, kobalte, zag, reka] (decision needed)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Source real SELECT contains leading hidden empty OPTION plus metadata For; existing tests do not enumerate exact options.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Accepted native SELECT decision; enumerate disabled/value/label/order incl initial empty.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.forms.5",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 214,
+            "clause": "- [ ] `select.forms.5` Given a select with a default value, then the submitted value is that item's serialized value, using the value serializer for object items. [react-aria, base-ui, kobalte, reka, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native reset fixture begins Pear submitted; object serializers unsupported string-only API.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.forms.test-browser.tsx"
+          ],
+          "remainingOrNext": "Single string default clause supported/mostly asserted; no object closure.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.forms.11",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 217,
+            "clause": "- [ ] `select.forms.11` Given a required select, then the hidden control carries `required` and reports `validity.valid === false` while empty; in multiple mode the `required` attribute is dropped as soon as a selection exists. [react-aria, base-ui, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Required form validity exercised in forms/keyboard suites; multiple mode absent.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.forms.test-browser.tsx"
+          ],
+          "remainingOrNext": "Explicit mirror.required and validity.valid transitions for single; multi required dropping excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.forms.15",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 220,
+            "clause": "- [ ] `select.forms.15` Given the hidden native control receiving a `change` event with a matching value (what browser autofill produces), then the visible select adopts it: the option becomes selected, the trigger text updates and the value-change callback fires once. [react-aria, base-ui, kobalte, zag, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter controlled native autofill tests repair rejected controlled value; uncontrolled successful label/option/callbackexact1 not full.",
+          "evidencePaths": [
+            "packages/solid/src/select/select.test.tsx"
+          ],
+          "remainingOrNext": "Native SELECT value then change, trigger label and reopenselected, exact callback once, mount silent.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.forms.19",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 232,
+            "clause": "- [ ] `select.forms.19` Given autofill on a read-only or disabled select, then it is ignored, the hidden input's value stays empty and an existing server error is left untouched. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Root disabled/readonly gates change; server error preservation feature not owned by Select.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Unknown/server errors branch excluded; test known native change rejection empty and preselected for disabled/readonly.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.animation.3",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 281,
+            "clause": "- [ ] `select.animation.3` Given a popup with an exit animation, then the content keeps its starting-style and ending-style markers through the transition and unmounts only when the animation finishes; the open-change-complete callback fires after the enter animation and after the exit animation, and never on a closed mount. [base-ui, bits]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Presence integrated but no public onOpenChangeComplete prop; markers/transitions must inspect shared presence first.",
+          "evidencePaths": [
+            "packages/solid/src/select/index.tsx"
+          ],
+          "remainingOrNext": "Separate presence retention supported slice from unavailable completion callback.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.2",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 19,
+            "clause": "- [ ] `combobox.roles.2` Given a combobox, then `aria-autocomplete` matches its behavior: `none` when the suggestions do not vary with the typed characters, `list` when the popup presents suggestions for the typed characters, `both` when it does that and also shows an inline completion after the cursor. [apg, react-aria, base-ui, zag, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "filter=false aria-autocomplete none exact tested; list asserted editing batch. No inline completion both API.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "none/list supported; both excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.10",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 24,
+            "clause": "- [ ] `combobox.roles.10` Given a combobox, then `aria-controls` refers to the popup element; it only needs to be set while the popup is visible, though referencing a hidden element is also valid. `aria-owns` is not used for this. [apg]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "State-forms roles9 resolves controls to popup id; explicit aria-owns absence not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.state-forms.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Add owns absence plus forceMount closed valid controls if chosen.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.24",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 41,
+            "clause": "- [ ] `combobox.roles.24` Given a combobox with a label part, then the input's `aria-labelledby` is just the label's id, with no value element folded in (unlike a select trigger, which composes label plus value). [kobalte, react-aria]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Field.Label supported and adapter name query succeeds; no dedicated Combobox.Label part.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "Exact Field label-only labelledby no value aggregation assertion writable.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.29",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 43,
+            "clause": "- [ ] `combobox.roles.29` Given a description or error-message part, then it has an id and the input's `aria-describedby` points at it; a field-level description id is appended to an author-supplied `aria-describedby` rather than replacing it. [react-aria, base-ui, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter Field test resolves helper and error ids in order; authored description append/reactive cleanup missing.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "Authored id + Field helper/error lifecycle and no duplicate/dangling refs.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.31",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 37,
+            "clause": "- [ ] `combobox.roles.31` Given a combobox with a graphical open button, then that button has `tabindex=\"-1\"`, its own accessible name from `aria-label`, `aria-controls` pointing at the popup, and `aria-expanded` mirroring the combobox's state. [apg, zag, kobalte]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "New roles9 test covers expanded+controls but does not assert trigger tabindex -1 / native Tab skip.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.state-forms.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Assert separate button accessible name, tabindex and native input-only tab order.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.34",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 46,
+            "clause": "- [ ] `combobox.roles.34` Given a disabled combobox, then the input and the trigger both carry the native `disabled` attribute, inherited from the root or a field wrapper, with a local prop winning over the root. [base-ui, zag, ark, kobalte, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Root/Field disabled composition shipped; local attributes can override native props, engine still rootdisabled.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Test root/Field attrs on BOTH input+trigger, document local override scope separately.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.36",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 61,
+            "clause": "- [ ] `combobox.roles.36` Given a listbox popup, then it has no `aria-orientation`; a `grid` popup likewise has none, because the role disallows it. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Listbox has no orientation; grid unsupported.",
+          "evidencePaths": [
+            "packages/core/src/combobox/combobox.ts"
+          ],
+          "remainingOrNext": "Explicit absence on inline Content and popup Viewport; exclude grid.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.roles.40",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 50,
+            "clause": "- [ ] `combobox.roles.40` Given each option, then it carries a stable id, `tabindex=\"-1\"`, `aria-selected`, a highlighted marker, a checked/unchecked state attribute, `data-value`, and `aria-disabled` plus `data-disabled` when disabled. [base-ui, zag, kobalte, reka, bits, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core emits id,tabindex,selected,highlight,state,disabled markers but no data-value.",
+          "evidencePaths": [
+            "packages/core/src/combobox/combobox.ts"
+          ],
+          "remainingOrNext": "Supported transition/id stability assertions writable; data-value requires decision/fix.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.keyboard.12",
+          "category": "decision",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 83,
+            "clause": "- [ ] `combobox.keyboard.12` Divergence: given an open editable combobox with an option highlighted, when Home, End, Left Arrow or Right Arrow is pressed, then virtual focus returns to the text field: `aria-activedescendant` is cleared, the caret moves, and the popup stays open. This is also an NVDA fix in react-aria. [apg, react-aria] (decision needed)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Core clears highlight on Home/End/horizontals. Native keyboard2 checks caret only from NO highlight.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test-browser.tsx"
+          ],
+          "remainingOrNext": "Accept current editing policy then test all4keys from actual active option/caret/open/query.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.keyboard.15",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 110,
+            "clause": "- [ ] `combobox.keyboard.15` Given a combobox with no highlighted option, when Left Arrow or Right Arrow is pressed, then only the caret moves and no highlight callback fires (a grid popup included). [base-ui, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native keyboard2 verifies Right from no active, not Left or highlight callback silence. Public adapter hides onActiveChange.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native both horizontal caret movements no active; exact highlight callback only core regression.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.keyboard.16",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 126,
+            "clause": "- [ ] `combobox.keyboard.16` Given an overflowing input, when Home or End is pressed, then the caret and the input's own horizontal scroll both move to that end. [base-ui] (candidate) (browser-only)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native Home/End caret assertions exist but not overflow geometry/horizontal scroll.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test-browser.tsx"
+          ],
+          "remainingOrNext": "Narrow input long query scrollWidth>clientWidth; End scrollLeftpositive, Home near0; native keys no mock rect.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.keyboard.51",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 118,
+            "clause": "- [ ] `combobox.keyboard.51` Given an open combobox, then arrow navigation skips disabled options and jumps to the first enabled one; with only one enabled option neither arrow key moves anything, and with none, nothing becomes active. [react-aria, base-ui, zag, kobalte, reka, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Loopfalse batch skips disabled and core unit handlesempty; browser one-enabled/all-disabled both native arrow directions not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.editing.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Browser0/1-enabled mounts ensure no stale id/commit, exact callbacks and inputfocus.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.keyboard.55",
+          "category": "decision",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 121,
+            "clause": "- [ ] `combobox.keyboard.55` Divergence: given a combobox in a form with a highlighted option, when Enter is pressed, then the option is selected and the form is not submitted; with nothing highlighted the form does submit. [base-ui, zag] (decision needed)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Existing native keyboard54 asserts highlighted Enter no submit then closed Enter submits; open NO highlight submission still gap.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test-browser.tsx"
+          ],
+          "remainingOrNext": "Accept shipped nohighlight submission policy and add real form path; pair forms23.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.forms.23",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 309,
+            "clause": "- [ ] `combobox.forms.23` Given an autocomplete with no submit-on-item-click flag, then Enter on a highlighted item does not submit; with nothing highlighted, Enter submits. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "No submit-on-item-click flag shipped; highlighted path covered keyboard54, open unhighlighted submit gap.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native form submission/nohighlight once and no value commit; optional submit-on-item-click excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.focus.8",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 204,
+            "clause": "- [ ] `combobox.focus.8` Given an open popup, when the pointer goes down on an option, then the input does not lose focus. [react-aria, base-ui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Native custom descendant click retains inputfocus, exact1Apple callback, closes and labelApple. Does not inspect focus during held down.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Partial until pointer-down-only focus-loss observer assertion; full click endfocus alone not full beforeup clause.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.focus.10",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 214,
+            "clause": "- [ ] `combobox.focus.10` Given a combobox whose selected option was filtered out and then reappears, then the option does not take focus and the input keeps it; on iOS Safari focusing it would dismiss the keyboard. [ariakit] (candidate) (browser-only)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Query re-filter tests no selected-out/reappears focus assertion. Focus remains input implementation.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Defaultselected Apple→queryPear→clear query restores selected option no DOMfocus theft/value callbacks.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.focus.26",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 225,
+            "clause": "- [ ] `combobox.focus.26` Given an open popup and a focus move to an external control in the same task, then the popup does not steal focus back. [ariakit] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Popup-input native Tab/outside test checks deliberate externalfocus; inline editing outside also checks outsidefocus.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.popup-input.test-browser.tsx"
+          ],
+          "remainingOrNext": "Exact same-task programmatic close+outsidefocus not same as outside click; add exact task if required.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.focus.27",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 210,
+            "clause": "- [ ] `combobox.focus.27` Given a combobox whose hidden autofill control is focused (as a browser or extension may do), then focus is redirected to the visible input, or to the trigger when the input is inside the popup or absent; with neither present, nothing throws. [base-ui, react-aria, kobalte, zag, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Mirror onFocus redirects input or popupTrigger; absent part optional sourceguard.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Programmatic hidden-select focus inline/popup/missing hosts; object-only autofill variants excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.focus.28",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 211,
+            "clause": "- [ ] `combobox.focus.28` Given a combobox inside a field wrapper, when the label is clicked, then the input receives focus (the trigger, where the input is inside the popup) and the popup does not open. [base-ui, zag, ark, ariakit, headlessui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Field registerControl targets trigger in popup mode and input inline; existing adapter namequery lacks native labelclick.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Native Field.Label click each placement focuses correct host and remains closed.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.5",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 237,
+            "clause": "- [ ] `combobox.state.5` Given typed text, then filtering uses a \"contains\" match by default, not a prefix match, and it is locale-aware (a Turkish locale filters `Isparta` out for the query `i` while keeping `İzmir`). [react-aria, base-ui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Exact ERR→Cherry and um→Plum substring/case tests. No locale option; toLocaleLowerCase uses hostdefault.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "Do not close Turkish locale clause under ambient lowercase; locale API absent.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.6",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 258,
+            "clause": "- [ ] `combobox.state.6` Given a custom filter function, then it replaces the locale-aware default, receives the source item (never the derived value or the inline-completed query) and the current query, and can match fields that are neither the label nor the value; a null filter disables filtering entirely. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Custom filter receives item/query and filter=false supported; null is not declared filter type.",
+          "evidencePaths": [
+            "packages/core/src/combobox/combobox.ts"
+          ],
+          "remainingOrNext": "Add custom metadatafield predicate exact received objects/query; retain false accepted disable equivalent, null unsupported.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.21",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 245,
+            "clause": "- [ ] `combobox.state.21` Given a controlled selected value, then choosing an option reports the intent but does not move the rendered selection; with both the input value and the selected value controlled, neither piece of internal state updates on its own and no selection change fires on blur while the two are already in sync. [react-aria, base-ui, kobalte, zag]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Popup-input fixed value test reports attempted svelte and retainedSolid but not exact count/bothcontrolled blur sync.",
+          "evidencePaths": [
+            "packages/suite/src/combobox/combobox.popup-input.test-browser.tsx"
+          ],
+          "remainingOrNext": "Bothcontrolled draft+commit rejecting attempts exactpayload, markers and blur noextra callback.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.28",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 248,
+            "clause": "- [ ] `combobox.state.28` Given a controlled value changed from outside, then the input re-derives its label, once per change, without force-mounting the popup to look one up; a label that resolves later (async items) is filled in when the data arrives and degrades to the raw value when the item leaves the data. [base-ui, zag]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter async test initial unresolved a→Apple, then typingcher preserved label change. Rawvalue fallback source label returns empty, not raw.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "External value updates silent closed/no popup; async fill already asserted; raw fallback conflicts current contract.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.29",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 249,
+            "clause": "- [ ] `combobox.state.29` Given a combobox whose initial input value is unspecified, then it is derived from the default or controlled value (through the label extractor for object items); an explicit default input value or controlled input value overrides that derivation, a multiple-selection combobox starts empty, and an input inside the popup starts empty too. [base-ui, react-aria]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Default label derivation and popupempty shipped; defaultInputValue/inputValue override shipped; multiple/object values unbuilt.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Four mount variants explicit defaults/control override and popupempty; exclude multi/object.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.state.36",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 252,
+            "clause": "- [ ] `combobox.state.36` Given controlled items that change while the combobox is focused, then the input value is left alone so the user's typing is not clobbered; when the selected item's text changes and the field is not focused, the input value follows. [react-aria, base-ui]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Adapter async label test preserves typedcher on label replacement but does not actually focus input; no focused/unfocused boundary.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.test.tsx"
+          ],
+          "remainingOrNext": "Native focus typedquery itemupdate then blur labelupdate; source guards query===previousLabel, not focused flag, possible contract difference.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.forms.10",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 294,
+            "clause": "- [ ] `combobox.forms.10` Given the hidden control receiving a `change` event (browser autofill), then the combobox adopts the value: the option becomes selected, the input shows its label, and the value-change callback fires once with a `none` reason; the popup is not force-mounted and does not open, and reopening afterwards shows all items rather than only the autofilled match. [base-ui, react-aria, kobalte, zag, ariakit]"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Mirror change supports known value→label and callback; no reason object, native queryfilter remains active label on reopen.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Successful native change exact once/no popup/selected marker writable; none reason and allitems reopen policy unavailable/conflicts.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.forms.13",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 302,
+            "clause": "- [ ] `combobox.forms.13` Given autofill on a read-only or disabled combobox, then it is ignored: no callback fires, the visible and hidden values stay empty, and an existing server error is untouched. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "Mirror guards disabled/readonly repair storedvalue; server error untouched not combobox-owned.",
+          "evidencePaths": [
+            "packages/solid/src/combobox/combobox.tsx"
+          ],
+          "remainingOrNext": "Known-value autofill againstempty and existing selections; callbacks+query/mirror preserved; Field server-error feature excluded.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "combobox.ssr.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/combobox.md",
+            "line": 376,
+            "clause": "- [ ] `combobox.ssr.1` Given a combobox rendered on the server, then the input already carries `role=\"combobox\"`, `aria-expanded=\"false\"`, `aria-autocomplete` and `aria-haspopup`; with the input inside the popup, the trigger carries them instead. [base-ui] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "No dedicated Combobox hydration fixture among current suite e2e files. Server API supported.",
+          "evidencePaths": [
+            "packages/suite/e2e"
+          ],
+          "remainingOrNext": "Create dedicated SSR fixture/serverHTML label and native hydration noerror; do not close via jsdom/render.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        },
+        {
+          "id": "select.ssr.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/select.md",
+            "line": 296,
+            "clause": "- [ ] `select.ssr.1` Given a select rendered on the server, then it hydrates without errors and the trigger already shows the default selected item's text in the server HTML. [react-aria] (candidate)"
+          },
+          "campaignStatus": "queued",
+          "currentEvidence": "No dedicated Select hydration fixture among current suite e2e files. Server API supported.",
+          "evidencePaths": [
+            "packages/suite/e2e"
+          ],
+          "remainingOrNext": "ServerHTML default label + hydration errors captured + native posthydrate commit/FormData.",
+          "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
+        }
       ]
     }
   ],
