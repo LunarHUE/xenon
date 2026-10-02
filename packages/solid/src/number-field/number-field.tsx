@@ -1,7 +1,7 @@
 import {
   createNumberFieldFormat,
   numberField,
-  type NumberFieldOptions,
+  type NumberFieldOptions as CoreNumberFieldOptions,
 } from '@xenon-ui/core/number-field'
 import { isServer, type ComponentProps, type JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
@@ -18,14 +18,18 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { fieldDescribedBy, fieldLabelledBy, useFieldContext } from '../field/context'
 import { spread } from '../spread'
 
+type NumberFieldOptions = NativeBooleanAttributes<CoreNumberFieldOptions>
+
 /** Numeric root options. Undefined is uncontrolled; null is a controlled empty value. */
-export interface NumberFieldProps extends Omit<
-  NumberFieldOptions,
-  'inputValue' | 'onInputValueChange'
-> {
+export interface NumberFieldProps
+  extends
+    Omit<ComponentProps<'div'>, keyof NumberFieldOptions | 'defaultValue'>,
+    Omit<NumberFieldOptions, 'inputValue' | 'onInputValueChange'> {
   /** Initial uncontrolled value and silent reset value. Defaults to null. */
   defaultValue?: NumberFieldOptions['value']
   /** Native form entry name; inherits Field.name. */
@@ -34,8 +38,6 @@ export interface NumberFieldProps extends Omit<
   form?: string
   /** Compound parts rendered within a semantic group. */
   children?: JSX.Element
-  /** Group CSS class. */
-  class?: string
 }
 /** Shared number-field state, element identity, and optional Field integration. */
 interface Context {
@@ -80,15 +82,35 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
     return idReader?.() ?? field?.ids.control ?? `${props.id ?? base}-input`
   }
   const options = omit(props, 'children')
+  const rest = omit(
+    props,
+    'value',
+    'defaultValue',
+    'min',
+    'max',
+    'step',
+    'largeStep',
+    'disabled',
+    'readonly',
+    'required',
+    'invalid',
+    'locale',
+    'formatOptions',
+    'onValueChange',
+    'onValueCommit',
+    'name',
+    'form',
+    'children'
+  )
   const engine = createMemo(() =>
     numberField({
       ...options,
       id: id(),
       value: value(),
       inputValue: draft(),
-      disabled: props.disabled || field?.disabled(),
-      readonly: props.readonly || field?.readonly(),
-      required: props.required || field?.required(),
+      disabled: booleanAttribute(props.disabled) || field?.disabled(),
+      readonly: booleanAttribute(props.readonly) || field?.readonly(),
+      required: booleanAttribute(props.required) || field?.required(),
       invalid: props.invalid || field?.invalid(),
       onInputValueChange: setDraft,
       onValueChange(next) {
@@ -177,13 +199,13 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
   }
   const content = createMemo(() => <Context value={context}>{props.children}</Context>)
   const element = (
-    <div {...spread(engine().parts.root, { id: props.id, class: props.class })}>
+    <div {...spread(engine().parts.root, { ...rest })}>
       {content()}
       <input
         type="hidden"
         name={props.name ?? field?.name()}
         form={props.form}
-        disabled={props.disabled || field?.disabled()}
+        disabled={booleanAttribute(props.disabled) || field?.disabled()}
         value={engine().state.value ?? ''}
       />
     </div>
@@ -192,10 +214,7 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
   return isServer ? associations!.finish(element) : element
 }
 /** Native input attributes, with numeric state and form name owned by Root. */
-export type NumberFieldInputProps = Omit<ComponentProps<'input'>, 'value' | 'name' | 'ref'> & {
-  /** Receives the native editable input. */
-  ref?: (input: HTMLInputElement) => void
-}
+export type NumberFieldInputProps = Omit<ComponentProps<'input'>, 'value' | 'name'>
 /** Text-host spinbutton. Draft text is preserved until blur, Enter, or stepping. */
 function NumberFieldInput(props: NumberFieldInputProps): JSX.Element {
   const context = useNumberField()
@@ -228,7 +247,7 @@ function NumberFieldInput(props: NumberFieldInputProps): JSX.Element {
       {...bindings()}
       ref={(el) => {
         context.setInput(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
     />
   )
@@ -242,9 +261,9 @@ function NumberFieldIncrementTrigger(props: NumberFieldTriggerProps): JSX.Elemen
   return (
     <button
       {...spread(context.engine().parts.incrementTrigger, {
-        ...rest,
         'aria-controls':
           context.associations?.attribute('aria-controls', context.id) ?? context.id(),
+        ...rest,
       })}
     >
       {props.children}
@@ -258,9 +277,9 @@ function NumberFieldDecrementTrigger(props: NumberFieldTriggerProps): JSX.Elemen
   return (
     <button
       {...spread(context.engine().parts.decrementTrigger, {
-        ...rest,
         'aria-controls':
           context.associations?.attribute('aria-controls', context.id) ?? context.id(),
+        ...rest,
       })}
     >
       {props.children}
@@ -280,7 +299,7 @@ function NumberFieldLabel(props: NumberFieldLabelProps): JSX.Element {
   const context = useNumberField()
   const rest = omit(props as Record<string, unknown>, 'children')
   return (
-    <label {...rest} for={context.associations?.attribute('for', context.id) ?? context.id()}>
+    <label for={context.associations?.attribute('for', context.id) ?? context.id()} {...rest}>
       {props.children}
     </label>
   )
