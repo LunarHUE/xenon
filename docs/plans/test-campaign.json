@@ -1391,91 +1391,91 @@
     {"ids":["toast.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. D `viewport follows its owner window` verifies iframe blur ownership and disposal. Iframe hotkey, all listener types, and empty/fill rebinding counts remain unverified.","evidence":443,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":408},"status":"queued"},
     {"ids":["toast.notes.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `calls lifecycle callbacks once`, M `keeps a same-record resurrection`, and M `reopens an exiting ID in place` check callback idempotence and deferred removal on resurrection. S `limited records are hidden and inert` checks the close reason. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":444,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":411},"status":"reconciled"},
     {"ids":["toast.notes.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `treats repeated pause reasons idempotently` tests reason reuse while a record remains. Adding a new timed record after all old paused records become untimed or disappear needs a dedicated test.","evidence":445,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":413},"status":"queued"},
-    {"ids":["drawer.roles.1","drawer.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Drawer inherits native Dialog associations and button trigger semantics; no inspected Drawer test asserts the complete title/description/modal/trigger attribute matrix.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":414},"status":"queued"},
-    {"ids":["drawer.roles.3","drawer.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core and native tests check default/changed content and trigger sides plus open native dialogs. Drawer has native ::backdrop, not a sibling Backdrop part carrying these data attributes.","evidence":447,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":415},"status":"queued"},
-    {"ids":["drawer.roles.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native-host synthetic pointer fixture asserts data-swiping on content/handle and cleanup. Backdrop/swipe-area/indent anatomy and data-dragging are not supplied.","evidence":448,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":416},"status":"queued"},
-    {"ids":["drawer.roles.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"DOM helper writes touch-action:none to Handle, but the inspected Drawer tests do not directly assert this style.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":422},"status":"queued"},
-    {"ids":["drawer.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nested Escape removes each dialog and restores its opener. Fixture has aria-label names, not Title text removal.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":424},"status":"queued"},
-    {"ids":["drawer.pointer.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Accessible Handle click closes; onOpenChange is boolean-only and does not carry the source close-press reason.","evidence":450,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":426},"status":"queued"},
-    {"ids":["drawer.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native trigger clicks open nested modal drawers; trigger-toggle in both modes and reason payload are not asserted, and reason details are not supplied.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":427},"status":"queued"},
-    {"ids":["drawer.pointer.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Closed content is hidden/inactive and adapter removes gesture registration; no exact re-grab during closing or forced closed lifecycle test is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":433},"status":"queued"},
-    {"ids":["drawer.pointer.31"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Helper clamps inward movement and browser-host synthetic fixture verifies inward right-drawer movement cannot dismiss. Source fully-open snap-point/150px upward visible-height assertion is not supplied.","evidence":451,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":440},"status":"queued"},
-    {"ids":["drawer.pointer.43"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Synthetic canceled Handle pointerdown prevents swipe; descendant cancellation below a content-origin listener does not apply because no content dragging is registered.","evidence":452,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":442},"status":"queued"},
-    {"ids":["drawer.pointer.51"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Ordinary content taps are native and outside Handle. No inspected Drawer test asserts exactly-once full touch sequence on a noninteractive content descendant.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":443},"status":"queued"},
-    {"ids":["drawer.pointer.54"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Dedicated Handle-only dragging is the accepted API. Existing fixture measures Handle offset but does not compare a 100px content drag against a 100px Handle drag.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":445},"status":"queued"},
-    {"ids":["drawer.pointer.55"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native-host synthetic short/canceled gestures reset offset and preserve open state; full touch input, settled geometry within 4px and post-snap interactivity are not asserted.","evidence":453,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":446},"status":"queued"},
-    {"ids":["drawer.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape restores nested openers; initial/final explicit overrides and Tab trap are not directly asserted in a Drawer fixture.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":449},"status":"queued"},
-    {"ids":["drawer.state.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared dialog handles support active-trigger/payload switching; no Drawer-specific multiple-trigger content/ARIA assertion is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":453},"status":"queued"},
-    {"ids":["drawer.dismissal.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Outside dismissal is inherited from Dialog but lacks a complete direct Drawer fixture. Swipe-open and sibling Backdrop requirements are outside the API.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":455},"status":"queued"},
-    {"ids":["drawer.dismissal.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native fixture asserts modal defaults and Escape; explicit default outside/scroll-lock/pinch policy matrix is not checked, and Drawer adds no pinch-blocking policy.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":457},"status":"queued"},
-    {"ids":["drawer.dismissal.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"modal=false uses shared Dialog nonmodal behavior; direct Drawer background interaction/scroll restoration comparisons are absent.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":458},"status":"queued"},
-    {"ids":["drawer.animation.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"No-animation Handle click closure removes dialog; source cause-specific transition-state clearing is not provided.","evidence":450,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":463},"status":"queued"},
-    {"ids":["drawer.a11y.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Inspected Drawer-specific tests do not scan both closed/open states with axe.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":466},"status":"queued"},
-    {"ids":["drawer.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Dialog accessible-name warning applies to Drawer; no direct missing-title Drawer warning test is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":468},"status":"queued"},
-    {"ids":["drawer.notes.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"DOM disposal restores authored offset; full active-tree-unmount/no-late-close sequence and absent provider/backdrop anatomy are not asserted.","evidence":454,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":469},"status":"queued"},
+    {"ids":["drawer.roles.1","drawer.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Drawer inherits native Dialog associations and button trigger semantics; no inspected Drawer test asserts the complete title/description/modal/trigger attribute matrix.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":414},"status":"reconciled"},
+    {"ids":["drawer.roles.3","drawer.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core and native tests check default/changed content and trigger sides plus open native dialogs. Drawer has native ::backdrop, not a sibling Backdrop part carrying these data attributes.","evidence":447,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":415},"status":"reconciled"},
+    {"ids":["drawer.roles.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native-host synthetic pointer fixture asserts data-swiping on content/handle and cleanup. Backdrop/swipe-area/indent anatomy and data-dragging are not supplied.","evidence":448,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":416},"status":"reconciled"},
+    {"ids":["drawer.roles.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"DOM helper writes touch-action:none to Handle, but the inspected Drawer tests do not directly assert this style.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":422},"status":"reconciled"},
+    {"ids":["drawer.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nested Escape removes each dialog and restores its opener. Fixture has aria-label names, not Title text removal.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":424},"status":"reconciled"},
+    {"ids":["drawer.pointer.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Accessible Handle click closes; onOpenChange is boolean-only and does not carry the source close-press reason.","evidence":450,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":426},"status":"reconciled"},
+    {"ids":["drawer.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native trigger clicks open nested modal drawers; trigger-toggle in both modes and reason payload are not asserted, and reason details are not supplied.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":427},"status":"reconciled"},
+    {"ids":["drawer.pointer.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Closed content is hidden/inactive and adapter removes gesture registration; no exact re-grab during closing or forced closed lifecycle test is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":433},"status":"reconciled"},
+    {"ids":["drawer.pointer.31"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Helper clamps inward movement and browser-host synthetic fixture verifies inward right-drawer movement cannot dismiss. Source fully-open snap-point/150px upward visible-height assertion is not supplied.","evidence":451,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":440},"status":"reconciled"},
+    {"ids":["drawer.pointer.43"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Synthetic canceled Handle pointerdown prevents swipe; descendant cancellation below a content-origin listener does not apply because no content dragging is registered.","evidence":452,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":442},"status":"reconciled"},
+    {"ids":["drawer.pointer.51"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Ordinary content taps are native and outside Handle. No inspected Drawer test asserts exactly-once full touch sequence on a noninteractive content descendant.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":443},"status":"reconciled"},
+    {"ids":["drawer.pointer.54"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Dedicated Handle-only dragging is the accepted API. Existing fixture measures Handle offset but does not compare a 100px content drag against a 100px Handle drag.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":445},"status":"reconciled"},
+    {"ids":["drawer.pointer.55"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native-host synthetic short/canceled gestures reset offset and preserve open state; full touch input, settled geometry within 4px and post-snap interactivity are not asserted.","evidence":453,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":446},"status":"reconciled"},
+    {"ids":["drawer.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape restores nested openers; initial/final explicit overrides and Tab trap are not directly asserted in a Drawer fixture.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":449},"status":"reconciled"},
+    {"ids":["drawer.state.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared dialog handles support active-trigger/payload switching; no Drawer-specific multiple-trigger content/ARIA assertion is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":453},"status":"reconciled"},
+    {"ids":["drawer.dismissal.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Outside dismissal is inherited from Dialog but lacks a complete direct Drawer fixture. Swipe-open and sibling Backdrop requirements are outside the API.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":455},"status":"reconciled"},
+    {"ids":["drawer.dismissal.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native fixture asserts modal defaults and Escape; explicit default outside/scroll-lock/pinch policy matrix is not checked, and Drawer adds no pinch-blocking policy.","evidence":449,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":457},"status":"reconciled"},
+    {"ids":["drawer.dismissal.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"modal=false uses shared Dialog nonmodal behavior; direct Drawer background interaction/scroll restoration comparisons are absent.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":458},"status":"reconciled"},
+    {"ids":["drawer.animation.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"No-animation Handle click closure removes dialog; source cause-specific transition-state clearing is not provided.","evidence":450,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":463},"status":"reconciled"},
+    {"ids":["drawer.a11y.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Inspected Drawer-specific tests do not scan both closed/open states with axe.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":466},"status":"reconciled"},
+    {"ids":["drawer.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Dialog accessible-name warning applies to Drawer; no direct missing-title Drawer warning test is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":468},"status":"reconciled"},
+    {"ids":["drawer.notes.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"DOM disposal restores authored offset; full active-tree-unmount/no-late-close sequence and absent provider/backdrop anatomy are not asserted.","evidence":454,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":469},"status":"reconciled"},
     {"ids":["popover.roles.4","popover.roles.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Trigger uses shared Button host semantics and dialog haspopup, but direct Popover tests do not assert this full native/non-native/type matrix.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":473},"status":"verified"},
     {"ids":["popover.roles.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks title/description IDs and reactive title updates. Removal of either part and absent association is not fully asserted.","evidence":456,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":474},"status":"verified"},
     {"ids":["popover.roles.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks old trigger collapsed/unassociated and new trigger expanded. Active trigger controls is not directly asserted in the switch fixture.","evidence":457,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":475},"status":"verified"},
-    {"ids":["popover.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Empty Close has default Close popover name in adapter; localized defaults and explicit undefined-label case are not supplied/tested.","evidence":458,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":478},"status":"queued"},
+    {"ids":["popover.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Empty Close has default Close popover name in adapter; localized defaults and explicit undefined-label case are not supplied/tested.","evidence":458,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":478},"status":"reconciled"},
     {"ids":["popover.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disabled div trigger click emits no change; full native disabled/ARIA/data/Tab matrix is not asserted and Popover has no hover activation.","evidence":459,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":480},"status":"verified"},
-    {"ids":["popover.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Enter opens and click toggles; Space and div Enter/Space round-trip are not asserted.","evidence":460,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":485},"status":"queued"},
-    {"ids":["popover.keyboard.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape from content restores trigger; same key on trigger is not directly asserted.","evidence":461,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":486},"status":"queued"},
-    {"ids":["popover.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled-Escape keeps content focus, controlled veto retries request after cancellation clears. A native unprevented retry that independently closes an uncontrolled root is not covered by those assertions.","evidence":462,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":488},"status":"queued"},
+    {"ids":["popover.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Enter opens and click toggles; Space and div Enter/Space round-trip are not asserted.","evidence":460,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":485},"status":"reconciled"},
+    {"ids":["popover.keyboard.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape from content restores trigger; same key on trigger is not directly asserted.","evidence":461,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":486},"status":"reconciled"},
+    {"ids":["popover.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled-Escape keeps content focus, controlled veto retries request after cancellation clears. A native unprevented retry that independently closes an uncontrolled root is not covered by those assertions.","evidence":462,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":488},"status":"reconciled"},
     {"ids":["popover.keyboard.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Button disabled activation is supported; exact native Enter/Space disabled Popover trigger fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":489},"status":"verified"},
-    {"ids":["popover.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonfocusable inner click preserves both nested layers. Focusable/nonfocusable focus outcome and absence of outside callbacks are not all asserted.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":492},"status":"queued"},
+    {"ids":["popover.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonfocusable inner click preserves both nested layers. Focusable/nonfocusable focus outcome and absence of outside callbacks are not all asserted.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":492},"status":"reconciled"},
     {"ids":["popover.pointer.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native Button does not activate on secondary click; no direct right-click-closed Popover trigger assertion is present.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":493},"status":"verified"},
-    {"ids":["popover.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native opening focuses first textbox; hidden/nonvisible candidate skipping is not tested in a Popover fixture.","evidence":464,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":495},"status":"queued"},
-    {"ids":["popover.focus.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native default Popover allows Tab exit and outside clicks; no direct page-scroll assertion accompanies these tests.","evidence":465,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":497},"status":"queued"},
+    {"ids":["popover.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native opening focuses first textbox; hidden/nonvisible candidate skipping is not tested in a Popover fixture.","evidence":464,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":495},"status":"reconciled"},
+    {"ids":["popover.focus.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native default Popover allows Tab exit and outside clicks; no direct page-scroll assertion accompanies these tests.","evidence":465,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":497},"status":"reconciled"},
     {"ids":["popover.focus.5","popover.focus.6","popover.focus.13","popover.focus.19"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared focus controller supports fallback, disabled initial focus, force-mount reopening and preventScroll; these full Popover-native scenarios lack direct assertions.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":498},"status":"queued"},
-    {"ids":["popover.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native modal fixture asserts forward Tab wrap with two controls. Shift+Tab and single-effective-tab-stop cases are not directly asserted.","evidence":466,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":501},"status":"queued"},
-    {"ids":["popover.focus.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Tab exits to After and closes. Last-page-trigger focus leaving the page is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":502},"status":"queued"},
-    {"ids":["popover.focus.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Shift+Tab returns to trigger, stays open and re-enters by Tab. Portaled Tab order parity is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":503},"status":"queued"},
-    {"ids":["popover.focus.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native outside focus closes without restoration; blur with no replacement/browser-tab switch is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":504},"status":"queued"},
-    {"ids":["popover.focus.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nested trigger-click opening and layered restoration are asserted. Programmatic child opening from a distinct button is not tested.","evidence":468,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":507},"status":"queued"},
+    {"ids":["popover.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native modal fixture asserts forward Tab wrap with two controls. Shift+Tab and single-effective-tab-stop cases are not directly asserted.","evidence":466,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":501},"status":"reconciled"},
+    {"ids":["popover.focus.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Tab exits to After and closes. Last-page-trigger focus leaving the page is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":502},"status":"reconciled"},
+    {"ids":["popover.focus.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inline Shift+Tab returns to trigger, stays open and re-enters by Tab. Portaled Tab order parity is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":503},"status":"reconciled"},
+    {"ids":["popover.focus.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native outside focus closes without restoration; blur with no replacement/browser-tab switch is not asserted.","evidence":467,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":504},"status":"reconciled"},
+    {"ids":["popover.focus.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nested trigger-click opening and layered restoration are asserted. Programmatic child opening from a distinct button is not tested.","evidence":468,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":507},"status":"reconciled"},
     {"ids":["popover.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Default-open parent mounting is asserted in lifecycle fixture; direct subsequent trigger-toggle of default-open state is not.","evidence":469,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":508},"status":"verified"},
     {"ids":["popover.state.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled requests and refusal are asserted; explicit controlled/default precedence in both directions is not.","evidence":470,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":509},"status":"verified"},
-    {"ids":["popover.state.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Handle open/close and unattached command no-replay are asserted. Source warning on unattached command is not selected or asserted.","evidence":471,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":512},"status":"queued"},
-    {"ids":["popover.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native focusable outside click closes; body/nonfocusable/shadow-root complete target matrix is not asserted.","evidence":472,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":513},"status":"queued"},
-    {"ids":["popover.dismissal.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared matched outside-pointer handling is accepted, but direct Popover press-inside/release-outside and swallowed-later-events assertions are absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":515},"status":"queued"},
-    {"ids":["popover.dismissal.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves focusable outside target retains focus. Body/nonfocusable restoration alternatives lack direct assertions.","evidence":472,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":519},"status":"queued"},
-    {"ids":["popover.dismissal.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native portaled child opens by pointer, retains parent on inner clicks and dismisses alone from parent click. Enter opening and both portals in one container are not fully exercised.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":522},"status":"queued"},
+    {"ids":["popover.state.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Handle open/close and unattached command no-replay are asserted. Source warning on unattached command is not selected or asserted.","evidence":471,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":512},"status":"reconciled"},
+    {"ids":["popover.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native focusable outside click closes; body/nonfocusable/shadow-root complete target matrix is not asserted.","evidence":472,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":513},"status":"reconciled"},
+    {"ids":["popover.dismissal.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared matched outside-pointer handling is accepted, but direct Popover press-inside/release-outside and swallowed-later-events assertions are absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":515},"status":"reconciled"},
+    {"ids":["popover.dismissal.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves focusable outside target retains focus. Body/nonfocusable restoration alternatives lack direct assertions.","evidence":472,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":519},"status":"reconciled"},
+    {"ids":["popover.dismissal.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native portaled child opens by pointer, retains parent on inner clicks and dismisses alone from parent click. Enter opening and both portals in one container are not fully exercised.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":522},"status":"reconciled"},
     {"ids":["popover.dismissal.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Repeated open/close is tested, but exact Escape-close/reopen/outside-close sequence is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":525},"status":"verified"},
-    {"ids":["popover.positioning.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor placement/movement is asserted; anchor-unmount fallback geometry is not.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":526},"status":"queued"},
-    {"ids":["popover.positioning.2","popover.positioning.3","popover.positioning.5","popover.positioning.6","popover.positioning.7","popover.positioning.11","popover.rtl.1","popover.rtl.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared positioning implements placement, collisions, arrows, variables and stale-run protection. Inspected Popover-native fixtures do not assert the complete source matrices; shared engine behavior alone is not direct Popover coverage.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":527},"status":"queued"},
-    {"ids":["popover.positioning.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor movement maintains 9px offset; ancestor scroll and tracking-disabled behavior are not checked.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":528},"status":"queued"},
-    {"ids":["popover.positioning.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor fixture retains authored content size and computes position; combined author arrow style preservation is not asserted.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":530},"status":"queued"},
-    {"ids":["popover.positioning.10","popover.notes.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter removes active trigger and falls back to survivor; native alignment across trigger reparent/replacement/full remount is not asserted.","evidence":474,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":531},"status":"queued"},
-    {"ids":["popover.animation.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter proves closed force-mounted hidden content and animated exit retention/reopen protection. Closed data-state and natural completed animated removal are not all asserted in this combined matrix.","evidence":475,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":532},"status":"queued"},
-    {"ids":["popover.animation.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared presence and positioning continue while present; direct side-specific exit placement retention/reposition fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":534},"status":"queued"},
-    {"ids":["popover.animation.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks previous snapshot text, aria-hidden and stripped duplicate IDs. Native rapid switching, completion lifetime and final transform cleanup are not fully asserted.","evidence":476,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":536},"status":"queued"},
-    {"ids":["popover.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonmodal/modal open fixtures run axe; closed-tree scan is not present.","evidence":477,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":538},"status":"queued"},
-    {"ids":["dialog.roles.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Named native dialog and descendant Close are exercised. The all-operating-elements containment rule remains author responsibility and no complete ownership audit is asserted.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":546},"status":"queued"},
+    {"ids":["popover.positioning.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor placement/movement is asserted; anchor-unmount fallback geometry is not.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":526},"status":"reconciled"},
+    {"ids":["popover.positioning.2","popover.positioning.3","popover.positioning.5","popover.positioning.6","popover.positioning.7","popover.positioning.11","popover.rtl.1","popover.rtl.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared positioning implements placement, collisions, arrows, variables and stale-run protection. Inspected Popover-native fixtures do not assert the complete source matrices; shared engine behavior alone is not direct Popover coverage.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":527},"status":"reconciled"},
+    {"ids":["popover.positioning.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor movement maintains 9px offset; ancestor scroll and tracking-disabled behavior are not checked.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":528},"status":"reconciled"},
+    {"ids":["popover.positioning.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor fixture retains authored content size and computes position; combined author arrow style preservation is not asserted.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":530},"status":"reconciled"},
+    {"ids":["popover.positioning.10","popover.notes.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter removes active trigger and falls back to survivor; native alignment across trigger reparent/replacement/full remount is not asserted.","evidence":474,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":531},"status":"reconciled"},
+    {"ids":["popover.animation.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter proves closed force-mounted hidden content and animated exit retention/reopen protection. Closed data-state and natural completed animated removal are not all asserted in this combined matrix.","evidence":475,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":532},"status":"reconciled"},
+    {"ids":["popover.animation.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared presence and positioning continue while present; direct side-specific exit placement retention/reposition fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":534},"status":"reconciled"},
+    {"ids":["popover.animation.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks previous snapshot text, aria-hidden and stripped duplicate IDs. Native rapid switching, completion lifetime and final transform cleanup are not fully asserted.","evidence":476,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":536},"status":"reconciled"},
+    {"ids":["popover.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonmodal/modal open fixtures run axe; closed-tree scan is not present.","evidence":477,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":538},"status":"reconciled"},
+    {"ids":["dialog.roles.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Named native dialog and descendant Close are exercised. The all-operating-elements containment rule remains author responsibility and no complete ownership audit is asserted.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":546},"status":"reconciled"},
     {"ids":["dialog.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Modal aria-modal=true is emitted by the shared core; plain Dialog tests assert native :modal but do not directly assert this attribute.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":547},"status":"verified"},
-    {"ids":["dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Both title-based and author-label naming are asserted; missing-name development warning is tested, but the axe serious-impact result is not.","evidence":480,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":548},"status":"queued"},
-    {"ids":["dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Description association and removal are asserted; structured-content omission is an author decision and has no dedicated fixture.","evidence":481,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":549},"status":"queued"},
-    {"ids":["dialog.roles.5","dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native isolation and failed outside focus are asserted; the headless package leaves visual obscuring to author CSS and no dimming assertion exists.","evidence":482,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":550},"status":"queued"},
+    {"ids":["dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Both title-based and author-label naming are asserted; missing-name development warning is tested, but the axe serious-impact result is not.","evidence":480,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":548},"status":"reconciled"},
+    {"ids":["dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Description association and removal are asserted; structured-content omission is an author decision and has no dedicated fixture.","evidence":481,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":549},"status":"reconciled"},
+    {"ids":["dialog.roles.5","dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native isolation and failed outside focus are asserted; the headless package leaves visual obscuring to author CSS and no dimming assertion exists.","evidence":482,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":550},"status":"reconciled"},
     {"ids":["dialog.roles.16"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title id replacement and title/description removal are tested; a description id change and mounting a previously absent registration are not both asserted.","evidence":483,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":558},"status":"verified"},
-    {"ids":["dialog.roles.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Button role, expanded transitions and controls target are asserted; haspopup=dialog is emitted but not directly asserted.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":560},"status":"queued"},
-    {"ids":["dialog.roles.21"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared triggers and active payload switching are tested; controlled active-trigger prop and new-trigger mounting while open are not the accepted public API matrix, and all inactive controls transitions are not asserted.","evidence":484,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":563},"status":"queued"},
-    {"ids":["dialog.roles.22","dialog.roles.24"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Fallback tabindex and stable part markers ship, but these exact DOM contracts are not comprehensively asserted by the inspected dialog fixtures.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":564},"status":"queued"},
-    {"ids":["dialog.roles.28"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title is implemented as native h2, but no heading-level test exists and a Bits-style level prop is not supplied.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":567},"status":"queued"},
+    {"ids":["dialog.roles.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Button role, expanded transitions and controls target are asserted; haspopup=dialog is emitted but not directly asserted.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":560},"status":"reconciled"},
+    {"ids":["dialog.roles.21"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared triggers and active payload switching are tested; controlled active-trigger prop and new-trigger mounting while open are not the accepted public API matrix, and all inactive controls transitions are not asserted.","evidence":484,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":563},"status":"reconciled"},
+    {"ids":["dialog.roles.22","dialog.roles.24"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Fallback tabindex and stable part markers ship, but these exact DOM contracts are not comprehensively asserted by the inspected dialog fixtures.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":564},"status":"reconciled"},
+    {"ids":["dialog.roles.28"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title is implemented as native h2, but no heading-level test exists and a Bits-style level prop is not supplied.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":567},"status":"reconciled"},
     {"ids":["dialog.keyboard.1","dialog.keyboard.2","dialog.keyboard.5","dialog.focus.8","dialog.focus.23","dialog.focus.25"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Focus containment ships, but inspected Dialog fixtures lack the exact forward/reverse wrap, singleton, static-initial Tab, removed-focused-child recovery and repeated controlled-denial Tab sequences.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":571},"status":"queued"},
-    {"ids":["dialog.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native outside focus attempts are redirected while modal; complete forward/reverse keyboard containment is not asserted.","evidence":485,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":572},"status":"queued"},
-    {"ids":["dialog.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape dismissal and restoration are tested from the focused initial control; every focusable-element origin is not exercised.","evidence":486,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":573},"status":"queued"},
-    {"ids":["dialog.keyboard.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Enter activation requests controlled opening; native Space activation followed by focus transfer is not explicitly tested for Dialog.","evidence":487,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":574},"status":"queued"},
-    {"ids":["dialog.keyboard.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Child stopPropagation on Escape is tested; a distinct child preventDefault path is not asserted.","evidence":488,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":575},"status":"queued"},
-    {"ids":["dialog.keyboard.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape veto keeps both layers and focus and later acceptance closes; configured closeOnEscape=false plus Close action is not directly exercised.","evidence":489,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":576},"status":"queued"},
-    {"ids":["dialog.keyboard.10","dialog.dismissal.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native portaled Popover remains inside Dialog and restores its trigger; complete Escape/outside matrix across menu/select/combobox/tooltip is absent.","evidence":490,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":577},"status":"queued"},
-    {"ids":["dialog.keyboard.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Veto callback is called once on the veto press; lower callback is untouched until topmost and then called once. Exact callback count after an accepted inner close is not checked.","evidence":491,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":582},"status":"queued"},
-    {"ids":["dialog.keyboard.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared topmost Escape routing is shipped, but a distinct nonmodal/outside-focus Escape origin is not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":583},"status":"queued"},
-    {"ids":["dialog.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared DOM test checks inner-surface gesture matching separately from native fullscreen host; native closedby=any algorithm itself is not asserted.","evidence":492,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":585},"status":"queued"},
-    {"ids":["dialog.pointer.6","dialog.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Viewport background versus inner-surface gestures are tested; descendant handler preventDefault ordering and every descendant type are not asserted.","evidence":493,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":588},"status":"queued"},
-    {"ids":["dialog.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Inside-origin drag is tested by the DOM viewport fixture; newly-opened-during-existing-press case is not directly asserted.","evidence":492,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":590},"status":"queued"},
-    {"ids":["dialog.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nonmodal closure preserves deliberate outside focus; underlying activation and modal swallowing of the same press are not both checked.","evidence":494,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":591},"status":"queued"},
-    {"ids":["dialog.pointer.12","dialog.pointer.15","dialog.pointer.16","dialog.pointer.18","dialog.focus.33","dialog.dismissal.16","dialog.dismissal.22"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"These gesture/scroll/listener edge cases concern shipped outside dismissal, focus and presence behavior, but the inspected Dialog tests do not assert the specified sequence.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":593},"status":"queued"},
-    {"ids":["dialog.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit finalFocus fallback and pre-open native opener restoration are asserted; the full explicit initial/final target plus captured opener matrix is not.","evidence":495,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":599},"status":"queued"},
+    {"ids":["dialog.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native outside focus attempts are redirected while modal; complete forward/reverse keyboard containment is not asserted.","evidence":485,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":572},"status":"reconciled"},
+    {"ids":["dialog.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape dismissal and restoration are tested from the focused initial control; every focusable-element origin is not exercised.","evidence":486,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":573},"status":"reconciled"},
+    {"ids":["dialog.keyboard.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Enter activation requests controlled opening; native Space activation followed by focus transfer is not explicitly tested for Dialog.","evidence":487,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":574},"status":"reconciled"},
+    {"ids":["dialog.keyboard.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Child stopPropagation on Escape is tested; a distinct child preventDefault path is not asserted.","evidence":488,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":575},"status":"reconciled"},
+    {"ids":["dialog.keyboard.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape veto keeps both layers and focus and later acceptance closes; configured closeOnEscape=false plus Close action is not directly exercised.","evidence":489,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":576},"status":"reconciled"},
+    {"ids":["dialog.keyboard.10","dialog.dismissal.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native portaled Popover remains inside Dialog and restores its trigger; complete Escape/outside matrix across menu/select/combobox/tooltip is absent.","evidence":490,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":577},"status":"reconciled"},
+    {"ids":["dialog.keyboard.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Veto callback is called once on the veto press; lower callback is untouched until topmost and then called once. Exact callback count after an accepted inner close is not checked.","evidence":491,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":582},"status":"reconciled"},
+    {"ids":["dialog.keyboard.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared topmost Escape routing is shipped, but a distinct nonmodal/outside-focus Escape origin is not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":583},"status":"reconciled"},
+    {"ids":["dialog.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared DOM test checks inner-surface gesture matching separately from native fullscreen host; native closedby=any algorithm itself is not asserted.","evidence":492,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":585},"status":"reconciled"},
+    {"ids":["dialog.pointer.6","dialog.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Viewport background versus inner-surface gestures are tested; descendant handler preventDefault ordering and every descendant type are not asserted.","evidence":493,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":588},"status":"reconciled"},
+    {"ids":["dialog.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Inside-origin drag is tested by the DOM viewport fixture; newly-opened-during-existing-press case is not directly asserted.","evidence":492,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":590},"status":"reconciled"},
+    {"ids":["dialog.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nonmodal closure preserves deliberate outside focus; underlying activation and modal swallowing of the same press are not both checked.","evidence":494,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":591},"status":"reconciled"},
+    {"ids":["dialog.pointer.12","dialog.pointer.15","dialog.pointer.16","dialog.pointer.18","dialog.focus.33","dialog.dismissal.16","dialog.dismissal.22"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"These gesture/scroll/listener edge cases concern shipped outside dismissal, focus and presence behavior, but the inspected Dialog tests do not assert the specified sequence.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":593},"status":"reconciled"},
+    {"ids":["dialog.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit finalFocus fallback and pre-open native opener restoration are asserted; the full explicit initial/final target plus captured opener matrix is not.","evidence":495,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":599},"status":"reconciled"},
     {"ids":["dialog.focus.14","dialog.focus.26"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Autofocus and captured pre-open focus restoration are supported, but these exact public component cases are not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":602},"status":"verified"},
-    {"ids":["dialog.focus.17"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Element finalFocus and ineligible fallback are supported/tested, but false-to-suppress-restoration is not a shipped finalFocus type.","evidence":496,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":605},"status":"queued"},
+    {"ids":["dialog.focus.17"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Element finalFocus and ineligible fallback are supported/tested, but false-to-suppress-restoration is not a shipped finalFocus type.","evidence":496,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":605},"status":"reconciled"},
     {"ids":["dialog.focus.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Retained closed host stays hidden/nonmodal, opening reuses it and closing restores trigger. Initial closed focus inactivity and each reopen initial target are not explicitly sampled.","evidence":497,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":606},"status":"queued"},
     {"ids":["dialog.focus.24","dialog.dismissal.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"DOM nonmodal show has no modal locks and browser outside focus survives closure; unrestricted Tab sequence and absence of visual backdrop are not directly checked.","evidence":498,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":608},"status":"queued"},
     {"ids":["dialog.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"defaultOpen fixtures mount an open dialog; explicit subsequent uncontrolled close and reopen from that initial condition is not separately asserted.","evidence":481,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":613},"status":"queued"},
@@ -17128,6 +17128,1648 @@
       "verification": "Coordinator independently verified all 6 cases across Chromium, Firefox and WebKit: 18 passed.",
       "limits": [
         "Presence asserts shipped default lazy/unmount behavior and real paused Web Animations; no optional presence flags, public completion callback, or prolonged entering animation API claimed."
+      ]
+    },
+    {
+      "id": "dialog-popover-drawer-review-mixed",
+      "status": "reconciled",
+      "ids": [
+        "drawer.roles.1",
+        "drawer.roles.3",
+        "drawer.roles.4",
+        "drawer.roles.5",
+        "drawer.pointer.1",
+        "drawer.pointer.2",
+        "drawer.pointer.31",
+        "drawer.pointer.51",
+        "drawer.pointer.55",
+        "drawer.focus.2",
+        "drawer.dismissal.1",
+        "drawer.dismissal.3",
+        "drawer.animation.7",
+        "drawer.notes.4",
+        "popover.roles.10",
+        "popover.focus.1",
+        "popover.focus.9",
+        "popover.focus.10",
+        "popover.focus.11",
+        "popover.focus.12",
+        "popover.focus.18",
+        "popover.state.5",
+        "popover.dismissal.1",
+        "popover.dismissal.3",
+        "popover.dismissal.8",
+        "popover.dismissal.11",
+        "popover.positioning.1",
+        "popover.positioning.2",
+        "popover.positioning.6",
+        "popover.positioning.4",
+        "popover.animation.1",
+        "dialog.roles.1",
+        "dialog.roles.4",
+        "dialog.roles.5",
+        "dialog.roles.21",
+        "dialog.roles.24",
+        "dialog.keyboard.4",
+        "dialog.keyboard.8",
+        "dialog.keyboard.10",
+        "dialog.dismissal.14",
+        "dialog.keyboard.15",
+        "dialog.keyboard.16",
+        "dialog.pointer.2",
+        "dialog.pointer.19",
+        "dialog.pointer.10",
+        "dialog.focus.9",
+        "dialog.focus.17"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "drawer.roles.1: Assert associations/no danglingrefs across partunmount in Drawer; alert role excluded.",
+        "drawer.roles.3: Content/Trigger closedstate and hidden retention; backdrop internal/nativebackdrop alternative excluded.",
+        "drawer.roles.4: Explicit content side all4 reactive; backdrop marker excluded.",
+        "drawer.roles.5: Supported Handle/content markers after drag/release; extra parts excluded.",
+        "drawer.pointer.1: Exact1false on nativeClose; reason branch unsupported.",
+        "drawer.pointer.2: Native mode matrix clickopen/currentclick behavior needs directverification; no reason/backdrop claims.",
+        "drawer.pointer.31: Oppositeaxis signeddrag clamps0 under shipped handle policy; full snap-point heights excluded.",
+        "drawer.pointer.51: Constructor touch sequence scope or E2E realtouch; do not imply swipe starts on plaincontent.",
+        "drawer.pointer.55: Real touchE2E or explicitlysynthetic touchpointer movement with measured<=4pxrest afterrelease.",
+        "drawer.focus.2: Drawer explicit initial/final target nativeassertions; disableflags excluded.",
+        "drawer.dismissal.1: Native mouse + realtouch outside closes afterentered; swipeopening/backdrop parts excluded.",
+        "drawer.dismissal.3: Native defaultDrawer locks and dismisses bothpaths; pinchvariant excluded.",
+        "drawer.animation.7: No-animation settles nextframe/removes without transitionend; strict immediateclaim not shippedcontract.",
+        "drawer.notes.4: Unnamed warning exact behavior and namedtitleless silence under shipped accessible-name policy.",
+        "popover.roles.10: Default emptyClose and explicit undefined label should remain named per accepted clause; current property-existence guard is a source-supported candidate defect needing red regression. Localization variant excluded.",
+        "popover.focus.1: Freshopen hidden/disabledfirst child skipped forclick+keyboard; keep explicitfalse separate.",
+        "popover.focus.9: Oneeffectivebutton hidden/disabledbeside, bothdirections repeatednativeTab.",
+        "popover.focus.10: Opencontentlast Tab aftertrigger nextsibling + lasttrigger pageleave; no wrap assumptions crossiframe.",
+        "popover.focus.11: Dedicated externallyPortal backwardfirst→Trigger sameopen thenforwardcontent; exactnativefocus.",
+        "popover.focus.12: Native explicitoutside closes withoutsteal; syntheticrelatedTargetnull staysopen clearlyscoped.",
+        "popover.focus.18: ControlledchildsetOpen from parentbutton captures opener, closeparentstillopen thenparentclose chain.",
+        "popover.state.5: Public handle open/close commands supported; no-instance no throw/no replay already unit-asserted; warning emission unshipped.",
+        "popover.dismissal.1: Small nativeoutsidetarget matrix + separate ShadowRoot eventcomposed fixtures.",
+        "popover.dismissal.3: Native inside-down/outside-up remainsopen; externaloverlay swallowinglatermouse events supportedbranch directtest.",
+        "popover.dismissal.8: Pin shippedconditionalrestoration, nativebody/nonfocusable focus fallback; no new userdecision.",
+        "popover.dismissal.11: NestedSelect/Menu insidePopover bothnativeopenpaths/itemcommit with parentidentity/callbacks.",
+        "popover.positioning.1: ConditionalAnchor removal then realrect aligns Trigger samepopupowner.",
+        "popover.positioning.2: Numeric realplacement/sidealign onpositioner/content; placementrenderprop unsupported.",
+        "popover.positioning.6: Enumerate shipped CSSvars open+forceMountclosed actualmeasure; exclude upstreamvarnames notemitted.",
+        "popover.positioning.4: Real ancestor scrollfollow then disableautoUpdate immutableposition until explicitupdate.",
+        "popover.animation.1: forceMount closedhidden+state and defaultheldexit→finish removal withrealWAAPI.",
+        "dialog.roles.1: Assert allessentialcontrolled portalcontrols belong nativehost; arbitrary authoredoutside targets notauto-owned.",
+        "dialog.roles.4: AuthoromitsDescription forcomplexcontent valid; no automaticbody inspectionfeature.",
+        "dialog.roles.5: Native modaloutsideinteractionblocked tested; visualdim browserfixture/CSS authorresponsibility.",
+        "dialog.roles.21: Current vsinactive attrs two directions/newtrigger mounts; controlledvisibility handle activechoice accepted, unsupported selectorprop excluded.",
+        "dialog.roles.24: Enumerate exportedpart actualmarkers; no proprietaryblanket data-partclaim.",
+        "dialog.keyboard.4: Parameterize nativeinputs/buttons/contenttarget each reopening; callbacks1/session.",
+        "dialog.keyboard.8: Childkeydown preventDefault supportedpolicy verify eventphase; stopprop-only separatecontract conflict.",
+        "dialog.keyboard.10: AcceptedchildSelect+Dialog/Alert asserted; additionalpopupfamily fixtures separate, no alltypesclosure.",
+        "dialog.dismissal.14: Afterchildescape/outside, nativeparentEscape/outside verifies ownwiring stillworks.",
+        "dialog.keyboard.15: Veto/accept per key callbacks exactly1, no reasonobject requirement; nativecancel notsame callback.",
+        "dialog.keyboard.16: Nonmodal open focusoutside then nativeEscape topmost closes; preserveoutsidefocus no modalhypothetical.",
+        "dialog.pointer.2: Realinside-down/outside-up no close under shipped layerpolicy; native closedby platform conformance separated.",
+        "dialog.pointer.19: Nativeviewport+Content insidebutton pointerevent defaultnotprevented/no close; Backdrop variant excluded.",
+        "dialog.pointer.10: Nativeoutsidebutton activation1+focus nonmodal and modalbuttonblocked/restored futureclick; avoid forcedinerttargets.",
+        "dialog.focus.9: Explicitinitial and opener capture nativecase; finalFocus reactiveupdates acceptedshippedpolicy, immutablefinalcapture notclaimed.",
+        "dialog.focus.17: Validexplicitfinaltarget nativefocus existingDrawer/Alertcrossproof notDialog; false disablebranch unsupported."
+      ],
+      "scopeReview": [
+        {
+          "id": "drawer.roles.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 5,
+            "clause": "- [ ] `drawer.roles.1` Given an open drawer with a title part and a description part, when the content is inspected, then it has `role=\"dialog\"` (or `\"alertdialog\"` when asked for), `tabindex=\"-1\"`, `aria-modal` reflecting the modal prop, `aria-labelledby` pointing at the title element and `aria-describedby` pointing at the description element, with each association present only when that part is rendered. [zag, reka]"
+          },
+          "currentEvidence": "Shared native dialog emits modal/name/description/tabindex; alternate alertdialog role on Drawer is not exported.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Assert associations/no danglingrefs across partunmount in Drawer; alert role excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.roles.3",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 7,
+            "clause": "- [ ] `drawer.roles.3` Given a drawer that opens and closes, when the content, backdrop and trigger are inspected, then each carries an open or closed state attribute (`data-state=\"open\"`/`\"closed\"` in zag, `data-open`/`data-closed` in base-ui and corvu) and the content and backdrop are hidden while closed. [base-ui, zag, corvu]"
+          },
+          "currentEvidence": "forceMount shared lifecycle hidden content; no separate public Backdrop part.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "Content/Trigger closedstate and hidden retention; backdrop internal/nativebackdrop alternative excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.roles.4",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 8,
+            "clause": "- [ ] `drawer.roles.4` Given a drawer configured for a side, when the content and backdrop are inspected, then both carry the resolved side as a data attribute, one of top, bottom, left or right in corvu and up, down, left or right in base-ui and zag, defaulting to the bottom edge. [base-ui, zag, corvu]"
+          },
+          "currentEvidence": "Root side physical defaultbottom and dragaxis changes covered; no public backdrop data-side surface.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Explicit content side all4 reactive; backdrop marker excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.roles.5",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 9,
+            "clause": "- [ ] `drawer.roles.5` Given a drag or swipe in flight, when the content, backdrop, swipe area and indent parts are inspected, then each carries `data-swiping`, and after release the attribute is gone; zag additionally sets `data-dragging` only while a drag offset exists. [base-ui, zag]"
+          },
+          "currentEvidence": "Handle drag implementation writes content swipe markers; swipearea/indent parts absent.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "Supported Handle/content markers after drag/release; extra parts excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 31,
+            "clause": "- [ ] `drawer.pointer.1` Given an open drawer, when the close part is clicked, then the drawer closes and the open change callback reports a close press reason. [base-ui, zag, reka]"
+          },
+          "currentEvidence": "Handle/Close button native dismissal supported; callback signature boolean only, no closepress reason.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Exact1false on nativeClose; reason branch unsupported.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.2",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 32,
+            "clause": "- [ ] `drawer.pointer.2` Given a closed drawer, when the trigger is clicked, then the content and backdrop become visible and the open change callback reports a trigger press reason, and clicking the trigger again closes the drawer exactly once, in modal and non-modal mode alike. [zag, reka]"
+          },
+          "currentEvidence": "Shared Dialog Trigger opens (does not necessarily toggle current modal); callback boolean only, no public Backdrop.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Native mode matrix clickopen/currentclick behavior needs directverification; no reason/backdrop claims.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.31",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 61,
+            "clause": "- [ ] `drawer.pointer.31` Divergence: dragging past the fully open snap point is clamped, so a 150px upward mouse drag on the grabber leaves the visible height unchanged. (decision needed) [zag]"
+          },
+          "currentEvidence": "Outward-only handle movement, no snap-point API. Existing shortgesture returnsrest.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.release.test-browser.tsx"
+          ],
+          "remainingOrNext": "Oppositeaxis signeddrag clamps0 under shipped handle policy; full snap-point heights excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.51",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 81,
+            "clause": "- [ ] `drawer.pointer.51` Given a non-interactive element inside the content with no swipe-ignore marker, when a full tap runs over it (touchstart, touch pointerdown, touchend and a click), then its click handler runs exactly once, no swipe starts and the drawer stays open. (candidate) [base-ui]"
+          },
+          "currentEvidence": "Content drag is handle-only; full tap ordinarycontent handler shouldrun once/no swipe. No native touch in current tests.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "Constructor touch sequence scope or E2E realtouch; do not imply swipe starts on plaincontent.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.55",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 85,
+            "clause": "- [ ] `drawer.pointer.55` Given an open drawer, when a 100 pixel touch drag or touch-pointer drag below the threshold is released, then after the snap settles the visible height is within 4 pixels of its original value and the drawer is still interactive. (candidate) [zag]"
+          },
+          "currentEvidence": "Release tests synthetic mouse-coordinate threshold/restoration; realtouchsnap geometry not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.release.test-browser.tsx"
+          ],
+          "remainingOrNext": "Real touchE2E or explicitlysynthetic touchpointer movement with measured<=4pxrest afterrelease.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.focus.2",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 94,
+            "clause": "- [ ] `drawer.focus.2` Given an open drawer, when it closes, then focus returns to the trigger, with focus trapping and focus restoration on by default and both the initial and the final focus target overridable. (candidate) [zag]"
+          },
+          "currentEvidence": "Shared native Dialog initial/final HTMLElement overrides; no separate trap/restore disable flags. Nestedrestore tested.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Drawer explicit initial/final target nativeassertions; disableflags excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.dismissal.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 125,
+            "clause": "- [ ] `drawer.dismissal.1` Given an open drawer whose enter animation has finished, when the page outside it is pressed with a mouse or a touch, then the content and the backdrop are both hidden, including for a drawer that was opened by a swipe. [base-ui, zag]"
+          },
+          "currentEvidence": "Modal native outsidepress supports; swipeopened Drawer API absent. No publicBackdrop.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Native mouse + realtouch outside closes afterentered; swipeopening/backdrop parts excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.dismissal.3",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 127,
+            "clause": "- [ ] `drawer.dismissal.3` Given a drawer and its defaults, when no props are passed, then dismissal on outside interaction, dismissal on Escape, modal behavior and page scroll prevention are all on; corvu additionally defaults pinch zoom to blocked while the drawer is open, unlike its plain dialog. [zag, corvu]"
+          },
+          "currentEvidence": "Shared modal/Escape/outside defaults true and scrolllock controller; pinchzoomblocking specialized prop absent.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Native defaultDrawer locks and dismisses bothpaths; pinchvariant excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.animation.7",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 156,
+            "clause": "- [ ] `drawer.animation.7` Given a drawer with no transition defined, so the computed transition duration is 0, when it opens or closes, then the transition state clears immediately and the close path runs directly instead of waiting for a transitionend that never arrives. (candidate) [corvu]"
+          },
+          "currentEvidence": "Shared presence next-frame close completion, not synchronous0ms source semantics.",
+          "evidencePaths": [
+            "packages/solid/src/internal/presence.tsx"
+          ],
+          "remainingOrNext": "No-animation settles nextframe/removes without transitionend; strict immediateclaim not shippedcontract.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.notes.4",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 177,
+            "clause": "- [ ] `drawer.notes.4` Given a drawer whose content has no title part, when it opens, then a development warning is logged. (candidate) [reka]"
+          },
+          "currentEvidence": "Shared Content warns missingaccessible name, title absence with valid aria-label doesnot warrantwarning.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Unnamed warning exact behavior and namedtitleless silence under shipped accessible-name policy.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.roles.10",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 14,
+            "clause": "- [ ] `popover.roles.10` Given a close part with no children, when it renders, then it is a button with a localized default accessible name, and an icon-only close with an undefined label prop is still named. [zag, ariakit, corvu]"
+          },
+          "currentEvidence": "PopoverClose emits aria-label Close popover only when aria-label is not a property of props; an explicitly present undefined aria-label suppresses default. No localization object API.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Default emptyClose and explicit undefined label should remain named per accepted clause; current property-existence guard is a source-supported candidate defect needing red regression. Localization variant excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 54,
+            "clause": "- [ ] `popover.focus.1` Divergence: Given a popover opened by click or keyboard, when it opens, then focus moves to the first focusable element inside the content, skipping hidden and non-visible elements. (decision needed) [base-ui, zag, ark, ariakit, headlessui, bits]"
+          },
+          "currentEvidence": "Deployed default firstusablechild focus; no userdecision despite divergentresearch. Existing retainedhiddeninput test proves skiphidden onreopen.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.focus.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Freshopen hidden/disabledfirst child skipped forclick+keyboard; keep explicitfalse separate.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.9",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 62,
+            "clause": "- [ ] `popover.focus.9` Given a modal popover, when Tab and Shift+Tab move past the ends of the content, then focus cycles inside the content and never reaches the page behind, including when the content has only one effective tab stop. [react-aria, zag, corvu, melt]"
+          },
+          "currentEvidence": "ModalPopover native Tab contains2controls existing; oneeffectivecontrol and Shiftwrap missing.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "Oneeffectivebutton hidden/disabledbeside, bothdirections repeatednativeTab.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.10",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 63,
+            "clause": "- [ ] `popover.focus.10` Given a non-modal popover, when Tab moves past the last element of the content, then focus goes to the next tabbable element after the trigger in document order, skipping the content itself, and the popover closes; when the trigger is the last tabbable element on the page, focus leaves the page instead of looping back into the content. [base-ui, zag, headlessui]"
+          },
+          "currentEvidence": "NativeTab order trigger/content/after tested, triggerlast pageescape behavior not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Opencontentlast Tab aftertrigger nextsibling + lasttrigger pageleave; no wrap assumptions crossiframe.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.11",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 64,
+            "clause": "- [ ] `popover.focus.11` Given a non-modal popover, when Shift+Tab is pressed from the first element of the content, then focus returns to the trigger and the popover stays open, and Tab from the trigger moves back into the content; this holds when the content is portaled. [base-ui, zag, ariakit, headlessui]"
+          },
+          "currentEvidence": "Native nonmodal test portal? directContent nativehost; backwardfirst Trigger retainsopen exact path read needed.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Dedicated externallyPortal backwardfirst→Trigger sameopen thenforwardcontent; exactnativefocus.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.12",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 65,
+            "clause": "- [ ] `popover.focus.12` Given a popover configured to close when focus leaves it, when focus moves to an element outside, then the popover closes and the next focusable element in line receives focus; a blur with no replacement, such as switching browser tabs, does not close it. [react-aria, headlessui]"
+          },
+          "currentEvidence": "closeOnFocusOutside true controller; deliberateoutsidefocus existing, browserblurnull no windowvisibility harness.",
+          "evidencePaths": [
+            "packages/dom/src/floating-layer/floating-layer.ts"
+          ],
+          "remainingOrNext": "Native explicitoutside closes withoutsteal; syntheticrelatedTargetnull staysopen clearlyscoped.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.18",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 71,
+            "clause": "- [ ] `popover.focus.18` Given nested popovers where the child was opened programmatically by a button inside the parent, when the child closes, then focus returns to that button and the parent stays open, and closing the parent then returns focus to the parent's trigger. (candidate) [base-ui]"
+          },
+          "currentEvidence": "NestedPopover native triggers restoreownnode; programmaticopenedchild by plainbutton not sameas childTrigger.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "ControlledchildsetOpen from parentbutton captures opener, closeparentstillopen thenparentclose chain.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.state.5",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 80,
+            "clause": "- [ ] `popover.state.5` Given imperative open and close actions exposed by the popover, when they are called, then the popover opens and closes, and a call made while no popover instance is mounted is ignored with a warning rather than throwing. (candidate) [base-ui]"
+          },
+          "currentEvidence": "OverlayHandle dispatch uses optional attachment dispatch and silently ignores detached commands; existing unit explicitly asserts no replay before/after attachment.",
+          "evidencePaths": [
+            "packages/solid/src/internal/overlay-handle.ts",
+            "packages/solid/src/internal/overlay-handle.test.ts"
+          ],
+          "remainingOrNext": "Public handle open/close commands supported; no-instance no throw/no replay already unit-asserted; warning emission unshipped.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.dismissal.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 85,
+            "clause": "- [ ] `popover.dismissal.1` Given an open popover, when a press lands outside the content, then the popover closes, whether the target is the body, a non-focusable element, a focusable element, a child of a focusable element, another element inside the same shadow root as the popover, or a node outside that shadow root. [react-aria, base-ui, zag, headlessui, melt, bits]"
+          },
+          "currentEvidence": "Outsidebutton/portalparent tests exist; body/nonfocusable/shadow insideoutside roots missing.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Small nativeoutsidetarget matrix + separate ShadowRoot eventcomposed fixtures.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.dismissal.3",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 87,
+            "clause": "- [ ] `popover.dismissal.3` Given an open popover, when a pointer press starts inside the content and the click lands outside, or when an overlay outside the popover swallows the later mouse events, then the popover stays open. [radix, base-ui]"
+          },
+          "currentEvidence": "Layer primarypointer gesture policy shared; overlay swallow contradiction must inspect clicklistener semantics.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "Native inside-down/outside-up remainsopen; externaloverlay swallowinglatermouse events supportedbranch directtest.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.dismissal.8",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 92,
+            "clause": "- [ ] `popover.dismissal.8` Divergence: Given an open popover, when an outside press lands on the body or on a non-focusable element, then the popover closes and focus returns to the trigger, and when it lands on a focusable element focus stays on that element. (decision needed) [react-aria, zag, headlessui]"
+          },
+          "currentEvidence": "Outsidefocusable preservesfocus existing; body/nonfocusable openerrestore not tested.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "Pin shippedconditionalrestoration, nativebody/nonfocusable focus fallback; no new userdecision.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.dismissal.11",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 95,
+            "clause": "- [ ] `popover.dismissal.11` Given a popover with a nested popup inside its content, when the nested popup opens by pointer or by Enter, or an item in it is clicked, then the popover stays open even when both portal into the same container; clicking the parent content itself closes only the nested popup. (candidate) [base-ui]"
+          },
+          "currentEvidence": "Nativeportaled nested popup parentpress dismisseschild only; opening Enter/itemclick/samecontainer unasserted.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "NestedSelect/Menu insidePopover bothnativeopenpaths/itemcommit with parentidentity/callbacks.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 104,
+            "clause": "- [ ] `popover.positioning.1` Given both an anchor part and a trigger, when the popover opens, then it is positioned against the anchor and the trigger is only a fallback; when the anchor unmounts, the popover realigns to the trigger and stays open. [base-ui, ariakit, corvu]"
+          },
+          "currentEvidence": "ExistingcustomAnchor followsmovement; unmountfallbackTrigger remainsopen not asserted.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "ConditionalAnchor removal then realrect aligns Trigger samepopupowner.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.2",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 105,
+            "clause": "- [ ] `popover.positioning.2` Given no configured placement, when the popover opens, then it is placed below the anchor, and the resolved side and alignment are readable from the positioner and content so CSS and render props can key off them. [react-aria, zag, corvu]"
+          },
+          "currentEvidence": "Defaultside bottom attrs; renderstate exposesopen/payload notplacement.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Numeric realplacement/sidealign onpositioner/content; placementrenderprop unsupported.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.6",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 109,
+            "clause": "- [ ] `popover.positioning.6` Given an open popover, when its positioner is inspected, then it exposes the anchor size, the available space and a transform origin as CSS custom properties, and an arrow part adds its own size and offset properties; the overflow padding property is exposed even while the popover is closed. [base-ui, zag, ariakit, corvu]"
+          },
+          "currentEvidence": "Positioner computedCSS vars available; closed wrapper mayunmount default so closedoverflowvar impossible withoutforceMount.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Enumerate shipped CSSvars open+forceMountclosed actualmeasure; exclude upstreamvarnames notemitted.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.4",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 107,
+            "clause": "- [ ] `popover.positioning.4` Given an open popover, when the anchor moves or an ancestor scrolls, then the popover follows it at a stable offset, and it stops following when anchor tracking is turned off. [base-ui, zag, bits]"
+          },
+          "currentEvidence": "CustomAnchor movement test verifiesfollowing; autoUpdate=false shipped, ancestor scroll/disabledtracking missing.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "Real ancestor scrollfollow then disableautoUpdate immutableposition until explicitupdate.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.animation.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 118,
+            "clause": "- [ ] `popover.animation.1` Given a popover configured to keep its content mounted, when it closes, then the content stays in the document with its state attribute set to closed; when it is not kept mounted, the content is removed only after the exit animation finishes. [react-aria, base-ui, ark, headlessui, bits]"
+          },
+          "currentEvidence": "Retainedcontent association tests forceMountsameDOM; examplePAUSEDanimations paintorder not full close retained/unmount timing.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.associations-state.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "forceMount closedhidden+state and defaultheldexit→finish removal withrealWAAPI.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.1",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 15,
+            "clause": "- [ ] `dialog.roles.1` Given a dialog container, then it MUST have `role=\"dialog\"`, and every element required to operate the dialog MUST be a descendant of it. [apg]"
+          },
+          "currentEvidence": "Native Contentdialog and descendantcontrols positive queries; authorPortal explicitbody can makecontrols outsideinert intentionally.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Assert allessentialcontrolled portalcontrols belong nativehost; arbitrary authoredoutside targets notauto-owned.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.4",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 18,
+            "clause": "- [ ] `dialog.roles.4` Given a dialog, then `aria-describedby` MAY point at the element describing its primary purpose, and SHOULD be omitted when the content holds lists, tables or several paragraphs, because the description is announced as one unbroken string. [apg]"
+          },
+          "currentEvidence": "Descriptionregistry explicitpart authoredoverride supported; no auto-detection of complexbody paragraphs/list removal.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "AuthoromitsDescription forcomplexcontent valid; no automaticbody inspectionfeature.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.5",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 19,
+            "clause": "- [ ] `dialog.roles.5` Given `aria-modal=\"true\"`, then the implementation MUST actually prevent interaction with content outside the dialog AND the visual styling MUST obscure that content; marking a dialog modal without both is harmful to assistive technology users. [apg]"
+          },
+          "currentEvidence": "Native showModal imposesinert; no public Backdrop style requirement; visualobscuring authorCSS/nativebackdrop.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Native modaloutsideinteractionblocked tested; visualdim browserfixture/CSS authorresponsibility.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.21",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 35,
+            "clause": "- [ ] `dialog.roles.21` Given a dialog with several triggers, then only the trigger that opened it carries `aria-expanded=\"true\"` and `aria-controls`, and the others stay at `aria-expanded=\"false\"` with no `aria-controls`, including when the active trigger is chosen by a controlled prop and when another trigger mounts while the dialog is open. [base-ui, zag]"
+          },
+          "currentEvidence": "Sharedhandle triggers and activeID state shipped; root controlledselectedtrigger prop not exposed.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/viewport.test-browser.tsx"
+          ],
+          "remainingOrNext": "Current vsinactive attrs two directions/newtrigger mounts; controlledvisibility handle activechoice accepted, unsupported selectorprop excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.24",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 38,
+            "clause": "- [ ] `dialog.roles.24` Given each rendered part, then it carries a stable marker attribute naming the component and the part, so styles and tests can address parts without relying on structure. [zag, ark, corvu, reka, bits]"
+          },
+          "currentEvidence": "Some internal data-part markers e.g Positioner, but shared Dialog parts notall componentpart stablehooks.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Enumerate exportedpart actualmarkers; no proprietaryblanket data-partclaim.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.4",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 53,
+            "clause": "- [ ] `dialog.keyboard.4` Given an open modal dialog, when Escape is pressed, then the dialog MUST close, from any focusable element inside it. [apg, react-aria, radix, base-ui, zag, ark, ariakit, headlessui, corvu, reka, melt, bits]"
+          },
+          "currentEvidence": "Escape closes publicdialog tests and nestedlayer; not Escape from every control variant.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.test-browser.tsx"
+          ],
+          "remainingOrNext": "Parameterize nativeinputs/buttons/contenttarget each reopening; callbacks1/session.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.8",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 57,
+            "clause": "- [ ] `dialog.keyboard.8` Given a focused field inside an open dialog whose own keydown handler cancels or stops the Escape event, when Escape is pressed, then the dialog stays open. [ariakit, headlessui, melt, bits]"
+          },
+          "currentEvidence": "Layercapturing Escape authoronEscapeKeyDown available; childstopPropagation alone may not veto capture listener.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "Childkeydown preventDefault supportedpolicy verify eventphase; stopprop-only separatecontract conflict.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.10",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 59,
+            "clause": "- [ ] `dialog.keyboard.10` Given an open dialog containing an open child popup (a menu, select, combobox, popover or tooltip), when Escape is pressed, then only the child popup closes and the dialog stays open; a second Escape closes the dialog. [radix, base-ui, ariakit, melt, bits]"
+          },
+          "currentEvidence": "NestedAlert/Dialog and Viewportportal cover childlayers; newSelect nested Escapeonlychild passed. Menu/Combo/Tooltip notall tested.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.pointer-layer.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "AcceptedchildSelect+Dialog/Alert asserted; additionalpopupfamily fixtures separate, no alltypesclosure.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.dismissal.14",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 164,
+            "clause": "- [ ] `dialog.dismissal.14` Given a nested popup inside an open dialog (a menu, a select listbox, a popover or another dismissable layer), when that popup is dismissed by Escape or by pressing outside it, then only the popup closes and the dialog stays open with its own dismissal still wired. [radix, base-ui, ariakit, melt, bits]"
+          },
+          "currentEvidence": "New nestedSelect two nativecases preserveDialog; nestedportaledDialog close fixture exists. Parent dismissalafterchild outside needs exactsecondsession.",
+          "evidencePaths": [
+            "packages/suite/src/select/select.pointer-layer.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Afterchildescape/outside, nativeparentEscape/outside verifies ownwiring stillworks.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.15",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 64,
+            "clause": "- [ ] `dialog.keyboard.15` Given an escape-handling callback, when Escape is pressed, then it is invoked exactly once whether it declines the close, accepts it, or calls `preventDefault()` on the event. (candidate) [ariakit]"
+          },
+          "currentEvidence": "Nativevetostack tests singleEscape callbackcount controlledpaths; flagfalse callback deliberatelynotinvoked documented.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Veto/accept per key callbacks exactly1, no reasonobject requirement; nativecancel notsame callback.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.16",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 65,
+            "clause": "- [ ] `dialog.keyboard.16` Given focus on an element outside an open dialog, when Escape is pressed there and nothing else claims it, then the dialog closes. (candidate) [ariakit]"
+          },
+          "currentEvidence": "Modalnativebackgroundfocus impossible; modal=false dialog allowsoutsidefocus but ownlayer listener may requirecurrenttarget.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Nonmodal open focusoutside then nativeEscape topmost closes; preserveoutsidefocus no modalhypothetical.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.2",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 70,
+            "clause": "- [ ] `dialog.pointer.2` Given a native dialog whose computed closed-by state is Any, then light dismiss requires a `pointerdown` and a matching `pointerup` on the same non-dialog target, so a drag that starts inside the dialog and ends outside MUST NOT dismiss it. [html]"
+          },
+          "currentEvidence": "Native adapter owns cancel/lightdismiss via layer; HTML closedbyAny native support notuniformbrowser.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Realinside-down/outside-up no close under shipped layerpolicy; native closedby platform conformance separated.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.19",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 87,
+            "clause": "- [ ] `dialog.pointer.19` Given an open dialog whose content is nested inside the backdrop element, when `pointerdown` fires on a control inside the content, then the event is not default-prevented and the dialog stays open. (candidate) [reka]"
+          },
+          "currentEvidence": "Viewport nativehost can wrap Content; no publicBackdrop wrapperpart. Internalcontrol pointerdown mustretain default nativefocus.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/viewport.test-browser.tsx"
+          ],
+          "remainingOrNext": "Nativeviewport+Content insidebutton pointerevent defaultnotprevented/no close; Backdrop variant excluded.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.10",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 78,
+            "clause": "- [ ] `dialog.pointer.10` Given a non-modal dialog, when a press lands outside it, then the dialog closes and the press still reaches the page underneath, so the outside control is activated and can take focus; a modal dialog swallows the same press and restores pointer events after closing. [radix, base-ui]"
+          },
+          "currentEvidence": "Nonmodal externalclosepreserves outsidefocus nativecontroller test; whethermodal swallowedclick replay notsameas nonmodalactivation.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/native-dialog.test-browser.tsx"
+          ],
+          "remainingOrNext": "Nativeoutsidebutton activation1+focus nonmodal and modalbuttonblocked/restored futureclick; avoid forcedinerttargets.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.focus.9",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 100,
+            "clause": "- [ ] `dialog.focus.9` Given a dialog implementation, then both the initial focus target and the element to restore focus to MUST be resolvable explicitly rather than only inferred from DOM order, and the restore target MUST be captured at open time. [apg, react-aria, base-ui, zag, corvu, melt, bits]"
+          },
+          "currentEvidence": "initial/final explicitHTMLElement supported; finalFocus documented updates current session ratherthan captures propatopen.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Explicitinitial and opener capture nativecase; finalFocus reactiveupdates acceptedshippedpolicy, immutablefinalcapture notclaimed.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.focus.17",
+          "category": "mixed",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 108,
+            "clause": "- [ ] `dialog.focus.17` Given an explicit final-focus target, when the dialog closes, then focus lands there instead of on the trigger, and a value of false leaves focus wherever it is. [base-ui, zag, corvu, melt, bits]"
+          },
+          "currentEvidence": "finalFocus HTMLElement preferred and invalidtarget fallback tested; false notdeclared rootprop.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Validexplicitfinaltarget nativefocus existingDrawer/Alertcrossproof notDialog; false disablebranch unsupported.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        }
+      ],
+      "verification": "Read-only exact source/clause review. No fresh execution or completion claimed.",
+      "limits": [
+        "Shipped policies are distinguished from unimplemented research alternatives; recommendations require assertion review and execution."
+      ]
+    },
+    {
+      "id": "dialog-popover-drawer-review-writable",
+      "status": "reconciled",
+      "ids": [
+        "drawer.roles.2",
+        "drawer.roles.16",
+        "drawer.pointer.10",
+        "drawer.pointer.54",
+        "drawer.state.10",
+        "drawer.dismissal.4",
+        "drawer.a11y.1",
+        "drawer.notes.7",
+        "popover.keyboard.1",
+        "popover.pointer.3",
+        "popover.focus.19",
+        "popover.positioning.3",
+        "popover.positioning.5",
+        "popover.positioning.7",
+        "popover.positioning.9",
+        "popover.positioning.10",
+        "popover.notes.3",
+        "popover.animation.3",
+        "popover.a11y.1",
+        "dialog.roles.22",
+        "dialog.roles.28",
+        "dialog.keyboard.5",
+        "dialog.focus.8",
+        "dialog.focus.25",
+        "dialog.keyboard.7",
+        "dialog.keyboard.9",
+        "dialog.pointer.6",
+        "dialog.pointer.9",
+        "dialog.pointer.12",
+        "dialog.pointer.15",
+        "dialog.pointer.16",
+        "dialog.pointer.18",
+        "dialog.focus.33",
+        "dialog.dismissal.22"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "drawer.roles.2: Closed/open/closed attrs and resolvingcontentid; controls remain per shipped sharedpolicy.",
+        "drawer.roles.16: Grabber touchAction none and restored cleanup style.",
+        "drawer.pointer.10: Held exit/forceMount pointerdown no swipe/write/reopen; realgeometry.",
+        "drawer.pointer.54: 100px contentdrag no offset versus Handle100px actualsize/translate with samefixture.",
+        "drawer.state.10: Two Drawertrigger exactpayload/attrs and preservedcontent identity nativeclick.",
+        "drawer.dismissal.4: Mode matrix outside buttoncallback/focus, actualwindow scroll and overflow baseline/restoration.",
+        "drawer.a11y.1: Positive closed/open Drawer scopedaxe nativefixture, nodisabledrules unless justified.",
+        "drawer.notes.7: Startswipe unmount/dispose, captured latermove/up no writes/closecallback; no unbuiltprovider/backdrop markerclaims.",
+        "popover.keyboard.1: Enter/Space twice on refocused same Trigger with initialFocusfalse, native/generichosts exactcallbacks.",
+        "popover.pointer.3: Native insidebutton/plaintext nooutside callback orclose, focus assertions appropriate to clickedtarget.",
+        "popover.focus.19: Native opening+firstchildfocused pageYstable<=1 with actualscroll baseline.",
+        "popover.positioning.3: Real constrained viewport/ancestor scroll flip+shift+padding stable afterpositioned.",
+        "popover.positioning.5: Actual side flip arrowoffset old axiscleared and pointtowardsAnchor.",
+        "popover.positioning.7: Realflip/align arrow positions transformorigin corresponding physical edge.",
+        "popover.positioning.9: Independent authorcolor/background/border style preserved while computedaxes change, exact conflictpolicy inspect.",
+        "popover.positioning.10: Conditionalactive siblingunmount recovery remainingrect alignment/mountedowner target.",
+        "popover.notes.3: Reparentnative node click toggle+rect alignment; remountpart trackscurrentref/id no stalehandlers.",
+        "popover.animation.3: Pausedexit moveAnchor realrect follows, sideattrsretained then finishunmount.",
+        "popover.a11y.1: Positive namednative closed/open fixtureaxe, no ruleexception needed with validTitle.",
+        "dialog.roles.22: Explicit Content -1 and programmatic focus not Tabstop withrealchildren.",
+        "dialog.roles.28: Exact native heading2→authorlevel3→undefined2 same Title node.",
+        "dialog.keyboard.5: Native Tab/ShiftTab10times oneusablebutton skipsdisabled/hidden.",
+        "dialog.focus.8: Staticheading -1 explicitlyinitialfocus then nativeTabfirst realcontrol; no addednormal tabstop.",
+        "dialog.focus.25: Bothdisabled config nativeEscape/outside no close then10Tabinside; closebuttonworks.",
+        "dialog.keyboard.7: Native focusedTrigger Enter/Space each opens/focusinside, exactcallbackone.",
+        "dialog.keyboard.9: DisabledEscape keepsfocus/modal then closebutton dismisses; callbacknotinvoked when flagfalse documented.",
+        "dialog.pointer.6: Native internalfocusable/nonfocusable clicks identity/expanded/callback0 forcloseintent.",
+        "dialog.pointer.9: Real drag crossing nativecontentbounds plus opened-duringpress followedtrailingclick noclose.",
+        "dialog.pointer.12: TouchE2E pointer/tap protocol; constructor syntheticevents limitedscope.",
+        "dialog.pointer.15: Cancelable Ctrlwheel dispatch reachesdocumentunprevented whilemodal lockactive; no OSzoomclaim.",
+        "dialog.pointer.16: Native rightclick authorized outside accessiblebody/viewport backdrop noclose.",
+        "dialog.pointer.18: Native mousedown opens then release/click outside keptopen; secondfulloutsidepress closes.",
+        "dialog.focus.33: Long nativebody focus targetbelow scroll viewport with measuredscrollTop remains initial, window scroll stable.",
+        "dialog.dismissal.22: Openmodal first then laterclosedforceMount second Escape onlyfirst/nooutsidecallbacks second."
+      ],
+      "scopeReview": [
+        {
+          "id": "drawer.roles.2",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 6,
+            "clause": "- [ ] `drawer.roles.2` Given a closed drawer, when the trigger is inspected and then clicked, then it is a `type=\"button\"` element with `aria-haspopup=\"dialog\"`, `aria-controls` equal to the content element's id and `aria-expanded` tracking the open state. [base-ui, zag]"
+          },
+          "currentEvidence": "Shared trigger native button/haspopup and controls shipped; Drawer tests focus gestures rather than explicit attrs.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Closed/open/closed attrs and resolvingcontentid; controls remain per shipped sharedpolicy.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.roles.16",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 20,
+            "clause": "- [ ] `drawer.roles.16` Given a rendered grabber, when its inline style is read, then `touch-action` is `none` so the browser does not scroll the page while the grabber is dragged. (candidate) [zag]"
+          },
+          "currentEvidence": "registerDrawerHandle owns touch-action per adapter comment; no explicit browser computedproperty assertion.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "Grabber touchAction none and restored cleanup style.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.10",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 40,
+            "clause": "- [ ] `drawer.pointer.10` Given a drawer in its closing transition, or one kept mounted after close, when pointerdown fires, then no drag starts and the closed drawer cannot be grabbed back. [base-ui, corvu]"
+          },
+          "currentEvidence": "Handle registration reads open/status and disables exiteddrag; release tests retain exitposition.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.release.test-browser.tsx"
+          ],
+          "remainingOrNext": "Held exit/forceMount pointerdown no swipe/write/reopen; realgeometry.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.54",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 84,
+            "clause": "- [ ] `drawer.pointer.54` Given a drawer whose content is not draggable, when the content is dragged 100 pixels, then the visible height does not change, and dragging the grabber the same distance moves it by exactly 100 pixels. (candidate) [zag]"
+          },
+          "currentEvidence": "Only Handle registers drawer gestures; content alone nondraggable. Native release file moves Handle.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "100px contentdrag no offset versus Handle100px actualsize/translate with samefixture.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.state.10",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 111,
+            "clause": "- [ ] `drawer.state.10` Given several triggers bound to one drawer, when a trigger other than the current one is clicked, then the drawer swaps its content rather than closing, the clicked trigger reports `aria-expanded=\"true\"` with `aria-controls` matching the content id and the others report false. [base-ui, zag]"
+          },
+          "currentEvidence": "Shared handle payload/triggerregistry shipped; generic Viewport sharedhandle test exists but noDrawer exactsamecontent switch.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/viewport.test-browser.tsx"
+          ],
+          "remainingOrNext": "Two Drawertrigger exactpayload/attrs and preservedcontent identity nativeclick.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.dismissal.4",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 128,
+            "clause": "- [ ] `drawer.dismissal.4` Given a non-modal drawer, when it is open, then the page behind stays interactive and the page scroll position is not locked or restored, while a modal drawer locks it. [base-ui, zag]"
+          },
+          "currentEvidence": "modal=false shared native show leaves outsideinteractive; no Drawer-specific real scroll/no restoration assertion.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Mode matrix outside buttoncallback/focus, actualwindow scroll and overflow baseline/restoration.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.a11y.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 170,
+            "clause": "- [ ] `drawer.a11y.1` Given a drawer closed and then open, when axe runs over the document body, then there are no violations; zag runs the same check scoped to the content part with the color contrast and scrollable region focusable rules disabled. [zag, reka]"
+          },
+          "currentEvidence": "No axe calls in Drawer component tests; sharedDialog axe fixture does not prove Drawerhandle name/content.",
+          "evidencePaths": [
+            "packages/suite/src/drawer"
+          ],
+          "remainingOrNext": "Positive closed/open Drawer scopedaxe nativefixture, nodisabledrules unless justified.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.notes.7",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 180,
+            "clause": "- [ ] `drawer.notes.7` Given an active swipe, when the popup is removed by props or the whole tree unmounts, then the swiping markers and the provider and backdrop swipe state are cleared, further moves do nothing and no close is reported. (candidate) [base-ui]"
+          },
+          "currentEvidence": "Handle gesture onCleanup/dispose present; no wholeowner removed duringactivegesture assertion.",
+          "evidencePaths": [
+            "packages/solid/src/drawer/drawer.tsx"
+          ],
+          "remainingOrNext": "Startswipe unmount/dispose, captured latermove/up no writes/closecallback; no unbuiltprovider/backdrop markerclaims.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.keyboard.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 25,
+            "clause": "- [ ] `popover.keyboard.1` Given a focused popover trigger, when Enter or Space is pressed, then the popover opens, and pressing the same key again on the trigger closes it; this holds for a native button trigger and for a trigger rendered as a div. [base-ui, zag, ariakit, headlessui, bits]"
+          },
+          "currentEvidence": "Native Enter opening existing public test; generictrigger/button both-key toggle matrix not covered.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "Enter/Space twice on refocused same Trigger with initialFocusfalse, native/generichosts exactcallbacks.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.pointer.3",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 38,
+            "clause": "- [ ] `popover.pointer.3` Given an open popover, when a click lands inside the content on a focusable or a non-focusable element, then the popover stays open, the clicked element keeps focus, and no outside-interaction handler fires. [ariakit, headlessui, melt, bits]"
+          },
+          "currentEvidence": "Outside press tested; no internal focusable/nonfocusable exact onPointerOutside0 matrix.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native insidebutton/plaintext nooutside callback orclose, focus assertions appropriate to clickedtarget.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.19",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 72,
+            "clause": "- [ ] `popover.focus.19` Given a page scrolled down, when a popover opens and focuses its content, then the scroll position does not change. (candidate) (browser-only) [ariakit]"
+          },
+          "currentEvidence": "No measured scrolledpage Popoverfocus fixture; Selection/Combo tests do not substitute.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Native opening+firstchildfocused pageYstable<=1 with actualscroll baseline.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.3",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 106,
+            "clause": "- [ ] `popover.positioning.3` Given a popover with no room on its preferred side, when the viewport narrows or the page scrolls, then it flips to a side with room and shifts along the cross axis, coming to rest at the configured collision padding from the colliding edge. [base-ui, ariakit, corvu]"
+          },
+          "currentEvidence": "DOMpositioning collision machinery and standaloneE2E geometry tests; publicPopover resize/scroll collision assertion gap.",
+          "evidencePaths": [
+            "packages/dom/src/positioning/positioning.ts"
+          ],
+          "remainingOrNext": "Real constrained viewport/ancestor scroll flip+shift+padding stable afterpositioned.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.5",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 108,
+            "clause": "- [ ] `popover.positioning.5` Given a popover with an arrow part, when the placement changes or flips, then the arrow moves to keep pointing at the anchor and the inset left over from the previous placement is cleared. [zag, ariakit, corvu]"
+          },
+          "currentEvidence": "Arrow register/computedprops shared; existingexample tests paintorder not flip-clearedinset.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover-example.test-browser.tsx"
+          ],
+          "remainingOrNext": "Actual side flip arrowoffset old axiscleared and pointtowardsAnchor.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.7",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 110,
+            "clause": "- [ ] `popover.positioning.7` Given an open popover, when the resolved side, alignment or arrow position changes, then the transform origin moves with it, so a scale animation grows from the edge nearest the anchor. [base-ui, corvu]"
+          },
+          "currentEvidence": "DOM transformorigin computed basedarrow/side; native scaleorigin across placement missing.",
+          "evidencePaths": [
+            "packages/dom/src/positioning/positioning.ts"
+          ],
+          "remainingOrNext": "Realflip/align arrow positions transformorigin corresponding physical edge.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.9",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 112,
+            "clause": "- [ ] `popover.positioning.9` Given author inline styles on the popover and its arrow, when positioning styles are applied, then the author values survive alongside the computed ones. (candidate) [react-aria]"
+          },
+          "currentEvidence": "Authorprops merge style withvisibility positioning; arrow authorstyles may computedaxes overwritebydesign.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Independent authorcolor/background/border style preserved while computedaxes change, exact conflictpolicy inspect.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.10",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 113,
+            "clause": "- [ ] `popover.positioning.10` Given a popover aligned to one of several triggers, when a conditional trigger unmounts and the surrounding tree remounts, then the popover stays aligned to its active trigger. (candidate) (browser-only) [base-ui]"
+          },
+          "currentEvidence": "Trigger registry/activepayload shared; multi-trigger focus tests do not realgeometry conditionalunmount/remount.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Conditionalactive siblingunmount recovery remainingrect alignment/mountedowner target.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.notes.3",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 140,
+            "clause": "- [ ] `popover.notes.3` Given a trigger whose DOM node is reparented, replaced or remounted while the popover is in use, when it is clicked, then it still opens and closes the popover and the popover stays aligned to it. [base-ui, ariakit]"
+          },
+          "currentEvidence": "Refs/registry support remountedTrigger; no native physicalreparent/replacement fixture.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Reparentnative node click toggle+rect alignment; remountpart trackscurrentref/id no stalehandlers.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.animation.3",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 120,
+            "clause": "- [ ] `popover.animation.3` Given a popover with per-side enter and exit animations, when it closes, then the resolved placement attribute stays on the content and the popover keeps being repositioned until the exit animation finishes. (candidate) [corvu]"
+          },
+          "currentEvidence": "Positioning activewhileexiting guard shipped; no anchor moved whileheldexit proof.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Pausedexit moveAnchor realrect follows, sideattrsretained then finishunmount.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.a11y.1",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 134,
+            "clause": "- [ ] `popover.a11y.1` Given a popover, when axe runs over the page with the popover closed and again with it open, then no violations are reported, with the dialog-name rule set aside for content that carries no title. [zag, ark, reka, melt]"
+          },
+          "currentEvidence": "No directPopover axe test among suitefiles; Dialogaxe doesnot substitute.",
+          "evidencePaths": [
+            "packages/suite/src/popover"
+          ],
+          "remainingOrNext": "Positive namednative closed/open fixtureaxe, no ruleexception needed with validTitle.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.22",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 36,
+            "clause": "- [ ] `dialog.roles.22` Given an open dialog, then the content element carries `tabindex=\"-1\"` so it can be focused programmatically without joining the tab sequence. [react-aria, zag, corvu]"
+          },
+          "currentEvidence": "Content native dialog part tabindex-1 coreattrs, no dedicated assertions along nativeTabcase.",
+          "evidencePaths": [
+            "packages/core/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Explicit Content -1 and programmatic focus not Tabstop withrealchildren.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.28",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 42,
+            "clause": "- [ ] `dialog.roles.28` Given a dialog title part, then it is exposed as a heading with `aria-level=\"2\"` by default and the level is overridable. (candidate) [bits]"
+          },
+          "currentEvidence": "Title default h2 heading and aria-level override shipped; Alerttest equivalent notDialogproof.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Exact native heading2→authorlevel3→undefined2 same Title node.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.5",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 54,
+            "clause": "- [ ] `dialog.keyboard.5` Given a modal dialog containing exactly one focusable element, when Tab or Shift+Tab is pressed, then focus MUST stay on that element. [apg, ariakit, headlessui, bits]"
+          },
+          "currentEvidence": "Fullfocuscycle Dialog3controls tests pass; single-effectivecontrol both directions missing.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.focus-accessibility.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native Tab/ShiftTab10times oneusablebutton skipsdisabled/hidden.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.focus.8",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 99,
+            "clause": "- [ ] `dialog.focus.8` Given a dialog whose initial focus target is a static element, then that element MUST carry `tabindex=\"-1\"` so it is programmatically focusable without entering the tab sequence, and the first Tab from it MUST land on the first real tabbable element. [apg]"
+          },
+          "currentEvidence": "initialFocus accepts staticHTMLElement; core/tabbable handlesnegativetabindex. No publicstaticfirstTab assertion.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Staticheading -1 explicitlyinitialfocus then nativeTabfirst realcontrol; no addednormal tabstop.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.focus.25",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 116,
+            "clause": "- [ ] `dialog.focus.25` Given an open dialog, when Escape or an outside press is configured to be ignored, then the focus trap stays active and ten consecutive Tab presses keep focus inside the content. (candidate) [melt]"
+          },
+          "currentEvidence": "closeOnEscape/closeOnOutside flags public, authorvetostack tested but tenTab+ignorecombined absent.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Bothdisabled config nativeEscape/outside no close then10Tabinside; closebuttonworks.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.7",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 56,
+            "clause": "- [ ] `dialog.keyboard.7` Given a dialog trigger with focus, when Enter or Space is pressed, then the dialog opens and focus moves inside it. [zag, ariakit]"
+          },
+          "currentEvidence": "Trigger nativeButton activation supports Enter/Space; existingpublic test opensmouse.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Native focusedTrigger Enter/Space each opens/focusinside, exactcallbackone.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.9",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 58,
+            "clause": "- [ ] `dialog.keyboard.9` Given keyboard dismissal is disabled, when Escape is pressed, then the dialog stays open and keeps focus, while an in-dialog close control still closes it. [react-aria, base-ui, corvu, melt, bits]"
+          },
+          "currentEvidence": "closeOnEscape=false shipped; existingnative tests callbackvetos not equivalentdisabledflag.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "DisabledEscape keepsfocus/modal then closebutton dismisses; callbacknotinvoked when flagfalse documented.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.6",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 74,
+            "clause": "- [ ] `dialog.pointer.6` Given an open dialog, when the content or any descendant of it is clicked, then the dialog stays open. [radix, base-ui, ariakit, headlessui, reka, melt, bits]"
+          },
+          "currentEvidence": "Native close controls tested; ordinaryinside nonclosebutton/text nooutsidecallback proof missing.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native internalfocusable/nonfocusable clicks identity/expanded/callback0 forcloseintent.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.9",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 77,
+            "clause": "- [ ] `dialog.pointer.9` Given a press that begins inside the dialog and ends outside it, or a dialog that opened during the press, when the gesture completes, then the dialog does not close. [base-ui, ariakit, headlessui, melt]"
+          },
+          "currentEvidence": "Layergesture origins/pendingpressguard shipped; no publicDialog heldmousedown-inside/upoutside regression.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "Real drag crossing nativecontentbounds plus opened-duringpress followedtrailingclick noclose.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.12",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 80,
+            "clause": "- [ ] `dialog.pointer.12` Given an open dialog on a touch device, when a tap completes outside it, then the dialog closes on the touch end rather than on the touch start, and the tap does not leak through to the control underneath. [base-ui, melt, bits]"
+          },
+          "currentEvidence": "Layer touchpending processing exists; dedicated realtouch outside-end/no underlyingactivation missing.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "TouchE2E pointer/tap protocol; constructor syntheticevents limitedscope.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.15",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 83,
+            "clause": "- [ ] `dialog.pointer.15` Given an open modal dialog, when a `wheel` event with `ctrlKey` set fires on the content, then it is not prevented, so page and pinch zoom still work while the scroll lock is active. (candidate) [radix]"
+          },
+          "currentEvidence": "Scrolllock sharedcontroller typically ctrl-wheel allowed; no Dialog componentnative zoomwheeldefault check.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Cancelable Ctrlwheel dispatch reachesdocumentunprevented whilemodal lockactive; no OSzoomclaim.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.16",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 84,
+            "clause": "- [ ] `dialog.pointer.16` Given a right-button `pointerdown` outside an open dialog, then the dialog stays open and no open-change is reported. (candidate) [base-ui]"
+          },
+          "currentEvidence": "Layer ignoresnonprimarybuttons; no nativeDialogrightclick outside exactcallback0.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "Native rightclick authorized outside accessiblebody/viewport backdrop noclose.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.pointer.18",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 86,
+            "clause": "- [ ] `dialog.pointer.18` Given a press whose `pointerdown` opened the dialog, when the browser synthesizes the trailing `click` outside the popup, then it is not treated as an outside press, while a second complete press does dismiss. Chromium. (browser-only) (candidate) [base-ui]"
+          },
+          "currentEvidence": "Openingpress layer registeredpostdown shouldnotretrospectively dismiss trailingclick; no publicnative regression.",
+          "evidencePaths": [
+            "packages/dom/src/layer/layer.ts"
+          ],
+          "remainingOrNext": "Native mousedown opens then release/click outside keptopen; secondfulloutsidepress closes.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.focus.33",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 124,
+            "clause": "- [ ] `dialog.focus.33` Given a long dialog body, when the dialog opens, then the initially focused control is focused without scrolling the body. (browser-only) (candidate) [ariakit]"
+          },
+          "currentEvidence": "Native focus controller usespreventScroll; no actual longdialog internalscroll initialcontrol baseline.",
+          "evidencePaths": [
+            "packages/dom/src/dialog/dialog.ts"
+          ],
+          "remainingOrNext": "Long nativebody focus targetbelow scroll viewport with measuredscrollTop remains initial, window scroll stable.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.dismissal.22",
+          "category": "writable",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 172,
+            "clause": "- [ ] `dialog.dismissal.22` Given two keep-mounted dialogs where a closed one mounted after the open one, when Escape is pressed, then the open dialog closes and the closed one neither swallows the key nor receives outside-interaction callbacks. (candidate) [reka]"
+          },
+          "currentEvidence": "ClosedforceMount noactivesession; nativeactive stack selects open; no exactlaterclosedmounted fixture.",
+          "evidencePaths": [
+            "packages/solid/src/internal/dialog.tsx"
+          ],
+          "remainingOrNext": "Openmodal first then laterclosedforceMount second Escape onlyfirst/nooutsidecallbacks second.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        }
+      ],
+      "verification": "Read-only exact source/clause review. No fresh execution or completion claimed.",
+      "limits": [
+        "Shipped policies are distinguished from unimplemented research alternatives; recommendations require assertion review and execution."
+      ]
+    },
+    {
+      "id": "dialog-popover-drawer-review-existing-needs-execution",
+      "status": "reconciled",
+      "ids": [
+        "drawer.keyboard.1",
+        "drawer.pointer.43",
+        "popover.keyboard.2",
+        "popover.keyboard.4",
+        "popover.focus.3",
+        "popover.positioning.11",
+        "dialog.roles.3",
+        "dialog.dismissal.1",
+        "dialog.roles.18",
+        "dialog.keyboard.3",
+        "dialog.dismissal.16"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "drawer.keyboard.1: Link execution; add exact titlegone/defaultDrawer standalone if required.",
+        "drawer.pointer.43: Authorprevented handle press accepted clause; arbitrary contentdescendant swipe not enabled.",
+        "popover.keyboard.2: Existingcontent clause execution + nativeTrigger Escape acceptedguard.",
+        "popover.keyboard.4: Link exactveto and resetpolicy execution, no extra sourcechange.",
+        "popover.focus.3: Accept defaultnonmodal policy; real scrollpreservation/interactivebackground slice still writable.",
+        "popover.positioning.11: Link exact DOMregression/execution; do not mockbrowsergeometry for closure.",
+        "dialog.roles.3: Positive namingclosure supported; negativeaxe warning path separate.",
+        "dialog.dismissal.1: Native outsidebuttonfocus/activationblocked exactguard; visualobscuring notsameas aria assertion.",
+        "dialog.roles.18: Add exact BUTTON/type/haspopup metadata; retainedcontrols policy shipped.",
+        "dialog.keyboard.3: Link relevant all-engine execution; programmaticoutsidefocus unrelated clause.",
+        "dialog.dismissal.16: Two sessions bothdismissalpaths and onecallbackperpress; no stale listener."
+      ],
+      "scopeReview": [
+        {
+          "id": "drawer.keyboard.1",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 25,
+            "clause": "- [ ] `drawer.keyboard.1` Given an open drawer, when Escape is pressed, then the content is hidden, the title text leaves the document and focus returns to the trigger. [zag, reka]"
+          },
+          "currentEvidence": "Native nested Drawer test Escape closes onlychild and restoresbothopeners; title removal may not explicitly checked.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Link execution; add exact titlegone/defaultDrawer standalone if required.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "drawer.pointer.43",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/drawer.md",
+            "line": 73,
+            "clause": "- [ ] `drawer.pointer.43` Given a descendant whose own pointerdown handler calls `preventDefault()`, when a drag starts there, then no swipe begins and the movement variable stays at `0px`. (candidate) [base-ui]"
+          },
+          "currentEvidence": "Native Drawer test explicitly prevents press then checks no swipe among modifiedpress cases.",
+          "evidencePaths": [
+            "packages/suite/src/drawer/drawer.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Authorprevented handle press accepted clause; arbitrary contentdescendant swipe not enabled.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.keyboard.2",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 26,
+            "clause": "- [ ] `popover.keyboard.2` Given an open popover, when Escape is pressed, then it closes and focus returns to the trigger, whether the key is pressed inside the content or on the trigger itself. [react-aria, base-ui, zag, ark, ariakit, headlessui, corvu, melt, bits]"
+          },
+          "currentEvidence": "Nested modal and standalone test Escapecontent closes/restores; Trigger Escape path not independently verified.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Existingcontent clause execution + nativeTrigger Escape acceptedguard.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.keyboard.4",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 28,
+            "clause": "- [ ] `popover.keyboard.4` Given an open popover whose Escape handler calls `preventDefault`, or whose escape behavior is set to ignore, when Escape is pressed, then the popover stays open and keeps focus where it was, and a later unprevented Escape closes it. [corvu, melt, bits]"
+          },
+          "currentEvidence": "ControlledPopover authorcancel Escape and native disabledEscape tests preservefocus; later unpreventedpath in controlledfixture.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.test-browser.tsx"
+          ],
+          "remainingOrNext": "Link exactveto and resetpolicy execution, no extra sourcechange.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.focus.3",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 56,
+            "clause": "- [ ] `popover.focus.3` Divergence: Given a popover with no modality configured, when it opens, then it is non-modal, so Tab can leave the content and the page behind stays scrollable and clickable. (decision needed) [radix, base-ui, zag, corvu]"
+          },
+          "currentEvidence": "Defaultnonmodal nativeTab leaves, outsidefocus preserved; page clickable confirmed outside tests, scrollability not measured.",
+          "evidencePaths": [
+            "packages/suite/src/popover/popover.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Accept defaultnonmodal policy; real scrollpreservation/interactivebackground slice still writable.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "popover.positioning.11",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 114,
+            "clause": "- [ ] `popover.positioning.11` Given two overlapping asynchronous positioning runs, when the older one resolves last, then its result is discarded and the placement from the newer run stands. (candidate) (browser-only) [ariakit]"
+          },
+          "currentEvidence": "DOMpositioning async controller tests include overlappingrun freshness, no publicbrowser forcedscheduler.",
+          "evidencePaths": [
+            "packages/dom/src/positioning/positioning.test.ts"
+          ],
+          "remainingOrNext": "Link exact DOMregression/execution; do not mockbrowsergeometry for closure.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.3",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 17,
+            "clause": "- [ ] `dialog.roles.3` Given a dialog, then it MUST have an accessible name, from `aria-labelledby` referring to a visible title or from `aria-label`; axe reports a missing name at serious impact and the role table requires one. [apg, axe]"
+          },
+          "currentEvidence": "PublicauthorIDs and aria-label tests plus namedDialogaxe pass; negativeunnamed rulefailure absent.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.focus-accessibility.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Positive namingclosure supported; negativeaxe warning path separate.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.dismissal.1",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 151,
+            "clause": "- [ ] `dialog.dismissal.1` Given a modal dialog, then content outside it MUST be inert: users MUST NOT be able to interact with it, and it is typically visually obscured or dimmed. [apg, html]"
+          },
+          "currentEvidence": "Native nestedDialog lowercontent inert and explicitbody portal inert tests.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.native.test-browser.tsx"
+          ],
+          "remainingOrNext": "Native outsidebuttonfocus/activationblocked exactguard; visualobscuring notsameas aria assertion.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.roles.18",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 32,
+            "clause": "- [ ] `dialog.roles.18` Given a dialog trigger, then it is a `button` carrying `aria-haspopup=\"dialog\"`, `aria-expanded` reflecting the open state, and `aria-controls` pointing at the content id. [radix, base-ui, zag, corvu]"
+          },
+          "currentEvidence": "Public Dialog test closedcontrols/contentid, expandedfalse then true, nativecontent named; no explicittype/haspopup assert there.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.test-browser.tsx"
+          ],
+          "remainingOrNext": "Add exact BUTTON/type/haspopup metadata; retainedcontrols policy shipped.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.keyboard.3",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 52,
+            "clause": "- [ ] `dialog.keyboard.3` Given an open modal dialog, then Tab and Shift+Tab MUST NOT move focus outside it, and there MUST be no way to move keyboard focus out without closing the dialog. [apg, radix, base-ui, ariakit, headlessui, melt, bits]"
+          },
+          "currentEvidence": "DedicatedDialog native forward/backward3-controlwrap and mutationrecovery Tabcycle exact.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/dialog.focus-accessibility.remaining.test-browser.tsx"
+          ],
+          "remainingOrNext": "Link relevant all-engine execution; programmaticoutsidefocus unrelated clause.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        },
+        {
+          "id": "dialog.dismissal.16",
+          "category": "existing-needs-execution",
+          "spec": {
+            "path": "docs/spec/dialog.md",
+            "line": 166,
+            "clause": "- [ ] `dialog.dismissal.16` Given a dialog that is closed and reopened, then its dismissal wiring is rebuilt, so Escape and outside presses work in the second session exactly as in the first, and no stale document listener dismisses the new layer. [base-ui, bits]"
+          },
+          "currentEvidence": "Methoddialog controlleddenial/reopen native and forceMount reopenexist; ordinary fulloutside/Escape second-session callbacks notpaired.",
+          "evidencePaths": [
+            "packages/suite/src/dialog/native-dialog.test-browser.tsx"
+          ],
+          "remainingOrNext": "Two sessions bothdismissalpaths and onecallbackperpress; no stale listener.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        }
+      ],
+      "verification": "Read-only exact source/clause review. No fresh execution or completion claimed.",
+      "limits": [
+        "Shipped policies are distinguished from unimplemented research alternatives; recommendations require assertion review and execution."
+      ]
+    },
+    {
+      "id": "dialog-popover-drawer-review-unshipped",
+      "status": "reconciled",
+      "ids": [
+        "popover.animation.6"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "popover.animation.6: Exclude morphvariant; sharedtrigger sameowner accepted behavior elsewhere."
+      ],
+      "scopeReview": [
+        {
+          "id": "popover.animation.6",
+          "category": "unshipped",
+          "spec": {
+            "path": "docs/spec/popover.md",
+            "line": 123,
+            "clause": "- [ ] `popover.animation.6` Given a popover shared by several triggers with a morph animation, when the active trigger changes, then the outgoing content stays alongside the incoming one and is marked inert until the animation finishes, rapid trigger changes settle on the last trigger, and no inline transform is left behind to override the CSS. (candidate) (browser-only) [base-ui]"
+          },
+          "currentEvidence": "Single contentowner switchespayload; no outgoing/incoming dual morphstore or inertoutgoingpart.",
+          "evidencePaths": [
+            "packages/solid/src/popover/popover.tsx"
+          ],
+          "remainingOrNext": "Exclude morphvariant; sharedtrigger sameowner accepted behavior elsewhere.",
+          "verification": "Read-only source/spec/test-assertion review, no fresh execution. Mixed rows name clause-level limits; no full-ID closure inferred."
+        }
+      ],
+      "verification": "Read-only exact source/clause review. No fresh execution or completion claimed.",
+      "limits": [
+        "Shipped policies are distinguished from unimplemented research alternatives; recommendations require assertion review and execution."
       ]
     }
   ],
