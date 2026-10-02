@@ -2,18 +2,18 @@
 
 The button. Renders a `<button>`, or the element you pass to `as`.
 
-<Prop name="disabled" type="boolean" default="false">
+<Prop name="disabled" type="boolean | ''" default="false">
 
 Disables the button. Clicks, Enter and Space don't activate it, and your
 `onClick` doesn't run.
+
+Solid's empty attribute value, `disabled=""`, also disables the button.
 
 A native button or input gets the `disabled` attribute and leaves the tab order.
 Other hosts get `aria-disabled` and lose their tab stop.
 
 ```tsx title="disabled.tsx"
-<Button disabled>
-  Save changes
-</Button>
+<Button disabled>Save changes</Button>
 ```
 
 </Prop>
@@ -26,9 +26,7 @@ Blocks activation while work is in progress. The button stays focusable and gets
 A link loses its `href` while pending, so it can't be followed.
 
 ```tsx title="pending.tsx"
-<Button pending={isSaving()}>
-  {isSaving() ? 'Saving…' : 'Save'}
-</Button>
+<Button pending={isSaving()}>{isSaving() ? 'Saving…' : 'Save'}</Button>
 ```
 
 </Prop>
@@ -72,9 +70,16 @@ See [Composition](/docs/composition/#ref).
 
 <Prop name="type" type="'button' | 'submit' | 'reset'" default="'button'">
 
-The native button type. `submit` submits the parent form and `reset` resets it.
+The native button type. `submit` submits the associated form and `reset` resets it.
+These three values are supported for both the default button and `as="input"`.
 
-Links and other non-native hosts ignore it.
+Omitting the prop defaults to `button`. Explicit `type={undefined}` removes the
+attribute, including after a reactive value changes. A button without a type
+usually submits its associated form; an input without a type becomes a text input.
+Keep an explicit type when rendering an input as a button.
+
+Other hosts retain their own `type` prop meaning. For example, an anchor's `type`
+describes the linked resource's media type.
 
 ```tsx title="type.tsx"
 <form onSubmit={save}>
@@ -99,10 +104,12 @@ Native hosts keep their own keyboard behavior.
 
 </Prop>
 
-<Prop name="autofocus" type="boolean" default="false">
+<Prop name="autofocus" type="boolean | ''" default="false">
 
 Focuses the button once it has rendered, and sets the `autofocus` attribute and
 `data-autofocus`.
+
+Both `true` and the empty attribute value `""` enable autofocus.
 
 Focus goes through the ref, so a custom `as` component has to forward it.
 
@@ -116,27 +123,27 @@ Focus goes through the ref, so a custom `as` component has to forward it.
 
 </Prop>
 
-<Prop name="ref" type="(el: HTMLElement) => void">
+<Prop name="ref" type="ComponentProps<T>['ref']">
 
-Receives the rendered element.
+Uses the selected host's native Solid ref type. The default host infers
+`HTMLButtonElement`; `as="a"` infers `HTMLAnchorElement`. Callback arrays,
+including nested arrays and undefined entries, compose with Xenon's internal ref.
 
 In development, Button logs an error when a custom `as` component never passes
 the element back.
 
 ```tsx title="ref.tsx"
-let button: HTMLElement | undefined
+let button: HTMLButtonElement | undefined
 
-<Button ref={(el) => (button = el)}>
-  Save
-</Button>
+;<Button ref={(el) => (button = el)}>Save</Button>
 ```
 
 </Prop>
 
 <Attributes>
-<Attribute name="data-disabled">Present while `disabled` is set.</Attribute>
-<Attribute name="data-pending">Present while `pending` is set.</Attribute>
-<Attribute name="data-autofocus">Present while `autofocus` is set.</Attribute>
+  <Attribute name="data-disabled">Present while `disabled` is set.</Attribute>
+  <Attribute name="data-pending">Present while `pending` is set.</Attribute>
+  <Attribute name="data-autofocus">Present while `autofocus` is set.</Attribute>
 </Attributes>
 
 </Props>

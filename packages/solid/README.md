@@ -9,6 +9,16 @@ bun add @xenon-ui/solid
 
 `solid-js` and `@solidjs/web` 2.0 are peer dependencies.
 
+Host props use Solid's native types, including host-specific refs and `class`
+values. Refs support nested callback arrays. Native boolean attributes consumed
+by behavior treat `true` and `""` as enabled. Native event handlers support
+functions and bound tuples; consumer handlers run first and can cancel matching
+core behavior with `preventDefault()`. The adapter adds no `classList` compatibility.
+
+Button defaults to `type="button"` when the prop is omitted. Explicit
+`type={undefined}` removes the attribute, restoring the host's native default.
+Button and input hosts accept `button`, `submit`, and `reset` types.
+
 ```tsx
 import { Dialog } from '@xenon-ui/solid/dialog'
 

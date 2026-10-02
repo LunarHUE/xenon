@@ -39,11 +39,13 @@ ref to Button, so the tooltip opens from a native button.
 
 <Section title="ref">
 
-`ref` takes a callback. Button calls it with the element it renders.
+`ref` preserves the selected host's Solid type. Callback refs receive the rendered
+element, and nested callback arrays let multiple consumers share it. Xenon attaches
+its internal ref before forwarding to consumers.
 
 ```tsx title="editor.tsx"
 function Editor() {
-  let save: HTMLElement | undefined
+  let save: HTMLButtonElement | undefined
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') save?.focus()
   }
@@ -77,5 +79,25 @@ function Project() {
   return <Button as={Card}>Open project</Button>
 }
 ```
+
+</Section>
+
+<Section title="Native props">
+
+Host props retain Solid's native types wherever component behavior does not own
+them. `class` accepts Solid's native class values; the styled layer merges those
+values with its recipe. The headless adapter does not add `classList` compatibility.
+
+Native boolean attributes consumed by behavior, such as `disabled` and
+`autofocus`, accept `true`, `false`, and `""`. The empty value enables the flag.
+Behavior-only options such as `pending` remain booleans.
+
+Consumer event handlers run before matching Xenon handlers. Functions and Solid's
+`[handler, data]` tuples are supported. An undefined consumer handler leaves Xenon's
+behavior intact; calling `preventDefault()` skips the matching Xenon handler.
+
+Ordinary forwarded attributes support removal through explicit undefined values.
+Some props, such as generated control IDs and controlled state, belong to the
+component's behavior and have their own documented defaults.
 
 </Section>
