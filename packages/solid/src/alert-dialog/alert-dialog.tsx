@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import { alertDialog } from '@xenon-ui/core/alert-dialog'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -28,9 +29,9 @@ export function AlertDialogCancel<T extends ValidComponent = 'button'>(
   return (
     <DialogClose
       {...props}
-      ref={(el) => {
+      ref={(el: HTMLElement) => {
         context.setCancel(el)
-        props.ref?.(el)
+        setRef((props as { ref?: unknown }).ref, el)
       }}
     />
   )
