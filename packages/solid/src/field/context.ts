@@ -43,7 +43,13 @@ export interface FieldContextValue {
   /** Last registered control in registry order, with ids.control as the empty-registry fallback. */
   controlId(): string
   /** Register a control candidate with the same ordering and cleanup contract as registerLabel. ID readers are evaluated on access. */
-  registerControl(id: string | (() => string), element?: HTMLElement): () => void
+  registerControl(
+    id: string | (() => string),
+    element?: HTMLElement,
+    onLabelClick?: (event: MouseEvent, control: HTMLElement) => void
+  ): () => void
+  /** Runs an opted-in handler only for the current registered control targeted by this label. */
+  activateLabel?(control: HTMLElement, event: MouseEvent): boolean
   /** Register a description using the shared ordering/cleanup contract; its ID contributes to describedBy. */
   registerDescription(id: string | (() => string), element?: HTMLElement): () => void
   /** Register an error using the shared ordering/cleanup contract; its ID contributes only while Field is invalid. */

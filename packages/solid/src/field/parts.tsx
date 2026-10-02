@@ -94,6 +94,16 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
     on: {
       click(event) {
         if (context.disabled()) return
+        const label = event.currentTarget
+        const target = event.target
+        // Native labels do not activate their control through interactive descendants.
+        if (label.control && target instanceof label.ownerDocument.defaultView!.Element) {
+          const interactive = target.closest(
+            'a[href],button,input,select,textarea,summary,details,audio[controls],video[controls],iframe,embed,img[usemap],object[usemap]'
+          )
+          if (interactive && label.contains(interactive)) return
+        }
+        if (label.control && context.activateLabel?.(label.control, event)) return
         const control = event.currentTarget.ownerDocument.getElementById(context.controlId())
         if (!control || 'labels' in control) return
         control.focus()

@@ -52,6 +52,8 @@ interface Entry {
   id: string | (() => string)
   /** Rendered element used to sort registrations in DOM order when both entries have elements. */
   element?: HTMLElement
+  /** Optional control-owned policy for native label activation. */
+  onLabelClick?: (event: MouseEvent, control: HTMLElement) => void
 }
 
 /**
@@ -59,11 +61,14 @@ interface Entry {
  * additions/removals publish a reactive list; server reads use the mutable list
  * directly. Entries with elements are sorted when added, not observed for DOM moves.
  */
-function registry(): [() => Entry[], (id: Entry['id'], element?: HTMLElement) => () => void] {
+function registry(): [
+  () => Entry[],
+  (id: Entry['id'], element?: HTMLElement, onLabelClick?: Entry['onLabelClick']) => () => void,
+] {
   const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   let current: Entry[] = []
-  const add = (id: Entry['id'], element?: HTMLElement) => {
-    const entry = { id, element }
+  const add = (id: Entry['id'], element?: HTMLElement, onLabelClick?: Entry['onLabelClick']) => {
+    const entry = { id, element, onLabelClick }
     current = [...current, entry]
     current.sort((a, b) => {
       if (!a.element || !b.element) return 0
@@ -152,6 +157,17 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
     registerLabel,
     controlId: () => (controls().length ? entryId(controls().at(-1)!) : ids.control),
     registerControl,
+    activateLabel(control, event) {
+      const entry = controls().at(-1)
+      if (
+        !entry?.onLabelClick ||
+        entryId(entry) !== control.id ||
+        (entry.element && entry.element !== control)
+      )
+        return false
+      entry.onLabelClick(event, control)
+      return true
+    },
     registerDescription,
     registerError,
   }

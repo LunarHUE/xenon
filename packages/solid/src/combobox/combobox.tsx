@@ -541,8 +541,16 @@ function ComboboxTrigger(props: ComboboxTriggerProps): JSX.Element {
     typeof props.id === 'string'
       ? props.id
       : (context.field?.ids.control ?? `${context.id}-trigger`)
-  // eslint-disable-next-line solid/reactivity -- Field retains the live ID reader until disposal.
-  if (context.field && context.popupInput) onCleanup(context.field.registerControl(id))
+  if (context.field && context.popupInput) {
+    onCleanup(
+      // eslint-disable-next-line solid/reactivity -- Field retains the live ID reader until disposal.
+      context.field.registerControl(id, undefined, (event, control) => {
+        if (control !== context.source.trigger()) return
+        event.preventDefault()
+        if (!context.disabled()) control.focus()
+      })
+    )
+  }
   const controls = () =>
     context.source.open() || context.props.forceMount ? context.contentId() : undefined
   return (
