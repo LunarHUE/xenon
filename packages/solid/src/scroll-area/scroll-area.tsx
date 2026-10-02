@@ -28,7 +28,10 @@ import { spread } from '../spread'
 /** Visibility policy for supplied custom scrollbars; native scrolling remains available. */
 export type ScrollAreaType = 'auto' | 'always' | 'hover' | 'scroll'
 /** Native polymorphic part attributes. */
-export type ScrollAreaPartProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type ScrollAreaPartProps<T extends ValidComponent = 'div'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Host element, defaulting to div. Custom hosts must forward attributes and refs. */
   as?: T
 }

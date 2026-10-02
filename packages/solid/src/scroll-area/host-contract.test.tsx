@@ -52,3 +52,17 @@ test('compound parts forward native ref arrays', () => {
   expect(new Set(first.mock.calls.map(([node]) => node)).size).toBe(3)
   expect(second.mock.calls).toEqual(first.mock.calls)
 })
+
+test('scroll area parts infer the selected native host ref', () => {
+  render(() => (
+    <ScrollArea>
+      <ScrollArea.Viewport
+        as="a"
+        href="#content"
+        ref={(node) => {
+          expectTypeOf(node).toEqualTypeOf<HTMLAnchorElement>()
+        }}
+      />
+    </ScrollArea>
+  ))
+})
