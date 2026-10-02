@@ -1529,7 +1529,7 @@
     {"ids":["menu.roles.42","menu.roles.43","menu.roles.44"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Open mixed-menu axe scan checks ordinary valid named ownership fixture; alternate name sources, empty-menu incomplete outcome and invalid ownership failures are not asserted.","evidence":525,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":720},"status":"queued"},
     {"ids":["menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core maps Enter/Space to first edge and browser click/ArrowDown focuses first; public native Enter and Space trigger-open focus matrix is not directly asserted.","evidence":526,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":722},"status":"queued"},
     {"ids":["menu.keyboard.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Detached disabled/canceled trigger tests block click and key requests; full native Enter/Space/Up/Down disabled matrix is not asserted.","evidence":527,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":724},"status":"queued"},
-    {"ids":["menu.keyboard.4"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Empty collections and content focus fallback ship; public empty Menu all-open-key no-active/no-throw fixture is absent.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":725},"status":"queued"},
+    {"ids":["menu.keyboard.4"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Empty collections and content focus fallback ship; public empty Menu all-open-key no-active/no-throw fixture is absent.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":725},"status":"verified"},
     {"ids":["menu.keyboard.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Home and End focus first/last in browser; every possible starting position is not enumerated.","evidence":523,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":727},"status":"queued"},
     {"ids":["menu.keyboard.8"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Default wrapping through disabled item to first is asserted with ArrowDown; reverse end wrapping is not explicitly asserted.","evidence":528,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":729},"status":"queued"},
     {"ids":["menu.keyboard.12"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Space activates once in a canceled-selection fixture, but successful Space closure/restoration is not separately asserted.","evidence":529,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":733},"status":"queued"},
@@ -1545,7 +1545,7 @@
     {"ids":["menu.keyboard.54","menu.keyboard.55"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Native anchor href activation is supported, but no Menu link keyboard fixture asserts navigation propagation, exact action callback and absent selection-change behavior.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":761},"status":"queued"},
     {"ids":["menu.keyboard.56"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Buffered Space is consumed before link activation in code; link reached by typeahead then Space is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":762},"status":"queued"},
     {"ids":["menu.pointer.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core click toggles captured open state and browser click opens with trigger restoration on selection; second-click close+focus is not directly asserted.","evidence":526,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":765},"status":"queued"},
-    {"ids":["menu.pointer.2","menu.pointer.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Secondary clicks do not invoke native primary activation and closed layers are inactive; these negative public Menu gestures are not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":766},"status":"queued"},
+    {"ids":["menu.pointer.2","menu.pointer.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Secondary clicks do not invoke native primary activation and closed layers are inactive; these negative public Menu gestures are not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":766},"status":"verified"},
     {"ids":["menu.pointer.4"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Pointermove synchronously focuses/highlights item, but no dedicated enabled hover-to-item assertion exists.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":768},"status":"queued"},
     {"ids":["menu.pointer.8"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native checkbox/radio click commits once and plain Enter restores; complete plain-item pointer click action+close+return fixture is absent.","evidence":533,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":771},"status":"queued"},
     {"ids":["menu.pointer.22"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Entering submenu and returning trigger cancels grace timers, but native hover round-trip retaining both layers/focus is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":779},"status":"queued"},
@@ -1559,12 +1559,12 @@
     {"ids":["menu.focus.15"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Shared detached menu restores latest correct trigger; multiple independent menus with stale prior focus and no-scroll checks are not asserted.","evidence":524,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":798},"status":"queued"},
     {"ids":["menu.focus.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Menu defers initial focus until positioning success, but stalled positioner plus programmatic move/late mount no-scroll matrix has no Menu-specific assertion.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":799},"status":"queued"},
     {"ids":["menu.focus.20"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Forced menu is hidden after native Tab exit; retained item tabindex=-1 reset is not explicitly checked.","evidence":535,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":800},"status":"queued"},
-    {"ids":["menu.state.1","menu.state.3","menu.state.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Independent checkbox state and controlled resets ship; simultaneous checkbox independence, close/reopen retained uncontrolled state and external reset indicator removal lack exact assertions.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":802},"status":"queued"},
+    {"ids":["menu.state.1","menu.state.3","menu.state.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Independent checkbox state and controlled resets ship; simultaneous checkbox independence, close/reopen retained uncontrolled state and external reset indicator removal lack exact assertions.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":802},"status":"verified"},
     {"ids":["menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Cancelable onSelect prevents checkbox commit; controlled value denial is not directly tested, and cancelable change-event API is not supplied.","evidence":525,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":804},"status":"queued"},
     {"ids":["menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Selecting already-selected uncontrolled radio produces no callback; exact controlled-value unchanged fixture is absent.","evidence":536,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":805},"status":"queued"},
     {"ids":["menu.state.15"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Controlled false request is emitted once without mounting; initially controlled true without initialization callback and subsequent trigger-toggle matrix is not directly asserted.","evidence":537,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":808},"status":"queued"},
-    {"ids":["menu.state.16"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultOpen ships, but first-trigger-click close with exact callback count is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":809},"status":"queued"},
-    {"ids":["menu.state.18"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Controlled open denial is supported, but closing a pinned true Menu and retaining open style hooks lacks direct assertion.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":811},"status":"queued"},
+    {"ids":["menu.state.16"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultOpen ships, but first-trigger-click close with exact callback count is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":809},"status":"verified"},
+    {"ids":["menu.state.18"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Controlled open denial is supported, but closing a pinned true Menu and retaining open style hooks lacks direct assertion.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":811},"status":"verified"},
     {"ids":["menu.state.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Detached triggers swap payload, reuse popup and move anchor; positioner identity and initial trigger ID full matrix are not asserted.","evidence":538,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":814},"status":"queued"},
     {"ids":["menu.state.23"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Registered ID commands and ignored detached commands are tested; warning and invalid-ID throw behavior are not selected by the shared silent-ignore API.","evidence":539,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":815},"status":"queued"},
     {"ids":["menu.dismissal.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Enter/Escape/Tab close directly; each while hover timer/guard pending is not explicitly tested.","evidence":540,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":818},"status":"queued"},
@@ -2464,6 +2464,32 @@
       "verification": "Coordinator independently verified all 4 cases across Chromium, Firefox and WebKit in a clean 456-test/87-file domain run.",
       "limits": [
         "The timeout test pins the shipped resume-after-current branch of the research divergence, using a 300ms deadline margin."
+      ]
+    },
+    {
+      "id": "menu-state-and-closed-interactions",
+      "status": "verified",
+      "ids": [
+        "menu.state.1",
+        "menu.state.3",
+        "menu.state.8",
+        "menu.state.16",
+        "menu.state.18",
+        "menu.keyboard.4",
+        "menu.pointer.2",
+        "menu.pointer.13"
+      ],
+      "acceptedClauses": [
+        "Independent checkbox toggles; uncontrolled checkbox/radio persistence across lazy and retained reopening; external controlled reset; default-open exact first close; rejected controlled close; empty menu opening keys; closed right-click and outside-click suppression."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/menu/menu.state.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 8 cases across Chromium, Firefox and WebKit in a clean 456-test/87-file domain run. Final Menu adapter run: 19 passed.",
+      "relatedFix": "Preserve Menu item state across popup closure",
+      "limits": [
+        "Logical child owners persist after first opening; closed lazy DOM detaches and native hosting is disposed. Author removal or Positioner disposal performs owner cleanup, explicitly documented and tested."
       ]
     }
   ],
