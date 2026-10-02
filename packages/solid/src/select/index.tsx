@@ -329,6 +329,9 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       },
     },
   })
+  // Preserve child hosts when a composed toolbar updates its roving tab stop
+  // during pointer focus, so the pending native click keeps its original target.
+  const children = createMemo(() => own.children)
   return (
     <Dynamic
       component={own.as ?? 'button'}
@@ -338,7 +341,7 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
         setRef(own.ref, el)
       }}
     >
-      {own.children}
+      {children()}
     </Dynamic>
   )
 }
