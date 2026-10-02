@@ -966,10 +966,10 @@
     {"ids":["toolbar.state.5"],"historicalStatus":"partial","domain":"collections-layout","reason":"Disabled propagation reaches buttons and groups; there is no Toolbar textbox part.","evidence":143,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1683},"status":"reconciled"},
     {"ids":["toolbar.forms.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"Native association, disabled validation/payload and aria-disabled activation gating are asserted, not the complete 31-row Button form corpus.","evidence":144,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1685},"status":"reconciled"},
     {"ids":["toolbar.roles.11"],"historicalStatus":"partial","domain":"collections-layout","reason":"Links, buttons and groups compose in one toolbar; general textbox, nested composite, switch and number input item contracts are not exported.","evidence":145,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1686},"status":"reconciled"},
-    {"ids":["toolbar.roles.12"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1687},"status":"reconciled"},
-    {"ids":["toolbar.keyboard.16"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1690},"status":"reconciled"},
+    {"ids":["toolbar.roles.12"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1687},"status":"verified"},
+    {"ids":["toolbar.keyboard.16"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1690},"status":"verified"},
     {"ids":["toolbar.state.7"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1691},"status":"reconciled"},
-    {"ids":["toolbar.a11y.4"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1692},"status":"reconciled"},
+    {"ids":["toolbar.a11y.4"],"historicalStatus":"missing","domain":"collections-layout","reason":"Polymorphic Toolbar.Button and overlay triggers now ship, but no toolbar-overlay fixture asserts this trigger/interaction contract; the old unshipped-overlay exclusion is stale.","evidence":146,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1692},"status":"verified"},
     {"ids":["toolbar.ssr.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"No-JavaScript native item order is asserted; Toolbar has no public null/undefined active-item option matrix.","evidence":147,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1698},"status":"reconciled"},
     {"ids":["collection.roles.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"The public collection keeps 0 and '' in items and navigable, resolves 0 as first, steps through the empty string, and includes both falsy values in an inclusive range. The public collection keeps 0 and '' in items and navigable, resolves 0 as first, steps through the empty string, and includes both falsy values in an inclusive range. Numeric zero is verified in the public core snapshot; rendering numeric keys through a collection renderer is not established.","evidence":148,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1699},"status":"reconciled"},
     {"ids":["collection.state.3"],"historicalStatus":"partial","domain":"collections-layout","reason":"Unmounting a Listbox item removes its navigable option; registry size is private and not asserted. Removing Banana removes it from navigation so Apple moves directly to Cherry; re-adding it restores Banana as the previous destination.","evidence":149,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1713},"status":"reconciled"},
@@ -31414,6 +31414,48 @@
       "limits": [
         "82 queued exact Menu IDs. Writable/mixed rows propose additional supported assertions, not full universal closure or verified runs. Some broad rows bundle multiple runtime contracts. Titles alone do not establish evidence; actual assertion excerpts retained and missing titles flagged."
       ]
+    },
+    {
+      "id": "toolbar-overlay-semantics-native",
+      "status": "verified",
+      "ids": [
+        "toolbar.roles.12",
+        "toolbar.keyboard.16",
+        "toolbar.a11y.4"
+      ],
+      "acceptedClauses": [
+        "Menu, Select, Popover composed Toolbar triggers retain menu/listbox/dialog aria-haspopup before, during and after opening; independent cases and sequential scenario retain Escape focus restoration.",
+        "Native arrow keys in Menu and Popover retain popup focus, open state and toolbar active tab stop; Menu owns Down movement, Popover textbox retains all four arrows.",
+        "Open Menu radio popup passes explicit aria-required-children, aria-required-parent, aria-toggle-field-name and aria-required-attr axe rules; owner, names and checked values asserted."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/toolbar/toolbar.overlays.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator Chromium/Firefox/WebKit run: all 10 new cases passed in all engines (30 executions). Broader Select/Toolbar plus Popover naming run: 503 passed, 1 old Firefox link hash timing failure; separately corrected native navigation wait and passed all3. Adapter Select/Toolbar/Popover: 12 files,57 passed. Logs /tmp/xenon-select-toolbar-fixed-domain-all.log, /tmp/xenon-radio-popover-toolbar-batch.log, /tmp/xenon-select-toolbar-popover-adapters.log.",
+      "relatedFix": "fa5eecb",
+      "limits": [
+        "keyboard.16 verifies observable composite routing and focus ownership, not a DOM stopPropagation call. Select uses virtual focus on trigger rather than focus inside popup.",
+        "Finite shipped Menu/Popover focus-inside compositions; no universal assertion over arbitrary authored overlays."
+      ]
+    },
+    {
+      "id": "toolbar-disabled-overlay-native-partial",
+      "status": "reconciled",
+      "ids": [
+        "toolbar.state.7"
+      ],
+      "acceptedClauses": [
+        "Focusable disabled Menu/Select/Popover Toolbar triggers reject Enter, Space, Up, Down and deliberate forced native click; no open/press callbacks, Select value callback unchanged, no popup."
+      ],
+      "remainingClauses": [
+        "Disabled Dialog/AlertDialog triggers and Switch compositions remain writable."
+      ],
+      "files": [
+        "packages/suite/src/toolbar/toolbar.overlays.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator Chromium/Firefox/WebKit run: all 10 new cases passed in all engines (30 executions). Broader Select/Toolbar plus Popover naming run: 503 passed, 1 old Firefox link hash timing failure; separately corrected native navigation wait and passed all3. Adapter Select/Toolbar/Popover: 12 files,57 passed. Logs /tmp/xenon-select-toolbar-fixed-domain-all.log, /tmp/xenon-radio-popover-toolbar-batch.log, /tmp/xenon-select-toolbar-popover-adapters.log.",
+      "relatedFix": "fa5eecb"
     }
   ],
   "knownLimits": {
