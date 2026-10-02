@@ -1613,7 +1613,7 @@
     {"ids":["select.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native arrows skip disabled metadata; live collection removal without a dead slot is not directly tested.","evidence":565,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":46},"status":"verified"},
     {"ids":["select.keyboard.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Idle reset and fresh matching search are asserted; no-match character immediately after timeout is not.","evidence":566,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":53},"status":"reconciled"},
     {"ids":["select.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled-only match commits nothing and ordinary disabled option navigation is excluded; rapid double-letter disabled match among enabled same-letter matches is not asserted.","evidence":567,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":54},"status":"reconciled"},
-    {"ids":["select.keyboard.29","select.keyboard.30"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active buffer consumes Space before commit in code; trailing-Space pointer selection and post-timeout Space commit matrix is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":55},"status":"reconciled"},
+    {"ids":["select.keyboard.29","select.keyboard.30"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active buffer consumes Space before commit in code; trailing-Space pointer selection and post-timeout Space commit matrix is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":55},"status":"verified"},
     {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"reconciled"},
     {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"verified"},
     {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"verified"},
@@ -17093,6 +17093,22 @@
         "packages/suite/src/select/select.pointer-layer.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator independently verified all 7 cases across Chromium, Firefox and WebKit: 21 passed. A fixture initially placed the parent action beneath the child popup; corrected geometry and a hit-target assertion preserve native click verification without force-clicking the parent action."
+    },
+    {
+      "id": "select-spaced-typeahead-and-idle-commit",
+      "status": "verified",
+      "ids": [
+        "select.keyboard.29",
+        "select.keyboard.30"
+      ],
+      "acceptedClauses": [
+        "Native Space extends a live search prefix without committing, a trailing Space preserves the next native option click, and Space commits only after the search buffer expires."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.spaced-search.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator inspected the active-search exclusion in core keydown and independently verified both native cases across Chromium, Firefox and WebKit: 6 passed. Initial fixture highlight expectation was corrected by starting from a nonmatching item; production behavior was already correct."
     }
   ],
   "knownLimits": {
