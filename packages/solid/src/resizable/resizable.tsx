@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import { resizable } from '@xenon-ui/core/resizable'
 import type {
   ResizableOptions,
@@ -131,7 +132,7 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
       sizes: props.sizes ?? internal(),
       orientation: props.orientation,
       direction: props.dir ?? direction(),
-      disabled: props.disabled,
+      disabled: booleanAttribute(props.disabled),
       step: props.step,
       largeStep: props.largeStep,
     })
@@ -271,7 +272,7 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
       })}
       ref={(el) => {
         root = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     >
       {content()}
@@ -370,7 +371,7 @@ function ResizableHandle(props: ResizableHandleProps): JSX.Element {
       style={style(props.style, { flex: '0 0 auto', 'touch-action': 'none' })}
       ref={(el) => {
         element = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     >
       {props.children}
