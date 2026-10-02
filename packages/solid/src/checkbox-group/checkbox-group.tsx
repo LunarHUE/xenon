@@ -1,10 +1,12 @@
-import type { CheckboxGroupOptions } from '@xenon-ui/core'
+import type { CheckboxGroupOptions as CoreCheckboxGroupOptions } from '@xenon-ui/core'
 import { field, checkboxGroup } from '@xenon-ui/core'
 import type { PartProps } from '@xenon-ui/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, untrack } from 'solid-js'
 
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { FieldContext, tokens, useFieldContext } from '../field/context'
 import type { FieldContextValue } from '../field/context'
 import { FieldDescription, FieldError } from '../field/parts'
@@ -14,6 +16,8 @@ import { serverAssociations } from '../field/server-associations'
 import { CheckboxGroupContext } from './context'
 import { CheckboxGroupItem } from './item'
 import { CheckboxGroupLabel } from './label'
+
+type CheckboxGroupOptions = NativeBooleanAttributes<CoreCheckboxGroupOptions>
 
 /** Field-owned state and ID inputs inherited by the public root props. */
 interface Own extends CheckboxGroupOptions {
@@ -30,11 +34,11 @@ interface Own extends CheckboxGroupOptions {
   /** Default form name for controls that support it; a control name overrides it. */
   name?: CheckboxGroupOptions['name']
   /** Receives the root host once per distinct element; custom hosts must forward the ref. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
   /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
-  disabled?: CheckboxGroupOptions['disabled']
+  disabled?: JSX.BooleanAttribute
   /** Requires at least one selected value, defaulting to false. An individually required child must still be checked. */
-  required?: CheckboxGroupOptions['required']
+  required?: JSX.BooleanAttribute
   /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
   invalid?: CheckboxGroupOptions['invalid']
 }
@@ -42,9 +46,9 @@ interface Own extends CheckboxGroupOptions {
 /** Polymorphic group root props with controlled or uncontrolled multiple selection. */
 export type CheckboxGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Root host, defaulting to div with group role. Literal fieldset uses native disabled semantics and omits that role. */
     as?: T
   }
@@ -122,9 +126,9 @@ function CheckboxGroupRoot<T extends ValidComponent = 'div'>(
   )
 
   const outer = useFieldContext()
-  const disabled = () => (own.disabled ?? false) || (outer?.disabled() ?? false)
-  const readonly = () => (own.readonly ?? false) || (outer?.readonly() ?? false)
-  const required = () => (own.required ?? false) || (outer?.required() ?? false)
+  const disabled = () => booleanAttribute(own.disabled) || (outer?.disabled() ?? false)
+  const readonly = () => booleanAttribute(own.readonly) || (outer?.readonly() ?? false)
+  const required = () => booleanAttribute(own.required) || (outer?.required() ?? false)
   const invalid = () => (own.invalid ?? false) || (outer?.invalid() ?? false)
   const name = () => own.name ?? outer?.name()
 
@@ -239,7 +243,7 @@ function CheckboxGroupRoot<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   const element = (

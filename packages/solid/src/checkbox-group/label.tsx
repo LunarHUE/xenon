@@ -1,6 +1,7 @@
 import { isServer } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { omit, onSettled } from 'solid-js'
+import { setRef } from '../internal/host'
 import { spread } from '../spread'
 import { useField, fieldFlags } from '../field/context'
 
@@ -22,7 +23,7 @@ export function CheckboxGroupLabel(props: CheckboxGroupLabelProps): JSX.Element 
       id={id()}
       ref={(node) => {
         el = node
-        if (typeof props.ref === 'function') props.ref(node)
+        setRef(props.ref, node)
       }}
     >
       {props.children}
