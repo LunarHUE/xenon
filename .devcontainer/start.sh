@@ -43,6 +43,15 @@ PROFILE_LINE='[ -z "${DEVCONTAINER_WORKSPACE_PATH:-}" ] || export PATH="$DEVCONT
 touch "$HOME/.profile"
 grep -qxF "$PROFILE_LINE" "$HOME/.profile" || printf '\n%s\n' "$PROFILE_LINE" >> "$HOME/.profile"
 
+# Single-user Nix store is root-owned from the image build; hand it to the dev user.
+# Runs against the mounted /nix volume, so it fixes the persistent volume too.
+if [ ! -w /nix/var/nix/db/big-lock ]; then
+  echo "Claiming /nix for $(id -un)..."
+  sudo chown -R "$(id -u):$(id -g)" /nix \
+    || echo "warning: could not chown /nix; nix will fail until this is fixed" >&2
+fi
+
+
 # Personal instructions and skills live on the per-user shared volume.
 # Preserve a pre-existing local directory before replacing it with the link.
 if [ -d /mnt/user-home/.agents ] && [ "$(readlink "$HOME/.agents" 2>/dev/null || true)" != /mnt/user-home/.agents ]; then

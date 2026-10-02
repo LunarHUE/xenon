@@ -31,14 +31,6 @@ if [ -f "$WORKSPACE_DIR/.envrc" ]; then
     || echo "warning: 'direnv allow' failed; env will load once the flake is fixed" >&2
 fi
 
-# Single-user Nix store is root-owned from the image build; hand it to the dev user.
-# Runs against the mounted /nix volume, so it fixes the persistent volume too.
-if [ ! -w /nix/var/nix/db/big-lock ]; then
-  echo "Claiming /nix for $(id -un)..."
-  sudo chown -R "$(id -u):$(id -g)" /nix \
-    || echo "warning: could not chown /nix; nix will fail until this is fixed" >&2
-fi
-
 git config --global --get-all safe.directory | grep -qxF "$WORKSPACE_DIR" \
   || git config --global --add safe.directory "$WORKSPACE_DIR"
 git lfs install --skip-repo
