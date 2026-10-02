@@ -4,7 +4,10 @@ import { createSignal, omit } from 'solid-js'
 import { spread } from '../spread'
 
 /** Polymorphic screen-reader content with optional focus reveal. */
-export type VisuallyHiddenProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type VisuallyHiddenProps<T extends ValidComponent = 'span'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered host, defaulting to span. */
   as?: T
   /** Reveal while the host or its descendants have focus. Defaults to false. */
