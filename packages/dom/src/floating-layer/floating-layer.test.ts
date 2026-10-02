@@ -63,6 +63,54 @@ function escape() {
     })
   )
 }
+
+test('nonmodal Tab bridges a separately mounted content first stop and its trigger', () => {
+  vi.spyOn(Element.prototype, 'getClientRects').mockReturnValue([
+    { width: 10, height: 10 },
+  ] as unknown as DOMRectList)
+  const m = setup({ positioned: true, logicalTabOrder: true })
+  document.body.prepend(m.wrapper)
+  const first = document.createElement('button')
+  const last = document.createElement('button')
+  m.content.append(first, last)
+  const key = (target: HTMLElement, shiftKey = false, prevented = false) => {
+    target.focus()
+    const event = new KeyboardEvent('keydown', {
+      key: 'Tab',
+      shiftKey,
+      bubbles: true,
+      cancelable: true,
+    })
+    if (prevented) event.preventDefault()
+    target.dispatchEvent(event)
+    return event
+  }
+  expect(key(first, true).defaultPrevented).toBe(true)
+  expect(document.activeElement).toBe(m.trigger)
+  expect(key(m.trigger).defaultPrevented).toBe(true)
+  expect(document.activeElement).toBe(first)
+  expect(m.onDismiss).not.toHaveBeenCalled()
+  expect(key(last).defaultPrevented).toBe(false)
+  expect(key(first).defaultPrevented).toBe(false)
+  key(first, true, true)
+  expect(document.activeElement).toBe(first)
+  m.trigger.disabled = true
+  expect(key(first, true).defaultPrevented).toBe(false)
+  m.trigger.disabled = false
+  m.controller.update({ ...m.options, logicalTabOrder: false })
+  expect(key(first, true).defaultPrevented).toBe(false)
+  m.controller.update({ ...m.options, open: false })
+  expect(key(first, true).defaultPrevented).toBe(false)
+  m.controller.update(m.options)
+  const upper = setup()
+  expect(key(first, true).defaultPrevented).toBe(false)
+  upper.controller.dispose()
+  expect(key(first, true).defaultPrevented).toBe(true)
+  m.controller.update({ ...m.options, positioned: false })
+  expect(key(first, true).defaultPrevented).toBe(false)
+  m.controller.dispose()
+  expect(key(first, true).defaultPrevented).toBe(false)
+})
 afterEach(() => {
   cleanups
     .splice(0)

@@ -654,6 +654,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
           closeOnEscape: context.own.closeOnEscape,
           closeOnOutside: context.own.closeOnOutside,
           closeOnFocusOutside: context.own.closeOnFocusOutside,
+          logicalTabOrder: true,
           onEscapeKeyDown: context.own.onEscapeKeyDown,
           onPointerOutside: context.own.onPointerOutside,
           onFocusOutside: context.own.onFocusOutside,

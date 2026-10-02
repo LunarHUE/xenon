@@ -1,4 +1,4 @@
-import { isFocusable } from 'tabbable'
+import { isFocusable, tabbable } from 'tabbable'
 import { registerLayer } from '../layer'
 import type { LayerHandle, LayerPointerOutsideEvent } from '../layer'
 import { registerFocusScope } from '../focus-scope'
@@ -64,6 +64,8 @@ export interface FloatingLayerOptions {
   closeOnOutside?: boolean
   /** Allow deferred outside-focus dismissal for positioned, nonmodal, open top layers. Defaults to true. */
   closeOnFocusOutside?: boolean
+  /** Bridge nonmodal trigger/first-content Tab edges across portal DOM order. Defaults to false. */
+  logicalTabOrder?: boolean
   /**
    * Permit restoration on session release when this is topmost and focus is inside
    * the wrapper, on the body, or missing. Defaults to true; outside-focus dismissal
@@ -349,6 +351,38 @@ export function createFloatingLayer(
       if (!prevented && !event.defaultPrevented) request('focus-outside')
     }, 0)
   }
+  /** Bridge the opener and first nonmodal stop independently of portal DOM order. */
+  const keydown = (event: KeyboardEvent) => {
+    if (
+      event.key !== 'Tab' ||
+      event.defaultPrevented ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      options.modal ||
+      !options.logicalTabOrder ||
+      !options.open ||
+      !options.positioned ||
+      !top() ||
+      !options.trigger?.isConnected ||
+      options.trigger.ownerDocument !== document ||
+      !isFocusable(options.trigger, { getShadowRoot: true })
+    )
+      return
+    const first = tabbable(options.content, { getShadowRoot: true })[0]
+    if (!first) return
+    const active = activeElement(document)
+    const target = event.shiftKey
+      ? active === first
+        ? options.trigger
+        : undefined
+      : active === options.trigger
+        ? first
+        : undefined
+    if (!target) return
+    event.preventDefault()
+    target.focus({ preventScroll: true })
+  }
   /** Suppress focus-outside requests for the duration of any document pointer gesture. */
   const pointerdown = () => {
     pointerDown = true
@@ -378,6 +412,7 @@ export function createFloatingLayer(
     } else if (next === 'open' && !options.active) event.preventDefault()
   }
   document.addEventListener('focusin', focusin)
+  document.addEventListener('keydown', keydown)
   document.addEventListener('pointerdown', pointerdown, true)
   document.addEventListener('pointerup', pointerup, true)
   document.addEventListener('pointercancel', pointerup, true)
@@ -439,6 +474,7 @@ export function createFloatingLayer(
       clearTimeout(focusTimer)
       clearTimeout(releasePointerTimer)
       document.removeEventListener('focusin', focusin)
+      document.removeEventListener('keydown', keydown)
       document.removeEventListener('pointerdown', pointerdown, true)
       document.removeEventListener('pointerup', pointerup, true)
       document.removeEventListener('pointercancel', pointerup, true)
