@@ -1413,7 +1413,7 @@
     {"ids":["drawer.a11y.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Inspected Drawer-specific tests do not scan both closed/open states with axe.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":466},"status":"queued"},
     {"ids":["drawer.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Dialog accessible-name warning applies to Drawer; no direct missing-title Drawer warning test is present.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":468},"status":"queued"},
     {"ids":["drawer.notes.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"DOM disposal restores authored offset; full active-tree-unmount/no-late-close sequence and absent provider/backdrop anatomy are not asserted.","evidence":454,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":469},"status":"queued"},
-    {"ids":["popover.roles.4","popover.roles.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Trigger uses shared Button host semantics and dialog haspopup, but direct Popover tests do not assert this full native/non-native/type matrix.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":473},"status":"queued"},
+    {"ids":["popover.roles.4","popover.roles.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Trigger uses shared Button host semantics and dialog haspopup, but direct Popover tests do not assert this full native/non-native/type matrix.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":473},"status":"verified"},
     {"ids":["popover.roles.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks title/description IDs and reactive title updates. Removal of either part and absent association is not fully asserted.","evidence":456,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":474},"status":"queued"},
     {"ids":["popover.roles.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks old trigger collapsed/unassociated and new trigger expanded. Active trigger controls is not directly asserted in the switch fixture.","evidence":457,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":475},"status":"queued"},
     {"ids":["popover.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Empty Close has default Close popover name in adapter; localized defaults and explicit undefined-label case are not supplied/tested.","evidence":458,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":478},"status":"queued"},
@@ -1421,9 +1421,9 @@
     {"ids":["popover.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Enter opens and click toggles; Space and div Enter/Space round-trip are not asserted.","evidence":460,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":485},"status":"queued"},
     {"ids":["popover.keyboard.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native Escape from content restores trigger; same key on trigger is not directly asserted.","evidence":461,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":486},"status":"queued"},
     {"ids":["popover.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled-Escape keeps content focus, controlled veto retries request after cancellation clears. A native unprevented retry that independently closes an uncontrolled root is not covered by those assertions.","evidence":462,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":488},"status":"queued"},
-    {"ids":["popover.keyboard.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Button disabled activation is supported; exact native Enter/Space disabled Popover trigger fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":489},"status":"queued"},
+    {"ids":["popover.keyboard.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared Button disabled activation is supported; exact native Enter/Space disabled Popover trigger fixture is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":489},"status":"verified"},
     {"ids":["popover.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonfocusable inner click preserves both nested layers. Focusable/nonfocusable focus outcome and absence of outside callbacks are not all asserted.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":492},"status":"queued"},
-    {"ids":["popover.pointer.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native Button does not activate on secondary click; no direct right-click-closed Popover trigger assertion is present.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":493},"status":"queued"},
+    {"ids":["popover.pointer.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native Button does not activate on secondary click; no direct right-click-closed Popover trigger assertion is present.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":493},"status":"verified"},
     {"ids":["popover.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native opening focuses first textbox; hidden/nonvisible candidate skipping is not tested in a Popover fixture.","evidence":464,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":495},"status":"queued"},
     {"ids":["popover.focus.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native default Popover allows Tab exit and outside clicks; no direct page-scroll assertion accompanies these tests.","evidence":465,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":497},"status":"queued"},
     {"ids":["popover.focus.5","popover.focus.6","popover.focus.13","popover.focus.19"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared focus controller supports fallback, disabled initial focus, force-mount reopening and preventScroll; these full Popover-native scenarios lack direct assertions.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":498},"status":"queued"},
@@ -1439,7 +1439,7 @@
     {"ids":["popover.dismissal.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared matched outside-pointer handling is accepted, but direct Popover press-inside/release-outside and swallowed-later-events assertions are absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":515},"status":"queued"},
     {"ids":["popover.dismissal.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves focusable outside target retains focus. Body/nonfocusable restoration alternatives lack direct assertions.","evidence":472,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":519},"status":"queued"},
     {"ids":["popover.dismissal.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native portaled child opens by pointer, retains parent on inner clicks and dismisses alone from parent click. Enter opening and both portals in one container are not fully exercised.","evidence":463,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":522},"status":"queued"},
-    {"ids":["popover.dismissal.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Repeated open/close is tested, but exact Escape-close/reopen/outside-close sequence is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":525},"status":"queued"},
+    {"ids":["popover.dismissal.14"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Repeated open/close is tested, but exact Escape-close/reopen/outside-close sequence is absent.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":525},"status":"verified"},
     {"ids":["popover.positioning.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor placement/movement is asserted; anchor-unmount fallback geometry is not.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":526},"status":"queued"},
     {"ids":["popover.positioning.2","popover.positioning.3","popover.positioning.5","popover.positioning.6","popover.positioning.7","popover.positioning.11","popover.rtl.1","popover.rtl.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared positioning implements placement, collisions, arrows, variables and stale-run protection. Inspected Popover-native fixtures do not assert the complete source matrices; shared engine behavior alone is not direct Popover coverage.","evidence":455,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":527},"status":"queued"},
     {"ids":["popover.positioning.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native custom anchor movement maintains 9px offset; ancestor scroll and tracking-disabled behavior are not checked.","evidence":473,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":528},"status":"queued"},
@@ -2341,6 +2341,26 @@
       "limits": [
         "Same-coordinate retrigger is explicitly synthetic after native opening because the open popup covers the original point; this does not claim a second native hit target or touch integration"
       ]
+    },
+    {
+      "id": "popover-trigger-contracts",
+      "status": "verified",
+      "ids": [
+        "popover.roles.4",
+        "popover.roles.9",
+        "popover.keyboard.5",
+        "popover.pointer.14",
+        "popover.dismissal.14"
+      ],
+      "acceptedClauses": [
+        "Native, generic and link trigger ARIA and type semantics; disabled Enter/Space; closed right click; Escape/reopen/outside dismissal."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/popover/popover.trigger.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator ran all 6 runtime tests in Chromium, Firefox and WebKit: 18 passed. Popover adapter regressions: 13 passed.",
+      "relatedFix": "8cc10e5"
     }
   ],
   "knownLimits": {
