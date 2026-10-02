@@ -3,46 +3,48 @@ import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createMemo, omit, onSettled, untrack } from 'solid-js'
 
+import { booleanAttribute, setRef } from '../internal/host'
 import { fieldDescribedBy, fieldFlags, fieldLabelledBy, isLabelable, useField } from './context'
 import { spread } from '../spread'
 
 /** Owned ref contract for the native label host. */
 interface LabelOwn {
   /** Receives the label once per distinct element. */
-  ref?: (el: HTMLLabelElement) => void
+  ref?: unknown
 }
 
 /** Shared ref contract for polymorphic descriptive text. */
 interface TextOwn {
   /** Receives the rendered text host once per distinct element; custom hosts must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Owned control props merged with the enclosing Field state. */
 interface ControlOwn {
   /** OR-combined with Field disabled. Native supported hosts receive disabled; other hosts receive aria-disabled only. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
   /** OR-combined with Field required. Input/select/textarea receive required; other hosts receive aria-required. */
-  required?: boolean
+  required?: JSX.BooleanAttribute
   /** OR-combined with Field readonly. Input/textarea receive readonly; other hosts receive aria-readonly. */
-  readonly?: boolean
+  readonly?: JSX.BooleanAttribute
   /** OR-combined with Field invalid and exposed as ARIA/data state; does not perform validation. */
   invalid?: boolean
   /** Overrides Field name for input/select/textarea. Other hosts receive no generated name or form mirror. */
   name?: string
   /** Receives the rendered control once per distinct element; custom hosts must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Native label props; author id overrides the fallback and author for overrides the generated association. */
-export type FieldLabelProps = Omit<ComponentProps<'label'>, keyof LabelOwn> & LabelOwn
+export type FieldLabelProps = Omit<ComponentProps<'label'>, Exclude<keyof LabelOwn, 'ref'>> &
+  LabelOwn
 
 /** Polymorphic text props; author id overrides the shared description fallback. */
 export type FieldDescriptionProps<T extends ValidComponent = 'p'> = Omit<
   ComponentProps<T>,
-  keyof TextOwn | 'as'
+  Exclude<keyof TextOwn, 'ref'> | 'as'
 > &
-  TextOwn & {
+  Omit<TextOwn, 'ref'> & {
     /** Text host, defaulting to p; custom hosts must forward association props and refs. */
     as?: T
   }
@@ -53,9 +55,9 @@ export type FieldErrorProps<T extends ValidComponent = 'p'> = FieldDescriptionPr
 /** Polymorphic control props with shared state and registered Field associations. */
 export type FieldControlProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
-  keyof ControlOwn | 'as'
+  Exclude<keyof ControlOwn, 'ref'> | 'as'
 > &
-  ControlOwn & {
+  Omit<ControlOwn, 'ref'> & {
     /** Control host, defaulting to input. Native capabilities are inferred only from literal tag strings. */
     as?: T
   }
@@ -103,7 +105,7 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
   const ref = (node: HTMLLabelElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   // Defer serialization until flat siblings register their author control IDs.
@@ -141,7 +143,7 @@ export function FieldDescription<T extends ValidComponent = 'p'>(
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   return (
@@ -179,7 +181,7 @@ export function FieldError<T extends ValidComponent = 'p'>(props: FieldErrorProp
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   return (
@@ -215,7 +217,7 @@ export function FieldControl<T extends ValidComponent = 'input'>(
   const own = props as ControlOwn & {
     id?: string
     as?: ValidComponent
-    autofocus?: boolean
+    autofocus?: JSX.BooleanAttribute
     'aria-labelledby'?: string
     'aria-describedby'?: string
   }
@@ -243,9 +245,9 @@ export function FieldControl<T extends ValidComponent = 'input'>(
     const as = own.as ?? 'input'
     return typeof as === 'string' ? as : ''
   }
-  const disabled = () => (own.disabled ?? false) || context.disabled()
-  const required = () => (own.required ?? false) || context.required()
-  const readonly = () => (own.readonly ?? false) || context.readonly()
+  const disabled = () => booleanAttribute(own.disabled) || context.disabled()
+  const required = () => booleanAttribute(own.required) || context.required()
+  const readonly = () => booleanAttribute(own.readonly) || context.readonly()
   const invalid = () => (own.invalid ?? false) || context.invalid()
 
   const part = (): PartProps<'input'> => ({
@@ -285,11 +287,11 @@ export function FieldControl<T extends ValidComponent = 'input'>(
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
-    if (own.autofocus) previous?.focus()
+    if (booleanAttribute(own.autofocus)) previous?.focus()
   })
 
   const view = () => (
