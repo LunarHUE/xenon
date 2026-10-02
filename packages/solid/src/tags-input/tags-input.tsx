@@ -1,7 +1,10 @@
 import type { FieldContextValue } from '../field/context'
 import { tagsInput } from '@xenon-ui/core/tags-input'
-import type { TagsInputOptions, TagsInputResult } from '@xenon-ui/core/tags-input'
-import type { JSX } from '@solidjs/web'
+import type {
+  TagsInputOptions as CoreTagsInputOptions,
+  TagsInputResult,
+} from '@xenon-ui/core/tags-input'
+import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   For,
   createContext,
@@ -15,10 +18,14 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { Field } from '../field/field'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { hiddenStyle } from '../internal/native'
 import { spread } from '../spread'
+
+type TagsInputOptions = NativeBooleanAttributes<CoreTagsInputOptions>
 
 /** Reactive render state for mapping tags into Item parts. */
 export interface TagsInputRenderState {
@@ -26,7 +33,7 @@ export interface TagsInputRenderState {
   readonly value: readonly string[]
 }
 /** Native wrapper attributes and string tag collection settings. */
-export type TagsInputProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'children'> &
+export type TagsInputProps = Omit<ComponentProps<'div'>, 'children'> &
   TagsInputOptions & {
     /** Initial uncontrolled tags and silent form reset fallback. */
     defaultValue?: TagsInputOptions['value']
@@ -110,9 +117,9 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
   // Item registration cleanup can end an edit during collection reconciliation.
   const [editing, setEditing] = createSignal(-1, { ownedWrite: true })
   const [announcement, announce] = createSignal('')
-  const disabled = () => !!props.disabled || !!outer?.disabled()
-  const readonly = () => !!props.readonly || !!outer?.readonly()
-  const required = () => !!props.required || !!outer?.required()
+  const disabled = () => booleanAttribute(props.disabled) || !!outer?.disabled()
+  const readonly = () => booleanAttribute(props.readonly) || !!outer?.readonly()
+  const required = () => booleanAttribute(props.required) || !!outer?.required()
   const name = () => props.name ?? outer?.name()
   const entries = new Map<number, Entry>()
   const context: Context = {
@@ -329,10 +336,7 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
 }
 
 /** Native main textbox props. Name belongs to the root's submitted tags. */
-export type TagsInputInputProps = Omit<
-  JSX.InputHTMLAttributes<HTMLInputElement>,
-  'name' | 'value' | 'defaultValue'
->
+export type TagsInputInputProps = Omit<ComponentProps<'input'>, 'name' | 'value' | 'defaultValue'>
 /** Text entry with literal delimiter splitting, IME protection, and field associations. */
 export function TagsInputInput(props: TagsInputInputProps): JSX.Element {
   const context = useTags(),
@@ -417,13 +421,13 @@ export function TagsInputInput(props: TagsInputInputProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         context.setInput(node)
-        if (typeof props.ref === 'function') props.ref(node)
+        setRef(props.ref, node)
       }}
     />
   )
 }
 /** Native control wrapper props. */
-export type TagsInputControlProps = JSX.HTMLAttributes<HTMLDivElement>
+export type TagsInputControlProps = ComponentProps<'div'>
 /** Groups tags and textbox visually; clicking its padding focuses the textbox. */
 export function TagsInputControl(props: TagsInputControlProps): JSX.Element {
   const context = useTags()
@@ -447,16 +451,16 @@ export function TagsInputControl(props: TagsInputControlProps): JSX.Element {
   )
 }
 /** Indexed tag wrapper. Source order is retained when values repeat. */
-export type TagsInputItemProps = JSX.HTMLAttributes<HTMLDivElement> & {
+export type TagsInputItemProps = ComponentProps<'div'> & {
   /** Current index in the root value array. */
   index: number
   /** Excludes this item from editing and removal. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
 }
 /** Focusable tag host. Arrow keys move actual DOM focus without introducing listbox roles. */
 export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
   const context = useTags()
-  const entry: Entry = { disabled: () => !!props.disabled }
+  const entry: Entry = { disabled: () => booleanAttribute(props.disabled) }
   createEffect(
     () => props.index,
     (index) => {
@@ -491,7 +495,7 @@ export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         entry.element = node
-        if (typeof props.ref === 'function') props.ref(node)
+        setRef(props.ref, node)
       }}
     >
       {children()}
@@ -499,7 +503,7 @@ export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
   )
 }
 /** Tag text props. Default content is the indexed value. */
-export type TagsInputItemTextProps = JSX.HTMLAttributes<HTMLSpanElement>
+export type TagsInputItemTextProps = ComponentProps<'span'>
 /** Renders a tag's text and hides it while its inline editor is active. */
 export function TagsInputItemText(props: TagsInputItemTextProps): JSX.Element {
   const context = useTags(),
@@ -511,7 +515,7 @@ export function TagsInputItemText(props: TagsInputItemTextProps): JSX.Element {
   )
 }
 /** Native per-tag removal button attributes. */
-export type TagsInputItemDeleteTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>
+export type TagsInputItemDeleteTriggerProps = ComponentProps<'button'>
 /** Removes exactly one indexed occurrence and focuses the main input. */
 export function TagsInputItemDeleteTrigger(props: TagsInputItemDeleteTriggerProps): JSX.Element {
   const context = useTags(),
@@ -535,7 +539,7 @@ export function TagsInputItemDeleteTrigger(props: TagsInputItemDeleteTriggerProp
   return <button {...spread(part(), { ...rest })}>{props.children}</button>
 }
 /** Native tag editor attributes. */
-export type TagsInputItemInputProps = JSX.InputHTMLAttributes<HTMLInputElement>
+export type TagsInputItemInputProps = ComponentProps<'input'>
 /** Optional per-tag editor. Enter commits, Escape cancels, and blur leaves the original tag unchanged. */
 export function TagsInputItemInput(props: TagsInputItemInputProps): JSX.Element {
   const context = useTags(),
@@ -595,13 +599,13 @@ export function TagsInputItemInput(props: TagsInputItemInputProps): JSX.Element 
       {...spread(part(), { ...rest })}
       ref={(el) => {
         node = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     />
   )
 }
 /** Native collection-clear button props. */
-export type TagsInputClearTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>
+export type TagsInputClearTriggerProps = ComponentProps<'button'>
 /** Clears every tag and the draft while preserving the main input's focus. */
 export function TagsInputClearTrigger(props: TagsInputClearTriggerProps): JSX.Element {
   const context = useTags(),
