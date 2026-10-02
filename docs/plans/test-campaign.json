@@ -1513,16 +1513,16 @@
     {"ids":["alert-dialog.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit description ID points to rendered Description; axe incomplete-result semantics for broken reference are not tested.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":684},"status":"queued"},
     {"ids":["alert-dialog.a11y.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No closed/open Alert axe audit exists in the inspected suite.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":685},"status":"queued"},
     {"ids":["alert-dialog.notes.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared modal containment is shipped, but Alert Shift+Tab wrap lacks an assertion.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":687},"status":"queued"},
-    {"ids":["menu.roles.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"haspopup=menu is emitted but no inspected Menu test directly asserts it.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":689},"status":"queued"},
+    {"ids":["menu.roles.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"haspopup=menu is emitted but no inspected Menu test directly asserts it.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":689},"status":"verified"},
     {"ids":["menu.roles.6","menu.roles.41"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Closed core omits controls and open SSR controls points to rendered menu ID; client document.getElementById identity and lazy mount transition are not directly asserted.","evidence":518,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":691},"status":"queued"},
     {"ids":["menu.roles.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Active trigger naming follows registration changes, but replacing the disclosure element and checking stale labelledby removal is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":693},"status":"queued"},
     {"ids":["menu.roles.16"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Separator orientation is shipped through Separator but no direct horizontal orientation assertion exists in Menu fixtures.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":700},"status":"queued"},
-    {"ids":["menu.roles.20"],"historicalStatus":"missing","domain":"menus-navigation","reason":"GroupLabel defaults aria-hidden with no role and supports author override, but that complete attribute matrix is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":703},"status":"queued"},
+    {"ids":["menu.roles.20"],"historicalStatus":"missing","domain":"menus-navigation","reason":"GroupLabel defaults aria-hidden with no role and supports author override, but that complete attribute matrix is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":703},"status":"verified"},
     {"ids":["menu.roles.21","menu.roles.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core roving navigation and actual item focus are asserted; exactly one tabindex=0 and all other/positive tabindex invariants are not explicitly enumerated.","evidence":519,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":704},"status":"queued"},
     {"ids":["menu.roles.24"],"historicalStatus":"partial","domain":"menus-navigation","reason":"ItemIndicator aria-hidden=true and open mixed-menu axe audit are asserted; invalid focusable widget descendants are author markup and lack a negative fixture.","evidence":520,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":706},"status":"queued"},
     {"ids":["menu.roles.26"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Expanded transitions are asserted on nested triggers, while haspopup=menu is emitted but not directly checked.","evidence":521,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":708},"status":"queued"},
     {"ids":["menu.roles.30"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Disabled submenu aria-disabled is asserted; data-disabled style hook is emitted but not checked.","evidence":522,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":710},"status":"queued"},
-    {"ids":["menu.roles.33","menu.roles.34"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared Button host/type/role policy is used by Menu.Trigger, but Menu-specific native/custom/explicit-type matrix is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":713},"status":"queued"},
+    {"ids":["menu.roles.33","menu.roles.34"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared Button host/type/role policy is used by Menu.Trigger, but Menu-specific native/custom/explicit-type matrix is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":713},"status":"verified"},
     {"ids":["menu.roles.37"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Item as=a forwards href and native menuitem semantics in implementation; no Menu link fixture asserts href, navigation or checkbox/radio link variants.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":716},"status":"queued"},
     {"ids":["menu.roles.38"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core emits data-highlighted; browser proves keyboard focus. Separate keyboard-only focus-visible hook is not supplied or asserted.","evidence":523,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":717},"status":"queued"},
     {"ids":["menu.roles.40"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Detached browser fixture verifies expanded only on latest trigger, but current-trigger marker is not independently asserted.","evidence":524,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":719},"status":"queued"},
@@ -1887,6 +1887,41 @@
         {
           "command": "bunx eslint src/select/select.state-forms.remaining.test-browser.tsx",
           "result": "passed"
+        }
+      ]
+    },
+    {
+      "id": "menu-metadata-1",
+      "status": "verified",
+      "ids": [
+        "menu.roles.2",
+        "menu.roles.20",
+        "menu.roles.33",
+        "menu.roles.34"
+      ],
+      "acceptedClauses": [
+        "Native and generic triggers identify their menu popup",
+        "Group labels preserve default hidden semantics and reactive author overrides with group naming",
+        "Trigger type follows the actual host and preserves authored types",
+        "Generic hosts receive button semantics without redundant native roles"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/menu/menu.metadata.test.tsx"
+      ],
+      "relatedFix": "f94c44e",
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/menu/menu.metadata.test.tsx src/popover/popover-example.test-browser.tsx",
+          "result": "15 passed, including 12 Menu executions independently run by coordinator"
+        },
+        {
+          "command": "bunx vitest run --maxWorkers=2 src/menu/menu.test.tsx src/menu/trigger.type.test.tsx",
+          "result": "11 adapter tests passed independently after coordinator reproduced generic host type failure"
+        },
+        {
+          "command": "bun run --cwd packages/suite test -- --maxWorkers=2 src/menu/menu.metadata.test.tsx",
+          "result": "Worker rerun 4 passed after fix; coordinator independently reproduced 1 failure before fix"
         }
       ]
     }
