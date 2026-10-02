@@ -4,7 +4,10 @@ import { omit } from 'solid-js'
 import { spread } from '../spread'
 
 /** A named, noninteractive image wrapper. Children must be decorative content. */
-export type AccessibleIconProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type AccessibleIconProps<T extends ValidComponent = 'span'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Accessible name exposed by the wrapper, required even for an empty icon. */
   label: string
   /** Host, defaulting to span. Use a noninteractive element. */
