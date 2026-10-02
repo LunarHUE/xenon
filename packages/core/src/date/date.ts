@@ -115,6 +115,9 @@ const integer = (amount: number) => {
   if (!Number.isSafeInteger(amount))
     throw new RangeError('Date arithmetic requires a safe integer amount')
 }
+/** Reuse expensive native formatters without retaining an unbounded set of author locales/options. */
+const formatters = new Map<string, Intl.DateTimeFormat>()
+
 /** Default immutable Gregorian date-only adapter. No operation reads the clock. */
 export const dateOnlyAdapter: DateAdapter<DateValue> = Object.freeze({
   getFields(value: DateValue) {
@@ -163,7 +166,7 @@ export const dateOnlyAdapter: DateAdapter<DateValue> = Object.freeze({
       formatMatcher,
       numberingSystem,
     } = options
-    return new Intl.DateTimeFormat(locale, {
+    const fields = {
       weekday,
       year,
       month,
@@ -173,8 +176,18 @@ export const dateOnlyAdapter: DateAdapter<DateValue> = Object.freeze({
       localeMatcher,
       formatMatcher,
       numberingSystem,
-      calendar: 'gregory',
-      timeZone: 'UTC',
-    }).format((ordinal(value) - 719163) * 86400000)
+    }
+    const key = JSON.stringify([locale, fields])
+    let formatter = formatters.get(key)
+    if (!formatter) {
+      formatter = new Intl.DateTimeFormat(locale, {
+        ...fields,
+        calendar: 'gregory',
+        timeZone: 'UTC',
+      })
+      if (formatters.size >= 64) formatters.delete(formatters.keys().next().value!)
+      formatters.set(key, formatter)
+    }
+    return formatter.format((ordinal(value) - 719163) * 86400000)
   },
 })
