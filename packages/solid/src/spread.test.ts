@@ -34,9 +34,9 @@ describe('Solid event composition', () => {
     'bound handlers preserve data %s, order, and receiver',
     (data) => {
       const order: string[] = []
-      let receiver: unknown
+      const receivers: unknown[] = []
       const consumer = vi.fn(function (this: HTMLElement, value: unknown, event: Event) {
-        receiver = this
+        receivers.push(this)
         expect(value).toBe(data)
         expect(event.currentTarget).toBe(this)
         order.push('consumer')
@@ -50,7 +50,7 @@ describe('Solid event composition', () => {
         },
       }
       const { node } = dispatch(spread(part, { onclick: [consumer, data] }))
-      expect(receiver).toBe(node)
+      expect(receivers).toEqual([node])
       expect(order).toEqual(['consumer', 'core'])
     }
   )
@@ -69,18 +69,18 @@ describe('Solid event composition', () => {
   })
 
   test('plain functions preserve the native receiver', () => {
-    let receiver: unknown
+    const receivers: unknown[] = []
     const { node } = dispatch(
       spread(
         { attrs: {}, on: { click: () => {} } },
         {
           onClick: function (this: HTMLElement) {
-            receiver = this
+            receivers.push(this)
           },
         }
       )
     )
-    expect(receiver).toBe(node)
+    expect(receivers).toEqual([node])
   })
 
   test('runtime listener objects retain their receiver', () => {

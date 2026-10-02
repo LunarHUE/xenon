@@ -176,7 +176,7 @@ test('empty native flags govern behavior and ref arrays receive the host', async
 })
 
 test('native bound change handlers can cancel changes and preserve this', async () => {
-  let receiver: EventTarget | null = null
+  const receivers: EventTarget[] = []
   const changed = vi.fn()
   const { getByRole } = render(() => (
     <Checkbox
@@ -184,7 +184,7 @@ test('native bound change handlers can cancel changes and preserve this', async 
       onCheckedChange={changed}
       onChange={[
         function (this: HTMLInputElement, cancel: boolean, event) {
-          receiver = this
+          receivers.push(this)
           if (cancel) event.preventDefault()
         },
         true,
@@ -195,7 +195,7 @@ test('native bound change handlers can cancel changes and preserve this', async 
   input.checked = true
   input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }))
   await settle()
-  expect(receiver).toBe(input)
+  expect(receivers).toEqual([input])
   expect(changed).not.toHaveBeenCalled()
   expect(input.checked).toBe(false)
 })

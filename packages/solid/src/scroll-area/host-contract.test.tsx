@@ -23,7 +23,6 @@ test('ScrollArea preserves native ref arrays and reactive attribute removal', ()
 })
 
 test('ScrollArea infers the selected native host ref', () => {
-  const [value] = createSignal<string | undefined>()
   render(() => (
     <ScrollArea>
       <ScrollArea.Viewport

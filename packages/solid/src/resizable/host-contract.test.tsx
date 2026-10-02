@@ -23,7 +23,6 @@ test('Resizable preserves native ref arrays and reactive attribute removal', () 
 })
 
 test('Resizable infers the selected native host ref', () => {
-  const [value] = createSignal<string | undefined>()
   render(() => (
     <Resizable>
       <Resizable.Panel

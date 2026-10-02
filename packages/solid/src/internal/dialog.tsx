@@ -702,6 +702,7 @@ function DialogHost(
         ...(viewport
           ? {
               'aria-label': authored('aria-label', () => undefined),
+              // eslint-disable-next-line solid/reactivity -- authored evaluates this fallback inside the tracked attribute binding.
               'aria-labelledby': authored('aria-labelledby', () =>
                 authored('aria-label', () => undefined)
                   ? undefined
