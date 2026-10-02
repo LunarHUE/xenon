@@ -93,6 +93,22 @@ describe('Solid event composition', () => {
     expect(handler.handleEvent).toHaveBeenCalledOnce()
   })
 
+  test('runtime listener options survive gating and composition', () => {
+    const node = document.createElement('button')
+    const consumer = vi.fn()
+    const core = vi.fn()
+    const props = { onMouseDown: { handleEvent: consumer, once: true, capture: true } }
+    gate(props, () => true)
+    const merged = spread({ attrs: {}, on: { mousedown: core } }, props)
+    const handler = merged.onMouseDown as EventListenerObject & AddEventListenerOptions
+    node.addEventListener('mousedown', handler, handler)
+    node.dispatchEvent(new Event('mousedown'))
+    node.dispatchEvent(new Event('mousedown'))
+    expect(consumer).toHaveBeenCalledOnce()
+    expect(core).toHaveBeenCalledOnce()
+    expect(handler.capture).toBe(true)
+  })
+
   test.each(['onClick', 'onclick', 'onCLICK'])(
     'gates %s tuples against live interaction state',
     (name) => {

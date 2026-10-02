@@ -8,3 +8,18 @@ export function callEventHandler(handler: unknown, event: Event): void {
     ;(handler as EventListenerObject).handleEvent(event)
   }
 }
+
+/** Preserve listener-object options when composing handlers for native event attachment. */
+export function wrapEventHandler(handler: unknown, run: (event: Event) => void): unknown {
+  if (handler && typeof handler === 'object' && 'handleEvent' in handler) {
+    const options = handler as EventListenerObject & AddEventListenerOptions
+    return {
+      handleEvent: run,
+      capture: options.capture,
+      once: options.once,
+      passive: options.passive,
+      signal: options.signal,
+    }
+  }
+  return run
+}

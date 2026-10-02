@@ -1,5 +1,5 @@
 import type { AnyPart } from '@xenon-ui/core'
-import { callEventHandler } from './internal/events'
+import { callEventHandler, wrapEventHandler } from './internal/events'
 
 /** Callable event shape used after erasing the core part's host-specific event type. */
 type Handler = (event: Event) => void
@@ -41,10 +41,10 @@ export function spread(
       continue
     }
     const user = props[userKey]
-    out[userKey] = (event: Event) => {
+    out[userKey] = wrapEventHandler(user, (event: Event) => {
       callEventHandler(user, event)
       if (!event.defaultPrevented) callEventHandler(core, event)
-    }
+    })
   }
   return out
 }

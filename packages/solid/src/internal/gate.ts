@@ -1,4 +1,4 @@
-import { callEventHandler } from './events'
+import { callEventHandler, wrapEventHandler } from './events'
 
 /** Event names suppressed for noninteractive controls. */
 const pointerHandlers = ['onclick', 'onauxclick', 'ondblclick', 'onpointerdown', 'onmousedown']
@@ -35,10 +35,10 @@ export function gate(props: Record<string, unknown>, interactive: () => boolean)
     if (!pointer && !keyboard) continue
     const user = props[name]
     if (user == null) continue
-    props[name] = (event: Event) => {
+    props[name] = wrapEventHandler(user, (event: Event) => {
       if (interactive() || (keyboard && !isActivationKey((event as KeyboardEvent).key))) {
         callEventHandler(user, event)
       }
-    }
+    })
   }
 }
