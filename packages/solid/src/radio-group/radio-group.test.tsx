@@ -367,6 +367,7 @@ describe('<RadioGroup />', () => {
     expect(green.checked).toBe(true)
 
     ;(container.querySelector('form') as HTMLFormElement).reset()
+    await new Promise((resolve) => setTimeout(resolve, 0))
     await settle()
     expect(green.checked).toBe(false)
     expect((getByLabelText('red') as HTMLInputElement).checked).toBe(true)

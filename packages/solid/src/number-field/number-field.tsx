@@ -22,6 +22,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import { fieldDescribedBy, fieldLabelledBy, useFieldContext } from '../field/context'
 import { spread } from '../spread'
+import { subscribeFormReset } from '../internal/form-reset'
 
 type NumberFieldOptions = NativeBooleanAttributes<CoreNumberFieldOptions>
 
@@ -160,24 +161,16 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
   onSettled(() => {
     if (!input) return
     const element = input
-    let resetTimer: ReturnType<typeof setTimeout> | undefined
-    const reset = (event: Event) => {
-      if (event.target !== element.form) return
-      // Restore after the browser has completed the native reset default action.
-      clearTimeout(resetTimer)
-      resetTimer = setTimeout(() => {
-        if (event.defaultPrevented) return
+    return subscribeFormReset(
+      element.ownerDocument,
+      () => element.form,
+      () => {
         if (props.value === undefined) setInternal(props.defaultValue ?? null)
         setDraft(undefined)
         flush()
         element.value = engine().state.inputValue
-      })
-    }
-    element.ownerDocument.addEventListener('reset', reset)
-    return () => {
-      clearTimeout(resetTimer)
-      element.ownerDocument.removeEventListener('reset', reset)
-    }
+      }
+    )
   })
   const context: Context = {
     associations,

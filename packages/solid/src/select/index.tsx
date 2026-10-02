@@ -25,6 +25,7 @@ import type { SelectionPopupProps } from '../internal/selection-popup'
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
 import { serverAssociations } from '../field/server-associations'
+import { subscribeFormReset } from '../internal/form-reset'
 
 type SelectOptions = NativeBooleanAttributes<CoreSelectOptions>
 
@@ -201,22 +202,15 @@ export function SelectRoot(props: SelectProps): JSX.Element {
   onSettled(() => {
     if (!native) return
     const doc = native.ownerDocument
-    let disposed = false
-    const reset = (event: Event) => {
-      if (event.target !== native?.form) return
-      // A microtask can run before native reset dispatch and its default action finish.
-      setTimeout(() => {
-        if (disposed || event.defaultPrevented) return
+    return subscribeFormReset(
+      doc,
+      () => native?.form ?? null,
+      () => {
         context.reset()
         flush()
         if (native) native.value = context.value() ?? ''
-      })
-    }
-    doc.addEventListener('reset', reset)
-    return () => {
-      disposed = true
-      doc.removeEventListener('reset', reset)
-    }
+      }
+    )
   })
   const element = (
     <Context value={context}>

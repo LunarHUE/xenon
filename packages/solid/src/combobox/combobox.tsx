@@ -30,6 +30,7 @@ import { SelectionPopup, useSelectionPositioner } from '../internal/selection-po
 import type { SelectionPopupProps, SelectionPopupSource } from '../internal/selection-popup'
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
+import { subscribeFormReset } from '../internal/form-reset'
 
 type ComboboxOptions = NativeBooleanAttributes<CoreComboboxOptions>
 
@@ -312,22 +313,21 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
         ? 'rtl'
         : 'ltr'
     )
-    const reset = (event: Event) => {
-      if (event.target !== mirror?.form) return
-      // eslint-disable-next-line solid/reactivity -- reset reads the current form state after native reset completes.
-      queueMicrotask(() => {
-        if (event.defaultPrevented) return
+    return subscribeFormReset(
+      initialNode.ownerDocument,
+      () => mirror?.form ?? null,
+      () => {
         if (props.value === undefined) setInternal(props.defaultValue)
         if (props.inputValue === undefined)
           setQuery(props.defaultInputValue ?? (popupInput ? '' : label(value())))
         if (props.open === undefined) setExpanded(false)
         setActive(undefined)
         flush()
+        const node = input()
+        if (node) node.value = text()
         if (mirror) mirror.value = value() ?? ''
-      })
-    }
-    initialNode.ownerDocument.addEventListener('reset', reset)
-    return () => initialNode.ownerDocument.removeEventListener('reset', reset)
+      }
+    )
   })
   const element = (
     <Context value={context}>

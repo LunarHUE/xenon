@@ -13,6 +13,7 @@ import { gate } from './gate'
 import { fieldDescribedBy, fieldLabelledBy, useFieldContext } from '../field/context'
 import type { FieldContextValue } from '../field/context'
 import { spread } from '../spread'
+import { subscribeFormReset } from './form-reset'
 
 /** Shared library-owned props inherited by Checkbox and Switch. */
 export interface CheckedOwn {
@@ -324,24 +325,11 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
     const node = el
     if (!node) return
     const doc = node.ownerDocument
-    let disposed = false
-    const restore = (event: Event) => {
-      const form = owningForm()
-      if (!form || event.target !== form || event.defaultPrevented) return
-      // Native dispatch can run microtasks between listeners. Wait for all
-      // cancellation handlers and the browser's reset default action.
-      setTimeout(() => {
-        if (disposed || event.defaultPrevented) return
-        if (member()) group!.reset()
-        else if (own.checked === undefined) setInternal(fallback())
-        resync()
-      })
-    }
-    doc.addEventListener('reset', restore)
-    return () => {
-      disposed = true
-      doc.removeEventListener('reset', restore)
-    }
+    return subscribeFormReset(doc, owningForm, () => {
+      if (member()) group!.reset()
+      else if (own.checked === undefined) setInternal(fallback())
+      resync()
+    })
   })
 
   /** Named non-input hosts render a native checkbox sibling for forms and validation. */

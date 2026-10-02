@@ -24,6 +24,7 @@ import { Field } from '../field/field'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { hiddenStyle } from '../internal/native'
 import { spread } from '../spread'
+import { subscribeFormReset } from '../internal/form-reset'
 
 type TagsInputOptions = NativeBooleanAttributes<CoreTagsInputOptions>
 
@@ -252,19 +253,16 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
   onSettled(() => {
     const initialDocument = input()?.ownerDocument
     if (!initialDocument) return
-    const reset = (event: Event) => {
-      if (event.target !== input()?.form) return
-      // eslint-disable-next-line solid/reactivity -- Read current props after cancelable reset dispatch.
-      queueMicrotask(() => {
-        if (event.defaultPrevented) return
+    return subscribeFormReset(
+      initialDocument,
+      () => input()?.form ?? null,
+      () => {
         if (props.value === undefined) setInternal(props.defaultValue ?? [])
         setDraft('')
         setActive(-1)
         setEditing(-1)
-      })
-    }
-    initialDocument.addEventListener('reset', reset, true)
-    return () => initialDocument.removeEventListener('reset', reset, true)
+      }
+    )
   })
   const rest = omit(
     props,

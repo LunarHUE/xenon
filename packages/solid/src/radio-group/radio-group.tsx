@@ -12,6 +12,7 @@ import { RadioGroupContext } from './context'
 import type { RadioGroupContextValue, RadioGroupEntry } from './context'
 import { RadioGroupItem } from './item'
 import { spread } from '../spread'
+import { subscribeFormReset } from '../internal/form-reset'
 
 type RadioGroupOptions = NativeBooleanAttributes<CoreRadioGroupOptions>
 
@@ -64,8 +65,8 @@ function byDomOrder(a: RadioGroupEntry, b: RadioGroupEntry): number {
  * callbacks run synchronously. Native input keys remain browser-owned.
  *
  * A document reset listener uses the first registered input's owning form. If
- * its reset has not been canceled when observed, uncontrolled state returns to
- * the current defaultValue and native checked state is repaired on settlement.
+ * its reset is not canceled after dispatch, uncontrolled state returns to
+ * the current defaultValue and native checked state is repaired after native reset.
  * Controlled state remains authoritative. Listener cleanup follows the owner.
  *
  * Supply the accessible group name and any Field associations explicitly; this
@@ -192,14 +193,10 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
     setAmbient(value === 'rtl' ? 'rtl' : 'ltr')
 
     const doc = el.ownerDocument
-    const restore = (event: Event) => {
-      const form = owningForm()
-      if (!form || event.target !== form || event.defaultPrevented) return
+    return subscribeFormReset(doc, owningForm, () => {
       if (own.value === undefined) setInternal(own.defaultValue)
       resync()
-    }
-    doc.addEventListener('reset', restore)
-    return () => doc.removeEventListener('reset', restore)
+    })
   })
 
   return (
