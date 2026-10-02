@@ -31456,6 +31456,25 @@
       ],
       "verification": "Coordinator Chromium/Firefox/WebKit run: all 10 new cases passed in all engines (30 executions). Broader Select/Toolbar plus Popover naming run: 503 passed, 1 old Firefox link hash timing failure; separately corrected native navigation wait and passed all3. Adapter Select/Toolbar/Popover: 12 files,57 passed. Logs /tmp/xenon-select-toolbar-fixed-domain-all.log, /tmp/xenon-radio-popover-toolbar-batch.log, /tmp/xenon-select-toolbar-popover-adapters.log.",
       "relatedFix": "fa5eecb"
+    },
+    {
+      "id": "popover-close-default-name-native",
+      "status": "reconciled",
+      "ids": [
+        "popover.roles.10"
+      ],
+      "acceptedClauses": [
+        "Absent or undefined close label uses Close popover; explicit empty/custom labels preserved; icon-only undefined close remains named through custom→undefined transitions and native activation closes once/restores trigger focus."
+      ],
+      "remainingClauses": [
+        "Localized default-name API is not shipped; English default only is verified."
+      ],
+      "files": [
+        "packages/solid/src/popover/popover.close-name.test.tsx",
+        "packages/suite/src/popover/popover.close-name.remaining.test-browser.tsx"
+      ],
+      "relatedFix": "ff334cd",
+      "verification": "New native case passed Chromium,Firefox,WebKit (3 executions) in /tmp/xenon-select-toolbar-fixed-domain-all.log. Adapter batch12files57pass in /tmp/xenon-select-toolbar-popover-adapters.log; new close-name3 passed. Original undefined-name regression2failed before fix."
     }
   ],
   "knownLimits": {
