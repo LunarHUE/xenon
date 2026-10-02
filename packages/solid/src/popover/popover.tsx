@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import type { PopoverOptions } from '@xenon-ui/core/popover'
 import type { AnyPart, PopoverResult } from '@xenon-ui/core'
 import { popover } from '@xenon-ui/core/popover'
@@ -100,14 +101,15 @@ interface Own extends Omit<PopoverOptions, 'ids' | 'status'> {
   /** Fallback description ID and explicit description reference when no description is registered. Registered IDs take precedence. */
   descriptionId?: string
   /** Receives the root wrapper, separate from the positioner and content hosts. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic root props with library-owned visibility and dismissal policies. */
 export type PopoverProps<T extends ValidComponent = 'div', Payload = unknown> = Omit<
   ComponentProps<T>,
   keyof Own | 'as' | 'children'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
+    ref?: ComponentProps<T>['ref']
     /** Root host, defaulting to div; custom components must forward props and refs. */
     as?: T
     /** Connect detached triggers and commands. Keep this handle stable for the mounted root. */
@@ -116,11 +118,12 @@ export type PopoverProps<T extends ValidComponent = 'div', Payload = unknown> = 
     children?: JSX.Element | ((state: PopoverRenderState<Payload>) => JSX.Element)
   }
 /** Dialog content host props. Requires Popover.Positioner; author aria-label suppresses generated title naming. */
-export type PopoverContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type PopoverContentProps<T extends ValidComponent = 'div'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered host, defaulting to div; custom components must forward props and refs. */
   as?: T
-  /** Receives the content host used for focus scope and exit observation. */
-  ref?: (el: HTMLElement) => void
 }
 /** {@link ButtonProps} for a registered trigger; the active trigger controls expansion and default anchoring. */
 export type PopoverTriggerProps<
@@ -135,18 +138,17 @@ export type PopoverTriggerProps<
 /** {@link ButtonProps} for requesting closure; aria-label defaults to Close popover. */
 export type PopoverCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
 /** Title host props; author id overrides the fallback and contributes to content naming. */
-export type PopoverTitleProps<T extends ValidComponent = 'h2'> = ComponentProps<T> & {
+export type PopoverTitleProps<T extends ValidComponent = 'h2'> = Omit<ComponentProps<T>, 'as'> & {
   /** Rendered host, defaulting to h2; custom components must forward props and refs. */
   as?: T
-  /** Receives the rendered title host. */
-  ref?: (el: HTMLElement) => void
 }
 /** Description host props; author id contributes to content aria-describedby. */
-export type PopoverDescriptionProps<T extends ValidComponent = 'p'> = ComponentProps<T> & {
+export type PopoverDescriptionProps<T extends ValidComponent = 'p'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered host, defaulting to p; custom components must forward props and refs. */
   as?: T
-  /** Receives the rendered description host. */
-  ref?: (el: HTMLElement) => void
 }
 /** Root-owned live state and registries consumed by the popover parts. */
 interface Context {
@@ -161,7 +163,7 @@ interface Context {
   /** Records content for both DOM hosting and presence animation observation. */
   setContent(el: HTMLElement): void
   /** Adds a live ID getter and returns removal. Joined IDs retain registration order; caller owns cleanup. */
-  register(name: 'title' | 'description' | 'content', id: () => string): () => void
+  register(name: 'title' | 'description' | 'content', id: () => string | undefined): () => void
   /** Root-supplied ID or generated fallback for this part kind. */
   id(name: 'title' | 'description' | 'content'): string
   /** Reads directly on the client or records an SSR marker finalized after descendant serialization. */
@@ -280,7 +282,7 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
   const [anchor, setAnchor] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
-  const entries: Record<'title' | 'description' | 'content', (() => string)[]> = {
+  const entries: Record<'title' | 'description' | 'content', (() => string | undefined)[]> = {
     title: [],
     description: [],
     content: [],
@@ -289,7 +291,12 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
   /** Reads live IDs in registration order, with reactive revision tracking on the client. */
   const registered = (name: 'title' | 'description' | 'content') => {
     revision()
-    return entries[name].map((read) => read()).join(' ') || undefined
+    return (
+      entries[name]
+        .map((read) => read())
+        .filter(Boolean)
+        .join(' ') || undefined
+    )
   }
   const open = () => own.open ?? internal()
   /** Deduplicates against current visibility, updates uncontrolled state, then notifies. */
@@ -409,7 +416,7 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
   const element = (
     <Dynamic
       component={own.as ?? 'div'}
-      ref={own.ref}
+      ref={props.ref}
       {...spread(result().parts.root, { ...rest })}
     >
       {inner()}
@@ -502,7 +509,7 @@ export function PopoverTrigger<T extends ValidComponent = 'button', Payload = un
     <Button
       ref={(el: HTMLElement) => {
         entry.element = el
-        ;(props as { ref?: (el: HTMLElement) => void }).ref?.(el)
+        setRef((props as { ref?: unknown }).ref, el)
       }}
       {...buttonProps(part(), { ...rest })}
     >
@@ -524,7 +531,7 @@ export function PopoverClose<T extends ValidComponent = 'button'>(
     <Button
       {...buttonProps(context.result().parts.close, {
         ...props,
-        'aria-label': (props as { 'aria-label'?: string })['aria-label'] ?? 'Close popover',
+        ...(!('aria-label' in props) ? { 'aria-label': 'Close popover' } : {}),
       })}
     />
   )
@@ -541,11 +548,8 @@ const PositionerContext = createContext<
  * Anchor, arrow, and enabled state come from popover context. Author styles override
  * the wrapper baseline, but controller visibility/pointer-events take precedence.
  */
-export type PopoverPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions | 'ref'> &
-  Omit<PositionerOptions, 'strategy'> & {
-    /** Receives the native manual-popover wrapper, separate from the content ref. */
-    ref?: (el: HTMLDivElement) => void
-  }
+export type PopoverPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions> &
+  Omit<PositionerOptions, 'strategy'> & {}
 /**
  * Hosts and positions content in a native manual-popover div while presence requires it.
  *
@@ -692,7 +696,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
       <div
         ref={(el) => {
           setElement(el)
-          props.ref?.(el)
+          setRef(props.ref, el)
         }}
         {...rest}
         popover="manual"
@@ -732,7 +736,7 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
   const own = props as {
     as?: ValidComponent
     id?: string
-    ref?: (el: HTMLElement) => void
+    ref?: unknown
     children?: JSX.Element
     'aria-label'?: string
   }
@@ -762,7 +766,7 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(el: HTMLElement) => {
         context.setContent(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...attributes()}
     >
@@ -771,11 +775,9 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
   )
 }
 /** Explicit geometry-anchor host props. The registered anchor takes priority over the active trigger. */
-export type PopoverAnchorProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type PopoverAnchorProps<T extends ValidComponent = 'div'> = Omit<ComponentProps<T>, 'as'> & {
   /** Rendered host, defaulting to div; custom components must forward props and refs. */
   as?: T
-  /** Receives the rendered host; custom hosts must forward this ref. */
-  ref?: (el: HTMLElement) => void
 }
 /**
  * Registers an explicit geometry anchor, overriding trigger-based positioning.
@@ -793,7 +795,7 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
   })
   const own = props as {
     as?: ValidComponent
-    ref?: (el: HTMLElement) => void
+    ref?: unknown
     children?: JSX.Element
   }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
@@ -802,7 +804,7 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(el: HTMLElement) => {
         context.setAnchor(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...rest}
     >
@@ -835,7 +837,7 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
   })
   const own = props as {
     as?: ValidComponent
-    ref?: (el: HTMLElement) => void
+    ref?: unknown
     children?: JSX.Element
   }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
@@ -844,7 +846,7 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...positioner.arrowProps()}
       {...rest}
@@ -863,11 +865,11 @@ export function PopoverTitle<T extends ValidComponent = 'h2'>(
   props: PopoverTitleProps<T>
 ): JSX.Element {
   const context = usePopover('Popover.Title')
-  const own = props as { as?: ValidComponent; id?: string; ref?: (el: HTMLElement) => void }
+  const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
-  onCleanup(context.register('title', () => own.id ?? context.id('title')))
+  onCleanup(context.register('title', () => ('id' in props ? own.id : context.id('title'))))
   return (
-    <Dynamic component={own.as ?? 'h2'} ref={own.ref} {...{ id: context.id('title'), ...rest }}>
+    <Dynamic component={own.as ?? 'h2'} ref={props.ref} {...{ id: context.id('title'), ...rest }}>
       {(props as { children?: JSX.Element }).children}
     </Dynamic>
   )
@@ -882,13 +884,15 @@ export function PopoverDescription<T extends ValidComponent = 'p'>(
   props: PopoverDescriptionProps<T>
 ): JSX.Element {
   const context = usePopover('Popover.Description')
-  const own = props as { as?: ValidComponent; id?: string; ref?: (el: HTMLElement) => void }
+  const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
-  onCleanup(context.register('description', () => own.id ?? context.id('description')))
+  onCleanup(
+    context.register('description', () => ('id' in props ? own.id : context.id('description')))
+  )
   return (
     <Dynamic
       component={own.as ?? 'p'}
-      ref={own.ref}
+      ref={props.ref}
       {...{ id: context.id('description'), ...rest }}
     >
       {(props as { children?: JSX.Element }).children}
