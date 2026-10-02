@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -26,13 +28,13 @@ interface ItemOwn {
   /** Overrides root panel mounting even when false; omission inherits the root setting. */
   forceMount?: boolean
   /** Receives the item wrapper, not its trigger or panel. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Shared trigger/panel host ref contract. */
 interface PartOwn {
   /** Receives the rendered part host; custom components must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Internal polymorphic part inputs used to update cross-part associations. */
@@ -46,9 +48,9 @@ type PartProps = PartOwn & {
 /** Polymorphic wrapper props with item-local state. */
 export type AccordionItemProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof ItemOwn | 'as'
+  Exclude<keyof ItemOwn, 'ref'> | 'as'
 > &
-  ItemOwn & {
+  NativeBooleanAttributes<Omit<ItemOwn, 'ref'>> & {
     /** Wrapper host, defaulting to div. */
     as?: T
   }
@@ -56,9 +58,9 @@ export type AccordionItemProps<T extends ValidComponent = 'div'> = Omit<
 /** Polymorphic trigger props; an author ID updates the panel naming association on the client. */
 export type AccordionTriggerProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof PartOwn | 'as'
+  Exclude<keyof PartOwn, 'ref'> | 'as'
 > &
-  PartOwn & {
+  Omit<PartOwn, 'ref'> & {
     /** Trigger host, defaulting to button; literal input also retains native activation, others get generic button keys. */
     as?: T
   }
@@ -66,9 +68,9 @@ export type AccordionTriggerProps<T extends ValidComponent = 'button'> = Omit<
 /** Polymorphic panel props; an author ID updates trigger aria-controls on the client. */
 export type AccordionPanelProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof PartOwn | 'as'
+  Exclude<keyof PartOwn, 'ref'> | 'as'
 > &
-  PartOwn & {
+  Omit<PartOwn, 'ref'> & {
     /** Panel host, defaulting to div; custom components must forward props and refs. */
     as?: T
   }
@@ -101,7 +103,7 @@ export function AccordionItem<T extends ValidComponent = 'div'>(
   const entry: AccordionEntry = {
     value: untrack(() => own.value),
     el: null,
-    disabled: () => own.disabled ?? false,
+    disabled: () => booleanAttribute(own.disabled),
     status: () => life.status(),
     ids: () => ({ trigger: triggerId(), content: panelId() }),
     setTriggerId: (id) => setTriggerId(id ?? `${base}-trigger`),
@@ -137,7 +139,7 @@ export function AccordionItem<T extends ValidComponent = 'div'>(
   return (
     <Dynamic
       component={(own.as ?? 'div') as ValidComponent}
-      ref={own.ref}
+      ref={(node: HTMLElement) => setRef(own.ref, node)}
       {...spread(context.item(entry), { ...rest })}
     >
       {inner()}
@@ -168,7 +170,7 @@ export function AccordionTrigger<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     context.entry.el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   return (
@@ -201,7 +203,7 @@ export function AccordionPanel<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     el = node
     context.panelRef(node)
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   createEffect(

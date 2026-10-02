@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { AccordionOptions } from '@xenon-ui/core'
 import type { CompositeDirection } from '@xenon-ui/core'
 import { accordion } from '@xenon-ui/core'
@@ -27,15 +29,15 @@ interface Own extends Omit<
   /** Horizontal navigation direction. Omission samples nearest dir or document dir after settling, initially ltr; not forwarded as a root attribute. */
   dir?: AccordionOptions<string>['direction']
   /** Receives the root host; custom components must forward it for ambient direction lookup. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic accordion root props with controlled or uncontrolled open values. */
 export type AccordionProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Root host, defaulting to div; custom components must forward props and refs. */
     as?: T
   }
@@ -84,7 +86,7 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
 
   const controlled = () => own.value !== undefined
   const value = () => own.value ?? internal()
-  const disabled = () => own.disabled ?? false
+  const disabled = () => booleanAttribute(own.disabled)
   const forceMount = () => own.forceMount ?? false
 
   /** Stores proposals only while uncontrolled, then invokes the current callback. */
@@ -153,7 +155,7 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
