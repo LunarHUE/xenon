@@ -430,7 +430,10 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
  * gate. Returns a fresh props object; other event names retain spread's casing.
  */
 function buttonProps(part: AnyPart, props: Record<string, unknown>) {
-  const merged = spread(part, props)
+  // Core assumes native buttons; Button owns host defaults and author type overrides.
+  const attrs = { ...part.attrs }
+  delete (attrs as Record<string, unknown>).type
+  const merged = spread({ ...part, attrs }, props)
   for (const key of Object.keys(merged)) {
     if (key.toLowerCase() !== 'onclick' || key === 'onClick') continue
     merged.onClick = merged[key]
