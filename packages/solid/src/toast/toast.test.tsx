@@ -194,3 +194,16 @@ test('a provider without limit or duration props keeps an external manager confi
   expect(m.getByTestId(second)).not.toHaveAttribute('hidden')
   expect(manager.toasts().find((record) => record.id === second)?.duration).toBe(0)
 })
+
+test('nested viewport refs attach and explicit undefined removes its default name', () => {
+  const manager = Toast.createManager()
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Toast.Provider manager={manager}>
+      <Toast.Viewport aria-label={undefined} ref={refs} />
+    </Toast.Provider>
+  ))
+  expect(host).toHaveBeenCalledWith(view.getByRole('region', { hidden: true }))
+  expect(view.getByRole('region', { hidden: true })).not.toHaveAttribute('aria-label')
+})
