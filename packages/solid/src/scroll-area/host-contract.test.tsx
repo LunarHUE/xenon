@@ -8,7 +8,7 @@ test('ScrollArea preserves native ref arrays and reactive attribute removal', ()
   const second = vi.fn()
   const refs = [first, second]
   const [value, setValue] = createSignal<string | undefined>('active')
-  const { container } = render(() => (
+  render(() => (
     <ScrollArea>
       <ScrollArea.Viewport ref={refs} class={value()} />
     </ScrollArea>

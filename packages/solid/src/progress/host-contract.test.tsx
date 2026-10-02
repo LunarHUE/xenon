@@ -8,7 +8,7 @@ test('Progress preserves native ref arrays and reactive attribute removal', () =
   const second = vi.fn()
   const refs = [first, second]
   const [value, setValue] = createSignal<string | undefined>('active')
-  const { container } = render(() => <Progress ref={refs} value={25} class={value()} />)
+  render(() => <Progress ref={refs} value={25} class={value()} />)
   const host = first.mock.calls[0]?.[0]
   expect(host).toBeInstanceOf(HTMLElement)
   expect(second).toHaveBeenCalledWith(host)

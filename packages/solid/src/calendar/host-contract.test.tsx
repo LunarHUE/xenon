@@ -8,7 +8,7 @@ test('Calendar preserves native ref arrays and reactive attribute removal', () =
   const second = vi.fn()
   const refs = [first, second]
   const [value, setValue] = createSignal<string | undefined>('active')
-  const { container } = render(() => (
+  render(() => (
     <Calendar ref={refs} today={{ year: 2024, month: 2, day: 15 }} class={value()}>
       <Calendar.Grid />
     </Calendar>

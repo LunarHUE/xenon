@@ -8,7 +8,7 @@ test('Resizable preserves native ref arrays and reactive attribute removal', () 
   const second = vi.fn()
   const refs = [first, second]
   const [value, setValue] = createSignal<string | undefined>('active')
-  const { container } = render(() => (
+  render(() => (
     <Resizable>
       <Resizable.Panel ref={refs} index={0} class={value()} />
     </Resizable>
