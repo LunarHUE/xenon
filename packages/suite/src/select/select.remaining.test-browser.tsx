@@ -70,15 +70,27 @@ function FruitSelect(props: {
   )
 }
 
-test('select.keyboard.8: each commit key transfers aria-selected to the chosen option after reopening', async () => {
+test('select.keyboard.8 and select.state.7: each commit key transfers the default selected marker after reopening', async () => {
   for (const key of ['{Enter}', ' ', '{Alt>}{ArrowUp}{/Alt}']) {
     const change = vi.fn()
     const m = mount(() => <FruitSelect defaultValue="apple" onValueChange={change} />)
     const trigger = m.getByRole('combobox', { name: 'Fruit' })
+    expect(trigger).toHaveTextContent('Apple')
     trigger.focus()
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}')
+    await userEvent.keyboard('{ArrowDown}')
     await settle()
     const popup = m.getByRole('listbox')
+    expect(within(popup).getByRole('option', { name: 'Apple' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    )
+    expect(within(popup).getByRole('option', { name: 'Pear' })).toHaveAttribute(
+      'aria-selected',
+      'false'
+    )
+    expect(change).not.toHaveBeenCalled()
+    await userEvent.keyboard('{ArrowDown}')
+    await settle()
     expect(trigger).toHaveAttribute(
       'aria-activedescendant',
       within(popup).getByRole('option', { name: 'Pear' }).id
@@ -109,6 +121,32 @@ test('select.keyboard.8: each commit key transfers aria-selected to the chosen o
     await settle()
     m.unmount()
   }
+})
+
+test('select.keyboard.7: an empty select resets the last pending highlight to the first after Escape', async () => {
+  const change = vi.fn()
+  const m = mount(() => <FruitSelect onValueChange={change} />)
+  const trigger = m.getByRole('combobox', { name: 'Fruit' })
+  trigger.focus()
+  await userEvent.keyboard('{ArrowDown}{End}')
+  await settle()
+  expect(trigger).toHaveAttribute(
+    'aria-activedescendant',
+    within(m.getByRole('listbox')).getByRole('option', { name: 'Plum' }).id
+  )
+  await userEvent.keyboard('{Escape}')
+  await settle()
+  expect(m.queryByRole('listbox')).toBeNull()
+  expect(trigger).not.toHaveAttribute('aria-activedescendant')
+  expect(trigger).toHaveTextContent('Choose fruit')
+  await userEvent.keyboard('{ArrowDown}')
+  await settle()
+  expect(trigger).toHaveAttribute(
+    'aria-activedescendant',
+    within(m.getByRole('listbox')).getByRole('option', { name: 'Apple' }).id
+  )
+  expect(new FormData(m.container.querySelector('form')!).get('fruit')).toBe('')
+  expect(change).not.toHaveBeenCalled()
 })
 
 test('select.keyboard.19: removing the active option leaves navigation on live enabled options', async () => {

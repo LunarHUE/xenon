@@ -141,6 +141,19 @@ describe('select native forms in a browser', () => {
     expect(new FormData(form).get('fruit')).toBe('pear')
     expect(form.checkValidity()).toBe(true)
     expect(change).toHaveBeenCalledExactlyOnceWith('pear')
+    await userEvent.click(trigger)
+    await settle()
+    const reopened = m.getByRole('listbox', { name: 'Fruit' })
+    expect(within(reopened).getByRole('option', { name: 'Pear' })).toHaveAttribute(
+      'aria-selected',
+      'true'
+    )
+    expect(within(reopened).getByRole('option', { name: 'Apple' })).toHaveAttribute(
+      'aria-selected',
+      'false'
+    )
+    expect(change).toHaveBeenCalledExactlyOnceWith('pear')
+    await press('{Escape}')
   })
 
   test('select.forms.14: a native reset restores the uncontrolled default and keeps the controlled value', async () => {

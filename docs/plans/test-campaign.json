@@ -1606,7 +1606,7 @@
     {"ids":["select.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom active option ID resolution, disabled selection blocking and aria-selected are asserted; complete generated ID/data-value/state/highlight/disabled marker matrix is not.","evidence":558,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":26},"status":"queued"},
     {"ids":["select.roles.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native change requests are handled and controlled value repaired; data-autofill marker is not supplied and OS autofill is not asserted.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":30},"status":"queued"},
     {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"queued"},
-    {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"queued"},
+    {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"verified"},
     {"ids":["select.keyboard.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Space, Enter and Alt+Up commit label/form value and close; aria-selected attribute transfer after reopening is not directly asserted by those cases.","evidence":562,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":38},"status":"verified"},
     {"ids":["select.keyboard.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without committing; retained force-mounted option tabindex cleanup is not directly checked.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":40},"status":"verified"},
     {"ids":["select.keyboard.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native open Home/End reach endpoints; actual option scroll-into-view result is not measured.","evidence":564,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":45},"status":"verified"},
@@ -1616,7 +1616,7 @@
     {"ids":["select.keyboard.29","select.keyboard.30"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active buffer consumes Space before commit in code; trailing-Space pointer selection and post-timeout Space commit matrix is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":55},"status":"queued"},
     {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"queued"},
     {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"verified"},
-    {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"queued"},
+    {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"verified"},
     {"ids":["select.pointer.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click-based trigger opening supports touch release semantics, but native touch down/scroll/click no-open-before-release sequence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":65},"status":"queued"},
     {"ids":["select.pointer.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger and ignored adapter interaction are covered; explicit mouse plus touch and callback-count matrix is absent.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":66},"status":"queued"},
     {"ids":["select.pointer.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pointermove highlights in implementation and disabled pointer test preserves current highlight; enabled hover movement and hover-disable option are not tested, and option flag is not supplied.","evidence":570,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":67},"status":"queued"},
@@ -1634,9 +1634,9 @@
     {"ids":["select.focus.16"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native autofocus/event props forward to trigger; autofocus and exact focus-callback count on mount lack a Select test.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":97},"status":"queued"},
     {"ids":["select.focus.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab respects trigger document order and option selection retains focus; exact focus/blur callback count/no-blur-on-select is not asserted.","evidence":574,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":98},"status":"queued"},
     {"ids":["select.focus.19"],"historicalStatus":"missing","domain":"popup-selection","reason":"Disabled options keep tabindex=-1 and are programmatically focusable, but exact disabled-option focus() case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":100},"status":"queued"},
-    {"ids":["select.state.1","select.state.2","select.state.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Controlled/default visibility and deduplicated boolean change callbacks ship, but initial-open silence plus exact Escape counts/full open-close callback sequence are not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":102},"status":"queued"},
+    {"ids":["select.state.1","select.state.2","select.state.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Controlled/default visibility and deduplicated boolean change callbacks ship, but initial-open silence plus exact Escape counts/full open-close callback sequence are not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":102},"status":"verified"},
     {"ids":["select.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reactive controlled prop updates closed Value label without mounting; popup option selected state and changed metadata label lookup are not both asserted.","evidence":575,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":105},"status":"queued"},
-    {"ids":["select.state.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default label/form value and later selection changes are asserted; rendered matching option aria-selected transition is not directly checked.","evidence":576,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":106},"status":"queued"},
+    {"ids":["select.state.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default label/form value and later selection changes are asserted; rendered matching option aria-selected transition is not directly checked.","evidence":576,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":106},"status":"verified"},
     {"ids":["select.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pinned controlled selection attempt followed by reopen/Escape keeps exact count one; exact uncontrolled newly-chosen then reopen/Escape sequence is not asserted.","evidence":577,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":108},"status":"queued"},
     {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"queued"},
     {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"queued"},
@@ -2215,6 +2215,33 @@
         {
           "command": "Parent full Select three-engine run",
           "result": "Retained presence case passed in Chromium, Firefox and WebKit"
+        }
+      ]
+    },
+    {
+      "id": "select-evidence-reconciliation-1",
+      "status": "verified",
+      "ids": [
+        "select.keyboard.7",
+        "select.state.3",
+        "select.state.7",
+        "select.pointer.2"
+      ],
+      "acceptedClauses": [
+        "With no committed value, End followed by Escape reopens at the first enabled item",
+        "Open-state transitions emit exactly one callback per change",
+        "Default selected markers and label update together after a later selection",
+        "Native pointer selection itself transfers selected markers on reopening"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.remaining.test-browser.tsx",
+        "packages/suite/src/select/select.forms.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/select",
+          "result": "147 tests passed independently; the source assertions for initial selection and pointer reopening were strengthened before this run"
         }
       ]
     }
