@@ -1360,7 +1360,7 @@
     {"ids":["toast.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Deferred. Empty-region forward and reverse Tab traversal has no native test.","evidence":398,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":360},"status":"queued"},
     {"ids":["toast.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial across layers. M `reports timeout and explicit dismissal reasons exactly once` asserts timeout closure. Native automatic DOM removal after timeout is not asserted directly.","evidence":416,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":362},"status":"queued"},
     {"ids":["toast.state.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. C `admits newest records and normalizes nonfinite defaults` asserts 5000 as the fallback. Exact default 5000ms expiry is not timed in the current tests.","evidence":417,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":363},"status":"queued"},
-    {"ids":["toast.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` distinguishes provider and explicit durations. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":364},"status":"reconciled"},
+    {"ids":["toast.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` distinguishes provider and explicit durations. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":364},"status":"verified"},
     {"ids":["toast.state.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` preserves explicit zero after other records expire. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":365},"status":"reconciled"},
     {"ids":["toast.state.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Newest-visible admission and promotion are asserted; limited records remain mounted hidden and inert, so the source requirement that only n are rendered is not implemented literally.","evidence":419,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":368},"status":"queued"},
     {"ids":["toast.state.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across tests. E `notification stack handles rapid additions` asserts the newest record first; M `restarts duplicate add lifetimes` preserves order; M `expires only the middle of three visible records` verifies middle-record removal preserves sibling order and deadlines. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":420,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":370},"status":"reconciled"},
@@ -7548,6 +7548,24 @@
       "verification": "Coordinator reproduced 15 failures and 3 passes before fix, then independently verified all 18 native checks across Chromium, Firefox and WebKit after fix. Coordinator separately verified 83 focused Solid unit tests.",
       "limits": [
         "Browser disposal case bounds observable errors/callbacks; private cancellation is established by helper unit assertions."
+      ]
+    },
+    {
+      "id": "toast-explicit-duration-evidence",
+      "status": "verified",
+      "ids": [
+        "toast.state.3"
+      ],
+      "acceptedClauses": [
+        "Per-toast duration overrides the configured provider duration: implicit toast dismisses at 100ms, explicit 200ms toast remains until 200ms, and explicit zero remains persistent."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/solid/src/toast/manager.test.ts"
+      ],
+      "verification": "Coordinator inspected existing exact assertions and independently ran the manager suite: 24 tests passed.",
+      "limits": [
+        "Manager timing and dismissal state are asserted; no rendered DOM removal or native gesture claim."
       ]
     }
   ],
