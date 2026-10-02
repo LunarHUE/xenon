@@ -1608,8 +1608,8 @@
     {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"queued"},
     {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"queued"},
     {"ids":["select.keyboard.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Space, Enter and Alt+Up commit label/form value and close; aria-selected attribute transfer after reopening is not directly asserted by those cases.","evidence":562,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":38},"status":"verified"},
-    {"ids":["select.keyboard.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without committing; retained force-mounted option tabindex cleanup is not directly checked.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":40},"status":"queued"},
-    {"ids":["select.keyboard.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native open Home/End reach endpoints; actual option scroll-into-view result is not measured.","evidence":564,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":45},"status":"queued"},
+    {"ids":["select.keyboard.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without committing; retained force-mounted option tabindex cleanup is not directly checked.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":40},"status":"verified"},
+    {"ids":["select.keyboard.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native open Home/End reach endpoints; actual option scroll-into-view result is not measured.","evidence":564,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":45},"status":"verified"},
     {"ids":["select.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native arrows skip disabled metadata; live collection removal without a dead slot is not directly tested.","evidence":565,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":46},"status":"verified"},
     {"ids":["select.keyboard.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Idle reset and fresh matching search are asserted; no-match character immediately after timeout is not.","evidence":566,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":53},"status":"queued"},
     {"ids":["select.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled-only match commits nothing and ordinary disabled option navigation is excluded; rapid double-letter disabled match among enabled same-letter matches is not asserted.","evidence":567,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":54},"status":"queued"},
@@ -1627,7 +1627,7 @@
     {"ids":["select.pointer.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native author preventDefault veto keeps popup/input state until subsequent accepted click; exact author callback once count is not asserted.","evidence":571,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":79},"status":"queued"},
     {"ids":["select.pointer.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly core/adapter refuses key opening; clicked readonly trigger refusal is implemented but not directly asserted.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":82},"status":"queued"},
     {"ids":["select.pointer.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared spread invokes author event before blocked selection, but disabled option author onClick occurrence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":83},"status":"queued"},
-    {"ids":["select.focus.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reopen highlights committed Pear; actual scrolling selected item into view is not asserted.","evidence":573,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":87},"status":"queued"},
+    {"ids":["select.focus.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reopen highlights committed Pear; actual scrolling selected item into view is not asserted.","evidence":573,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":87},"status":"verified"},
     {"ids":["select.focus.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled controls reject focus; passive-label flag is not supplied and label-click across Field/Fieldset is not tested.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":92},"status":"queued"},
     {"ids":["select.focus.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Invalid hidden native control forwards focus to visible trigger; dynamic proxy tabindex 0/-1 policy is not supplied (native stays -1).","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":93},"status":"queued"},
     {"ids":["select.focus.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without stolen focus; programmatic blur into own popup relatedTarget case is not directly asserted.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":96},"status":"queued"},
@@ -1653,8 +1653,8 @@
     {"ids":["select.positioning.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared fixed native Positioner waits for placement before visibility; exact vendor transform/isolation/variable/offscreen CSS attribute matrix is not asserted for Select.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":142},"status":"queued"},
     {"ids":["select.positioning.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared Positioner side/align offsets ship; Select-specific numeric/function/collision geometry is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":143},"status":"queued"},
     {"ids":["select.positioning.9","select.positioning.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active descendant scrollIntoView ships, but real scrolled-page no-drift and oversized/inner-viewport selected-option visibility are not measured.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":146},"status":"queued"},
-    {"ids":["select.animation.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native portal begins absent and is removed after click close; default Positioner itself absence/identity is not directly enumerated.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":147},"status":"queued"},
-    {"ids":["select.animation.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"forceMount closed hidden content ships, but Select-specific retained closed rendering/conditional author gating fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":148},"status":"queued"},
+    {"ids":["select.animation.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native portal begins absent and is removed after click close; default Positioner itself absence/identity is not directly enumerated.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":147},"status":"verified"},
+    {"ids":["select.animation.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"forceMount closed hidden content ships, but Select-specific retained closed rendering/conditional author gating fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":148},"status":"reconciled"},
     {"ids":["select.animation.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared presence supplies starting/ending lifecycle, but no Select real-animation assertion exists; completion callback is not supplied.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":149},"status":"queued"},
     {"ids":["select.animation.6","select.animation.7"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared presence cleanup and committed value state ship; Select-specific animated early-selection/no-scroll and unmount-with-pending-timers cases are not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":150},"status":"queued"},
     {"ids":["select.ssr.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Actual server transform preserves selected label/native option and IDs; no hydration run exists for Select, explicitly noted by scope.","evidence":554,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":153},"status":"queued"},
@@ -2160,6 +2160,61 @@
         {
           "command": "Scoped ESLint and suite typecheck",
           "result": "passed"
+        }
+      ]
+    },
+    {
+      "id": "select-scroll-presence-1",
+      "status": "verified",
+      "ids": [
+        "select.keyboard.18",
+        "select.focus.5",
+        "select.positioning.9",
+        "select.keyboard.10",
+        "select.animation.1"
+      ],
+      "acceptedClauses": [
+        "Native Home/End scroll highlighted endpoints into real overflowing content",
+        "Opening reveals the selected option inside an inner scrolling viewport",
+        "Opening a selected item on an already-scrolled page preserves document position",
+        "Native Tab closes retained options without value commitment or option tab stops",
+        "Lazy Positioner mounts only when opened and is removed on close"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.scroll-presence.remaining.test-browser.tsx"
+      ],
+      "relatedFix": "d738062",
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/select",
+          "result": "147 tests across24 engine/file combinations passed independently, including all15 scroll/presence executions"
+        },
+        {
+          "command": "bunx vitest run --maxWorkers=2 src/select/select.scroll.test.tsx src/select/select.test.tsx",
+          "result": "11 adapter tests passed independently; geometry assertions failed in all three engines before the fix and persisted under a longer diagnostic wait"
+        }
+      ]
+    },
+    {
+      "id": "select-retained-presence-1",
+      "status": "reconciled",
+      "ids": [
+        "select.animation.2"
+      ],
+      "acceptedClauses": [
+        "Force-mounted closed content is retained, hidden and excludes options from native Tab order"
+      ],
+      "remainingClauses": [
+        "Consumer rendering gated by exposed state is not provided or asserted by this batch"
+      ],
+      "files": [
+        "packages/suite/src/select/select.scroll-presence.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent full Select three-engine run",
+          "result": "Retained presence case passed in Chromium, Firefox and WebKit"
         }
       ]
     }
