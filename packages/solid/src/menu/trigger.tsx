@@ -73,11 +73,13 @@ export function MenuTrigger<T extends ValidComponent = 'button', Payload = unkno
     const value = context()
     const active = value?.activeTrigger(entry) ?? false
     const expanded = active && !!value?.open()
+    const triggerAttrs = { ...value?.engine().parts.trigger.attrs }
+    // Button supplies its host-specific default; the core trigger assumes a native button.
+    delete triggerAttrs.type
     const result = spread(
       {
         attrs: {
-          ...value?.engine().parts.trigger.attrs,
-          type: 'button',
+          ...triggerAttrs,
           'aria-haspopup': 'menu',
           'aria-expanded': expanded ? 'true' : 'false',
           'data-state': expanded ? 'open' : 'closed',
