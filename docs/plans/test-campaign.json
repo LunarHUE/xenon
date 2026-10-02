@@ -1184,21 +1184,21 @@
     {"ids":["dismissable-layer.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real inside and branch presses do not dismiss, but the fixture does not install onPointerOutside to assert that no outside notification fires.","evidence":303,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":163},"status":"queued"},
     {"ids":["dismissable-layer.pointer.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real clicks assert dismissal and native click delivery; the unit pointer-pair fixture asserts one outside notification and dismissal. Separate interact-outside notifications and inside-notification silence are not established.","evidence":304,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":164},"status":"queued"},
     {"ids":["aria-hidden.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The target has no aria-hidden and its ancestor has no inert; the fixture does not explicitly inspect aria-hidden on every ancestor.","evidence":305,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":167},"status":"queued"},
-    {"ids":["hover-card.roles.1","hover-card.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Open/closed and placement attributes are shipped, but the inspected HoverCard tests do not assert complete attribute transitions.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":1},"status":"queued"},
-    {"ids":["hover-card.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts collapsed/open expansion and active-only controls. The required haspopup value is implemented but not asserted.","evidence":307,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":2},"status":"queued"},
-    {"ids":["hover-card.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts active-only current marker; adapter switches hovered triggers but checks expansion rather than both current markers.","evidence":308,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":4},"status":"queued"},
-    {"ids":["hover-card.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts custom trigger ID and open controls target, but does not assert the rendered custom content ID together with a custom trigger ID.","evidence":309,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":5},"status":"queued"},
-    {"ids":["hover-card.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Measured gap traversal and resting on content are asserted. A control-inside-content pointer-retention assertion is not present in that fixture.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":10},"status":"queued"},
-    {"ids":["hover-card.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached triggers switch payload immediately and retain the node. Distinct per-trigger delays are not a supplied API or asserted scenario.","evidence":311,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":11},"status":"queued"},
-    {"ids":["hover-card.pointer.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"300ms is the accepted default close delay; current HoverCard fixtures override closeDelay rather than asserting its default boundary.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":12},"status":"queued"},
-    {"ids":["hover-card.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Short-hover cancellation is asserted with default 600ms and departure at 200ms, not the specified 700ms/300ms sequence or final trigger data-state.","evidence":312,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":13},"status":"queued"},
-    {"ids":["hover-card.pointer.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Return from content to trigger retains visibility; no exact leave-for-100ms/reenter-before-close boundary is asserted.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":15},"status":"queued"},
-    {"ids":["hover-card.pointer.14","hover-card.pointer.15","hover-card.pointer.16"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real measured travel, content arrival and outside-corridor closure are asserted; exact coordinate cases, single exit callback, internal transit flag and unmount reset are not all checked.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":17},"status":"queued"},
-    {"ids":["hover-card.pointer.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Touch pointerenter suppression is asserted, but the exact touch pointerup event and final data-state are not.","evidence":312,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":18},"status":"queued"},
-    {"ids":["hover-card.pointer.22"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disabling the root cancels pending hover; a separately disabled trigger hover fixture remains absent.","evidence":313,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":20},"status":"queued"},
-    {"ids":["hover-card.pointer.23"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inner wheel scrolling by 120px preserves the card and moving away closes it. The specified 300px/300ms page-wheel case and Firefox are not asserted.","evidence":314,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":21},"status":"queued"},
-    {"ids":["hover-card.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser checks losing content focus closes, and adapter checks blur cancels pending opening. The complete open-trigger blur/Tab close-delay sequence is not directly asserted.","evidence":315,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":25},"status":"queued"},
-    {"ids":["hover-card.focus.2","hover-card.focus.10","hover-card.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Accepted shared-trigger and independent focus/pointer intent behavior lacks a direct HoverCard assertion for this complete interaction sequence.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":26},"status":"queued"},
+    {"ids":["hover-card.roles.1","hover-card.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Open/closed and placement attributes are shipped, but the inspected HoverCard tests do not assert complete attribute transitions.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":1},"status":"reconciled"},
+    {"ids":["hover-card.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts collapsed/open expansion and active-only controls. The required haspopup value is implemented but not asserted.","evidence":307,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":2},"status":"reconciled"},
+    {"ids":["hover-card.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts active-only current marker; adapter switches hovered triggers but checks expansion rather than both current markers.","evidence":308,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":4},"status":"reconciled"},
+    {"ids":["hover-card.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts custom trigger ID and open controls target, but does not assert the rendered custom content ID together with a custom trigger ID.","evidence":309,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":5},"status":"reconciled"},
+    {"ids":["hover-card.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Measured gap traversal and resting on content are asserted. A control-inside-content pointer-retention assertion is not present in that fixture.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":10},"status":"reconciled"},
+    {"ids":["hover-card.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached triggers switch payload immediately and retain the node. Distinct per-trigger delays are not a supplied API or asserted scenario.","evidence":311,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":11},"status":"reconciled"},
+    {"ids":["hover-card.pointer.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"300ms is the accepted default close delay; current HoverCard fixtures override closeDelay rather than asserting its default boundary.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":12},"status":"reconciled"},
+    {"ids":["hover-card.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Short-hover cancellation is asserted with default 600ms and departure at 200ms, not the specified 700ms/300ms sequence or final trigger data-state.","evidence":312,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":13},"status":"reconciled"},
+    {"ids":["hover-card.pointer.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Return from content to trigger retains visibility; no exact leave-for-100ms/reenter-before-close boundary is asserted.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":15},"status":"reconciled"},
+    {"ids":["hover-card.pointer.14","hover-card.pointer.15","hover-card.pointer.16"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real measured travel, content arrival and outside-corridor closure are asserted; exact coordinate cases, single exit callback, internal transit flag and unmount reset are not all checked.","evidence":310,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":17},"status":"reconciled"},
+    {"ids":["hover-card.pointer.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Touch pointerenter suppression is asserted, but the exact touch pointerup event and final data-state are not.","evidence":312,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":18},"status":"reconciled"},
+    {"ids":["hover-card.pointer.22"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disabling the root cancels pending hover; a separately disabled trigger hover fixture remains absent.","evidence":313,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":20},"status":"reconciled"},
+    {"ids":["hover-card.pointer.23"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native inner wheel scrolling by 120px preserves the card and moving away closes it. The specified 300px/300ms page-wheel case and Firefox are not asserted.","evidence":314,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":21},"status":"reconciled"},
+    {"ids":["hover-card.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser checks losing content focus closes, and adapter checks blur cancels pending opening. The complete open-trigger blur/Tab close-delay sequence is not directly asserted.","evidence":315,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":25},"status":"reconciled"},
+    {"ids":["hover-card.focus.2","hover-card.focus.10","hover-card.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Accepted shared-trigger and independent focus/pointer intent behavior lacks a direct HoverCard assertion for this complete interaction sequence.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":26},"status":"reconciled"},
     {"ids":["hover-card.focus.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter proves delayed focus and cancellation with 100ms/99ms boundaries; exact 300ms/150ms source sequence is not exercised.","evidence":316,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":30},"status":"queued"},
     {"ids":["hover-card.state.1","hover-card.state.2","hover-card.state.5","hover-card.state.8","hover-card.state.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Controlled/default visibility and forceMount use the shared implementation, but the scope ledger identifies these complete HoverCard lifecycle sequences as lacking dedicated checks.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":31},"status":"verified"},
     {"ids":["hover-card.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter asserts exactly one boolean opening report. No-equal-request callback behavior is not checked here; previous-value callback argument is deliberately not provided.","evidence":317,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":32},"status":"queued"},
@@ -1211,30 +1211,30 @@
     {"ids":["hover-card.animation.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves forced closed presence and hidden state; author gating versus forced mounting is not exercised together.","evidence":322,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":46},"status":"reconciled"},
     {"ids":["hover-card.animation.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core proves exit retention, but browser animation completion and completion callbacks are not asserted; completion callbacks are not supplied.","evidence":323,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":47},"status":"queued"},
     {"ids":["hover-card.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Detached hover payload switching and browser reanchoring are asserted. The universal focus/activation/delay parity claim is broader than these cases.","evidence":324,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":51},"status":"queued"},
-    {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"queued"},
-    {"ids":["tooltip.roles.5","tooltip.roles.6","tooltip.roles.13"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Placement/state, author tab order and shared arrow semantics are implemented; no inspected Tooltip test asserts this complete attribute contract.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":56},"status":"queued"},
-    {"ids":["tooltip.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test asserts aria-disabled remains focusable and native disabled suppresses hover. Native disabled tabindex omission and pointer-events styling are not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":57},"status":"queued"},
-    {"ids":["tooltip.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter explicitly retains tooltip role and author aria-label. The resolved accessible description text is not asserted.","evidence":328,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":58},"status":"queued"},
-    {"ids":["tooltip.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core/native tests assert tooltip role and absent tabindex; absence of all listed dialog ARIA attributes is not asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":60},"status":"queued"},
-    {"ids":["tooltip.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"closeOnEscape is accepted policy, but native ignore-Escape retention is not directly asserted in the inspected fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":62},"status":"queued"},
-    {"ids":["tooltip.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Click dismissal and disabled press policy are tested, but native Enter press/release and specified close-delay behavior are not.","evidence":329,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":63},"status":"queued"},
-    {"ids":["tooltip.pointer.2","tooltip.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Tests cover inherited delay changes and representative delays; the complete enumerated delay matrix and all reentry boundaries are not asserted.","evidence":330,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":65},"status":"queued"},
-    {"ids":["tooltip.pointer.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Zero close delay is exercised by group fixtures; negative close-delay immediate behavior is not asserted.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":67},"status":"queued"},
-    {"ids":["tooltip.pointer.7","tooltip.pointer.9","tooltip.pointer.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Accepted intent cancellation and fresh reentry are implemented; complete plain-leave/pending-press/same-trigger-rehover sequences are not directly asserted by the inspected Tooltip fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":68},"status":"queued"},
-    {"ids":["tooltip.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Provider closeOnPress=false keeps an already open tooltip visible on click; pending-open press behavior is not asserted.","evidence":332,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":70},"status":"queued"},
-    {"ids":["tooltip.pointer.12"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Touch suppression is selected and implemented through shared hover intent, but the inspected Tooltip adapter/native fixtures do not assert the complete touch/mobile sequence.","evidence":333,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":71},"status":"queued"},
-    {"ids":["tooltip.pointer.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser uses measured rectangles and a synthetic gap coordinate, then native content hover. Intermediate-element traversal is not asserted.","evidence":334,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":72},"status":"queued"},
-    {"ids":["tooltip.pointer.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser asserts gap retention then idle expiry. Accepted timeout is 300ms plus closeDelay, so the vendor 260ms boundary is not adopted.","evidence":335,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":73},"status":"queued"},
-    {"ids":["tooltip.pointer.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser proves pointer-events pass through content and wrapper to a real underlying control; moving onto content then eventual close is not asserted in this fixture.","evidence":336,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":74},"status":"queued"},
-    {"ids":["tooltip.pointer.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native fixture checks aria-disabled focus opening and real focusability; every nested composition order is not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":77},"status":"queued"},
-    {"ids":["tooltip.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Root disabled cancellation and native disabled hover rejection are asserted. Inner-button composition parity is not checked; aria-disabled alone intentionally permits explanations.","evidence":337,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":78},"status":"queued"},
-    {"ids":["tooltip.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled blur reports a close request and retains author-controlled visibility; native uncontrolled blur with no pointer intent is not directly asserted here.","evidence":338,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":84},"status":"queued"},
-    {"ids":["tooltip.focus.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Group fixture focuses the second trigger after hover opened the first; focus-to-focus switching is not the exact exercised sequence.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":86},"status":"queued"},
-    {"ids":["tooltip.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves blur leaves pointer-held content open and ending hover then closes. The reverse order is not asserted.","evidence":339,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":87},"status":"queued"},
-    {"ids":["tooltip.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native click closes without reopening after browser focus, but the ensuing focus event is not separately recorded.","evidence":340,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":89},"status":"queued"},
-    {"ids":["tooltip.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native focus opening is covered, but explicit Tab/Shift+Tab modality establishment is not asserted in the inspected Tooltip tests.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":91},"status":"queued"},
-    {"ids":["tooltip.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core checks absent expansion; absent selected and checked state are not explicitly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":92},"status":"queued"},
-    {"ids":["tooltip.state.4","tooltip.state.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter and core check warm reuse, expiry and zero skip; the entire source timing matrix is not exercised.","evidence":341,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":95},"status":"queued"},
+    {"ids":["tooltip.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts open data-state, but complete open/close trigger marker transitions are not directly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":55},"status":"reconciled"},
+    {"ids":["tooltip.roles.5","tooltip.roles.6","tooltip.roles.13"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Placement/state, author tab order and shared arrow semantics are implemented; no inspected Tooltip test asserts this complete attribute contract.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":56},"status":"reconciled"},
+    {"ids":["tooltip.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test asserts aria-disabled remains focusable and native disabled suppresses hover. Native disabled tabindex omission and pointer-events styling are not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":57},"status":"reconciled"},
+    {"ids":["tooltip.roles.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter explicitly retains tooltip role and author aria-label. The resolved accessible description text is not asserted.","evidence":328,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":58},"status":"reconciled"},
+    {"ids":["tooltip.roles.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core/native tests assert tooltip role and absent tabindex; absence of all listed dialog ARIA attributes is not asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":60},"status":"reconciled"},
+    {"ids":["tooltip.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"closeOnEscape is accepted policy, but native ignore-Escape retention is not directly asserted in the inspected fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":62},"status":"reconciled"},
+    {"ids":["tooltip.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Click dismissal and disabled press policy are tested, but native Enter press/release and specified close-delay behavior are not.","evidence":329,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":63},"status":"decision"},
+    {"ids":["tooltip.pointer.2","tooltip.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Tests cover inherited delay changes and representative delays; the complete enumerated delay matrix and all reentry boundaries are not asserted.","evidence":330,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":65},"status":"reconciled"},
+    {"ids":["tooltip.pointer.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Zero close delay is exercised by group fixtures; negative close-delay immediate behavior is not asserted.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":67},"status":"reconciled"},
+    {"ids":["tooltip.pointer.7","tooltip.pointer.9","tooltip.pointer.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Accepted intent cancellation and fresh reentry are implemented; complete plain-leave/pending-press/same-trigger-rehover sequences are not directly asserted by the inspected Tooltip fixtures.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":68},"status":"reconciled"},
+    {"ids":["tooltip.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Provider closeOnPress=false keeps an already open tooltip visible on click; pending-open press behavior is not asserted.","evidence":332,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":70},"status":"reconciled"},
+    {"ids":["tooltip.pointer.12"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Touch suppression is selected and implemented through shared hover intent, but the inspected Tooltip adapter/native fixtures do not assert the complete touch/mobile sequence.","evidence":333,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":71},"status":"reconciled"},
+    {"ids":["tooltip.pointer.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser uses measured rectangles and a synthetic gap coordinate, then native content hover. Intermediate-element traversal is not asserted.","evidence":334,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":72},"status":"reconciled"},
+    {"ids":["tooltip.pointer.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser asserts gap retention then idle expiry. Accepted timeout is 300ms plus closeDelay, so the vendor 260ms boundary is not adopted.","evidence":335,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":73},"status":"reconciled"},
+    {"ids":["tooltip.pointer.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser proves pointer-events pass through content and wrapper to a real underlying control; moving onto content then eventual close is not asserted in this fixture.","evidence":336,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":74},"status":"reconciled"},
+    {"ids":["tooltip.pointer.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native fixture checks aria-disabled focus opening and real focusability; every nested composition order is not asserted.","evidence":327,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":77},"status":"reconciled"},
+    {"ids":["tooltip.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Root disabled cancellation and native disabled hover rejection are asserted. Inner-button composition parity is not checked; aria-disabled alone intentionally permits explanations.","evidence":337,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":78},"status":"reconciled"},
+    {"ids":["tooltip.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled blur reports a close request and retains author-controlled visibility; native uncontrolled blur with no pointer intent is not directly asserted here.","evidence":338,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":84},"status":"reconciled"},
+    {"ids":["tooltip.focus.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Group fixture focuses the second trigger after hover opened the first; focus-to-focus switching is not the exact exercised sequence.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":86},"status":"reconciled"},
+    {"ids":["tooltip.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves blur leaves pointer-held content open and ending hover then closes. The reverse order is not asserted.","evidence":339,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":87},"status":"reconciled"},
+    {"ids":["tooltip.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native click closes without reopening after browser focus, but the ensuing focus event is not separately recorded.","evidence":340,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":89},"status":"reconciled"},
+    {"ids":["tooltip.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native focus opening is covered, but explicit Tab/Shift+Tab modality establishment is not asserted in the inspected Tooltip tests.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":91},"status":"reconciled"},
+    {"ids":["tooltip.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core checks absent expansion; absent selected and checked state are not explicitly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":92},"status":"reconciled"},
+    {"ids":["tooltip.state.4","tooltip.state.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter and core check warm reuse, expiry and zero skip; the entire source timing matrix is not exercised.","evidence":341,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":95},"status":"reconciled"},
     {"ids":["tooltip.state.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Fixtures assert controlled focus/blur and open requests without author feedback; all hover/focus/blur transitions in one controlled fixture are not checked.","evidence":342,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":96},"status":"queued"},
     {"ids":["tooltip.state.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser asserts default-open visibility and ancestor-scroll close; immediate next mouseleave remains unasserted.","evidence":343,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":97},"status":"queued"},
     {"ids":["tooltip.state.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser asserts shared node, payload and active-only descriptions on hover switch. Focus-switch parity and active marker are not both asserted.","evidence":344,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":99},"status":"queued"},
@@ -1341,11 +1341,11 @@
     {"ids":["toast.pointer.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. B `measurement follows natural content growth` asserts data-paused on both visible records after hover. D `viewport pause reasons overlap` and M `exposes paused state for overlapping reasons` verify reason clearing and paused metadata. Native pointer leave followed by eventual dismissal of every toast remains unverified.","evidence":401,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":337},"status":"queued"},
     {"ids":["toast.pointer.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Deferred. Empty viewport hit-testing has no dedicated native assertion.","evidence":398,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":338},"status":"queued"},
     {"ids":["toast.pointer.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. D `dismissal retains the actual %s release offset` checks all four permitted directions; D `a recent flick dismisses` rejects tiny jitter; E `a swipe exits from the release position` verifies a native 90px swipe. Exact native 45px versus 5px/10px thresholds remain unverified.","evidence":402,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":339},"status":"queued"},
-    {"ids":["toast.pointer.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `disallowed motion has resistance` rejects a disallowed drag and permits a subsequent allowed one; D `dismissal retains the actual %s release offset` covers directions. Native multi-direction matrix deferred. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":403,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":340},"status":"queued"},
-    {"ids":["toast.pointer.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `diagonal drags lock their first dominant axis`. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":404,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":341},"status":"queued"},
-    {"ids":["toast.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `reversing 40px cancels an armed direction` and D `a recent flick dismisses` reject reversal dismissal. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":405,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":342},"status":"queued"},
-    {"ids":["toast.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `secondary buttons and non-primary pointers do not start swipes`. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":406,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":343},"status":"queued"},
-    {"ids":["toast.pointer.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `interactive %s descendants cannot start swipes` includes data-swipe-ignore. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":407,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":344},"status":"queued"},
+    {"ids":["toast.pointer.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `disallowed motion has resistance` rejects a disallowed drag and permits a subsequent allowed one; D `dismissal retains the actual %s release offset` covers directions. Native multi-direction matrix deferred. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":403,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":340},"status":"reconciled"},
+    {"ids":["toast.pointer.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `diagonal drags lock their first dominant axis`. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":404,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":341},"status":"reconciled"},
+    {"ids":["toast.pointer.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `reversing 40px cancels an armed direction` and D `a recent flick dismisses` reject reversal dismissal. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":405,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":342},"status":"reconciled"},
+    {"ids":["toast.pointer.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `secondary buttons and non-primary pointers do not start swipes`. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":406,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":343},"status":"reconciled"},
+    {"ids":["toast.pointer.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `interactive %s descendants cannot start swipes` includes data-swipe-ignore. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":407,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":344},"status":"reconciled"},
     {"ids":["toast.pointer.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered in synthetic DOM events. D `touch default prevention exists only during movement`. Native touch scrolling remains unverified. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":408,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":346},"status":"queued"},
     {"ids":["toast.pointer.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. D `disallowed motion has resistance` checks document cancellation and a subsequent allowed swipe; D `touch default prevention exists only during movement` checks style cleanup. No single test asserts all source transition/transform fields.","evidence":409,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":347},"status":"queued"},
     {"ids":["toast.pointer.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at controller level. D `viewport pause reasons overlap` keeps expansion while swiping after pointer leave. Native touch integration deferred. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":410,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":348},"status":"queued"},
@@ -1360,13 +1360,13 @@
     {"ids":["toast.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Deferred. Empty-region forward and reverse Tab traversal has no native test.","evidence":398,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":360},"status":"queued"},
     {"ids":["toast.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial across layers. M `reports timeout and explicit dismissal reasons exactly once` asserts timeout closure. Native automatic DOM removal after timeout is not asserted directly.","evidence":416,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":362},"status":"queued"},
     {"ids":["toast.state.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. C `admits newest records and normalizes nonfinite defaults` asserts 5000 as the fallback. Exact default 5000ms expiry is not timed in the current tests.","evidence":417,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":363},"status":"queued"},
-    {"ids":["toast.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` distinguishes provider and explicit durations. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":364},"status":"queued"},
-    {"ids":["toast.state.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` preserves explicit zero after other records expire. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":365},"status":"queued"},
+    {"ids":["toast.state.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` distinguishes provider and explicit durations. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":364},"status":"reconciled"},
+    {"ids":["toast.state.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resolves queued implicit durations from the provider` preserves explicit zero after other records expire. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":418,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":365},"status":"reconciled"},
     {"ids":["toast.state.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Newest-visible admission and promotion are asserted; limited records remain mounted hidden and inert, so the source requirement that only n are rendered is not implemented literally.","evidence":419,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":368},"status":"queued"},
-    {"ids":["toast.state.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across tests. E `notification stack handles rapid additions` asserts the newest record first; M `restarts duplicate add lifetimes` preserves order; M `expires only the middle of three visible records` verifies middle-record removal preserves sibling order and deadlines. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":420,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":370},"status":"queued"},
-    {"ids":["toast.state.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across tests. M `updates a promise record in place` checks resolved value and identity; M `allows only the newest concurrent promise` checks rejection content; E `promise updates preserve the rendered notification` checks actual DOM identity. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":421,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":371},"status":"queued"},
+    {"ids":["toast.state.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across tests. E `notification stack handles rapid additions` asserts the newest record first; M `restarts duplicate add lifetimes` preserves order; M `expires only the middle of three visible records` verifies middle-record removal preserves sibling order and deadlines. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":420,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":370},"status":"reconciled"},
+    {"ids":["toast.state.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across tests. M `updates a promise record in place` checks resolved value and identity; M `allows only the newest concurrent promise` checks rejection content; E `promise updates preserve the rendered notification` checks actual DOM identity. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":421,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":371},"status":"reconciled"},
     {"ids":["toast.state.11"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `isolates factories and preserves timers` proves manager isolation. Two rendered providers with update routing remain unverified.","evidence":422,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":372},"status":"queued"},
-    {"ids":["toast.state.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `restarts duplicate add lifetimes` tests restart and stable records; M `restarts an existing ID at its supplied duration` verifies an explicitly changed duration replaces the old deadline. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":423,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":373},"status":"queued"},
+    {"ids":["toast.state.12"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `restarts duplicate add lifetimes` tests restart and stable records; M `restarts an existing ID at its supplied duration` verifies an explicitly changed duration replaces the old deadline. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":423,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":373},"status":"reconciled"},
     {"ids":["toast.state.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `resets explicitly supplied duration and leaves loading persistent` checks resetting to the same duration; M `turns an explicit zero duration into a running timer` adds the zero-to-positive then same-duration restart sequence. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":424,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":374},"status":"queued"},
     {"ids":["toast.state.14"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `resets explicitly supplied duration and leaves loading persistent` covers loading-to-success expiry. Two updates in the same handler preserving the first scheduled timer need a dedicated assertion.","evidence":425,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":375},"status":"queued"},
     {"ids":["toast.state.15"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `updates a promise record in place` checks settled default duration. Loading duration=0 and explicit success/error stage duration overrides are not each asserted.","evidence":426,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":376},"status":"queued"},
@@ -1374,7 +1374,7 @@
     {"ids":["toast.state.17"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `queues every notification at limit zero` increases the limit; M `resolves queued implicit durations from the provider` applies configured duration. Both directions of live limit changes and duration changes after attachment remain unverified.","evidence":428,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":378},"status":"queued"},
     {"ids":["toast.state.18"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `restarts duplicate add lifetimes` checks order preservation for an existing record. Duplicate addition of an actually limited record has no direct assertion.","evidence":429,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":379},"status":"queued"},
     {"ids":["toast.state.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `frees the visible slot on dismissal` and B `limit hides older records` cover newest-visible admission. Closing a limited record without changing the active one remains unverified.","evidence":430,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":380},"status":"queued"},
-    {"ids":["toast.state.20"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `expires only the middle of three visible records` verifies middle-only expiry, removal order, and unchanged outer deadlines. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":431,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":381},"status":"queued"},
+    {"ids":["toast.state.20"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `expires only the middle of three visible records` verifies middle-only expiry, removal order, and unchanged outer deadlines. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":431,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":381},"status":"reconciled"},
     {"ids":["toast.state.21"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. D `a viewport mounted in an unfocused window pauses immediately` checks blur/focus reason delivery; manager pause tests check time accounting. Native blur plus exact remaining duration deferred.","evidence":432,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":382},"status":"queued"},
     {"ids":["toast.state.22"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered across controller and manager tests. D `viewport pause reasons overlap` retains window-blur after hover/focus leave; M `queues before attachment, pauses independent reasons` verifies remaining reasons prevent expiry. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":433,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":383},"status":"queued"},
     {"ids":["toast.state.23"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `queues before attachment, pauses independent reasons`, M `treats repeated pause reasons idempotently`, and M `holds a promoted record under independent pause reasons` verify active-time accounting without extending the lifetime, including queue promotion while paused. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":434,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":384},"status":"queued"},
@@ -1389,7 +1389,7 @@
     {"ids":["toast.animation.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `reopens an exiting ID in place` verifies stable record, front order, and lifetime reset. B `an exiting middle toast retains its geometry` verifies the same DOM element survives a re-add and onRemove does not fire. Starting-state policy, restored measurement, and swipe reset during re-add remain unverified.","evidence":441,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":402},"status":"queued"},
     {"ids":["toast.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. B `limit hides older records` runs axe after promotion with a visible toast. An empty-page scan and an open multi-toast scan are not both present. Manual screen-reader announcement testing remains outside automated evidence.","evidence":442,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":406},"status":"queued"},
     {"ids":["toast.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. D `viewport follows its owner window` verifies iframe blur ownership and disposal. Iframe hotkey, all listener types, and empty/fill rebinding counts remain unverified.","evidence":443,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":408},"status":"queued"},
-    {"ids":["toast.notes.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `calls lifecycle callbacks once`, M `keeps a same-record resurrection`, and M `reopens an exiting ID in place` check callback idempotence and deferred removal on resurrection. S `limited records are hidden and inert` checks the close reason. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":444,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":411},"status":"queued"},
+    {"ids":["toast.notes.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial whole-row evidence. Covered at manager level. M `calls lifecycle callbacks once`, M `keeps a same-record resurrection`, and M `reopens an exiting ID in place` check callback idempotence and deferred removal on resurrection. S `limited records are hidden and inert` checks the close reason. Controller/manager assertions and the named native fixtures do not together assert every exact source precondition and output; no broader native matrix is claimed.","evidence":444,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":411},"status":"reconciled"},
     {"ids":["toast.notes.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. M `treats repeated pause reasons idempotently` tests reason reuse while a record remains. Adding a new timed record after all old paused records become untimed or disappear needs a dedicated test.","evidence":445,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":413},"status":"queued"},
     {"ids":["drawer.roles.1","drawer.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Drawer inherits native Dialog associations and button trigger semantics; no inspected Drawer test asserts the complete title/description/modal/trigger attribute matrix.","evidence":446,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":414},"status":"queued"},
     {"ids":["drawer.roles.3","drawer.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core and native tests check default/changed content and trigger sides plus open native dialogs. Drawer has native ::backdrop, not a sibling Backdrop part carrying these data attributes.","evidence":447,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":415},"status":"queued"},
@@ -1496,23 +1496,23 @@
     {"ids":["dialog.a11y.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Missing names and alert descriptions produce development warnings; exhaustive explicit aria-label/labelledby suppression matrix is not checked.","evidence":508,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":642},"status":"queued"},
     {"ids":["dialog.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Prop composition preserves built-in activation, but explicitly undefined trigger onClick is not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":645},"status":"queued"},
     {"ids":["dialog.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser native isolation rejects programmatic focus on inert lower content; click and sequential Tab attempts on that same inert target are not both asserted.","evidence":505,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":648},"status":"queued"},
-    {"ids":["alert-dialog.roles.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"aria-modal true and ignored outside press are asserted; author-provided visual obscuring is not checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":650},"status":"queued"},
-    {"ids":["alert-dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared Dialog naming is tested and Alert missing-name warning exists; explicit Alert title reference and author-label alternative are not both directly asserted.","evidence":510,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":651},"status":"queued"},
-    {"ids":["alert-dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit Alert description forwarding and missing-description warning are asserted; automatic generated-description resolution is not directly asserted.","evidence":511,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":652},"status":"queued"},
-    {"ids":["alert-dialog.roles.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Alert inherits Button trigger haspopup=dialog, expanded and controls, but no direct complete Alert trigger attribute assertion exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":656},"status":"queued"},
-    {"ids":["alert-dialog.roles.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Author description reference reaches native viewport; absence of every unused generated ID is not asserted.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":657},"status":"queued"},
-    {"ids":["alert-dialog.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title uses shared native h2; explicit aria-level and vendor level override are not supplied/tested.","evidence":514,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":658},"status":"queued"},
-    {"ids":["alert-dialog.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape closes and restores focus; Alert forward and reverse Tab wrap are not asserted.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":659},"status":"queued"},
-    {"ids":["alert-dialog.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Canceled Action click inside Alert preserves content; arbitrary non-action content click is not separately asserted.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":665},"status":"queued"},
-    {"ids":["alert-dialog.focus.3","alert-dialog.focus.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Explicit element initialFocus/finalFocus overrides ship through the shared dialog family, but Alert-specific target overrides are not asserted.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":669},"status":"queued"},
-    {"ids":["alert-dialog.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape restores trigger in normal Alert presence; force-mounted Alert Escape restoration is not directly checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":672},"status":"queued"},
-    {"ids":["alert-dialog.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Actions dismiss and controlled callback semantics are shared; reason and trigger-detail objects are deliberately absent.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":674},"status":"queued"},
-    {"ids":["alert-dialog.state.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Controlled Alert and shared handles ship, but denied close retaining Alert trigger marker and handle.isOpen is not directly asserted.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":675},"status":"queued"},
-    {"ids":["alert-dialog.state.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared typed detached handles are inherited by AlertDialog, but no Alert-specific multi-trigger ownership/payload/node-reuse fixture exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":677},"status":"queued"},
-    {"ids":["alert-dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core forces modality and browser nested Alert is native modal; explicit Alert outside accessibility-tree snapshot is not asserted.","evidence":516,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":678},"status":"queued"},
-    {"ids":["alert-dialog.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit description ID points to rendered Description; axe incomplete-result semantics for broken reference are not tested.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":684},"status":"queued"},
-    {"ids":["alert-dialog.a11y.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No closed/open Alert axe audit exists in the inspected suite.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":685},"status":"queued"},
-    {"ids":["alert-dialog.notes.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared modal containment is shipped, but Alert Shift+Tab wrap lacks an assertion.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":687},"status":"queued"},
+    {"ids":["alert-dialog.roles.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"aria-modal true and ignored outside press are asserted; author-provided visual obscuring is not checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":650},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Shared Dialog naming is tested and Alert missing-name warning exists; explicit Alert title reference and author-label alternative are not both directly asserted.","evidence":510,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":651},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit Alert description forwarding and missing-description warning are asserted; automatic generated-description resolution is not directly asserted.","evidence":511,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":652},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Alert inherits Button trigger haspopup=dialog, expanded and controls, but no direct complete Alert trigger attribute assertion exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":656},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Author description reference reaches native viewport; absence of every unused generated ID is not asserted.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":657},"status":"reconciled"},
+    {"ids":["alert-dialog.roles.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Title uses shared native h2; explicit aria-level and vendor level override are not supplied/tested.","evidence":514,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":658},"status":"reconciled"},
+    {"ids":["alert-dialog.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape closes and restores focus; Alert forward and reverse Tab wrap are not asserted.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":659},"status":"reconciled"},
+    {"ids":["alert-dialog.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Canceled Action click inside Alert preserves content; arbitrary non-action content click is not separately asserted.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":665},"status":"reconciled"},
+    {"ids":["alert-dialog.focus.3","alert-dialog.focus.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Explicit element initialFocus/finalFocus overrides ship through the shared dialog family, but Alert-specific target overrides are not asserted.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":669},"status":"reconciled"},
+    {"ids":["alert-dialog.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Escape restores trigger in normal Alert presence; force-mounted Alert Escape restoration is not directly checked.","evidence":509,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":672},"status":"reconciled"},
+    {"ids":["alert-dialog.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Actions dismiss and controlled callback semantics are shared; reason and trigger-detail objects are deliberately absent.","evidence":515,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":674},"status":"reconciled"},
+    {"ids":["alert-dialog.state.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Controlled Alert and shared handles ship, but denied close retaining Alert trigger marker and handle.isOpen is not directly asserted.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":675},"status":"reconciled"},
+    {"ids":["alert-dialog.state.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared typed detached handles are inherited by AlertDialog, but no Alert-specific multi-trigger ownership/payload/node-reuse fixture exists.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":677},"status":"reconciled"},
+    {"ids":["alert-dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core forces modality and browser nested Alert is native modal; explicit Alert outside accessibility-tree snapshot is not asserted.","evidence":516,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":678},"status":"reconciled"},
+    {"ids":["alert-dialog.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Explicit description ID points to rendered Description; axe incomplete-result semantics for broken reference are not tested.","evidence":513,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":684},"status":"reconciled"},
+    {"ids":["alert-dialog.a11y.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No closed/open Alert axe audit exists in the inspected suite.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":685},"status":"reconciled"},
+    {"ids":["alert-dialog.notes.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shared modal containment is shipped, but Alert Shift+Tab wrap lacks an assertion.","evidence":512,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":687},"status":"reconciled"},
     {"ids":["menu.roles.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"haspopup=menu is emitted but no inspected Menu test directly asserts it.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":689},"status":"verified"},
     {"ids":["menu.roles.6","menu.roles.41"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Closed core omits controls and open SSR controls points to rendered menu ID; client document.getElementById identity and lazy mount transition are not directly asserted.","evidence":518,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":691},"status":"queued"},
     {"ids":["menu.roles.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Active trigger naming follows registration changes, but replacing the disclosure element and checking stale labelledby removal is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":693},"status":"queued"},
@@ -5452,6 +5452,2081 @@
         "packages/suite/src/select/select.controlled-native.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator independently verified these cases across Chromium, Firefox and WebKit within the 18 passing file checks."
+    },
+    {
+      "id": "overlay-scope-review-writable",
+      "status": "reconciled",
+      "ids": [
+        "tooltip.roles.4",
+        "tooltip.roles.5",
+        "tooltip.roles.6",
+        "tooltip.roles.13",
+        "tooltip.roles.8",
+        "tooltip.roles.12",
+        "tooltip.keyboard.3",
+        "tooltip.pointer.2",
+        "tooltip.pointer.4",
+        "tooltip.pointer.5",
+        "tooltip.pointer.7",
+        "tooltip.pointer.9",
+        "tooltip.pointer.11",
+        "tooltip.pointer.10",
+        "tooltip.pointer.12",
+        "tooltip.pointer.13",
+        "tooltip.pointer.15",
+        "tooltip.focus.2",
+        "tooltip.focus.5",
+        "tooltip.focus.6",
+        "tooltip.focus.9",
+        "tooltip.focus.11",
+        "tooltip.state.1",
+        "tooltip.state.4",
+        "tooltip.state.5",
+        "hover-card.roles.1",
+        "hover-card.roles.2",
+        "hover-card.roles.4",
+        "hover-card.roles.7",
+        "hover-card.roles.8",
+        "hover-card.pointer.3",
+        "hover-card.pointer.7",
+        "hover-card.pointer.9",
+        "hover-card.pointer.12",
+        "hover-card.pointer.18",
+        "hover-card.pointer.22",
+        "hover-card.pointer.23",
+        "hover-card.focus.1",
+        "hover-card.focus.10",
+        "hover-card.focus.11",
+        "alert-dialog.roles.3",
+        "alert-dialog.roles.4",
+        "alert-dialog.roles.8",
+        "alert-dialog.roles.9",
+        "alert-dialog.roles.10",
+        "alert-dialog.keyboard.1",
+        "alert-dialog.pointer.3",
+        "alert-dialog.focus.3",
+        "alert-dialog.focus.7",
+        "alert-dialog.focus.6",
+        "alert-dialog.state.2",
+        "alert-dialog.state.4",
+        "alert-dialog.dismissal.1",
+        "alert-dialog.a11y.1",
+        "alert-dialog.a11y.3",
+        "alert-dialog.notes.2",
+        "toast.pointer.7",
+        "toast.pointer.8",
+        "toast.pointer.9",
+        "toast.pointer.10",
+        "toast.pointer.11",
+        "toast.state.4",
+        "toast.state.9",
+        "toast.state.10",
+        "toast.state.12",
+        "toast.state.20",
+        "toast.notes.5"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "tooltip.roles.4: Closed→open→closed data-state on the same trigger, including instant marker where shipped.",
+        "tooltip.roles.5: Content data-state and resolved data-side/data-placement in a positioned native fixture.",
+        "tooltip.roles.6: Default native trigger tabIndex0; explicit -1 remains -1 and is skipped by native Tab.",
+        "tooltip.roles.13: Rendered Arrow aria-hidden and resolved side parity with positioned content.",
+        "tooltip.roles.8: Assert computed trigger accessible description resolves content aria-label instead of visible children; role retained already asserted.",
+        "tooltip.roles.12: Content lacks aria-labelledby/aria-describedby/aria-modal in addition to existing no-tabindex.",
+        "tooltip.keyboard.3: Native Escape with closeOnEscape=false retains visible tooltip and description.",
+        "tooltip.pointer.2: Complete explicit open-delay matrix20/100/150/300/350/500/1000/10000 with before/at boundaries.",
+        "tooltip.pointer.4: Close-delay100/400/650 before/at boundaries, reactive latest delay and reentry cancellation.",
+        "tooltip.pointer.5: Negative closeDelay clamps zero and pointer leave closes without advancing timers.",
+        "tooltip.pointer.7: Plain early pointer leave cancels pending opening through all later timers.",
+        "tooltip.pointer.9: Pending press cancellation at exact300/600ms and specified alternative source ordering.",
+        "tooltip.pointer.11: Click dismissal then fresh leave/reenter SAME trigger waits configured opening delay.",
+        "tooltip.pointer.10: closeOnPress=false during pending delay leaves scheduled open intact.",
+        "tooltip.pointer.12: Touch pointerenter and native/specified tap on mobile-sized viewport remain closed beyond600; report hover intent only if public evidence exists.",
+        "tooltip.pointer.13: Native travel through intermediate element inside measured corridor retains tooltip.",
+        "tooltip.pointer.15: Nonhoverable pointer crossing onto content geometry eventually closes, in addition to existing click-through.",
+        "tooltip.focus.2: Uncontrolled keyboard-focus open then native blur without any pointer intent closes.",
+        "tooltip.focus.5: Focus-open first trigger then focus second closes first/opens second without prior hover.",
+        "tooltip.focus.6: Reverse intent order: end hover while focus remains retains tip, blur then closes. Existing native test covers blur-first.",
+        "tooltip.focus.9: Record pointerdown→focus event order and assert ensuing focus does not reopen after press.",
+        "tooltip.focus.11: Native Tab and ShiftTab establish modality and focus opening explicitly.",
+        "tooltip.state.1: Assert no aria-selected/aria-checked alongside existing no aria-expanded.",
+        "tooltip.state.4: Complete skip-window300/400/500/30000 versus delays50/100/1000 boundary matrix.",
+        "tooltip.state.5: skipDelay0 and expired400/500 window produce full open delay again.",
+        "hover-card.roles.1: Same trigger data-state closed→open→closed full lifecycle.",
+        "hover-card.roles.2: Open positioned Content data-state and resolved data-side/data-placement.",
+        "hover-card.roles.4: Rendered haspopup=dialog plus closed absent controls/open resolved controls.",
+        "hover-card.roles.7: Two shared rendered triggers switch data-current exclusively; expansion alone does not prove it.",
+        "hover-card.roles.8: Author trigger/content IDs simultaneously rendered and correctly associated.",
+        "hover-card.pointer.3: Native hover rests on an actual control INSIDE content while popup stays open.",
+        "hover-card.pointer.7: Default300 close-delay before/at boundary with zero explicit closeDelay override.",
+        "hover-card.pointer.9: Explicit700open/300close: leave at300, advance1000, no mount and triggerclosed hook.",
+        "hover-card.pointer.12: Leave exactly100ms then reenter before close deadline; survive original deadline.",
+        "hover-card.pointer.18: Explicit touch pointerup then100ms leaves triggerdata-stateclosed. Existing touch pointerenter is a different event.",
+        "hover-card.pointer.22: Native disabled BUTTON-host trigger suppression, distinguish already-tested disabled root.",
+        "hover-card.pointer.23: Native300px page wheel then300ms retention in Chromium/Firefox; existing120px INNER scrolling differs.",
+        "hover-card.focus.1: Focus-open trigger→blur and native Tab away respect closing delay.",
+        "hover-card.focus.10: Hover-open then focus→blur while pointer remains retains; ending pointer finally closes.",
+        "hover-card.focus.11: Escape restores first shared trigger without reopening; focusing second shared trigger reopens new payload.",
+        "alert-dialog.roles.3: Alert title ID naming and explicit aria-label alternative directly resolve rendered accessible name.",
+        "alert-dialog.roles.4: Automatic Description ID resolves Alert message without author aria-describedby; explicitreference already asserted.",
+        "alert-dialog.roles.8: Alert trigger haspopup=dialog, expansion transitions and open-only controls resolution.",
+        "alert-dialog.roles.9: Explicit description reference resolves EXACTauthor node and no generated unused description ID is rendered.",
+        "alert-dialog.roles.10: Title default nativeh2 accessible heading level2; author aria-level or as=h3 override.",
+        "alert-dialog.keyboard.1: Native forward ANDreverse Alert Tab wrapping plus existing Escape close.",
+        "alert-dialog.pointer.3: Native arbitrary nonaction content click keeps open (canceled Action differs).",
+        "alert-dialog.focus.3: Alert finalFocus explicit external target overrides opening trigger.",
+        "alert-dialog.focus.7: Alert initialFocus explicitaction/cancel target overrides defaultCancel.",
+        "alert-dialog.focus.6: Force-mounted Alert Escape restores trigger while retained closed content is inaccessible.",
+        "alert-dialog.state.2: Pinned controlled Alert denies close; triggerdata-state and handle.isOpen stayopen while requestfires.",
+        "alert-dialog.state.4: Typed detached Alert handle multipletriggers payload/ownership/samenode reuse.",
+        "alert-dialog.dismissal.1: Explicit Alert outside accessibility-tree exclusion while open/modal; restore after close.",
+        "alert-dialog.a11y.1: Valid description resolves; deliberately broken author reference inspected axe incomplete result.",
+        "alert-dialog.a11y.3: Alert closed/open axe scan with complete named/described fixture.",
+        "alert-dialog.notes.2: Alert ShiftTab wrap complete native focus trap; can share test with keyboard1.",
+        "toast.pointer.7: Native disallowed50px plus allowedmulti-direction dismissal matrix.",
+        "toast.pointer.8: Native perpendicular diagonal axis locking through subsequent moves.",
+        "toast.pointer.9: Native swipe armedpast40 then reverse40 release remains mounted/cleared direction/zero movement.",
+        "toast.pointer.10: Native nonprimarybutton100px drag stays mounted.",
+        "toast.pointer.11: Native swipe-ignore descendant pointerdown does notstartswipe.",
+        "toast.state.4: Rendered persistenttoast remains INDOCUMENT farpastproviderduration.",
+        "toast.state.9: Rendered newest-first list and remove MIDDLE toast leaves siblings in relative order.",
+        "toast.state.10: Rendered loading→success and loading→error stage callbackpayload and stableDOMidentity in both branches.",
+        "toast.state.12: Exact1000ms lifetime, readd SAMEIDafter900, newcontent/singlerecord, remaining100doesnotexpire untilnew1000.",
+        "toast.state.20: Exactthree visibletoasts onlymiddle1000ms; DOMmiddle removal and stableouterrecords.",
+        "toast.notes.5: After readding endingID, its own eventualremove callback exactlyonce; retainno callback duringoldending."
+      ],
+      "scopeReview": [
+        {
+          "id": "tooltip.roles.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 8,
+            "clause": "- [ ] `tooltip.roles.4` Given a trigger, when the tooltip opens and closes, then the trigger reflects the open state in a data attribute, such as `data-state` moving between `closed`, `delayed-open` and `instant-open`, or `data-popup-open` appearing and disappearing. [radix, base-ui, zag, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 34,
+              "anchor": "provider defaults inherit"
+            }
+          ],
+          "remainingAcceptedAssertions": "Closed→open→closed data-state on the same trigger, including instant marker where shipped.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.roles.5",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 9,
+            "clause": "- [ ] `tooltip.roles.5` Given an open tooltip, when it is inspected, then the content reflects both its open state and the resolved placement in data attributes, such as `data-state` plus `data-placement` and `data-side`. [radix, base-ui, zag, corvu, reka, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 273,
+              "anchor": "initially open anchors"
+            }
+          ],
+          "remainingAcceptedAssertions": "Content data-state and resolved data-side/data-placement in a positioned native fixture.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.roles.6",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 10,
+            "clause": "- [ ] `tooltip.roles.6` Given a trigger that sets its own tab order, when it is rendered, then the tooltip does not override it: the default is `tabindex=\"0\"`, an author `tabindex=\"-1\"` stays `-1`, and a trigger excluded from the tab order keeps `tabindex=\"-1\"`. [react-aria, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 84,
+              "anchor": "focus describes without expansion"
+            }
+          ],
+          "remainingAcceptedAssertions": "Default native trigger tabIndex0; explicit -1 remains -1 and is skipped by native Tab.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.roles.13",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 17,
+            "clause": "- [ ] `tooltip.roles.13` Given a tooltip with an arrow, when the tooltip opens, then the arrow has `aria-hidden=\"true\"` and mirrors the resolved side (candidate). [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 273,
+              "anchor": "initially open anchors"
+            }
+          ],
+          "remainingAcceptedAssertions": "Rendered Arrow aria-hidden and resolved side parity with positioned content.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.roles.8",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 12,
+            "clause": "- [ ] `tooltip.roles.8` Divergence: given `aria-label` on the tooltip content, when the tooltip opens, then the element keeps `role=\"tooltip\"` and the description resolves to the label instead of the visible children (decision needed). [radix]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 84,
+              "anchor": "focus describes without expansion"
+            }
+          ],
+          "remainingAcceptedAssertions": "Assert computed trigger accessible description resolves content aria-label instead of visible children; role retained already asserted.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.roles.12",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 16,
+            "clause": "- [ ] `tooltip.roles.12` Given the tooltip content, when it is rendered, then it is a plain element with no `tabindex`, no `aria-labelledby`, no `aria-describedby` and no `aria-modal`, so it has no dialog semantics (candidate). [corvu]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 84,
+              "anchor": "focus describes without expansion"
+            }
+          ],
+          "remainingAcceptedAssertions": "Content lacks aria-labelledby/aria-describedby/aria-modal in addition to existing no-tabindex.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.keyboard.3",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 23,
+            "clause": "- [ ] `tooltip.keyboard.3` Given Escape dismissal turned off, when Escape is pressed on a visible tooltip, then the tooltip stays open. [ark, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 220,
+              "anchor": "nested providers inherit"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native Escape with closeOnEscape=false retains visible tooltip and description.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.2",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 30,
+            "clause": "- [ ] `tooltip.pointer.2` Given an explicit open delay, when the trigger is hovered, then the tooltip is absent for the whole delay and present once it elapses, verified at 20ms, 100ms, 150ms, 300ms, 350ms, 500ms, 1000ms and 10000ms. [react-aria, radix, base-ui, ariakit, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 194,
+              "anchor": "inherited delay changes preserve elapsed time"
+            }
+          ],
+          "remainingAcceptedAssertions": "Complete explicit open-delay matrix20/100/150/300/350/500/1000/10000 with before/at boundaries.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 32,
+            "clause": "- [ ] `tooltip.pointer.4` Given an explicit close delay, when the pointer leaves, then the tooltip stays mounted for the whole delay and is removed once it elapses, verified at 100ms, 400ms and 650ms, the latest configured value wins after a prop change, and re-entering before it fires cancels the close. [react-aria, base-ui, corvu]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 194,
+              "anchor": "inherited delay changes preserve elapsed time"
+            }
+          ],
+          "remainingAcceptedAssertions": "Close-delay100/400/650 before/at boundaries, reactive latest delay and reentry cancellation.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 33,
+            "clause": "- [ ] `tooltip.pointer.5` Given a close delay of 0 or a negative close delay, when the pointer leaves, then the tooltip closes immediately with no waiting. [react-aria, base-ui, corvu, melt]"
+          },
+          "source": {
+            "file": "packages/core/src/tooltip/tooltip.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 55,
+              "anchor": "nested provider overrides"
+            }
+          ],
+          "remainingAcceptedAssertions": "Negative closeDelay clamps zero and pointer leave closes without advancing timers.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.7",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 35,
+            "clause": "- [ ] `tooltip.pointer.7` Given a pending open delay, when the pointer leaves the trigger before the delay elapses, then the pending open is cancelled and the tooltip never appears, even after all timers run. [react-aria, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.reactivity.test.tsx",
+              "line": 330,
+              "anchor": "Teardown during an open delay"
+            }
+          ],
+          "remainingAcceptedAssertions": "Plain early pointer leave cancels pending opening through all later timers.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.9",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 37,
+            "clause": "- [ ] `tooltip.pointer.9` Given a pending open delay, when the trigger receives `pointerdown` or a click part way through it, then the pending open is cancelled and the tooltip never appears, checked at 300ms into a 600ms delay and at 500ms after a 300ms delay started. [base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 169,
+              "anchor": "disabled changes cancel delayed opening"
+            }
+          ],
+          "remainingAcceptedAssertions": "Pending press cancellation at exact300/600ms and specified alternative source ordering.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.11",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 39,
+            "clause": "- [ ] `tooltip.pointer.11` Given a tooltip that was closed by clicking its trigger, when the pointer hovers the same trigger again, then the tooltip reopens after its open delay. [base-ui, ariakit]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 68,
+              "anchor": "hover does not move outside focus"
+            }
+          ],
+          "remainingAcceptedAssertions": "Click dismissal then fresh leave/reenter SAME trigger waits configured opening delay.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.10",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 38,
+            "clause": "- [ ] `tooltip.pointer.10` Given press dismissal turned off, when the trigger is pressed, whether the tooltip is already open or still inside its open delay, then the tooltip stays visible or still opens on schedule. [react-aria, base-ui, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 220,
+              "anchor": "nested providers inherit"
+            }
+          ],
+          "remainingAcceptedAssertions": "closeOnPress=false during pending delay leaves scheduled open intact.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.12",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 40,
+            "clause": "- [ ] `tooltip.pointer.12` Given a touch pointer, when the trigger is tapped or entered with `pointerType` of `touch`, then no tooltip opens and no hover state is reported, checked past 600ms on a mobile viewport. [react-aria, base-ui, ariakit, corvu]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 176,
+              "anchor": "explains an aria-disabled trigger"
+            }
+          ],
+          "remainingAcceptedAssertions": "Touch pointerenter and native/specified tap on mobile-sized viewport remain closed beyond600; report hover intent only if public evidence exists.",
+          "scopeLimitOrAlternative": "Synthetic touch events do not establish OS/mobile compatibility.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.13",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 41,
+            "clause": "- [ ] `tooltip.pointer.13` Given an open hoverable tooltip, when the pointer travels from the trigger across the gap toward the content, including through an intermediate element that sits between them, then the tooltip stays mounted, because the corridor is a safe area over the trigger and content rectangles rather than the elements themselves (browser-only). [base-ui, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 96,
+              "anchor": "safe corridor crosses measured gap"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native travel through intermediate element inside measured corridor retains tooltip.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.15",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 43,
+            "clause": "- [ ] `tooltip.pointer.15` Given a tooltip configured as not hoverable, when it opens, then the content or its positioner has `pointer-events: none` so the pointer can never enter it, and a move from the trigger onto the content closes it. [base-ui, zag, ark, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 298,
+              "anchor": "hoverable false lets the underlying control"
+            }
+          ],
+          "remainingAcceptedAssertions": "Nonhoverable pointer crossing onto content geometry eventually closes, in addition to existing click-through.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.focus.2",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 62,
+            "clause": "- [ ] `tooltip.focus.2` Given a tooltip invoked when the trigger received focus, when the trigger no longer has focus, then the tooltip is dismissed. [apg, react-aria, base-ui, zag, ariakit, reka, melt, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.reactivity.test.tsx",
+              "line": 185,
+              "anchor": "A controlled tooltip renders only"
+            }
+          ],
+          "remainingAcceptedAssertions": "Uncontrolled keyboard-focus open then native blur without any pointer intent closes.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.focus.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 65,
+            "clause": "- [ ] `tooltip.focus.5` Given an open tooltip, when focus moves from its trigger to another trigger, then the first tooltip closes and the second opens. [react-aria, base-ui, zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 174,
+              "anchor": "shared payload switches"
+            }
+          ],
+          "remainingAcceptedAssertions": "Focus-open first trigger then focus second closes first/opens second without prior hover.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.focus.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 66,
+            "clause": "- [ ] `tooltip.focus.6` Divergence: given a tooltip held open by both hover and focus, when one of the two ends, then the tooltip stays open because the other still holds it, and it closes only when both have ended (decision needed). [ariakit, corvu, melt]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 149,
+              "anchor": "hover and focus retain"
+            }
+          ],
+          "remainingAcceptedAssertions": "Reverse intent order: end hover while focus remains retains tip, blur then closes. Existing native test covers blur-first.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.focus.9",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 69,
+            "clause": "- [ ] `tooltip.focus.9` Given a trigger that was just pressed with a pointer, when the `focus` event that follows the press arrives, then the focus-driven open is suppressed (candidate). [corvu]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 68,
+              "anchor": "hover does not move outside focus"
+            }
+          ],
+          "remainingAcceptedAssertions": "Record pointerdown→focus event order and assert ensuing focus does not reopen after press.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.focus.11",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 71,
+            "clause": "- [ ] `tooltip.focus.11` Given keyboard modality established by Tab or Shift+Tab, when a trigger receives focus, then its tooltip opens (candidate). [zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.test-browser.tsx",
+              "line": 36,
+              "anchor": "focus opens immediately"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native Tab and ShiftTab establish modality and focus opening explicitly.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.state.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 75,
+            "clause": "- [ ] `tooltip.state.1` Given a tooltip, when its state is inspected, then it has nothing beyond visible or hidden: the pattern defines no expanded, selected or checked state. [apg]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 84,
+              "anchor": "focus describes without expansion"
+            }
+          ],
+          "remainingAcceptedAssertions": "Assert no aria-selected/aria-checked alongside existing no aria-expanded.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.state.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 78,
+            "clause": "- [ ] `tooltip.state.4` Given a tooltip that has just closed, when another tooltip in the same group is hovered inside the skip-delay window, then it opens with no delay at all, verified with skip windows of 300ms, 400ms, 500ms and 30000ms against open delays of 50ms, 100ms and 1000ms. [react-aria, radix, base-ui, ariakit, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/core/src/tooltip/tooltip.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 55,
+              "anchor": "nested provider overrides"
+            }
+          ],
+          "remainingAcceptedAssertions": "Complete skip-window300/400/500/30000 versus delays50/100/1000 boundary matrix.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.state.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 79,
+            "clause": "- [ ] `tooltip.state.5` Given the skip-delay window, when it is set to 0 or has been allowed to elapse, then the next hover waits out the full open delay again, checked after a 400ms group timeout and after a 500ms one. [react-aria, radix, base-ui, ariakit, corvu, bits]"
+          },
+          "source": {
+            "file": "packages/core/src/tooltip/tooltip.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 55,
+              "anchor": "nested provider overrides"
+            }
+          ],
+          "remainingAcceptedAssertions": "skipDelay0 and expired400/500 window produce full open delay again.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.roles.1",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 5,
+            "clause": "- [ ] `hover-card.roles.1` Given a trigger, when the card opens and then closes, then the trigger's open state is reflected in a data attribute, `data-state=\"open\"` or `\"closed\"` in radix and zag and `data-popup-open` present only while open in base-ui. [radix, base-ui, zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 36,
+              "anchor": "preserves link navigation semantics"
+            }
+          ],
+          "remainingAcceptedAssertions": "Same trigger data-state closed→open→closed full lifecycle.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.roles.2",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 6,
+            "clause": "- [ ] `hover-card.roles.2` Given an open card, when it is rendered, then its content carries `data-state=\"open\"` and the resolved side as `data-side`, with zag adding `data-placement` for the full placement. [radix, zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 158,
+              "anchor": "detached payload triggers reanchor"
+            }
+          ],
+          "remainingAcceptedAssertions": "Open positioned Content data-state and resolved data-side/data-placement.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.roles.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 8,
+            "clause": "- [ ] `hover-card.roles.4` Given a closed card, when the trigger is inspected, then it has `aria-haspopup=\"dialog\"`, `aria-expanded=\"false\"` and no `aria-controls`, and when the card opens `aria-expanded` becomes `\"true\"` and `aria-controls` points at the card's id. (candidate) [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 76,
+              "anchor": "delays keyboard focus"
+            }
+          ],
+          "remainingAcceptedAssertions": "Rendered haspopup=dialog plus closed absent controls/open resolved controls.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.roles.7",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 11,
+            "clause": "- [ ] `hover-card.roles.7` Given several triggers sharing one card, when one of them is hovered, then only that trigger carries `data-current`. (candidate) [zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 94,
+              "anchor": "detached typed triggers"
+            }
+          ],
+          "remainingAcceptedAssertions": "Two shared rendered triggers switch data-current exclusively; expansion alone does not prove it.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.roles.8",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 12,
+            "clause": "- [ ] `hover-card.roles.8` Given explicit ids passed to the component, when it renders, then the trigger's id is the supplied trigger id and the content's id is the supplied content id. (candidate) [melt]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 158,
+              "anchor": "detached payload triggers reanchor"
+            }
+          ],
+          "remainingAcceptedAssertions": "Author trigger/content IDs simultaneously rendered and correctly associated.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.3",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 23,
+            "clause": "- [ ] `hover-card.pointer.3` Given an open card with a gap between trigger and card, when the pointer crosses that gap, then the card stays open, and it also stays open while the pointer rests on the card or on a control inside it. [react-aria, zag, ariakit, reka, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 104,
+              "anchor": "measures safe travel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native hover rests on an actual control INSIDE content while popup stays open.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.7",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 27,
+            "clause": "- [ ] `hover-card.pointer.7` Divergence: Given a card with no delay props set that was opened by hover, when the pointer leaves the trigger, then the card closes 300ms later. (decision needed) [radix, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 21,
+              "anchor": "default anchor retains href"
+            }
+          ],
+          "remainingAcceptedAssertions": "Default300 close-delay before/at boundary with zero explicit closeDelay override.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.9",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 29,
+            "clause": "- [ ] `hover-card.pointer.9` Given an open delay of 700ms and a close delay of 300ms, when the pointer enters the trigger, leaves after 300ms, and a further 1000ms passes, then the card never mounts and the trigger stays `data-state=\"closed\"`. (candidate) [radix]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 49,
+              "anchor": "a short hover cancels"
+            }
+          ],
+          "remainingAcceptedAssertions": "Explicit700open/300close: leave at300, advance1000, no mount and triggerclosed hook.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.12",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 32,
+            "clause": "- [ ] `hover-card.pointer.12` Given an open card, when the pointer leaves for 100ms and returns to the trigger, then the pending close is cancelled and the card stays open past the hide timeout. (candidate) [ariakit]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 104,
+              "anchor": "measures safe travel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Leave exactly100ms then reenter before close deadline; survive original deadline.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.18",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 38,
+            "clause": "- [ ] `hover-card.pointer.18` Given a card with no touch support enabled, when a `pointerup` with `pointerType: \"touch\"` is dispatched on the trigger, then the trigger is still `data-state=\"closed\"` 100ms later. (candidate) [reka]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 49,
+              "anchor": "a short hover cancels"
+            }
+          ],
+          "remainingAcceptedAssertions": "Explicit touch pointerup then100ms leaves triggerdata-stateclosed. Existing touch pointerenter is a different event.",
+          "scopeLimitOrAlternative": "Synthetic event scope must be stated.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.22",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 42,
+            "clause": "- [ ] `hover-card.pointer.22` Given a disabled trigger, when it is hovered, then no card appears. (candidate) [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 150,
+              "anchor": "empty disabled roots"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native disabled BUTTON-host trigger suppression, distinguish already-tested disabled root.",
+          "scopeLimitOrAlternative": "Default anchor has no native disabled attribute; use shipped as=button host.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.23",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 43,
+            "clause": "- [ ] `hover-card.pointer.23` Given an open card, when the mouse wheel scrolls 300px, then the card is still open 300ms later, and moving the pointer away still closes it. Chromium and Firefox only. (browser-only) (candidate) [ariakit]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.native.test-browser.tsx",
+              "line": 188,
+              "anchor": "wheel scrolling inside"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native300px page wheel then300ms retention in Chromium/Firefox; existing120px INNER scrolling differs.",
+          "scopeLimitOrAlternative": "Avoid universal page-scroll claim until exact fixture is verified.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.focus.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 52,
+            "clause": "- [ ] `hover-card.focus.1` Given a card opened by focusing the trigger, when the trigger is blurred, including by Tab moving focus away, then the card closes after the close delay. [base-ui, zag, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 67,
+              "anchor": "keyboard focus is delayed"
+            }
+          ],
+          "remainingAcceptedAssertions": "Focus-open trigger→blur and native Tab away respect closing delay.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.focus.10",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 61,
+            "clause": "- [ ] `hover-card.focus.10` Given a card opened by the pointer and then also focused, when the trigger is blurred, then the card stays open and only moving the pointer elsewhere closes it, so pointer intent outranks focus intent. (candidate) [zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.native.test-browser.tsx",
+              "line": 203,
+              "anchor": "focus inside the card retains"
+            }
+          ],
+          "remainingAcceptedAssertions": "Hover-open then focus→blur while pointer remains retains; ending pointer finally closes.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.focus.11",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 62,
+            "clause": "- [ ] `hover-card.focus.11` Given a card closed by Escape, when another trigger sharing the same card is focused, then the card opens again. (candidate) [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 158,
+              "anchor": "detached payload triggers reanchor"
+            }
+          ],
+          "remainingAcceptedAssertions": "Escape restores first shared trigger without reopening; focusing second shared trigger reopens new payload.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.3",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 239,
+            "clause": "- [ ] `alert-dialog.roles.3` Given an alert dialog with a visible label, then it MUST have `aria-labelledby` referring to the title element; otherwise it MUST have `aria-label`. [apg, radix, base-ui, kobalte, corvu]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/alert-dialog/alert-dialog.test.tsx",
+              "line": 40,
+              "anchor": "warns about missing names"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert title ID naming and explicit aria-label alternative directly resolve rendered accessible name.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 240,
+            "clause": "- [ ] `alert-dialog.roles.4` Given an alert dialog, then it MUST have `aria-describedby` referring to the element containing the alert message; unlike a plain dialog this is required rather than optional. [apg, react-aria, base-ui, kobalte, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/alert-dialog/alert-dialog.test.tsx",
+              "line": 56,
+              "anchor": "viewport retains alert semantics"
+            }
+          ],
+          "remainingAcceptedAssertions": "Automatic Description ID resolves Alert message without author aria-describedby; explicitreference already asserted.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.8",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 244,
+            "clause": "- [ ] `alert-dialog.roles.8` Given an alert dialog trigger, then it carries `aria-haspopup=\"dialog\"` (not `alertdialog`) along with `aria-expanded` and, while open, `aria-controls` pointing at the content. [radix, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert trigger haspopup=dialog, expansion transitions and open-only controls resolution.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.9",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 245,
+            "clause": "- [ ] `alert-dialog.roles.9` Given an explicit author `aria-describedby` on an alert dialog, then the author's value is used, it points at exactly the element the author named rather than the whole content, and no unused generated id is emitted. (candidate) [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/alert-dialog/alert-dialog.test.tsx",
+              "line": 56,
+              "anchor": "viewport retains alert semantics"
+            }
+          ],
+          "remainingAcceptedAssertions": "Explicit description reference resolves EXACTauthor node and no generated unused description ID is rendered.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.10",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 246,
+            "clause": "- [ ] `alert-dialog.roles.10` Given an alert dialog title with no level, then it is exposed as a heading with `aria-level=\"2\"`, overridable per instance. (candidate) [bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/alert-dialog/alert-dialog.test.tsx",
+              "line": 22,
+              "anchor": "alert action cancellation"
+            }
+          ],
+          "remainingAcceptedAssertions": "Title default nativeh2 accessible heading level2; author aria-level or as=h3 override.",
+          "scopeLimitOrAlternative": "No special level prop exists, but host aria-level/as override is shipped; oldrationale cannot alone exclude this row.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.keyboard.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 250,
+            "clause": "- [ ] `alert-dialog.keyboard.1` Given an alert dialog, then it MUST implement the full modal dialog keyboard interaction: Tab and Shift+Tab cycle within the dialog and Escape closes it. [apg, base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native forward ANDreverse Alert Tab wrapping plus existing Escape close.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.pointer.3",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 260,
+            "clause": "- [ ] `alert-dialog.pointer.3` Given an open alert dialog, when its content is clicked, then it stays open. [base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 169,
+              "anchor": "AlertDialog Action honors cancellation"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native arbitrary nonaction content click keeps open (canceled Action differs).",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.focus.3",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 268,
+            "clause": "- [ ] `alert-dialog.focus.3` Given an alert dialog whose action applies to a specific control, then focus on close returns to that control rather than to the button that opened the dialog, because the restore target is passed explicitly. [apg, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert finalFocus explicit external target overrides opening trigger.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.focus.7",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 272,
+            "clause": "- [ ] `alert-dialog.focus.7` Given an explicitly named action to autofocus (primary, secondary or cancel), then that button is the active element when the alert dialog opens. (candidate) [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert initialFocus explicitaction/cancel target overrides defaultCancel.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.focus.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 271,
+            "clause": "- [ ] `alert-dialog.focus.6` Given an alert dialog closed by Escape, then focus returns to the trigger, including when the content is force-mounted. [base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Force-mounted Alert Escape restores trigger while retained closed content is inaccessible.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.state.2",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 278,
+            "clause": "- [ ] `alert-dialog.state.2` Given a controlled alert dialog whose handler declines a close, then the popup stays open, the trigger keeps its open-state data attribute, and any bound handle still reports it as open. (candidate) [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Pinned controlled Alert denies close; triggerdata-state and handle.isOpen stayopen while requestfires.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.state.4",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 280,
+            "clause": "- [ ] `alert-dialog.state.4` Given several triggers or detached triggers bound by one handle, then any of them opens the alert dialog, the active one owns the aria state, each may carry a payload the content renders, and the popup DOM node is reused when switching triggers. (candidate) [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Typed detached Alert handle multipletriggers payload/ownership/samenode reuse.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.dismissal.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 284,
+            "clause": "- [ ] `alert-dialog.dismissal.1` Given an open alert dialog, then the rest of the page is made inert and removed from the accessibility tree exactly as for a modal dialog, and modality cannot be turned off. [apg, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Explicit Alert outside accessibility-tree exclusion while open/modal; restore after close.",
+          "scopeLimitOrAlternative": "Need browser accessibility evidence, not only aria-modal attribute or source inheritance.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.a11y.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 297,
+            "clause": "- [ ] `alert-dialog.a11y.1` Given `aria-describedby` on an alert dialog, then the referenced id MUST resolve; an unresolvable reference is reported as incomplete rather than as a pass. [axe]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/alert-dialog/alert-dialog.test.tsx",
+              "line": 56,
+              "anchor": "viewport retains alert semantics"
+            }
+          ],
+          "remainingAcceptedAssertions": "Valid description resolves; deliberately broken author reference inspected axe incomplete result.",
+          "scopeLimitOrAlternative": "Shared no-violations helper does not inspect incomplete results.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.a11y.3",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 299,
+            "clause": "- [ ] `alert-dialog.a11y.3` Given an alert dialog both closed and open, when the tree is audited with axe, then there are no violations. [radix, reka]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert closed/open axe scan with complete named/described fixture.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.notes.2",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 304,
+            "clause": "- [ ] `alert-dialog.notes.2` Given the APG alert dialog suite, then it has no Shift+Tab assertion even though the documented keyboard table includes backward wrap, so a conformance suite MUST add it. [apg]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert ShiftTab wrap complete native focus trap; can share test with keyboard1.",
+          "scopeLimitOrAlternative": "",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.pointer.7",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 41,
+            "clause": "- [ ] `toast.pointer.7` Given a toast with a swipe direction, when the pointer drags 50px in a direction that is not allowed, then the toast stays mounted, and when several directions are allowed a drag past the threshold in any one of them dismisses it. (candidate) (browser-only) [base-ui]"
+          },
+          "source": {
+            "file": "packages/dom/src/toast/toast.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/toast/toast.test.ts",
+              "line": 77,
+              "anchor": "disallowed motion has resistance"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native disallowed50px plus allowedmulti-direction dismissal matrix.",
+          "scopeLimitOrAlternative": "ExistingDOMcontroller uses synthetic100px resistance and alloweddirections; browser-only exactmatrix absent.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.pointer.8",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 42,
+            "clause": "- [ ] `toast.pointer.8` Given a toast that allows two perpendicular swipe directions, when the first pointer move after pointerdown is diagonal, then the gesture locks to one axis and the movement on the other axis stays at `0px` for the rest of the drag. (candidate) (browser-only) [base-ui]"
+          },
+          "source": {
+            "file": "packages/dom/src/toast/toast.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/toast/toast.test.ts",
+              "line": 68,
+              "anchor": "diagonal drags lock"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native perpendicular diagonal axis locking through subsequent moves.",
+          "scopeLimitOrAlternative": "Syntheticcontroller assertion exists; no browser-native sequence.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.pointer.9",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 43,
+            "clause": "- [ ] `toast.pointer.9` Given a swipe that has already passed 40px and armed its direction, when the pointer reverses by 40px and releases, then the toast stays mounted, the armed direction is cleared and the reported swipe movement is back to `0px`, because the cancel baseline moves to the turning point. (candidate) (browser-only) [base-ui]"
+          },
+          "source": {
+            "file": "packages/dom/src/toast/toast.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/toast/toast.test.ts",
+              "line": 128,
+              "anchor": "reversing 40px"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native swipe armedpast40 then reverse40 release remains mounted/cleared direction/zero movement.",
+          "scopeLimitOrAlternative": "Exact synthetic40 reversal exists; browser-only integration not asserted.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.pointer.10",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 44,
+            "clause": "- [ ] `toast.pointer.10` Given a toast with a swipe direction, when pointerdown fires with a non-primary button, then no swipe starts and a 100px drag leaves the toast mounted. (candidate) (browser-only) [base-ui]"
+          },
+          "source": {
+            "file": "packages/dom/src/toast/toast.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/toast/toast.test.ts",
+              "line": 103,
+              "anchor": "secondary buttons and non-primary"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native nonprimarybutton100px drag stays mounted.",
+          "scopeLimitOrAlternative": "Syntheticcontroller nonprimary test is not nativebrowser gesture.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.pointer.11",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 45,
+            "clause": "- [ ] `toast.pointer.11` Given a toast containing a child marked with the swipe-ignore attribute, when pointerdown fires on that child, then no swipe starts. (candidate) (browser-only) [base-ui]"
+          },
+          "source": {
+            "file": "packages/dom/src/toast/toast.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/toast/toast.test.ts",
+              "line": 91,
+              "anchor": "interactive %s descendants"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native swipe-ignore descendant pointerdown does notstartswipe.",
+          "scopeLimitOrAlternative": "DOMcontroller tests data-swipe-ignore; browser-only integration remains.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.state.4",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 72,
+            "clause": "- [ ] `toast.state.4` Given a toast added as persistent or with a timeout of 0, when far more than the region's duration elapses, then the toast is still in the document. [base-ui, kobalte]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 54,
+              "anchor": "resolves queued implicit durations"
+            }
+          ],
+          "remainingAcceptedAssertions": "Rendered persistenttoast remains INDOCUMENT farpastproviderduration.",
+          "scopeLimitOrAlternative": "Manager asserts record.open true with explicit0, not mountedDOM.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.state.9",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 77,
+            "clause": "- [ ] `toast.state.9` Given several visible toasts, when they render, then they are ordered newest first, and closing one in the middle leaves the relative order of the rest unchanged. [react-aria, base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 381,
+              "anchor": "expires only the middle"
+            }
+          ],
+          "remainingAcceptedAssertions": "Rendered newest-first list and remove MIDDLE toast leaves siblings in relative order.",
+          "scopeLimitOrAlternative": "Managerstate20 asserts collectionorder aftermiddle removal; E2E assertsnewestfirst separately, not sameDOMmiddle-removal sequence.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.state.10",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 78,
+            "clause": "- [ ] `toast.state.10` Given a promise-backed toast, when the promise is pending the toast shows its loading content, when it resolves the same toast shows the success content with the resolved value available to the success renderer, and when it rejects the same toast shows the error content with the error available. [base-ui, kobalte]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 311,
+              "anchor": "updates a promise record in place"
+            }
+          ],
+          "remainingAcceptedAssertions": "Rendered loading→success and loading→error stage callbackpayload and stableDOMidentity in both branches.",
+          "scopeLimitOrAlternative": "Existing manager successidentity/E2EsuccessDOMidentity and concurrentrejection tests do not provefull renderederrorbranch.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.state.12",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 80,
+            "clause": "- [ ] `toast.state.12` Given a toast added with an id and a 1000ms timeout, when 900ms have elapsed and the same id is added again, then only one toast exists, its content is the new content, and the timer restarts from the full 1000ms rather than resuming the leftover 100ms. (candidate) [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 448,
+              "anchor": "restarts an existing ID at its supplied duration"
+            }
+          ],
+          "remainingAcceptedAssertions": "Exact1000ms lifetime, readd SAMEIDafter900, newcontent/singlerecord, remaining100doesnotexpire untilnew1000.",
+          "scopeLimitOrAlternative": "Existing200/150→250test changesduration; duplicate test150/200 differs exactsource timings.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.state.20",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 88,
+            "clause": "- [ ] `toast.state.20` Given three visible toasts where only the middle one has a 1000ms timer, when that timer elapses, then the middle toast is removed even though it is not the oldest, and the other two stay. (candidate) [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 381,
+              "anchor": "expires only the middle"
+            }
+          ],
+          "remainingAcceptedAssertions": "Exactthree visibletoasts onlymiddle1000ms; DOMmiddle removal and stableouterrecords.",
+          "scopeLimitOrAlternative": "Currentmanager usesmiddle100ms then explicitremove, provingdeadlinepolicy but not exact1000/renderedremoval.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "toast.notes.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 139,
+            "clause": "- [ ] `toast.notes.5` Given toasts with close and remove callbacks, when one is closed, then each callback fires exactly once, closing a toast that is already in its ending state does not fire them again, and replacing an ending toast with a re-add under the same id defers the remove callback to the replacement's own removal. (candidate) [base-ui]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 201,
+              "anchor": "reopens an exiting ID in place"
+            }
+          ],
+          "remainingAcceptedAssertions": "After readding endingID, its own eventualremove callback exactlyonce; retainno callback duringoldending.",
+          "scopeLimitOrAlternative": "Currentreopen tests stop afterreplacementexpires and do notexplicitlyremove/assertfinalreplacementonRemove.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only clause/source/assertion reconciliation by GPT-6.1 Sol; coordinator reviewed dispositions. No passing execution claimed.",
+      "limits": [
+        "Classification is not test completion."
+      ]
+    },
+    {
+      "id": "overlay-scope-review-mixed",
+      "status": "reconciled",
+      "ids": [
+        "tooltip.roles.7",
+        "tooltip.pointer.18",
+        "hover-card.pointer.14",
+        "hover-card.pointer.15",
+        "hover-card.pointer.16",
+        "hover-card.focus.2",
+        "alert-dialog.state.1"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "tooltip.roles.7: Native disabled tabindex omission/property behavior; aria-disabled remains focusable already asserted.",
+        "tooltip.pointer.18: Public as host/forwarding-component aria-disabled hover/focus explanation matrix.",
+        "hover-card.pointer.14: Specified inside/outside coordinate path and exactly one onOpenChange(false) callback.",
+        "hover-card.pointer.15: Content-target pointermove with outside-hull coordinates retains card after grace cancellation.",
+        "hover-card.pointer.16: Idle transit300ms expiry and owner disposal cancels pending work without later callback.",
+        "hover-card.focus.2: Native focus switching shared handles/payload immediately retains same node.",
+        "alert-dialog.state.1: Alert boolean onOpenChange exactly once per trigger/close/Escape transition."
+      ],
+      "scopeReview": [
+        {
+          "id": "tooltip.roles.7",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 11,
+            "clause": "- [ ] `tooltip.roles.7` Given a trigger that is only accessibly disabled, when it is rendered, then it has `aria-disabled=\"true\"`, no `disabled` attribute and it stays focusable, while a truly disabled trigger has no `tabindex` and gets `pointer-events: none`. [base-ui, ariakit]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 176,
+              "anchor": "explains an aria-disabled trigger"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native disabled tabindex omission/property behavior; aria-disabled remains focusable already asserted.",
+          "scopeLimitOrAlternative": "Trigger pointer-events:none is not emitted by shipped Tooltip; do not confuse content hoverable=false style with trigger disabled policy.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.18",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 46,
+            "clause": "- [ ] `tooltip.pointer.18` Divergence: given an accessibly disabled trigger that keeps `aria-disabled=\"true\"` and stays focusable, when it is hovered or focused, then its tooltip still opens so the disabled control can explain itself, in every composition order and whether the disabled markup sits on the trigger or on the element it renders (decision needed). [base-ui, ariakit]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 176,
+              "anchor": "explains an aria-disabled trigger"
+            }
+          ],
+          "remainingAcceptedAssertions": "Public as host/forwarding-component aria-disabled hover/focus explanation matrix.",
+          "scopeLimitOrAlternative": "Universal every composition-order/asChild wrapper variation is broader than shipped as API.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.14",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 34,
+            "clause": "- [ ] `hover-card.pointer.14` Given the pointer in transit inside that grace polygon, when a document `pointermove` lands at (150, 50) inside the hull, then the card stays open, and when a `pointermove` lands at (150, 500) outside the hull, then the card's exit callback fires exactly once and the in-transit flag clears. (candidate) [reka]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.coverage-more.test-browser.tsx",
+              "line": 36,
+              "anchor": "retains the 100px safe-polygon trough"
+            }
+          ],
+          "remainingAcceptedAssertions": "Specified inside/outside coordinate path and exactly one onOpenChange(false) callback.",
+          "scopeLimitOrAlternative": "Vendor private transit flag and literal exit-callback API are not public; use shipped boolean callback for accepted behavior.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.15",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 35,
+            "clause": "- [ ] `hover-card.pointer.15` Given the pointer in transit, when a `pointermove` is dispatched on the card element itself at coordinates outside the hull, then the grace area is discarded without closing the card, so arriving at the card wins over the geometry check. (candidate) [reka]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 104,
+              "anchor": "measures safe travel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Content-target pointermove with outside-hull coordinates retains card after grace cancellation.",
+          "scopeLimitOrAlternative": "Private grace state is not exposed; assert externally observable retention/cancellation.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.16",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 36,
+            "clause": "- [ ] `hover-card.pointer.16` Given the pointer in transit, when 300ms pass with no pointer movement, then the in-transit flag resets on its own, and unmounting the component also resets it. (candidate) [reka]"
+          },
+          "source": {
+            "file": "packages/dom/src/hover-intent/hover-intent.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/hover-card/hover-card.test-browser.tsx",
+              "line": 104,
+              "anchor": "measures safe travel"
+            }
+          ],
+          "remainingAcceptedAssertions": "Idle transit300ms expiry and owner disposal cancels pending work without later callback.",
+          "scopeLimitOrAlternative": "Private in-transit flag has no HoverCard API; do not invent public state solely for testing.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.focus.2",
+          "historicalStatus": "missing",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 53,
+            "clause": "- [ ] `hover-card.focus.2` Given several triggers sharing one card and one already active, when focus moves to another trigger, then the card stays open and switches to that trigger's content immediately, ignoring that trigger's own open delay. [base-ui, zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 94,
+              "anchor": "detached typed triggers"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native focus switching shared handles/payload immediately retains same node.",
+          "scopeLimitOrAlternative": "Per-trigger independent delay prop is not exported; root delay is shared.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.state.1",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 277,
+            "clause": "- [ ] `alert-dialog.state.1` Given an alert dialog with a trigger and a close control, then the change callback fires once with the open state on each transition and carries the reason (trigger press, close press, escape key) along with the trigger element. [base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/internal/dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 169,
+              "anchor": "AlertDialog Action honors cancellation"
+            }
+          ],
+          "remainingAcceptedAssertions": "Alert boolean onOpenChange exactly once per trigger/close/Escape transition.",
+          "scopeLimitOrAlternative": "Reason and trigger-detail callback object is deliberately not in shared Dialog API.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only clause/source/assertion reconciliation by GPT-6.1 Sol; coordinator reviewed dispositions. No passing execution claimed.",
+      "limits": [
+        "Classification is not test completion."
+      ]
+    },
+    {
+      "id": "overlay-scope-review-residualUnsupported",
+      "status": "reconciled",
+      "ids": [
+        "tooltip.pointer.14",
+        "tooltip.pointer.19",
+        "hover-card.pointer.4",
+        "alert-dialog.roles.2"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "tooltip.pointer.14: Current measured gap fixture asserts retention then idle expiry using shipped timeout.",
+        "tooltip.pointer.19: Native trigger/root disabled suppression already directly asserted.",
+        "hover-card.pointer.4: Same open node/payload switches immediately with no timer advance already asserted.",
+        "alert-dialog.roles.2: aria-modal and actual ignored outside interaction already asserted."
+      ],
+      "scopeReview": [
+        {
+          "id": "tooltip.pointer.14",
+          "historicalStatus": "partial",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 42,
+            "clause": "- [ ] `tooltip.pointer.14` Given an open hoverable tooltip, when the pointer moves out of the corridor or idles in the gap, then the tooltip closes after the intent timeout, measured as closed once the pointer has idled in a sibling gap for 260ms. [base-ui, bits]"
+          },
+          "source": {
+            "file": "packages/dom/src/hover-intent/hover-intent.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 112,
+              "anchor": "hover corridor expires"
+            }
+          ],
+          "remainingAcceptedAssertions": "Current measured gap fixture asserts retention then idle expiry using shipped timeout.",
+          "scopeLimitOrAlternative": "Vendor260ms idle closure is not adopted: shared hover-intent uses300ms transit then closeDelay.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "tooltip.pointer.19",
+          "historicalStatus": "partial",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 47,
+            "clause": "- [ ] `tooltip.pointer.19` Divergence: given a disabled trigger or a disabled tooltip root, when the trigger is hovered or focused, then no tooltip ever opens, and disabling an inner button rather than the trigger suppresses it the same way (decision needed). [react-aria, base-ui, ariakit, reka, bits]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/tooltip/tooltip.native.test-browser.tsx",
+              "line": 176,
+              "anchor": "explains an aria-disabled trigger"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native trigger/root disabled suppression already directly asserted.",
+          "scopeLimitOrAlternative": "Inner disabled button automatically suppressing an otherwise enabled wrapper is not a shipped inheritance/composition API; aria-disabled explanation remains deliberately enabled.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "hover-card.pointer.4",
+          "historicalStatus": "partial",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/hover-card.md",
+            "line": 24,
+            "clause": "- [ ] `hover-card.pointer.4` Given several triggers sharing one card and one of them already active, when the pointer moves onto another trigger, then the card stays open and switches to that trigger's content immediately, ignoring that trigger's own open delay (base-ui switches from a 0ms trigger to a 2000ms one with no wait). [base-ui, zag]"
+          },
+          "source": {
+            "file": "packages/solid/src/hover-card/hover-card.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/hover-card/hover-card.test.tsx",
+              "line": 94,
+              "anchor": "detached typed triggers"
+            }
+          ],
+          "remainingAcceptedAssertions": "Same open node/payload switches immediately with no timer advance already asserted.",
+          "scopeLimitOrAlternative": "Root delay is shared; per-trigger0/2000 delay prop is absent from exported trigger type.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        },
+        {
+          "id": "alert-dialog.roles.2",
+          "historicalStatus": "partial",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/dialog.md",
+            "line": 238,
+            "clause": "- [ ] `alert-dialog.roles.2` Given an alert dialog, then the container MUST have `aria-modal=\"true\"`, and the same only-when-both constraint applies: interaction outside MUST actually be prevented and the outside content MUST be visually obscured. [apg]"
+          },
+          "source": {
+            "file": "packages/solid/src/alert-dialog/alert-dialog.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/dialog.test-browser.tsx",
+              "line": 142,
+              "anchor": "AlertDialog initially focuses Cancel"
+            }
+          ],
+          "remainingAcceptedAssertions": "aria-modal and actual ignored outside interaction already asserted.",
+          "scopeLimitOrAlternative": "Visual obscuring is author-owned headless Backdrop styling; source fixture supplies no opaque visual overlay.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only clause/source/assertion reconciliation by GPT-6.1 Sol; coordinator reviewed dispositions. No passing execution claimed.",
+      "limits": [
+        "Research alternatives remain explicit and incomplete; no full requirement completion claimed. Author-owned styling can be covered with an appropriately styled fixture."
+      ]
+    },
+    {
+      "id": "overlay-scope-review-existingAssertionsNeedExecution",
+      "status": "reconciled",
+      "ids": [
+        "toast.state.3"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "toast.state.3: No uncovered manager request/deadline clause found: providerduration100,explicit200,implicitdismisses100 and explicit remainsuntil200."
+      ],
+      "scopeReview": [
+        {
+          "id": "toast.state.3",
+          "historicalStatus": "partial",
+          "classification": "existingAssertionsNeedExecution",
+          "spec": {
+            "file": "docs/spec/toast.md",
+            "line": 71,
+            "clause": "- [ ] `toast.state.3` Given a region with its own duration and a toast added with a different one, when the toast's duration elapses, then the toast dismisses, so a per-toast duration overrides the region's. [base-ui, kobalte]"
+          },
+          "source": {
+            "file": "packages/solid/src/toast/manager.ts"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/toast/manager.test.ts",
+              "line": 54,
+              "anchor": "resolves queued implicit durations"
+            }
+          ],
+          "remainingAcceptedAssertions": "No uncovered manager request/deadline clause found: providerduration100,explicit200,implicitdismisses100 and explicit remainsuntil200.",
+          "scopeLimitOrAlternative": "Rendered DOM auto-removal is not established by this manager test; row wording says dismiss rather than requiring native gesture.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only clause/source/assertion reconciliation by GPT-6.1 Sol; coordinator reviewed dispositions. No passing execution claimed.",
+      "limits": [
+        "Classification is not test completion."
+      ]
+    },
+    {
+      "id": "overlay-scope-review-contractDecision",
+      "status": "decision",
+      "ids": [
+        "tooltip.keyboard.4"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "tooltip.keyboard.4: Native Enter press/release and closeOnPress=false retention can be tested; decide whether timing must be immediate or honor closeDelay."
+      ],
+      "scopeReview": [
+        {
+          "id": "tooltip.keyboard.4",
+          "historicalStatus": "partial",
+          "classification": "contractDecision",
+          "spec": {
+            "file": "docs/spec/tooltip.md",
+            "line": 24,
+            "clause": "- [ ] `tooltip.keyboard.4` Given a tooltip opened by keyboard focus, when Enter is pressed and released on the trigger, then the tooltip closes after the close delay just as a click would, unless press dismissal is turned off, in which case it stays visible (candidate). [react-aria]"
+          },
+          "source": {
+            "file": "packages/solid/src/tooltip/tooltip.tsx"
+          },
+          "currentEvidence": [
+            {
+              "file": "packages/solid/src/tooltip/tooltip.test.tsx",
+              "line": 220,
+              "anchor": "author cancellation prevents press dismissal"
+            }
+          ],
+          "remainingAcceptedAssertions": "Native Enter press/release and closeOnPress=false retention can be tested; decide whether timing must be immediate or honor closeDelay.",
+          "scopeLimitOrAlternative": "Spec demands delayed closure; trigger click invokes intent.dismiss(), which closes immediately. Shared hover-intent press/dismiss also close immediately.",
+          "execution": "No execution performed in this read-only review; source assertions are not passing-run evidence."
+        }
+      ],
+      "verification": "Read-only clause/source/assertion reconciliation by GPT-6.1 Sol; coordinator reviewed dispositions. No passing execution claimed.",
+      "limits": [
+        "Classification is not test completion."
+      ]
     }
   ],
   "knownLimits": {
