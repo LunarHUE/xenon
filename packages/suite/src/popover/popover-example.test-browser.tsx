@@ -1,8 +1,8 @@
 import { render } from '@solidjs/web'
 import { flush } from 'solid-js'
 import { afterEach, expect, test } from 'vitest'
-import { PopoverDemo } from '../../../../apps/example/src/demos/popover'
-import '../../../../apps/example/src/styles.css'
+import { PopoverPaintFixture } from '../../fixtures/popover-paint'
+import '../../fixtures/popover-paint.css'
 
 let dispose: (() => void) | undefined
 afterEach(() => {
@@ -13,7 +13,7 @@ afterEach(() => {
 test('example popover keeps the arrow behind its panel throughout opacity animations', async () => {
   const container = document.createElement('div')
   document.body.append(container)
-  const unmount = render(() => <PopoverDemo />, container)
+  const unmount = render(() => <PopoverPaintFixture />, container)
   dispose = () => {
     unmount()
     container.remove()

@@ -1,0 +1,56 @@
+/* Preserve the former example's isolated opacity animation and separate opaque surface. */
+.demo-popover {
+  width: min(22rem, calc(100vw - 2rem));
+  overflow: visible;
+  isolation: isolate;
+  animation: popover-paint-in 160ms ease-out;
+}
+
+.demo-popover[data-ending-style] {
+  animation: popover-paint-out 140ms ease-in;
+}
+
+.demo-popover__surface {
+  box-sizing: border-box;
+  width: 100%;
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border: 1px solid #1b1916;
+  background: #f1eee4;
+  color: #1b1916;
+  box-shadow: 8px 8px 0 rgb(27 25 22 / 12%);
+  font:
+    400 0.8rem/1.6 ui-monospace,
+    'SF Mono',
+    Menlo,
+    monospace;
+}
+
+.demo-popover__arrow {
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #1b1916;
+  background: #f1eee4;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+@keyframes popover-paint-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popover-paint-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
