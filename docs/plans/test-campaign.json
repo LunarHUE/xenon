@@ -1450,7 +1450,7 @@
     {"ids":["popover.animation.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Adapter checks previous snapshot text, aria-hidden and stripped duplicate IDs. Native rapid switching, completion lifetime and final transform cleanup are not fully asserted.","evidence":476,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":536},"status":"queued"},
     {"ids":["popover.a11y.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native nonmodal/modal open fixtures run axe; closed-tree scan is not present.","evidence":477,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":538},"status":"queued"},
     {"ids":["dialog.roles.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Named native dialog and descendant Close are exercised. The all-operating-elements containment rule remains author responsibility and no complete ownership audit is asserted.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":546},"status":"queued"},
-    {"ids":["dialog.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Modal aria-modal=true is emitted by the shared core; plain Dialog tests assert native :modal but do not directly assert this attribute.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":547},"status":"queued"},
+    {"ids":["dialog.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Modal aria-modal=true is emitted by the shared core; plain Dialog tests assert native :modal but do not directly assert this attribute.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":547},"status":"verified"},
     {"ids":["dialog.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Both title-based and author-label naming are asserted; missing-name development warning is tested, but the axe serious-impact result is not.","evidence":480,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":548},"status":"queued"},
     {"ids":["dialog.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Description association and removal are asserted; structured-content omission is an author decision and has no dedicated fixture.","evidence":481,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":549},"status":"queued"},
     {"ids":["dialog.roles.5","dialog.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native isolation and failed outside focus are asserted; the headless package leaves visual obscuring to author CSS and no dimming assertion exists.","evidence":482,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":550},"status":"queued"},
@@ -1492,7 +1492,7 @@
     {"ids":["dialog.ssr.1"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Closed-by-default server rendering is accepted, but current e2e hydration starts open and does not check closed/no-markup hydration.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":638},"status":"queued"},
     {"ids":["dialog.ssr.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Server associations survive hydration and enter native top layer; full generated-ID determinism across closed and multiple-instance trees is not asserted.","evidence":507,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":639},"status":"queued"},
     {"ids":["dialog.a11y.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Rendered labelledby/describedby resolve to authored IDs; complete valid attribute and ID-reference audit is not performed.","evidence":478,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":640},"status":"queued"},
-    {"ids":["dialog.a11y.5","dialog.a11y.6"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No positive tabindex and clean closed/open axe scans are accepted accessibility behavior, but no Dialog axe scan or complete tabindex scan is present.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":641},"status":"queued"},
+    {"ids":["dialog.a11y.5","dialog.a11y.6"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"No positive tabindex and clean closed/open axe scans are accepted accessibility behavior, but no Dialog axe scan or complete tabindex scan is present.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":641},"status":"verified"},
     {"ids":["dialog.a11y.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Missing names and alert descriptions produce development warnings; exhaustive explicit aria-label/labelledby suppression matrix is not checked.","evidence":508,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":642},"status":"queued"},
     {"ids":["dialog.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Prop composition preserves built-in activation, but explicitly undefined trigger onClick is not asserted.","evidence":479,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":645},"status":"queued"},
     {"ids":["dialog.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser native isolation rejects programmatic focus on inert lower content; click and sequential Tab attempts on that same inert target are not both asserted.","evidence":505,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":648},"status":"queued"},
@@ -2127,6 +2127,39 @@
         {
           "command": "Parent Chromium, Firefox and WebKit run",
           "result": "Retained-content case passed in all three engines"
+        }
+      ]
+    },
+    {
+      "id": "dialog-focus-accessibility-1",
+      "status": "verified",
+      "ids": [
+        "dialog.keyboard.1",
+        "dialog.keyboard.2",
+        "dialog.focus.23",
+        "dialog.roles.2",
+        "dialog.a11y.5",
+        "dialog.a11y.6"
+      ],
+      "acceptedClauses": [
+        "Native forward and reverse Tab visit every control and wrap inside the modal",
+        "Focused-child removal recovers focus within the dialog and preserves subsequent Tab cycling",
+        "Native modal activation exposes aria-modal",
+        "Closed, open and reopened parts emit no positive tabindex",
+        "Closed, modal-open and closed-again trees pass the shared axe audit"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/dialog/dialog.focus-accessibility.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent Chromium, Firefox and WebKit four-file run",
+          "result": "All18 Dialog executions passed independently"
+        },
+        {
+          "command": "Scoped ESLint and suite typecheck",
+          "result": "passed"
         }
       ]
     }
