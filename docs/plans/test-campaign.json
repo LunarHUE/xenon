@@ -817,18 +817,18 @@
   "records": [
     {"ids":["checkbox.forms.9"],"historicalStatus":"partial","domain":"inputs-forms","reason":"checkbox.forms.test-browser.tsx; exact validationMessage matches a native checkbox. Chromium normalizes CRLF to LF; WebKit preserves CRLF. Adds the changed-value and blur validation path to existing checkValidity, reportValidity, custom message, and validity flag evidence.","evidence":0,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":46},"status":"reconciled"},
     {"ids":["checkbox.forms.33"],"historicalStatus":"partial","domain":"inputs-forms","reason":"checkbox.forms.test-browser.tsx; Compared with a native checkbox: Chromium falls through to a later enabled submitter; WebKit suppresses submission. The library delegates native submission; universal no-fallthrough is not claimed.","evidence":1,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":58},"status":"reconciled"},
-    {"ids":["progress.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts root ref, class, style, data attribute and click forwarding; the indicator branch has no exported part.","evidence":2,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":409},"status":"queued"},
-    {"ids":["progress.notes.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts article polymorphism with the adopted as prop; asChild/render composition APIs named by the research are not tested.","evidence":3,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":410},"status":"queued"},
-    {"ids":["progress.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Both bounds clamp root value/text and the CSS percentage. The research also requires indicator width; Progress exports no indicator part.","evidence":4,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":413},"status":"queued"},
-    {"ids":["progress.state.10"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Zero-width ranges at zero and nonzero bounds assert 0% root text and finite CSS percentage, but no indicator width.","evidence":5,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":414},"status":"queued"},
-    {"ids":["progress.state.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Nonfinite values clear root ARIA and CSS percentage. Empty value and indicator parts are outside the root-only API.","evidence":6,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":415},"status":"queued"},
-    {"ids":["progress.a11y.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The shared axe scan runs, but does not establish every listed rule: target-size and layout assertions are not claimed. Runs the shared axe helper with target-size explicitly enabled against a named progressbar with author-supplied 24px by 24px dimensions and reports no violations. This verifies the configured target-size scan for the fixture; it does not claim axe inapplicable/incomplete metadata or the complete cross-component rule inventory. Existing progress.a11y.1 evidence covers the default axe scan in determinate and indeterminate states.","evidence":7,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":453},"status":"queued"},
+    {"ids":["progress.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts root ref, class, style, data attribute and click forwarding; the indicator branch has no exported part.","evidence":2,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":409},"status":"reconciled"},
+    {"ids":["progress.notes.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts article polymorphism with the adopted as prop; asChild/render composition APIs named by the research are not tested.","evidence":3,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":410},"status":"reconciled"},
+    {"ids":["progress.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Both bounds clamp root value/text and the CSS percentage. The research also requires indicator width; Progress exports no indicator part.","evidence":4,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":413},"status":"reconciled"},
+    {"ids":["progress.state.10"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Zero-width ranges at zero and nonzero bounds assert 0% root text and finite CSS percentage, but no indicator width.","evidence":5,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":414},"status":"reconciled"},
+    {"ids":["progress.state.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Nonfinite values clear root ARIA and CSS percentage. Empty value and indicator parts are outside the root-only API.","evidence":6,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":415},"status":"reconciled"},
+    {"ids":["progress.a11y.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The shared axe scan runs, but does not establish every listed rule: target-size and layout assertions are not claimed. Runs the shared axe helper with target-size explicitly enabled against a named progressbar with author-supplied 24px by 24px dimensions and reports no violations. This verifies the configured target-size scan for the fixture; it does not claim axe inapplicable/incomplete metadata or the complete cross-component rule inventory. Existing progress.a11y.1 evidence covers the default axe scan in determinate and indeterminate states.","evidence":7,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":453},"status":"reconciled"},
     {"ids":["meter.roles.9"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. A default-range meter exposes now and percentage text, then updates both with its CSS percentage when value changes. The adapter has no value-label part.","evidence":8,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":461},"status":"excluded"},
     {"ids":["meter.roles.10"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Value 30 to 77 updates aria-valuenow, aria-valuetext and --meter-percentage together; visible indicator geometry is not shipped.","evidence":8,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":462},"status":"excluded"},
     {"ids":["meter.roles.11"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Reactive min, max and value changes keep emitted ARIA values and percentage text consistent; no indicator geometry is shipped.","evidence":9,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":463},"status":"excluded"},
     {"ids":["meter.state.7"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Below and above default bounds emit now 0/100 and value text 0%/100%; no indicator width is shipped.","evidence":10,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":464},"status":"excluded"},
-    {"ids":["meter.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Custom ranges produce percentage text based on position within the range and retain consistency after rerender.","evidence":9,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":465},"status":"queued"},
-    {"ids":["meter.state.12"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Value 33.333 produces 33% aria-valuetext and matching author-rendered display text. The authored child is a fixed string, so this does not prove a generated display formatter matches for arbitrary values; that clause remains open.","evidence":11,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":466},"status":"queued"},
+    {"ids":["meter.state.8"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Custom ranges produce percentage text based on position within the range and retain consistency after rerender.","evidence":9,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":465},"status":"reconciled"},
+    {"ids":["meter.state.12"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Root values, formatting and reactive CSS percentage have assertions. The research also requires visible value text or indicator geometry, which the Meter adapter does not supply. Value 33.333 produces 33% aria-valuetext and matching author-rendered display text. The authored child is a fixed string, so this does not prove a generated display formatter matches for arbitrary values; that clause remains open.","evidence":11,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":466},"status":"reconciled"},
     {"ids":["tabs.state.10"],"historicalStatus":"partial","domain":"collections-layout","reason":"Selected-item removal falls back to the first remaining tab. The adopted behavior is silent, so the research missing-reason callback and empty-list branches are not covered. Removing the last remaining tab leaves an empty tab list, hidden retained panels and stable labelledby IDs without callbacks. The research callback/null/attribute-removal alternative is not adopted.","evidence":12,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":499},"status":"reconciled"},
     {"ids":["progress.ssr.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"The E2E test checks the named linear progress value after hydration, preserved DOM/IDs and no errors. No circular Progress adapter or circular hydration fixture exists.","evidence":13,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":509},"status":"reconciled"},
     {"ids":["switch.notes.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Role/name assertions do not drive a screen reader or establish the comparative spoken phrases.","evidence":14,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":510},"status":"reconciled"},
@@ -869,8 +869,8 @@
     {"ids":["tabs.ssr.2"],"historicalStatus":"partial","domain":"collections-layout","reason":"The shared SSR fixture asserts initial selection and paired IDs from a shared base before/after hydration. It does not deliberately use different server/client ID prefixes.","evidence":48,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1016},"status":"reconciled"},
     {"ids":["presence.state.7"],"historicalStatus":"partial","domain":"collections-layout","reason":"Initially open content starts entered without a starting marker. The completion-callback clause has no public API.","evidence":49,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1068},"status":"reconciled"},
     {"ids":["presence.ssr.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"Real SSR/hydration demonstrates server rendering without browser-only failures, but there is no zero/null measurement or observer-allocation assertion.","evidence":50,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1072},"status":"reconciled"},
-    {"ids":["progress.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named root and formatted aria-valuetext are exercised; no generated Label part exists. Adds title and author aria-labelledby naming paths to existing aria-label coverage, and verifies the role is discoverable by its computed accessible name. The component does not generate a label part or generated id.","evidence":51,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1073},"status":"queued"},
-    {"ids":["progress.roles.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named root and formatted aria-valuetext are exercised; no generated Label part exists. Uses a public aria-labelledby reference to an author label and verifies the accessible name while the formatted percentage remains aria-valuetext. This supplements existing formatted-value and aria-label evidence; no generated Label part exists.","evidence":52,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1074},"status":"queued"},
+    {"ids":["progress.roles.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named root and formatted aria-valuetext are exercised; no generated Label part exists. Adds title and author aria-labelledby naming paths to existing aria-label coverage, and verifies the role is discoverable by its computed accessible name. The component does not generate a label part or generated id.","evidence":51,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1073},"status":"reconciled"},
+    {"ids":["progress.roles.16"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Named root and formatted aria-valuetext are exercised; no generated Label part exists. Uses a public aria-labelledby reference to an author label and verifies the accessible name while the formatted percentage remains aria-valuetext. This supplements existing formatted-value and aria-label evidence; no generated Label part exists.","evidence":52,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1074},"status":"reconciled"},
     {"ids":["button.pointer.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Checks native/generic Button click focus; checkbox/radio label focus belongs to their separate assertions.","evidence":53,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1091},"status":"reconciled"},
     {"ids":["button.pointer.9"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts enabled/disabled anchor auxclick behavior; the tab-role branch is not exercised. Tab-role hosts record captured auxclick cancellation flags; the disabled author-handler suppression and DOM-emulator branch remain unproven.","evidence":54,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1094},"status":"reconciled"},
     {"ids":["button.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Asserts generic anchor button role; matching visual design is an author decision.","evidence":55,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1096},"status":"reconciled"},
@@ -1128,7 +1128,7 @@
     {"ids":["slider.state.16"],"historicalStatus":"partial","domain":"collections-layout","reason":"Unformatted thumbs omit aria-valuetext as chosen; the positional start/end default in this research bullet is explicitly rejected.","evidence":270,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":562},"status":"excluded"},
     {"ids":["slider.notes.3"],"historicalStatus":"partial","domain":"collections-layout","reason":"All seven public parts forward author attributes/styles/refs, preserve positioning properties and element/ref-target identity through reactive updates. HiddenInput and the research hidden-input composition are deliberately absent from the native-thumb API.","evidence":271,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":603},"status":"excluded"},
     {"ids":["visually-hidden.focus.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Focus reveals the wrapper and blur restores hiding; the test deliberately preserves author color rather than clearing the entire inline style. Asserts focus reveal clears the library clipping properties, preserves author color, and restores clipping after focus leaves. The stricter alternative requiring the entire inline style to become empty remains unresolved because the adopted component contract preserves author styles. Existing cited assertions cover the remaining supported clauses.","evidence":272,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":680},"status":"excluded"},
-    {"ids":["avatar.notes.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Asserts the root data-avatar prop, unconsumed fallback data prop, refs, and polymorphic as tags on the root and fallback. Existing image ref and data forwarding evidence covers the image part.","evidence":273,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":733},"status":"queued"},
+    {"ids":["avatar.notes.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Asserts the root data-avatar prop, unconsumed fallback data prop, refs, and polymorphic as tags on the root and fallback. Existing image ref and data forwarding evidence covers the image part.","evidence":273,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":733},"status":"reconciled"},
     {"ids":["dismissable-layer.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The unit test asserts one dismissal for document Escape and the veto test asserts one escape callback; the successful path does not assert both callback counts together.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":3},"status":"queued"},
     {"ids":["dismissable-layer.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Assertions establish defaultPrevented after successful dispatch and no dismissal on veto; they do not independently assert preventDefault call ordering or the absence of an extra call after cancellation.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":5},"status":"queued"},
     {"ids":["dismissable-layer.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Synthetic composition tests establish suppression through the post-composition tick and one subsequent dismissal. They do not exercise a real focused-field Safari IME session.","evidence":275,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":6},"status":"queued"},
@@ -31475,6 +31475,261 @@
       ],
       "relatedFix": "ff334cd",
       "verification": "New native case passed Chromium,Firefox,WebKit (3 executions) in /tmp/xenon-select-toolbar-fixed-domain-all.log. Adapter batch12files57pass in /tmp/xenon-select-toolbar-popover-adapters.log; new close-name3 passed. Original undefined-name regression2failed before fix."
+    },
+    {
+      "id": "primitive-final-scope-review-residualUnsupported",
+      "status": "reconciled",
+      "ids": [
+        "progress.notes.2",
+        "progress.notes.3",
+        "progress.state.10",
+        "progress.state.16",
+        "progress.roles.6",
+        "progress.roles.16",
+        "avatar.notes.6"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "progress.notes.2: Root ref/data/class/style/click assertions exist; no Indicator part is exported. Native class prop is class; do not invent className alias.",
+        "progress.notes.3: Article as host preserves role/value/status in current test. asChild/render alternatives are not exported.",
+        "progress.state.10: Zero and nonzero equal ranges assert 0% aria-valuetext and finite zero CSS property. Indicator width remains unshipped.",
+        "progress.state.16: NaN/Infinity/-Infinity clear previous root ARIA/CSS and skip formatter; generated Value and Indicator parts absent.",
+        "progress.roles.6: Computed title and authored-labelledby names plus named root are asserted. Generated Label part/id is absent.",
+        "progress.roles.16: Author label reference names root while aria-valuetext gives formatted percentage. Generated Label part is absent; no source policy ambiguity requires a new decision.",
+        "avatar.notes.6: Root/Fallback swapped tags, author props and ref identity are asserted; Image host is fixed img with native props. All-part polymorphic escape hatch is unshipped."
+      ],
+      "scopeReview": [
+        {
+          "id": "progress.notes.2",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 93,
+            "clause": "- [ ] `progress.notes.2` Given unconsumed props (`ref`, `data-*`, `className`, inline `style`, `onClick`) on the root or the indicator, then they land on the rendered element, the ref resolves to it, and clicking fires `onClick`. [radix, react-aria]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Root ref/data/class/style/click assertions exist; no Indicator part is exported. Native class prop is class; do not invent className alias.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.notes.3",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 94,
+            "clause": "- [ ] `progress.notes.3` Given `asChild` or `render` onto another tag, for example an `<article>`, then that tag is rendered and still carries `role=\"progressbar\"`, `aria-valuenow` and the status data attributes. [radix, base-ui, react-aria]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Article as host preserves role/value/status in current test. asChild/render alternatives are not exported.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.state.10",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 53,
+            "clause": "- [ ] `progress.state.10` Given a zero-width range, `min === max` at 0 or at a non-zero bound, then `aria-valuetext` is the 0% format and the indicator width is `\"0%\"`, never `\"NaN%\"` or a division artifact. [react-aria, base-ui]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Zero and nonzero equal ranges assert 0% aria-valuetext and finite zero CSS property. Indicator width remains unshipped.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.state.16",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 59,
+            "clause": "- [ ] `progress.state.16` Given `value` set to `NaN`, `Infinity` or `-Infinity`, then the progressbar is treated as indeterminate: no `aria-valuenow`, an empty value part, and an empty indicator width. [base-ui] (candidate)"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "NaN/Infinity/-Infinity clear previous root ARIA/CSS and skip formatter; generated Value and Indicator parts absent.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.roles.6",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 19,
+            "clause": "- [ ] `progress.roles.6` Given `role=\"progressbar\"`, then it MUST have an accessible name from `aria-label`, `aria-labelledby` or `title`; axe tags this WCAG 1.1.1 A at serious impact, and every library resolves `aria-labelledby` to the label part's generated id. [apg, axe, react-aria, base-ui, kobalte, bits]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.coverage.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Computed title and authored-labelledby names plus named root are asserted. Generated Label part/id is absent.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.roles.16",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 29,
+            "clause": "- [ ] `progress.roles.16` Divergence: the formatted value is exposed as `aria-valuetext` while the accessible name comes from the label part. [apg, react-aria, base-ui, kobalte] (decision needed)"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.coverage.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Author label reference names root while aria-valuetext gives formatted percentage. Generated Label part is absent; no source policy ambiguity requires a new decision.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "avatar.notes.6",
+          "classification": "residualUnsupported",
+          "spec": {
+            "file": "docs/spec/misc.md",
+            "line": 150,
+            "clause": "- [ ] `avatar.notes.6` Given any part, then props the component does not consume land on the rendered element, the ref resolves to it, and a polymorphic escape hatch swaps the element while keeping the wiring. [radix, base-ui, ark]"
+          },
+          "source": [
+            "packages/solid/src/avatar/index.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/avatar/avatar.coverage.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Root/Fallback swapped tags, author props and ref identity are asserted; Image host is fixed img with native props. All-part polymorphic escape hatch is unshipped.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        }
+      ],
+      "verification": "Coordinator read-only source/spec/assertion review; no execution or closure.",
+      "limits": [
+        "Unsupported research alternatives remain visible as reconciled, not counted as test completion."
+      ]
+    },
+    {
+      "id": "primitive-final-scope-review-mixed",
+      "status": "reconciled",
+      "ids": [
+        "progress.state.8",
+        "progress.a11y.4",
+        "meter.state.12"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "progress.state.8: Both clamps and percentage CSS are asserted; add explicit upper-bound aria-valuetext. Indicator geometry remains unshipped.",
+        "progress.a11y.4: Named 24x24 fixture explicitly runs target-size and default determinate/indeterminate scan exists. Full finite named ARIA-rule set and incomplete unresolved-reference handling across suite remain writable; one rule fixture does not establish global inventory.",
+        "meter.state.12: Fixed authored33% child and aria-valuetext are asserted. Reactive authored display with fractional values is writable; no library-generated Value part/formatter output part is exported."
+      ],
+      "scopeReview": [
+        {
+          "id": "progress.state.8",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 51,
+            "clause": "- [ ] `progress.state.8` Given a value below the minimum, then it clamps to the minimum for `aria-valuenow`, `aria-valuetext` and the indicator width; given a value above the maximum, it clamps to the maximum the same way. [react-aria, base-ui, kobalte]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Both clamps and percentage CSS are asserted; add explicit upper-bound aria-valuetext. Indicator geometry remains unshipped.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "progress.a11y.4",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 88,
+            "clause": "- [ ] `progress.a11y.4` Given any component in this suite, then the shared axe ARIA rules apply and MUST pass: `aria-roles` (no invalid, abstract or unsupported role, critical), `aria-allowed-attr` (every ARIA attribute allowed for role and host element, no deprecated or unsupported attribute, critical), `aria-required-attr` (critical), `aria-valid-attr` and `aria-valid-attr-value` (critical, with unresolved id references reported as incomplete and empty values as ignored), `aria-prohibited-attr` (no `aria-label` or `aria-labelledby` on `none`/`presentation`, serious), `aria-deprecated-role` (minor), `tabindex` (never greater than 0, so roving tabindex uses only 0 and -1, serious), `duplicate-id-aria` (referenced ids unique, critical), `presentation-role-conflict` (minor), `aria-hidden-focus` (no focusable content inside `aria-hidden=\"true\"`, serious, outermost element only), `aria-braille-equivalent` (serious), and `target-size` (24 by 24 CSS pixels, WCAG 2.2 AA, serious, shipped disabled so it must be enabled explicitly). [axe]"
+          },
+          "source": [
+            "packages/solid/src/progress/progress.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/progress/progress.coverage.test-browser.tsx"
+          ],
+          "remainingAcceptedAssertions": "Named 24x24 fixture explicitly runs target-size and default determinate/indeterminate scan exists. Full finite named ARIA-rule set and incomplete unresolved-reference handling across suite remain writable; one rule fixture does not establish global inventory.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        },
+        {
+          "id": "meter.state.12",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 145,
+            "clause": "- [ ] `meter.state.12` Given `value={33.333}`, then `aria-valuetext` is rounded the same way as the displayed value and the two strings are byte-identical. [base-ui] (candidate)"
+          },
+          "source": [
+            "packages/solid/src/meter/meter.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/meter/meter.coverage.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Fixed authored33% child and aria-valuetext are asserted. Reactive authored display with fractional values is writable; no library-generated Value part/formatter output part is exported.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        }
+      ],
+      "verification": "Coordinator read-only source/spec/assertion review; no execution or closure.",
+      "limits": [
+        "Unsupported research alternatives remain visible as reconciled, not counted as test completion."
+      ]
+    },
+    {
+      "id": "primitive-final-scope-review-writable",
+      "status": "reconciled",
+      "ids": [
+        "meter.state.8"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "meter.state.8: Custom20..40 range with reactive value text is asserted. Existing -5..5 value0 case asserts 50% but does not assert same host aria-valuenow=0; add this assertion before full combined closure."
+      ],
+      "scopeReview": [
+        {
+          "id": "meter.state.8",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/progress.md",
+            "line": 141,
+            "clause": "- [ ] `meter.state.8` Given `value={0}` with `minValue={-5}` and `maxValue={5}`, then `aria-valuenow` is `\"0\"` while `aria-valuetext` is `\"50%\"`; given `value={30}` with `min={20} max={40}`, both `aria-valuetext` and the value text are the 50% format. The percentage is always the position within the range, not the value over the maximum. [react-aria, base-ui, kobalte]"
+          },
+          "source": [
+            "packages/solid/src/meter/meter.tsx"
+          ],
+          "currentEvidence": [
+            "packages/suite/src/meter/meter.coverage.test.tsx",
+            "packages/suite/src/meter/meter.conformance.test.tsx"
+          ],
+          "remainingAcceptedAssertions": "Custom20..40 range with reactive value text is asserted. Existing -5..5 value0 case asserts 50% but does not assert same host aria-valuenow=0; add this assertion before full combined closure.",
+          "execution": "Read-only source and complete relevant assertion-block review; no tests run or verified disposition."
+        }
+      ],
+      "verification": "Coordinator read-only source/spec/assertion review; no execution or closure.",
+      "limits": [
+        "Unsupported research alternatives remain visible as reconciled, not counted as test completion."
+      ]
     }
   ],
   "knownLimits": {
