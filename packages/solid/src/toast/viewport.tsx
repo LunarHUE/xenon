@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -29,14 +30,15 @@ interface Own {
   /** Space between expanded notifications in CSS pixels, defaulting to 8. */
   gap?: number
   /** Receives the native region host. */
-  ref?: (element: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic notification region props; custom hosts must forward their ref. */
 export type ToastViewportProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
   keyof Own | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
+    ref?: ComponentProps<T>['ref']
     /** Rendered region host, defaulting to div. */
     as?: T
   }
@@ -389,9 +391,8 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
           key.replace(/^Key/, '')
       )
       .join('+')
-    return own['aria-label'] === false
-      ? undefined
-      : (own['aria-label'] ?? 'Notifications ({hotkey})').replace('{hotkey}', hotkey)
+    const text = 'aria-label' in props ? own['aria-label'] : 'Notifications ({hotkey})'
+    return typeof text === 'string' ? text.replace('{hotkey}', hotkey) : undefined
   }
   const rest = omit(
     props as Record<string, unknown>,
@@ -413,7 +414,7 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(host: HTMLElement) => {
         element = host
-        own.ref?.(host)
+        setRef(own.ref, host)
       }}
       {...spread({ attrs: { role: 'region', tabindex: -1 }, on: { keydown } }, rest)}
       aria-label={label()}

@@ -21,9 +21,9 @@ interface Own extends CheckedOwn {
  */
 export type CheckboxProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Host to render, defaulting to input. Literal input/button use native host semantics; custom components must forward props/ref. */
     as?: T
   }

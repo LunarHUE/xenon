@@ -1,5 +1,5 @@
 import { pinInput } from '@xenon-ui/core/pin-input'
-import type { PinInputOptions } from '@xenon-ui/core/pin-input'
+import type { PinInputOptions as CorePinInputOptions } from '@xenon-ui/core/pin-input'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,
@@ -14,8 +14,13 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import { callEventHandler } from '../internal/events'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { fieldDescribedBy, fieldLabelledBy, tokens, useFieldContext } from '../field/context'
 import { spread } from '../spread'
+
+type PinInputOptions = NativeBooleanAttributes<CorePinInputOptions>
 
 /** Segmented one-time code with one submitted scalar value. */
 export interface PinInputProps
@@ -37,7 +42,7 @@ export interface PinInputProps
   /** Number of slots; defaults to six. Render an Input for each index. */
   length?: PinInputOptions['length']
   /** Require every slot to be filled for native form validation. */
-  required?: PinInputOptions['required']
+  required?: JSX.BooleanAttribute
   /** Author invalid state, combined with Field state. */
   invalid?: PinInputOptions['invalid']
 }
@@ -71,9 +76,9 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
   const base = untrack(() => props.id) ?? `xenon-pin-${createUniqueId()}`
   const initial = untrack(() => props.defaultValue ?? '')
   const [internal, setInternal] = createSignal(initial, { ownedWrite: true })
-  const disabled = () => !!(props.disabled || field?.disabled())
-  const readonly = () => !!(props.readonly || field?.readonly())
-  const required = () => !!(props.required || field?.required())
+  const disabled = () => booleanAttribute(props.disabled) || !!field?.disabled()
+  const readonly = () => booleanAttribute(props.readonly) || !!field?.readonly()
+  const required = () => booleanAttribute(props.required) || !!field?.required()
   const inputs = new Map<number, HTMLInputElement>()
   let mirror: HTMLInputElement | undefined
   const sync = () => {
@@ -251,8 +256,7 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
         },
         mousedown(event: MouseEvent & { currentTarget: HTMLInputElement; target: Element }) {
           const handler = props.onMouseDown
-          if (typeof handler === 'function') handler(event)
-          else handler?.[0](handler[1], event)
+          callEventHandler(handler, event)
           if (event.defaultPrevented || event.button !== 0 || event.currentTarget.disabled) return
           event.preventDefault()
           context.engine().focus(props.index)
@@ -313,7 +317,7 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
       ref={(el) => {
         unregister?.()
         unregister = context.register(props.index, el)
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
       {...bindings()}
     />

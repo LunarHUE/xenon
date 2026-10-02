@@ -1,10 +1,15 @@
+import { setRef } from '../internal/host'
 import {
   createScrollbarInteraction,
   observeScrollArea,
   readScrollArea,
   scrollbarGeometry,
 } from '@xenon-ui/dom/scroll-area'
-import type { ScrollAreaAxis, ScrollAreaMetrics, ScrollbarGeometry } from '@xenon-ui/dom/scroll-area'
+import type {
+  ScrollAreaAxis,
+  ScrollAreaMetrics,
+  ScrollbarGeometry,
+} from '@xenon-ui/dom/scroll-area'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -23,11 +28,12 @@ import { spread } from '../spread'
 /** Visibility policy for supplied custom scrollbars; native scrolling remains available. */
 export type ScrollAreaType = 'auto' | 'always' | 'hover' | 'scroll'
 /** Native polymorphic part attributes. */
-export type ScrollAreaPartProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type ScrollAreaPartProps<T extends ValidComponent = 'div'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Host element, defaulting to div. Custom hosts must forward attributes and refs. */
   as?: T
-  /** Receives the rendered element. */
-  ref?: (element: HTMLElement) => void
 }
 /** Root interaction and custom-scrollbar visibility options. */
 export type ScrollAreaProps<T extends ValidComponent = 'div'> = ScrollAreaPartProps<T> & {
@@ -296,7 +302,7 @@ export function ScrollAreaViewport<T extends ValidComponent = 'div'>(
       id={id()}
       ref={(element: HTMLElement) => {
         ctx.setViewport(element)
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
       style={styles(
         { overflow: 'auto', 'scrollbar-width': ctx.hideNative() ? 'none' : undefined },
@@ -327,7 +333,7 @@ export function ScrollAreaContent<T extends ValidComponent = 'div'>(
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setContent(element)
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
     >
       {own.children}
@@ -480,7 +486,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       )}
       ref={(element: HTMLElement) => {
         setTrack(element)
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
       style={styles(
         {
@@ -528,7 +534,7 @@ export function ScrollAreaThumb<T extends ValidComponent = 'div'>(
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setThumb(element)
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
       style={styles({ position: 'absolute', left: '0', top: '0', ...style() }, own.style)}
     >

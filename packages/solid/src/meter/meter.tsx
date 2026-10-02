@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { setRef } from '../internal/host'
 import { meter } from '@xenon-ui/core/meter'
 import type { MeterOptions } from '@xenon-ui/core/meter'
 import { Dynamic } from '@solidjs/web'
@@ -8,14 +10,14 @@ import { spread } from '../spread'
 /** Numeric measurement options owned by the adapter. */
 interface Own extends Omit<MeterOptions, 'host'> {
   /** Receives the host for optional author work. Custom hosts must forward refs. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic read-only measurement props. Supply aria-label or aria-labelledby. */
 export type MeterProps<T extends ValidComponent = 'meter'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Native meter by default; other hosts receive role=meter. */
     as?: T
   }
@@ -51,7 +53,7 @@ export function Meter<T extends ValidComponent = 'meter'>(props: MeterProps<T>):
       component={own.as ?? 'meter'}
       ref={(node: HTMLElement) => {
         element = node
-        own.ref?.(node)
+        setRef(own.ref, node)
       }}
       {...spread(result().parts.root, { ...rest })}
     >

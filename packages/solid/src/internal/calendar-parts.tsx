@@ -1,3 +1,4 @@
+import { setRef } from './host'
 import type { AnyPart } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
@@ -298,7 +299,7 @@ export function CalendarDay<T = unknown, As extends ValidComponent = 'button'>(
     <Button
       ref={(element: HTMLElement) => {
         entry.element = element
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
       {...spread(part(), rest)}
     >

@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute } from '../internal/host'
 import { pagination } from '@xenon-ui/core/pagination'
 import type {
   PaginationOptions,
@@ -20,18 +22,21 @@ interface Own extends PaginationOptions {
 /** Navigation host props and page-count configuration. */
 export type PaginationProps<T extends ValidComponent = 'nav'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Root host, default nav. Other hosts retain the navigation role. */
     as?: T
   }
 /** Button or link host props shared by directional controls. */
-export type PaginationControlProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {
+export type PaginationControlProps<T extends ValidComponent = 'button'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered host, default button; anchors with href remain native links. */
   as?: T
   /** Blocks this control in addition to root and boundary disabling. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
 }
 /** A control selecting one exact page. */
 export type PaginationItemProps<T extends ValidComponent = 'button'> = PaginationControlProps<T> & {
@@ -39,7 +44,10 @@ export type PaginationItemProps<T extends ValidComponent = 'button'> = Paginatio
   page: number
 }
 /** Decorative omission marker host props. */
-export type PaginationEllipsisProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type PaginationEllipsisProps<T extends ValidComponent = 'span'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Host, default span; content is author supplied. */
   as?: T
 }
@@ -72,7 +80,7 @@ function PaginationRoot<T extends ValidComponent = 'nav'>(props: PaginationProps
       page: own.page ?? internal(),
       siblingCount: own.siblingCount,
       boundaryCount: own.boundaryCount,
-      disabled: own.disabled,
+      disabled: booleanAttribute(own.disabled),
       onPageChange: (page) => {
         if (own.page === undefined) setInternal(page)
         own.onPageChange?.(page)
@@ -118,7 +126,10 @@ function Control(
         : props.as === 'a' && props.href != null
           ? 'link'
           : 'generic'
-    const options = { host, disabled: !!props.disabled } as const
+    const options = {
+      host,
+      disabled: booleanAttribute(props.disabled as boolean | '' | undefined),
+    } as const
     return kind === 'item'
       ? context().parts.item(props.page as number, options)
       : context().parts[kind](options)

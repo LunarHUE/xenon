@@ -5,6 +5,10 @@ parent form.
 
 The default stops a button from submitting a form by accident.
 
+Explicit `type={undefined}` removes the attribute and restores the host's native
+default. For a button in a form, that usually means submission. Omit the prop to
+keep Xenon's `button` default.
+
 <Example slot="example" name="button/submit-form" />
 
 </Section>

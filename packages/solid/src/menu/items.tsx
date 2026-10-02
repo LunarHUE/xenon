@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -20,7 +21,7 @@ import type { MenuEntry } from './context'
 /** Item-owned interaction and typeahead props, replacing matching host props. */
 interface ItemOwn {
   /** Block selection/submenu opening while retaining arrow and pointer focus. Defaults to false; no native disabled attribute is added. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
   /** Typeahead text, defaulting to current host textContent and then an empty string. */
   textValue?: string
   /** Close this menu and ancestors after selection. Defaults to true for plain items, false for checkbox/radio items; ignored by SubTrigger. */
@@ -33,14 +34,15 @@ interface ItemOwn {
    */
   onSelect?: (event: Event) => void
   /** Receives the visible host used for ordering, pointer/keyboard focus, and programmatic click. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic item props; remaining attributes and author handlers override/precede generated behavior. */
 export type MenuItemProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
   keyof ItemOwn | 'as'
 > &
-  ItemOwn & {
+  Omit<ItemOwn, 'ref'> & {
+    ref?: ComponentProps<T>['ref']
     /** Rendered host, defaulting to button. Custom components must forward props/ref. */
     as?: T
   }
@@ -190,7 +192,7 @@ function createItem<T extends ValidComponent>(
   )
   const id = createUniqueId()
   const entry: MenuEntry = {
-    disabled: () => own.disabled ?? false,
+    disabled: () => booleanAttribute(own.disabled),
     text: () => own.textValue ?? entry.el?.textContent ?? '',
   }
   let hoverTimer: ReturnType<typeof setTimeout> | undefined
@@ -305,7 +307,7 @@ function createItem<T extends ValidComponent>(
       {...spread(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.el = el
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {children()}
@@ -380,7 +382,7 @@ const GroupContext = createContext<{
   register(read: () => string): () => void
 }>()
 /** Polymorphic group host props; author attributes override generated grouping semantics. */
-export type MenuGroupProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type MenuGroupProps<T extends ValidComponent = 'div'> = Omit<ComponentProps<T>, 'as'> & {
   /** Group host, defaulting to div. */
   as?: T
 }

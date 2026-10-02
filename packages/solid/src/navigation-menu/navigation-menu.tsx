@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import type { NavigationMenuOptions } from '@xenon-ui/core/navigation-menu'
 import { navigationMenu } from '@xenon-ui/core/navigation-menu'
 import type { AnyPart } from '@xenon-ui/core'
@@ -26,11 +27,9 @@ import { FloatingViewport } from '../internal/floating-viewport'
 import type { FloatingViewportProps } from '../internal/floating-viewport'
 
 /** Polymorphic host attributes. Custom components must forward attributes and refs. */
-type Host<T extends ValidComponent> = ComponentProps<T> & {
+type Host<T extends ValidComponent> = Omit<ComponentProps<T>, 'as'> & {
   /** Host tag or forwarding component; defaults depend on the part. */
   as?: T
-  /** Receives the native host used for registration and geometry. */
-  ref?: (element: HTMLElement) => void
 }
 type DismissPolicy = Pick<
   FloatingLayerOptions,
@@ -298,7 +297,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       component={own.as ?? 'nav'}
       ref={(el: HTMLElement) => {
         setRoot(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...spread(result().parts.root, { 'aria-label': 'Main navigation', ...rest })}
     >
@@ -349,29 +348,39 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
   const item = useContext(ItemContext)
   if (!item) throw new Error('NavigationMenu.Trigger must be rendered inside NavigationMenu.Item')
   const own = props as Host<'button'>
-  const entry: Entry = { value: item, disabled: () => !!own.disabled }
+  const entry: Entry = { value: item, disabled: () => booleanAttribute(own.disabled) }
   if (own.id) context.claim('trigger', item(), own.id)
   onCleanup(context.register(entry))
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
   const part = () => {
-    const original = context.result().parts.trigger(item(), !!own.disabled)
+    const original = context.result().parts.trigger(item(), booleanAttribute(own.disabled))
     return {
       attrs: {
         ...original.attrs,
         'aria-controls': context.association(
-          () => context.result().parts.trigger(item(), !!own.disabled).attrs['aria-controls']
+          () =>
+            context.result().parts.trigger(item(), booleanAttribute(own.disabled)).attrs[
+              'aria-controls'
+            ]
         ),
       },
       on: {
         ...original.on,
         pointerenter(event: PointerEvent) {
-          if (event.pointerType === 'mouse' && !own.disabled) context.enter(item())
+          if (event.pointerType === 'mouse' && !booleanAttribute(own.disabled))
+            context.enter(item())
         },
         pointerleave(event: PointerEvent) {
           if (event.pointerType === 'mouse') context.leave()
         },
         keydown(event: KeyboardEvent) {
-          if (own.disabled || event.altKey || event.ctrlKey || event.metaKey || event.isComposing)
+          if (
+            booleanAttribute(own.disabled) ||
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.isComposing
+          )
             return
           if (
             event.key ===
@@ -402,7 +411,7 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
       component={own.as ?? 'button'}
       ref={(el: HTMLElement) => {
         entry.element = el
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...spread(part(), rest)}
     >
@@ -507,7 +516,7 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(el: HTMLElement) => {
         context.setPanel(item()!, el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
       {...spread(
         {
@@ -639,7 +648,7 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       {...rest}
       ref={(el) => {
         setElement(el)
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
       popover="manual"
       hidden={!open()}
@@ -694,7 +703,7 @@ export function NavigationMenuArrow(props: Host<'div'>): JSX.Element {
       component={props.as ?? 'div'}
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
       {...positioner.arrowProps()}
       {...rest}

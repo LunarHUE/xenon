@@ -1,15 +1,19 @@
-import type { FieldOptions } from '@xenon-ui/core'
+import type { FieldOptions as CoreFieldOptions } from '@xenon-ui/core'
 import { field } from '@xenon-ui/core'
 import type { PartProps } from '@xenon-ui/core'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, untrack } from 'solid-js'
 
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { FieldContext, tokens } from './context'
 import type { FieldContextValue } from './context'
 import { FieldControl, FieldDescription, FieldError, FieldLabel } from './parts'
 import { spread } from '../spread'
 import { serverAssociations } from './server-associations'
+
+type FieldOptions = NativeBooleanAttributes<CoreFieldOptions>
 
 /** Field-owned state and ID inputs inherited by the public root props. */
 interface Own extends Pick<
@@ -19,25 +23,25 @@ interface Own extends Pick<
   /** Initial base for generated part IDs, captured once; not forwarded as the root element ID. Omission generates a unique base. */
   id?: string
   /** Shared disabled flag inherited by controls and styling hooks. Defaults to false; literal fieldset roots are disabled natively. */
-  disabled?: FieldOptions['disabled']
+  disabled?: JSX.BooleanAttribute
   /** Shared required flag inherited by controls; defaults to false. Does not set a root required attribute. */
-  required?: FieldOptions['required']
+  required?: JSX.BooleanAttribute
   /** Shared readonly flag inherited by controls; defaults to false. */
-  readonly?: FieldOptions['readonly']
+  readonly?: JSX.BooleanAttribute
   /** Shared invalid flag controlling error visibility and control ARIA state; defaults to false. */
   invalid?: FieldOptions['invalid']
   /** Default form name for controls that support it; a control name overrides it. */
   name?: FieldOptions['name']
   /** Receives the root host once per distinct element; custom hosts must forward the ref. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic root props; owned field settings replace matching inherited host props. */
 export type FieldProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Root host, defaulting to div with group role. Literal fieldset uses native disabled semantics and omits that role. */
     as?: T
   }
@@ -121,9 +125,9 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   const compute = () =>
     field({
       ids: { ...ids, description: described(), error: errored() },
-      disabled: own.disabled,
-      required: own.required,
-      readonly: own.readonly,
+      disabled: booleanAttribute(own.disabled),
+      required: booleanAttribute(own.required),
+      readonly: booleanAttribute(own.readonly),
       invalid: own.invalid,
       name: own.name,
       hasDescription: described() !== undefined,
@@ -170,7 +174,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   const element = (

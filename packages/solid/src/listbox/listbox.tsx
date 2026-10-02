@@ -1,5 +1,5 @@
 import { listbox, getListboxItemId } from '@xenon-ui/core/listbox'
-import type { ListboxOptions, ListboxValue } from '@xenon-ui/core/listbox'
+import type { ListboxOptions as CoreListboxOptions, ListboxValue } from '@xenon-ui/core/listbox'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -13,7 +13,11 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { spread } from '../spread'
+
+type ListboxOptions = NativeBooleanAttributes<CoreListboxOptions>
 
 /**
  * Listbox state, navigation, and host configuration.
@@ -38,14 +42,14 @@ interface Own extends Omit<
   /** Initial uncontrolled active identity. */
   defaultActiveValue?: ListboxOptions['activeValue']
   /** Receives the rendered host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic listbox root. Supply an accessible name and unique string values. */
 export type ListboxProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Root host; defaults to div. Custom hosts must forward attributes and refs. */
     as?: T
   }
@@ -56,16 +60,16 @@ interface ItemOwn {
   /** Searchable label, otherwise current host text content or value. */
   textValue?: string
   /** Skip this option during navigation and selection. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
   /** Receives the rendered option host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Polymorphic option host; author handlers may cancel core behavior. */
 export type ListboxItemProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof ItemOwn | 'as'
+  Exclude<keyof ItemOwn, 'ref'> | 'as'
 > &
-  ItemOwn & {
+  Omit<ItemOwn, 'ref'> & {
     /** Option host; defaults to div. */
     as?: T
   }
@@ -151,8 +155,8 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
       value: own.value ?? value(),
       activeValue: own.activeValue ?? activeValue(),
       selectionMode: own.selectionMode,
-      disabled: own.disabled,
-      readonly: own.readonly,
+      disabled: booleanAttribute(own.disabled),
+      readonly: booleanAttribute(own.readonly),
       loop: own.loop,
       orientation: own.orientation,
       dir: own.dir ?? ambient(),
@@ -215,7 +219,7 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
       component={own.as ?? 'div'}
       ref={(node: HTMLElement) => {
         host = node
-        own.ref?.(node)
+        setRef(own.ref, node)
       }}
       {...spread(engine().parts.root, { ...rest })}
     >
@@ -242,7 +246,7 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
   const children = createMemo(() => props.children as JSX.Element)
   const entry: Entry = {
     value: () => own.value,
-    disabled: () => own.disabled ?? false,
+    disabled: () => booleanAttribute(own.disabled),
     text: () => own.textValue ?? entry.el?.textContent ?? own.value,
   }
   onSettled(() => context.register(entry))
@@ -263,7 +267,7 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
       component={own.as ?? 'div'}
       ref={(node: HTMLElement) => {
         entry.el = node
-        own.ref?.(node)
+        setRef(own.ref, node)
       }}
       {...spread(part(), { ...rest })}
     >

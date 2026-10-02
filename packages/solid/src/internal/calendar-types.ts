@@ -72,16 +72,16 @@ export interface CalendarOwnProps<T, Selection = T> extends Omit<
   /** Explicit horizontal direction; otherwise sample the nearest dir attribute after mount. */
   dir?: CalendarBaseOptions<T>['dir']
   /** Receives the calendar root host. */
-  ref?: (element: HTMLElement) => void
+  ref?: unknown
   /** Static compound parts or a callback receiving reactive calendar state. */
   children?: JSX.Element | ((calendar: CalendarRenderState<T, Selection>) => JSX.Element)
 }
 /** Polymorphic calendar props before choosing a required or default adapter. */
 export type CalendarBaseProps<T, Selection, As extends ValidComponent> = Omit<
   ComponentProps<As>,
-  keyof CalendarOwnProps<T, Selection> | 'as' | 'onChange'
+  Exclude<keyof CalendarOwnProps<T, Selection>, 'ref'> | 'as' | 'onChange'
 > &
-  CalendarOwnProps<T, Selection> & {
+  Omit<CalendarOwnProps<T, Selection>, 'ref'> & {
     /** Root host, defaulting to div; custom components must forward props and ref. */
     as?: As
   }
@@ -102,9 +102,7 @@ export type CalendarAdapterProps<T> =
         adapter: DateAdapter<T>
       }
 /** Native host attributes with the usual polymorphic escape hatch. */
-export type CalendarHostProps<As extends ValidComponent> = ComponentProps<As> & {
+export type CalendarHostProps<As extends ValidComponent> = Omit<ComponentProps<As>, 'as'> & {
   /** Native tag or a component forwarding its props and ref. */
   as?: As
-  /** Receives the rendered host. */
-  ref?: (element: HTMLElement) => void
 }

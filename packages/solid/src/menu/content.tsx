@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import { isServer } from '@solidjs/web'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import { Dynamic } from '@solidjs/web'
@@ -29,17 +30,12 @@ import type { FloatingViewportProps } from '../internal/floating-viewport'
  * on Menu instead. Default placement is bottom/start for a root and right/start
  * for an LTR submenu or left/start for an RTL submenu.
  */
-export type MenuPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions | 'ref'> &
-  Omit<PositionerOptions, 'strategy'> & {
-    /** Receives the manual-popover wrapper after its internal element ref is recorded. */
-    ref?: (el: HTMLDivElement) => void
-  }
+export type MenuPositionerProps = Omit<ComponentProps<'div'>, keyof PositionerOptions> &
+  Omit<PositionerOptions, 'strategy'> & {}
 /** Polymorphic menu surface props; the surrounding Positioner owns native presentation. */
-export type MenuContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type MenuContentProps<T extends ValidComponent = 'div'> = Omit<ComponentProps<T>, 'as'> & {
   /** Rendered menu host, defaulting to div; custom components must forward props and ref. */
   as?: T
-  /** Receives the content host after the menu context records it. */
-  ref?: (el: HTMLElement) => void
 }
 /** Positioner controller supplied to its descendant content for resolved placement hooks. */
 const PositionContext = createContext<
@@ -218,7 +214,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
         data-state={context.open() ? 'open' : 'closed'}
         ref={(el) => {
           setElement(el)
-          props.ref?.(el)
+          setRef(props.ref, el)
         }}
       >
         {children()}
@@ -263,7 +259,7 @@ export function MenuContent<T extends ValidComponent = 'div'>(
     id?: string
     as?: ValidComponent
     children?: JSX.Element
-    ref?: (el: HTMLElement) => void
+    ref?: unknown
     'aria-label'?: string
   }
   const id = createUniqueId()
@@ -321,7 +317,7 @@ export function MenuContent<T extends ValidComponent = 'div'>(
       {...spread(part(), { ...rest, id: own.id ?? id })}
       ref={(el: HTMLElement) => {
         context.setContent(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {children()}
@@ -342,10 +338,7 @@ export function MenuViewport(props: MenuViewportProps): JSX.Element {
 }
 
 /** Decorative arrow props. Its dimensions participate in positioner geometry. */
-export type MenuArrowProps = Omit<ComponentProps<'div'>, 'ref'> & {
-  /** Receives the decorative arrow host. */
-  ref?: (element: HTMLDivElement) => void
-}
+export type MenuArrowProps = ComponentProps<'div'> & {}
 /** Registers a decorative arrow with the surrounding Menu.Positioner. */
 export function MenuArrow(props: MenuArrowProps): JSX.Element {
   const positioner = useContext(PositionContext)
@@ -361,7 +354,7 @@ export function MenuArrow(props: MenuArrowProps): JSX.Element {
       {...rest}
       ref={(element) => {
         positioner.setArrow(element)
-        props.ref?.(element)
+        setRef(props.ref, element)
       }}
     >
       {children()}

@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { AnyPart } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
@@ -19,13 +21,13 @@ interface ButtonOwn {
   /** Keep disabled buttons in the navigation order. Defaults to true; false excludes them. */
   focusableWhenDisabled?: boolean
   /** Receives the actual item host, used for navigation focus and ordering. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Toolbar-owned link ref, replacing the native host ref prop. */
 interface LinkOwn {
   /** Receives the anchor registered for navigation. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Separator props whose defaults depend on the enclosing toolbar. */
@@ -33,7 +35,7 @@ interface SeparatorOwn {
   /** Explicit separator axis; omission chooses the axis perpendicular to the toolbar. */
   orientation?: 'horizontal' | 'vertical'
   /** Forwarded to the Separator host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Group-owned inherited policy and ref. */
@@ -41,28 +43,29 @@ interface GroupOwn {
   /** OR-combined with the enclosing disabled state for descendant buttons. Defaults to false. */
   disabled?: boolean
   /** Receives the rendered group host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic host props plus toolbar button policy; see ToolbarButton for inherited behavior. */
 export type ToolbarButtonProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof ButtonOwn | 'as'
+  Exclude<keyof ButtonOwn, 'ref'> | 'as'
 > &
-  ButtonOwn & {
+  NativeBooleanAttributes<Omit<ButtonOwn, 'ref'>> & {
     /** Host forwarded to Button, defaulting to button; custom components must forward props/ref. */
     as?: T
   }
 
 /** Anchor props for a toolbar link; no polymorphic as prop or inherited disabled option. */
-export type ToolbarLinkProps = Omit<ComponentProps<'a'>, keyof LinkOwn | 'as'> & LinkOwn
+export type ToolbarLinkProps = Omit<ComponentProps<'a'>, Exclude<keyof LinkOwn, 'ref'> | 'as'> &
+  Omit<LinkOwn, 'ref'>
 
 /** Polymorphic separator props with a toolbar-relative default orientation. */
 export type ToolbarSeparatorProps<T extends ValidComponent = 'hr'> = Omit<
   ComponentProps<T>,
-  keyof SeparatorOwn | 'as'
+  Exclude<keyof SeparatorOwn, 'ref'> | 'as'
 > &
-  SeparatorOwn & {
+  Omit<SeparatorOwn, 'ref'> & {
     /** Host forwarded to Separator, defaulting to hr. */
     as?: T
   }
@@ -70,9 +73,9 @@ export type ToolbarSeparatorProps<T extends ValidComponent = 'hr'> = Omit<
 /** Polymorphic grouping props; remaining attributes override generated group semantics. */
 export type ToolbarGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof GroupOwn | 'as'
+  Exclude<keyof GroupOwn, 'ref'> | 'as'
 > &
-  GroupOwn & {
+  NativeBooleanAttributes<Omit<GroupOwn, 'ref'>> & {
     /** Group host or forwarding component, defaulting to div. */
     as?: T
   }
@@ -92,7 +95,7 @@ export function ToolbarButton<T extends ValidComponent = 'button'>(
   const rest = omit(props as Record<string, unknown>, 'disabled', 'focusableWhenDisabled', 'ref')
   const context = useToolbar('Toolbar.Button')
 
-  const disabled = () => context.disabled() || (own.disabled ?? false)
+  const disabled = () => context.disabled() || booleanAttribute(own.disabled)
   const focusableWhenDisabled = () => own.focusableWhenDisabled ?? true
   const entry: ToolbarEntry = {
     el: null,
@@ -101,7 +104,7 @@ export function ToolbarButton<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -132,7 +135,7 @@ export function ToolbarLink(props: ToolbarLinkProps): JSX.Element {
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -179,7 +182,7 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
 
   const value: ToolbarContextValue = {
     ...context,
-    disabled: () => context.disabled() || (own.disabled ?? false),
+    disabled: () => context.disabled() || booleanAttribute(own.disabled),
   }
 
   const content = createMemo(() => (
@@ -195,7 +198,7 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
     on: {},
   })
 
-  const ref = (node: HTMLElement) => own.ref?.(node)
+  const ref = (node: HTMLElement) => setRef(own.ref, node)
 
   return (
     <Dynamic

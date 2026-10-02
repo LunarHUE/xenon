@@ -23,7 +23,7 @@ export default function ShareLink() {
             Anyone with the link can view it.
           </Popover.Description>
           <input
-            readOnly
+            readonly
             aria-label="Draft link"
             value="https://xenon.dev/d/q3-roadmap"
             class="mt-2 border border-neutral-300 bg-neutral-50 px-2 py-1.5 font-mono

@@ -5,7 +5,7 @@ import { createMemo, omit } from 'solid-js'
 import { spread } from '../spread'
 
 /** Navigation landmark host props. */
-export type BreadcrumbsProps<T extends ValidComponent = 'nav'> = ComponentProps<T> & {
+export type BreadcrumbsProps<T extends ValidComponent = 'nav'> = Omit<ComponentProps<T>, 'as'> & {
   /** Root host, default nav. Author ARIA naming overrides the default Breadcrumbs label. */
   as?: T
 }

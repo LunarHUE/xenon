@@ -1,6 +1,9 @@
 import type { PartProps } from '@xenon-ui/core'
 import { combobox } from '@xenon-ui/core/combobox'
-import type { ComboboxItem as Option, ComboboxOptions } from '@xenon-ui/core/combobox'
+import type {
+  ComboboxItem as Option,
+  ComboboxOptions as CoreComboboxOptions,
+} from '@xenon-ui/core/combobox'
 import { isServer } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { serverAssociations } from '../field/server-associations'
@@ -19,12 +22,16 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { createPresence } from '../internal/presence'
 import { SelectionPopup, useSelectionPositioner } from '../internal/selection-popup'
 import type { SelectionPopupProps, SelectionPopupSource } from '../internal/selection-popup'
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
+
+type ComboboxOptions = NativeBooleanAttributes<CoreComboboxOptions>
 
 /**
  * Editable single-selection root options. Items remain available while the popup is closed.
@@ -175,9 +182,9 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
   const [trigger, setTrigger] = createSignal<HTMLButtonElement>()
   const [content, setContent] = createSignal<HTMLElement>()
   const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
-  const disabled = () => !!props.disabled || !!field?.disabled()
-  const readonly = () => !!props.readonly || !!field?.readonly()
-  const required = () => !!props.required || !!field?.required()
+  const disabled = () => booleanAttribute(props.disabled) || !!field?.disabled()
+  const readonly = () => booleanAttribute(props.readonly) || !!field?.readonly()
+  const required = () => booleanAttribute(props.required) || !!field?.required()
   const open = () => !disabled() && !readonly() && (props.open ?? expanded())
   const text = () => props.inputValue ?? query()
   const changeText = (next: string) => {
@@ -387,10 +394,7 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
 }
 
 /** Native text-input props; root owns query, selection, required, and form name. */
-export type ComboboxInputProps = Omit<ComponentProps<'input'>, 'value' | 'name' | 'ref'> & {
-  /** Receives the focus and positioning anchor. */
-  ref?: (el: HTMLInputElement) => void
-}
+export type ComboboxInputProps = Omit<ComponentProps<'input'>, 'value' | 'name'>
 /** Editable focus anchor; native editing and author-canceled events remain intact. */
 function ComboboxInput(props: ComboboxInputProps): JSX.Element {
   const context = useCombobox()
@@ -444,7 +448,7 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
       {...spread(part(), attributes())}
       ref={(el) => {
         context.setInput(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
     />
   )
@@ -459,11 +463,10 @@ function ComboboxPositioner(props: ComboboxPositionerProps): JSX.Element {
 }
 
 /** Popup surface props; omitted children render the filtered items' text labels. */
-export type ComboboxContentProps = Omit<ComponentProps<'div'>, 'ref' | 'children'> & {
+export type ComboboxContentProps = Omit<ComponentProps<'div'>, 'children'> & {
   /** Static parts or a callback receiving the live filtered collection. */
   children?: ComboboxCollectionChildren
   /** Receives the listbox surface. */
-  ref?: (el: HTMLDivElement) => void
 }
 /** Listbox surface. Supply Item children for custom markup; unmatched items become hidden. */
 function ComboboxContent(props: ComboboxContentProps): JSX.Element {
@@ -491,7 +494,7 @@ function ComboboxContent(props: ComboboxContentProps): JSX.Element {
       ref={(el) => {
         context.setContent(el)
         context.source.life.ref(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
     >
       {props.children === undefined ? (
@@ -528,10 +531,7 @@ function ComboboxItem(props: ComboboxItemProps): JSX.Element {
 }
 
 /** Native trigger props; custom artwork is supplied through children. */
-export type ComboboxTriggerProps = Omit<ComponentProps<'button'>, 'ref'> & {
-  /** Receives the button anchor. */
-  ref?: (el: HTMLButtonElement) => void
-}
+export type ComboboxTriggerProps = ComponentProps<'button'>
 /** Button anchor in popup-input mode, otherwise an input-adjacent pointer toggle. */
 function ComboboxTrigger(props: ComboboxTriggerProps): JSX.Element {
   const context = useCombobox()
@@ -609,7 +609,7 @@ function ComboboxTrigger(props: ComboboxTriggerProps): JSX.Element {
       )}
       ref={(el) => {
         context.setTrigger(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
     >
       {props.children}
@@ -637,7 +637,7 @@ function ComboboxArrow(props: ComponentProps<'div'>): JSX.Element {
       {...rest}
       ref={(el) => {
         positioning.setArrow(el)
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     />
   )

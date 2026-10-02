@@ -1,3 +1,4 @@
+import { setRef } from '../internal/host'
 import { toast } from '@xenon-ui/core/toast'
 import { createToastSwipe } from '@xenon-ui/dom/toast'
 import type { ToastSwipeDirection } from '@xenon-ui/dom/toast'
@@ -33,14 +34,15 @@ interface Own<T> {
   /** Synchronous Escape hook; preventDefault cancels dismissal of this focused toast. */
   onEscapeKeyDown?: (event: KeyboardEvent) => void
   /** Receives the individual notification host. */
-  ref?: (element: HTMLElement) => void
+  ref?: unknown
 }
 /** Individual toast root props. Title, Description, Action and Close inherit this record. */
 export type ToastContentProps<T extends ValidComponent = 'div', Data = unknown> = Omit<
   ComponentProps<T>,
   keyof Own<Data> | 'as'
 > &
-  Own<Data> & {
+  Omit<Own<Data>, 'ref'> & {
+    ref?: ComponentProps<T>['ref']
     /** Rendered host, defaulting to div; custom components must forward attributes and ref. */
     as?: T
   }
@@ -254,7 +256,7 @@ export function ToastContent<T extends ValidComponent = 'div', Data = unknown>(
       ref={(host: HTMLElement) => {
         element = host
         presence.ref(host)
-        own.ref?.(host)
+        setRef(own.ref, host)
       }}
       {...spread(
         {

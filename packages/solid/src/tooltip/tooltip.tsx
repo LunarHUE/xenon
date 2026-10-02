@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon-ui/core/tooltip'
 import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon-ui/core/tooltip'
 import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
@@ -55,21 +56,19 @@ export type TooltipProps<T extends ValidComponent = 'div', Payload = unknown> = 
 > &
   TooltipBehaviorOptions & {
     /** Disables tooltip display without disabling the trigger's native action. */
-    disabled?: boolean
+    disabled?: JSX.BooleanAttribute
   }
 /** Native trigger props. Default button; custom hosts retain author role and tab order. */
-export type TooltipTriggerProps<
-  T extends ValidComponent = 'button',
-  Payload = unknown,
-> = ComponentProps<T> & {
+export type TooltipTriggerProps<T extends ValidComponent = 'button', Payload = unknown> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Native or custom host. Default button never submits a form. */
   as?: T
   /** Connect to a tooltip outside the current Solid ancestry. */
   handle?: TooltipHandle<Payload>
   /** Data supplied when this trigger opens a shared tooltip. */
   payload?: NoInfer<Payload>
-  /** Receives the actual positioning anchor. */
-  ref?: (node: HTMLElement) => void
 }
 /** Descriptive content attributes. Author aria-label is retained without changing the tooltip role. */
 export type TooltipContentProps<T extends ValidComponent = 'div'> = PopoverContentProps<T>
@@ -128,10 +127,10 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
   const [internal, setInternal] = createSignal(untrack(() => props.defaultOpen) ?? false)
   const [instant, setInstant] = createSignal(false)
   let rootElement: HTMLElement | undefined
-  const open = () => !props.disabled && (props.open ?? internal())
+  const open = () => !booleanAttribute(props.disabled) && (props.open ?? internal())
   const behavior = () => resolveTooltipBehavior(props, provider?.behavior())
   const change = (next: boolean) => {
-    if (next && props.disabled) return
+    if (next && booleanAttribute(props.disabled)) return
     if (!next) context.intent.cancel()
     if (untrack(open) === next) return
     if (props.open === undefined) setInternal(next)
@@ -140,7 +139,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
   const context: Context = {
     behavior,
     open,
-    disabled: () => !!props.disabled,
+    disabled: () => booleanAttribute(props.disabled),
     instant,
     setInstant,
     intent: undefined!,
@@ -177,7 +176,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
     onClose: () => change(false),
   })
   createEffect(
-    () => [!!props.disabled, behavior()],
+    () => [booleanAttribute(props.disabled), behavior()],
     () => context.intent.refresh()
   )
   createEffect(open, (visible) => {
@@ -225,7 +224,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         {...rest}
         ref={(node: HTMLElement) => {
           rootElement = node
-          ;(props as { ref?: (node: HTMLElement) => void }).ref?.(node)
+          setRef((props as { ref?: unknown }).ref, node)
         }}
         open={open()}
         onOpenChange={change}
@@ -277,8 +276,8 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
     id?: string
     as?: ValidComponent
     children?: JSX.Element
-    ref?: (node: HTMLElement) => void
-    disabled?: boolean
+    ref?: unknown
+    disabled?: JSX.BooleanAttribute
     'aria-describedby'?: string
   }
   const entry: Entry = { id: () => own.id ?? id, payload: () => props.payload }
@@ -352,7 +351,7 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
     },
   })
   createEffect(
-    () => !!own.disabled,
+    () => booleanAttribute(own.disabled),
     (disabled) => {
       if (disabled && popup()?.activeTrigger(entry)) context()?.intent.dismiss()
     }
@@ -367,7 +366,7 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
       ref={(node: HTMLElement) => {
         entry.element = node
         entries.set(node, entry)
-        own.ref?.(node)
+        setRef(own.ref, node)
       }}
     >
       {own.children}

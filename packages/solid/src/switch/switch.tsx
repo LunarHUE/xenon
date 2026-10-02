@@ -9,9 +9,9 @@ import type { CheckedOwn } from '../internal/checked'
  */
 export type SwitchProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
-  keyof CheckedOwn | 'as'
+  Exclude<keyof CheckedOwn, 'ref'> | 'as'
 > &
-  CheckedOwn & {
+  Omit<CheckedOwn, 'ref'> & {
     /** Host to render, defaulting to input. Only literal input/button choose native semantics; custom components must forward props/ref. */
     as?: T
   }

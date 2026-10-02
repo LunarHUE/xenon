@@ -1,4 +1,4 @@
-import type { RadioGroupOptions } from '@xenon-ui/core'
+import type { RadioGroupOptions as CoreRadioGroupOptions } from '@xenon-ui/core'
 import { radioGroup } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
 import type { RadioValue } from '@xenon-ui/core'
@@ -6,10 +6,14 @@ import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
 
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { RadioGroupContext } from './context'
 import type { RadioGroupContextValue, RadioGroupEntry } from './context'
 import { RadioGroupItem } from './item'
 import { spread } from '../spread'
+
+type RadioGroupOptions = NativeBooleanAttributes<CoreRadioGroupOptions>
 
 /** Selection, navigation, and form options owned by the group adapter. */
 interface Own extends Omit<
@@ -29,15 +33,15 @@ interface Own extends Omit<
   /** Horizontal navigation direction. Omission uses LTR initially, then reads ancestor/document dir on settlement. */
   dir?: RadioGroupOptions['direction']
   /** Receives the rendered group element. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Group options combined with the selected host's props; owned options take precedence in the type. */
 export type RadioGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Rendered group host; defaults to div. */
     as?: T
   }
@@ -116,9 +120,9 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
       orientation: own.orientation ?? 'vertical',
       direction: own.dir ?? ambient(),
       loop: own.loop,
-      disabled: own.disabled,
-      readonly: own.readonly,
-      required: own.required,
+      disabled: booleanAttribute(own.disabled),
+      readonly: booleanAttribute(own.readonly),
+      required: booleanAttribute(own.required),
       invalid: own.invalid,
       describedBy: own['aria-describedby'],
       itemDisabled: (value) => entryFor(value)?.disabled() ?? false,
@@ -171,7 +175,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   /** Use the first registered native radio or mirror, including a null form owner. */

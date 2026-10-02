@@ -82,3 +82,27 @@ test('touch hold opens after 500ms and movement, release, scroll, and unmount ca
   flush()
   expect(region).toHaveAttribute('data-state', 'closed')
 })
+
+test('empty disabled attributes block context opening and nested refs attach', () => {
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <ContextMenu>
+      <ContextMenu.Trigger disabled="" ref={refs}>
+        Region
+      </ContextMenu.Trigger>
+      <ContextMenu.Positioner>
+        <ContextMenu.Content aria-label="Actions">
+          <ContextMenu.Item>Copy</ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Positioner>
+    </ContextMenu>
+  ))
+  const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true })
+  view.getByText('Region').dispatchEvent(event)
+  flush()
+  expect(host).toHaveBeenCalledTimes(2)
+  expect(view.getByText('Region')).toHaveAttribute('data-disabled')
+  expect(view.queryByRole('menu')).toBeNull()
+  expect(event.defaultPrevented).toBe(false)
+})

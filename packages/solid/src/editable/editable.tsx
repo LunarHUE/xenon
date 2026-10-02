@@ -1,8 +1,11 @@
 import type { FieldContextValue } from '../field/context'
 import { editable } from '@xenon-ui/core/editable'
-import type { EditableOptions, EditableResult } from '@xenon-ui/core/editable'
+import type {
+  EditableOptions as CoreEditableOptions,
+  EditableResult,
+} from '@xenon-ui/core/editable'
 import { Dynamic } from '@solidjs/web'
-import type { JSX } from '@solidjs/web'
+import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,
   createEffect,
@@ -16,12 +19,16 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { Field } from '../field/field'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { spread } from '../spread'
 
+type EditableOptions = NativeBooleanAttributes<CoreEditableOptions>
+
 /** Inline editor root settings and native wrapper attributes. Field state is combined with local flags. */
-export type EditableProps = Omit<JSX.HTMLAttributes<HTMLDivElement>, 'onSubmit' | 'onCancel'> &
+export type EditableProps = Omit<ComponentProps<'div'>, 'onSubmit' | 'onCancel'> &
   Omit<EditableOptions, 'draft' | 'onEdit' | 'onSubmit' | 'onCancel'> & {
     /** Committed text; undefined delegates ownership to internal state. */
     value?: EditableOptions['value']
@@ -93,8 +100,8 @@ function EditableRoot(props: EditableProps): JSX.Element {
   const [active, setActive] = createSignal(untrack(() => props.defaultEditing) ?? false)
   const editing = () => (props.editing === undefined ? active() : props.editing)
   const [draft, setDraft] = createSignal(untrack(value))
-  const disabled = () => !!props.disabled || !!outer?.disabled()
-  const readonly = () => !!props.readonly || !!outer?.readonly()
+  const disabled = () => booleanAttribute(props.disabled) || !!outer?.disabled()
+  const readonly = () => booleanAttribute(props.readonly) || !!outer?.readonly()
   let before = untrack(value)
   let restore = false
   const changeEditing = (next: boolean) => {
@@ -116,7 +123,7 @@ function EditableRoot(props: EditableProps): JSX.Element {
         editing: editing(),
         disabled: disabled(),
         readonly: readonly(),
-        required: props.required || outer?.required(),
+        required: booleanAttribute(props.required) || outer?.required(),
         invalid: props.invalid || outer?.invalid(),
         onEdit() {
           before = value()
@@ -232,7 +239,7 @@ function EditableRoot(props: EditableProps): JSX.Element {
         name={props.name ?? outer?.name()}
         disabled={disabled()}
         readonly={readonly()}
-        required={props.required || outer?.required()}
+        required={booleanAttribute(props.required) || outer?.required()}
         invalid={props.invalid || outer?.invalid()}
       >
         {props.children}
@@ -243,7 +250,7 @@ function EditableRoot(props: EditableProps): JSX.Element {
 }
 
 /** Preview attributes. Its default text is committed value or the placeholder. */
-export type EditablePreviewProps = JSX.HTMLAttributes<HTMLSpanElement>
+export type EditablePreviewProps = ComponentProps<'span'>
 /** Renders the keyboard-activatable preview without entering editing on focus alone. */
 export function EditablePreview(props: EditablePreviewProps): JSX.Element {
   const context = useEditable()
@@ -270,7 +277,7 @@ export function EditablePreview(props: EditablePreviewProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         context.preview = node
-        if (typeof props.ref === 'function') props.ref(node)
+        setRef(props.ref, node)
       }}
     >
       {props.children ?? (context.result().state.value || context.props.placeholder || 'Edit')}
@@ -279,12 +286,8 @@ export function EditablePreview(props: EditablePreviewProps): JSX.Element {
 }
 
 /** Native editor attributes; textarea is selected with as. */
-export type EditableInputProps = Omit<JSX.InputHTMLAttributes<HTMLInputElement>, 'ref'> & {
-  /** Native text input by default, or multiline textarea. */
-  as?: 'input' | 'textarea'
-  /** Receives the actual native input or textarea. */
-  ref?: (node: HTMLInputElement | HTMLTextAreaElement) => void
-}
+export type EditableInputProps =
+  (ComponentProps<'input'> & { as?: 'input' }) | (ComponentProps<'textarea'> & { as: 'textarea' })
 /** Keeps a native textbox mounted in both modes, with field naming and form ownership. */
 export function EditableInput(props: EditableInputProps): JSX.Element {
   const context = useEditable()
@@ -340,7 +343,7 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
   })
   const ref = (node: HTMLInputElement | HTMLTextAreaElement) => {
     context.input = node
-    props.ref?.(node)
+    setRef(props.ref, node)
   }
   return (
     <Dynamic
@@ -351,7 +354,7 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
   )
 }
 /** Native action button props; children supply visible labels. */
-export type EditableTriggerProps = JSX.ButtonHTMLAttributes<HTMLButtonElement>
+export type EditableTriggerProps = ComponentProps<'button'>
 /** Creates one of the editor's native action buttons. */
 function trigger(kind: 'editTrigger' | 'submitTrigger' | 'cancelTrigger') {
   return (props: EditableTriggerProps): JSX.Element => {

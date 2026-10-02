@@ -205,3 +205,21 @@ test('readonly and author-canceled input restore the visible DOM', () => {
   ).toBe('3')
   expect(changed).not.toHaveBeenCalled()
 })
+
+test('preserves native root class and author association removal', () => {
+  const { container } = render(() => (
+    <NumberField class={['numeric', { active: true }]} title="Native root">
+      <NumberField.Label for={undefined}>Value</NumberField.Label>
+      <NumberField.Input />
+      <NumberField.IncrementTrigger aria-controls={undefined}>
+        Increase
+      </NumberField.IncrementTrigger>
+      <NumberField.DecrementTrigger aria-controls={false}>Decrease</NumberField.DecrementTrigger>
+    </NumberField>
+  ))
+  expect(container.firstElementChild).toHaveClass('numeric', 'active')
+  expect(container.firstElementChild).toHaveAttribute('title', 'Native root')
+  expect(container.querySelector('label')).not.toHaveAttribute('for')
+  for (const button of container.querySelectorAll('button'))
+    expect(button).not.toHaveAttribute('aria-controls')
+})

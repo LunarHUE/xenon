@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@solidjs/testing-library'
-import { flush } from 'solid-js'
+import { createSignal, flush } from 'solid-js'
 import { describe, expect, test, vi } from 'vitest'
 
 import { Checkbox } from './checkbox'
@@ -148,4 +148,59 @@ describe('<Checkbox />', () => {
     render(() => <Checkbox aria-label="Ready" ref={(node) => (el = node)} />)
     expect(el?.tagName).toBe('INPUT')
   })
+})
+
+test('empty native flags govern behavior and ref arrays receive the host', async () => {
+  const [disabled, setDisabled] = createSignal<boolean | '' | undefined>('')
+  let first: HTMLInputElement | undefined
+  let second: HTMLInputElement | undefined
+  const { getByRole } = render(() => (
+    <Checkbox
+      disabled={disabled()}
+      required=""
+      readonly=""
+      ref={[(el) => (first = el), (el) => (second = el)]}
+      aria-label="Native flags"
+    />
+  ))
+  await settle()
+  const input = getByRole('checkbox') as HTMLInputElement
+  expect(input.disabled).toBe(true)
+  expect(input.required).toBe(true)
+  expect(input).toHaveAttribute('aria-readonly', 'true')
+  expect(first).toBe(input)
+  expect(second).toBe(input)
+  setDisabled(false)
+  await settle()
+  expect(input.disabled).toBe(false)
+})
+
+test('native bound change handlers can cancel changes and preserve this', async () => {
+  const receivers: EventTarget[] = []
+  const changed = vi.fn()
+  const { getByRole } = render(() => (
+    <Checkbox
+      aria-label="Tuple"
+      onCheckedChange={changed}
+      onChange={[
+        function (this: HTMLInputElement, cancel: boolean, event) {
+          receivers.push(this)
+          if (cancel) event.preventDefault()
+        },
+        true,
+      ]}
+    />
+  ))
+  const input = getByRole('checkbox') as HTMLInputElement
+  input.checked = true
+  input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }))
+  await settle()
+  expect(receivers).toEqual([input])
+  expect(changed).not.toHaveBeenCalled()
+  expect(input.checked).toBe(false)
+})
+test('empty autofocus focuses the native checked host', async () => {
+  const { getByRole } = render(() => <Checkbox aria-label="Autofocus" autofocus="" />)
+  await settle()
+  expect(getByRole('checkbox')).toHaveFocus()
 })

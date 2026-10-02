@@ -7,11 +7,9 @@ import { spread } from '../spread'
 import { useToastContent } from './context'
 
 /** Shared polymorphic text host props. */
-type TextHost<T extends ValidComponent> = ComponentProps<T> & {
+type TextHost<T extends ValidComponent> = Omit<ComponentProps<T>, 'as'> & {
   /** Rendered host or a component forwarding attributes and ref. */
   as?: T
-  /** Receives the rendered text host. */
-  ref?: (element: HTMLElement) => void
 }
 /** Title text attributes; omitted children use the current record's title. */
 export type ToastTitleProps<T extends ValidComponent = 'div'> = TextHost<T>

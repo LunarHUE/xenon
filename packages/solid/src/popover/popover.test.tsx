@@ -368,3 +368,24 @@ test('Popover Viewport wires trigger changes into inert previous content', async
     else delete (Element.prototype as { getAnimations?: unknown }).getAnimations
   }
 })
+
+test('composes nested content refs and removes authored undefined associations', () => {
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Popover defaultOpen>
+      <Popover.Trigger>Open</Popover.Trigger>
+      <Popover.Positioner>
+        <Popover.Content ref={refs} aria-label="Example">
+          <Popover.Title id={undefined}>Title</Popover.Title>
+          <Popover.Description id={undefined}>Description</Popover.Description>
+          <Popover.Close aria-label={undefined}>Close</Popover.Close>
+        </Popover.Content>
+      </Popover.Positioner>
+    </Popover>
+  ))
+  expect(host).toHaveBeenCalledWith(view.getByRole('dialog', { hidden: true }))
+  expect(view.getByText('Title')).not.toHaveAttribute('id')
+  expect(view.getByRole('dialog', { hidden: true })).not.toHaveAttribute('aria-describedby')
+  expect(view.getByText('Close')).not.toHaveAttribute('aria-label')
+})

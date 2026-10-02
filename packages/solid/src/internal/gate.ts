@@ -1,17 +1,10 @@
-/** Author callback whose event type is erased while installing the interaction gate. */
-type Handler = (event: Event) => void
+import { callEventHandler, wrapEventHandler } from './events'
 
-/** Exact prop spellings whose callbacks are suppressed for noninteractive controls. */
-const pointerHandlers = [
-  'onClick',
-  'onAuxClick',
-  'onDblClick',
-  'onPointerDown',
-  'onMouseDown',
-] as const
+/** Event names suppressed for noninteractive controls. */
+const pointerHandlers = ['onclick', 'onauxclick', 'ondblclick', 'onpointerdown', 'onmousedown']
 
-/** Exact keyboard prop spellings gated only for activation keys. */
-const keyHandlers = ['onKeyDown', 'onKeyUp'] as const
+/** Keyboard events gated only for activation keys. */
+const keyHandlers = ['onkeydown', 'onkeyup']
 
 /** Keys treated as activation by the author-handler gate. */
 function isActivationKey(key: string): boolean {
@@ -24,7 +17,8 @@ function isActivationKey(key: string): boolean {
  * @remarks
  * Gates onClick, onAuxClick, onDblClick, onPointerDown, and onMouseDown entirely.
  * Gates onKeyDown/onKeyUp only for Enter and Space; other keys still reach the
- * author. Only these exact spellings and function values are wrapped. Apply once
+ * author. Event names are case-insensitive after the lowercase on prefix, and
+ * handlers use Solid's native function and bound-tuple forms. Apply once
  * to a fresh author-props copy before merging core handlers with spread.
  * Wrappers do not prevent defaults or stop propagation; core listeners own those
  * decisions. Reapplying the helper to the same object nests wrappers.
@@ -33,20 +27,18 @@ function isActivationKey(key: string): boolean {
  * @param interactive - Read during every wrapped event, so it can consult current reactive state.
  */
 export function gate(props: Record<string, unknown>, interactive: () => boolean): void {
-  for (const name of pointerHandlers) {
+  for (const name of Object.keys(props)) {
+    if (!name.startsWith('on')) continue
+    const eventName = name.toLowerCase()
+    const pointer = pointerHandlers.includes(eventName)
+    const keyboard = keyHandlers.includes(eventName)
+    if (!pointer && !keyboard) continue
     const user = props[name]
-    if (typeof user !== 'function') continue
-    const run = user as Handler
-    props[name] = (event: Event) => {
-      if (interactive()) run(event)
-    }
-  }
-  for (const name of keyHandlers) {
-    const user = props[name]
-    if (typeof user !== 'function') continue
-    const run = user as Handler
-    props[name] = (event: Event) => {
-      if (interactive() || !isActivationKey((event as KeyboardEvent).key)) run(event)
-    }
+    if (user == null) continue
+    props[name] = wrapEventHandler(user, (event: Event) => {
+      if (interactive() || (keyboard && !isActivationKey((event as KeyboardEvent).key))) {
+        callEventHandler(user, event)
+      }
+    })
   }
 }

@@ -4,6 +4,8 @@ import { Dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
+import { callEventHandler } from './events'
+import { booleanAttribute, setRef } from './host'
 import { useCheckboxGroup } from '../checkbox-group/context'
 import { tokens } from '../field/context'
 
@@ -21,11 +23,11 @@ export interface CheckedOwn {
   /** Reports each accepted next value after updating uncontrolled state. Controlled callers must update checked; initialization is silent. */
   onCheckedChange?: CheckboxOptions['onCheckedChange']
   /** Blocks changes and gated author activation handlers. OR-combined with Field disabled state; defaults to false. */
-  disabled?: CheckboxOptions['disabled']
+  disabled?: JSX.BooleanAttribute
   /** Blocks changes while retaining focusability. OR-combined with Field readonly state; defaults to false. */
-  readonly?: CheckboxOptions['readonly']
+  readonly?: JSX.BooleanAttribute
   /** Native input requirement or ARIA requirement for custom hosts. OR-combined with Field required state. */
-  required?: CheckboxOptions['required']
+  required?: JSX.BooleanAttribute
   /** Invalid ARIA/data state, OR-combined with Field invalid state; does not perform validation. */
   invalid?: CheckboxOptions['invalid']
   /** Form name, falling back to Field name. A defined name enables a hidden checkbox mirror for non-input hosts. */
@@ -35,9 +37,9 @@ export interface CheckedOwn {
   /** Form ID for the native input or hidden mirror, including a form outside the rendered ancestry. */
   form?: CheckboxOptions['form']
   /** Emits autofocus and requests focus on the rendered control after settling when true. */
-  autofocus?: CheckboxOptions['autofocus']
+  autofocus?: JSX.BooleanAttribute
   /** Receives the rendered visible control, never the hidden form mirror; custom hosts must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Internal host and Field association inputs shared by the checked-control adapters. */
@@ -53,8 +55,6 @@ type Own = CheckedOwn & {
   /** Author description association combined with Field descriptions and visible errors. */
   'aria-describedby'?: string
 }
-
-type Handler = (event: Event) => void
 
 /** Visually clips the form mirror while retaining its native checkbox/form behavior. */
 const hiddenStyle: JSX.CSSProperties = {
@@ -144,8 +144,10 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   if (isServer) context?.registerControl(() => own.id ?? context.ids.control)
   onSettled(() => context?.registerControl(() => own.id ?? context.ids.control))
   /** Field truthy flags take precedence over a local false; absence of a Field preserves the local value. */
-  const flag = (value: boolean | undefined, read: (field: FieldContextValue) => boolean) =>
-    context === null ? value : (value ?? false) || read(context)
+  const flag = (
+    value: JSX.BooleanAttribute | undefined,
+    read: (field: FieldContextValue) => boolean
+  ) => booleanAttribute(value) || (context !== null ? read(context) : false)
   const name = () => own.name ?? group?.field.name() ?? context?.name()
   const form = () => own.form ?? group?.form()
 
@@ -177,7 +179,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
       name: name(),
       value: own.value,
       form: form(),
-      autofocus: own.autofocus,
+      autofocus: booleanAttribute(own.autofocus),
       onCheckedChange: change,
     }
     if (kind === 'switch') return toggleSwitch(options)
@@ -187,7 +189,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   let mirror: HTMLInputElement | undefined
@@ -252,7 +254,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
       const key = eventKey(out, 'onchange', 'onChange')
       const user = out[key]
       out[key] = (event: Event) => {
-        if (typeof user === 'function') (user as Handler)(event)
+        callEventHandler(user, event)
         resync()
       }
       if (kind === 'switch') {
@@ -260,7 +262,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
         const user = out[key]
         // eslint-disable-next-line solid/reactivity -- event handler reads current state on dispatch
         out[key] = (event: KeyboardEvent) => {
-          if (typeof user === 'function') (user as Handler)(event)
+          callEventHandler(user, event)
           if (
             event.key !== 'Enter' ||
             event.defaultPrevented ||
@@ -316,7 +318,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   )
 
   onSettled(() => {
-    if (own.autofocus) el?.focus()
+    if (booleanAttribute(own.autofocus)) el?.focus()
     writeIndeterminate()
 
     const node = el

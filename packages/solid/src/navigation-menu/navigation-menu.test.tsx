@@ -162,3 +162,30 @@ test('delayed hover rechecks trigger lifetime, disabled state and hover policy',
     vi.useRealTimers()
   }
 })
+
+test('empty disabled triggers block pointer intent and nested refs attach', () => {
+  vi.useFakeTimers()
+  const change = vi.fn()
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Nav onValueChange={change}>
+      <Nav.List>
+        <Nav.Item value="blocked">
+          <Nav.Trigger disabled="" ref={refs}>
+            Blocked
+          </Nav.Trigger>
+        </Nav.Item>
+      </Nav.List>
+    </Nav>
+  ))
+  const event = new Event('pointerenter', { bubbles: true })
+  Object.defineProperty(event, 'pointerType', { value: 'mouse' })
+  view.getByText('Blocked').dispatchEvent(event)
+  vi.runAllTimers()
+  flush()
+  expect(host).toHaveBeenCalledTimes(2)
+  expect(view.getByText('Blocked')).toHaveAttribute('data-disabled')
+  expect(change).not.toHaveBeenCalled()
+  vi.useRealTimers()
+})

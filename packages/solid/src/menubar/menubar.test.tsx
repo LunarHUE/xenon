@@ -141,3 +141,23 @@ test('uncontrolled default empty-string identity opens without an initial callba
   expect(view.getByRole('menuitem')).toHaveAttribute('aria-expanded', 'true')
   expect(change).not.toHaveBeenCalled()
 })
+
+test('empty disabled triggers are skipped and nested refs attach', () => {
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Menubar>
+      <Menubar.Menu value="blocked">
+        <Menubar.Trigger disabled="" ref={refs}>
+          Blocked
+        </Menubar.Trigger>
+      </Menubar.Menu>
+      <Menubar.Menu value="enabled">
+        <Menubar.Trigger>Enabled</Menubar.Trigger>
+      </Menubar.Menu>
+    </Menubar>
+  ))
+  expect(host).toHaveBeenCalledTimes(2)
+  expect(view.getByText('Blocked')).toHaveAttribute('aria-disabled', 'true')
+  expect(view.getByText('Enabled')).toHaveAttribute('tabindex', '0')
+})

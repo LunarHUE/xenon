@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import type { MenubarOptions } from '@xenon-ui/core/menubar'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
@@ -205,13 +206,14 @@ export function MenubarMenu(props: MenubarMenuProps): JSX.Element {
   )
 }
 /** Top-level button props. */
-export type MenubarTriggerProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {
+export type MenubarTriggerProps<T extends ValidComponent = 'button'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Trigger host; defaults to button. */
   as?: T
   /** Skip this trigger during navigation and block opening. */
-  disabled?: boolean
-  /** Receives the trigger host. */
-  ref?: (element: HTMLElement) => void
+  disabled?: JSX.BooleanAttribute
 }
 /** Menuitem trigger with roving focus, click toggling, and hover switching only while a menu is open. */
 export function MenubarTrigger<T extends ValidComponent = 'button'>(
@@ -224,7 +226,7 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
   const id = createUniqueId()
   const trigger: MenuTriggerEntry = {
     id: () => (typeof own.id === 'string' ? own.id : id),
-    disabled: () => !!own.disabled,
+    disabled: () => booleanAttribute(own.disabled),
     payload: () => undefined,
   }
   entry.trigger = trigger
@@ -263,7 +265,7 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
       ref={(element: HTMLElement) => {
         trigger.element = element
         entry.menu.setTrigger(element)
-        own.ref?.(element)
+        setRef(own.ref, element)
       }}
     >
       {children()}
@@ -282,7 +284,7 @@ export function MenubarContent<T extends ValidComponent = 'div'>(
   const rest = omit(props as Record<string, unknown>, 'children')
   const children = createMemo(() => props.children)
   return (
-    <MenuContent
+    <MenuContent<ValidComponent>
       {...spread(
         {
           attrs: {},

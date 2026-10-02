@@ -3,6 +3,8 @@ import { Dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, omit, onSettled } from 'solid-js'
 
+import { callEventHandler } from '../internal/events'
+import { booleanAttribute, setRef } from '../internal/host'
 import { useRadioGroup } from './context'
 import type { RadioGroupEntry } from './context'
 import { gate } from '../internal/gate'
@@ -15,20 +17,19 @@ interface Own {
   /** Unique group identity; string and number values are not coerced into one another. */
   value: RadioValue
   /** Combine with group disabled state; disabled items cannot select and leave the navigation ring. Defaults to false. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
   /** Receives the visible host, not its optional native form mirror. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Author change callback with its event type erased during prop merging. */
-type Handler = (event: Event) => void
 
 /** Item options and selected host props. Group name/form defaults may be overridden on the visible host; form mirrors use group values. */
 export type RadioGroupItemProps<T extends ValidComponent = 'input'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
     /** Rendered host; defaults to a native radio input. */
     as?: T
   }
@@ -80,7 +81,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
 
   const composed = toolbarHost(() => own.as)
   const host = () => (composed.matches() ? 'button' : hostOf(own.as))
-  const disabled = () => own.disabled ?? false
+  const disabled = () => booleanAttribute(own.disabled)
   const interactive = () => context.interactive() && !disabled()
   const checked = () => context.selected() === own.value
 
@@ -94,7 +95,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
   const ref = (node: HTMLElement) => {
     entry.el = node
     if (node instanceof HTMLInputElement) entry.input = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   const mirrorRef = (node: HTMLInputElement) => {
@@ -119,7 +120,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
       const key = changeKey(out)
       const user = out[key]
       out[key] = (event: Event) => {
-        if (typeof user === 'function') (user as Handler)(event)
+        callEventHandler(user, event)
         context.resync()
       }
     }

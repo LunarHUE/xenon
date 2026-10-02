@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
@@ -12,7 +14,7 @@ import { spread } from '../spread'
 /** Library-owned tablist ref. */
 interface ListOwn {
   /** Receives the rendered list host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Selection identity and disabled state for one tab. */
@@ -22,7 +24,7 @@ interface TabOwn {
   /** OR-combined with root disabled state to block button activation and skip keyboard destinations. Defaults to false; composite focus reporting is not gated. */
   disabled?: boolean
   /** Receives the tab host used for registration order and deferred focus. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Panel identity and the ref used for descendant probing. */
@@ -30,15 +32,15 @@ interface PanelOwn {
   /** Key matching its tab; keep stable while mounted because the observer captures it after settling. */
   value: string
   /** Receives the panel host inspected by the focusability observer. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic tablist props; remaining attributes and handlers merge over the core part. */
 export type TabsListProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof ListOwn | 'as'
+  Exclude<keyof ListOwn, 'ref'> | 'as'
 > &
-  ListOwn & {
+  Omit<ListOwn, 'ref'> & {
     /** List host or forwarding component, defaulting to div. */
     as?: T
   }
@@ -46,9 +48,9 @@ export type TabsListProps<T extends ValidComponent = 'div'> = Omit<
 /** Polymorphic tab props; explicit host IDs are reflected in associations after client settling. */
 export type TabsTabProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof TabOwn | 'as'
+  Exclude<keyof TabOwn, 'ref'> | 'as'
 > &
-  TabOwn & {
+  NativeBooleanAttributes<Omit<TabOwn, 'ref'>> & {
     /** Host forwarded to Button, defaulting to button; custom components must forward props/ref. */
     as?: T
   }
@@ -56,9 +58,9 @@ export type TabsTabProps<T extends ValidComponent = 'button'> = Omit<
 /** Polymorphic panel props; author attributes may override generated hidden/tabindex values. */
 export type TabsPanelProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof PanelOwn | 'as'
+  Exclude<keyof PanelOwn, 'ref'> | 'as'
 > &
-  PanelOwn & {
+  Omit<PanelOwn, 'ref'> & {
     /** Panel host or forwarding component, defaulting to div. */
     as?: T
   }
@@ -78,7 +80,7 @@ export function TabsList<T extends ValidComponent = 'div'>(props: TabsListProps<
   const context = useTabs('Tabs.List')
 
   const content = createMemo(() => (props as { children?: JSX.Element }).children)
-  const ref = (node: HTMLElement) => own.ref?.(node)
+  const ref = (node: HTMLElement) => setRef(own.ref, node)
 
   return (
     <Dynamic
@@ -107,12 +109,12 @@ export function TabsTab<T extends ValidComponent = 'button'>(props: TabsTabProps
   const rest = omit(props as Record<string, unknown>, 'value', 'disabled', 'ref')
   const context = useTabs('Tabs.Tab')
 
-  const disabled = () => context.disabled() || (own.disabled ?? false)
+  const disabled = () => context.disabled() || booleanAttribute(own.disabled)
   const entry: TabEntry = { el: null, value: () => own.value, disabled }
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   if (isServer) context.register(entry)
@@ -154,7 +156,7 @@ export function TabsPanel<T extends ValidComponent = 'div'>(props: TabsPanelProp
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {

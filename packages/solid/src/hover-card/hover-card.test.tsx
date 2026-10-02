@@ -146,3 +146,21 @@ test('controlled visibility is authoritative and disabling cancels pending inten
   expect(change).toHaveBeenCalledWith(true)
   expect(m.getByText('Preview')).toHaveAttribute('aria-expanded', 'false')
 })
+
+test('empty disabled roots suppress intent and nested trigger refs attach', () => {
+  vi.useFakeTimers()
+  const change = vi.fn()
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <HoverCard disabled="" onOpenChange={change}>
+      <HoverCard.Trigger href="#preview" ref={refs}>
+        Preview
+      </HoverCard.Trigger>
+    </HoverCard>
+  ))
+  pointer(view.getByText('Preview'), 'pointerenter')
+  advance(1000)
+  expect(host).toHaveBeenCalledTimes(2)
+  expect(change).not.toHaveBeenCalled()
+})

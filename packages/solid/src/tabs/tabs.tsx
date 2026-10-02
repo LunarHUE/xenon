@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { TabsOptions } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
 import { tabs } from '@xenon-ui/core'
@@ -26,15 +28,15 @@ interface Own extends Pick<
   /** Disable all tab buttons and exclude them from keyboard destinations. Defaults to false. */
   disabled?: boolean
   /** Receives the root host, used for ambient direction lookup; custom hosts must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic root props with controlled/uncontrolled selection and navigation settings. */
 export type TabsProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Root host or forwarding component, defaulting to div. */
     as?: T
   }
@@ -101,7 +103,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
 
   const orientation = () => own.orientation ?? 'horizontal'
   const direction = () => own.dir ?? ambient()
-  const disabled = () => own.disabled ?? false
+  const disabled = () => booleanAttribute(own.disabled)
   const controlled = () => own.value !== undefined
   const current = () => own.value ?? internal()
 
@@ -183,7 +185,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {

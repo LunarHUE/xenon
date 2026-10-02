@@ -275,3 +275,29 @@ describe('Menu', () => {
     expect(view.getByText('Actions')).toHaveAttribute('aria-expanded', 'true')
   })
 })
+
+test('empty disabled attributes block trigger and item selection with nested refs', () => {
+  const selected = vi.fn()
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Menu defaultOpen>
+      <Menu.Trigger disabled="" ref={refs}>
+        Open
+      </Menu.Trigger>
+      <Menu.Positioner>
+        <Menu.Content aria-label="Actions">
+          <Menu.Item disabled="" onSelect={selected}>
+            Blocked
+          </Menu.Item>
+        </Menu.Content>
+      </Menu.Positioner>
+    </Menu>
+  ))
+  expect(host).toHaveBeenCalledWith(view.getByText('Open'))
+  expect(view.getByText('Open')).toHaveAttribute('data-disabled')
+  expect(view.getByText('Blocked')).toHaveAttribute('aria-disabled', 'true')
+  click(view.getByText('Blocked'))
+  expect(selected).not.toHaveBeenCalled()
+  expect(view.getByRole('menu', { hidden: true })).toBeInTheDocument()
+})

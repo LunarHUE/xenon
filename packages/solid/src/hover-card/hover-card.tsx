@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import { hoverCard } from '@xenon-ui/core/hover-card'
 import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
 import { Dynamic, isServer } from '@solidjs/web'
@@ -47,7 +48,7 @@ export type HoverCardProps<T extends ValidComponent = 'div', Payload = unknown> 
   /** Delay after pointer and focus leave the preview, in milliseconds. Defaults to 300. */
   closeDelay?: number
   /** Suppress trigger intent and cancel pending timers. Defaults to false. */
-  disabled?: boolean
+  disabled?: JSX.BooleanAttribute
 }
 /** Native anchor props. No click or key handler interferes with link navigation. */
 export type HoverCardTriggerProps<T extends ValidComponent = 'a', Payload = unknown> = Omit<
@@ -63,7 +64,7 @@ export type HoverCardTriggerProps<T extends ValidComponent = 'a', Payload = unkn
   /** Link contents. */
   children?: JSX.Element
   /** Receives the trigger host. */
-  ref?: (element: HTMLElement) => void
+  ref?: ComponentProps<T>['ref']
 }
 /** Nonmodal dialog props. Supply an accessible name through Title or aria-label. */
 export type HoverCardContentProps<T extends ValidComponent = 'div'> = PopoverContentProps<T>
@@ -120,7 +121,7 @@ function HoverCardRoot<T extends ValidComponent = 'div', Payload = unknown>(
       trigger: root.trigger,
       content: root.content,
       open: () => root.result().state.open,
-      disabled: () => props.disabled ?? false,
+      disabled: () => booleanAttribute(props.disabled),
       openDelay: () => props.openDelay ?? 600,
       focusDelay: () => props.openDelay ?? 600,
       closeDelay: () => props.closeDelay ?? 300,
@@ -274,7 +275,7 @@ export function HoverCardTrigger<T extends ValidComponent = 'a', Payload = unkno
       {...attributes()}
       ref={(element: HTMLElement) => {
         entry.element = element
-        props.ref?.(element)
+        setRef(props.ref, element)
       }}
     >
       {props.children}

@@ -17,7 +17,7 @@ import { spread } from '../spread'
 export type AvatarState = 'idle' | 'loading' | 'loaded' | 'error'
 
 /** Root host props shared by one image and its fallback. */
-export type AvatarProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type AvatarProps<T extends ValidComponent = 'span'> = Omit<ComponentProps<T>, 'as'> & {
   /** Root host, defaulting to span. */
   as?: T
   /** Milliseconds before showing fallback; defaults to zero. Invalid delays use zero. */
@@ -31,7 +31,10 @@ export type AvatarImageProps = Omit<ComponentProps<'img'>, 'alt'> & {
 }
 
 /** Fallback text or artwork, optionally named with author ARIA attributes. */
-export type AvatarFallbackProps<T extends ValidComponent = 'span'> = ComponentProps<T> & {
+export type AvatarFallbackProps<T extends ValidComponent = 'span'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Fallback host, defaulting to span. */
   as?: T
 }
