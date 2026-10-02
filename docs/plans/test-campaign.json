@@ -1299,11 +1299,11 @@
     {"ids":["menubar.rtl.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native tests cover closed-bar mirrored wrapping and one open switch direction; all open-menu end boundaries in both directions are not asserted.","evidence":375,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":243},"status":"queued"},
     {"ids":["menubar.notes.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Fixtures exercise author attributes, styles, callbacks and native hosts; no comprehensive all-part ref/class/event-composition matrix is asserted.","evidence":367,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":249},"status":"reconciled"},
     {"ids":["navigation-menu.roles.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter assert absent composite roles/orientation. Data-orientation and nested root/list variants are not fully asserted; nested controllers are deferred.","evidence":376,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":252},"status":"reconciled"},
-    {"ids":["navigation-menu.roles.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Hydration fixture queries the named navigation landmark; default label and override behavior are not both asserted.","evidence":377,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":253},"status":"reconciled"},
-    {"ids":["navigation-menu.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core/adapter assert current page marker; absence on a non-current link is not directly asserted.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":254},"status":"reconciled"},
-    {"ids":["navigation-menu.roles.7"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled state hook is implemented but its add/remove lifecycle is not directly asserted.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":255},"status":"reconciled"},
-    {"ids":["navigation-menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Enter opens with trigger focus preserved; native repeated Enter and Space toggling are not both asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":258},"status":"reconciled"},
-    {"ids":["navigation-menu.keyboard.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser ArrowRight walks through trigger and native link. LTR ArrowLeft reverse traversal is not asserted in that fixture.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":261},"status":"reconciled"},
+    {"ids":["navigation-menu.roles.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Hydration fixture queries the named navigation landmark; default label and override behavior are not both asserted.","evidence":377,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":253},"status":"verified"},
+    {"ids":["navigation-menu.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core/adapter assert current page marker; absence on a non-current link is not directly asserted.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":254},"status":"verified"},
+    {"ids":["navigation-menu.roles.7"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled state hook is implemented but its add/remove lifecycle is not directly asserted.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":255},"status":"verified"},
+    {"ids":["navigation-menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Enter opens with trigger focus preserved; native repeated Enter and Space toggling are not both asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":258},"status":"verified"},
+    {"ids":["navigation-menu.keyboard.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser ArrowRight walks through trigger and native link. LTR ArrowLeft reverse traversal is not asserted in that fixture.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":261},"status":"verified"},
     {"ids":["navigation-menu.keyboard.6","navigation-menu.keyboard.8","navigation-menu.keyboard.11","navigation-menu.keyboard.12","navigation-menu.keyboard.18","navigation-menu.keyboard.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"List registry navigation, endpoint keys, nonwrapping panel navigation and disabled/silent requests are accepted, but these complete native interaction assertions are absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":262},"status":"reconciled"},
     {"ids":["navigation-menu.keyboard.10"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser checks ArrowDown moves to next panel link; full Up/Down/Left/Right matrix is not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":265},"status":"reconciled"},
     {"ids":["navigation-menu.keyboard.16"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape returns to trigger and closes; Enter reopening afterwards and all panel positions are not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":267},"status":"reconciled"},
@@ -1315,7 +1315,7 @@
     {"ids":["navigation-menu.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser programmatically places outside focus and asserts preservation; outside click focus is not directly tested.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":281},"status":"reconciled"},
     {"ids":["navigation-menu.focus.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser final panel stop moves to next native link and closes. Last-trigger exit and arbitrary tabbable controls are not all checked.","evidence":385,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":283},"status":"reconciled"},
     {"ids":["navigation-menu.focus.6","navigation-menu.focus.12","navigation-menu.focus.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted native focus/keyboard behavior lacks the exact first-trigger backward exit, hover-to-Escape-reopen and second-panel Tab sequences.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":284},"status":"reconciled"},
-    {"ids":["navigation-menu.state.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultValue is accepted but no inspected NavigationMenu fixture directly asserts default-open first render.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":287},"status":"reconciled"},
+    {"ids":["navigation-menu.state.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultValue is accepted but no inspected NavigationMenu fixture directly asserts default-open first render.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":287},"status":"verified"},
     {"ids":["navigation-menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Empty string selection is asserted; number/boolean identities are excluded by the string-only API and nested propagation is deferred.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":290},"status":"excluded"},
     {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"reconciled"},
     {"ids":["navigation-menu.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter reject disabled clicks and pending hover on disabling; touch and native key variants are not fully checked.","evidence":387,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":292},"status":"reconciled"},
@@ -4118,6 +4118,29 @@
         "packages/suite/src/combobox/combobox.native-interactions.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator verified native pointer retention in Chromium, Firefox and WebKit."
+    },
+    {
+      "id": "navigation-menu-labels-and-native-keys",
+      "status": "verified",
+      "ids": [
+        "navigation-menu.roles.5",
+        "navigation-menu.roles.6",
+        "navigation-menu.roles.7",
+        "navigation-menu.state.1",
+        "navigation-menu.keyboard.1",
+        "navigation-menu.keyboard.5",
+        "navigation-menu.keyboard.6",
+        "navigation-menu.keyboard.11",
+        "navigation-menu.keyboard.12"
+      ],
+      "acceptedClauses": [
+        "Default and live author landmark names; reversible current-page/disabled markers; silent initial defaultValue; native Enter/Space toggle with exact callbacks; list arrows through plain links and Home/End endpoints; panel Home/End and nonwrapping vertical boundaries."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/navigation-menu/navigation-menu.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently ran all 8 cases across Chromium, Firefox and WebKit: 24 passed."
     }
   ],
   "knownLimits": {
