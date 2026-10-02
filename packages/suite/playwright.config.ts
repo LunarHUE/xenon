@@ -1,5 +1,5 @@
 /**
- * Runs e2e tests against the built example app and the SSR/hydration fixture server.
+ * Runs e2e tests against the built interaction fixtures and the SSR/hydration fixture server.
  * All three browser projects are defined. The package test:e2e script selects
  * chromium; test:e2e:all leaves project selection open to run all three.
  * Browser selection here is independent of Vitest's xenon_BROWSERS variable.
@@ -20,7 +20,7 @@ export default defineConfig({
   timeout: 30_000,
   globalTimeout: 300_000,
   reporter: [['list'], ['html', { open: 'never' }]],
-  /** Relative navigation targets the example server; failed runs retain trace/screenshots. */
+  /** Relative navigation targets the interaction server; failed runs retain trace/screenshots. */
   use: {
     baseURL: 'http://127.0.0.1:4173',
     trace: 'retain-on-failure',
@@ -39,7 +39,7 @@ export default defineConfig({
     {
       /** Build before serving on strict port 4173; readiness requires the preview URL log. */
       command:
-        'bun run --cwd ../../apps/example build && bun run --cwd ../../apps/example preview --host 127.0.0.1 --port 4173 --strictPort',
+        'vite build --config vite.e2e.config.ts && vite preview --config vite.e2e.config.ts --host 127.0.0.1 --port 4173 --strictPort',
       wait: { stdout: /Local:.*127\.0\.0\.1:4173/ },
       timeout: 120_000,
     },
