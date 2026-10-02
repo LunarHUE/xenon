@@ -1771,19 +1771,19 @@
     {"ids":["listbox.roles.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Role-based queries resolve rendered options in the composed listbox. A missing-parent mount error and the grouped ownership variant are not asserted.","evidence":644,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":1},"status":"queued"},
     {"ids":["listbox.roles.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"The shared SelectionFixture includes a standalone multi Listbox and passes axe in enabled/disabled runs. Presentation-wrapper and empty-listbox review outcomes are not isolated.","evidence":645,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":2},"status":"queued"},
     {"ids":["listbox.roles.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared fixture queries the standalone root by authored aria-label and audits it with axe; an aria-labelledby composition and the visible-text-only naming rejection are not isolated.","evidence":646,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":4},"status":"queued"},
-    {"ids":["listbox.roles.6"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits aria-multiselectable only in multiple mode, but no Listbox test asserts the root attribute in both modes.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":5},"status":"queued"},
+    {"ids":["listbox.roles.6"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits aria-multiselectable only in multiple mode, but no Listbox test asserts the root attribute in both modes.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":5},"status":"verified"},
     {"ids":["listbox.roles.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Selection attributes are asserted on native single and multiple fixtures; none explicitly asserts aria-checked is absent from every option.","evidence":648,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":6},"status":"queued"},
     {"ids":["listbox.roles.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Changing a two-option controlled single value asserts the old option false and the new option true. No assertion counts selected options across a larger single collection or malformed multi-value input.","evidence":649,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":9},"status":"queued"},
     {"ids":["listbox.roles.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Multiple tests assert unselected options false, but do not assert every option is explicitly false at initial empty mount.","evidence":650,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":10},"status":"queued"},
     {"ids":["listbox.roles.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single native navigation asserts enabled unselected options aria-selected=false; it does not check every option initially. aria-disabled=false is not the adopted enabled-state convention.","evidence":651,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":12},"status":"queued"},
     {"ids":["listbox.roles.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Options are found by role and visible text, demonstrating accessible names from content. Explicit aria-label/labelledby/title alternatives lack assertions.","evidence":652,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":20},"status":"queued"},
     {"ids":["listbox.roles.21"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled option data-disabled is asserted and disabled metadata is reactive. aria-disabled=true plus absence of both disabled attributes on enabled siblings is not fully asserted.","evidence":650,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":24},"status":"queued"},
-    {"ids":["listbox.roles.27"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits data-value as the stable option identity but no test asserts it.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":28},"status":"queued"},
+    {"ids":["listbox.roles.27"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits data-value as the stable option identity but no test asserts it.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":28},"status":"verified"},
     {"ids":["listbox.roles.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits data-empty for an empty collection but that marker has no assertion; an empty-state renderer is not exported.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":30},"status":"queued"},
     {"ids":["listbox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Virtual active-descendant points at the active option. The mirrored data-activedescendant is neither emitted nor asserted.","evidence":644,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":33},"status":"queued"},
-    {"ids":["listbox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox.Item explicitly throws without Listbox context, but there is no missing-context assertion.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":38},"status":"queued"},
+    {"ids":["listbox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox.Item explicitly throws without Listbox context, but there is no missing-context assertion.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":38},"status":"verified"},
     {"ids":["listbox.keyboard.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":39},"status":"queued"},
-    {"ids":["listbox.keyboard.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":41},"status":"queued"},
+    {"ids":["listbox.keyboard.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":41},"status":"verified"},
     {"ids":["listbox.keyboard.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single/repeated-character DOM navigation and core multi-character prefixes are asserted. A rapid multi-character DOM sequence and larger-than-seven collection are not exercised.","evidence":654,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":51},"status":"queued"},
     {"ids":["listbox.keyboard.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Repeated letters cycle and timeout creates a fresh query, but the post-timeout key in this test is a different letter rather than the same letter.","evidence":655,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":57},"status":"queued"},
     {"ids":["listbox.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core search with a preseeded multi-character buffer selects only the whole-prefix match. Two successive quickly typed different characters on the mounted adapter are not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":59},"status":"queued"},
@@ -1791,7 +1791,7 @@
     {"ids":["listbox.keyboard.35"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native successive Shift+Down extends a fixed range and skips disabled options; the test asserts payloads and disabled exclusion rather than every outside option aria-selected=false on each step.","evidence":658,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":65},"status":"queued"},
     {"ids":["listbox.keyboard.36"],"historicalStatus":"partial","domain":"popup-selection","reason":"An ordinary click replaces the anchor and the following shift arrow overwrites the old membership in the callback payload. The complete inside/outside ARIA state is not asserted.","evidence":659,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":66},"status":"queued"},
     {"ids":["listbox.keyboard.41"],"historicalStatus":"partial","domain":"popup-selection","reason":"Ctrl+A reports all enabled options, excluding disabled options. Meta+A and repeated select-all are not asserted; the API intentionally returns arrays rather than the string all.","evidence":659,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":70},"status":"queued"},
-    {"ids":["listbox.keyboard.43"],"historicalStatus":"missing","domain":"popup-selection","reason":"Typeahead is shared across modes, but every mounted typeahead fixture is single-select; no plain-letter multiple fixture asserts navigation with no selection.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":72},"status":"queued"},
+    {"ids":["listbox.keyboard.43"],"historicalStatus":"missing","domain":"popup-selection","reason":"Typeahead is shared across modes, but every mounted typeahead fixture is single-select; no plain-letter multiple fixture asserts navigation with no selection.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":72},"status":"verified"},
     {"ids":["listbox.keyboard.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core extends a preseeded foo query with a space to Foo Bar and foo ba with z to Foo Baz. A continuous mounted f,o,o,space,b,a,z sequence is not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":81},"status":"queued"},
     {"ids":["listbox.keyboard.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core matches the supplied textValue function instead of string keys. A mounted Item whose explicit textValue differs from its rendered text has no assertion.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":85},"status":"queued"},
     {"ids":["listbox.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Up from first wraps to last in mounted/native Listbox tests; Listbox Down from last wrapping to first lacks a direct assertion.","evidence":660,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":88},"status":"queued"},
@@ -1922,6 +1922,66 @@
         {
           "command": "bun run --cwd packages/suite test -- --maxWorkers=2 src/menu/menu.metadata.test.tsx",
           "result": "Worker rerun 4 passed after fix; coordinator independently reproduced 1 failure before fix"
+        }
+      ]
+    },
+    {
+      "id": "listbox-metadata-navigation-1",
+      "status": "verified",
+      "ids": [
+        "listbox.roles.6",
+        "listbox.roles.27",
+        "listbox.roles.36",
+        "listbox.keyboard.3",
+        "listbox.keyboard.43"
+      ],
+      "acceptedClauses": [
+        "Selection modes expose their multiselectable semantics",
+        "Item value metadata survives text changes and reorder",
+        "The only shipped descendant part, Item, throws without its root",
+        "Tab enters an empty multiple-selection listbox without selecting",
+        "Plain-letter typeahead moves native focus without replacing multiple selection"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/listbox/listbox.remaining.test.tsx",
+        "packages/suite/src/listbox/listbox.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/listbox/listbox.remaining.test.tsx src/listbox/listbox.remaining.test-browser.tsx src/menubar/menubar.accessibility.remaining.test-browser.tsx",
+          "result": "All18 Listbox executions passed independently; unrelated negative Menubar axe fixture failed separately"
+        },
+        {
+          "command": "bun run --cwd packages/suite test -- src/listbox/listbox.remaining.test.tsx",
+          "result": "4 shared tests passed in worker run"
+        },
+        {
+          "command": "bunx eslint src/listbox/listbox.remaining.test.tsx src/listbox/listbox.remaining.test-browser.tsx",
+          "result": "passed"
+        }
+      ]
+    },
+    {
+      "id": "listbox-empty-marker-1",
+      "status": "reconciled",
+      "ids": [
+        "listbox.roles.29"
+      ],
+      "acceptedClauses": [
+        "Empty-state data marker updates as items are added and removed"
+      ],
+      "remainingClauses": [
+        "Research empty-state renderer is outside the shipped API; the whole historical row is not claimed covered"
+      ],
+      "files": [
+        "packages/suite/src/listbox/listbox.remaining.test.tsx",
+        "docs/plans/listbox-coverage.md"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/listbox/listbox.remaining.test.tsx",
+          "result": "Included in parent run:4 shared tests passed in each engine"
         }
       ]
     }
