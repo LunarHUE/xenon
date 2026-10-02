@@ -1,6 +1,6 @@
 /**
  * Starts the local SSR/hydration fixture server on 127.0.0.1:4174.
- * Logs "SSR fixture ready" only after the HTTP listener binds. Vite serves module
+ * Loads the SSR module graph before binding, then logs "SSR fixture ready". Vite serves module
  * requests first; requests left to the fallback renderer receive fixture HTML.
  * Keep this process alive for browser tests and terminate it afterward. No signal
  * handlers or explicit HTTP/Vite shutdown are installed by this script.
@@ -92,4 +92,6 @@ const server = createServer((request, response) => {
     }
   })
 })
+// Compile and evaluate fixture dependencies during server startup, before test timeouts begin.
+await vite.ssrLoadModule('/fixtures/entry-server.tsx')
 server.listen(4174, '127.0.0.1', () => console.log('SSR fixture ready'))
