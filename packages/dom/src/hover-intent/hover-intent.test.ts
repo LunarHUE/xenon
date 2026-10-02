@@ -159,3 +159,33 @@ test('pending hover refresh retains elapsed time across wall-clock adjustments',
     clock.mockRestore()
   }
 })
+
+test('shared trigger destinations retain focus intent, but removed registrations and outside focus close normally', () => {
+  vi.useFakeTimers()
+  const sibling = document.createElement('button')
+  const nested = document.createElement('span')
+  sibling.append(nested)
+  document.body.append(sibling)
+  let registered = true
+  const s = setup({
+    focusDelay: () => 200,
+    closeDelay: () => 0,
+    triggers: () => (registered ? [sibling] : []),
+  })
+  s.intent.focusIn(s.event(s.trigger) as unknown as FocusEvent)
+  vi.advanceTimersByTime(200)
+  expect(s.opened).toHaveBeenCalledExactlyOnceWith(s.trigger, 'focus')
+  s.intent.focusOut(s.event(s.trigger, { relatedTarget: nested }) as unknown as FocusEvent)
+  expect(s.closed).not.toHaveBeenCalled()
+  s.intent.focusIn(s.event(sibling) as unknown as FocusEvent)
+  expect(s.opened.mock.calls).toEqual([
+    [s.trigger, 'focus'],
+    [sibling, 'focus'],
+  ])
+  s.intent.focusOut(s.event(sibling, { relatedTarget: s.content }) as unknown as FocusEvent)
+  expect(s.closed).not.toHaveBeenCalled()
+  registered = false
+  s.intent.focusOut(s.event(s.content, { relatedTarget: sibling }) as unknown as FocusEvent)
+  expect(s.closed).toHaveBeenCalledTimes(1)
+  s.intent.dispose()
+})

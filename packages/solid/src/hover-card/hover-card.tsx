@@ -119,6 +119,7 @@ function HoverCardRoot<T extends ValidComponent = 'div', Payload = unknown>(
     const entries = new Set<TriggerEntry>()
     const intent = createHoverIntent({
       trigger: root.trigger,
+      triggers: () => [...entries].flatMap((entry) => (entry.element ? [entry.element] : [])),
       content: root.content,
       open: () => root.result().state.open,
       disabled: () => booleanAttribute(props.disabled),

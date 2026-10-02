@@ -4,6 +4,8 @@ export type HoverOpenReason = 'hover' | 'focus'
 export interface HoverIntentOptions {
   /** Most recently active trigger. */
   trigger(): HTMLElement | undefined
+  /** Other registered trigger regions sharing the same surface and focus intent. */
+  triggers?(): readonly HTMLElement[]
   /** Current content, absent before mounting. */
   content(): HTMLElement | undefined
   /** Current logical visibility. */
@@ -79,7 +81,9 @@ export function createHoverIntent(options: HoverIntentOptions): HoverIntent {
     return false
   }
   const inside = (target: EventTarget | null) =>
-    contains(options.trigger(), target) || contains(options.content(), target)
+    contains(options.trigger(), target) ||
+    !!options.triggers?.().some((trigger) => contains(trigger, target)) ||
+    contains(options.content(), target)
   const clearTransit = () => {
     clearTimeout(transitTimer)
     transitTimer = undefined
