@@ -406,6 +406,7 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
   // eslint-disable-next-line solid/reactivity -- Field retains the live ID reader until this owner disposes.
   if (context.field && !context.popupInput) onCleanup(context.field.registerControl(id))
   const attributes = () => ({
+    form: context.props.form,
     ...rest,
     id: id(),
     required: undefined,

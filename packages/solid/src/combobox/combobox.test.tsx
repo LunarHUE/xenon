@@ -32,6 +32,35 @@ function Parts() {
   )
 }
 describe('Combobox', () => {
+  test('external form ownership reaches both the editable input and committed-value control', () => {
+    const [owner, setOwner] = createSignal('first-combobox-form')
+    const view = render(() => (
+      <>
+        <form id="first-combobox-form" />
+        <form id="second-combobox-form" />
+        <Combobox items={items} form={owner()} name="fruit" defaultValue="c">
+          <Parts />
+        </Combobox>
+      </>
+    ))
+    const input = view.getByRole('combobox') as HTMLInputElement
+    const native = view.container.querySelector('select')!
+    const first = view.container.querySelector<HTMLFormElement>('#first-combobox-form')!
+    const second = view.container.querySelector<HTMLFormElement>('#second-combobox-form')!
+    expect(first.contains(input)).toBe(false)
+    expect(first.contains(native)).toBe(false)
+    expect(input.form).toBe(first)
+    expect(native.form).toBe(first)
+    expect(new FormData(first).getAll('fruit')).toEqual(['c'])
+    expect(new FormData(second).has('fruit')).toBe(false)
+    setOwner('second-combobox-form')
+    flush()
+    expect(input.form).toBe(second)
+    expect(native.form).toBe(second)
+    expect(new FormData(first).has('fruit')).toBe(false)
+    expect(new FormData(second).getAll('fruit')).toEqual(['c'])
+    expect(input.value).toBe('Cherry')
+  })
   test('popup input uses a trigger, dialog and separate listbox, and resets forms while closed', async () => {
     const selected = vi.fn()
     const view = render(() => (
