@@ -1640,13 +1640,13 @@
     {"ids":["select.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pinned controlled selection attempt followed by reopen/Escape keeps exact count one; exact uncontrolled newly-chosen then reopen/Escape sequence is not asserted.","evidence":577,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":108},"status":"queued"},
     {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"queued"},
     {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"queued"},
-    {"ids":["select.state.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native name is reactive, but toggling name during open with same popup identity and FormData changes is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":114},"status":"queued"},
+    {"ids":["select.state.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native name is reactive, but toggling name during open with same popup identity and FormData changes is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":114},"status":"verified"},
     {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"queued"},
     {"ids":["select.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default string submitted value is asserted; object serializer variant is outside nonempty-string API.","evidence":581,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":121},"status":"queued"},
     {"ids":["select.forms.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Empty required Select is invalid and committed value becomes valid; multiple-selection required-attribute switching is excluded.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":123},"status":"queued"},
-    {"ids":["select.forms.13"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form ID is forwarded to native select and reset listener uses native.form, but external-form submit/reset is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":125},"status":"queued"},
+    {"ids":["select.forms.13"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form ID is forwarded to native select and reset listener uses native.form, but external-form submit/reset is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":125},"status":"verified"},
     {"ids":["select.forms.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic native change requests controlled value then repairs denial; successful uncontrolled adoption/selected attribute/callback exactly once is not all asserted, and actual OS autofill is not simulated.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":127},"status":"queued"},
-    {"ids":["select.forms.17"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native change is refused by metadata membership guard, but unknown autofill no-callback case is not tested.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":128},"status":"queued"},
+    {"ids":["select.forms.17"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native change is refused by metadata membership guard, but unknown autofill no-callback case is not tested.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":128},"status":"verified"},
     {"ids":["select.forms.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled change gate ships; hidden value remains committed rather than necessarily empty, and server-error behavior is not a Select contract.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":129},"status":"queued"},
     {"ids":["select.forms.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field name, required and description inheritance are asserted; disabled/readonly Field inheritance with error text full matrix is not tested for Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":134},"status":"queued"},
     {"ids":["select.dismissal.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared topmost layering supports Select inside outer layers, but exact native parent Dialog/Popover Escape and inside-parent outside-Select click matrix is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":136},"status":"queued"},
@@ -1855,6 +1855,37 @@
         },
         {
           "command": "bunx eslint src/select/select.remaining.test-browser.tsx",
+          "result": "passed"
+        }
+      ]
+    },
+    {
+      "id": "select-state-forms-1",
+      "status": "verified",
+      "ids": [
+        "select.state.1",
+        "select.state.2",
+        "select.state.28",
+        "select.forms.13",
+        "select.forms.17"
+      ],
+      "acceptedClauses": [
+        "Controlled and default-open mounts are silent; Escape proposes or accepts one close",
+        "Reactive submission names preserve popup and selected node identity and update FormData",
+        "External native form ownership supports submission and silent reset",
+        "Unknown native select changes restore accepted values without callbacks"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.state-forms.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/select/select.state-forms.remaining.test-browser.tsx src/popover/popover-example.test-browser.tsx",
+          "result": "All 15 Select executions passed independently; unrelated Popover WebKit timing failure fixed separately in ca01b1e"
+        },
+        {
+          "command": "bunx eslint src/select/select.state-forms.remaining.test-browser.tsx",
           "result": "passed"
         }
       ]
