@@ -7794,6 +7794,29 @@
         "Verifies the shipped branch of a research divergence; alternatives are not implied.",
         "The earlier timeout remains recorded as an intermittent result, not erased by the later pass."
       ]
+    },
+    {
+      "id": "native-fieldset-supported-inheritance-and-webkit-limit",
+      "status": "reconciled",
+      "ids": [
+        "fieldset.forms.1"
+      ],
+      "acceptedClauses": [
+        "Literal disabled fieldset around independent Field input, textarea, select and button controls enables its first legend but disables second legend, ordinary descendants and controls in an enabled nested fieldset. Native focus, Tab and exact FormData exclusion are asserted across all three engines."
+      ],
+      "remainingClauses": [
+        "Disabled nested fieldsets with an inner first legend expose a WebKit native inheritance defect; strict nested and reactive matrix remains preserved as a reproduction and is not counted complete.",
+        "Field rendered as fieldset also propagates library disabled metadata; its first-legend compatibility remains outside the verified native-wrapper fixture."
+      ],
+      "files": [
+        "packages/suite/src/field/fieldset.native.remaining.test-browser.tsx",
+        "docs/plans/browser-limitations/fieldset-disabled.json"
+      ],
+      "verification": "Original strict 3-case matrix passed Chromium/Firefox but failed 2 WebKit cases. A plain-HTML valid-markup reproduction confirmed the same WebKit focus, validation, FormData and Tab behavior without Field. The supported 1-case fixture then passed all 3 engines; the strict full source and diagnostic observations are retained in the linked limitation artifact.",
+      "limits": [
+        "No WebKit skip, expected-failure annotation, library workaround, or full-ID closure. Unsupported engine behavior remains explicit outside normal suite discovery.",
+        "Coordinator asked whether to extend Field with a compatibility workaround; absent a reply, retained native behavior as the recommended bounded scope."
+      ]
     }
   ],
   "knownLimits": {

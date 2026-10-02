@@ -1,0 +1,428 @@
+{
+  "specId": "fieldset.forms.1",
+  "classification": "confirmed native WebKit limitation; not Field production defect",
+  "reproduction": "Valid plain native form > outer disabled fieldset > inner disabled fieldset > first legend > input, inner fieldset outside outer first legend. No Solid/Field adapter and no fieldset within legend.",
+  "diagnosticSource": "import { expect, test } from 'vitest'\nimport { userEvent } from 'vitest/browser'\n\n// Temporary plain-native comparison; no Field and no fieldset inside a legend.\ntest('diagnostic native nested fieldset inheritance', async () => {\n  const container = document.createElement('div')\n  container.innerHTML = `<form><button id=\"before\" type=\"button\">Before</button>\n    <fieldset id=\"outer\" disabled><legend>Outer first <input id=\"outer-first\" name=\"outer-first\" value=\"yes\"></legend>\n    <input id=\"outer-body\" name=\"outer-body\" value=\"no\">\n    <fieldset disabled><legend>Inner first <input id=\"inner-first\" name=\"inner-first\" value=\"no\"></legend>\n    <input id=\"inner-body\" name=\"inner-body\" value=\"no\"></fieldset></fieldset>\n    <button id=\"after\" type=\"button\">After</button></form>`\n  document.body.append(container)\n  try {\n    const outer = container.querySelector<HTMLFieldSetElement>('#outer')!\n    const before = container.querySelector<HTMLButtonElement>('#before')!\n    const snapshots = []\n    for (const disabled of [true, false, true]) {\n      outer.disabled = disabled\n      const controls = [...container.querySelectorAll<HTMLInputElement>('input')].map((input) => {\n        before.focus()\n        input.focus()\n        let matcherDisabled = true\n        try {\n          expect(input).toBeDisabled()\n        } catch {\n          matcherDisabled = false\n        }\n        return {\n          id: input.id,\n          ownDisabled: input.hasAttribute('disabled'),\n          selectorDisabled: input.matches(':disabled'),\n          matcherDisabled,\n          focused: document.activeElement === input,\n          willValidate: input.willValidate,\n        }\n      })\n      snapshots.push({\n        outerDisabled: disabled,\n        controls,\n        formData: [...new FormData(container.querySelector<HTMLFormElement>('form')!).keys()],\n      })\n    }\n    outer.disabled = true\n    before.focus()\n    const tabOrder = []\n    for (let i = 0; i < 4; i++) {\n      await userEvent.keyboard('{Tab}')\n      tabOrder.push(document.activeElement?.id || document.activeElement?.tagName)\n    }\n    throw new Error('[fieldset-native-diagnostic] ' + JSON.stringify({ snapshots, tabOrder }))\n  } finally {\n    container.remove()\n  }\n})\n",
+  "evidenceLog": "/tmp/xenon-fieldset-native-diagnostic-values.log",
+  "evidence": {
+    "chromium": {
+      "snapshots": [
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first"
+          ]
+        },
+        {
+          "outerDisabled": false,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first",
+            "outer-body",
+            "inner-first"
+          ]
+        },
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first"
+          ]
+        }
+      ],
+      "tabOrder": [
+        "outer-first",
+        "after",
+        "BODY",
+        "before"
+      ]
+    },
+    "firefox": {
+      "snapshots": [
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first"
+          ]
+        },
+        {
+          "outerDisabled": false,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first",
+            "outer-body",
+            "inner-first"
+          ]
+        },
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first"
+          ]
+        }
+      ],
+      "tabOrder": [
+        "outer-first",
+        "after",
+        "BODY",
+        "outer-first"
+      ]
+    },
+    "webkit": {
+      "snapshots": [
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": true,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first",
+            "inner-first"
+          ]
+        },
+        {
+          "outerDisabled": false,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first",
+            "outer-body",
+            "inner-first"
+          ]
+        },
+        {
+          "outerDisabled": true,
+          "controls": [
+            {
+              "id": "outer-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": false,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "outer-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            },
+            {
+              "id": "inner-first",
+              "ownDisabled": false,
+              "selectorDisabled": false,
+              "matcherDisabled": true,
+              "focused": true,
+              "willValidate": true
+            },
+            {
+              "id": "inner-body",
+              "ownDisabled": false,
+              "selectorDisabled": true,
+              "matcherDisabled": true,
+              "focused": false,
+              "willValidate": false
+            }
+          ],
+          "formData": [
+            "outer-first",
+            "inner-first"
+          ]
+        }
+      ],
+      "tabOrder": [
+        "outer-first",
+        "inner-first",
+        "after",
+        "BODY"
+      ]
+    }
+  },
+  "findings": [
+    "Chromium/Firefox inner-first :disabled=true, programmatic focus blocked, willValidate=false, omitted FormData, skipped trusted Tab.",
+    "WebKit inner-first :disabled=false, focus succeeds, willValidate=true, included FormData, included trusted Tab. Reproduces twice with outer disabled=true before and after toggle.",
+    "All engines behave alike with outer disabled=false; inner-body remains disabled.",
+    "Jest-dom matcher independently recursively walks fieldset ancestors and returns disabled=true for inner-first even in WebKit; its semantic algorithm does not establish effective native behavior."
+  ],
+  "matcherSource": {
+    "file": "packages/suite/node_modules/@testing-library/jest-dom/dist/matchers-b01dabb1.mjs",
+    "lines": "1305-1347",
+    "algorithm": "Recurses all ancestors; skips disabled attribute only when traversing that fieldset first direct legend, so outer disabled still applies."
+  },
+  "proposal": "Record explicit browser limitation and preserve expected platform contract and evidence. Keep universal full closure unavailable for fieldset.forms.1; if accepted, use narrowly scoped known-failure treatment only for WebKit nested first-legend scenarios. Do not add Field workaround or replace native behavior with matcher-only assertions.",
+  "scopeLimits": [
+    "Browser builds used by current installed Playwright; not every Safari release.",
+    "Plain-native minimized diagnostic covers input only. Original Field matrix failure covers nested input first before other types; do not infer textarea/select/button outcomes without observation.",
+    "No production edits and original failing matrix unchanged.",
+    "Diagnostic deliberately throws serialized observations to bypass console-hidden reporter; these failures are instrumentation transport, not separate product failures."
+  ],
+  "strictMatrixSource": "import { Field } from '@xenon-ui/solid/field'\nimport { render } from '@solidjs/web'\nimport type { JSX } from '@solidjs/web'\nimport { within } from '@testing-library/dom'\nimport { createSignal, flush } from 'solid-js'\nimport { afterEach, expect, test } from 'vitest'\nimport { userEvent } from 'vitest/browser'\n\nconst cleanups: (() => void)[] = []\nfunction mount(children: () => JSX.Element) {\n  const container = document.createElement('div')\n  document.body.append(container)\n  const dispose = render(children, container)\n  cleanups.push(() => {\n    dispose()\n    container.remove()\n  })\n  flush()\n  return { container, ...within(container) }\n}\nafterEach(() => {\n  cleanups\n    .splice(0)\n    .reverse()\n    .forEach((cleanup) => cleanup())\n  flush()\n})\n\n/**\n * A literal fieldset owns native disabled inheritance. Independent Field controls\n * do not receive a disabled Field owner. Field as=fieldset also propagates Field\n * metadata to descendants; its first-legend behavior is outside these cases.\n */\nfunction Controls(props: { prefix: string }) {\n  return (\n    <Field as=\"span\">\n      <Field.Control\n        id={`${props.prefix}-input`}\n        name={`${props.prefix}-input`}\n        aria-label={`${props.prefix} input`}\n        value=\"Input value\"\n      />\n      <Field.Control\n        as=\"textarea\"\n        id={`${props.prefix}-textarea`}\n        name={`${props.prefix}-textarea`}\n        aria-label={`${props.prefix} textarea`}\n        value=\"Textarea value\"\n      />\n      <Field.Control\n        as=\"select\"\n        id={`${props.prefix}-select`}\n        name={`${props.prefix}-select`}\n        aria-label={`${props.prefix} select`}\n        value=\"selected\"\n      >\n        <option value=\"selected\">Selected</option>\n      </Field.Control>\n      <Field.Control as=\"button\" id={`${props.prefix}-button`} type=\"button\">\n        {props.prefix} button\n      </Field.Control>\n    </Field>\n  )\n}\nconst kinds = ['input', 'textarea', 'select', 'button'] as const\nfunction assertDisabled(container: HTMLElement, prefix: string, disabled: boolean) {\n  for (const kind of kinds) {\n    const control = container.querySelector<HTMLElement>(`#${prefix}-${kind}`)!\n    expect(control, `${prefix} ${kind} exists`).not.toBeNull()\n    // The own attribute stays absent: effective disabled state comes from the\n    // ancestor fieldset and its first-legend exception, rather than Field props.\n    expect(control).not.toHaveAttribute('disabled')\n    expect(control.matches(':disabled'), `${prefix} ${kind} native disabled state`).toBe(disabled)\n    if (disabled) expect(control).toBeDisabled()\n    else expect(control).toBeEnabled()\n  }\n}\nfunction dataNames(form: HTMLFormElement) {\n  return [...new FormData(form).keys()].sort()\n}\nfunction names(...prefixes: string[]) {\n  return prefixes\n    .flatMap((prefix) => ['input', 'select', 'textarea'].map((kind) => `${prefix}-${kind}`))\n    .sort()\n}\n\ntest('disabled native fieldset enables only its first legend across Field control types fieldset.forms.1', async () => {\n  const m = mount(() => (\n    <form data-testid=\"form\">\n      <fieldset disabled>\n        <legend>\n          First legend <Controls prefix=\"first\" />\n        </legend>\n        <legend>\n          Second legend <Controls prefix=\"second\" />\n        </legend>\n        <Controls prefix=\"body\" />\n        <fieldset>\n          <legend>Nested enabled fieldset</legend>\n          <Controls prefix=\"nested\" />\n        </fieldset>\n      </fieldset>\n    </form>\n  ))\n  assertDisabled(m.container, 'first', false)\n  for (const prefix of ['second', 'body', 'nested']) assertDisabled(m.container, prefix, true)\n  const first = m.getByRole('textbox', { name: 'first input' })\n  await userEvent.click(first)\n  expect(first).toHaveFocus()\n  await userEvent.keyboard('{Tab}')\n  expect(m.getByRole('textbox', { name: 'first textarea' })).toHaveFocus()\n  expect(dataNames(m.getByTestId('form') as HTMLFormElement)).toEqual(names('first'))\n})\n\ntest('nested first-legend exceptions remain bounded by every disabled fieldset ancestor fieldset.forms.1', () => {\n  const m = mount(() => (\n    <form data-testid=\"form\">\n      <fieldset disabled>\n        <legend>\n          Outer first legend\n          <fieldset disabled>\n            <legend>\n              Inner first legend <Controls prefix=\"both-first\" />\n            </legend>\n            <Controls prefix=\"inner-body\" />\n          </fieldset>\n        </legend>\n        <fieldset disabled>\n          <legend>\n            Inner legend outside outer exception <Controls prefix=\"outer-blocked\" />\n          </legend>\n        </fieldset>\n      </fieldset>\n    </form>\n  ))\n  assertDisabled(m.container, 'both-first', false)\n  assertDisabled(m.container, 'inner-body', true)\n  assertDisabled(m.container, 'outer-blocked', true)\n  expect(dataNames(m.getByTestId('form') as HTMLFormElement)).toEqual(names('both-first'))\n})\n\ntest('reactive native fieldset disabled changes preserve inner disabling and form submission exclusions fieldset.forms.1', () => {\n  const [disabled, setDisabled] = createSignal(true)\n  const m = mount(() => (\n    <form data-testid=\"form\">\n      <fieldset disabled={disabled()}>\n        <legend>\n          First legend <Controls prefix=\"first\" />\n        </legend>\n        <Controls prefix=\"body\" />\n        <fieldset disabled>\n          <legend>\n            Inner first legend <Controls prefix=\"inner-first\" />\n          </legend>\n          <Controls prefix=\"inner-body\" />\n        </fieldset>\n      </fieldset>\n    </form>\n  ))\n  const form = m.getByTestId('form') as HTMLFormElement\n  assertDisabled(m.container, 'first', false)\n  for (const prefix of ['body', 'inner-first', 'inner-body'])\n    assertDisabled(m.container, prefix, true)\n  expect(dataNames(form)).toEqual(names('first'))\n  setDisabled(false)\n  flush()\n  for (const prefix of ['first', 'body', 'inner-first']) assertDisabled(m.container, prefix, false)\n  assertDisabled(m.container, 'inner-body', true)\n  expect(dataNames(form)).toEqual(names('first', 'body', 'inner-first'))\n  setDisabled(true)\n  flush()\n  assertDisabled(m.container, 'first', false)\n  for (const prefix of ['body', 'inner-first', 'inner-body'])\n    assertDisabled(m.container, prefix, true)\n  expect(dataNames(form)).toEqual(names('first'))\n})\n",
+  "disposition": "Browser limitation: do not claim complete fieldset.forms.1 coverage or add a library workaround without an explicit compatibility decision.",
+  "reproduce": "Save strictMatrixSource under packages/suite/src/field/fieldset.reproduction.test-browser.tsx and run from packages/suite: xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/field/fieldset.reproduction.test-browser.tsx. The nested cases are expected to expose the documented WebKit issue. Remove the temporary file afterward."
+}
