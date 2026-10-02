@@ -1635,17 +1635,17 @@
     {"ids":["select.focus.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab respects trigger document order and option selection retains focus; exact focus/blur callback count/no-blur-on-select is not asserted.","evidence":574,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":98},"status":"reconciled"},
     {"ids":["select.focus.19"],"historicalStatus":"missing","domain":"popup-selection","reason":"Disabled options keep tabindex=-1 and are programmatically focusable, but exact disabled-option focus() case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":100},"status":"queued"},
     {"ids":["select.state.1","select.state.2","select.state.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Controlled/default visibility and deduplicated boolean change callbacks ship, but initial-open silence plus exact Escape counts/full open-close callback sequence are not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":102},"status":"verified"},
-    {"ids":["select.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reactive controlled prop updates closed Value label without mounting; popup option selected state and changed metadata label lookup are not both asserted.","evidence":575,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":105},"status":"reconciled"},
+    {"ids":["select.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reactive controlled prop updates closed Value label without mounting; popup option selected state and changed metadata label lookup are not both asserted.","evidence":575,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":105},"status":"verified"},
     {"ids":["select.state.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default label/form value and later selection changes are asserted; rendered matching option aria-selected transition is not directly checked.","evidence":576,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":106},"status":"verified"},
     {"ids":["select.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pinned controlled selection attempt followed by reopen/Escape keeps exact count one; exact uncontrolled newly-chosen then reopen/Escape sequence is not asserted.","evidence":577,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":108},"status":"reconciled"},
-    {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"reconciled"},
+    {"ids":["select.state.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Closed metadata label lookup works before popup mount and reopening restores committed highlight; direct selected-attribute plus no-programmatic-forced-mount full sequence is absent.","evidence":578,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":111},"status":"verified"},
     {"ids":["select.state.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Value supports static children before label lookup/placeholder; function-of-value children, arrays and raw-value fallback are not supplied.","evidence":579,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":112},"status":"reconciled"},
     {"ids":["select.state.28"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native name is reactive, but toggling name during open with same popup identity and FormData changes is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":114},"status":"verified"},
     {"ids":["select.forms.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Implementation renders real select plus empty option and metadata options; tests use its native value/reset but do not enumerate full option tree/count.","evidence":580,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":118},"status":"verified"},
     {"ids":["select.forms.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default string submitted value is asserted; object serializer variant is outside nonempty-string API.","evidence":581,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":121},"status":"reconciled"},
     {"ids":["select.forms.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Empty required Select is invalid and committed value becomes valid; multiple-selection required-attribute switching is excluded.","evidence":550,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":123},"status":"reconciled"},
     {"ids":["select.forms.13"],"historicalStatus":"missing","domain":"popup-selection","reason":"Explicit form ID is forwarded to native select and reset listener uses native.form, but external-form submit/reset is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":125},"status":"verified"},
-    {"ids":["select.forms.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic native change requests controlled value then repairs denial; successful uncontrolled adoption/selected attribute/callback exactly once is not all asserted, and actual OS autofill is not simulated.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":127},"status":"reconciled"},
+    {"ids":["select.forms.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"Synthetic native change requests controlled value then repairs denial; successful uncontrolled adoption/selected attribute/callback exactly once is not all asserted, and actual OS autofill is not simulated.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":127},"status":"verified"},
     {"ids":["select.forms.17"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native change is refused by metadata membership guard, but unknown autofill no-callback case is not tested.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":128},"status":"verified"},
     {"ids":["select.forms.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled change gate ships; hidden value remains committed rather than necessarily empty, and server-error behavior is not a Select contract.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":129},"status":"reconciled"},
     {"ids":["select.forms.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field name, required and description inheritance are asserted; disabled/readonly Field inheritance with error text full matrix is not tested for Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":134},"status":"queued"},
@@ -5417,6 +5417,41 @@
         "packages/suite/src/navigation-menu/navigation-menu.interactions.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator verified the two supported layout cases across Chromium, Firefox and WebKit."
+    },
+    {
+      "id": "select-controlled-and-native-value-updates",
+      "status": "verified",
+      "ids": [
+        "select.state.6",
+        "select.state.23",
+        "select.forms.15"
+      ],
+      "acceptedClauses": [
+        "External values and replacement labels update before initial opening and while open without callbacks; reopening re-registers selected items without force-mounting for closed value changes; known native change updates visible label, submission and reopened selected marker exactly once."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.controlled-native.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 6 file cases across Chromium, Firefox and WebKit: 18 passed."
+    },
+    {
+      "id": "select-supported-validation-and-autofill-guards",
+      "status": "reconciled",
+      "ids": [
+        "select.forms.19",
+        "select.forms.11"
+      ],
+      "acceptedClauses": [
+        "Disabled/read-only known-value native changes repair the mirror and preserve empty or existing commitment without callbacks; single required validity follows native commitment and silent reset."
+      ],
+      "remainingClauses": [
+        "Server-error preservation API and multiple-selection required-attribute behavior remain unshipped and are not claimed."
+      ],
+      "files": [
+        "packages/suite/src/select/select.controlled-native.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified these cases across Chromium, Firefox and WebKit within the 18 passing file checks."
     }
   ],
   "knownLimits": {
