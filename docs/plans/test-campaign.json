@@ -859,7 +859,7 @@
     {"ids":["collapsible.animation.22"],"historicalStatus":"partial","domain":"collections-layout","reason":"No-animation-name browser exit is asserted after settling, without a synchronous immediate-unmount assertion. The new browser case confirms no animation-duration wait after scheduled exit inspection. Same-commit unmount remains outside the shipped scheduled Presence lifecycle.","evidence":39,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":865},"status":"reconciled"},
     {"ids":["collapsible.animation.24"],"historicalStatus":"partial","domain":"collections-layout","reason":"Reopening preserves the node and cancels stale completion; the implementation re-enters and does not adopt the research prohibition on starting-style during reopen. Reopen preserves the host despite stale animation completion, and a subsequent close reaches ending state then removes it. The research prohibition on any starting-style during reopen remains an unadopted alternative.","evidence":40,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":866},"status":"reconciled"},
     {"ids":["tabs.a11y.6"],"historicalStatus":"partial","domain":"collections-layout","reason":"Positive allowed-attribute checks do not establish the exact role-table attribute lists.","evidence":41,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":884},"status":"reconciled"},
-    {"ids":["tabs.roles.14"],"historicalStatus":"partial","domain":"collections-layout","reason":"Associations are asserted in the fixture, but the case does not rearrange the tab and panel DOM orders; notes.7 supplies that separate scenario.","evidence":42,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":888},"status":"reconciled"},
+    {"ids":["tabs.roles.14"],"historicalStatus":"partial","domain":"collections-layout","reason":"Associations are asserted in the fixture, but the case does not rearrange the tab and panel DOM orders; notes.7 supplies that separate scenario.","evidence":42,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":888},"status":"verified"},
     {"ids":["tabs.state.7"],"historicalStatus":"partial","domain":"collections-layout","reason":"Tests late tabs choose the first; an out-of-range default index is not part of the value-based API.","evidence":43,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":928},"status":"reconciled"},
     {"ids":["tabs.roles.8"],"historicalStatus":"partial","domain":"collections-layout","reason":"Tabs forwards author aria-haspopup but no tab-menu naming/haspopup assertion exists; the old blanket unshipped-menu exclusion is stale. The named tab exposes aria-haspopup=menu with a shipped Menu in its associated panel; opening that menu directly from the tab is not exercised.","evidence":44,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":994},"status":"reconciled"},
     {"ids":["tabs.state.6"],"historicalStatus":"partial","domain":"collections-layout","reason":"Default-value updates preserve uncontrolled selection; the research development warning is not provided.","evidence":45,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":997},"status":"reconciled"},
@@ -990,7 +990,7 @@
     {"ids":["selection.keyboard.2"],"historicalStatus":"partial","domain":"collections-layout","reason":"Manual Tabs selection is keyboard-committed separately from arrow focus; network-latency policy is author guidance.","evidence":161,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1818},"status":"reconciled"},
     {"ids":["selection.keyboard.6"],"historicalStatus":"partial","domain":"collections-layout","reason":"Ctrl+A selects enabled values and single mode is ignored; callbacks emit an array, not the all sentinel, and platform-specific Meta+A is not asserted here. A public multiple Listbox responds to Meta+A by selecting every enabled option and reporting the selected-value array. The shipped callback does not use the research's literal all sentinel, so that divergence remains explicit.","evidence":162,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1822},"status":"reconciled"},
     {"ids":["selection.keyboard.11"],"historicalStatus":"partial","domain":"collections-layout","reason":"Already-selected Enter/Space emits no duplicate selection callback; Listbox has no separate row action callback. After Apple is selected, Enter and Space on the focused selected option leave it selected and do not emit duplicate value-change callbacks. The built Listbox has no separate row action callback, so only the selection portion is asserted.","evidence":163,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1827},"status":"reconciled"},
-    {"ids":["selection.pointer.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"The generic single-selection toggle replaces then clears; actual Listbox activation deliberately retains an already-selected option.","evidence":164,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1835},"status":"reconciled"},
+    {"ids":["selection.pointer.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"The generic single-selection toggle replaces then clears; actual Listbox activation deliberately retains an already-selected option.","evidence":164,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1835},"status":"verified"},
     {"ids":["selection.pointer.2"],"historicalStatus":"partial","domain":"collections-layout","reason":"Single Listbox selection retains an already-selected value without duplicate reports; a configurable multi highlight/replace mode is absent.","evidence":165,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1836},"status":"reconciled"},
     {"ids":["selection.state.2"],"historicalStatus":"partial","domain":"collections-layout","reason":"None mode preserves input and reports false membership for select/toggle/clear; replace/set/extend methods are not exported.","evidence":166,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1847},"status":"reconciled"},
     {"ids":["selection.state.5"],"historicalStatus":"partial","domain":"collections-layout","reason":"Collection ranges preserve either-direction order and same-item ranges; selection itself has no generic extend method.","evidence":167,"historicalRecord":{"file":"packages/suite/coverage/basics.json","index":1850},"status":"reconciled"},
@@ -19065,6 +19065,26 @@
       },
       "limits": [
         "Static literal axe.run inventory is not universal configuration or runtime evidence. Rule evaluation may be inapplicable or incomplete in jsdom."
+      ]
+    },
+    {
+      "id": "existing-tabs-and-selection-contract-evidence",
+      "status": "verified",
+      "ids": [
+        "tabs.roles.14",
+        "selection.pointer.1"
+      ],
+      "acceptedClauses": [
+        "Tabs declared with panels in reversed order preserve value-matched two-way ID associations through activation; the generic single-selection core returns replacement values for a different item and clears when toggling the selected item."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/tabs/tabs.additional.test.tsx",
+        "packages/core/src/selection/selection.test.ts"
+      ],
+      "verification": "Coordinator inspected exact assertion bodies, then independently ran Tabs additional plus related suite files (23 tests passed) and the core selection suite (10 tests passed).",
+      "limits": [
+        "Generic selection toggle behavior is separate from Listbox's deliberate selected-item retention policy."
       ]
     }
   ],
