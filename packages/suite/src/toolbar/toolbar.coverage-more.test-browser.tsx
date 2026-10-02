@@ -18,5 +18,5 @@ spec('toolbar.pointer.2', async () => {
   })
   const links = within(m.container).getAllByRole('link')
   await userEvent.click(links[1]!)
-  expect(location.hash).toBe('#two')
+  await expect.poll(() => location.hash).toBe('#two')
 })
