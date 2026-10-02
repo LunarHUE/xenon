@@ -239,3 +239,19 @@ test('author cancellation prevents press dismissal', () => {
   flush()
   expect(within(document.body).getByRole('tooltip', { hidden: true })).toHaveTextContent('Retained')
 })
+
+test('empty disabled roots suppress display and nested refs attach', () => {
+  vi.useFakeTimers()
+  const change = vi.fn()
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Tooltip disabled="" openDelay={0} onOpenChange={change}>
+      <Tooltip.Trigger ref={refs}>Preview</Tooltip.Trigger>
+    </Tooltip>
+  ))
+  enter(view.getByText('Preview'))
+  tick(1000)
+  expect(host).toHaveBeenCalledWith(view.getByText('Preview'))
+  expect(change).not.toHaveBeenCalled()
+})
