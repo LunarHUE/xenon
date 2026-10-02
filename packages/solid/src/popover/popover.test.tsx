@@ -369,7 +369,7 @@ test('Popover Viewport wires trigger changes into inert previous content', async
   }
 })
 
-test('composes nested content refs and removes authored undefined associations', () => {
+test('composes nested refs, removes undefined associations, and preserves the Close default label', () => {
   const host = vi.fn()
   const refs = [host, [undefined, host]]
   const view = render(() => (
@@ -387,5 +387,5 @@ test('composes nested content refs and removes authored undefined associations',
   expect(host).toHaveBeenCalledWith(view.getByRole('dialog', { hidden: true }))
   expect(view.getByText('Title')).not.toHaveAttribute('id')
   expect(view.getByRole('dialog', { hidden: true })).not.toHaveAttribute('aria-describedby')
-  expect(view.getByText('Close')).not.toHaveAttribute('aria-label')
+  expect(view.getByText('Close')).toHaveAttribute('aria-label', 'Close popover')
 })

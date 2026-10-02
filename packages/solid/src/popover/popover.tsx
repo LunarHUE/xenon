@@ -522,6 +522,7 @@ export function PopoverTrigger<T extends ValidComponent = 'button', Payload = un
 }
 /**
  * Renders a Button requesting closed state, with Close popover as the default label.
+ * An absent or undefined aria-label uses this default; explicit empty or custom labels win.
  * Button props, disabled/pending gating, and author-event cancellation are preserved.
  * The root ignores the request when already closed.
  * @throws If rendered outside Popover.
@@ -534,7 +535,11 @@ export function PopoverClose<T extends ValidComponent = 'button'>(
     <Button
       {...buttonProps(context.result().parts.close, {
         ...props,
-        ...(!('aria-label' in props) ? { 'aria-label': 'Close popover' } : {}),
+        get 'aria-label'() {
+          return 'aria-label' in props && props['aria-label'] !== undefined
+            ? props['aria-label']
+            : 'Close popover'
+        },
       })}
     />
   )
