@@ -1,5 +1,5 @@
 import { select } from '@xenon-ui/core/select'
-import type { SelectOptions } from '@xenon-ui/core/select'
+import type { SelectOptions as CoreSelectOptions } from '@xenon-ui/core/select'
 import { Dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
@@ -16,6 +16,8 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { createPresence } from '../internal/presence'
 import { SelectionPopup, useSelectionPositioner } from '../internal/selection-popup'
@@ -23,6 +25,8 @@ import type { SelectionPopupProps } from '../internal/selection-popup'
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
 import { serverAssociations } from '../field/server-associations'
+
+type SelectOptions = NativeBooleanAttributes<CoreSelectOptions>
 
 /**
  * Wrapper-free single-value select with metadata available before the popup mounts.
@@ -97,9 +101,9 @@ function createSelect(props: SelectProps) {
     }
   }
   const value = () => props.value ?? internal()
-  const disabled = () => (props.disabled ?? false) || (field?.disabled() ?? false)
-  const readonly = () => (props.readonly ?? false) || (field?.readonly() ?? false)
-  const required = () => (props.required ?? false) || (field?.required() ?? false)
+  const disabled = () => booleanAttribute(props.disabled) || (field?.disabled() ?? false)
+  const readonly = () => booleanAttribute(props.readonly) || (field?.readonly() ?? false)
+  const required = () => booleanAttribute(props.required) || (field?.required() ?? false)
   const open = () => !disabled() && !readonly() && (props.open ?? internalOpen())
   const triggerId = () => {
     revision()
@@ -284,11 +288,12 @@ export function SelectRoot(props: SelectProps): JSX.Element {
   return isServer ? context.associations!.finish(element) : element
 }
 /** Polymorphic trigger props. Custom hosts must forward attributes and ref. */
-export type SelectTriggerProps<T extends ValidComponent = 'button'> = ComponentProps<T> & {
+export type SelectTriggerProps<T extends ValidComponent = 'button'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Host tag or forwarding component, defaulting to the native host. */
   as?: T
-  /** Receives the rendered host after internal registration. */
-  ref?: (el: HTMLElement) => void
 }
 /** Keeps DOM focus while aria-activedescendant identifies the highlighted option. */
 export function SelectTrigger<T extends ValidComponent = 'button'>(
@@ -352,7 +357,7 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       {...spread(part(), rest)}
       ref={(el: HTMLElement) => {
         context.setTrigger(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {own.children}
@@ -392,11 +397,9 @@ export function SelectPositioner(props: SelectPositionerProps): JSX.Element {
   )
 }
 /** Polymorphic popup surface attributes. */
-export type SelectContentProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type SelectContentProps<T extends ValidComponent = 'div'> = Omit<ComponentProps<T>, 'as'> & {
   /** Host tag or forwarding component, defaulting to the native host. */
   as?: T
-  /** Receives the rendered host after internal registration. */
-  ref?: (el: HTMLElement) => void
 }
 /** Renders the listbox surface and presence/placement hooks inside Positioner. */
 export function SelectContent<T extends ValidComponent = 'div'>(
@@ -425,7 +428,7 @@ export function SelectContent<T extends ValidComponent = 'div'>(
       ref={(el: HTMLElement) => {
         context.setContent(el)
         context.life.ref(el)
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {own.children}
@@ -433,7 +436,7 @@ export function SelectContent<T extends ValidComponent = 'div'>(
   )
 }
 /** Option identity must exist in the root metadata; children may contain custom presentation. */
-export type SelectItemProps<T extends ValidComponent = 'div'> = ComponentProps<T> & {
+export type SelectItemProps<T extends ValidComponent = 'div'> = Omit<ComponentProps<T>, 'as'> & {
   /** Host tag or forwarding component, defaulting to div. */
   as?: T
   /** Nonempty root metadata identity, stable for this option lifetime. */
@@ -466,7 +469,7 @@ export function SelectArrow(props: ComponentProps<'div'>): JSX.Element {
       {...positioning.arrowProps()}
       ref={(el) => {
         positioning.setArrow(el)
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
       aria-hidden="true"
     />
