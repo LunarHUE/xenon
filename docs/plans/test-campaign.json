@@ -1259,25 +1259,25 @@
     {"ids":["context-menu.keyboard.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser asserts Escape removal and restored region focus; final closed trigger data-state is not asserted.","evidence":356,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":139},"status":"queued"},
     {"ids":["context-menu.keyboard.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Forward Tab closes and reaches After. Shift+Tab backward exit is not tested.","evidence":356,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":140},"status":"queued"},
     {"ids":["context-menu.keyboard.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"ArrowRight opens submenu and focuses its first item; Enter/Space variants are not asserted.","evidence":357,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":141},"status":"queued"},
-    {"ids":["context-menu.pointer.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies prevention on root surface and no prevention outside. Backdrop and portal-container-inside-trigger variants are explicitly deferred.","evidence":358,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":144},"status":"queued"},
-    {"ids":["context-menu.pointer.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Author preventDefault vetoes opening, but adapter does not explicitly assert the post-dispatch prevented flag on this path.","evidence":359,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":146},"status":"queued"},
+    {"ids":["context-menu.pointer.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies prevention on root surface and no prevention outside. Backdrop and portal-container-inside-trigger variants are explicitly deferred.","evidence":358,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":144},"status":"reconciled"},
+    {"ids":["context-menu.pointer.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Author preventDefault vetoes opening, but adapter does not explicitly assert the post-dispatch prevented flag on this path.","evidence":359,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":146},"status":"reconciled"},
     {"ids":["context-menu.pointer.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Scope selects same-coordinate remeasurement, but current retrigger browser fixtures use different coordinates.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":148},"status":"verified"},
-    {"ids":["context-menu.pointer.11"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter verifies a later region click closes after touch-hold release-click suppression; ordinary right-click then left-click path is not directly asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":150},"status":"queued"},
+    {"ids":["context-menu.pointer.11"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter verifies a later region click closes after touch-hold release-click suppression; ordinary right-click then left-click path is not directly asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":150},"status":"reconciled"},
     {"ids":["context-menu.pointer.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts opening at the touch-hold threshold; native touch-point geometry is not tested.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":153},"status":"queued"},
-    {"ids":["context-menu.pointer.25"],"historicalStatus":"partial","domain":"menus-navigation","reason":"20px movement cancellation is checked; within-10px movement retaining the hold is not asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":156},"status":"queued"},
+    {"ids":["context-menu.pointer.25"],"historicalStatus":"partial","domain":"menus-navigation","reason":"20px movement cancellation is checked; within-10px movement retaining the hold is not asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":156},"status":"reconciled"},
     {"ids":["context-menu.pointer.27","context-menu.pointer.28"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Second-touch cancellation and disabled hold suppression are accepted, but current hold test does not exercise those branches.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":157},"status":"queued"},
     {"ids":["context-menu.state.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser records one true report through retrigger; Escape false report is not asserted.","evidence":357,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":163},"status":"queued"},
     {"ids":["context-menu.dismissal.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser asserts inside contextmenu remains open and outside native event remains unprevented. It does not assert menu removal after the outside right-click.","evidence":358,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":166},"status":"queued"},
     {"ids":["context-menu.a11y.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"No inspected ContextMenu native fixture invokes axe on a right-click-open menu.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":172},"status":"verified"},
-    {"ids":["context-menu.notes.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native as=section fixture verifies custom host, styles and handler composition. Universal ref/prop merging across every part is not asserted.","evidence":361,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":175},"status":"queued"},
+    {"ids":["context-menu.notes.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native as=section fixture verifies custom host, styles and handler composition. Universal ref/prop merging across every part is not asserted.","evidence":361,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":175},"status":"reconciled"},
     {"ids":["context-menu.keyboard.7","context-menu.keyboard.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled submenu activation and scoped typeahead are inherited from Menu but lack a complete ContextMenu-specific assertion.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":178},"status":"verified"},
-    {"ids":["menubar.roles.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter checks an author aria-label accessible name. Visible-label aria-labelledby resolution remains unasserted.","evidence":362,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":181},"status":"queued"},
-    {"ids":["menubar.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Menuitem roles are queried throughout native tests; haspopup=menu is not directly asserted.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":184},"status":"queued"},
+    {"ids":["menubar.roles.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter checks an author aria-label accessible name. Visible-label aria-labelledby resolution remains unasserted.","evidence":362,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":181},"status":"reconciled"},
+    {"ids":["menubar.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Menuitem roles are queried throughout native tests; haspopup=menu is not directly asserted.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":184},"status":"reconciled"},
     {"ids":["menubar.roles.9"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts roving trigger tabindex transfer and native disabled endpoints. Every item in an open nested widget and positive-tabindex absence are not exhaustively asserted.","evidence":364,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":187},"status":"queued"},
     {"ids":["menubar.roles.21","menubar.a11y.1","menubar.a11y.3"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Menubar semantics are implemented but inspected Menubar fixtures contain no direct axe scans covering these complete rules.","evidence":365,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":195},"status":"queued"},
-    {"ids":["menubar.keyboard.7"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Home/End selects enabled endpoints; PageUp/PageDown aliases are explicitly deferred.","evidence":366,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":200},"status":"queued"},
+    {"ids":["menubar.keyboard.7"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Home/End selects enabled endpoints; PageUp/PageDown aliases are explicitly deferred.","evidence":366,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":200},"status":"excluded"},
     {"ids":["menubar.keyboard.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted Enter/Space toggling and first-item keyboard opening lack this complete direct Menubar fixture.","evidence":365,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":201},"status":"queued"},
-    {"ids":["menubar.keyboard.11"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native plain-item horizontal switching closes old menu and focuses new first item. Text caret-edge and dialog-popup variants are explicitly deferred.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":204},"status":"queued"},
+    {"ids":["menubar.keyboard.11"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native plain-item horizontal switching closes old menu and focuses new first item. Text caret-edge and dialog-popup variants are explicitly deferred.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":204},"status":"reconciled"},
     {"ids":["menubar.keyboard.14"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Reactive test asserts each top-level close/open callback. Nested descendant callback ordering on a horizontal switch is not asserted.","evidence":367,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":206},"status":"queued"},
     {"ids":["menubar.keyboard.15"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native ArrowRight opens and ArrowLeft returns; Enter and Space submenu opening are not checked.","evidence":368,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":207},"status":"queued"},
     {"ids":["menubar.keyboard.16","menubar.keyboard.17","menubar.keyboard.19","menubar.keyboard.21","menubar.keyboard.25","menubar.pointer.8","menubar.pointer.9","menubar.pointer.11","menubar.pointer.12","menubar.pointer.13","menubar.state.3"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted inherited Menu item/navigation/selection behavior lacks the complete Menubar-specific sequence in inspected fixtures.","evidence":365,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":208},"status":"queued"},
@@ -1290,42 +1290,42 @@
     {"ids":["menubar.pointer.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native click asserts menu surface focus and first item unfocused; first subsequent ArrowDown entry is not exercised after that click.","evidence":370,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":221},"status":"queued"},
     {"ids":["menubar.focus.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Roving and initial Tab entry/exit are asserted; one complete native closed-bar forward/backward traversal proving exactly one stop is not present.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":225},"status":"queued"},
     {"ids":["menubar.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Tests assert final tabindex and focused element, not mutation-before-focus operation ordering.","evidence":362,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":226},"status":"queued"},
-    {"ids":["menubar.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core proves horizontal default independent of omitted aria-orientation; shared Menu vertical default is not checked in this fixture.","evidence":372,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":230},"status":"queued"},
+    {"ids":["menubar.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core proves horizontal default independent of omitted aria-orientation; shared Menu vertical default is not checked in this fixture.","evidence":372,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":230},"status":"reconciled"},
     {"ids":["menubar.dismissal.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native outside click closes every menu and preserves outside focus. Pointerdown alone/capture listener timing is not asserted.","evidence":373,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":232},"status":"queued"},
     {"ids":["menubar.dismissal.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape and Tab close; Enter/Space bypass and hover/focus guards are not asserted together.","evidence":374,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":234},"status":"queued"},
     {"ids":["menubar.dismissal.5"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Outside mouse click closes a nested chain, but native touch press with a nested Menubar has no direct fixture.","evidence":365,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":236},"status":"queued"},
     {"ids":["menubar.positioning.1","menubar.positioning.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Default side and explicit placement are implemented through shared positioning, but no direct Menubar geometry assertion covers the orientation/RTL matrix.","evidence":365,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":240},"status":"queued"},
     {"ids":["menubar.positioning.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native fixture uses portaled menus and tests major keyboard paths; universal equality of every inline and portaled keyboard case is not established.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":241},"status":"queued"},
     {"ids":["menubar.rtl.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native tests cover closed-bar mirrored wrapping and one open switch direction; all open-menu end boundaries in both directions are not asserted.","evidence":375,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":243},"status":"queued"},
-    {"ids":["menubar.notes.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Fixtures exercise author attributes, styles, callbacks and native hosts; no comprehensive all-part ref/class/event-composition matrix is asserted.","evidence":367,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":249},"status":"queued"},
-    {"ids":["navigation-menu.roles.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter assert absent composite roles/orientation. Data-orientation and nested root/list variants are not fully asserted; nested controllers are deferred.","evidence":376,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":252},"status":"queued"},
-    {"ids":["navigation-menu.roles.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Hydration fixture queries the named navigation landmark; default label and override behavior are not both asserted.","evidence":377,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":253},"status":"queued"},
-    {"ids":["navigation-menu.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core/adapter assert current page marker; absence on a non-current link is not directly asserted.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":254},"status":"queued"},
-    {"ids":["navigation-menu.roles.7"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled state hook is implemented but its add/remove lifecycle is not directly asserted.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":255},"status":"queued"},
-    {"ids":["navigation-menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Enter opens with trigger focus preserved; native repeated Enter and Space toggling are not both asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":258},"status":"queued"},
-    {"ids":["navigation-menu.keyboard.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser ArrowRight walks through trigger and native link. LTR ArrowLeft reverse traversal is not asserted in that fixture.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":261},"status":"queued"},
-    {"ids":["navigation-menu.keyboard.6","navigation-menu.keyboard.8","navigation-menu.keyboard.11","navigation-menu.keyboard.12","navigation-menu.keyboard.18","navigation-menu.keyboard.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"List registry navigation, endpoint keys, nonwrapping panel navigation and disabled/silent requests are accepted, but these complete native interaction assertions are absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":262},"status":"queued"},
-    {"ids":["navigation-menu.keyboard.10"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser checks ArrowDown moves to next panel link; full Up/Down/Left/Right matrix is not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":265},"status":"queued"},
-    {"ids":["navigation-menu.keyboard.16"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape returns to trigger and closes; Enter reopening afterwards and all panel positions are not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":267},"status":"queued"},
-    {"ids":["navigation-menu.pointer.12"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter click switches panels and reports values; physical touch switching is not tested.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":275},"status":"queued"},
-    {"ids":["navigation-menu.pointer.13"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies panel-leave delayed close, but trigger-leave without reaching panel and exact custom close boundary are not checked.","evidence":382,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":276},"status":"queued"},
-    {"ids":["navigation-menu.pointer.27"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter rejects touch hover; touch tap and subsequent hover recovery/nested behavior are not asserted, and nested controllers are deferred.","evidence":383,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":278},"status":"queued"},
-    {"ids":["navigation-menu.pointer.29"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser link click closes and author preventDefault keeps open. A separate close-on-click=false property is not supplied or asserted.","evidence":384,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":279},"status":"queued"},
-    {"ids":["navigation-menu.focus.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Hover close is accepted without focus restoration; a fixture explicitly asserting unchanged focus after hover-leave closure is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":280},"status":"queued"},
-    {"ids":["navigation-menu.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser programmatically places outside focus and asserts preservation; outside click focus is not directly tested.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":281},"status":"queued"},
-    {"ids":["navigation-menu.focus.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser final panel stop moves to next native link and closes. Last-trigger exit and arbitrary tabbable controls are not all checked.","evidence":385,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":283},"status":"queued"},
-    {"ids":["navigation-menu.focus.6","navigation-menu.focus.12","navigation-menu.focus.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted native focus/keyboard behavior lacks the exact first-trigger backward exit, hover-to-Escape-reopen and second-panel Tab sequences.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":284},"status":"queued"},
-    {"ids":["navigation-menu.state.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultValue is accepted but no inspected NavigationMenu fixture directly asserts default-open first render.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":287},"status":"queued"},
-    {"ids":["navigation-menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Empty string selection is asserted; number/boolean identities are excluded by the string-only API and nested propagation is deferred.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":290},"status":"queued"},
-    {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"queued"},
-    {"ids":["navigation-menu.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter reject disabled clicks and pending hover on disabling; touch and native key variants are not fully checked.","evidence":387,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":292},"status":"queued"},
-    {"ids":["navigation-menu.state.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Retained inactive panels are accepted; a direct inactive-handler/active-panel pointerdown assertion is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":294},"status":"queued"},
-    {"ids":["navigation-menu.dismissal.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared outside-pointer dismissal is accepted; inspected native fixtures directly test outside focus, not this complete outside pointer path.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":295},"status":"queued"},
-    {"ids":["navigation-menu.positioning.14"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser renders top-level Content without Viewport; absence of a viewport and nested no-viewport placement are not asserted, with nesting deferred.","evidence":388,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":300},"status":"queued"},
-    {"ids":["navigation-menu.animation.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts inactive panel remains mounted and hidden inside shared Viewport. Moving panels from item into viewport and retained portal lifecycle are not checked.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":302},"status":"queued"},
-    {"ids":["navigation-menu.ssr.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Server test asserts exactly one hidden panel; floating hydration checks global identity retention but does not explicitly count this panel hidden after hydration.","evidence":389,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":305},"status":"queued"},
-    {"ids":["navigation-menu.a11y.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser scans open navigation container. A separate closed-state scan is not present.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":306},"status":"queued"},
-    {"ids":["navigation-menu.notes.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter/native fixtures exercise native links and cancelable handlers; universal refs/class/style forwarding on every part is not asserted.","evidence":390,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":308},"status":"queued"},
+    {"ids":["menubar.notes.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Fixtures exercise author attributes, styles, callbacks and native hosts; no comprehensive all-part ref/class/event-composition matrix is asserted.","evidence":367,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":249},"status":"reconciled"},
+    {"ids":["navigation-menu.roles.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter assert absent composite roles/orientation. Data-orientation and nested root/list variants are not fully asserted; nested controllers are deferred.","evidence":376,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":252},"status":"reconciled"},
+    {"ids":["navigation-menu.roles.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Hydration fixture queries the named navigation landmark; default label and override behavior are not both asserted.","evidence":377,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":253},"status":"reconciled"},
+    {"ids":["navigation-menu.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core/adapter assert current page marker; absence on a non-current link is not directly asserted.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":254},"status":"reconciled"},
+    {"ids":["navigation-menu.roles.7"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled state hook is implemented but its add/remove lifecycle is not directly asserted.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":255},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Enter opens with trigger focus preserved; native repeated Enter and Space toggling are not both asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":258},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser ArrowRight walks through trigger and native link. LTR ArrowLeft reverse traversal is not asserted in that fixture.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":261},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.6","navigation-menu.keyboard.8","navigation-menu.keyboard.11","navigation-menu.keyboard.12","navigation-menu.keyboard.18","navigation-menu.keyboard.19"],"historicalStatus":"missing","domain":"menus-navigation","reason":"List registry navigation, endpoint keys, nonwrapping panel navigation and disabled/silent requests are accepted, but these complete native interaction assertions are absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":262},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.10"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser checks ArrowDown moves to next panel link; full Up/Down/Left/Right matrix is not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":265},"status":"reconciled"},
+    {"ids":["navigation-menu.keyboard.16"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Escape returns to trigger and closes; Enter reopening afterwards and all panel positions are not asserted.","evidence":380,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":267},"status":"reconciled"},
+    {"ids":["navigation-menu.pointer.12"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter click switches panels and reports values; physical touch switching is not tested.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":275},"status":"reconciled"},
+    {"ids":["navigation-menu.pointer.13"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies panel-leave delayed close, but trigger-leave without reaching panel and exact custom close boundary are not checked.","evidence":382,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":276},"status":"reconciled"},
+    {"ids":["navigation-menu.pointer.27"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter rejects touch hover; touch tap and subsequent hover recovery/nested behavior are not asserted, and nested controllers are deferred.","evidence":383,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":278},"status":"reconciled"},
+    {"ids":["navigation-menu.pointer.29"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser link click closes and author preventDefault keeps open. A separate close-on-click=false property is not supplied or asserted.","evidence":384,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":279},"status":"excluded"},
+    {"ids":["navigation-menu.focus.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Hover close is accepted without focus restoration; a fixture explicitly asserting unchanged focus after hover-leave closure is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":280},"status":"reconciled"},
+    {"ids":["navigation-menu.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser programmatically places outside focus and asserts preservation; outside click focus is not directly tested.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":281},"status":"reconciled"},
+    {"ids":["navigation-menu.focus.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser final panel stop moves to next native link and closes. Last-trigger exit and arbitrary tabbable controls are not all checked.","evidence":385,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":283},"status":"reconciled"},
+    {"ids":["navigation-menu.focus.6","navigation-menu.focus.12","navigation-menu.focus.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted native focus/keyboard behavior lacks the exact first-trigger backward exit, hover-to-Escape-reopen and second-panel Tab sequences.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":284},"status":"reconciled"},
+    {"ids":["navigation-menu.state.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultValue is accepted but no inspected NavigationMenu fixture directly asserts default-open first render.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":287},"status":"reconciled"},
+    {"ids":["navigation-menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Empty string selection is asserted; number/boolean identities are excluded by the string-only API and nested propagation is deferred.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":290},"status":"excluded"},
+    {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"reconciled"},
+    {"ids":["navigation-menu.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter reject disabled clicks and pending hover on disabling; touch and native key variants are not fully checked.","evidence":387,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":292},"status":"reconciled"},
+    {"ids":["navigation-menu.state.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Retained inactive panels are accepted; a direct inactive-handler/active-panel pointerdown assertion is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":294},"status":"reconciled"},
+    {"ids":["navigation-menu.dismissal.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared outside-pointer dismissal is accepted; inspected native fixtures directly test outside focus, not this complete outside pointer path.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":295},"status":"reconciled"},
+    {"ids":["navigation-menu.positioning.14"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser renders top-level Content without Viewport; absence of a viewport and nested no-viewport placement are not asserted, with nesting deferred.","evidence":388,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":300},"status":"reconciled"},
+    {"ids":["navigation-menu.animation.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts inactive panel remains mounted and hidden inside shared Viewport. Moving panels from item into viewport and retained portal lifecycle are not checked.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":302},"status":"reconciled"},
+    {"ids":["navigation-menu.ssr.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Server test asserts exactly one hidden panel; floating hydration checks global identity retention but does not explicitly count this panel hidden after hydration.","evidence":389,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":305},"status":"reconciled"},
+    {"ids":["navigation-menu.a11y.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser scans open navigation container. A separate closed-state scan is not present.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":306},"status":"reconciled"},
+    {"ids":["navigation-menu.notes.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter/native fixtures exercise native links and cancelable handlers; universal refs/class/style forwarding on every part is not asserted.","evidence":390,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":308},"status":"reconciled"},
     {"ids":["toast.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. C `separates focusable notification semantics` checks the title association; S `record updates preserve content DOM` checks the accessible name after an update. Replacing a title element and removing the title entirely remain unverified.","evidence":391,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":312},"status":"queued"},
     {"ids":["toast.roles.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. S `limited records are hidden and inert` activates the default-labeled close control. Explicit type=button and localization assertions remain deferred.","evidence":392,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":315},"status":"queued"},
     {"ids":["toast.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Partial. S `record updates preserve content DOM` queries the author label Updates. Hotkey placeholder interpolation has no matching assertion yet.","evidence":393,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":316},"status":"queued"},
@@ -3025,6 +3025,1060 @@
       "verification": "Coordinator ran all 8 cases across Chromium, Firefox and WebKit: 24 passed. The same run separately exposed an existing TagsInput End-selection failure.",
       "limits": [
         "ASCII navigation and pointer interactions use native browser input. Diacritic matching dispatches an explicit cancelable keydown because the installed Vitest Playwright keyboard provider inserts non-US characters without a keydown event; it does not establish OS layout or IME behavior."
+      ]
+    },
+    {
+      "id": "navigation-research-alternatives",
+      "status": "excluded",
+      "ids": [
+        "navigation-menu.pointer.29",
+        "navigation-menu.state.4",
+        "menubar.keyboard.7"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "navigation-menu.pointer.29: Dedicated close-on-click boolean is absent; onSelect preventDefault is shipped escape hatch.",
+        "navigation-menu.state.4: Number/boolean identities rejected by string-only value type; inherited nested selection unshipped.",
+        "menubar.keyboard.7: PageUp/PageDown aliases not handled by shipped composite implementation; research APG example variant."
+      ],
+      "files": [
+        "packages/solid/src/navigation-menu/navigation-menu.tsx",
+        "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+        "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+        "packages/solid/src/menubar/menubar.tsx",
+        "packages/suite/src/menubar/menubar.native.test-browser.tsx"
+      ],
+      "verification": "Read-only source/spec/assertion reconciliation; no passing execution or test completion claimed.",
+      "scopeReview": [
+        {
+          "id": "navigation-menu.pointer.29",
+          "historicalStatus": "partial",
+          "classification": "residualExcluded",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 80,
+            "clause": "- [ ] `navigation-menu.pointer.29` Given a link with close-on-click inside an open panel, when it is clicked, then the panel MUST close and the trigger MUST return to `aria-expanded=\"false\"`; with close-on-click off the panel MUST stay open. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Default link selection closes and author preventDefault veto leaves panel open already asserted.",
+          "unshippedOrAlternativeResidual": "Dedicated close-on-click boolean is absent; onSelect preventDefault is shipped escape hatch.",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 185,
+            "anchor": "author Escape and link selection cancellation"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.state.4",
+          "historicalStatus": "partial",
+          "classification": "residualExcluded",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 107,
+            "clause": "- [ ] `navigation-menu.state.4` Given an item whose value is falsy (`0`, `''`, `false`), then it MUST still be treated as a valid open value: the callback reports that exact value, the trigger reports expanded, and its panel mounts. The same holds for an inline nested item, and a nested close with a falsy open value MUST still propagate to the parent root. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Empty string as valid distinct value is already asserted.",
+          "unshippedOrAlternativeResidual": "Number/boolean identities rejected by string-only value type; inherited nested selection unshipped.",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 47,
+            "anchor": "changed.mock.calls"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.keyboard.7",
+          "historicalStatus": "partial",
+          "classification": "residualExcluded",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 44,
+            "clause": "- [ ] `menubar.keyboard.7` Given focus anywhere in the menubar, when Home is pressed, then focus MUST move to the first trigger and End to the last; the APG examples map PageUp to Home and PageDown to End. [apg, base-ui]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Native Home/End enabled endpoint assertions already exist.",
+          "unshippedOrAlternativeResidual": "PageUp/PageDown aliases not handled by shipped composite implementation; research APG example variant.",
+          "currentEvidence": {
+            "file": "packages/suite/src/menubar/menubar.native.test-browser.tsx",
+            "line": 81,
+            "anchor": "Tab enters a menubar"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        }
+      ]
+    },
+    {
+      "id": "navigation-writable-queue",
+      "status": "reconciled",
+      "ids": [
+        "navigation-menu.roles.4",
+        "navigation-menu.roles.5",
+        "navigation-menu.roles.6",
+        "navigation-menu.roles.7",
+        "navigation-menu.keyboard.1",
+        "navigation-menu.keyboard.5",
+        "navigation-menu.keyboard.6",
+        "navigation-menu.keyboard.8",
+        "navigation-menu.keyboard.11",
+        "navigation-menu.keyboard.12",
+        "navigation-menu.keyboard.18",
+        "navigation-menu.keyboard.19",
+        "navigation-menu.keyboard.10",
+        "navigation-menu.keyboard.16",
+        "navigation-menu.pointer.12",
+        "navigation-menu.pointer.13",
+        "navigation-menu.pointer.27",
+        "navigation-menu.focus.2",
+        "navigation-menu.focus.3",
+        "navigation-menu.focus.5",
+        "navigation-menu.focus.6",
+        "navigation-menu.focus.12",
+        "navigation-menu.focus.13",
+        "navigation-menu.state.1",
+        "navigation-menu.state.5",
+        "navigation-menu.state.6",
+        "navigation-menu.state.9",
+        "navigation-menu.dismissal.1",
+        "navigation-menu.positioning.14",
+        "navigation-menu.animation.6",
+        "navigation-menu.ssr.1",
+        "navigation-menu.a11y.1",
+        "navigation-menu.notes.2",
+        "menubar.roles.2",
+        "menubar.roles.6",
+        "menubar.keyboard.11",
+        "menubar.state.6",
+        "menubar.notes.6",
+        "context-menu.pointer.3",
+        "context-menu.pointer.6",
+        "context-menu.pointer.11",
+        "context-menu.pointer.25",
+        "context-menu.notes.3"
+      ],
+      "acceptedClauses": [
+        "navigation-menu.roles.4: Root/list data-orientation with horizontal and vertical live props; nonnested list lacks aria-orientation.",
+        "navigation-menu.roles.5: Assert default Main navigation accessible label and explicit override.",
+        "navigation-menu.roles.6: Assert no aria-current on the noncurrent Docs link; toggling current removes marker.",
+        "navigation-menu.roles.7: Reactive disabled true→false removes data-disabled on a mounted trigger.",
+        "navigation-menu.keyboard.1: Native repeated Enter and Space opening/closing from trigger.",
+        "navigation-menu.keyboard.5: LTR ArrowLeft reverses through a plain link and trigger.",
+        "navigation-menu.keyboard.6: Native Home first trigger/End last focusable list link.",
+        "navigation-menu.keyboard.8: Remove live item and verify arrows traverse surviving list DOM.",
+        "navigation-menu.keyboard.11: Native panel Home/End to first/last child.",
+        "navigation-menu.keyboard.12: Panel first Up and final Down retain focus rather than wrap.",
+        "navigation-menu.keyboard.18: onValueChange count after open followed by trigger arrow navigation.",
+        "navigation-menu.keyboard.19: Disabled polymorphic trigger focused: native open keys emit no request or panel.",
+        "navigation-menu.keyboard.10: Panel Up/Down and Left/Right matrix, including reverse movement.",
+        "navigation-menu.keyboard.16: Escape from each focusable panel position then Enter reopens.",
+        "navigation-menu.pointer.12: Real touch tap switches panel without closing intermediate selection; mouse click sequence already asserted.",
+        "navigation-menu.pointer.13: Native trigger leave without reaching content; bounded close-delay boundary with controlled clock if reliable.",
+        "navigation-menu.pointer.27: Native touch tap opens and closes; subsequent mouse hover recovers.",
+        "navigation-menu.focus.2: Hover-leave closure retains preexisting focused element without restoration.",
+        "navigation-menu.focus.3: Native outside click transfers focus to actual clicked target and closes.",
+        "navigation-menu.focus.5: Final-trigger panel Tab exits the bar to unrelated tabbable control; include arbitrary input/button panel stops.",
+        "navigation-menu.focus.6: Shift+Tab from first trigger closes open panel and reaches preceding native stop.",
+        "navigation-menu.focus.12: Hover-open, native Tab into panel, Escape restores trigger, Enter reopens.",
+        "navigation-menu.focus.13: Keyboard open/close first panel, then second panel Tab order visits its own links.",
+        "navigation-menu.state.1: defaultValue selects/open panel first render without callback.",
+        "navigation-menu.state.5: Pinned controlled-open value refuses native hover/click switch while reporting requested value.",
+        "navigation-menu.state.6: Native disabled key/touch taps stay silent; mouse click/pending hover disabling already asserted.",
+        "navigation-menu.state.9: Pointerdown inside active panel does not let inactive kept panel dismiss current selection.",
+        "navigation-menu.dismissal.1: Native outside pointer closes with exact callback/focus ownership; existing outside focus differs.",
+        "navigation-menu.positioning.14: Explicit absence of Viewport in supported direct Content fixture.",
+        "navigation-menu.animation.6: Retained shared Viewport panels remain same DOM nodes hidden after switches/close; retained portal cleanup.",
+        "navigation-menu.ssr.1: Hydrated hidden panel count exactly1 and hidden state; server count already asserted.",
+        "navigation-menu.a11y.1: Closed-state axe scan; existing scan covers open only.",
+        "navigation-menu.notes.2: All exported part ref/props/class/style and handler merge assertions using shipped as prop.",
+        "menubar.roles.2: Visible external label resolves aria-labelledby accessible name.",
+        "menubar.roles.6: Top-level trigger carries aria-haspopup=menu (and nested subtrigger parity where clause applies).",
+        "menubar.keyboard.11: Container horizontal switch matrix and remaining supported plain-item directions.",
+        "menubar.state.6: Omitted Menubar orientation defaults horizontal and its opened shared Menu navigates vertically.",
+        "menubar.notes.6: Exported part host/ref/prop/style/class/event merge matrix with as.",
+        "context-menu.pointer.3: Direct prevention on portaled popup and portal container placed inside trigger subtree, contrasted body outside.",
+        "context-menu.pointer.6: Retain canceled contextmenu event and assert defaultPrevented after author veto.",
+        "context-menu.pointer.11: Ordinary right-click then native left click closes; existing touch-release followup click differs.",
+        "context-menu.pointer.25: Touch hold movement within10px still opens; >10px existing synthetic cancellation.",
+        "context-menu.notes.3: All exported part forwarding/ref/class/style/event composition; special WebkitTouchCallout merge."
+      ],
+      "remainingClauses": [
+        "navigation-menu.roles.4: Nested controllers/propagation are not exported.",
+        "navigation-menu.roles.5: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.roles.6: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.roles.7: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.1: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.5: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.6: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.8: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.11: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.12: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.18: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.19: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.10: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.keyboard.16: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.pointer.12: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.pointer.13: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.pointer.27: Nested-trigger variant is unshipped.",
+        "navigation-menu.focus.2: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.focus.3: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.focus.5: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.focus.6: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.focus.12: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.focus.13: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.state.1: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.state.5: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.state.6: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.state.9: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.dismissal.1: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.positioning.14: Nested no-viewport path has no nested controller API.",
+        "navigation-menu.animation.6: Automatic panel relocation from an Item into a shared viewport is not implemented; author places panels inside Viewport.",
+        "navigation-menu.ssr.1: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.a11y.1: Concrete shipped assertions remain to be implemented and verified.",
+        "navigation-menu.notes.2: asChild/render composition options are not public APIs; no implementation required for those alternatives.",
+        "menubar.roles.2: Concrete shipped assertions remain to be implemented and verified.",
+        "menubar.roles.6: Concrete shipped assertions remain to be implemented and verified.",
+        "menubar.keyboard.11: Text caret-edge switching and dialog popup item are not dedicated shipped Menubar contracts.",
+        "menubar.state.6: Concrete shipped assertions remain to be implemented and verified.",
+        "menubar.notes.6: asChild/render alternatives are unshipped.",
+        "context-menu.pointer.3: No backdrop part exported. Portal-container event suppression applicability needs fixture/hit target review before treating as supported.",
+        "context-menu.pointer.6: Concrete shipped assertions remain to be implemented and verified.",
+        "context-menu.pointer.11: Concrete shipped assertions remain to be implemented and verified.",
+        "context-menu.pointer.25: Concrete shipped assertions remain to be implemented and verified.",
+        "context-menu.notes.3: asChild/render alternatives absent, shipped as is supported."
+      ],
+      "files": [
+        "packages/solid/src/navigation-menu/navigation-menu.tsx",
+        "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+        "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+        "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+        "packages/solid/src/navigation-menu/ssr.test.ts",
+        "packages/solid/src/menubar/menubar.tsx",
+        "packages/solid/src/menubar/menubar.test.tsx",
+        "packages/suite/src/menubar/menubar.native.test-browser.tsx",
+        "packages/solid/src/context-menu/context-menu.tsx",
+        "packages/suite/src/context-menu/context-menu.native.test-browser.tsx",
+        "packages/solid/src/context-menu/context-menu.test.tsx"
+      ],
+      "verification": "Read-only source/spec/assertion reconciliation; no passing execution or test completion claimed.",
+      "scopeReview": [
+        {
+          "id": "navigation-menu.roles.4",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 17,
+            "clause": "- [ ] `navigation-menu.roles.4` Given a navigation menu, then neither the root nor the list MUST carry `aria-orientation` — including for a nested root and list — because neither is an ARIA composite; orientation MUST be published as a data attribute instead. [base-ui, zag, radix]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Root/list data-orientation with horizontal and vertical live props; nonnested list lacks aria-orientation.",
+          "unshippedOrAlternativeResidual": "Nested controllers/propagation are not exported.",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 34,
+            "anchor": "not.toHaveAttribute('aria-orientation')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.roles.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 18,
+            "clause": "- [ ] `navigation-menu.roles.5` Given the root, then it MUST carry an accessible label (Zag supplies a translated default). [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Assert default Main navigation accessible label and explicit override.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 34,
+            "anchor": "getByRole('navigation')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.roles.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 19,
+            "clause": "- [ ] `navigation-menu.roles.6` Given a link marked as the current page, then it MUST carry `aria-current=\"page\"`, and a link not so marked MUST have no `aria-current` attribute at all. [base-ui, zag]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Assert no aria-current on the noncurrent Docs link; toggling current removes marker.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 39,
+            "anchor": "toHaveAttribute('aria-current', 'page')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.roles.7",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 20,
+            "clause": "- [ ] `navigation-menu.roles.7` Given a disabled trigger, then it MUST carry a disabled style hook, removed again when the trigger is enabled. [base-ui, zag]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Reactive disabled true→false removes data-disabled on a mounted trigger.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 188,
+            "anchor": "toHaveAttribute('data-disabled')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 30,
+            "clause": "- [ ] `navigation-menu.keyboard.1` Given a focused trigger, when Enter or Space is pressed, then its panel MUST open; pressing the key again on the same trigger MUST close it. [zag, bits, base-ui]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native repeated Enter and Space opening/closing from trigger.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 66,
+            "anchor": "native top-layer panel preserves logical Tab order and Escape returns focus"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 34,
+            "clause": "- [ ] `navigation-menu.keyboard.5` Given focus on a trigger, when ArrowRight is pressed, then focus MUST move to the next trigger and ArrowLeft back to the previous one, walking past plain top-level links as well as triggers. [base-ui, zag, bits]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "LTR ArrowLeft reverses through a plain link and trigger.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 96,
+            "anchor": "list arrows include native links"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.6",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 35,
+            "clause": "- [ ] `navigation-menu.keyboard.6` Given focus on a trigger, when Home is pressed, then focus MUST jump to the first trigger and End to the last focusable element in the list. [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native Home first trigger/End last focusable list link.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 96,
+            "anchor": "list arrows include native links"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.8",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 37,
+            "clause": "- [ ] `navigation-menu.keyboard.8` Given an item removed from the list, then arrow navigation MUST be computed from the surviving registry rather than a stale index. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Remove live item and verify arrows traverse surviving list DOM.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 156,
+            "anchor": "setVisible(false)"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.11",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 40,
+            "clause": "- [ ] `navigation-menu.keyboard.11` Given focus inside an open panel, when Home or End is pressed, then focus MUST jump to its first or last focusable child. [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native panel Home/End to first/last child.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 66,
+            "anchor": "native top-layer panel preserves logical Tab order and Escape returns focus"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.12",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 41,
+            "clause": "- [ ] `navigation-menu.keyboard.12` Given the first focusable child of a panel, when ArrowUp is pressed, then focus MUST stay put; from the last child ArrowDown MUST also stay put, so navigation inside a panel MUST NOT loop. [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Panel first Up and final Down retain focus rather than wrap.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 66,
+            "anchor": "native top-layer panel preserves logical Tab order and Escape returns focus"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.18",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 47,
+            "clause": "- [ ] `navigation-menu.keyboard.18` Given a panel opened with the keyboard, then moving focus between triggers with an arrow key MUST NOT emit a duplicate value change: only the key that actually opens a panel MUST report the new value. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "onValueChange count after open followed by trigger arrow navigation.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 47,
+            "anchor": "changed.mock.calls"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.19",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 48,
+            "clause": "- [ ] `navigation-menu.keyboard.19` Given a disabled trigger with focus, when the open key is pressed, then no panel MUST open and no value change MUST be reported. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Disabled polymorphic trigger focused: native open keys emit no request or panel.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 49,
+            "anchor": "controlled null stays closed"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.10",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 39,
+            "clause": "- [ ] `navigation-menu.keyboard.10` Given focus inside an open panel, then ArrowDown and ArrowUp MUST walk its focusable children one at a time, and ArrowRight/ArrowLeft MUST do the same in a horizontal panel. [zag, reka, bits]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Panel Up/Down and Left/Right matrix, including reverse movement.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 66,
+            "anchor": "native top-layer panel preserves logical Tab order and Escape returns focus"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.keyboard.16",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 45,
+            "clause": "- [ ] `navigation-menu.keyboard.16` Given focus inside an open panel, when Escape is pressed, then the panel MUST close and focus MUST return to its trigger, from any position inside the panel; Enter MUST then be able to reopen it. [zag, base-ui]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Escape from each focusable panel position then Enter reopens.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 66,
+            "anchor": "native top-layer panel preserves logical Tab order and Escape returns focus"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.pointer.12",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 63,
+            "clause": "- [ ] `navigation-menu.pointer.12` Given a panel open by click, when a different trigger is clicked (with mouse or with touch), then the panels MUST swap rather than the menu closing. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Real touch tap switches panel without closing intermediate selection; mouse click sequence already asserted.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 47,
+            "anchor": "changed.mock.calls"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.pointer.13",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 64,
+            "clause": "- [ ] `navigation-menu.pointer.13` Given a panel open by hover, when the pointer leaves the trigger without reaching the panel, then the panel MUST stay open for the close delay and close once it elapses; a custom close delay MUST be honored exactly. [base-ui, zag, reka, bits]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native trigger leave without reaching content; bounded close-delay boundary with controlled clock if reliable.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 169,
+            "anchor": "crossing into the panel cancels"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.pointer.27",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 78,
+            "clause": "- [ ] `navigation-menu.pointer.27` Given touch input, then hovering MUST NOT open a panel while tapping MUST; after a touch interaction closes the menu, hover opening MUST be restored, including after tapping a nested trigger. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native touch tap opens and closes; subsequent mouse hover recovers.",
+          "unshippedOrAlternativeResidual": "Nested-trigger variant is unshipped.",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 96,
+            "anchor": "enter('A', 'touch')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.2",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 88,
+            "clause": "- [ ] `navigation-menu.focus.2` Given a panel closed by hovering out, then focus MUST NOT be moved to the trigger. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Hover-leave closure retains preexisting focused element without restoration.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 169,
+            "anchor": "crossing into the panel cancels"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.3",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 89,
+            "clause": "- [ ] `navigation-menu.focus.3` Given a panel closed by clicking an element outside, then focus MUST stay on that outside element rather than returning to the trigger. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native outside click transfers focus to actual clicked target and closes.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 96,
+            "anchor": "list arrows include native links"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 91,
+            "clause": "- [ ] `navigation-menu.focus.5` Given focus tabbing forward out of the last trigger or out of arbitrary tabbable panel content, then the panel MUST close and focus MUST NOT be returned to the trigger. [base-ui, zag]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Final-trigger panel Tab exits the bar to unrelated tabbable control; include arbitrary input/button panel stops.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 204,
+            "anchor": "Tab from the panel final stop"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.6",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 92,
+            "clause": "- [ ] `navigation-menu.focus.6` Given focus tabbing backward out of the first trigger, then the panel MUST close. [base-ui, zag]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Shift+Tab from first trigger closes open panel and reaches preceding native stop.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 218,
+            "anchor": "Tab and Shift+Tab round-trip"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.12",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 98,
+            "clause": "- [ ] `navigation-menu.focus.12` Given a panel opened by hover and then tabbed into, when Escape closes it, then focus MUST return to the trigger and Enter MUST be able to reopen it. [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Hover-open, native Tab into panel, Escape restores trigger, Enter reopens.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 218,
+            "anchor": "Tab and Shift+Tab round-trip"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.focus.13",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 99,
+            "clause": "- [ ] `navigation-menu.focus.13` Given one panel opened and closed with the keyboard, then opening a second panel MUST let Tab walk its own content links in order. [zag] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Keyboard open/close first panel, then second panel Tab order visits its own links.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.native.test-browser.tsx",
+            "line": 204,
+            "anchor": "Tab from the panel final stop"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.state.1",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 104,
+            "clause": "- [ ] `navigation-menu.state.1` Given a default value, then the named item MUST be open on first render. [radix, base-ui]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "defaultValue selects/open panel first render without callback.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 49,
+            "anchor": "controlled null stays closed"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.state.5",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 108,
+            "clause": "- [ ] `navigation-menu.state.5` Given a controlled value, then the open panel MUST follow the prop rather than the pointer. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Pinned controlled-open value refuses native hover/click switch while reporting requested value.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 49,
+            "anchor": "controlled null stays closed"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.state.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 109,
+            "clause": "- [ ] `navigation-menu.state.6` Given a disabled trigger, then hover, click, touch and keyboard MUST all fail to open it and no value change MUST be reported. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native disabled key/touch taps stay silent; mouse click/pending hover disabling already asserted.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 115,
+            "anchor": "delayed hover rechecks"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.state.9",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 112,
+            "clause": "- [ ] `navigation-menu.state.9` Given content kept mounted while hidden, then an inactive panel's dismiss handler MUST return early so a pointer-down inside the active panel does not clear the active value. [reka] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Pointerdown inside active panel does not let inactive kept panel dismiss current selection.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 44,
+            "anchor": "closest('[data-navigation-panel]')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.dismissal.1",
+          "historicalStatus": "missing",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 116,
+            "clause": "- [ ] `navigation-menu.dismissal.1` Given an open panel, when a click or `pointerdown` lands outside, then the panel MUST close. [base-ui, zag, reka]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Native outside pointer closes with exact callback/focus ownership; existing outside focus differs.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 96,
+            "anchor": "list arrows include native links"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.positioning.14",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 136,
+            "clause": "- [ ] `navigation-menu.positioning.14` Given a no-viewport mode, then the panel MUST render inside its own item element and no viewport element MUST exist; the same MUST hold for a sub panel with sub viewports turned off. [bits] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Explicit absence of Viewport in supported direct Content fixture.",
+          "unshippedOrAlternativeResidual": "Nested no-viewport path has no nested controller API.",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 114,
+            "anchor": "RTL list arrows and vertical opening keys"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.animation.6",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 145,
+            "clause": "- [ ] `navigation-menu.animation.6` Given panels with content kept mounted, then the active panel MUST be moved into the popup's viewport and MUST stay there when switching triggers, with every kept panel remaining mounted inside the viewport; when the menu closes with a kept portal the panel MUST gain `hidden` and stay in the viewport rather than returning to the list. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Retained shared Viewport panels remain same DOM nodes hidden after switches/close; retained portal cleanup.",
+          "unshippedOrAlternativeResidual": "Automatic panel relocation from an Item into a shared viewport is not implemented; author places panels inside Viewport.",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 44,
+            "anchor": "closest('[data-navigation-panel]')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.ssr.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 154,
+            "clause": "- [ ] `navigation-menu.ssr.1` Given content marked keep-mounted, then exactly one content element MUST be present in the server-rendered HTML and, after hydration, exactly one MUST exist carrying `hidden`. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Hydrated hidden panel count exactly1 and hidden state; server count already asserted.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/ssr.test.ts",
+            "line": 22,
+            "anchor": "querySelectorAll('#panel')"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.a11y.1",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 159,
+            "clause": "- [ ] `navigation-menu.a11y.1` Given a navigation menu closed and with a panel open, when axe runs over the container, then there MUST be no violations. [zag, reka]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "Closed-state axe scan; existing scan covers open only.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/navigation-menu/navigation-menu.test-browser.tsx",
+            "line": 107,
+            "anchor": "expectNoViolations(m.container)"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "navigation-menu.notes.2",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/navigation-menu.md",
+            "line": 164,
+            "clause": "- [ ] `navigation-menu.notes.2` Given every navigation menu part, then it MUST forward unconsumed props and refs to the element it renders, merge class names and inline styles, support a render/`asChild` escape hatch preserving the part's state attributes, and compose the author's handlers with its own; the list renders a `ul`, the item an `li`, and the link an `a` exposing native anchor props. [radix, base-ui]"
+          },
+          "source": "packages/solid/src/navigation-menu/navigation-menu.tsx",
+          "remainingShippedAssertions": "All exported part ref/props/class/style and handler merge assertions using shipped as prop.",
+          "unshippedOrAlternativeResidual": "asChild/render composition options are not public APIs; no implementation required for those alternatives.",
+          "currentEvidence": {
+            "file": "packages/solid/src/navigation-menu/navigation-menu.test.tsx",
+            "line": 7,
+            "anchor": "disclosures keep native links"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.roles.2",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 15,
+            "clause": "- [ ] `menubar.roles.2` Given a menubar with a visible label, then it MUST have `aria-labelledby` referring to that label; otherwise `aria-label` MUST supply the name. [apg]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Visible external label resolves aria-labelledby accessible name.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/menubar/menubar.test.tsx",
+            "line": 10,
+            "anchor": "menubar has one enabled tab stop"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.roles.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 19,
+            "clause": "- [ ] `menubar.roles.6` Given each menubar trigger, then it MUST have `role=\"menuitem\"` and `aria-haspopup=\"menu\"`. [apg, radix, base-ui]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Top-level trigger carries aria-haspopup=menu (and nested subtrigger parity where clause applies).",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/suite/src/menubar/menubar.native.test-browser.tsx",
+            "line": 168,
+            "anchor": "disabled trigger ignores native click"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.keyboard.11",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 48,
+            "clause": "- [ ] `menubar.keyboard.11` Given a menubar with one menu already open, when ArrowRight or ArrowLeft is pressed — from the menu container, from a plain item, or from a text field at its caret edge — then the adjacent trigger MUST take focus, the previous menu MUST close, and the newly focused trigger's popup MUST open (a `menu` or a `dialog` depending on the item). [apg, ariakit, radix, base-ui, kobalte, bits]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Container horizontal switch matrix and remaining supported plain-item directions.",
+          "unshippedOrAlternativeResidual": "Text caret-edge switching and dialog popup item are not dedicated shipped Menubar contracts.",
+          "currentEvidence": {
+            "file": "packages/suite/src/menubar/menubar.native.test-browser.tsx",
+            "line": 230,
+            "anchor": "LTR ArrowLeft returns"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.state.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 112,
+            "clause": "- [ ] `menubar.state.6` Given an orientation left unset, then `menubar` MUST default to horizontal and `menu` to vertical, and the key handler MUST branch on the computed orientation rather than on the attribute's presence. [apg]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Omitted Menubar orientation defaults horizontal and its opened shared Menu navigates vertically.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/menubar/menubar.test.tsx",
+            "line": 10,
+            "anchor": "menubar has one enabled tab stop"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "menubar.notes.6",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/menubar.md",
+            "line": 162,
+            "clause": "- [ ] `menubar.notes.6` Given every menubar part, then it MUST forward unconsumed props and refs to the element it renders, merge class names and inline styles, support a render/`asChild` escape hatch that preserves the part's role and state attributes, and compose the author's handlers with its own. [radix, base-ui]"
+          },
+          "source": "packages/solid/src/menubar/menubar.tsx",
+          "remainingShippedAssertions": "Exported part host/ref/prop/style/class/event merge matrix with as.",
+          "unshippedOrAlternativeResidual": "asChild/render alternatives are unshipped.",
+          "currentEvidence": {
+            "file": "packages/solid/src/menubar/menubar.test.tsx",
+            "line": 145,
+            "anchor": "empty disabled triggers are skipped"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "context-menu.pointer.3",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/context-menu.md",
+            "line": 41,
+            "clause": "- [ ] `context-menu.pointer.3` Given the open menu, its own backdrop, and a portaled popup — including a portal container mounted inside the trigger's own DOM subtree — then a `contextmenu` event on any of them MUST be `defaultPrevented` so no native menu appears on top of the open one; a `contextmenu` on `document.body` outside them MUST NOT be prevented. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/context-menu/context-menu.tsx",
+          "remainingShippedAssertions": "Direct prevention on portaled popup and portal container placed inside trigger subtree, contrasted body outside.",
+          "unshippedOrAlternativeResidual": "No backdrop part exported. Portal-container event suppression applicability needs fixture/hit target review before treating as supported.",
+          "currentEvidence": {
+            "file": "packages/suite/src/context-menu/context-menu.native.test-browser.tsx",
+            "line": 64,
+            "anchor": "keyboard context gestures open"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "context-menu.pointer.6",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/context-menu.md",
+            "line": 44,
+            "clause": "- [ ] `context-menu.pointer.6` Given a trigger whose handler opts out of the library's own open behavior, then the native context menu MUST still be blocked. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/context-menu/context-menu.tsx",
+          "remainingShippedAssertions": "Retain canceled contextmenu event and assert defaultPrevented after author veto.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/context-menu/context-menu.test.tsx",
+            "line": 23,
+            "anchor": "context trigger composes author cancellation"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "context-menu.pointer.11",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/context-menu.md",
+            "line": 49,
+            "clause": "- [ ] `context-menu.pointer.11` Given an open context menu, when the trigger is left-clicked, then the menu MUST close. [zag, bits]"
+          },
+          "source": "packages/solid/src/context-menu/context-menu.tsx",
+          "remainingShippedAssertions": "Ordinary right-click then native left click closes; existing touch-release followup click differs.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/context-menu/context-menu.test.tsx",
+            "line": 51,
+            "anchor": "touch hold opens after 500ms"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "context-menu.pointer.25",
+          "historicalStatus": "partial",
+          "classification": "writable",
+          "spec": {
+            "file": "docs/spec/context-menu.md",
+            "line": 63,
+            "clause": "- [ ] `context-menu.pointer.25` Given a pending long press, when the touch moves more than 10px, then the pending open MUST be cancelled; movement within the threshold MUST leave it pending. [base-ui] (candidate)"
+          },
+          "source": "packages/solid/src/context-menu/context-menu.tsx",
+          "remainingShippedAssertions": "Touch hold movement within10px still opens; >10px existing synthetic cancellation.",
+          "unshippedOrAlternativeResidual": "",
+          "currentEvidence": {
+            "file": "packages/solid/src/context-menu/context-menu.test.tsx",
+            "line": 51,
+            "anchor": "touch hold opens after 500ms"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        },
+        {
+          "id": "context-menu.notes.3",
+          "historicalStatus": "partial",
+          "classification": "mixed",
+          "spec": {
+            "file": "docs/spec/context-menu.md",
+            "line": 134,
+            "clause": "- [ ] `context-menu.notes.3` Given every context-menu part, then it MUST forward unconsumed props and refs to the element it renders, merge class names and inline styles (including with the trigger's own `WebkitTouchCallout` style), support a render/`asChild` escape hatch that preserves the part's role and state attributes, and compose the author's handlers with its own. [radix, base-ui]"
+          },
+          "source": "packages/solid/src/context-menu/context-menu.tsx",
+          "remainingShippedAssertions": "All exported part forwarding/ref/class/style/event composition; special WebkitTouchCallout merge.",
+          "unshippedOrAlternativeResidual": "asChild/render alternatives absent, shipped as is supported.",
+          "currentEvidence": {
+            "file": "packages/suite/src/context-menu/context-menu.native.test-browser.tsx",
+            "line": 64,
+            "anchor": "keyboard context gestures open"
+          },
+          "execution": "Not run in this review. Existing assertion presence alone is not a passing execution claim."
+        }
       ]
     }
   ],
