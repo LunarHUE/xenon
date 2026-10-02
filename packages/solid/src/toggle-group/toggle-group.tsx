@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { ToggleGroupOptions } from '@xenon-ui/core'
 import { toggleGroup } from '@xenon-ui/core'
 import type { ToggleGroupMode } from '@xenon-ui/core'
@@ -23,7 +25,7 @@ interface Shared extends Pick<ToggleGroupOptions<string>, 'orientation' | 'loop'
   /** Horizontal navigation direction. Omission reads nearest dir ancestor or document dir after settling, starting at ltr. */
   dir?: ToggleGroupOptions<string>['direction']
   /** Receives the rendered group host; custom components must forward it. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
   /** Block all selection changes and gated author activation handlers while retaining navigation. Defaults to false. */
   disabled?: ToggleGroupOptions<string>['disabled']
 }
@@ -67,15 +69,15 @@ interface ItemOwn {
   /** Block activation, OR-combined with group disabled; the item remains a keyboard destination. Defaults to false. */
   disabled?: boolean
   /** Receives the visible item host, used for navigation focus and registration ordering. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic group props with mode-specific controlled/uncontrolled selection. */
 export type ToggleGroupProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Shared | 'mode' | 'value' | 'defaultValue' | 'onValueChange' | 'as'
+  Exclude<keyof Shared, 'ref'> | 'mode' | 'value' | 'defaultValue' | 'onValueChange' | 'as'
 > &
-  Shared &
+  NativeBooleanAttributes<Omit<Shared, 'ref'>> &
   (Single | Multiple) & {
     /** Group host, defaulting to div. Custom components must forward props and refs. */
     as?: T
@@ -84,9 +86,9 @@ export type ToggleGroupProps<T extends ValidComponent = 'div'> = Omit<
 /** Polymorphic toggle item props; remaining host attributes override core defaults through spread. */
 export type ToggleGroupItemProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof ItemOwn | 'as'
+  Exclude<keyof ItemOwn, 'ref'> | 'as'
 > &
-  ItemOwn & {
+  NativeBooleanAttributes<Omit<ItemOwn, 'ref'>> & {
     /** Item host: omitted/button uses button semantics, input uses input-button semantics, and other values are generic. */
     as?: T
   }
@@ -143,7 +145,7 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
 
   const mode = () => own.mode ?? 'single'
   const orientation = () => own.orientation ?? 'horizontal'
-  const disabled = () => own.disabled ?? false
+  const disabled = () => booleanAttribute(own.disabled)
   const controlled = () => own.value !== undefined
   const current = () => own.value ?? internal()
 
@@ -202,7 +204,7 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
@@ -243,7 +245,7 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
   const entry: ToggleGroupEntry = {
     el: null,
     value: () => own.value,
-    disabled: () => own.disabled ?? false,
+    disabled: () => booleanAttribute(own.disabled),
     host: () => (composed.matches() ? 'button' : hostOf(own.as)),
   }
 
@@ -251,7 +253,7 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => context.register(entry))
