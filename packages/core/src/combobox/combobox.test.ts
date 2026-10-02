@@ -57,6 +57,89 @@ describe('combobox', () => {
     expect(active).toHaveBeenLastCalledWith('c')
     expect(open).toHaveBeenLastCalledWith(true)
   })
+  test('nonwrapping arrows retain the first and last enabled highlight at a boundary', () => {
+    for (const [activeValue, key] of [
+      ['a', 'ArrowUp'],
+      ['c', 'ArrowDown'],
+    ] as const) {
+      const active = vi.fn()
+      const change = vi.fn()
+      const engine = combobox({
+        items,
+        id: 'x',
+        open: true,
+        loop: false,
+        activeValue,
+        onActiveChange: active,
+        onValueChange: change,
+      })
+      expect(press(engine, key).preventDefault).toHaveBeenCalledExactlyOnceWith()
+      expect(engine.state.activeValue).toBe(activeValue)
+      expect(active).not.toHaveBeenCalled()
+      expect(change).not.toHaveBeenCalled()
+    }
+  })
+  test('nonwrapping arrows still skip disabled options in both directions', () => {
+    for (const [activeValue, key, destination] of [
+      ['a', 'ArrowDown', 'c'],
+      ['c', 'ArrowUp', 'a'],
+    ] as const) {
+      const active = vi.fn()
+      const engine = combobox({
+        items,
+        id: 'x',
+        open: true,
+        loop: false,
+        activeValue,
+        onActiveChange: active,
+      })
+      press(engine, key)
+      expect(active).toHaveBeenCalledExactlyOnceWith(destination)
+    }
+  })
+  test('nonwrapping arrows clear stale highlights when no enabled options remain', () => {
+    for (const remaining of [[], items.map((item) => ({ ...item, disabled: true }))]) {
+      for (const key of ['ArrowUp', 'ArrowDown']) {
+        const active = vi.fn()
+        const change = vi.fn()
+        const engine = combobox({
+          items: remaining,
+          id: 'x',
+          open: true,
+          loop: false,
+          activeValue: 'a',
+          onActiveChange: active,
+          onValueChange: change,
+        })
+        expect(engine.state.activeValue).toBeUndefined()
+        expect(engine.parts.input.attrs['aria-activedescendant']).toBeUndefined()
+        press(engine, key)
+        expect(active).toHaveBeenCalledExactlyOnceWith(undefined)
+        press(engine, 'Enter')
+        expect(change).not.toHaveBeenCalled()
+      }
+    }
+  })
+  test('default and explicitly looping arrows still wrap between both enabled endpoints', () => {
+    for (const loop of [undefined, true]) {
+      for (const [activeValue, key, destination] of [
+        ['a', 'ArrowUp', 'c'],
+        ['c', 'ArrowDown', 'a'],
+      ] as const) {
+        const active = vi.fn()
+        const engine = combobox({
+          items,
+          id: 'x',
+          open: true,
+          loop,
+          activeValue,
+          onActiveChange: active,
+        })
+        press(engine, key)
+        expect(active).toHaveBeenCalledExactlyOnceWith(destination)
+      }
+    }
+  })
   test('Enter commits only a visible enabled highlight and updates display text', () => {
     const change = vi.fn(),
       text = vi.fn(),

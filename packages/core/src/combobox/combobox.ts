@@ -161,11 +161,11 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
               event.preventDefault()
               visibility(true)
-              highlight(
+              const next =
                 event.key === 'ArrowDown'
                   ? enabled.next(open ? activeValue : undefined, { loop: options.loop ?? true })
                   : enabled.previous(open ? activeValue : undefined, { loop: options.loop ?? true })
-              )
+              highlight(next ?? (open ? activeValue : undefined))
             } else if (event.key === 'Enter' && open) {
               if (activeValue !== undefined) {
                 event.preventDefault()
