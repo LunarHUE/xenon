@@ -1782,20 +1782,20 @@
     {"ids":["listbox.roles.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core emits data-empty for an empty collection but that marker has no assertion; an empty-state renderer is not exported.","evidence":647,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":30},"status":"reconciled"},
     {"ids":["listbox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Virtual active-descendant points at the active option. The mirrored data-activedescendant is neither emitted nor asserted.","evidence":644,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":33},"status":"queued"},
     {"ids":["listbox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox.Item explicitly throws without Listbox context, but there is no missing-context assertion.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":38},"status":"verified"},
-    {"ids":["listbox.keyboard.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":39},"status":"queued"},
+    {"ids":["listbox.keyboard.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":39},"status":"verified"},
     {"ids":["listbox.keyboard.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Core resolves the first enabled option by default, but no native Tab or programmatic root-entry test starts with no selection and asserts delegated focus for single and multiple modes.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":41},"status":"verified"},
-    {"ids":["listbox.keyboard.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single/repeated-character DOM navigation and core multi-character prefixes are asserted. A rapid multi-character DOM sequence and larger-than-seven collection are not exercised.","evidence":654,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":51},"status":"queued"},
-    {"ids":["listbox.keyboard.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Repeated letters cycle and timeout creates a fresh query, but the post-timeout key in this test is a different letter rather than the same letter.","evidence":655,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":57},"status":"queued"},
-    {"ids":["listbox.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core search with a preseeded multi-character buffer selects only the whole-prefix match. Two successive quickly typed different characters on the mounted adapter are not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":59},"status":"queued"},
-    {"ids":["listbox.keyboard.33"],"historicalStatus":"partial","domain":"popup-selection","reason":"Bare Down Arrow in multiple roving mode preserves existing selections and leaves the newly focused option unselected. A multiple virtual-focus Home/End/arrow matrix asserting active-descendant is absent.","evidence":657,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":63},"status":"queued"},
+    {"ids":["listbox.keyboard.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single/repeated-character DOM navigation and core multi-character prefixes are asserted. A rapid multi-character DOM sequence and larger-than-seven collection are not exercised.","evidence":654,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":51},"status":"verified"},
+    {"ids":["listbox.keyboard.17"],"historicalStatus":"partial","domain":"popup-selection","reason":"Repeated letters cycle and timeout creates a fresh query, but the post-timeout key in this test is a different letter rather than the same letter.","evidence":655,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":57},"status":"verified"},
+    {"ids":["listbox.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core search with a preseeded multi-character buffer selects only the whole-prefix match. Two successive quickly typed different characters on the mounted adapter are not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":59},"status":"verified"},
+    {"ids":["listbox.keyboard.33"],"historicalStatus":"partial","domain":"popup-selection","reason":"Bare Down Arrow in multiple roving mode preserves existing selections and leaves the newly focused option unselected. A multiple virtual-focus Home/End/arrow matrix asserting active-descendant is absent.","evidence":657,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":63},"status":"verified"},
     {"ids":["listbox.keyboard.35"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native successive Shift+Down extends a fixed range and skips disabled options; the test asserts payloads and disabled exclusion rather than every outside option aria-selected=false on each step.","evidence":658,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":65},"status":"queued"},
     {"ids":["listbox.keyboard.36"],"historicalStatus":"partial","domain":"popup-selection","reason":"An ordinary click replaces the anchor and the following shift arrow overwrites the old membership in the callback payload. The complete inside/outside ARIA state is not asserted.","evidence":659,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":66},"status":"queued"},
     {"ids":["listbox.keyboard.41"],"historicalStatus":"partial","domain":"popup-selection","reason":"Ctrl+A reports all enabled options, excluding disabled options. Meta+A and repeated select-all are not asserted; the API intentionally returns arrays rather than the string all.","evidence":659,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":70},"status":"queued"},
     {"ids":["listbox.keyboard.43"],"historicalStatus":"missing","domain":"popup-selection","reason":"Typeahead is shared across modes, but every mounted typeahead fixture is single-select; no plain-letter multiple fixture asserts navigation with no selection.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":72},"status":"verified"},
-    {"ids":["listbox.keyboard.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core extends a preseeded foo query with a space to Foo Bar and foo ba with z to Foo Baz. A continuous mounted f,o,o,space,b,a,z sequence is not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":81},"status":"queued"},
-    {"ids":["listbox.keyboard.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core matches the supplied textValue function instead of string keys. A mounted Item whose explicit textValue differs from its rendered text has no assertion.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":85},"status":"queued"},
+    {"ids":["listbox.keyboard.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core extends a preseeded foo query with a space to Foo Bar and foo ba with z to Foo Baz. A continuous mounted f,o,o,space,b,a,z sequence is not asserted.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":81},"status":"verified"},
+    {"ids":["listbox.keyboard.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core matches the supplied textValue function instead of string keys. A mounted Item whose explicit textValue differs from its rendered text has no assertion.","evidence":656,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":85},"status":"verified"},
     {"ids":["listbox.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Up from first wraps to last in mounted/native Listbox tests; Listbox Down from last wrapping to first lacks a direct assertion.","evidence":660,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":88},"status":"queued"},
-    {"ids":["listbox.keyboard.50"],"historicalStatus":"partial","domain":"popup-selection","reason":"Enter selects an active virtual option and repeated Enter on a selected single option is silent. Multiple Enter toggling back to empty is implemented but has no mounted assertion.","evidence":661,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":91},"status":"queued"},
+    {"ids":["listbox.keyboard.50"],"historicalStatus":"partial","domain":"popup-selection","reason":"Enter selects an active virtual option and repeated Enter on a selected single option is silent. Multiple Enter toggling back to empty is implemented but has no mounted assertion.","evidence":661,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":91},"status":"verified"},
     {"ids":["listbox.keyboard.52"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core ArrowRight on a vertical collection is explicitly uncanceled with no new active request. ArrowLeft is not tested in the same vertical premise.","evidence":662,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":100},"status":"queued"},
     {"ids":["listbox.pointer.1"],"historicalStatus":"partial","domain":"popup-selection","reason":"Real clicks focus and commit single options, and multiple clicks toggle membership. Automatic scrolling is explicitly deferred and not asserted.","evidence":663,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":106},"status":"queued"},
     {"ids":["listbox.pointer.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shift-click extends/shrinks the inclusive enabled range and replaces old membership; suppression of native text-selection mousedown default is not asserted.","evidence":664,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":108},"status":"queued"},
@@ -1806,13 +1806,13 @@
     {"ids":["listbox.focus.20"],"historicalStatus":"partial","domain":"popup-selection","reason":"Browser Tab skips negative-tabindex options and real click can focus one, but no same-element test asserts all programmatic/click/Tab properties independently.","evidence":666,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":138},"status":"queued"},
     {"ids":["listbox.focus.32"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native tab-stop fixtures prove keyboard focusability, but no overflow/scrollable standalone Listbox fixture checks keyboard scrolling or its accessibility rule.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":150},"status":"queued"},
     {"ids":["listbox.focus.33"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared axe scans cover the roving standalone Listbox. No axe fixture sets standalone virtualFocus, so the specified virtual div root focus-order-semantics premise is unasserted.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":151},"status":"queued"},
-    {"ids":["listbox.focus.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Programmatic root focus delegates to the selected option without changing selection. No empty-selection root focusin case asserts first-enabled delegation.","evidence":667,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":152},"status":"queued"},
+    {"ids":["listbox.focus.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Programmatic root focus delegates to the selected option without changing selection. No empty-selection root focusin case asserts first-enabled delegation.","evidence":667,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":152},"status":"verified"},
     {"ids":["listbox.focus.11"],"historicalStatus":"missing","domain":"popup-selection","reason":"Mount resolves active state without explicitly focusing, but no test asserts initial highlighted selection together with unchanged activeElement and page scroll before interaction.","evidence":653,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":153},"status":"queued"},
     {"ids":["listbox.state.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab leaves and re-enters a selected listbox without change callbacks; selection is asserted before leaving, not explicitly after focus has left.","evidence":665,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":164},"status":"queued"},
     {"ids":["listbox.state.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Range callback payloads fully overwrite prior membership and outside Cherry becomes false on shrink; every inside/outside option ARIA state is not enumerated.","evidence":664,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":165},"status":"queued"},
     {"ids":["listbox.state.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Default selection is restored when control releases, then a click selects Cherry. A purely uncontrolled default-to-new-selection fixture with explicit stable-host identity is absent.","evidence":668,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":166},"status":"queued"},
     {"ids":["listbox.state.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Fixed single selection is retained and the attempted value is asserted, but that single-mode case does not assert exactly one callback. Multiple controlled proposal does assert exact count.","evidence":669,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":167},"status":"queued"},
-    {"ids":["listbox.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Real clicks toggle each member on/off with exact callback counts. Repeated Enter toggling in multiple mode has no mounted assertion.","evidence":648,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":169},"status":"queued"},
+    {"ids":["listbox.state.9"],"historicalStatus":"partial","domain":"popup-selection","reason":"Real clicks toggle each member on/off with exact callback counts. Repeated Enter toggling in multiple mode has no mounted assertion.","evidence":648,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":169},"status":"verified"},
     {"ids":["listbox.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"External controlled value replacement updates both options without echo. The collection is not filtered and the API exposes no resolved selected-items payload.","evidence":649,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":171},"status":"queued"},
     {"ids":["listbox.state.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Focus, fixed anchor and committed selection are independently exercised by range replacement, and click payloads append in interaction order. The foreign active-anchor-set primitive is not exposed.","evidence":670,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":176},"status":"queued"},
     {"ids":["listbox.state.15"],"historicalStatus":"partial","domain":"popup-selection","reason":"A controlled update preserves the same option DOM node while changing aria-selected. No item-context/render-prop selected-state API is exported or asserted.","evidence":671,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":177},"status":"queued"},
@@ -2421,6 +2421,50 @@
         "packages/suite/src/combobox/combobox.state-forms.remaining.test-browser.tsx"
       ],
       "verification": "Coordinator verified unknown scalar case in Chromium, Firefox and WebKit."
+    },
+    {
+      "id": "listbox-native-navigation",
+      "status": "verified",
+      "ids": [
+        "listbox.keyboard.1",
+        "listbox.focus.10",
+        "listbox.keyboard.33",
+        "listbox.keyboard.50",
+        "listbox.state.9"
+      ],
+      "acceptedClauses": [
+        "Native Tab and explicit root focus delegate to first enabled or selected option without selecting; multiple virtual arrows/Home/End move only active descendant; repeated multiple Enter selects then deselects with exact payloads."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/listbox/listbox.navigation.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 3 cases across Chromium, Firefox and WebKit in a clean 456-test/87-file domain run.",
+      "limits": [
+        "Pins shipped no-auto-selection and multiple-toggle behavior. Historical evidence retains existing single-select and click-toggle cases."
+      ]
+    },
+    {
+      "id": "listbox-native-typeahead",
+      "status": "verified",
+      "ids": [
+        "listbox.keyboard.13",
+        "listbox.keyboard.19",
+        "listbox.keyboard.20",
+        "listbox.keyboard.24",
+        "listbox.keyboard.17"
+      ],
+      "acceptedClauses": [
+        "Nine-option rapid whole-prefix search, continuous spaced search, explicit textValue precedence, and same-letter advancement after accepted 700ms timeout; none selects."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/listbox/listbox.typeahead.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 4 cases across Chromium, Firefox and WebKit in a clean 456-test/87-file domain run.",
+      "limits": [
+        "The timeout test pins the shipped resume-after-current branch of the research divergence, using a 300ms deadline margin."
+      ]
     }
   ],
   "knownLimits": {
