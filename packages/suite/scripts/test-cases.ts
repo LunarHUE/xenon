@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import ts from 'typescript'
+import ts from '@typescript/compiler-api'
 
 /** A source registration, not a recorded execution result. */
 export interface TestCase {

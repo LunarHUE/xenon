@@ -24,6 +24,7 @@
     "solid-js": "catalog:"
   },
   "devDependencies": {
+    "@typescript/compiler-api": "npm:typescript@6.0.3",
     "@xenon/eslint-config": "workspace:*",
     "@xenon/typescript-config": "workspace:*",
     "@solidjs/vite-plugin": "^3.0.0-next.43",
