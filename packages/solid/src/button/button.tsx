@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { button } from '@xenon-ui/core'
 import type { ButtonHost, ButtonOptions } from '@xenon-ui/core'
 import { Dynamic } from '@solidjs/web'
@@ -13,18 +15,18 @@ interface Own extends Omit<ButtonOptions, 'host' | 'role'> {
   /** Emits autofocus and requests focus through the forwarded ref after settling when true. */
   autofocus?: ButtonOptions['autofocus']
   /** Receives the rendered element. A custom component must forward this ref to its actual host. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic host props with library-owned button behavior; see {@link ButtonOptions} for core semantics. */
 export type ButtonProps<T extends ValidComponent = 'button'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref' | 'type'> | 'as' | (T extends 'button' | 'input' ? 'type' : never)
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref' | 'type'>> & {
     /** Rendered host, defaulting to button. Custom components use generic semantics and must forward props/ref. */
     as?: T
-  }
+  } & (T extends 'button' | 'input' ? { type?: 'button' | 'submit' | 'reset' } : {})
 
 /** Selects native semantics only for literal hosts; anchors require a non-null href to count as links. */
 function hostOf(as: ValidComponent | undefined, href: unknown): ButtonHost {
@@ -73,17 +75,17 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
     button({
       host: composed.matches() ? 'button' : hostOf(own.as, own.href),
       role: own.role,
-      disabled: own.disabled,
+      disabled: booleanAttribute(own.disabled),
       pending: own.pending,
       focusableWhenDisabled: own.focusableWhenDisabled,
-      type: own.type,
-      autofocus: own.autofocus,
+      autofocus: booleanAttribute(own.autofocus),
     })
   )
 
   /** Rebuilds passthrough props with activation gates and removes navigation from noninteractive links. */
   const merged = () => {
     const out: Record<string, unknown> = { ...rest }
+    if ('type' in props) out.type = props.type
     const { state } = result()
     // eslint-disable-next-line solid/reactivity -- event handlers, re-applied by spread on change
     gate(out, () => result().state.interactive)
@@ -94,11 +96,11 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
-    if (own.autofocus) el?.focus()
+    if (booleanAttribute(own.autofocus)) el?.focus()
     if (!import.meta.env.DEV) return
     if (!el) {
       console.error(
