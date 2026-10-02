@@ -1666,12 +1666,12 @@
     {"ids":["select.notes.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Public trigger/option native handler cancellation and Viewport props are tested; exhaustive every foreign part/polymorphic ref/style matrix exceeds supplied anatomy.","evidence":583,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":169},"status":"queued"},
     {"ids":["combobox.roles.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"filter=false explicitly produces none and unfiltered items; default filtering is asserted, but list token is not directly checked and both inline completion is excluded.","evidence":584,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":172},"status":"reconciled"},
     {"ids":["combobox.roles.9"],"historicalStatus":"missing","domain":"popup-selection","reason":"Input and Trigger compute same expanded state, but direct both-elements transition assertion is absent.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":178},"status":"verified"},
-    {"ids":["combobox.roles.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom controls and active option IDs are asserted; explicit absence of aria-owns is not checked.","evidence":586,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":179},"status":"reconciled"},
+    {"ids":["combobox.roles.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Custom controls and active option IDs are asserted; explicit absence of aria-owns is not checked.","evidence":586,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":179},"status":"verified"},
     {"ids":["combobox.roles.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Server selected option aria-selected=true is asserted; grid/tree/row variants are not supplied and live selection attribute update is not separately asserted.","evidence":587,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":187},"status":"queued"},
     {"ids":["combobox.roles.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label and author aria-label yield accessible input names; complete native-label versus labelledby/title fallback matrix is not asserted.","evidence":588,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":192},"status":"queued"},
     {"ids":["combobox.roles.24"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared Field label names input without Value part; exact input labelledby token list is not directly checked.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":193},"status":"reconciled"},
-    {"ids":["combobox.roles.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Description and Error resolve in exact order on input; merging author-supplied description alongside both is not tested for Combobox.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":196},"status":"reconciled"},
-    {"ids":["combobox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Trigger has native button role/name and toggles; exact tabindex/controls/expanded mirror matrix is not asserted.","evidence":590,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":197},"status":"reconciled"},
+    {"ids":["combobox.roles.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Description and Error resolve in exact order on input; merging author-supplied description alongside both is not tested for Combobox.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":196},"status":"verified"},
+    {"ids":["combobox.roles.31"],"historicalStatus":"partial","domain":"popup-selection","reason":"Trigger has native button role/name and toggles; exact tabindex/controls/expanded mirror matrix is not asserted.","evidence":590,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":197},"status":"verified"},
     {"ids":["combobox.roles.33"],"historicalStatus":"missing","domain":"popup-selection","reason":"Input aria-required=true is emitted, but direct attribute assertion is absent in inspected Combobox tests (native committed-value validation is tested).","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":199},"status":"verified"},
     {"ids":["combobox.roles.34"],"historicalStatus":"partial","domain":"popup-selection","reason":"Root/Field disabled input and disabled native submission are tested; trigger disabled plus local-prop-wins matrix is not directly asserted.","evidence":591,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":200},"status":"reconciled"},
     {"ids":["combobox.roles.36"],"historicalStatus":"missing","domain":"popup-selection","reason":"Listbox omits implicit orientation, but no direct no-aria-orientation assertion exists; grid is excluded.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":202},"status":"reconciled"},
@@ -1710,7 +1710,7 @@
     {"ids":["combobox.focus.22"],"historicalStatus":"missing","domain":"popup-selection","reason":"Native blur is not stopped, but input and wrapping blur callbacks both firing is not directly asserted.","evidence":585,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":303},"status":"verified"},
     {"ids":["combobox.focus.26"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab external focus is preserved; exact programmatic same-task move while popup opens/closes is not asserted.","evidence":595,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":306},"status":"reconciled"},
     {"ids":["combobox.focus.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Hidden native invalid forwards to input and portal retains native owner; explicit focused-proxy with missing-input fallback matrix is not asserted.","evidence":610,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":307},"status":"reconciled"},
-    {"ids":["combobox.focus.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label resolves input name; native label click focus without popup opening is not asserted, and popup-input/trigger variant is excluded.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":308},"status":"reconciled"},
+    {"ids":["combobox.focus.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field Label resolves input name; native label click focus without popup opening is not asserted, and popup-input/trigger variant is excluded.","evidence":589,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":308},"status":"verified"},
     {"ids":["combobox.state.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Controlled open can deny changes in implementation and author native key events can cancel; cancelable open-change event API is not supplied and denied-close filtering is not asserted.","evidence":611,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":315},"status":"queued"},
     {"ids":["combobox.state.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Case-insensitive contains filtering is asserted; Turkish locale-specific collation/locale prop is not supplied or tested.","evidence":612,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":316},"status":"reconciled"},
     {"ids":["combobox.state.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core custom item predicate and filter=false bypass are tested; null disabling is not supplied and exact source item/query argument plus other-field matching matrix is not checked.","evidence":613,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":317},"status":"reconciled"},
@@ -7567,6 +7567,44 @@
       "limits": [
         "Manager timing and dismissal state are asserted; no rendered DOM removal or native gesture claim."
       ]
+    },
+    {
+      "id": "combobox-field-metadata-and-native-label-focus",
+      "status": "verified",
+      "ids": [
+        "combobox.focus.28",
+        "combobox.roles.29",
+        "combobox.roles.31",
+        "combobox.roles.10"
+      ],
+      "acceptedClauses": [
+        "Native Field labels focus inline inputs or outer popup triggers without opening or change requests; descriptions track author/helper/error lifecycle in both modes; graphical trigger names and native tab exclusion preserve input focus; retained popup content has valid controls and no aria-owns."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/combobox/combobox.field-metadata.remaining.test-browser.tsx"
+      ],
+      "relatedFix": "a26707d",
+      "verification": "Coordinator independently verified all 8 cases across Chromium, Firefox and WebKit: 24 passed. The popup label case failed in all three engines before the fix; focused Combo/Field units passed 40/40 afterward."
+    },
+    {
+      "id": "combobox-supported-label-and-listbox-metadata",
+      "status": "reconciled",
+      "ids": [
+        "combobox.roles.24",
+        "combobox.roles.36"
+      ],
+      "acceptedClauses": [
+        "Explicit Field label references name the input without selected-value aggregation; both shipped listbox arrangements omit orientation."
+      ],
+      "remainingClauses": [
+        "Automatic Combobox.Label/value aggregation and grid arrangement remain unshipped and unasserted."
+      ],
+      "files": [
+        "packages/suite/src/combobox/combobox.field-metadata.remaining.test-browser.tsx"
+      ],
+      "relatedFix": "a26707d",
+      "verification": "Coordinator independently verified all 8 cases across Chromium, Firefox and WebKit: 24 passed. The popup label case failed in all three engines before the fix; focused Combo/Field units passed 40/40 afterward."
     }
   ],
   "knownLimits": {
