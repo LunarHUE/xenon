@@ -1,3 +1,5 @@
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import type { CompositeOptions } from '@xenon-ui/core'
 import { composite } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
@@ -19,15 +21,15 @@ interface Own extends Pick<CompositeOptions<string>, 'orientation' | 'loop'> {
   /** Inherited button disabled state, defaulting to false. Links remain independent. */
   disabled?: boolean
   /** Receives the root host; custom components must forward it for ambient direction lookup. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 
 /** Polymorphic root props with toolbar navigation settings; remaining host attributes override generated ones. */
 export type ToolbarProps<T extends ValidComponent = 'div'> = Omit<
   ComponentProps<T>,
-  keyof Own | 'as'
+  Exclude<keyof Own, 'ref'> | 'as'
 > &
-  Own & {
+  NativeBooleanAttributes<Omit<Own, 'ref'>> & {
     /** Root host or forwarding component, defaulting to div. */
     as?: T
   }
@@ -72,7 +74,7 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
 
   const orientation = () => own.orientation ?? 'horizontal'
   const direction = () => own.dir ?? ambient()
-  const disabled = () => own.disabled ?? false
+  const disabled = () => booleanAttribute(own.disabled)
 
   const engine = createMemo(() =>
     composite<ToolbarEntry>({
@@ -134,7 +136,7 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    own.ref?.(node)
+    setRef(own.ref, node)
   }
 
   onSettled(() => {
