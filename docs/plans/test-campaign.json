@@ -1617,16 +1617,16 @@
     {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"reconciled"},
     {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"verified"},
     {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"verified"},
-    {"ids":["select.pointer.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click-based trigger opening supports touch release semantics, but native touch down/scroll/click no-open-before-release sequence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":65},"status":"reconciled"},
-    {"ids":["select.pointer.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger and ignored adapter interaction are covered; explicit mouse plus touch and callback-count matrix is absent.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":66},"status":"reconciled"},
+    {"ids":["select.pointer.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click-based trigger opening supports touch release semantics, but native touch down/scroll/click no-open-before-release sequence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":65},"status":"verified"},
+    {"ids":["select.pointer.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger and ignored adapter interaction are covered; explicit mouse plus touch and callback-count matrix is absent.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":66},"status":"verified"},
     {"ids":["select.pointer.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pointermove highlights in implementation and disabled pointer test preserves current highlight; enabled hover movement and hover-disable option are not tested, and option flag is not supplied.","evidence":570,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":67},"status":"reconciled"},
     {"ids":["select.pointer.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single selection closes in browser; configurable closeOnSelect=false is not supplied.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":71},"status":"reconciled"},
     {"ids":["select.pointer.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Commit compares current value and still closes on reselect, but same-option click no-deselection fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":72},"status":"verified"},
     {"ids":["select.pointer.17","select.dismissal.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Outside layer dismissal clears active without commit, but native outside click with pending highlight and placeholder/committed value assertion is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":75},"status":"verified"},
     {"ids":["select.pointer.21"],"historicalStatus":"missing","domain":"popup-selection","reason":"Mouseup alone cannot commit in selected click implementation; touch-scroll followed by synthetic mouseup no-change case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":77},"status":"reconciled"},
     {"ids":["select.pointer.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native author preventDefault veto keeps popup/input state until subsequent accepted click; exact author callback once count is not asserted.","evidence":571,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":79},"status":"reconciled"},
-    {"ids":["select.pointer.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly core/adapter refuses key opening; clicked readonly trigger refusal is implemented but not directly asserted.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":82},"status":"reconciled"},
-    {"ids":["select.pointer.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared spread invokes author event before blocked selection, but disabled option author onClick occurrence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":83},"status":"reconciled"},
+    {"ids":["select.pointer.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly core/adapter refuses key opening; clicked readonly trigger refusal is implemented but not directly asserted.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":82},"status":"verified"},
+    {"ids":["select.pointer.29"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared spread invokes author event before blocked selection, but disabled option author onClick occurrence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":83},"status":"verified"},
     {"ids":["select.focus.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"Reopen highlights committed Pear; actual scrolling selected item into view is not asserted.","evidence":573,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":87},"status":"verified"},
     {"ids":["select.focus.11"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled controls reject focus; passive-label flag is not supplied and label-click across Field/Fieldset is not tested.","evidence":556,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":92},"status":"reconciled"},
     {"ids":["select.focus.12"],"historicalStatus":"partial","domain":"popup-selection","reason":"Invalid hidden native control forwards focus to visible trigger; dynamic proxy tabindex 0/-1 policy is not supplied (native stays -1).","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":93},"status":"reconciled"},
@@ -1649,7 +1649,7 @@
     {"ids":["select.forms.17"],"historicalStatus":"missing","domain":"popup-selection","reason":"Unknown native change is refused by metadata membership guard, but unknown autofill no-callback case is not tested.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":128},"status":"verified"},
     {"ids":["select.forms.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly/disabled change gate ships; hidden value remains committed rather than necessarily empty, and server-error behavior is not a Select contract.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":129},"status":"reconciled"},
     {"ids":["select.forms.29"],"historicalStatus":"partial","domain":"popup-selection","reason":"Field name, required and description inheritance are asserted; disabled/readonly Field inheritance with error text full matrix is not tested for Select.","evidence":553,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":134},"status":"reconciled"},
-    {"ids":["select.dismissal.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared topmost layering supports Select inside outer layers, but exact native parent Dialog/Popover Escape and inside-parent outside-Select click matrix is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":136},"status":"reconciled"},
+    {"ids":["select.dismissal.2"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared topmost layering supports Select inside outer layers, but exact native parent Dialog/Popover Escape and inside-parent outside-Select click matrix is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":136},"status":"verified"},
     {"ids":["select.positioning.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Shared fixed native Positioner waits for placement before visibility; exact vendor transform/isolation/variable/offscreen CSS attribute matrix is not asserted for Select.","evidence":551,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":142},"status":"reconciled"},
     {"ids":["select.positioning.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Shared Positioner side/align offsets ship; Select-specific numeric/function/collision geometry is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":143},"status":"reconciled"},
     {"ids":["select.positioning.9","select.positioning.10"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active descendant scrollIntoView ships, but real scrolled-page no-drift and oversized/inner-viewport selected-option visibility are not measured.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":146},"status":"queued"},
@@ -17054,6 +17054,45 @@
       "limits": [
         "Reviewer classifications are scoped recommendations, not completion or automatic exclusions. Research divergences can be pinned to an existing shipped API policy without changing that policy."
       ]
+    },
+    {
+      "id": "select-pointer-policy-and-nested-dialog-dismissal",
+      "status": "verified",
+      "ids": [
+        "select.pointer.3",
+        "select.pointer.4",
+        "select.pointer.28",
+        "select.pointer.29",
+        "select.dismissal.2"
+      ],
+      "acceptedClauses": [
+        "Disabled trigger activation requests nothing; read-only trigger remains focusable and closed; the shipped author-first disabled-option click policy calls only the author handler; touch pointerdown/up boundaries stay closed until click; Escape and a physically reachable parent-dialog action dismiss only the child Select."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.pointer-layer.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 7 cases across Chromium, Firefox and WebKit: 21 passed. A fixture initially placed the parent action beneath the child popup; corrected geometry and a hit-target assertion preserve native click verification without force-clicking the parent action.",
+      "limits": [
+        "Touch boundaries use explicitly constructed pointer events and click, not a physical touch device or operating-system scroll gesture. Read-only and disabled-option handler clauses pin shipped divergence policies."
+      ]
+    },
+    {
+      "id": "select-native-hover-highlight-default",
+      "status": "reconciled",
+      "ids": [
+        "select.pointer.6"
+      ],
+      "acceptedClauses": [
+        "Native hover transfers the pending highlight marker and active descendant without changing commitment."
+      ],
+      "remainingClauses": [
+        "Highlight-on-hover opt-out flag is unshipped and not asserted."
+      ],
+      "files": [
+        "packages/suite/src/select/select.pointer-layer.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 7 cases across Chromium, Firefox and WebKit: 21 passed. A fixture initially placed the parent action beneath the child popup; corrected geometry and a hit-target assertion preserve native click verification without force-clicking the parent action."
     }
   ],
   "knownLimits": {
