@@ -484,7 +484,17 @@ export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
         if (event.target === event.currentTarget) context.key(event, props.index)
       },
       click(event: MouseEvent & { currentTarget: HTMLDivElement }) {
-        if (event.target === event.currentTarget) context.focus(props.index)
+        const target = event.target as HTMLElement
+        const text = target.closest('[data-part="item-text"]')
+        const control = target.closest(
+          'button, input, select, textarea, a[href], summary, [contenteditable]:not([contenteditable="false"]), [role="button"], [role="link"], [tabindex]'
+        )
+        if (
+          target === event.currentTarget ||
+          (text?.closest('[data-part="item"]') === event.currentTarget &&
+            (!control || control === event.currentTarget))
+        )
+          context.focus(props.index)
       },
       dblclick() {
         if (context.result().state.interactive && !props.disabled) context.setEditing(props.index)
