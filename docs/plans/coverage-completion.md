@@ -2,18 +2,72 @@
 
 ## Scope and workflow
 
+The original backlog below is a frozen baseline, not the current test count.
+The reconciled campaign is recorded in [test-campaign.json](test-campaign.json).
+Its historical status and requirement IDs remain immutable; current review and
+execution evidence belongs in separate batch entries.
+
 Finish the 1,038 partial and 484 missing requirements recorded in
 `coverage-backlog.json` for built components. The original IDs remain in this
 backlog so changing a disposition cannot silently count as test completion.
 
-GPT-5.6 Luna writes small test slices. The coordinator reviews assertions and
-runs tests. GPT-6 Astra at low reasoning verifies failures against the intended contract;
-GPT-6 Astra at medium reasoning fixes confirmed implementation bugs. The
-coordinator reruns relevant checks and commits each verified slice.
+GPT-6.1 Sol workers own large domains and return small test batches. The
+coordinator reviews assertions against the shipped contract and independently
+runs each batch. Failures are classified as product defects, test mistakes,
+environment failures or contract disagreements before assigning a focused fix.
+Test additions and confirmed fixes receive separate small commits. Deferred
+APIs remain outside this campaign.
 
 Do not weaken assertions or skip tests to clear the audit. Record evidence for
 any unbuilt capability or unresolved contract, and keep it visible in the final
-accounting. Audit records live in `packages/suite/coverage`.
+accounting. The original audit records lived in `packages/suite/coverage`;
+the reconciled campaign below replaces that removed tracking location.
+
+## Reconciled campaign, October 2026
+
+The final tracked audit was recovered read-only from
+`0da90a01c8b784b8b580392592a27bbc108cf0e3`, immediately before `e5ee673`
+removed the ledger and ignored `packages/suite/coverage`. Keep that directory
+ignored. The residual queue preserves the historical rationale and deduplicated
+source/test evidence without restoring the complete ledger. A future validated
+ledger should use reviewed domain files in `docs/plans/spec-audit`; that location
+is a recommendation and has not been created or connected to the reporter.
+
+The historical inventory has 5,842 IDs: 1,456 covered, 829 partial, 338 missing,
+1,407 deferred, 1,534 inapplicable and 278 needing a decision. Of the original
+1,522 backlog IDs, 355 reached covered status and 1,167 remain partial or missing.
+These are requirement counts, not counts of tests to write. The exact current
+testable count remains unknown until each remaining clause is reviewed.
+
+| Domain | Historical partial | Historical missing |
+| --- | ---: | ---: |
+| Popup selection | 162 | 66 |
+| Menus and navigation | 118 | 100 |
+| Overlays and positioning | 263 | 142 |
+| Inputs and forms | 150 | 13 |
+| Collections and layout | 67 | 9 |
+| Shared contracts | 69 | 8 |
+| Total | 829 | 338 |
+
+All historical covered/partial test references resolve to active unconditional
+registrations at comparison commit `b4de4fa`. One covered requirement outside the
+residual queue, `visually-hidden.notes.1`, cites the deleted example file
+`apps/example/src/demos/utilities.tsx`; its cited test still exists. Path/title
+validation establishes source evidence only and does not establish a passing run.
+
+Several remaining partials describe accepted alternatives rather than missing
+assertions. PinInput's eight partials retain excluded slot/proxy contracts;
+Slider's four retain alternate numeric strings, native tabindex/ARIA attributes
+or hidden-input composition; Editable's five retain unshipped metadata,
+translations or different callback/trigger behavior. Keep those clauses visible
+and record scope evidence before marking a campaign item excluded.
+
+Each small batch records its requirement IDs, accepted clauses, excluded or
+unresolved clauses, current source/test evidence and executed commands/results.
+Campaign states are queued, reconciled, verified, excluded and decision. A verified
+batch requires reviewed assertions and relevant passing checks. Exclusions and
+decisions never count as test completion, and changes to campaign state never
+rewrite the historical status. Generated reports remain disposable artifacts.
 
 ## Baseline
 
