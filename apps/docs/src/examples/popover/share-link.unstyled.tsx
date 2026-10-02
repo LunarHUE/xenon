@@ -8,7 +8,7 @@ export default function ShareLink() {
         <Popover.Content>
           <Popover.Title>Share this draft</Popover.Title>
           <Popover.Description>Anyone with the link can view it.</Popover.Description>
-          <input readOnly aria-label="Draft link" value="https://xenon.dev/d/q3-roadmap" />
+          <input readonly aria-label="Draft link" value="https://xenon.dev/d/q3-roadmap" />
           <Popover.Close>×</Popover.Close>
         </Popover.Content>
       </Popover.Positioner>
