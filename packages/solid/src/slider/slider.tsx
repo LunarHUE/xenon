@@ -1,5 +1,5 @@
 import { slider } from '@xenon-ui/core/slider'
-import type { SliderOptions, SliderResult } from '@xenon-ui/core/slider'
+import type { SliderOptions as CoreSliderOptions, SliderResult } from '@xenon-ui/core/slider'
 import type { GlobalAttrs } from '@xenon-ui/core'
 import { isServer } from '@solidjs/web'
 import type { JSX } from '@solidjs/web'
@@ -15,8 +15,12 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
+import type { NativeBooleanAttributes } from '../internal/host'
+import { booleanAttribute, setRef } from '../internal/host'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy, tokens } from '../field/context'
 import { spread } from '../spread'
+
+type SliderOptions = NativeBooleanAttributes<CoreSliderOptions>
 
 /** Slider root options. Values always use arrays, including a single thumb. */
 export interface SliderProps
@@ -136,10 +140,10 @@ function SliderRoot(props: SliderProps): JSX.Element {
       format: props.format,
       value: props.value ?? internal(),
       direction: props.dir ?? direction(),
-      disabled: props.disabled || field?.disabled(),
-      readonly: props.readonly || field?.readonly(),
+      disabled: booleanAttribute(props.disabled) || field?.disabled(),
+      readonly: booleanAttribute(props.readonly) || field?.readonly(),
       invalid: props.invalid || field?.invalid(),
-      required: props.required || field?.required(),
+      required: booleanAttribute(props.required) || field?.required(),
     })
   )
   const inputs = new Map<number, HTMLInputElement>()
@@ -317,7 +321,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
       })}
       ref={(el) => {
         root = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     >
       {content()}
@@ -340,7 +344,7 @@ function SliderControl(props: SliderPartProps): JSX.Element {
       )}
       ref={(el) => {
         context.setControl(el)
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
       style={mergeStyle(props.style, { position: 'relative', 'touch-action': 'none' })}
     >
@@ -502,7 +506,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
       {...bindings()}
       ref={(el) => {
         input = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     />
   )
