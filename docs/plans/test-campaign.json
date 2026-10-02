@@ -1105,7 +1105,7 @@
     {"ids":["tags-input.keyboard.13"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Printable typing from a tag moves focus and text into textbox; subsequent End re-selection of that text is not asserted.","evidence":256,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":379},"status":"verified"},
     {"ids":["tags-input.keyboard.15"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Per-item disabled blocks editor/removal and remains isolated from enabled neighbors; repeated Backspace and remove-event semantics are not asserted.","evidence":257,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":381},"status":"excluded"},
     {"ids":["tags-input.pointer.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"A removal trigger reports the right whole-array proposal; pointer removal focus followed by ArrowLeft is not asserted.","evidence":258,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":386},"status":"verified"},
-    {"ids":["tags-input.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Double-click reveals the named editor and Enter requests a replacement; native focus on double-click is not independently asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":387},"status":"reconciled"},
+    {"ids":["tags-input.pointer.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Double-click reveals the named editor and Enter requests a replacement; native focus on double-click is not independently asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":387},"status":"verified"},
     {"ids":["tags-input.pointer.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":388},"status":"verified"},
     {"ids":["tags-input.pointer.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Clear removes the collection and is silent when already empty; resulting native textbox focus is not checked.","evidence":260,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":389},"status":"verified"},
     {"ids":["tags-input.pointer.5"],"historicalStatus":"missing","domain":"inputs-forms","reason":"Clicking tag/root control padding invokes the accepted actual-focus behavior, but native pointer focus and display:contents cases are not asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":390},"status":"verified"},
@@ -1116,13 +1116,13 @@
     {"ids":["tags-input.focus.1"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":399},"status":"verified"},
     {"ids":["tags-input.focus.3"],"historicalStatus":"missing","domain":"inputs-forms","reason":"The adapter clears highlight on leaving the widget and supplies native Field label association; outside click/Tab highlight and label-click focus are not directly asserted.","evidence":254,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":401},"status":"verified"},
     {"ids":["tags-input.state.1"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Default tag instances are queried by their data-value and focus behavior; exact text content/count per default entry is not asserted together.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":402},"status":"verified"},
-    {"ids":["tags-input.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Rejected duplicate remains editable with no callback; duplicate-allowed insertion is not asserted in this case.","evidence":265,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":404},"status":"reconciled"},
-    {"ids":["tags-input.state.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An edit into an existing value is rejected and a valid controlled proposal retains owner state; the duplicate-allowed edit branch is not asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":405},"status":"reconciled"},
-    {"ids":["tags-input.state.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core trim precedes duplicate rejection, but a spaced duplicate draft retaining its exact original text is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":407},"status":"reconciled"},
-    {"ids":["tags-input.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"FormData follows native addition/removal and controlled rejection; an actual submit after all add/remove/clear paths is not asserted.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":410},"status":"reconciled"},
+    {"ids":["tags-input.state.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Rejected duplicate remains editable with no callback; duplicate-allowed insertion is not asserted in this case.","evidence":265,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":404},"status":"verified"},
+    {"ids":["tags-input.state.4"],"historicalStatus":"partial","domain":"inputs-forms","reason":"An edit into an existing value is rejected and a valid controlled proposal retains owner state; the duplicate-allowed edit branch is not asserted.","evidence":259,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":405},"status":"verified"},
+    {"ids":["tags-input.state.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Core trim precedes duplicate rejection, but a spaced duplicate draft retaining its exact original text is not asserted.","evidence":263,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":407},"status":"verified"},
+    {"ids":["tags-input.forms.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"FormData follows native addition/removal and controlled rejection; an actual submit after all add/remove/clear paths is not asserted.","evidence":264,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":410},"status":"verified"},
     {"ids":["tags-input.forms.3"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Reactive Field invalid/error/disabled behavior is asserted on visible parts; repeated hidden entries do not own required validation as the research proposes.","evidence":266,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":411},"status":"excluded"},
     {"ids":["tags-input.a11y.1"],"historicalStatus":"missing","domain":"inputs-forms","reason":"No TagsInput scoped fixture invokes an axe scan; native focus/form tests are not an accessibility scan.","evidence":255,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":413},"status":"verified"},
-    {"ids":["tags-input.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Literal pipe splitting is asserted; the complete dot/plus/pipe examples are not all exercised.","evidence":267,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":416},"status":"reconciled"},
+    {"ids":["tags-input.notes.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Literal pipe splitting is asserted; the complete dot/plus/pipe examples are not all exercised.","evidence":267,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":416},"status":"verified"},
     {"ids":["slider.keyboard.10"],"historicalStatus":"partial","domain":"collections-layout","reason":"All specified ordinary and tiny numeric increments, repeated callbacks and numeric ARIA values are asserted, including exact 25.1 text. Fixed-decimal notation remains a research divergence: the engine rounds numeric precision then serializes tiny values in equivalent scientific notation rather than forcing decimal strings.","evidence":268,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":504},"status":"excluded"},
     {"ids":["slider.focus.1"],"historicalStatus":"partial","domain":"collections-layout","reason":"Native input[type=range] tabIndex=0 and actual Tab between thumbs are asserted. The literal explicit tabindex attribute differs from the native-thumb contract documented in docs/plans/slider-coverage.md; no redundant attribute is emitted.","evidence":269,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":537},"status":"excluded"},
     {"ids":["slider.state.16"],"historicalStatus":"partial","domain":"collections-layout","reason":"Unformatted thumbs omit aria-valuetext as chosen; the positional start/end default in this research bullet is explicitly rejected.","evidence":270,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":562},"status":"excluded"},
@@ -5354,6 +5354,30 @@
       "verification": "Coordinator independently ran all 8 tests in Chromium, Firefox and WebKit: 24 passed.",
       "limits": [
         "roles.6 pins shipped removable closed controls references. forms.2 pins the delivered native SELECT mirror; alternative hidden-control APIs are not claimed."
+      ]
+    },
+    {
+      "id": "tags-input-editing-submission-and-delimiters",
+      "status": "verified",
+      "ids": [
+        "tags-input.state.3",
+        "tags-input.state.4",
+        "tags-input.state.6",
+        "tags-input.forms.2",
+        "tags-input.notes.2",
+        "tags-input.pointer.2"
+      ],
+      "acceptedClauses": [
+        "Repeated allowed duplicate insertion; rejected/accepted duplicate editing; trim-before-uniqueness with exact rejected draft retention; actual native submissions after add/remove/clear; literal dot/plus/pipe delimiters; native double-click editor selection and Enter replacement."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/tags-input/tags-input.state-forms.remaining.test-browser.tsx",
+        "packages/suite/src/tags-input/tags-input.additional.test.tsx"
+      ],
+      "verification": "Coordinator independently ran all 9 new cases across Chromium, Firefox and WebKit: 27 passed. Existing duplicate-insert rejection evidence was retained from the passing shared suite.",
+      "limits": [
+        "state.6 uses the supported trim option; no custom add-function API is claimed. Editor visibility is asserted on current DOM after keyed replacement, rather than on disposed nodes."
       ]
     }
   ],
