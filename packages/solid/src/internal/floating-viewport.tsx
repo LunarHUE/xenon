@@ -1,4 +1,5 @@
-import type { JSX } from '@solidjs/web'
+import { setRef } from './host'
+import type { ComponentProps, JSX } from '@solidjs/web'
 import { createEffect, omit, onCleanup, onSettled, untrack } from 'solid-js'
 import { createViewport } from '@xenon-ui/dom/viewport'
 import type { ViewportController } from '@xenon-ui/dom/viewport'
@@ -16,7 +17,7 @@ export interface FloatingViewportSource {
 }
 
 /** Native div props and the owning overlay's state. */
-export interface FloatingViewportProps extends JSX.HTMLAttributes<HTMLDivElement> {
+export interface FloatingViewportProps extends ComponentProps<'div'> {
   /** Stable root-owned source, captured once at component setup; its accessors remain reactive. */
   source: FloatingViewportSource
 }
@@ -95,7 +96,7 @@ export function FloatingViewport(props: FloatingViewportProps): JSX.Element {
       {...rest}
       ref={(el) => {
         viewport = el
-        if (typeof props.ref === 'function') props.ref(el)
+        setRef(props.ref, el)
       }}
     >
       <div
