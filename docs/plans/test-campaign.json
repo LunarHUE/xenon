@@ -1311,16 +1311,16 @@
     {"ids":["navigation-menu.pointer.13"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies panel-leave delayed close, but trigger-leave without reaching panel and exact custom close boundary are not checked.","evidence":382,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":276},"status":"reconciled"},
     {"ids":["navigation-menu.pointer.27"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter rejects touch hover; touch tap and subsequent hover recovery/nested behavior are not asserted, and nested controllers are deferred.","evidence":383,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":278},"status":"reconciled"},
     {"ids":["navigation-menu.pointer.29"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser link click closes and author preventDefault keeps open. A separate close-on-click=false property is not supplied or asserted.","evidence":384,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":279},"status":"excluded"},
-    {"ids":["navigation-menu.focus.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Hover close is accepted without focus restoration; a fixture explicitly asserting unchanged focus after hover-leave closure is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":280},"status":"reconciled"},
-    {"ids":["navigation-menu.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser programmatically places outside focus and asserts preservation; outside click focus is not directly tested.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":281},"status":"reconciled"},
-    {"ids":["navigation-menu.focus.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser final panel stop moves to next native link and closes. Last-trigger exit and arbitrary tabbable controls are not all checked.","evidence":385,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":283},"status":"reconciled"},
-    {"ids":["navigation-menu.focus.6","navigation-menu.focus.12","navigation-menu.focus.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted native focus/keyboard behavior lacks the exact first-trigger backward exit, hover-to-Escape-reopen and second-panel Tab sequences.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":284},"status":"reconciled"},
+    {"ids":["navigation-menu.focus.2"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Hover close is accepted without focus restoration; a fixture explicitly asserting unchanged focus after hover-leave closure is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":280},"status":"verified"},
+    {"ids":["navigation-menu.focus.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser programmatically places outside focus and asserts preservation; outside click focus is not directly tested.","evidence":381,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":281},"status":"verified"},
+    {"ids":["navigation-menu.focus.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser final panel stop moves to next native link and closes. Last-trigger exit and arbitrary tabbable controls are not all checked.","evidence":385,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":283},"status":"verified"},
+    {"ids":["navigation-menu.focus.6","navigation-menu.focus.12","navigation-menu.focus.13"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Accepted native focus/keyboard behavior lacks the exact first-trigger backward exit, hover-to-Escape-reopen and second-panel Tab sequences.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":284},"status":"verified"},
     {"ids":["navigation-menu.state.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"defaultValue is accepted but no inspected NavigationMenu fixture directly asserts default-open first render.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":287},"status":"verified"},
     {"ids":["navigation-menu.state.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Empty string selection is asserted; number/boolean identities are excluded by the string-only API and nested propagation is deferred.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":290},"status":"excluded"},
-    {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"reconciled"},
+    {"ids":["navigation-menu.state.5"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter controlled null refuses a click opening request; controlled open panel versus hover switches is not asserted.","evidence":386,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":291},"status":"verified"},
     {"ids":["navigation-menu.state.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Core and adapter reject disabled clicks and pending hover on disabling; touch and native key variants are not fully checked.","evidence":387,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":292},"status":"reconciled"},
     {"ids":["navigation-menu.state.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Retained inactive panels are accepted; a direct inactive-handler/active-panel pointerdown assertion is absent.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":294},"status":"reconciled"},
-    {"ids":["navigation-menu.dismissal.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared outside-pointer dismissal is accepted; inspected native fixtures directly test outside focus, not this complete outside pointer path.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":295},"status":"reconciled"},
+    {"ids":["navigation-menu.dismissal.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Shared outside-pointer dismissal is accepted; inspected native fixtures directly test outside focus, not this complete outside pointer path.","evidence":379,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":295},"status":"verified"},
     {"ids":["navigation-menu.positioning.14"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser renders top-level Content without Viewport; absence of a viewport and nested no-viewport placement are not asserted, with nesting deferred.","evidence":388,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":300},"status":"reconciled"},
     {"ids":["navigation-menu.animation.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts inactive panel remains mounted and hidden inside shared Viewport. Moving panels from item into viewport and retained portal lifecycle are not checked.","evidence":378,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":302},"status":"reconciled"},
     {"ids":["navigation-menu.ssr.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Server test asserts exactly one hidden panel; floating hydration checks global identity retention but does not explicitly count this panel hidden after hydration.","evidence":389,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":305},"status":"reconciled"},
@@ -5307,6 +5307,29 @@
           "verification": "Read source/spec/test assertions only; no fresh execution. Existing assertions may be partial as stated."
         }
       ]
+    },
+    {
+      "id": "navigation-menu-native-focus-and-dismissal",
+      "status": "verified",
+      "ids": [
+        "navigation-menu.focus.2",
+        "navigation-menu.focus.3",
+        "navigation-menu.dismissal.1",
+        "navigation-menu.focus.5",
+        "navigation-menu.focus.6",
+        "navigation-menu.focus.12",
+        "navigation-menu.focus.13",
+        "navigation-menu.state.5",
+        "navigation-menu.keyboard.18"
+      ],
+      "acceptedClauses": [
+        "Hover dismissal preserves existing focus; outside click retains clicked target; forward Tab exits both last trigger and arbitrary panel controls; backward Tab leaves first trigger; hover/Tab/Escape/Enter cycles; second-panel Tab order; controlled selection rejection; keyboard trigger navigation without duplicate requests."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/navigation-menu/navigation-menu.focus.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator independently verified all 9 cases across Chromium, Firefox and WebKit after correcting portal-aware fixture queries: 27 passed."
     }
   ],
   "knownLimits": {
