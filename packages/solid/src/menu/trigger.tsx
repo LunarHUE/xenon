@@ -1,3 +1,4 @@
+import { booleanAttribute, setRef } from '../internal/host'
 import type { ValidComponent, JSX } from '@solidjs/web'
 import {
   createEffect,
@@ -48,15 +49,15 @@ export function MenuTrigger<T extends ValidComponent = 'button', Payload = unkno
   const id = createUniqueId()
   const own = props as {
     id?: string
-    ref?: (el: HTMLElement) => void
-    disabled?: boolean
+    ref?: unknown
+    disabled?: JSX.BooleanAttribute
     pending?: boolean
     children?: JSX.Element
   }
   const entry: MenuTriggerEntry = {
     id: () => own.id ?? id,
     payload: () => props.payload,
-    disabled: () => !!own.disabled || !!own.pending,
+    disabled: () => booleanAttribute(own.disabled) || !!own.pending,
   }
   if (inherited) {
     onCleanup(inherited.registerTrigger(entry))
@@ -121,7 +122,7 @@ export function MenuTrigger<T extends ValidComponent = 'button', Payload = unkno
       id={entry.id()}
       ref={(el) => {
         entry.element = el
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {children()}
