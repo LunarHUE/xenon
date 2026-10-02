@@ -375,3 +375,37 @@ test('shared triggers update the active trigger and payload without replacing th
   flush()
   expect(handle.isOpen).toBe(false)
 })
+
+test('composes nested root refs and removes authored undefined name IDs', () => {
+  const host = vi.fn()
+  const refs = [host, [undefined, host]]
+  const view = render(() => (
+    <Dialog defaultOpen ref={refs}>
+      <Dialog.Content aria-label="Example">
+        <Dialog.Title id={undefined}>Title</Dialog.Title>
+        <Dialog.Description id={undefined}>Description</Dialog.Description>
+      </Dialog.Content>
+    </Dialog>
+  ))
+  expect(host).toHaveBeenCalledTimes(2)
+  expect(view.getByText('Title')).not.toHaveAttribute('id')
+  expect(view.getByRole('dialog')).not.toHaveAttribute('aria-describedby')
+})
+
+test('removes name associations when title and description IDs become undefined', () => {
+  const [id, setId] = createSignal<string | undefined>('named')
+  const view = render(() => (
+    <Dialog defaultOpen>
+      <Dialog.Content>
+        <Dialog.Title id={id()}>Title</Dialog.Title>
+        <Dialog.Description id={id()}>Description</Dialog.Description>
+      </Dialog.Content>
+    </Dialog>
+  ))
+  expect(view.getByRole('dialog')).toHaveAttribute('aria-labelledby', 'named')
+  setId(undefined)
+  flush()
+  expect(view.getByText('Title')).not.toHaveAttribute('id')
+  expect(view.getByRole('dialog')).not.toHaveAttribute('aria-labelledby')
+  expect(view.getByRole('dialog')).not.toHaveAttribute('aria-describedby')
+})

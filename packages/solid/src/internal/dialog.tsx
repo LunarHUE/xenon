@@ -1,3 +1,4 @@
+import { setRef } from './host'
 import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@xenon-ui/core'
 import { createDialogController } from '@xenon-ui/dom'
 import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@xenon-ui/dom'
@@ -93,14 +94,15 @@ interface Own extends Omit<DialogOptions, 'ids' | 'status'> {
   /** Fallback description association when none is registered; also the default Description ID. Omission generates an ID only for the part. */
   descriptionId?: string
   /** Receives the rendered root wrapper, not the native dialog. */
-  ref?: (el: HTMLElement) => void
+  ref?: unknown
 }
 /** Shared dialog root options combined with the selected wrapper host props. */
 export type DialogProps<T extends ValidComponent = 'div', Payload = unknown> = Omit<
   ComponentProps<T>,
   keyof Own | 'as' | 'children'
 > &
-  Own & {
+  Omit<Own, 'ref'> & {
+    ref?: ComponentProps<T>['ref']
     /** Root wrapper host, defaulting to div; Viewport owns native dialog presentation. */
     as?: T
     /** Stable handle connecting detached triggers and imperative requests to this mounted root. */
@@ -127,15 +129,12 @@ export type DrawerProps<T extends ValidComponent = 'div', Payload = unknown> = D
 > &
   DrawerOwn
 /** Content props. Inside Viewport this renders a div; standalone usage retains a native dialog. */
-export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
-  /** Receives the visual inner div inside Viewport, or the native dialog in standalone usage. Use Viewport.ref when native dialog methods are needed. */
-  ref?: (el: HTMLElement) => void
+export type DialogContentProps = Omit<ComponentProps<'dialog'>, 'open' | 'ref'> & {
+  /** Receives the visual div inside Viewport, or the standalone native dialog. */
+  ref?: JSX.Ref<HTMLDivElement | HTMLDialogElement>
 }
 /** Native scrolling/layout host props. The adapter owns native presentation. */
-export type DialogViewportProps = Omit<ComponentProps<'dialog'>, 'ref' | 'open'> & {
-  /** Receives the native dialog that enters the browser top layer. */
-  ref?: (el: HTMLDialogElement) => void
-}
+export type DialogViewportProps = Omit<ComponentProps<'dialog'>, 'open'> & {}
 /** Portal destination and children shared by all dialog families. */
 export type DialogPortalProps = OverlayPortalProps
 /** Portal with inherited native modal ancestry and client-only rendering. */
@@ -157,18 +156,17 @@ export type DialogTriggerProps<
 /** {@link ButtonProps} for a closing action; an author handler can cancel dismissal. */
 export type DialogCloseProps<T extends ValidComponent = 'button'> = ButtonProps<T>
 /** Polymorphic title props; the rendered ID is registered for content naming. */
-export type DialogTitleProps<T extends ValidComponent = 'h2'> = ComponentProps<T> & {
+export type DialogTitleProps<T extends ValidComponent = 'h2'> = Omit<ComponentProps<T>, 'as'> & {
   /** Rendered text host, defaulting to h2. */
   as?: T
-  /** Receives the rendered text element. */
-  ref?: (el: HTMLElement) => void
 }
 /** Polymorphic description props; the rendered ID is registered for content description. */
-export type DialogDescriptionProps<T extends ValidComponent = 'p'> = ComponentProps<T> & {
+export type DialogDescriptionProps<T extends ValidComponent = 'p'> = Omit<
+  ComponentProps<T>,
+  'as'
+> & {
   /** Rendered text host, defaulting to p. */
   as?: T
-  /** Receives the rendered text element. */
-  ref?: (el: HTMLElement) => void
 }
 /** Family variant selecting alert focus/dismissal policy and drawer-specific consumers. */
 type Kind = 'dialog' | 'alert' | 'drawer'
@@ -195,7 +193,7 @@ interface Context {
   /** Record the surface for presence observation and dependent adapters. */
   setContent(el: HTMLElement | undefined): void
   /** Append a live ID getter in registration order; return its removal callback for owner cleanup. */
-  register(name: 'title' | 'description' | 'content', id: () => string): () => void
+  register(name: 'title' | 'description' | 'content', id: () => string | undefined): () => void
   /** Resolve an explicit root ID option or the generated fallback for this part. */
   id(name: 'title' | 'description' | 'content'): string
   /** Read a naming/description association now on the client, or defer its server attribute resolution. */
@@ -295,7 +293,7 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
     setSelected(entry)
     setPayload(() => nextPayload)
   }
-  const entries: Record<'title' | 'description' | 'content', (() => string)[]> = {
+  const entries: Record<'title' | 'description' | 'content', (() => string | undefined)[]> = {
     title: [],
     description: [],
     content: [],
@@ -304,7 +302,12 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
   /** Read all currently registered IDs; an empty combined string yields no association. */
   const registered = (name: 'title' | 'description' | 'content') => {
     revision()
-    return entries[name].map((read) => read()).join(' ') || undefined
+    return (
+      entries[name]
+        .map((read) => read())
+        .filter(Boolean)
+        .join(' ') || undefined
+    )
   }
   const open = () => own.open ?? internal()
   /** Suppress duplicate requests before storing uncontrolled state and notifying the author. */
@@ -415,7 +418,7 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
   const element = (
     <Dynamic
       component={own.as ?? 'div'}
-      ref={own.ref}
+      ref={props.ref}
       {...spread(result().parts.root, { ...rest })}
     >
       {inner()}
@@ -477,7 +480,7 @@ export function DialogTrigger<T extends ValidComponent = 'button', Payload = unk
       {...buttonProps(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.element = el
-        own.ref?.(el)
+        setRef(own.ref, el)
       }}
     >
       {(props as { children?: JSX.Element }).children}
@@ -564,7 +567,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
       {...attributes()}
       ref={(el) => {
         context.setContent(el)
-        props.ref?.(el)
+        setRef(props.ref, el)
       }}
     >
       {props.children}
@@ -585,7 +588,7 @@ export function DialogViewport(props: DialogViewportProps): JSX.Element {
 function DialogHost(
   props: Omit<DialogContentProps, 'ref'> & {
     viewport?: boolean
-    ref?: (el: HTMLDialogElement) => void
+    ref?: unknown
   }
 ): JSX.Element {
   const context = useDialog('Dialog.Content')
@@ -717,7 +720,7 @@ function DialogHost(
         ref={(el) => {
           if (!viewport) context.setContent(el)
           setElement(el)
-          props.ref?.(el)
+          setRef(props.ref, el)
         }}
         {...attributes()}
         style={
@@ -764,11 +767,11 @@ export function DialogTitle<T extends ValidComponent = 'h2'>(
   props: DialogTitleProps<T>
 ): JSX.Element {
   const context = useDialog('Dialog.Title')
-  const own = props as { as?: ValidComponent; id?: string; ref?: (el: HTMLElement) => void }
+  const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref')
-  onCleanup(context.register('title', () => own.id ?? context.id('title')))
+  onCleanup(context.register('title', () => ('id' in props ? own.id : context.id('title'))))
   return (
-    <Dynamic component={own.as ?? 'h2'} ref={own.ref} {...{ id: context.id('title'), ...rest }} />
+    <Dynamic component={own.as ?? 'h2'} ref={props.ref} {...{ id: context.id('title'), ...rest }} />
   )
 }
 /**
@@ -782,13 +785,15 @@ export function DialogDescription<T extends ValidComponent = 'p'>(
   props: DialogDescriptionProps<T>
 ): JSX.Element {
   const context = useDialog('Dialog.Description')
-  const own = props as { as?: ValidComponent; id?: string; ref?: (el: HTMLElement) => void }
+  const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref')
-  onCleanup(context.register('description', () => own.id ?? context.id('description')))
+  onCleanup(
+    context.register('description', () => ('id' in props ? own.id : context.id('description')))
+  )
   return (
     <Dynamic
       component={own.as ?? 'p'}
-      ref={own.ref}
+      ref={props.ref}
       {...{ id: context.id('description'), ...rest }}
     />
   )
