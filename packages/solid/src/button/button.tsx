@@ -26,7 +26,7 @@ export type ButtonProps<T extends ValidComponent = 'button'> = Omit<
   NativeBooleanAttributes<Omit<Own, 'ref' | 'type'>> & {
     /** Rendered host, defaulting to button. Custom components use generic semantics and must forward props/ref. */
     as?: T
-  } & (T extends 'button' | 'input' ? { type?: 'button' | 'submit' | 'reset' } : {})
+  } & (T extends 'button' | 'input' ? { type?: 'button' | 'submit' | 'reset' } : unknown)
 
 /** Selects native semantics only for literal hosts; anchors require a non-null href to count as links. */
 function hostOf(as: ValidComponent | undefined, href: unknown): ButtonHost {

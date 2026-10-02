@@ -113,6 +113,7 @@ test('Button accepts compiled JSX tuples, optional handlers and native class val
 })
 
 test('Button preserves compiled element assignment refs and empty autofocus', () => {
+  // eslint-disable-next-line no-unassigned-vars -- Solid's JSX compiler assigns this ref.
   let assigned!: HTMLButtonElement
   const { container } = render(() => <Button ref={assigned} autofocus="" />)
   expect(assigned).toBe(container.querySelector('button'))
