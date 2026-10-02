@@ -1533,10 +1533,10 @@
     {"ids":["menu.keyboard.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Home and End focus first/last in browser; every possible starting position is not enumerated.","evidence":523,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":727},"status":"queued"},
     {"ids":["menu.keyboard.8"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Default wrapping through disabled item to first is asserted with ArrowDown; reverse end wrapping is not explicitly asserted.","evidence":528,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":729},"status":"queued"},
     {"ids":["menu.keyboard.12"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native Space activates once in a canceled-selection fixture, but successful Space closure/restoration is not separately asserted.","evidence":529,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":733},"status":"queued"},
-    {"ids":["menu.keyboard.18"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Typeahead wraps and leaves active unchanged on no match in code, but exact wrap/no-match pair is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":738},"status":"queued"},
+    {"ids":["menu.keyboard.18"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Typeahead wraps and leaves active unchanged on no match in code, but exact wrap/no-match pair is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":738},"status":"verified"},
     {"ids":["menu.keyboard.21"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts expiry at selected 700ms timeout; no public immediate-reset command is supplied/tested.","evidence":530,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":739},"status":"queued"},
     {"ids":["menu.keyboard.22","menu.keyboard.23","menu.keyboard.30"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Case-normalized buffered matching, active-search Space consumption, and local collection scope ship, but diacritics/both-case, all activation kinds and nested search isolation matrices lack assertions.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":740},"status":"queued"},
-    {"ids":["menu.keyboard.24","menu.keyboard.33"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger click synthesis handles Enter/Space and first-child focus, but enabled native Enter/Space submenu-opening matrix is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":741},"status":"queued"},
+    {"ids":["menu.keyboard.24","menu.keyboard.33"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger click synthesis handles Enter/Space and first-child focus, but enabled native Enter/Space submenu-opening matrix is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":741},"status":"verified"},
     {"ids":["menu.keyboard.29"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Removing Banana and navigating End reaches surviving Fruit; wrap over all surviving entries after removal is not asserted.","evidence":530,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":745},"status":"queued"},
     {"ids":["menu.keyboard.36"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Three-level RTL back-arrow unwinding is tested; exact LTR ArrowLeft multilevel sequence is not independently asserted.","evidence":531,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":748},"status":"queued"},
     {"ids":["menu.keyboard.38","menu.keyboard.39"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Irrelevant horizontal keys are unhandled by selected vertical Menu, but exact leaf/already-open/closed-subtrigger no-op cases are not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":750},"status":"queued"},
@@ -1549,7 +1549,7 @@
     {"ids":["menu.pointer.4"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Pointermove synchronously focuses/highlights item, but no dedicated enabled hover-to-item assertion exists.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":768},"status":"queued"},
     {"ids":["menu.pointer.8"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native checkbox/radio click commits once and plain Enter restores; complete plain-item pointer click action+close+return fixture is absent.","evidence":533,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":771},"status":"queued"},
     {"ids":["menu.pointer.22"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Entering submenu and returning trigger cancels grace timers, but native hover round-trip retaining both layers/focus is not asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":779},"status":"queued"},
-    {"ids":["menu.pointer.25"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger activate opens without toggling closed, but enabled first/second click with parent preservation is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":780},"status":"queued"},
+    {"ids":["menu.pointer.25"],"historicalStatus":"missing","domain":"menus-navigation","reason":"SubTrigger activate opens without toggling closed, but enabled first/second click with parent preservation is not directly asserted.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":780},"status":"verified"},
     {"ids":["menu.pointer.27"],"historicalStatus":"missing","domain":"menus-navigation","reason":"200ms leave timer and entry cancellation ship; repeated sibling mousemove restart and focus-return cancellation are not an asserted full sequence.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":782},"status":"queued"},
     {"ids":["menu.pointer.29"],"historicalStatus":"missing","domain":"menus-navigation","reason":"150ms timer is scheduled once during pointermove, but moving continuously until threshold is not tested.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":784},"status":"queued"},
     {"ids":["menu.pointer.34","menu.pointer.35"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Item focus uses preventScroll=true, but native partial-item/scroll-padding hover no-scroll fixtures are absent.","evidence":517,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":786},"status":"queued"},
@@ -3002,6 +3002,29 @@
           ],
           "rationale": "Literal delimiters dot and plus; existing pipe coverage alone is partial."
         }
+      ]
+    },
+    {
+      "id": "menu-typeahead-and-submenu-opening",
+      "status": "verified",
+      "ids": [
+        "menu.keyboard.18",
+        "menu.keyboard.22",
+        "menu.keyboard.30",
+        "menu.keyboard.24",
+        "menu.keyboard.33",
+        "menu.pointer.25"
+      ],
+      "acceptedClauses": [
+        "Typeahead wrap/no-match, bidirectional case matching and typed diacritic matching; submenu-local search; native Enter/Space first-item opening; repeated submenu trigger clicks retain both open levels without duplicate requests."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/menu/menu.navigation.remaining.test-browser.tsx"
+      ],
+      "verification": "Coordinator ran all 8 cases across Chromium, Firefox and WebKit: 24 passed. The same run separately exposed an existing TagsInput End-selection failure.",
+      "limits": [
+        "ASCII navigation and pointer interactions use native browser input. Diacritic matching dispatches an explicit cancelable keydown because the installed Vitest Playwright keyboard provider inserts non-US characters without a keydown event; it does not establish OS layout or IME behavior."
       ]
     }
   ],
