@@ -182,6 +182,103 @@ describe('registerFocusScope', () => {
     expect(document.activeElement).toBe(replacement)
   })
 
+  test('a noncontained scope recovers its container after the only focused child is removed', async () => {
+    const container = fixture('<button>inside</button>')
+    register(container, { contain: false })
+    expect(document.activeElement).toBe(container.firstElementChild)
+    container.firstElementChild!.remove()
+    expect(document.activeElement).toBe(document.body)
+    await Promise.resolve()
+    expect(document.activeElement).toBe(container)
+    expect(container.getAttribute('tabindex')).toBe('-1')
+  })
+
+  test('noncontained mutation recovery handles hiding and disabling the final focused control', async () => {
+    for (const mutation of ['hidden', 'disabled']) {
+      const container = fixture('<button>inside</button>')
+      register(container, { contain: false })
+      const button = container.firstElementChild as HTMLButtonElement
+      button.setAttribute(mutation, '')
+      await Promise.resolve()
+      expect(document.activeElement).toBe(container)
+    }
+  })
+
+  test('noncontained recovery neither traps Tab nor steals deliberate outside focus after mutation', async () => {
+    const outside = fixture('<button>outside</button>').firstElementChild as HTMLElement
+    const container = fixture('<button>inside</button>')
+    register(container, { contain: false })
+    expect(tab(false, container.firstElementChild!)).not.toHaveProperty('defaultPrevented', true)
+    outside.focus()
+    expect(document.activeElement).toBe(outside)
+    container.firstElementChild!.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(outside)
+    expect(container.hasAttribute('tabindex')).toBe(false)
+  })
+
+  test('noncontained mutations preserve a focused replacement and a newer owning region', async () => {
+    const container = fixture('<button>inside</button>')
+    register(container, { contain: false })
+    container.firstElementChild!.remove()
+    const replacement = document.createElement('button')
+    container.append(replacement)
+    replacement.focus()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(replacement)
+    const newer = fixture('<button>newer</button>')
+    register(newer, { contain: false })
+    replacement.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(newer.firstElementChild)
+  })
+
+  test('an older noncontained owner cannot recover across a newer containing scope', async () => {
+    const container = fixture('<button>older</button>')
+    register(container, { contain: false })
+    const newer = fixture('<button>newer</button>')
+    register(newer, { initialFocus: false })
+    container.firstElementChild!.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(document.body)
+    expect(container.hasAttribute('tabindex')).toBe(false)
+    expect(tab().defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(newer.firstElementChild)
+  })
+
+  test('a newer unfocused noncontained scope does not block mutation recovery by the owning region', async () => {
+    const container = fixture('<button>owner</button>')
+    register(container, { contain: false })
+    const newer = fixture('<button>unfocused</button>')
+    register(newer, { contain: false, initialFocus: false })
+    container.firstElementChild!.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(container)
+    expect(newer.firstElementChild).not.toBe(document.activeElement)
+  })
+
+  test('a noncontained child recovers its own region inside a containing parent, then removal resumes the parent', async () => {
+    const parentContainer = fixture('<button>parent</button>')
+    const parent = register(parentContainer)
+    const childContainer = fixture('<button>child</button>')
+    register(childContainer, { parent, contain: false })
+    childContainer.firstElementChild!.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(childContainer)
+    childContainer.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(parentContainer.firstElementChild)
+  })
+
+  test('a removed noncontained region is not given fallback tabindex or refocused', async () => {
+    const container = fixture('<button>inside</button>')
+    register(container, { contain: false })
+    container.remove()
+    await Promise.resolve()
+    expect(document.activeElement).toBe(document.body)
+    expect(container.hasAttribute('tabindex')).toBe(false)
+  })
+
   test('owns only its temporary fallback tabindex', () => {
     const container = fixture('')
     const scope = register(container)

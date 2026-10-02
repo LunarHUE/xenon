@@ -10,7 +10,8 @@ export interface FocusScopeOptions {
   parent?: FocusScopeHandle
   /**
    * Trap Tab and redirect outside focus while this is the newest containing
-   * scope. Defaults to true. False still permits initial placement and restoration.
+   * scope. Defaults to true. False still permits initial placement, mutation-loss
+   * recovery and conditional restoration without trapping focus or Tab.
    */
   contain?: boolean
   /**
@@ -254,15 +255,27 @@ function createManager(document: Document): Manager {
         : (index + (event.shiftKey ? -1 : 1) + nodes.length) % nodes.length
     focus(nodes[next]!)
   }
-  /** Recovers lost/unusable focus at mutation delivery only while the top scope still owns focus. */
+  /** Recovers mutation loss in the newest owning region without crossing a newer containing trap. */
   const observer = new document.defaultView!.MutationObserver(() => {
     refresh()
-    const scope = top()
-    if (!scope || !scope.hadFocus) return
-    const active = activeElement(document)
-    if (contains(scope, active, scopes) && usable(active, document)) return
-    // A replacement that took focus has already updated `last` through focusin.
-    recover(scope)
+    const attempted = new Set<Scope>()
+    while (true) {
+      const trapIndex = scopes.findLastIndex((scope) => scope.options.contain !== false)
+      const scope = scopes.findLast(
+        (scope, index) =>
+          index >= trapIndex &&
+          !attempted.has(scope) &&
+          scope.hadFocus &&
+          scope.container.isConnected
+      )
+      if (!scope) return
+      const active = activeElement(document)
+      if (contains(scope, active, scopes) && usable(active, document)) return
+      // Focus callbacks can register scopes or intentionally focus another region.
+      attempted.add(scope)
+      recover(scope)
+      if (usable(activeElement(document), document)) return
+    }
   })
   const observed = new Set<Node>()
   const observe = (node: Node) => {
