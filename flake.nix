@@ -8,13 +8,18 @@
     claude-code = {
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
 
     codex-cli-nix = {
       url = "github:sadjow/codex-cli-nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
+    };
+
+    # Private repo. HTTPS lets git's credential helper supply access.
+    headless-paper = {
+      url = "git+https://github.com/LunarHUE/headless-paper.git?ref=refs/tags/v0.1.115";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -24,6 +29,7 @@
     flake-utils,
     codex-cli-nix,
     claude-code,
+    headless-paper,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -36,6 +42,7 @@
           overlays = [
             claude-code.overlays.default
             codex-cli-nix.overlays.default
+            headless-paper.overlays.default
           ];
         };
 
@@ -70,6 +77,7 @@
 
           pkgs.claude-code
           pkgs.codex
+          pkgs.headless-paper
         ];
 
         devShell = pkgs.mkShell {

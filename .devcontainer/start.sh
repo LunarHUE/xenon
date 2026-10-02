@@ -15,9 +15,14 @@ BASHRC_NEXT="$(mktemp)"
 trap 'rm -f "$BASHRC_NEXT"' EXIT
 {
   echo '# BEGIN devcontainer SSH direnv'
-  printf 'if [[ -n "${SSH_CONNECTION:-}" && "${DEVCONTAINER_LOADING_DIRENV:-}" != 1 && -f %q/.envrc ]]; then\n' "$WORKSPACE_DIR"
-  printf '  eval "$(cd %q && /usr/bin/env -u DIRENV_DIFF -u DIRENV_DIR -u DIRENV_FILE -u DIRENV_WATCHES DEVCONTAINER_LOADING_DIRENV=1 /usr/bin/direnv export bash)"\n' "$WORKSPACE_DIR"
-  echo '  export DEVCONTAINER_WORKSPACE_PATH="$PATH"'
+  printf 'if [[ -n "${SSH_CONNECTION:-}" && "${DEVCONTAINER_LOADING_DIRENV:-}" != 1 && "${DEVCONTAINER_DIRENV_LOADED:-}" != %q && -f %q/.envrc ]]; then\n' "$WORKSPACE_DIR" "$WORKSPACE_DIR"
+  printf '  if DEVCONTAINER_DIRENV_EXPORT="$(cd %q && /usr/bin/env -u DIRENV_DIFF -u DIRENV_DIR -u DIRENV_FILE -u DIRENV_WATCHES DEVCONTAINER_LOADING_DIRENV=1 /usr/bin/direnv export bash)"; then\n' "$WORKSPACE_DIR"
+  echo '    if eval "$DEVCONTAINER_DIRENV_EXPORT"; then'
+  echo '      export DEVCONTAINER_WORKSPACE_PATH="$PATH"'
+  printf '      export DEVCONTAINER_DIRENV_LOADED=%q\n' "$WORKSPACE_DIR"
+  echo '    fi'
+  echo '  fi'
+  echo '  unset DEVCONTAINER_DIRENV_EXPORT'
   echo 'fi'
   echo '# END devcontainer SSH direnv'
   awk '

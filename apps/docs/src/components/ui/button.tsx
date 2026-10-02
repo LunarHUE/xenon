@@ -28,6 +28,14 @@ export const buttonVariants = cva(
       variant: {
         default: ['bg-foreground text-background', ...raisedInteraction],
         outline: ['bg-background text-foreground', ...raisedInteraction],
+        // Raised on the hard shadow while on, flat while off, like the example footer toggles.
+        toggle: [
+          'bg-background text-foreground motion-safe:transition-[translate,box-shadow] motion-safe:duration-[120ms]',
+          'aria-expanded:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-expanded:-translate-0.5',
+          'aria-pressed:shadow-[3px_3px_0_var(--color-foreground)] motion-safe:aria-pressed:-translate-0.5',
+          '[&:not([data-disabled]):not([data-pending]):hover]:bg-muted',
+          '[&:not([data-disabled]):not([data-pending]):active]:translate-0 [&:not([data-disabled]):not([data-pending]):active]:shadow-none',
+        ],
         navigation: [
           'w-full justify-start gap-3 border-transparent bg-transparent text-start text-muted-foreground',
           '[&:not([data-disabled]):not([data-pending]):hover]:bg-accent [&:not([data-disabled]):not([data-pending]):active]:border-foreground',

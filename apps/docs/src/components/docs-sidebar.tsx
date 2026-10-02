@@ -7,7 +7,6 @@ import { Icon, type IconNode } from './ui/icon'
 import { Tooltip, TooltipContent, TooltipViewport, createTooltipHandle } from './ui/tooltip'
 import {
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
@@ -125,13 +124,7 @@ function DocsSidebarContents(props: DocsSidebarProps): JSX.Element {
           <DocsSidebarTrigger mobileQuery="not all" class="shrink-0" />
         </div>
       </div>
-      <SidebarHeader>
-        <div class="flex h-[42px] items-center justify-between gap-3 border border-foreground bg-background px-3 text-sm whitespace-nowrap shadow-[3px_3px_0_var(--color-foreground)] group-data-[mode=compact]/sidebar:hidden">
-          <span class="truncate font-medium">Solid</span>
-          <span class="shrink-0 font-mono text-xs text-muted-foreground">0.0.0</span>
-        </div>
-      </SidebarHeader>
-      <SidebarContent aria-label="Documentation sections">
+      <SidebarContent aria-label="Documentation sections" class="pt-6">
         <For each={props.sections}>
           {(section) => (
             <SidebarGroup>

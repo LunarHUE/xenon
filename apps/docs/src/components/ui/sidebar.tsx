@@ -302,7 +302,7 @@ export function SidebarTrigger(props: SidebarTriggerProps): JSX.Element {
       when={mobile()}
       fallback={
         <Button
-          variant="outline"
+          variant="toggle"
           size="icon-sm"
           {...rest}
           data-slot="sidebar-trigger"
