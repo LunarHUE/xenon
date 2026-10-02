@@ -1230,7 +1230,7 @@
     {"ids":["tooltip.pointer.19"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Root disabled cancellation and native disabled hover rejection are asserted. Inner-button composition parity is not checked; aria-disabled alone intentionally permits explanations.","evidence":337,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":78},"status":"reconciled"},
     {"ids":["tooltip.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Controlled blur reports a close request and retains author-controlled visibility; native uncontrolled blur with no pointer intent is not directly asserted here.","evidence":338,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":84},"status":"verified"},
     {"ids":["tooltip.focus.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Group fixture focuses the second trigger after hover opened the first; focus-to-focus switching is not the exact exercised sequence.","evidence":331,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":86},"status":"verified"},
-    {"ids":["tooltip.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves blur leaves pointer-held content open and ending hover then closes. The reverse order is not asserted.","evidence":339,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":87},"status":"reconciled"},
+    {"ids":["tooltip.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native test proves blur leaves pointer-held content open and ending hover then closes. The reverse order is not asserted.","evidence":339,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":87},"status":"verified"},
     {"ids":["tooltip.focus.9"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native click closes without reopening after browser focus, but the ensuing focus event is not separately recorded.","evidence":340,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":89},"status":"reconciled"},
     {"ids":["tooltip.focus.11"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native focus opening is covered, but explicit Tab/Shift+Tab modality establishment is not asserted in the inspected Tooltip tests.","evidence":326,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":91},"status":"verified"},
     {"ids":["tooltip.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core checks absent expansion; absent selected and checked state are not explicitly asserted.","evidence":325,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":92},"status":"verified"},
@@ -7774,6 +7774,26 @@
       ],
       "relatedFix": "12bbbb0",
       "verification": "Coordinator verified all 7 new cases across Chromium, Firefox and WebKit after fixing shared focus: 21 passed. All existing HoverCard cases passed in the same broader run; full DOM suite passed 256 tests and focused Tooltip/HoverCard adapters passed 16. Broader run separately exposed an existing Firefox Tooltip timeout and native WebKit fieldset assertions; neither is counted as passing."
+    },
+    {
+      "id": "tooltip-independent-hover-and-focus-intent",
+      "status": "verified",
+      "ids": [
+        "tooltip.focus.6"
+      ],
+      "acceptedClauses": [
+        "The shipped independent-intent policy retains a tooltip when either focus or hover ends first, and closes only after both end. New native keyboard coverage supplies hover-ending-first; the existing native fixture supplies focus-ending-first."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/tooltip/tooltip.remaining.test-browser.tsx",
+        "packages/suite/src/tooltip/tooltip.native.test-browser.tsx"
+      ],
+      "verification": "Coordinator reran the full Tooltip suite across Chromium, Firefox and WebKit: 108 passed. An earlier broader run had one existing Firefox safe-corridor hover timeout; its isolated rerun and subsequent complete three-engine domain rerun passed without test or production changes.",
+      "limits": [
+        "Verifies the shipped branch of a research divergence; alternatives are not implied.",
+        "The earlier timeout remains recorded as an intermittent result, not erased by the later pass."
+      ]
     }
   ],
   "knownLimits": {
