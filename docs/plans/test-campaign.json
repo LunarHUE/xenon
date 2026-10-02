@@ -1607,22 +1607,22 @@
     {"ids":["select.roles.38"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native change requests are handled and controlled value repaired; data-autofill marker is not supplied and OS autofill is not asserted.","evidence":559,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":30},"status":"queued"},
     {"ids":["select.keyboard.3"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Enter/Space open with first active descendant; actual DOM focus stays trigger by selected policy and selected-value opening is separately tested.","evidence":560,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":33},"status":"queued"},
     {"ids":["select.keyboard.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Code clears pending highlight and defaults first when no selection; existing browser reopen assertion uses committed Pear, not the specific empty-value last-highlight scenario.","evidence":561,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":37},"status":"queued"},
-    {"ids":["select.keyboard.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Space, Enter and Alt+Up commit label/form value and close; aria-selected attribute transfer after reopening is not directly asserted by those cases.","evidence":562,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":38},"status":"queued"},
+    {"ids":["select.keyboard.8"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Space, Enter and Alt+Up commit label/form value and close; aria-selected attribute transfer after reopening is not directly asserted by those cases.","evidence":562,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":38},"status":"verified"},
     {"ids":["select.keyboard.10"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native Tab exits without committing; retained force-mounted option tabindex cleanup is not directly checked.","evidence":563,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":40},"status":"queued"},
     {"ids":["select.keyboard.18"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native open Home/End reach endpoints; actual option scroll-into-view result is not measured.","evidence":564,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":45},"status":"queued"},
-    {"ids":["select.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native arrows skip disabled metadata; live collection removal without a dead slot is not directly tested.","evidence":565,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":46},"status":"queued"},
+    {"ids":["select.keyboard.19"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native arrows skip disabled metadata; live collection removal without a dead slot is not directly tested.","evidence":565,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":46},"status":"verified"},
     {"ids":["select.keyboard.27"],"historicalStatus":"partial","domain":"popup-selection","reason":"Idle reset and fresh matching search are asserted; no-match character immediately after timeout is not.","evidence":566,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":53},"status":"queued"},
     {"ids":["select.keyboard.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled-only match commits nothing and ordinary disabled option navigation is excluded; rapid double-letter disabled match among enabled same-letter matches is not asserted.","evidence":567,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":54},"status":"queued"},
     {"ids":["select.keyboard.29","select.keyboard.30"],"historicalStatus":"missing","domain":"popup-selection","reason":"Active buffer consumes Space before commit in code; trailing-Space pointer selection and post-timeout Space commit matrix is not directly asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":55},"status":"queued"},
     {"ids":["select.keyboard.44"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger cannot focus and keyboard adapter keeps it closed; full native Space/Enter plus exact callback/expanded matrix is not combined.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":60},"status":"queued"},
-    {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"queued"},
+    {"ids":["select.pointer.1"],"historicalStatus":"missing","domain":"popup-selection","reason":"Trigger click toggles open/closed in core, but inspected browser click tests open then choose rather than asserting a second trigger click closes.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":63},"status":"verified"},
     {"ids":["select.pointer.2"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native click commits, updates trigger/form and closes; reopening and checking option aria-selected=true is not part of that fixture.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":64},"status":"queued"},
     {"ids":["select.pointer.3"],"historicalStatus":"missing","domain":"popup-selection","reason":"Click-based trigger opening supports touch release semantics, but native touch down/scroll/click no-open-before-release sequence is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":65},"status":"queued"},
     {"ids":["select.pointer.4"],"historicalStatus":"partial","domain":"popup-selection","reason":"Disabled native trigger and ignored adapter interaction are covered; explicit mouse plus touch and callback-count matrix is absent.","evidence":568,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":66},"status":"queued"},
     {"ids":["select.pointer.6"],"historicalStatus":"partial","domain":"popup-selection","reason":"Pointermove highlights in implementation and disabled pointer test preserves current highlight; enabled hover movement and hover-disable option are not tested, and option flag is not supplied.","evidence":570,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":67},"status":"queued"},
     {"ids":["select.pointer.13"],"historicalStatus":"partial","domain":"popup-selection","reason":"Single selection closes in browser; configurable closeOnSelect=false is not supplied.","evidence":569,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":71},"status":"queued"},
-    {"ids":["select.pointer.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Commit compares current value and still closes on reselect, but same-option click no-deselection fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":72},"status":"queued"},
-    {"ids":["select.pointer.17","select.dismissal.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Outside layer dismissal clears active without commit, but native outside click with pending highlight and placeholder/committed value assertion is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":75},"status":"queued"},
+    {"ids":["select.pointer.14"],"historicalStatus":"missing","domain":"popup-selection","reason":"Commit compares current value and still closes on reselect, but same-option click no-deselection fixture is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":72},"status":"verified"},
+    {"ids":["select.pointer.17","select.dismissal.12"],"historicalStatus":"missing","domain":"popup-selection","reason":"Outside layer dismissal clears active without commit, but native outside click with pending highlight and placeholder/committed value assertion is absent.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":75},"status":"verified"},
     {"ids":["select.pointer.21"],"historicalStatus":"missing","domain":"popup-selection","reason":"Mouseup alone cannot commit in selected click implementation; touch-scroll followed by synthetic mouseup no-change case is not asserted.","evidence":552,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":77},"status":"queued"},
     {"ids":["select.pointer.23"],"historicalStatus":"partial","domain":"popup-selection","reason":"Native author preventDefault veto keeps popup/input state until subsequent accepted click; exact author callback once count is not asserted.","evidence":571,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":79},"status":"queued"},
     {"ids":["select.pointer.28"],"historicalStatus":"partial","domain":"popup-selection","reason":"Readonly core/adapter refuses key opening; clicked readonly trigger refusal is implemented but not directly asserted.","evidence":572,"historicalRecord":{"file":"packages/suite/coverage/popup-selection.json","index":82},"status":"queued"},
@@ -1825,7 +1825,41 @@
     {"ids":["listbox.a11y.5"],"historicalStatus":"partial","domain":"popup-selection","reason":"The shared SelectionFixture axe scan includes the standalone multi Listbox with a disabled option. It checks reported violations, not all role/attribute states, default-disabled rules or incomplete unresolved-reference findings.","evidence":645,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":205},"status":"queued"},
     {"ids":["listbox.a11y.7"],"historicalStatus":"partial","domain":"popup-selection","reason":"Core verifies distinct derived option IDs for difficult string values and virtual reference resolution is asserted. Global uniqueness for every ARIA reference across multiple rendered listboxes is untested.","evidence":676,"historicalRecord":{"file":"packages/suite/coverage/selection.json","index":207},"status":"queued"}
   ],
-  "batches": [],
+  "batches": [
+    {
+      "id": "select-interactions-1",
+      "status": "verified",
+      "ids": [
+        "select.keyboard.8",
+        "select.keyboard.19",
+        "select.pointer.1",
+        "select.pointer.14",
+        "select.pointer.17",
+        "select.dismissal.12"
+      ],
+      "acceptedClauses": [
+        "Enter, Space and Alt+Up commit and transfer aria-selected on reopening",
+        "Removing the active option repairs its association and preserves navigation across disabled items",
+        "Second trigger click closes with one open/close callback and no value commit",
+        "Selected-option activation preserves value without redundant callbacks",
+        "Outside dismissal discards pending highlight for empty and committed values and preserves outside focus"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/select/select.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "xenon_BROWSERS=chromium,firefox,webkit bun run --cwd packages/suite test:browser -- src/select/select.remaining.test-browser.tsx",
+          "result": "15 passed across Chromium, Firefox and WebKit, independently run by coordinator"
+        },
+        {
+          "command": "bunx eslint src/select/select.remaining.test-browser.tsx",
+          "result": "passed"
+        }
+      ]
+    }
+  ],
   "knownLimits": {
     "sourceReferences": "All covered/partial historical test titles resolve to current active unconditional registrations. Visually-hidden.notes.1, outside this residual queue, retains its test but cites deleted apps/example/src/demos/utilities.tsx.",
     "parser": "Audit used temporary TypeScript 6.0.3 parser because the installed TypeScript compiler package lacks ScriptTarget.Latest.",
