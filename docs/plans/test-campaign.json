@@ -1129,61 +1129,61 @@
     {"ids":["slider.notes.3"],"historicalStatus":"partial","domain":"collections-layout","reason":"All seven public parts forward author attributes/styles/refs, preserve positioning properties and element/ref-target identity through reactive updates. HiddenInput and the research hidden-input composition are deliberately absent from the native-thumb API.","evidence":271,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":603},"status":"excluded"},
     {"ids":["visually-hidden.focus.2"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Focus reveals the wrapper and blur restores hiding; the test deliberately preserves author color rather than clearing the entire inline style. Asserts focus reveal clears the library clipping properties, preserves author color, and restores clipping after focus leaves. The stricter alternative requiring the entire inline style to become empty remains unresolved because the adopted component contract preserves author styles. Existing cited assertions cover the remaining supported clauses.","evidence":272,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":680},"status":"excluded"},
     {"ids":["avatar.notes.6"],"historicalStatus":"partial","domain":"inputs-forms","reason":"Probe source configuration, rendered srcset, author data and image ref are asserted; all visible native props, network-policy behavior and all-part polymorphism are not. Asserts the root data-avatar prop, unconsumed fallback data prop, refs, and polymorphic as tags on the root and fallback. Existing image ref and data forwarding evidence covers the image part.","evidence":273,"historicalRecord":{"file":"packages/suite/coverage/inputs.json","index":733},"status":"reconciled"},
-    {"ids":["dismissable-layer.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The unit test asserts one dismissal for document Escape and the veto test asserts one escape callback; the successful path does not assert both callback counts together.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":3},"status":"queued"},
-    {"ids":["dismissable-layer.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Assertions establish defaultPrevented after successful dispatch and no dismissal on veto; they do not independently assert preventDefault call ordering or the absence of an extra call after cancellation.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":5},"status":"queued"},
-    {"ids":["dismissable-layer.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Synthetic composition tests establish suppression through the post-composition tick and one subsequent dismissal. They do not exercise a real focused-field Safari IME session.","evidence":275,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":6},"status":"queued"},
-    {"ids":["dismissable-layer.keyboard.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Enter produces no dismissal; the fixture does not install/assert an onEscapeKeyDown callback.","evidence":276,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":8},"status":"queued"},
-    {"ids":["dismissable-layer.keyboard.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"The adopted engine matches event.key, but tests do not send conflicting key/code/keyCode values to isolate that contract.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":11},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"onPointerOutside cancellation is asserted, but a separate interact-outside veto API is not implemented.","evidence":278,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":12},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real composed-path assertions distinguish shadow content and sibling, but that fixture queries containment rather than asserting sibling-triggered dismissal.","evidence":279,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":17},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.17"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shadow containment is tested, but no fixture combines app and layer in one shadow root, body press, focus management and actual node removal.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":19},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.25"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Opening pointerdown is followed by a real click and leaves the layer undismissed; explicit compatibility-event counts are not asserted.","evidence":280,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":20},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.27"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Registration/disposal invalidates both in-flight and scheduled requests, including immediate disposal. A same-component controlled close/reopen batch is not directly exercised.","evidence":281,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":22},"status":"queued"},
-    {"ids":["dismissable-layer.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Reference-counted branch containment and pointer dismissal cleanup are asserted; focus-outside routing is not part of the current layer API.","evidence":282,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":24},"status":"queued"},
-    {"ids":["dismissable-layer.animation.1","dismissable-layer.animation.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Immediate layer registration is supported, but no layer fixture asserts starting-style item-selection behavior or sweeps every 0–20ms delay.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":30},"status":"queued"},
-    {"ids":["dismissable-layer.notes.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real composed shadow paths and branch containment are asserted; the specific select trigger/menu activation regressions are not in this primitive fixture.","evidence":279,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":33},"status":"queued"},
-    {"ids":["focus-scope.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"A one-button child scope retains focus on forward Tab; reverse Tab with exactly one stop is not isolated.","evidence":283,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":47},"status":"queued"},
-    {"ids":["focus-scope.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser navigation skips disabled/hidden/display:none/visibility:hidden/tabindex=-1 and inert stops. visibility:collapse and a full reverse traversal are absent.","evidence":284,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":48},"status":"queued"},
-    {"ids":["focus-scope.keyboard.6","focus-scope.keyboard.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native tabbable navigation is adopted, but fixtures do not assert exact blur counts or contenteditable/plaintext-only/false combinations.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":50},"status":"queued"},
-    {"ids":["focus-scope.keyboard.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Modified Tab stays uncanceled in unit assertions, but unchanged activeElement is not asserted for each modified dispatch.","evidence":285,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":51},"status":"queued"},
-    {"ids":["focus-scope.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Default-first focus is asserted, but that fixture lacks leading non-focusable content.","evidence":286,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":54},"status":"queued"},
-    {"ids":["focus-scope.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"restoreFocus is updateable and read on disposal, but no reviewed fixture changes this option before close and asserts suppression of opener restoration with no surviving parent trap.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":60},"status":"queued"},
-    {"ids":["focus-scope.focus.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disposed ancestor opener chains are exercised, but the precise removed restore-target premise is not isolated.","evidence":287,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":62},"status":"queued"},
-    {"ids":["focus-scope.focus.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Browser radio navigation is tested after a leading positive-tabindex input, but default initial focus with a checked radio as the first group is not isolated.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":65},"status":"queued"},
-    {"ids":["focus-scope.dismissal.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"One child-to-parent restoration is asserted; deeper multi-level unmounts plus rejected ancestor attempts after each close are not.","evidence":288,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":76},"status":"queued"},
-    {"ids":["focus-scope.notes.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser assertions establish open-shadow and slotted Tab traversal, but nested shadow roots and both document/inner activeElement readings are not all covered.","evidence":289,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":83},"status":"queued"},
-    {"ids":["focus-scope.notes.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Disposal disconnects scope work, but no fixture counts pending animation frames after repeated focus gain/loss.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":86},"status":"queued"},
-    {"ids":["focus-scope.notes.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled filtering and open-shadow slot traversal are asserted; iframe/details/aria-disabled/unslotted/inert-slot cases remain outside this fixture.","evidence":290,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":87},"status":"queued"},
-    {"ids":["focus-scope.notes.11","focus-scope.notes.12"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Visibility-aware tabbable scanning is adopted, but display:contents, zero-size, visually-hidden and content-visibility fixtures are absent.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":88},"status":"queued"},
-    {"ids":["focus-trap.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real forward/reverse wrap is asserted; native event.defaultPrevented is not checked in the browser fixture.","evidence":284,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":90},"status":"queued"},
-    {"ids":["focus-trap.keyboard.5","focus-trap.keyboard.7","focus-trap.keyboard.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"These accepted containment edges need assertions: exactly one effective radio stop, toggling containment from inside without moving focus, and unusual tabindex escape attempts.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":94},"status":"queued"},
-    {"ids":["focus-trap.pointer.2","focus-trap.notes.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real outside click reaches dismissal and ends the focus session, but no scope-only fixture asserts every native outside pointer callback remains unprevented.","evidence":291,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":96},"status":"queued"},
-    {"ids":["focus-trap.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"A foreign detached initial target is rejected and the first local button wins; a same-document detached initial target is not directly isolated.","evidence":292,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":100},"status":"queued"},
-    {"ids":["focus-trap.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"The restoreFocus:false option is supported, but current tests with that option retain a parent trap that reclaims focus; no standalone unchanged-focus disposal assertion was found.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":101},"status":"queued"},
-    {"ids":["focus-trap.dismissal.1","focus-trap.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Behavioral parent pause/resume is asserted, but no public active/paused reporting API or duplicate activation splicing is exposed.","evidence":288,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":104},"status":"queued"},
-    {"ids":["focus-trap.dismissal.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Nested trap recovery is adopted, but no fixture removes the outer trap’s sole target while a child is open and then asserts outer functionality after child disposal.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":106},"status":"queued"},
-    {"ids":["aria-hidden.roles.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Registered branches are exposed while active, but the branch test directly asserts inert rather than aria-hidden.","evidence":293,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":111},"status":"queued"},
-    {"ids":["aria-hidden.roles.4","aria-hidden.roles.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Outermost-branch hiding and exact restoration are adopted, but fixtures do not directly assert untouched descendant attributes or a preexisting aria-hidden=true claim’s preservation.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":112},"status":"queued"},
-    {"ids":["aria-hidden.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"New background nodes become aria-hidden and detached nodes are restored; release of an attached newly inserted node is not directly asserted.","evidence":294,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":115},"status":"queued"},
-    {"ids":["aria-hidden.state.2","aria-hidden.state.3","aria-hidden.state.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Dynamic modal tree reconciliation is adopted, but fixtures do not isolate insertion under an already-hidden container, inside-target insertion, reparenting across isolation boundaries, or twice-reordered wrappers followed by release.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":116},"status":"queued"},
-    {"ids":["aria-hidden.state.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Moving an isolated portal into the active modal through a destination callback synchronously clears inert and aria-hidden. The full append/remove/reappend sequence and the inverse move into a hidden container after observer delivery remain unasserted.","evidence":295,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":117},"status":"queued"},
-    {"ids":["aria-hidden.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The nested modal fixture restores parent and branch inert state after child disposal; it does not assert every aria-hidden value through final outer disposal.","evidence":296,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":118},"status":"queued"},
-    {"ids":["aria-hidden.dismissal.2","aria-hidden.dismissal.4","aria-hidden.dismissal.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Nested ownership and exact attribute restoration are adopted, but isolation assertions do not cover the full out-of-order release/preexisting-attribute overlap/synchronous handoff cases.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":119},"status":"queued"},
-    {"ids":["aria-hidden.a11y.1","aria-hidden.a11y.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Tests inspect attributes directly; they do not use accessibility role queries to establish hidden descendants disappear from those queries and return on release.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":121},"status":"queued"},
-    {"ids":["aria-hidden.notes.1","aria-hidden.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Open-shadow slot paths and newly inserted shadow siblings are checked for inert. Arbitrarily nested roots and the full aria-hidden exposure matrix are not asserted.","evidence":297,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":123},"status":"queued"},
-    {"ids":["aria-hidden.notes.3","aria-hidden.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Explicit branches and shadow ancestry are supported; no fixture covers split input/popup targets or target-inside-anchor shadow recursion.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":124},"status":"queued"},
-    {"ids":["prevent-scroll.positioning.1"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Unit assertions verify compensation adds measured 20px to existing 7px padding and restores priorities. No scrollbar-width custom property is published, and compensation is on body while the lock is on the root.","evidence":298,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":134},"status":"queued"},
-    {"ids":["portal.dismissal.3"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices. A real outside click closes the portalled Select while the nonmodal containing Popover remains open; focus intentionally lands on the outside button because nonmodal Popover does not claim outside focus containment. The research focus-containment clause remains unproven; this nonmodal fixture permits deliberate outside focus.","evidence":299,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":146},"status":"queued"},
-    {"ids":["nested-overlay-ordering.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Independent stacks are actually shared per document, but no shared-layer fixture opens a concrete focus-triggered Tooltip inside Dialog without explicit ancestry.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":152},"status":"queued"},
-    {"ids":["nested-overlay-ordering.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Pressing parent content dismisses only the child; the same fixture does not assert an inner-content gesture leaves both callbacks untouched.","evidence":300,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":155},"status":"queued"},
-    {"ids":["nested-overlay-ordering.pointer.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Stopped bubbling still permits dismissal and parent-content gestures route to child; the compound nested portal plus stopped-wrapper setup is not asserted together.","evidence":301,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":156},"status":"queued"},
-    {"ids":["nested-overlay-ordering.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nested modal isolation hides parent/branches and exposes them after child release; accessibility-tree queries and full second-level unwind are not asserted.","evidence":296,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":158},"status":"queued"},
-    {"ids":["nested-overlay-ordering.focus.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Disposed opener chains are supported, but no simultaneous close-and-open sibling followed by real Escape fixture establishes this exact return target.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":159},"status":"queued"},
-    {"ids":["nested-overlay-ordering.dismissal.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Scroll locks are tested with overlapping holders and exact restoration; arbitrary release orders and body pointer-event lock variants are not established.","evidence":298,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":161},"status":"queued"},
-    {"ids":["nested-overlay-ordering.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"isTopmost is asserted on one registered handle, but lower/newer transitions driving rendered behavior are not isolated.","evidence":302,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":162},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real inside and branch presses do not dismiss, but the fixture does not install onPointerOutside to assert that no outside notification fires.","evidence":303,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":163},"status":"queued"},
-    {"ids":["dismissable-layer.pointer.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real clicks assert dismissal and native click delivery; the unit pointer-pair fixture asserts one outside notification and dismissal. Separate interact-outside notifications and inside-notification silence are not established.","evidence":304,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":164},"status":"queued"},
-    {"ids":["aria-hidden.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The target has no aria-hidden and its ancestor has no inert; the fixture does not explicitly inspect aria-hidden on every ancestor.","evidence":305,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":167},"status":"queued"},
+    {"ids":["dismissable-layer.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The unit test asserts one dismissal for document Escape and the veto test asserts one escape callback; the successful path does not assert both callback counts together.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":3},"status":"reconciled"},
+    {"ids":["dismissable-layer.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Assertions establish defaultPrevented after successful dispatch and no dismissal on veto; they do not independently assert preventDefault call ordering or the absence of an extra call after cancellation.","evidence":274,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":5},"status":"reconciled"},
+    {"ids":["dismissable-layer.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Synthetic composition tests establish suppression through the post-composition tick and one subsequent dismissal. They do not exercise a real focused-field Safari IME session.","evidence":275,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":6},"status":"reconciled"},
+    {"ids":["dismissable-layer.keyboard.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Enter produces no dismissal; the fixture does not install/assert an onEscapeKeyDown callback.","evidence":276,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":8},"status":"reconciled"},
+    {"ids":["dismissable-layer.keyboard.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"The adopted engine matches event.key, but tests do not send conflicting key/code/keyCode values to isolate that contract.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":11},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"onPointerOutside cancellation is asserted, but a separate interact-outside veto API is not implemented.","evidence":278,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":12},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real composed-path assertions distinguish shadow content and sibling, but that fixture queries containment rather than asserting sibling-triggered dismissal.","evidence":279,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":17},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.17"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Shadow containment is tested, but no fixture combines app and layer in one shadow root, body press, focus management and actual node removal.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":19},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.25"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Opening pointerdown is followed by a real click and leaves the layer undismissed; explicit compatibility-event counts are not asserted.","evidence":280,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":20},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.27"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Registration/disposal invalidates both in-flight and scheduled requests, including immediate disposal. A same-component controlled close/reopen batch is not directly exercised.","evidence":281,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":22},"status":"reconciled"},
+    {"ids":["dismissable-layer.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Reference-counted branch containment and pointer dismissal cleanup are asserted; focus-outside routing is not part of the current layer API.","evidence":282,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":24},"status":"reconciled"},
+    {"ids":["dismissable-layer.animation.1","dismissable-layer.animation.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Immediate layer registration is supported, but no layer fixture asserts starting-style item-selection behavior or sweeps every 0–20ms delay.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":30},"status":"reconciled"},
+    {"ids":["dismissable-layer.notes.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real composed shadow paths and branch containment are asserted; the specific select trigger/menu activation regressions are not in this primitive fixture.","evidence":279,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":33},"status":"reconciled"},
+    {"ids":["focus-scope.keyboard.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"A one-button child scope retains focus on forward Tab; reverse Tab with exactly one stop is not isolated.","evidence":283,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":47},"status":"reconciled"},
+    {"ids":["focus-scope.keyboard.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser navigation skips disabled/hidden/display:none/visibility:hidden/tabindex=-1 and inert stops. visibility:collapse and a full reverse traversal are absent.","evidence":284,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":48},"status":"reconciled"},
+    {"ids":["focus-scope.keyboard.6","focus-scope.keyboard.7"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Native tabbable navigation is adopted, but fixtures do not assert exact blur counts or contenteditable/plaintext-only/false combinations.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":50},"status":"reconciled"},
+    {"ids":["focus-scope.keyboard.8"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Modified Tab stays uncanceled in unit assertions, but unchanged activeElement is not asserted for each modified dispatch.","evidence":285,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":51},"status":"reconciled"},
+    {"ids":["focus-scope.focus.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Default-first focus is asserted, but that fixture lacks leading non-focusable content.","evidence":286,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":54},"status":"reconciled"},
+    {"ids":["focus-scope.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"restoreFocus is updateable and read on disposal, but no reviewed fixture changes this option before close and asserts suppression of opener restoration with no surviving parent trap.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":60},"status":"reconciled"},
+    {"ids":["focus-scope.focus.13"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Disposed ancestor opener chains are exercised, but the precise removed restore-target premise is not isolated.","evidence":287,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":62},"status":"reconciled"},
+    {"ids":["focus-scope.focus.16"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Browser radio navigation is tested after a leading positive-tabindex input, but default initial focus with a checked radio as the first group is not isolated.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":65},"status":"reconciled"},
+    {"ids":["focus-scope.dismissal.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"One child-to-parent restoration is asserted; deeper multi-level unmounts plus rejected ancestor attempts after each close are not.","evidence":288,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":76},"status":"reconciled"},
+    {"ids":["focus-scope.notes.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Browser assertions establish open-shadow and slotted Tab traversal, but nested shadow roots and both document/inner activeElement readings are not all covered.","evidence":289,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":83},"status":"reconciled"},
+    {"ids":["focus-scope.notes.9"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Disposal disconnects scope work, but no fixture counts pending animation frames after repeated focus gain/loss.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":86},"status":"reconciled"},
+    {"ids":["focus-scope.notes.10"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Native disabled filtering and open-shadow slot traversal are asserted; iframe/details/aria-disabled/unslotted/inert-slot cases remain outside this fixture.","evidence":290,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":87},"status":"reconciled"},
+    {"ids":["focus-scope.notes.11","focus-scope.notes.12"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Visibility-aware tabbable scanning is adopted, but display:contents, zero-size, visually-hidden and content-visibility fixtures are absent.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":88},"status":"reconciled"},
+    {"ids":["focus-trap.keyboard.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real forward/reverse wrap is asserted; native event.defaultPrevented is not checked in the browser fixture.","evidence":284,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":90},"status":"reconciled"},
+    {"ids":["focus-trap.keyboard.5","focus-trap.keyboard.7","focus-trap.keyboard.8"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"These accepted containment edges need assertions: exactly one effective radio stop, toggling containment from inside without moving focus, and unusual tabindex escape attempts.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":94},"status":"reconciled"},
+    {"ids":["focus-trap.pointer.2","focus-trap.notes.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real outside click reaches dismissal and ends the focus session, but no scope-only fixture asserts every native outside pointer callback remains unprevented.","evidence":291,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":96},"status":"reconciled"},
+    {"ids":["focus-trap.focus.6"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"A foreign detached initial target is rejected and the first local button wins; a same-document detached initial target is not directly isolated.","evidence":292,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":100},"status":"reconciled"},
+    {"ids":["focus-trap.focus.10"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"The restoreFocus:false option is supported, but current tests with that option retain a parent trap that reclaims focus; no standalone unchanged-focus disposal assertion was found.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":101},"status":"reconciled"},
+    {"ids":["focus-trap.dismissal.1","focus-trap.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Behavioral parent pause/resume is asserted, but no public active/paused reporting API or duplicate activation splicing is exposed.","evidence":288,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":104},"status":"reconciled"},
+    {"ids":["focus-trap.dismissal.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Nested trap recovery is adopted, but no fixture removes the outer trap’s sole target while a child is open and then asserts outer functionality after child disposal.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":106},"status":"reconciled"},
+    {"ids":["aria-hidden.roles.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Registered branches are exposed while active, but the branch test directly asserts inert rather than aria-hidden.","evidence":293,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":111},"status":"reconciled"},
+    {"ids":["aria-hidden.roles.4","aria-hidden.roles.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Outermost-branch hiding and exact restoration are adopted, but fixtures do not directly assert untouched descendant attributes or a preexisting aria-hidden=true claim’s preservation.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":112},"status":"reconciled"},
+    {"ids":["aria-hidden.state.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"New background nodes become aria-hidden and detached nodes are restored; release of an attached newly inserted node is not directly asserted.","evidence":294,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":115},"status":"reconciled"},
+    {"ids":["aria-hidden.state.2","aria-hidden.state.3","aria-hidden.state.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Dynamic modal tree reconciliation is adopted, but fixtures do not isolate insertion under an already-hidden container, inside-target insertion, reparenting across isolation boundaries, or twice-reordered wrappers followed by release.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":116},"status":"reconciled"},
+    {"ids":["aria-hidden.state.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Moving an isolated portal into the active modal through a destination callback synchronously clears inert and aria-hidden. The full append/remove/reappend sequence and the inverse move into a hidden container after observer delivery remain unasserted.","evidence":295,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":117},"status":"reconciled"},
+    {"ids":["aria-hidden.dismissal.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The nested modal fixture restores parent and branch inert state after child disposal; it does not assert every aria-hidden value through final outer disposal.","evidence":296,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":118},"status":"reconciled"},
+    {"ids":["aria-hidden.dismissal.2","aria-hidden.dismissal.4","aria-hidden.dismissal.5"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Nested ownership and exact attribute restoration are adopted, but isolation assertions do not cover the full out-of-order release/preexisting-attribute overlap/synchronous handoff cases.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":119},"status":"reconciled"},
+    {"ids":["aria-hidden.a11y.1","aria-hidden.a11y.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Tests inspect attributes directly; they do not use accessibility role queries to establish hidden descendants disappear from those queries and return on release.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":121},"status":"reconciled"},
+    {"ids":["aria-hidden.notes.1","aria-hidden.notes.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Open-shadow slot paths and newly inserted shadow siblings are checked for inert. Arbitrarily nested roots and the full aria-hidden exposure matrix are not asserted.","evidence":297,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":123},"status":"reconciled"},
+    {"ids":["aria-hidden.notes.3","aria-hidden.notes.4"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Explicit branches and shadow ancestry are supported; no fixture covers split input/popup targets or target-inside-anchor shadow recursion.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":124},"status":"reconciled"},
+    {"ids":["prevent-scroll.positioning.1"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Unit assertions verify compensation adds measured 20px to existing 7px padding and restores priorities. No scrollbar-width custom property is published, and compensation is on body while the lock is on the root.","evidence":298,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":134},"status":"reconciled"},
+    {"ids":["portal.dismissal.3"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Layer parent/branch composition is adopted, but the reviewed shared fixtures do not establish these concrete nested popover/select/tooltip and deep forced-visibility/portal matrices. A real outside click closes the portalled Select while the nonmodal containing Popover remains open; focus intentionally lands on the outside button because nonmodal Popover does not claim outside focus containment. The research focus-containment clause remains unproven; this nonmodal fixture permits deliberate outside focus.","evidence":299,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":146},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.keyboard.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Independent stacks are actually shared per document, but no shared-layer fixture opens a concrete focus-triggered Tooltip inside Dialog without explicit ancestry.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":152},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.pointer.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Pressing parent content dismisses only the child; the same fixture does not assert an inner-content gesture leaves both callbacks untouched.","evidence":300,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":155},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.pointer.5"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Stopped bubbling still permits dismissal and parent-content gestures route to child; the compound nested portal plus stopped-wrapper setup is not asserted together.","evidence":301,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":156},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.focus.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Nested modal isolation hides parent/branches and exposes them after child release; accessibility-tree queries and full second-level unwind are not asserted.","evidence":296,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":158},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.focus.3"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Disposed opener chains are supported, but no simultaneous close-and-open sibling followed by real Escape fixture establishes this exact return target.","evidence":277,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":159},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.dismissal.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Scroll locks are tested with overlapping holders and exact restoration; arbitrary release orders and body pointer-event lock variants are not established.","evidence":298,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":161},"status":"reconciled"},
+    {"ids":["nested-overlay-ordering.dismissal.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"isTopmost is asserted on one registered handle, but lower/newer transitions driving rendered behavior are not isolated.","evidence":302,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":162},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.2"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real inside and branch presses do not dismiss, but the fixture does not install onPointerOutside to assert that no outside notification fires.","evidence":303,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":163},"status":"reconciled"},
+    {"ids":["dismissable-layer.pointer.1"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Real clicks assert dismissal and native click delivery; the unit pointer-pair fixture asserts one outside notification and dismissal. Separate interact-outside notifications and inside-notification silence are not established.","evidence":304,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":164},"status":"reconciled"},
+    {"ids":["aria-hidden.roles.3"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"The target has no aria-hidden and its ancestor has no inert; the fixture does not explicitly inspect aria-hidden on every ancestor.","evidence":305,"historicalRecord":{"file":"packages/suite/coverage/layering.json","index":167},"status":"reconciled"},
     {"ids":["hover-card.roles.1","hover-card.roles.2"],"historicalStatus":"missing","domain":"overlays-positioning","reason":"Open/closed and placement attributes are shipped, but the inspected HoverCard tests do not assert complete attribute transitions.","evidence":306,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":1},"status":"verified"},
     {"ids":["hover-card.roles.4"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts collapsed/open expansion and active-only controls. The required haspopup value is implemented but not asserted.","evidence":307,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":2},"status":"verified"},
     {"ids":["hover-card.roles.7"],"historicalStatus":"partial","domain":"overlays-positioning","reason":"Core asserts active-only current marker; adapter switches hovered triggers but checks expansion rather than both current markers.","evidence":308,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":4},"status":"verified"},
@@ -54599,6 +54599,2227 @@
       "verification": "Read-only source/spec/current assertion review. Sample assertions establish existing scope only; no execution or closure.",
       "limits": [
         "Research alternative APIs and styling promises remain distinguished from supported finite tests."
+      ]
+    },
+    {
+      "id": "dom-overlay-final-scope-review-writable",
+      "status": "reconciled",
+      "ids": [
+        "dismissable-layer.keyboard.1",
+        "dismissable-layer.keyboard.6",
+        "dismissable-layer.keyboard.9",
+        "dismissable-layer.pointer.13",
+        "dismissable-layer.pointer.17",
+        "dismissable-layer.pointer.27",
+        "dismissable-layer.animation.1",
+        "dismissable-layer.animation.2",
+        "dismissable-layer.notes.3",
+        "focus-scope.keyboard.3",
+        "focus-scope.keyboard.4",
+        "focus-scope.keyboard.6",
+        "focus-scope.keyboard.7",
+        "focus-scope.focus.1",
+        "focus-scope.focus.10",
+        "focus-scope.focus.13",
+        "focus-scope.focus.16",
+        "focus-scope.notes.5",
+        "focus-scope.notes.10",
+        "focus-scope.notes.11",
+        "focus-scope.notes.12",
+        "focus-trap.keyboard.1",
+        "focus-trap.keyboard.5",
+        "focus-trap.keyboard.8",
+        "focus-trap.focus.6",
+        "focus-trap.focus.10",
+        "focus-trap.dismissal.3",
+        "aria-hidden.roles.4",
+        "aria-hidden.state.1",
+        "aria-hidden.state.2",
+        "aria-hidden.state.3",
+        "aria-hidden.state.5",
+        "aria-hidden.state.4",
+        "aria-hidden.dismissal.1",
+        "aria-hidden.dismissal.4",
+        "aria-hidden.a11y.1",
+        "aria-hidden.a11y.2",
+        "aria-hidden.notes.1",
+        "aria-hidden.notes.2",
+        "aria-hidden.notes.3",
+        "aria-hidden.notes.4",
+        "nested-overlay-ordering.keyboard.3",
+        "nested-overlay-ordering.pointer.3",
+        "nested-overlay-ordering.pointer.5",
+        "nested-overlay-ordering.focus.2",
+        "nested-overlay-ordering.focus.3",
+        "nested-overlay-ordering.dismissal.4",
+        "dismissable-layer.pointer.2"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "dismissable-layer.keyboard.1: Add uncanceled onEscape callbackonce followed by dismissonce sameEvent/order; current positive onlydismiss spy plus separate callback-veto negative.",
+        "dismissable-layer.keyboard.6: Add onEscapeKeyDown andonDismiss spies bothzero across representative nonEscapekeys; current Enter onlydismiss spy.",
+        "dismissable-layer.keyboard.9: Conflicting key/code/keyCode fixtures: only keyEscape invokes, codeEscape/keynonEscape ignored, legacy27nonEscape ignored; existing Enter/Escape doesn'tproveconflictprecedence.",
+        "dismissable-layer.pointer.13: Actual shadowcontent pointerdown/up nativecomposed inside and siblingoutside onecallback; current contains(probe) protocol+native inside shadow tests cover part but exactsiblingdismiss needed.",
+        "dismissable-layer.pointer.17: Body trustedoutsidegesture against scoped app+layer inshadow, with focusScope active and restoredopener, observes actual layerremoval; existing native shadow inside only.",
+        "dismissable-layer.pointer.27: Close/reopen samebatch and listenerreattachmidgesture must invalidate oldpendingrequest; existing disposal/registration cancels timers protocol needs concrete new-session nativefixture.",
+        "dismissable-layer.animation.1: Opening marker and 0ms trustedfulloutsidegesture once wrapper/target outermost + actualremoval/noitemselection + immediate reopen; no current combined animatedfixture.",
+        "dismissable-layer.animation.2: Finite0..20ms registration-delayoutsidegesture matrix confirms no stale timerwindow; capture is synchronous but productionarchitecture isn't executionproof.",
+        "dismissable-layer.notes.3: Nested shadow excludedtrigger nativeactivation staysopen/doesnotclose-reopen and Menuitemcommit beforedismiss; existing genericcontains/nativeshadowprotocol insufficient componenttriggers.",
+        "focus-scope.keyboard.3: Exactly one native tabbable wrapsforward/reverse and defaultprevented; current empty and multistop cases notsingleedge.",
+        "focus-scope.keyboard.4: Current native skips negative/displaynone/visibilityhidden/hidden/disabled bothdirections partly; add visibilitycollapse plus fullreverse walkthrough and disabledfieldset branchplatformlimits separated.",
+        "focus-scope.keyboard.6: Exact lastnodeblur count across backwardwrap thenforwardwrap onceeach expectedtransition; existing order/focus only.",
+        "focus-scope.keyboard.7: contenteditable bare/true/plaintext-only tabbable vsfalse skipped in nativebothdirections; tabbable dependency behavior needs actualbrowser.",
+        "focus-scope.focus.1: Defaultautofocus skipsleadingnonfocusable statictext then firsttabstop, not onlyexplicitoverride; current unitpriority tested but native leadingcontent case notexact.",
+        "focus-scope.focus.10: restoreFocus prop readlatestatdispose afterruntime updatefalse/true, standaloneoutsideopener notrestoredwhenfalse; current childfalsecase differentcontainmentpolicy.",
+        "focus-scope.focus.13: Detached/removed restoretarget fallback to surviving previousscope opener exact path still needs assertion; existing disposedparent portalopener case proves related policy only.",
+        "focus-scope.focus.16: Defaultinitialfocus checkedradio afteruncheckedleadingradio, with no earlierotherstop and source tabbable radiofilter; current radiofixture positiveindex earlierfocus thenTabchecked only.",
+        "focus-scope.notes.5: Scope container inside nestedopen shadowroots, deepactive+forwardreversewrap, portalledscope sameownerDoc; current shadowdescendant/slotring and removal tests notnestedshadowprimarycontainer.",
+        "focus-scope.notes.10: Native iframe/details firstsummary/detailsnosummary/aria-disabledvsdisabled/slottedvsunslotted/inertshadow matrix; current open-slot+nativefieldset checks onlysubset.",
+        "focus-scope.notes.11: Chromium displaycontentsvisiblewrapper descendants and hiddenwrapper descendants nativeTabscan, wrappernotstop; no currentfixture.",
+        "focus-scope.notes.12: Native zerobounds tabbable, clippedvisuallyhidden included, contentvisibilityhidden ancestor excluded; no currentgeometryfixture.",
+        "focus-trap.keyboard.1: Existing native forwardreversewrap; explicit capturedKeyboardEvent defaultPrevented atboundary stillneeded (scope actively handlesTab broadly).",
+        "focus-trap.keyboard.5: Single effective namedradiostop checked and unchecked group Tab/ShiftTab cannotescape andeventprevented; current radiogroups+positive+last fixture multistop.",
+        "focus-trap.keyboard.8: Authored unusualnegative/positive/invalidtabindex finite cases actualTabcannotescape including afterruntimechanges; current onepositive2 nativecoverage only.",
+        "focus-trap.focus.6: Detached explicitinitialFocus safelyfallbackinsidefirsttabstop with authorcallbacknoerror; source checksconnected but no explicittestassertion.",
+        "focus-trap.focus.10: Standalone restoreFocusfalse disposal keeps focus from automatically returning to outsideopener; current childfalse test resumesparent and movesfocus, not standalone unchanged-focus case.",
+        "focus-trap.dismissal.3: Outeronlytargetremovedwhileinneropen theninnerdispose outerstaysfunctional/noexception/fallback and newcontrolTab; recoverytests don'tcombineinnerunpauseedge.",
+        "aria-hidden.roles.4: Outsidewrapperhidden anddescendants noextraariahidden, targetancestorchain untouched; current arbitrarysiblingattr doesn'tproveoutermoststop.",
+        "aria-hidden.state.1: Existing newbackgroundhidden; add explicitrevert exposesnewconnectedbackground notonlydetached restoration.",
+        "aria-hidden.state.2: Newchild insidealreadyhiddenwrapper getsnoownedattr while topsiblinghidden; current newtopbackground only.",
+        "aria-hidden.state.3: Newtargetdescendant remains exposed afterobserverflush whileoutside stayshidden; no exactassertion.",
+        "aria-hidden.state.5: Reorderwrappedrows twice thenlastdispose no stalesnapshotattrs left on movedwrappers; observer followsmutation but source isn'ttest.",
+        "aria-hidden.state.4: Append/removeparent/reappend samebatch into target/hiddenwrapper thenobserverreconcile targetexposed/hiddeninherited; existing modalportal synchronousmove testdifferentpattern.",
+        "aria-hidden.dismissal.1: Modalbranchwidekeepset then nestednewtopnarrows andinnerdispose restoresouterkepttargets whilebackgroundremains hidden; existing parentbranch inert assertions need ariahidden exactset+finaloutercleanup.",
+        "aria-hidden.dismissal.4: Originalinert/ariahidden true/false combinations survive overlappingtopstack/out-of-orderdispose and onlylibraryownedattrremoved; current singleoriginalinert+ariafalse restoration.",
+        "aria-hidden.a11y.1: Actualrolequeries excludedoutside andtargetdescendants remain acrossdispose, with named controls ratherthanbarediv attrs; no exactcurrentrolequeryutilitymatrix.",
+        "aria-hidden.a11y.2: Rolequeries hiddenouterwrapper exclude descendants thenrestore inclboundedWebKitexception note; no fullrolequeryfixture.",
+        "aria-hidden.notes.1: Nestedshadowprimarytarget siblings+lightDOMhidden andancestorchainexposed; current one openshadow+slot onlychecksnewshadow siblinginert.",
+        "aria-hidden.notes.2: Existing observer newlyaddedshadow siblinginert; add ariahidden anddispose restoration onconnectednewnode, notonlyinert.",
+        "aria-hidden.notes.3: Two separate targetcontainers inoneshadow viaModal branch+content keepboth and hide unrelatedsiblingcontainer; no combopatternactualfixture.",
+        "aria-hidden.notes.4: Targetinsideanchorinsideopen+nestedshadow ensures finitewalk/hostkeepset no recursion/completecleanup; existing slotpath notanchorcycleedge.",
+        "nested-overlay-ordering.keyboard.3: Dialog+focus-triggeredTooltip without explicitlogicalparent sharesdocumentstack; nativeEscape onlytooltip, dialogopen and exactcallbacks. Existing independentgenericlayerEscape notactualtooltipcomposition.",
+        "nested-overlay-ordering.pointer.3: Actualinnerinsidepress leavesboth; outercontentoutsideinner closesinneronly withnativegesture andcallbackcounts; current genericlayerchildroute unit+portal fixturespartial.",
+        "nested-overlay-ordering.pointer.5: Ancestor bubble stopPropagation around nestedportalledlayers; trustedouterpress closesinneronly, captureclassification; existing stopbubble singlelayer plus nestedprotocolseparate.",
+        "nested-overlay-ordering.focus.2: Nestedmodalrolequery onlytop exposed then eachcloseonelevelrestore; current nativeisolation childparent inert/visibility not completeengineaccessibility traversal.",
+        "nested-overlay-ordering.focus.3: Trustedchildaction closescurrent andopenssibling samebatch, laterEscape restoreoriginalsurvivingtrigger notremovedaction; existingdisposedancestor chain notsamebatchsiblingtransition.",
+        "nested-overlay-ordering.dismissal.4: LayerHandle.isTopmost available; renderreactiveadapter authorreads changingtoporder/disposal, tests rawtopbooleans and behaviorgating. Method isn'treactivesignal itself, subscribeor rerenderexplicitly, don't invent publicpartattr.",
+        "dismissable-layer.pointer.2: Current containedbranches/drags no dismissal; spy onPointerOutside zero forrootitself/descendant and nativefullgesture. No pointerdownoutside/interactoutside separatehook."
+      ],
+      "scopeReview": [
+        {
+          "id": "dismissable-layer.keyboard.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 24,
+            "clause": "- [ ] `dismissable-layer.keyboard.1` Given an open layer, when `keydown` with key `Escape` is dispatched on the document, then the layer emits its escape event once and dismisses once. [radix, base-ui, zag, kobalte, corvu, reka, melt]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Add uncanceled onEscape callbackonce followed by dismissonce sameEvent/order; current positive onlydismiss spy plus separate callback-veto negative.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 41,
+              "anchor": "test('routes one Escape to the newest registration across independent roots', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 92,
+              "anchor": "test('the Escape callback can veto dismissal', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.keyboard.6",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 29,
+            "clause": "- [ ] `dismissable-layer.keyboard.6` Given a layer, when a key other than Escape is dispatched, then no handler runs and nothing dismisses. (candidate) [melt]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Add onEscapeKeyDown andonDismiss spies bothzero across representative nonEscapekeys; current Enter onlydismiss spy.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 79,
+              "anchor": "test('honors earlier cancellation, non-Escape keys, and bubble propagation', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.keyboard.9",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 32,
+            "clause": "- [ ] `dismissable-layer.keyboard.9` Given Escape handling matches on `event.key` only, then `event.code` and the legacy `keyCode` are never consulted. (candidate) [corvu]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Conflicting key/code/keyCode fixtures: only keyEscape invokes, codeEscape/keynonEscape ignored, legacy27nonEscape ignored; existing Enter/Escape doesn'tproveconflictprecedence.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 79,
+              "anchor": "test('honors earlier cancellation, non-Escape keys, and bubble propagation', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.13",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 48,
+            "clause": "- [ ] `dismissable-layer.pointer.13` Given a layer whose content lives in an open shadow root, when a composed bubbling `pointerdown` fires on that content, then it counts as inside because the target is resolved from `composedPath()[0]` rather than the retargeted `event.target`, while a sibling in the same shadow root counts as outside and dismisses. [react-aria, base-ui, zag, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Actual shadowcontent pointerdown/up nativecomposed inside and siblingoutside onecallback; current contains(probe) protocol+native inside shadow tests cover part but exactsiblingdismiss needed.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 199,
+              "anchor": "test('resolves shadow-root content through the composed event path', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/layering.test-browser.tsx",
+              "line": 49,
+              "anchor": "test('real shadow-root pointer events resolve content and registered portal branches', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.17",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 52,
+            "clause": "- [ ] `dismissable-layer.pointer.17` Given the app and the layer share one shadow root, when `document.body` is pressed, then the layer is removed, including when focus is managed. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Body trustedoutsidegesture against scoped app+layer inshadow, with focusScope active and restoredopener, observes actual layerremoval; existing native shadow inside only.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/layering.test-browser.tsx",
+              "line": 49,
+              "anchor": "test('real shadow-root pointer events resolve content and registered portal branches', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.27",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 62,
+            "clause": "- [ ] `dismissable-layer.pointer.27` Given an outside press observed during one open session, when the layer is closed and reopened, then that press does not leak into the new session, including when the close and reopen land in the same batch and when the listeners are re-attached mid-gesture. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Close/reopen samebatch and listenerreattachmidgesture must invalidate oldpendingrequest; existing disposal/registration cancels timers protocol needs concrete new-session nativefixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 437,
+              "anchor": "test('last disposal clears scheduled work and removes each capture listener once', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.animation.1",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 97,
+            "clause": "- [ ] `dismissable-layer.animation.1` Given a layer still in its opening animation (its content still carries the starting-style marker), when a full outside click sequence fires, then interact-outside fires exactly once with the outermost element as the target, the content is removed, no item is selected, and the same holds on an immediate reopen. (candidate) [bits]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Opening marker and 0ms trustedfulloutsidegesture once wrapper/target outermost + actualremoval/noitemselection + immediate reopen; no current combined animatedfixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 27,
+              "anchor": "test('outside primary clicks dismiss only the top layer and preserve native focus and click', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.animation.2",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 98,
+            "clause": "- [ ] `dismissable-layer.animation.2` Given a layer that has just registered, when an outside click happens at any delay from 0 to 20 milliseconds after registration, then it dismisses in every case; the 4 to 14 millisecond window is where a stale timer previously cleared the responsible-layer flag. (candidate) [bits]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Finite0..20ms registration-delayoutsidegesture matrix confirms no stale timerwindow; capture is synchronous but productionarchitecture isn't executionproof.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 98,
+              "anchor": "test('opening a layer during pointerdown does not dismiss it on the opening release', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.notes.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 105,
+            "clause": "- [ ] `dismissable-layer.notes.3` Given any outside-interaction primitive, then targets must be resolved through `event.composedPath()` rather than `event.target`, because a document-level listener sees a target retargeted to the shadow host, which matches neither the layer nor its excluded trigger; the observable symptoms were a select trigger closing and instantly reopening its listbox and a menu item press dismissing the layer before the item could activate (kobalte issue 445). (candidate) [kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Nested shadow excludedtrigger nativeactivation staysopen/doesnotclose-reopen and Menuitemcommit beforedismiss; existing genericcontains/nativeshadowprotocol insufficient componenttriggers.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/layering.test-browser.tsx",
+              "line": 49,
+              "anchor": "test('real shadow-root pointer events resolve content and registered portal branches', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.keyboard.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 173,
+            "clause": "- [ ] `focus-scope.keyboard.3` Given a scope containing exactly one tabbable element, when Tab or Shift+Tab is pressed, then focus stays on that element. [zag, ariakit, headlessui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Exactly one native tabbable wrapsforward/reverse and defaultprevented; current empty and multistop cases notsingleedge.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.keyboard.4",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 174,
+            "clause": "- [ ] `focus-scope.keyboard.4` Given a scope containing elements with `tabindex=\"-1\"`, `display: none`, `visibility: hidden`, `visibility: collapse`, the `hidden` attribute, or a native `disabled` attribute, when Tab and Shift+Tab cycle the scope, then every one of those is skipped in both directions. [react-aria, radix, headlessui, reka]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Current native skips negative/displaynone/visibilityhidden/hidden/disabled bothdirections partly; add visibilitycollapse plus fullreverse walkthrough and disabledfieldset branchplatformlimits separated.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.keyboard.6",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 176,
+            "clause": "- [ ] `focus-scope.keyboard.6` Given a scope whose last element has a blur handler, when focus cycles backward to it and then forward again, then the handler fires exactly once, so cycling does not double-blur. [radix, reka]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Exact lastnodeblur count across backwardwrap thenforwardwrap onceeach expectedtransition; existing order/focus only.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.keyboard.7",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 177,
+            "clause": "- [ ] `focus-scope.keyboard.7` Given a scope containing spans with `contenteditable`, `contenteditable=\"false\"` and `contenteditable=\"plaintext-only\"`, when tabbing, then the truthy and the plaintext-only spans are tabbable and the false variants are skipped. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "contenteditable bare/true/plaintext-only tabbable vsfalse skipped in nativebothdirections; tabbable dependency behavior needs actualbrowser.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.focus.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 184,
+            "clause": "- [ ] `focus-scope.focus.1` Given a scope that autofocuses on mount, when it mounts, then focus lands on the first tabbable element inside it, skipping non-focusable leading content. [react-aria, base-ui, zag, ariakit, headlessui, corvu, reka]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Defaultautofocus skipsleadingnonfocusable statictext then firsttabstop, not onlyexplicitoverride; current unitpriority tested but native leadingcontent case notexact.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 49,
+              "anchor": "test('selects explicit, existing, autofocus, and first focus in priority order', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 46,
+              "anchor": "test('explicit initial focus wins, and disposal restores the opener', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.focus.10",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 193,
+            "clause": "- [ ] `focus-scope.focus.10` Given focus restoration is disabled, when the scope closes, then focus is left wherever it is and the trigger does not regain it; the flag is read at close time, not at open time. [base-ui, corvu]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "restoreFocus prop readlatestatdispose afterruntime updatefalse/true, standaloneoutsideopener notrestoredwhenfalse; current childfalsecase differentcontainmentpolicy.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 158,
+              "anchor": "test('updates replace defaults without rerunning initial focus', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 221,
+              "anchor": "test('a parent resumes containment when a child opts out of restoration', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.focus.13",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 196,
+            "clause": "- [ ] `focus-scope.focus.13` Given the scope's restore target was itself removed while the scope was open, when the scope closes, then the scope tree falls back to the previous scope's restore target rather than leaving focus on the body. [react-aria, base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Detached/removed restoretarget fallback to surviving previousscope opener exact path still needs assertion; existing disposedparent portalopener case proves related policy only.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 384,
+              "anchor": "test('skips a connected portal opener belonging to a disposed parent', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.focus.16",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 199,
+            "clause": "- [ ] `focus-scope.focus.16` Given a scope whose content holds a radio group with a checked radio, when it opens with default initial focus, then the checked radio receives focus rather than the first radio. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Defaultinitialfocus checkedradio afteruncheckedleadingradio, with no earlierotherstop and source tabbable radiofilter; current radiofixture positiveindex earlierfocus thenTabchecked only.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 153,
+              "anchor": "test('checked native radios contribute one stop per form, with positive tabindex first', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.notes.5",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 248,
+            "clause": "- [ ] `focus-scope.notes.5` Given a scope portalled into a shadow root, when its first input is focused, then the document's active element is the shadow host while the shadow root's active element is the input, and Tab cycles the shadow inputs with wrap, including through nested shadow roots. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Scope container inside nestedopen shadowroots, deepactive+forwardreversewrap, portalledscope sameownerDoc; current shadowdescendant/slotring and removal tests notnestedshadowprimarycontainer.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 136,
+              "anchor": "test('open shadow roots and slots participate in focus and Tab traversal', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.notes.10",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 253,
+            "clause": "- [ ] `focus-scope.notes.10` Given a tabbable scan, then an `iframe` is in the tab order, a closed `details` contributes only its first `summary`, a `details` with no summary is itself tabbable, `aria-disabled` does not remove an element while native `disabled` does, a slotted light-DOM element inside a shadow host is included while an unslotted one is not, and a slotted element inside inert shadow content is excluded. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Native iframe/details firstsummary/detailsnosummary/aria-disabledvsdisabled/slottedvsunslotted/inertshadow matrix; current open-slot+nativefieldset checks onlysubset.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 136,
+              "anchor": "test('open shadow roots and slots participate in focus and Tab traversal', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.notes.11",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 254,
+            "clause": "- [ ] `focus-scope.notes.11` Given a tabbable scan and a `display: contents` wrapper, then its visible descendants stay in the tab order while the wrapper itself is not tabbable, and descendants of a hidden `display: contents` wrapper are excluded. Chromium. (browser-only) (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Chromium displaycontentsvisiblewrapper descendants and hiddenwrapper descendants nativeTabscan, wrappernotstop; no currentfixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.notes.12",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 255,
+            "clause": "- [ ] `focus-scope.notes.12` Given a tabbable scan, then a zero-size element with `tabindex=\"0\"` and a visually hidden element are both in the tab order, while an element under a block ancestor with `content-visibility: hidden` is not. (browser-only) (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Native zerobounds tabbable, clippedvisuallyhidden included, contentvisibilityhidden ancestor excluded; no currentgeometryfixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.keyboard.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 267,
+            "clause": "- [ ] `focus-trap.keyboard.1` Given focus on the last tabbable node in the trap, when Tab is pressed, then the event is default-prevented and focus wraps to the first tabbable node; from the first node, Shift+Tab wraps to the last. [zag, ariakit, headlessui, corvu]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Existing native forwardreversewrap; explicit capturedKeyboardEvent defaultPrevented atboundary stillneeded (scope actively handlesTab broadly).",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 28,
+              "anchor": "test('Tab wraps both ways and native fieldset, visibility, and tabindex rules filter stops', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.keyboard.5",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 271,
+            "clause": "- [ ] `focus-trap.keyboard.5` Given a trap whose only effective tab stop is one radio of a named group, when Tab is pressed on it, then the event is default-prevented and focus stays on that radio. (candidate) [zag]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Single effective namedradiostop checked and unchecked group Tab/ShiftTab cannotescape andeventprevented; current radiogroups+positive+last fixture multistop.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 305,
+              "anchor": "test('uses one stop for unchecked radio groups spanning branches', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 153,
+              "anchor": "test('checked native radios contribute one stop per form, with positive tabindex first', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.keyboard.8",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 274,
+            "clause": "- [ ] `focus-trap.keyboard.8` Given a trap containing unusual `tabindex` values, when Tab is pressed, then focus still cannot escape. (candidate) [headlessui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Authored unusualnegative/positive/invalidtabindex finite cases actualTabcannotescape including afterruntimechanges; current onepositive2 nativecoverage only.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 153,
+              "anchor": "test('checked native radios contribute one stop per form, with positive tabindex first', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.focus.6",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 293,
+            "clause": "- [ ] `focus-trap.focus.6` Given an initial-focus target that was never appended to the document, when the trap activates, then it does not throw and focus lands on the fallback instead. (candidate) [zag]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Detached explicitinitialFocus safelyfallbackinsidefirsttabstop with authorcallbacknoerror; source checksconnected but no explicittestassertion.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 49,
+              "anchor": "test('selects explicit, existing, autofocus, and first focus in priority order', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.focus.10",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 297,
+            "clause": "- [ ] `focus-trap.focus.10` Given restoration is disabled, when the trap deactivates, then focus is left wherever it is. (candidate) [corvu]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Standalone restoreFocusfalse disposal keeps focus from automatically returning to outsideopener; current childfalse test resumesparent and movesfocus, not standalone unchanged-focus case.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 315,
+              "anchor": "test('resumes containment when child declines restoration', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.dismissal.3",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 307,
+            "clause": "- [ ] `focus-trap.dismissal.3` Given an outer trap whose only focus target was removed while an inner trap was open, when the inner trap deactivates, then the automatic unpause does not throw, the outer trap stays active, and it is still functional afterwards. (candidate) [zag]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Outeronlytargetremovedwhileinneropen theninnerdispose outerstaysfunctional/noexception/fallback and newcontrolTab; recoverytests don'tcombineinnerunpauseedge.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 84,
+              "anchor": "test('a portalled child trap pauses its parent and restores the parent opener', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.roles.4",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 342,
+            "clause": "- [ ] `aria-hidden.roles.4` Given an outside element wrapped in a container, when the hide runs, then `aria-hidden=\"true\"` lands on the outermost container and the walk does not descend to hide its children individually. [react-aria, base-ui, zag, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Outsidewrapperhidden anddescendants noextraariahidden, targetancestorchain untouched; current arbitrarysiblingattr doesn'tproveoutermoststop.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.state.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 354,
+            "clause": "- [ ] `aria-hidden.state.1` Given the hide is active, when a new element is added outside the targets, then a `MutationObserver` hides it asynchronously, and the revert exposes it again. [react-aria, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Existing newbackgroundhidden; add explicitrevert exposesnewconnectedbackground notonlydetached restoration.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 90,
+              "anchor": "test('observes new background nodes and restores detached nodes', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.state.2",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 355,
+            "clause": "- [ ] `aria-hidden.state.2` Given the hide is active with an already-hidden container, when a new child is added inside that container, then it gets no `aria-hidden` of its own because the ancestor attribute already covers it, while a new element added at the top level does get one. [react-aria, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Newchild insidealreadyhiddenwrapper getsnoownedattr while topsiblinghidden; current newtopbackground only.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 90,
+              "anchor": "test('observes new background nodes and restores detached nodes', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.state.3",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 356,
+            "clause": "- [ ] `aria-hidden.state.3` Given the hide is active, when a new element is added inside a target, then it stays exposed while outside siblings stay hidden. [react-aria, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Newtargetdescendant remains exposed afterobserverflush whileoutside stayshidden; no exactassertion.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 90,
+              "anchor": "test('observes new background nodes and restores detached nodes', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.state.5",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 358,
+            "clause": "- [ ] `aria-hidden.state.5` Given a list of wrapped rows under an active hide, when the list is reordered twice and the hide reverts, then no stale `aria-hidden=\"true\"` is left on a moved row's wrapper. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Reorderwrappedrows twice thenlastdispose no stalesnapshotattrs left on movedwrappers; observer followsmutation but source isn'ttest.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 90,
+              "anchor": "test('observes new background nodes and restores detached nodes', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.state.4",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 357,
+            "clause": "- [ ] `aria-hidden.state.4` Given a node is appended, its parent removed, and the node re-appended under a new parent, when the observer flushes, then a node reparented inside a target stays exposed and a node reparented into a hidden container is hidden. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Append/removeparent/reappend samebatch into target/hiddenwrapper thenobserverreconcile targetexposed/hiddeninherited; existing modalportal synchronousmove testdifferentpattern.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 323,
+              "anchor": "test('moving an isolated portal in a destination callback restores its attributes synchronously', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.dismissal.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 362,
+            "clause": "- [ ] `aria-hidden.dismissal.1` Given one hide active over a wide target set, when a second nested hide narrows the targets, then the newly excluded elements are hidden too; reverting the inner hide exposes them again while the outer hide's own hidden elements stay hidden, and reverting the outer hide exposes everything. [react-aria, base-ui, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Modalbranchwidekeepset then nestednewtopnarrows andinnerdispose restoresouterkepttargets whilebackgroundremains hidden; existing parentbranch inert assertions need ariahidden exactset+finaloutercleanup.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 49,
+              "anchor": "test('shares the modal stack across roots and restores the lower modal and its branches', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.dismissal.4",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 365,
+            "clause": "- [ ] `aria-hidden.dismissal.4` Given an outside element that already carried an externally set `inert` or `aria-hidden`, when overlapping hides claim and release it, then the library-added attribute is removed and the externally owned one survives. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Originalinert/ariahidden true/false combinations survive overlappingtopstack/out-of-orderdispose and onlylibraryownedattrremoved; current singleoriginalinert+ariafalse restoration.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.a11y.1",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 371,
+            "clause": "- [ ] `aria-hidden.a11y.1` Given the hide is active, when role queries run, then the hidden elements are not matched at all and only the targets and their descendants are, and after the revert every role query matches again. [react-aria, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Actualrolequeries excludedoutside andtargetdescendants remain acrossdispose, with named controls ratherthanbarediv attrs; no exactcurrentrolequeryutilitymatrix.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.a11y.2",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 372,
+            "clause": "- [ ] `aria-hidden.a11y.2` Given an element hidden only through its wrapping container, when a role query runs, then it is not matched, so hiding a container is enough to remove its descendants from the accessibility tree outside WebKit's grid exception. [react-aria, kobalte]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Rolequeries hiddenouterwrapper exclude descendants thenrestore inclboundedWebKitexception note; no fullrolequeryfixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.notes.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 381,
+            "clause": "- [ ] `aria-hidden.notes.1` Given a target inside a shadow root, when the hide runs, then siblings inside the same shadow root and content in the light DOM are both hidden while the shadow host, the host's ancestor chain and the target stay exposed, through arbitrarily nested shadow roots. [react-aria, base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Nestedshadowprimarytarget siblings+lightDOMhidden andancestorchainexposed; current one openshadow+slot onlychecksnewshadow siblinginert.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 104,
+              "anchor": "test('follows open shadow and slot paths and observes shadow mutations', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.notes.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 382,
+            "clause": "- [ ] `aria-hidden.notes.2` Given a hide active over a shadow root, when content is added into that shadow root afterwards, then the observer inside the shadow root hides it. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Existing observer newlyaddedshadow siblinginert; add ariahidden anddispose restoration onconnectednewnode, notonlyinert.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 104,
+              "anchor": "test('follows open shadow and slot paths and observes shadow mutations', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.notes.3",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 383,
+            "clause": "- [ ] `aria-hidden.notes.3` Given a combobox pattern where the input and the popup live in separate containers inside one shadow root, when both are passed as targets, then both and their direct containers stay exposed while an unrelated sibling container is hidden. (candidate) [react-aria]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Two separate targetcontainers inoneshadow viaModal branch+content keepboth and hide unrelatedsiblingcontainer; no combopatternactualfixture.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 104,
+              "anchor": "test('follows open shadow and slot paths and observes shadow mutations', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.notes.4",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 384,
+            "clause": "- [ ] `aria-hidden.notes.4` Given a target nested inside an anchor inside a shadow root, when the hide runs, then the walk terminates without infinite recursion and resolves the shadow host as the element to avoid. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Targetinsideanchorinsideopen+nestedshadow ensures finitewalk/hostkeepset no recursion/completecleanup; existing slotpath notanchorcycleedge.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 104,
+              "anchor": "test('follows open shadow and slot paths and observes shadow mutations', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.keyboard.3",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 507,
+            "clause": "- [ ] `nested-overlay-ordering.keyboard.3` Given an open dialog containing a focus-triggered tooltip with no shared layer tree, when Escape is pressed, then only the tooltip closes and the dialog stays open. [base-ui, melt]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Dialog+focus-triggeredTooltip without explicitlogicalparent sharesdocumentstack; nativeEscape onlytooltip, dialogopen and exactcallbacks. Existing independentgenericlayerEscape notactualtooltipcomposition.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/layering.test-browser.tsx",
+              "line": 14,
+              "anchor": "test('real Escape unwinds one logical layer per key press across portal siblings', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.pointer.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 515,
+            "clause": "- [ ] `nested-overlay-ordering.pointer.3` Given two nested open layers, when a press lands inside the inner one, then neither closes; when it lands inside the outer one but outside the inner one, then only the inner one closes. [base-ui, zag, reka, melt]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Actualinnerinsidepress leavesboth; outercontentoutsideinner closesinneronly withnativegesture andcallbackcounts; current genericlayerchildroute unit+portal fixturespartial.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 243,
+              "anchor": "test('nested layers route only to the child even when the pointer is in the parent', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.pointer.5",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 517,
+            "clause": "- [ ] `nested-overlay-ordering.pointer.5` Given an ancestor wrapper that calls `stopPropagation()` on bubble-phase `pointerdown` around nested portalled layers, when the outer layer's content is clicked, then only the inner layer closes, because outside-press detection listens in the capture phase. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Ancestor bubble stopPropagation around nestedportalledlayers; trustedouterpress closesinneronly, captureclassification; existing stopbubble singlelayer plus nestedprotocolseparate.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 145,
+              "anchor": "test('capture tracking survives stopped bubble propagation', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 79,
+              "anchor": "test('native target cancellation vetoes dismissal, while stopped bubbling does not hide it', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.focus.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 522,
+            "clause": "- [ ] `nested-overlay-ordering.focus.2` Given nested modal layers, when the inner one opens, then only the innermost layer is exposed to assistive technology, and each close exposes exactly one more level. [react-aria, base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Nestedmodalrolequery onlytop exposed then eachcloseonelevelrestore; current nativeisolation childparent inert/visibility not completeengineaccessibility traversal.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/dialog/native-dialog.test-browser.tsx",
+              "line": 70,
+              "anchor": "test('nested native dialogs isolate lower content and restore focus through both openers', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.focus.3",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 523,
+            "clause": "- [ ] `nested-overlay-ordering.focus.3` Given a layer whose content simultaneously closes it and opens a sibling layer, when the sibling later closes with Escape, then focus returns to the original layer's trigger rather than to the removed content. (candidate) [base-ui]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Trustedchildaction closescurrent andopenssibling samebatch, laterEscape restoreoriginalsurvivingtrigger notremovedaction; existingdisposedancestor chain notsamebatchsiblingtransition.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 180,
+              "anchor": "test('closing an ancestor first does not steal child focus or lose the original return target', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.dismissal.4",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 530,
+            "clause": "- [ ] `nested-overlay-ordering.dismissal.4` Given a layer that exposes whether it is the topmost one, then its content can render or behave differently while a layer sits above it. (candidate) [corvu]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "LayerHandle.isTopmost available; renderreactiveadapter authorreads changingtoporder/disposal, tests rawtopbooleans and behaviorgating. Method isn'treactivesignal itself, subscribeor rerenderexplicitly, don't invent publicpartattr.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 41,
+              "anchor": "test('routes one Escape to the newest registration across independent roots', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 37,
+            "clause": "- [ ] `dismissable-layer.pointer.2` Given an open layer, when `pointerdown` lands on the layer itself or on any descendant, then nothing is dismissed and no outside event fires. [react-aria, radix, base-ui, zag, kobalte, corvu, reka]"
+          },
+          "classification": "writable",
+          "remainingAcceptedAssertions": "Current containedbranches/drags no dismissal; spy onPointerOutside zero forrootitself/descendant and nativefullgesture. No pointerdownoutside/interactoutside separatehook.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 46,
+              "anchor": "test('inside presses, portal branches, and drags crossing the boundary do not dismiss', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        }
+      ],
+      "verification": "Read-only exact source/spec/assertion review; no execution or automatic closure.",
+      "limits": [
+        "No standalone FocusTrap or hideOthers API: map meaningful accepted behavior to shipped FocusScope/Modal registrations and keep research architectural alternatives explicit.",
+        "Existing assertions need relevant execution before completion.",
+        "Finite DOM/native component matrices do not prove universal arbitrary-shadow/browser behavior."
+      ]
+    },
+    {
+      "id": "dom-overlay-final-scope-review-mixed",
+      "status": "reconciled",
+      "ids": [
+        "dismissable-layer.keyboard.3",
+        "dismissable-layer.pointer.3",
+        "dismissable-layer.state.1",
+        "focus-trap.keyboard.7",
+        "focus-trap.dismissal.1",
+        "focus-trap.dismissal.4",
+        "aria-hidden.roles.2",
+        "aria-hidden.roles.5",
+        "aria-hidden.dismissal.2",
+        "aria-hidden.dismissal.5",
+        "prevent-scroll.positioning.1",
+        "portal.dismissal.3",
+        "nested-overlay-ordering.dismissal.3",
+        "dismissable-layer.pointer.1"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "dismissable-layer.keyboard.3: Source prevents native Escape only after uncanceled callback; callbackpreventDefault itself cancels nativeevent. Dedicated spycallordering beforedismiss writable; no assertion should require defaultPrevented=false after authorveto.",
+        "dismissable-layer.pointer.3: One public onPointerOutside wrapper veto supported/tested; separate pointerdownoutside/interactoutside callbacks unshipped. Add exactwrapperdefaultprevented once and no dismiss.",
+        "dismissable-layer.state.1: Branches contained and independent cleanup pointerpaths alreadyasserted. Layer does not implement focusoutside dismissal; combine FocusScope branch focus containment rather than invent interactoutsidefocus hook.",
+        "focus-trap.keyboard.7: No enabled flag on separateTrap; mutable FocusScope contain has immediateupdate/reclaim. In-region control toggling contain and pointer/nativeTab outcomes writable; preserve focus underexistingpolicy.",
+        "focus-trap.dismissal.1: Newest containing FocusScope owns trapping, old remainsregistered. No public paused/active status API; behaviorally assert parentpause/resume rather than unavailableflags.",
+        "focus-trap.dismissal.4: Scope registration immutable identity/order, update doesn't reactivate/reorder, disposal removes. Alternate activate/spliceexistingtrap API unshipped; finite registration/disposaltopbehavior alreadytested.",
+        "aria-hidden.roles.2: No standalone hideOthers(target[]) API. Modal content plus registerBranch represents multi-target keptset; accepted exposed branches matrix writable, no arbitrary hide helper exported.",
+        "aria-hidden.roles.5: Original aria-hidden true preserved by snapshotrestore; no per-node hide refcount exposed. Assert originaltrue preserved throughout and after disposal without requiring unsupported no-refcount architecture.",
+        "aria-hidden.dismissal.2: Top-modal policy intentionally exposes currenttopallowedset when outer removed, not independent per-hide refcountclaims. Test no premature exposure of still-excludedbackground and finalrestore, not unsupportedeveryoriginaltargethiddenuntilallfinish.",
+        "aria-hidden.dismissal.5: Modal isolation reconciles synchronously, no deferred writehandoff API. Verify immediate dispose/re-registerattribute continuity whereallowed; observersasync onlybackgroundmutations.",
+        "prevent-scroll.positioning.1: Existing scrollbar20+authorpadding7=>27 and restore importantpriority covers compensation. --scrollbar-width CSS variable notpublished by Modal API; no productexpansionneeded unless authorrequiresnewvariable.",
+        "portal.dismissal.3: Existing native outsidepress closesSelect keepsPopoveropen and outsidefocus, not focuscontainment. Popover deliberately noncontaining, no mandatory trap. Accepted layerordering assertion exists; no universal trappingpromise.",
+        "nested-overlay-ordering.dismissal.3: Scroll lock shared until lastholder and exactinlinevalues already tested. Bodypointerevents lock API notimplemented; native modalinertness takesitsplace.",
+        "dismissable-layer.pointer.1: Actual one-wrapper/onDismiss architecture: existing DOM protocol asserts outsidewrapperonce anddismissonce sameup event; browser fullclick asserts one topdismiss and nativeclick. Add nativewrapperonce target validation if needed. Separate pointer-down-outside/interact-outside callbacks unshipped."
+      ],
+      "scopeReview": [
+        {
+          "id": "dismissable-layer.keyboard.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 26,
+            "clause": "- [ ] `dismissable-layer.keyboard.3` Given Escape dismisses a layer, then the layer calls `preventDefault()` on the `keydown` itself before dismissing, and skips that call when the dismissal was cancelled. [base-ui, zag]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Source prevents native Escape only after uncanceled callback; callbackpreventDefault itself cancels nativeevent. Dedicated spycallordering beforedismiss writable; no assertion should require defaultPrevented=false after authorveto.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 92,
+              "anchor": "test('the Escape callback can veto dismissal', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 38,
+            "clause": "- [ ] `dismissable-layer.pointer.3` Given a layer whose pointer-down-outside or interact-outside handler calls `preventDefault()`, when the outside press completes, then no dismissal happens, so each handler is a veto point. [radix, zag, corvu]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "One public onPointerOutside wrapper veto supported/tested; separate pointerdownoutside/interactoutside callbacks unshipped. Add exactwrapperdefaultprevented once and no dismiss.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 120,
+              "anchor": "test('wrapper cancellation does not cancel the original event', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.state.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 77,
+            "clause": "- [ ] `dismissable-layer.state.1` Given an element registered as a branch of the layer, when a press or a focus move lands inside that branch, then the layer does not dismiss, and the branch registry is empty again once the branch unmounts. [radix, zag, reka]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Branches contained and independent cleanup pointerpaths alreadyasserted. Layer does not implement focusoutside dismissal; combine FocusScope branch focus containment rather than invent interactoutsidefocus hook.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 175,
+              "anchor": "test('contains portalled descendants and reference-counted branches', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 223,
+              "anchor": "test('branches retain independent cleanup and shadow content stays inside', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.keyboard.7",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 273,
+            "clause": "- [ ] `focus-trap.keyboard.7` Given the trap's enabled flag is toggled from a control inside the region, when it is toggled, then focus stays on that control and the wrap behavior follows the new flag immediately. (candidate) [ariakit]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "No enabled flag on separateTrap; mutable FocusScope contain has immediateupdate/reclaim. In-region control toggling contain and pointer/nativeTab outcomes writable; preserve focus underexistingpolicy.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 206,
+              "anchor": "test('enabling containment and releasing the focused branch immediately reclaim focus', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.dismissal.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 305,
+            "clause": "- [ ] `focus-trap.dismissal.1` Given two traps sharing one stack, when the second activates, then the first reports paused while staying active, and deactivating the second unpauses the first. (candidate) [zag]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Newest containing FocusScope owns trapping, old remainsregistered. No public paused/active status API; behaviorally assert parentpause/resume rather than unavailableflags.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 121,
+              "anchor": "test('pauses parent traps and restores nested focus synchronously', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.dismissal.4",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 308,
+            "clause": "- [ ] `focus-trap.dismissal.4` Given a trap activating, then it moves to the end of its stack (splicing out any existing entry first) and pauses whichever trap was last; deactivating splices it out and unpauses the new last entry. (candidate) [zag]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Scope registration immutable identity/order, update doesn't reactivate/reorder, disposal removes. Alternate activate/spliceexistingtrap API unshipped; finite registration/disposaltopbehavior alreadytested.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 158,
+              "anchor": "test('updates replace defaults without rerunning initial focus', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.roles.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 340,
+            "clause": "- [ ] `aria-hidden.roles.2` Given several target elements passed at once, when the hide runs, then all of them stay exposed and only non-target branches are hidden. [react-aria, kobalte]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "No standalone hideOthers(target[]) API. Modal content plus registerBranch represents multi-target keptset; accepted exposed branches matrix writable, no arbitrary hide helper exported.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 77,
+              "anchor": "test('duplicate branch registration has independent idempotent cleanup', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.roles.5",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 343,
+            "clause": "- [ ] `aria-hidden.roles.5` Given an outside element that already carried an author-supplied `aria-hidden=\"true\"`, when the hide runs and then reverts, then that element's own attribute is left in place and never refcounted or stripped. [react-aria, base-ui, zag, kobalte]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Original aria-hidden true preserved by snapshotrestore; no per-node hide refcount exposed. Assert originaltrue preserved throughout and after disposal without requiring unsupported no-refcount architecture.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.dismissal.2",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 363,
+            "clause": "- [ ] `aria-hidden.dismissal.2` Given two stacked hides, when their reverts run out of order (outer first), then nothing is exposed prematurely and everything is exposed only after the last revert, so the attribute claims are reference counted per node. [react-aria, base-ui, kobalte]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Top-modal policy intentionally exposes currenttopallowedset when outer removed, not independent per-hide refcountclaims. Test no premature exposure of still-excludedbackground and finalrestore, not unsupportedeveryoriginaltargethiddenuntilallfinish.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 49,
+              "anchor": "test('shares the modal stack across roots and restores the lower modal and its branches', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.dismissal.5",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 366,
+            "clause": "- [ ] `aria-hidden.dismissal.5` Given a hide is reverted and a new hide for the same target starts synchronously in the same tick before the deferred write runs, when the tick flushes, then the outside elements stay hidden throughout, so ownership hands off with no window where they become exposed. (candidate) [kobalte]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Modal isolation reconciles synchronously, no deferred writehandoff API. Verify immediate dispose/re-registerattribute continuity whereallowed; observersasync onlybackgroundmutations.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 49,
+              "anchor": "test('shares the modal stack across roots and restores the lower modal and its branches', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "prevent-scroll.positioning.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 425,
+            "clause": "- [ ] `prevent-scroll.positioning.1` Given a measured scrollbar width of `window.innerWidth` minus the document element's `clientWidth` greater than zero, when the lock applies, then the locked container's `padding-right` becomes the existing computed padding plus the scrollbar width, expressed so the author's own padding survives, and a `--scrollbar-width` custom property is published. [zag, corvu, reka]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Existing scrollbar20+authorpadding7=>27 and restore importantpriority covers compensation. --scrollbar-width CSS variable notpublished by Modal API; no productexpansionneeded unless authorrequiresnewvariable.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 120,
+              "anchor": "test('scroll locking compensates once and preserves inline values, priorities and unrelated writes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "portal.dismissal.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 469,
+            "clause": "- [ ] `portal.dismissal.3` Given an open popover containing an open select whose content is portalled elsewhere, when an outside element is clicked, then the select closes, the popover stays open, and its focus containment still holds. (candidate) [melt]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Existing native outsidepress closesSelect keepsPopoveropen and outsidefocus, not focuscontainment. Popover deliberately noncontaining, no mandatory trap. Accepted layerordering assertion exists; no universal trappingpromise.",
+          "source": [
+            {
+              "file": "packages/solid/src/internal/overlay-portal.tsx",
+              "line": 9,
+              "anchor": "export interface OverlayPortalProps {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/portal/portal.remaining.test-browser.tsx",
+              "line": 92,
+              "anchor": "test('portal.dismissal.3: an outside press closes the inner portalled Select but leaves the Popover open', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "nested-overlay-ordering.dismissal.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 529,
+            "clause": "- [ ] `nested-overlay-ordering.dismissal.3` Given nested layers that each lock body pointer events or page scroll, when they unwind in any order, then the lock is released only once the last holder is gone and the original inline values are restored exactly. [react-aria, zag, corvu, reka]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Scroll lock shared until lastholder and exactinlinevalues already tested. Bodypointerevents lock API notimplemented; native modalinertness takesitsplace.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 120,
+              "anchor": "test('scroll locking compensates once and preserves inline values, priorities and unrelated writes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 36,
+            "clause": "- [ ] `dismissable-layer.pointer.1` Given an open layer, when a full outside mouse sequence of `pointerdown`, `mousedown`, `pointerup`, `mouseup` and `click` lands on an element outside it, then the pointer-down-outside event, the interact-outside event and the dismissal each fire exactly once. [radix, base-ui, zag, kobalte, corvu, reka, bits]"
+          },
+          "classification": "mixed",
+          "remainingAcceptedAssertions": "Actual one-wrapper/onDismiss architecture: existing DOM protocol asserts outsidewrapperonce anddismissonce sameup event; browser fullclick asserts one topdismiss and nativeclick. Add nativewrapperonce target validation if needed. Separate pointer-down-outside/interact-outside callbacks unshipped.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 27,
+              "anchor": "test('outside primary clicks dismiss only the top layer and preserve native focus and click', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/dom/src/layer/pointer.test.ts",
+              "line": 91,
+              "anchor": "test('requests only the top layer after dispatch without canceling native events', () => {"
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        }
+      ],
+      "verification": "Read-only exact source/spec/assertion review; no execution or automatic closure.",
+      "limits": [
+        "No standalone FocusTrap or hideOthers API: map meaningful accepted behavior to shipped FocusScope/Modal registrations and keep research architectural alternatives explicit.",
+        "Existing assertions need relevant execution before completion.",
+        "Finite DOM/native component matrices do not prove universal arbitrary-shadow/browser behavior."
+      ]
+    },
+    {
+      "id": "dom-overlay-final-scope-review-existingAssertionsNeedExecution",
+      "status": "reconciled",
+      "ids": [
+        "dismissable-layer.keyboard.4",
+        "dismissable-layer.pointer.25",
+        "focus-scope.keyboard.8",
+        "focus-scope.dismissal.2",
+        "aria-hidden.roles.3"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "dismissable-layer.keyboard.4: Current compositionstart/end deferred tick protocol and later plain Escape exactly asserted; execute existing tests, not new gap.",
+        "dismissable-layer.pointer.25: Native opening-pointerdown before registration release preserved; compatibilitymouse events don'tcreate pointergesture. Existing browser opening release test covers effective accepted behavior.",
+        "focus-scope.keyboard.8: Modified Alt/Ctrl/Meta Tab defaultnotprevented asserted in DOM protocol; native modifier focus movement optional browser followup, no new trap API.",
+        "focus-scope.dismissal.2: Parent traps paused and nested synchronous restoration/ancestoroutsidefocus reject existing unit+browser; deeper3level composition remains finite expansion, no absenceclaim.",
+        "aria-hidden.roles.3: Current targetancestorpath root remains noninert and content nonhidden while siblinghidden directly asserted."
+      ],
+      "scopeReview": [
+        {
+          "id": "dismissable-layer.keyboard.4",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 27,
+            "clause": "- [ ] `dismissable-layer.keyboard.4` Given a focused field inside an open layer in IME composition, when `compositionstart` is followed by Escape, then the layer does not close, not even after the post-`compositionend` `setTimeout(0)` tick Safari needs, and a later plain Escape closes it once. [base-ui, zag]"
+          },
+          "classification": "existingAssertionsNeedExecution",
+          "remainingAcceptedAssertions": "Current compositionstart/end deferred tick protocol and later plain Escape exactly asserted; execute existing tests, not new gap.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/layer/layer.test.ts",
+              "line": 130,
+              "anchor": "test('suppresses composition Escape through the tick after compositionend', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "dismissable-layer.pointer.25",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 60,
+            "clause": "- [ ] `dismissable-layer.pointer.25` Given the same intentional mode, when the press that opened the layer emits its compatibility `mousedown`, `mouseup` and `click` after the layer opened, then those are not counted as a new press and the layer stays open. (candidate) [base-ui]"
+          },
+          "classification": "existingAssertionsNeedExecution",
+          "remainingAcceptedAssertions": "Native opening-pointerdown before registration release preserved; compatibilitymouse events don'tcreate pointergesture. Existing browser opening release test covers effective accepted behavior.",
+          "source": [
+            {
+              "file": "packages/dom/src/layer/layer.ts",
+              "line": 12,
+              "anchor": "export interface LayerOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/outside-pointer.test-browser.tsx",
+              "line": 98,
+              "anchor": "test('opening a layer during pointerdown does not dismiss it on the opening release', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.keyboard.8",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 178,
+            "clause": "- [ ] `focus-scope.keyboard.8` Given a contained scope, when a Tab keydown arrives with a modifier such as Alt held, then focus does not move and the browser keeps the key. (candidate) [react-aria]"
+          },
+          "classification": "existingAssertionsNeedExecution",
+          "remainingAcceptedAssertions": "Modified Alt/Ctrl/Meta Tab defaultnotprevented asserted in DOM protocol; native modifier focus movement optional browser followup, no new trap API.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 83,
+              "anchor": "test('honors consumed and modified Tab, and leaves Escape alone', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-scope.dismissal.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 226,
+            "clause": "- [ ] `focus-scope.dismissal.2` Given nested contained scopes unmounting from the inside out, when each level closes, then focus is accepted back at the deepest still-mounted scope and ancestor focus attempts are still rejected. [react-aria, zag]"
+          },
+          "classification": "existingAssertionsNeedExecution",
+          "remainingAcceptedAssertions": "Parent traps paused and nested synchronous restoration/ancestoroutsidefocus reject existing unit+browser; deeper3level composition remains finite expansion, no absenceclaim.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 121,
+              "anchor": "test('pauses parent traps and restores nested focus synchronously', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            },
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 84,
+              "anchor": "test('a portalled child trap pauses its parent and restores the parent opener', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "aria-hidden.roles.3",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 341,
+            "clause": "- [ ] `aria-hidden.roles.3` Given a target nested inside wrapper elements, when the hide runs, then none of the target's own ancestors is hidden, because each target's ancestor chain is collected into a keep set first. [react-aria, zag, kobalte]"
+          },
+          "classification": "existingAssertionsNeedExecution",
+          "remainingAcceptedAssertions": "Current targetancestorpath root remains noninert and content nonhidden while siblinghidden directly asserted.",
+          "source": [
+            {
+              "file": "packages/dom/src/modal/modal.ts",
+              "line": 2,
+              "anchor": "export interface ModalOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/modal/modal.test.ts",
+              "line": 29,
+              "anchor": "test('isolates siblings along the content path and restores exact attributes', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        }
+      ],
+      "verification": "Read-only exact source/spec/assertion review; no execution or automatic closure.",
+      "limits": [
+        "No standalone FocusTrap or hideOthers API: map meaningful accepted behavior to shipped FocusScope/Modal registrations and keep research architectural alternatives explicit.",
+        "Existing assertions need relevant execution before completion.",
+        "Finite DOM/native component matrices do not prove universal arbitrary-shadow/browser behavior."
+      ]
+    },
+    {
+      "id": "dom-overlay-final-scope-review-residualUnsupported",
+      "status": "reconciled",
+      "ids": [
+        "focus-scope.notes.9",
+        "focus-trap.pointer.2",
+        "focus-trap.notes.1"
+      ],
+      "acceptedClauses": [],
+      "remainingClauses": [
+        "focus-scope.notes.9: Source FocusScope uses synchronous focus, MutationObserver and documentlisteners; no requestAnimationFrame scheduling exists to leak. Can test listener/observer cleanup but not invented framequeue machinery.",
+        "focus-trap.pointer.2: Only shipped FocusScope contain=true redirects programmatic/pointer focus as well as Tab; alternate Tab-only trap with outsideclickpass isn't separate API. contain=false releases Tabtoo, so don't reinterpret it as Tab-only.",
+        "focus-trap.notes.1: Same Tab-only architecture unshipped. Layer independently owns outside dismissal; FocusScope containment includes focus redirection."
+      ],
+      "scopeReview": [
+        {
+          "id": "focus-scope.notes.9",
+          "latestStatus": "queued",
+          "historicalStatus": "missing",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 252,
+            "clause": "- [ ] `focus-scope.notes.9` Given a contained scope that gains and loses focus repeatedly, when it unmounts, then no animation-frame callbacks are left pending. (candidate) [react-aria]"
+          },
+          "classification": "residualUnsupported",
+          "remainingAcceptedAssertions": "Source FocusScope uses synchronous focus, MutationObserver and documentlisteners; no requestAnimationFrame scheduling exists to leak. Can test listener/observer cleanup but not invented framequeue machinery.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.test.ts",
+              "line": 282,
+              "anchor": "test('owns only its temporary fallback tabindex', () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.pointer.2",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 281,
+            "clause": "- [ ] `focus-trap.pointer.2` Divergence: outside clicks are allowed through and the trap only contains Tab, leaving outside-press dismissal to the dismissable layer. (decision needed) [zag, corvu]"
+          },
+          "classification": "residualUnsupported",
+          "remainingAcceptedAssertions": "Only shipped FocusScope contain=true redirects programmatic/pointer focus as well as Tab; alternate Tab-only trap with outsideclickpass isn't separate API. contain=false releases Tabtoo, so don't reinterpret it as Tab-only.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 119,
+              "anchor": "test('programmatic escapes are reclaimed and a replacement view keeps its own focus', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        },
+        {
+          "id": "focus-trap.notes.1",
+          "latestStatus": "queued",
+          "historicalStatus": "partial",
+          "spec": {
+            "file": "docs/spec/layering.md",
+            "line": 313,
+            "clause": "- [ ] `focus-trap.notes.1` Given the trap contains focus only through Tab, then a pointer click outside is not prevented by the trap itself and outside dismissal is the dismissable layer's job. [zag, corvu]"
+          },
+          "classification": "residualUnsupported",
+          "remainingAcceptedAssertions": "Same Tab-only architecture unshipped. Layer independently owns outside dismissal; FocusScope containment includes focus redirection.",
+          "source": [
+            {
+              "file": "packages/dom/src/focus-scope/focus-scope.ts",
+              "line": 4,
+              "anchor": "export interface FocusScopeOptions {"
+            }
+          ],
+          "currentEvidence": [
+            {
+              "file": "packages/suite/src/layering/focus-scope.test-browser.tsx",
+              "line": 119,
+              "anchor": "test('programmatic escapes are reclaimed and a replacement view keeps its own focus', async () => {",
+              "scope": "Representative actual assertions read; not execution evidence."
+            }
+          ],
+          "execution": "Read-only exact source/spec/current assertion review. No runs or status updates."
+        }
+      ],
+      "verification": "Read-only exact source/spec/assertion review; no execution or automatic closure.",
+      "limits": [
+        "No standalone FocusTrap or hideOthers API: map meaningful accepted behavior to shipped FocusScope/Modal registrations and keep research architectural alternatives explicit.",
+        "Existing assertions need relevant execution before completion.",
+        "Finite DOM/native component matrices do not prove universal arbitrary-shadow/browser behavior."
       ]
     }
   ],
