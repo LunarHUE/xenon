@@ -1261,16 +1261,16 @@
     {"ids":["context-menu.keyboard.4"],"historicalStatus":"partial","domain":"menus-navigation","reason":"ArrowRight opens submenu and focuses its first item; Enter/Space variants are not asserted.","evidence":357,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":141},"status":"queued"},
     {"ids":["context-menu.pointer.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser verifies prevention on root surface and no prevention outside. Backdrop and portal-container-inside-trigger variants are explicitly deferred.","evidence":358,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":144},"status":"queued"},
     {"ids":["context-menu.pointer.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Author preventDefault vetoes opening, but adapter does not explicitly assert the post-dispatch prevented flag on this path.","evidence":359,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":146},"status":"queued"},
-    {"ids":["context-menu.pointer.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Scope selects same-coordinate remeasurement, but current retrigger browser fixtures use different coordinates.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":148},"status":"queued"},
+    {"ids":["context-menu.pointer.9"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Scope selects same-coordinate remeasurement, but current retrigger browser fixtures use different coordinates.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":148},"status":"verified"},
     {"ids":["context-menu.pointer.11"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter verifies a later region click closes after touch-hold release-click suppression; ordinary right-click then left-click path is not directly asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":150},"status":"queued"},
     {"ids":["context-menu.pointer.22"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts opening at the touch-hold threshold; native touch-point geometry is not tested.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":153},"status":"queued"},
     {"ids":["context-menu.pointer.25"],"historicalStatus":"partial","domain":"menus-navigation","reason":"20px movement cancellation is checked; within-10px movement retaining the hold is not asserted.","evidence":360,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":156},"status":"queued"},
     {"ids":["context-menu.pointer.27","context-menu.pointer.28"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Second-touch cancellation and disabled hold suppression are accepted, but current hold test does not exercise those branches.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":157},"status":"queued"},
     {"ids":["context-menu.state.1"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser records one true report through retrigger; Escape false report is not asserted.","evidence":357,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":163},"status":"queued"},
     {"ids":["context-menu.dismissal.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Browser asserts inside contextmenu remains open and outside native event remains unprevented. It does not assert menu removal after the outside right-click.","evidence":358,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":166},"status":"queued"},
-    {"ids":["context-menu.a11y.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"No inspected ContextMenu native fixture invokes axe on a right-click-open menu.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":172},"status":"queued"},
+    {"ids":["context-menu.a11y.1"],"historicalStatus":"missing","domain":"menus-navigation","reason":"No inspected ContextMenu native fixture invokes axe on a right-click-open menu.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":172},"status":"verified"},
     {"ids":["context-menu.notes.3"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Native as=section fixture verifies custom host, styles and handler composition. Universal ref/prop merging across every part is not asserted.","evidence":361,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":175},"status":"queued"},
-    {"ids":["context-menu.keyboard.7","context-menu.keyboard.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled submenu activation and scoped typeahead are inherited from Menu but lack a complete ContextMenu-specific assertion.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":178},"status":"queued"},
+    {"ids":["context-menu.keyboard.7","context-menu.keyboard.8"],"historicalStatus":"missing","domain":"menus-navigation","reason":"Disabled submenu activation and scoped typeahead are inherited from Menu but lack a complete ContextMenu-specific assertion.","evidence":355,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":178},"status":"verified"},
     {"ids":["menubar.roles.2"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter checks an author aria-label accessible name. Visible-label aria-labelledby resolution remains unasserted.","evidence":362,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":181},"status":"queued"},
     {"ids":["menubar.roles.6"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Menuitem roles are queried throughout native tests; haspopup=menu is not directly asserted.","evidence":363,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":184},"status":"queued"},
     {"ids":["menubar.roles.9"],"historicalStatus":"partial","domain":"menus-navigation","reason":"Adapter asserts roving trigger tabindex transfer and native disabled endpoints. Every item in an open nested widget and positive-tabindex absence are not exhaustively asserted.","evidence":364,"historicalRecord":{"file":"packages/suite/coverage/overlays.json","index":187},"status":"queued"},
@@ -2309,6 +2309,37 @@
           "command": "bunx vitest run --maxWorkers=2 src/combobox/combobox.test.ts",
           "result": "10 core tests passed independently; new regression failed with unwanted undefined-highlight callback before fix"
         }
+      ]
+    },
+    {
+      "id": "context-menu-interactions-1",
+      "status": "verified",
+      "ids": [
+        "context-menu.a11y.1",
+        "context-menu.keyboard.7",
+        "context-menu.keyboard.8",
+        "context-menu.pointer.9",
+        "context-menu.dismissal.8"
+      ],
+      "acceptedClauses": [
+        "Native right-click menus pass axe with action, checkbox and radio items",
+        "Disabled submenu triggers reject their opening arrow",
+        "Submenu typeahead remains scoped to submenu items",
+        "Same-coordinate retrigger repositions the existing popup without duplicate open callbacks",
+        "Outside-menu interaction inside a modal closes the contextual menu while retaining dialog focus and modality"
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/context-menu/context-menu.remaining.test-browser.tsx"
+      ],
+      "verification": [
+        {
+          "command": "Parent Chromium, Firefox and WebKit run with Combobox and Popover batches",
+          "result": "All15 ContextMenu executions passed independently"
+        }
+      ],
+      "limits": [
+        "Same-coordinate retrigger is explicitly synthetic after native opening because the open popup covers the original point; this does not claim a second native hit target or touch integration"
       ]
     }
   ],
