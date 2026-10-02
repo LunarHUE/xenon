@@ -1,3 +1,4 @@
+import { setRef } from './host'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
@@ -35,12 +36,10 @@ export interface SelectionPopupSource {
   onDismiss(reason: string): void
 }
 /** Native wrapper and geometry options for a selection popup. */
-export type SelectionPopupProps = Omit<ComponentProps<'div'>, keyof PositionerOptions | 'ref'> &
+export type SelectionPopupProps = Omit<ComponentProps<'div'>, keyof PositionerOptions> &
   Omit<PositionerOptions, 'strategy'> & {
     /** State and lifecycle owned by the public component. */
     source: SelectionPopupSource
-    /** Receives the native popover wrapper. */
-    ref?: (el: HTMLDivElement) => void
   }
 /** Geometry controller with the one measured arrow slot. */
 export interface SelectionPositioner extends Positioner {
@@ -178,7 +177,7 @@ export function SelectionPopup(props: SelectionPopupProps): JSX.Element {
         data-state={context.open() ? 'open' : 'closed'}
         ref={(el) => {
           setElement(el)
-          props.ref?.(el)
+          setRef(props.ref, el)
         }}
       >
         {children()}
