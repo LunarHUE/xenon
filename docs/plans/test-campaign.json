@@ -1042,8 +1042,8 @@
     {"ids":["a11y-tooling.10"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Toolbar presentational glyph is asserted to have no tabindex, focusable descendants or any aria-* attributes and passes presentation-role-conflict. Other emitted/consumer presentational parts are not fully inventoried.","evidence":202,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":143},"status":"reconciled"},
     {"ids":["a11y-tooling.13"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Real overflowing ScrollArea viewport becomes tabindex=0, receives native Tab focus, scrolls on ArrowDown and passes axe. Other library-created overflow surfaces still need separate evidence.","evidence":203,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":144},"status":"reconciled"},
     {"ids":["a11y-tooling.14"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Button explicitly asserts visible Save is contained in its Save document accessible name and runs label-content-name-mismatch enabled. Other library-added label/text combinations are not exhaustively audited.","evidence":204,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":145},"status":"reconciled"},
-    {"ids":["a11y-tooling.17"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Field browser assertions compare the complete multi-ID accessible description, but no generic helper tests every referenced ID for nonempty text.","evidence":205,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":147},"status":"reconciled"},
-    {"ids":["a11y-tooling.18"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Listbox virtual-focus browser assertions require real focus on the root, compare its active-descendant to the option ID and resolve that ID to the mounted option. The same combined assertion is not factored across every virtual-focus consumer.","evidence":206,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":148},"status":"reconciled"},
+    {"ids":["a11y-tooling.17"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Field browser assertions compare the complete multi-ID accessible description, but no generic helper tests every referenced ID for nonempty text.","evidence":205,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":147},"status":"verified"},
+    {"ids":["a11y-tooling.18"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Listbox virtual-focus browser assertions require real focus on the root, compare its active-descendant to the option ID and resolve that ID to the mounted option. The same combined assertion is not factored across every virtual-focus consumer.","evidence":206,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":148},"status":"verified"},
     {"ids":["a11y-tooling.19"],"historicalStatus":"missing","domain":"shared-contracts","reason":"Browser tests mainly inspect DOM attributes or matcher-computed names; the suite has no shared engine accessibility-tree assertion layer.","evidence":181,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":149},"status":"reconciled"},
     {"ids":["a11y-tooling.20"],"historicalStatus":"missing","domain":"shared-contracts","reason":"The suite setup only installs matchers and cleanup; it does not fail every unexpected console warning/error.","evidence":207,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":150},"status":"reconciled"},
     {"ids":["a11y-tooling.21"],"historicalStatus":"partial","domain":"shared-contracts","reason":"Real-browser presence and focus tests exist, but this does not establish the entire browser-only accessibility inventory.","evidence":208,"historicalRecord":{"file":"packages/suite/coverage/cross-cutting.json","index":151},"status":"reconciled"},
@@ -18770,6 +18770,301 @@
       "verification": "Read-only exact source/clause review. No fresh execution or completion claimed.",
       "limits": [
         "Shipped policies are distinguished from unimplemented research alternatives; recommendations require assertion review and execution."
+      ]
+    },
+    {
+      "id": "accessibility-description-and-virtual-focus-helpers",
+      "status": "verified",
+      "ids": [
+        "a11y-tooling.17",
+        "a11y-tooling.18"
+      ],
+      "acceptedClauses": [
+        "Reusable multi-ID description assertion resolves ordered tokens and rejects missing or empty references; virtual-focus assertion requires actual container focus and a matching mounted active descendant, with positive and negative fixtures. The description helper is used in actual Field/group lifecycle regressions."
+      ],
+      "remainingClauses": [],
+      "files": [
+        "packages/suite/src/harness/accessibility.ts",
+        "packages/suite/src/harness/accessibility.test.tsx",
+        "packages/suite/src/field/description.group-items.remaining.test.tsx"
+      ],
+      "verification": "Coordinator verified all 8 helper cases in jsdom, then integrated the multi-ID helper into real Field description regressions and verified all 11 cases together. Focused lint and suite typecheck passed."
+    },
+    {
+      "id": "accessibility-scan-configuration-and-portal-scope",
+      "status": "reconciled",
+      "ids": [
+        "a11y-tooling.2",
+        "a11y-tooling.3",
+        "a11y-tooling.4",
+        "a11y-tooling.6"
+      ],
+      "acceptedClauses": [
+        "Exported scan helper disables fragment-only region/color-contrast rules and surfaces real failures; a finite raw scan explicitly invokes target-size, aria-roledescription and duplicate-id-active; actual Solid Portal fixture proves root-only scope misses a violation found by document-body scope."
+      ],
+      "remainingClauses": [
+        "Per-call configuration compliance across raw/aliased/dynamic axe calls, browser geometry for target-size, and complete portal component inventory remain unverified."
+      ],
+      "files": [
+        "packages/suite/src/harness/accessibility.ts",
+        "packages/suite/src/harness/accessibility.test.tsx",
+        "packages/suite/src/field/description.group-items.remaining.test.tsx"
+      ],
+      "verification": "Coordinator verified all 8 helper cases in jsdom, then integrated the multi-ID helper into real Field description regressions and verified all 11 cases together. Focused lint and suite typecheck passed.",
+      "callSiteInventory": {
+        "scope": "Current suite src literal axe.run sites; excludes aliases/dynamic calls. No universal options compliance claim.",
+        "sites": [
+          {
+            "file": "packages/suite/src/a11y.ts",
+            "line": 20,
+            "statement": "const results = await axe.run(node, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+            "line": 92,
+            "statement": "const results = await axe.run(nameless.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+            "line": 104,
+            "statement": "const results = await axe.run(stray, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+            "line": 118,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+            "line": 156,
+            "statement": "const results = await axe.run(bare.container, { runOnly: { type: 'rule', values: ['label'] } })",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.roles.test.tsx",
+            "line": 237,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+            "line": 48,
+            "statement": "const singleResults = await axe.run(single.container)",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/slider/slider.coverage-metadata-extra.test.tsx",
+            "line": 51,
+            "statement": "const rangeResults = await axe.run(range.container)",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+            "line": 70,
+            "statement": "const negative = await axe.run(missing, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/slider/slider.coverage-aria-extra.test.tsx",
+            "line": 83,
+            "statement": "const valid = await axe.run(positive, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.roles.test.tsx",
+            "line": 165,
+            "statement": "const stripped = await axe.run(custom.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.roles.test.tsx",
+            "line": 247,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.coverage-more.test-browser.tsx",
+            "line": 56,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/checkbox/checkbox.coverage.test-browser.tsx",
+            "line": 48,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+            "line": 14,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+            "line": 27,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.coverage-more.test.tsx",
+            "line": 49,
+            "statement": "const results = await axe.run(document.body, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+            "line": 33,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+            "line": 53,
+            "statement": "const nativeResults = await axe.run(native.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+            "line": 72,
+            "statement": "const missing = await axe.run(nameless, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/radio/radio.coverage-extra.test.tsx",
+            "line": 92,
+            "statement": "const stray = await axe.run(native.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/switch/switch.coverage.test.tsx",
+            "line": 98,
+            "statement": "const results = await axe.run(node, { runOnly: { type: 'rule', values: rules } })",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/tabs/tabs.coverage-more.test.tsx",
+            "line": 36,
+            "statement": "const result = await axe.run(m.container)",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+            "line": 93,
+            "statement": "const labelledResults = await axe.run(labelledContainer, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/number-field/number-field.coverage-naming-extra.test.tsx",
+            "line": 122,
+            "statement": "const namelessResults = await axe.run(namelessContainer, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/collapsible/collapsible.coverage.test.tsx",
+            "line": 18,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/toggle/toggle.additional.test.tsx",
+            "line": 16,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/toggle/toggle.additional.test.tsx",
+            "line": 46,
+            "statement": "const results = await axe.run(form, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+            "line": 77,
+            "statement": "const named = await axe.run(nameless.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/toolbar/toolbar.a11y.test.tsx",
+            "line": 106,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.coverage-a11y.test.tsx",
+            "line": 9,
+            "statement": "const result = await axe.run(container, { runOnly: { type: 'rule', values: [rule] } })",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.coverage.test-browser.tsx",
+            "line": 72,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.coverage-a11y.test-browser.tsx",
+            "line": 9,
+            "statement": "const result = await axe.run(container, { runOnly: { type: 'rule', values: [rule] } })",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.focus.test.tsx",
+            "line": 87,
+            "statement": "const results = await axe.run(document.body, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.roles.test.tsx",
+            "line": 40,
+            "statement": "const native = await axe.run(nameless.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.roles.test.tsx",
+            "line": 47,
+            "statement": "const results = await axe.run(custom.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.roles.test.tsx",
+            "line": 128,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/button/button.pointer.test.tsx",
+            "line": 93,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/harness/accessibility.test.tsx",
+            "line": 42,
+            "statement": "const result = await axe.run(root, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/menubar/menubar.accessibility.remaining.test-browser.tsx",
+            "line": 161,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          },
+          {
+            "file": "packages/suite/src/menubar/menubar.accessibility.remaining.test-browser.tsx",
+            "line": 190,
+            "statement": "const results = await axe.run(m.container, {",
+            "scope": "Static call-site inventory only; options and executions are not inferred from this entry."
+          }
+        ],
+        "count": 41
+      },
+      "limits": [
+        "Static literal axe.run inventory is not universal configuration or runtime evidence. Rule evaluation may be inapplicable or incomplete in jsdom."
       ]
     }
   ],

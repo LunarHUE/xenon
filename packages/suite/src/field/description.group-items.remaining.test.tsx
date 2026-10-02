@@ -3,6 +3,7 @@ import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { createSignal, Show, flush } from 'solid-js'
 import { expect, onTestFinished, test } from 'vitest'
+import { assertDescriptionReferences } from '../harness/accessibility'
 
 function mount(itemAuthor = false) {
   const container = document.createElement('div')
@@ -72,7 +73,7 @@ async function settle() {
 
 function expectReferences(control: HTMLElement, ids: string[]) {
   expect(control).toHaveAttribute('aria-describedby', ids.join(' '))
-  for (const id of ids) expect(document.getElementById(id)).not.toBeNull()
+  expect(assertDescriptionReferences(control).map((node) => node.id)).toEqual(ids)
 }
 
 test('description.roles.8 each item describes itself before shared group references while the group preserves author-first order', async () => {
