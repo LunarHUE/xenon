@@ -14,7 +14,7 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { Popover, createPopoverHandle, usePopover } from '../popover/popover'
+import { Popover, HoverPositioner, createPopoverHandle, usePopover } from '../popover/popover'
 import type {
   PopoverProps,
   PopoverHandle,
@@ -325,7 +325,7 @@ export const HoverCard = Object.assign(HoverCardRoot, {
   /** Move content while preserving modal ancestry and Solid ownership. */
   Portal: Popover.Portal,
   /** Native top-layer host and fixed positioning. */
-  Positioner: Popover.Positioner,
+  Positioner: HoverPositioner,
   /** Nonmodal preview dialog and focus region. */
   Content: HoverCardContent,
   /** Optional content transition and scrolling host. */

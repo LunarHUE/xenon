@@ -576,6 +576,14 @@ export type PopoverPositionerProps = Omit<ComponentProps<'div'>, keyof Positione
  * @throws If rendered outside Popover or delegated native/controller setup fails.
  */
 export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
+  return createPositionerView(props, true)
+}
+/** Internal hover-surface host; retain native Tab order between hover triggers. */
+export function HoverPositioner(props: PopoverPositionerProps): JSX.Element {
+  return createPositionerView(props, false)
+}
+/** Share hosting and geometry while keeping logical Tab routing a per-family policy. */
+function createPositionerView(props: PopoverPositionerProps, logicalTabOrder: boolean): JSX.Element {
   const context = usePopover('Popover.Positioner')
   const rest = omit(
     props as Record<string, unknown>,
@@ -654,7 +662,7 @@ export function PopoverPositioner(props: PopoverPositionerProps): JSX.Element {
           closeOnEscape: context.own.closeOnEscape,
           closeOnOutside: context.own.closeOnOutside,
           closeOnFocusOutside: context.own.closeOnFocusOutside,
-          logicalTabOrder: true,
+          logicalTabOrder,
           onEscapeKeyDown: context.own.onEscapeKeyDown,
           onPointerOutside: context.own.onPointerOutside,
           onFocusOutside: context.own.onFocusOutside,

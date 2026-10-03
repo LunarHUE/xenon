@@ -17,7 +17,7 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { Popover, usePopover, createPopoverHandle } from '../popover/popover'
+import { Popover, HoverPositioner, usePopover, createPopoverHandle } from '../popover/popover'
 import type {
   PopoverHandle,
   PopoverProps,
@@ -377,7 +377,7 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
 export function TooltipPositioner(props: TooltipPositionerProps): JSX.Element {
   const context = useTooltip()
   return (
-    <Popover.Positioner {...props} pointerEvents={context.behavior().hoverable ? 'auto' : 'none'} />
+    <HoverPositioner {...props} pointerEvents={context.behavior().hoverable ? 'auto' : 'none'} />
   )
 }
 /** Renders nonfocusable tooltip semantics inside the existing positioning and presence host. */
