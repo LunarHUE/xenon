@@ -214,7 +214,9 @@ test('focus-to-focus switching closes the first tooltip and opens the second wit
   await userEvent.keyboard('{Tab}')
   await focused(m.getByRole('button', { name: 'Second' }))
   await visible(m.getByText('Second details'))
-  expect(m.queryByText('First details')).toBeNull()
+  expect(m.getByRole('button', { name: 'First' })).toHaveAttribute('data-state', 'closed')
+  // Exit presence checks animations on the next frame, even without authored animations.
+  await expect.poll(() => m.queryByText('First details')).toBeNull()
   expect(m.getAllByRole('tooltip')).toHaveLength(1)
 })
 
