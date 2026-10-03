@@ -47885,7 +47885,15 @@
       "limits": [
         "focus.1 closes shipped first-usable default policy; does not impose alternate research focus.2 policy.",
         "Logical Tab bridge is opt-in only for Popover; author cancellation, unusable trigger, closed/positioned state, topmost ownership and disposal guarded in DOM regression."
-      ]
+      ],
+      "followupVerification": {
+        "sourceFix": "271d3a0",
+        "testCorrection": "f9ae41c",
+        "regression": "Popover positioner reuse initially changed shared HoverCard trigger Tab traversal (3 engine failures). Internal HoverPositioner now disables logical Tab bridging for HoverCard and Tooltip while public Popover retains it.",
+        "testDiagnosis": "WebKit Tooltip focus switching was already logically closed/inert but retained for the next-frame exit animation check. Test now asserts closed state immediately and polls for actual DOM removal; no assertion removed.",
+        "result": "All318 tests across54 engine-files passed Chromium,Firefox,WebKit; Solid and Suite typechecks and focused ESLint passed.",
+        "evidenceLog": "/tmp/xenon-hover-popover-tab-policy-confirm.log"
+      }
     },
     {
       "id": "popover-inside-pointer-native-partial",
