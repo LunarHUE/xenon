@@ -1,0 +1,1094 @@
+{
+  "status": "proposal",
+  "model": "gpt-6.1-sol",
+  "concurrency": "Three workers plus coordinator. Workers draft tests; coordinator owns browser execution, integration and commits.",
+  "scope": "Initial roadmap, not an exhaustive assignment of the entire backlog. Unassigned requirements remain in the generated queue.",
+  "lanes": [
+    {
+      "id": "menus-navigation",
+      "title": "Menus and navigation",
+      "slices": [
+        {
+          "id": "menu-foundations",
+          "title": "Menu metadata, keyboard navigation, and stable ownership",
+          "ids": [
+            "menu.roles.6",
+            "menu.roles.41",
+            "menu.roles.8",
+            "menu.roles.21",
+            "menu.roles.22",
+            "menu.roles.26",
+            "menu.roles.30",
+            "menu.keyboard.1",
+            "menu.keyboard.3",
+            "menu.keyboard.6",
+            "menu.keyboard.8",
+            "menu.keyboard.12",
+            "menu.keyboard.29",
+            "menu.focus.8",
+            "menu.focus.10",
+            "menu.focus.15"
+          ],
+          "paths": [
+            "packages/suite/src/menu/menu.wave-foundations.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Existing menu fixtures and native input helpers",
+            "id-generation.1/.3/.4; disabled.3/.7; controlled.2/.3 as secondary assertions only"
+          ],
+          "risks": [
+            "Low–medium: current lazy owner retention means DOM absence and real author replacement must be distinguished. Loop=true is shipped Menu policy, not an unresolved research choice."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "static": [
+              "bun run typecheck",
+              "bunx eslint src/menu/menu.wave-foundations.test-browser.tsx"
+            ],
+            "focusedBrowser": "xenon_BROWSERS=chromium,firefox,webkit bunx vitest run --project browser src/menu/menu.wave-foundations.test-browser.tsx",
+            "followup": "After focused green, coordinator runs affected menu/context-menu/menubar/native navigation directories across all three engines; adapter regressions only if a real product defect is reproduced."
+          }
+        },
+        {
+          "id": "menu-hierarchy",
+          "title": "Nested Menu, ContextMenu, and Menubar ownership and dismissal",
+          "ids": [
+            "menu.keyboard.36",
+            "menu.keyboard.38",
+            "menu.keyboard.39",
+            "menu.keyboard.40",
+            "menu.keyboard.45",
+            "menu.dismissal.4",
+            "menu.dismissal.12",
+            "menu.dismissal.13",
+            "context-menu.roles.6",
+            "context-menu.roles.7",
+            "context-menu.focus.4",
+            "context-menu.pointer.19",
+            "context-menu.pointer.20",
+            "context-menu.pointer.21",
+            "context-menu.dismissal.9",
+            "menubar.keyboard.14",
+            "menubar.keyboard.15",
+            "menubar.keyboard.18",
+            "menubar.keyboard.21",
+            "menubar.pointer.9",
+            "menubar.pointer.11"
+          ],
+          "paths": [
+            "packages/suite/src/menu/menu.wave-hierarchy.test-browser.tsx",
+            "packages/suite/src/context-menu/context-menu.wave-hierarchy.test-browser.tsx",
+            "packages/suite/src/menubar/menubar.wave-hierarchy.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Foundations fixtures",
+            "Dialog/Popover parent composition",
+            "Central serialized browser scheduling"
+          ],
+          "risks": [
+            "Medium: native focus/layer nesting; child close callbacks must follow actual public semantics, not assume every parent-driven close emits false. Outside pointer must be outside entire tree."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "static": [
+              "bun run typecheck",
+              "bunx eslint src/menu/menu.wave-hierarchy.test-browser.tsx src/context-menu/context-menu.wave-hierarchy.test-browser.tsx src/menubar/menubar.wave-hierarchy.test-browser.tsx"
+            ],
+            "focusedBrowser": "xenon_BROWSERS=chromium,firefox,webkit bunx vitest run --project browser src/menu/menu.wave-hierarchy.test-browser.tsx src/context-menu/context-menu.wave-hierarchy.test-browser.tsx src/menubar/menubar.wave-hierarchy.test-browser.tsx",
+            "followup": "After focused green, coordinator runs affected menu/context-menu/menubar/native navigation directories across all three engines; adapter regressions only if a real product defect is reproduced."
+          }
+        },
+        {
+          "id": "navigation-lifecycle",
+          "title": "Navigation lifecycle, presence geometry, and interactive collections",
+          "ids": [
+            "navigation-menu.roles.4",
+            "navigation-menu.pointer.12",
+            "navigation-menu.pointer.13",
+            "navigation-menu.state.6",
+            "navigation-menu.positioning.14",
+            "navigation-menu.animation.6",
+            "menubar.state.6",
+            "collection.state.14",
+            "composite.keyboard.27",
+            "tabs.notes.12",
+            "tabs.notes.14"
+          ],
+          "paths": [
+            "packages/suite/src/navigation-menu/navigation-menu.wave-lifecycle.test-browser.tsx",
+            "packages/suite/src/collection/collection.wave-membership.test-browser.tsx",
+            "packages/suite/src/tabs/tabs.wave-lifecycle.test.tsx"
+          ],
+          "dependencies": [
+            "Current presence/positioning exported APIs",
+            "Existing navigation verified batches must be reused rather than duplicated",
+            "shared controlled and ID inventory"
+          ],
+          "risks": [
+            "Medium–high: dynamic identity, animation observation and shadow boundary membership. Geometry needs real browser. Shadow test asserts registration/release, not universal cross-root sorting."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "static": [
+              "bun run typecheck",
+              "bunx eslint src/navigation-menu/navigation-menu.wave-lifecycle.test-browser.tsx src/collection/collection.wave-membership.test-browser.tsx src/tabs/tabs.wave-lifecycle.test.tsx"
+            ],
+            "focusedBrowser": "xenon_BROWSERS=chromium,firefox,webkit bunx vitest run --project browser src/navigation-menu/navigation-menu.wave-lifecycle.test-browser.tsx src/collection/collection.wave-membership.test-browser.tsx",
+            "followup": "After focused green, coordinator runs affected menu/context-menu/menubar/native navigation directories across all three engines; adapter regressions only if a real product defect is reproduced."
+          }
+        },
+        {
+          "id": "menus-a11y-layout",
+          "title": "Menu family accessibility and positioning acceptance",
+          "ids": [
+            "menu.roles.24",
+            "menu.roles.42",
+            "menu.roles.43",
+            "menu.roles.44",
+            "menu.positioning.8",
+            "menu.positioning.9",
+            "menu.positioning.12",
+            "menu.positioning.13",
+            "menu.a11y.1",
+            "menu.a11y.4",
+            "menu.a11y.5",
+            "menu.a11y.6",
+            "menu.a11y.7",
+            "menu.a11y.8",
+            "menu.a11y.9",
+            "tabs.a11y.6",
+            "toolbar.state.7"
+          ],
+          "paths": [
+            "packages/suite/src/menu/menu.wave-a11y-layout.test-browser.tsx",
+            "packages/suite/src/toolbar/toolbar.wave-disabled-overlays.test-browser.tsx"
+          ],
+          "dependencies": [
+            "id-generation.10 explicit token resolution plus axe incomplete handling",
+            "Toolbar existing Menu/Select/Popover verified overlay cases",
+            "Native positioned state helper"
+          ],
+          "risks": [
+            "Medium: axe negative fixture must establish rule applicability; empty menu can be incomplete rather than violation. Popup geometry must await positioned state rather than arbitrary delays."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "static": [
+              "bun run typecheck",
+              "bunx eslint src/menu/menu.wave-a11y-layout.test-browser.tsx src/toolbar/toolbar.wave-disabled-overlays.test-browser.tsx"
+            ],
+            "focusedBrowser": "xenon_BROWSERS=chromium,firefox,webkit bunx vitest run --project browser src/menu/menu.wave-a11y-layout.test-browser.tsx src/toolbar/toolbar.wave-disabled-overlays.test-browser.tsx",
+            "followup": "After focused green, coordinator runs affected menu/context-menu/menubar/native navigation directories across all three engines; adapter regressions only if a real product defect is reproduced."
+          }
+        }
+      ],
+      "firstBatch": {
+        "slice": "menu-foundations",
+        "path": "packages/suite/src/menu/menu.wave-foundations.test-browser.tsx",
+        "cases": [
+          {
+            "title": "Lazy disclosure controls resolve through repeated open/close",
+            "ids": [
+              "menu.roles.6",
+              "menu.roles.41"
+            ],
+            "assertions": [
+              "Closed controls absent; native first-open controls resolves exactly current content; close clears and reopen resolves."
+            ]
+          },
+          {
+            "title": "Active disclosure replacement repairs naming",
+            "ids": [
+              "menu.roles.8"
+            ],
+            "assertions": [
+              "Replace trigger host/id while open; labelledby resolves replacement, stale ID absent."
+            ]
+          },
+          {
+            "title": "Roving focus after keyboard opening and movement",
+            "ids": [
+              "menu.roles.21",
+              "menu.roles.22"
+            ],
+            "assertions": [
+              "Exactly one item0, others-1, container-1, no positive tabindex or active-descendant; inspect after each native arrow."
+            ]
+          },
+          {
+            "title": "Submenu metadata follows visibility",
+            "ids": [
+              "menu.roles.26"
+            ],
+            "assertions": [
+              "haspopup menu and expanded false→true→false; matching owned child menu."
+            ]
+          },
+          {
+            "title": "Disabled submenu metadata and activation guard",
+            "ids": [
+              "menu.roles.30"
+            ],
+            "assertions": [
+              "aria-disabled true plus data-disabled; native/synthetic explicitly identified forward-arrow/click attempts never open."
+            ]
+          },
+          {
+            "title": "Home and End from every starting item",
+            "ids": [
+              "menu.keyboard.6"
+            ],
+            "assertions": [
+              "Native Home/End reach first/last enabled item from each position without activation callbacks."
+            ]
+          },
+          {
+            "title": "Disabled root trigger key guard",
+            "ids": [
+              "menu.keyboard.3"
+            ],
+            "assertions": [
+              "Enter, Space, Down, Up leave popup absent with zero open requests on focusable disabled fixture."
+            ]
+          },
+          {
+            "title": "Leaf Space commits once and restores trigger focus",
+            "ids": [
+              "menu.keyboard.12"
+            ],
+            "assertions": [
+              "Native Space exactly one action, closed popup, own trigger focus; no extra keyup action."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "selection-forms",
+      "title": "Popup selection and forms",
+      "slices": [
+        {
+          "id": "selection-membership",
+          "title": "Listbox range selection and controlled state",
+          "ids": [
+            "listbox.keyboard.35",
+            "listbox.keyboard.36",
+            "listbox.keyboard.41",
+            "listbox.state.3",
+            "listbox.state.2",
+            "listbox.state.4",
+            "listbox.state.5",
+            "listbox.state.6",
+            "listbox.state.16"
+          ],
+          "paths": [
+            "packages/suite/src/listbox/listbox.membership-wave.test-browser.tsx"
+          ],
+          "dependencies": [],
+          "risks": [
+            "Low implementation risk; range assertions can expose DOM/payload divergence. Keep each callback payload and every option marker in same fixture."
+          ],
+          "supported": "Complete DOM selected-membership matrices, enabled-only arrays, fixed controlled rejection, filtered controlled replacement and same-node reactive attributes.",
+          "limits": [
+            "No string all payload, selectedItems export, optional select-all toggleclear, or Item selected renderprop."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "commands": [
+              "bun x tsc --noEmit",
+              "bun x eslint src/listbox/listbox.membership-wave.test-browser.tsx",
+              "xenon_BROWSERS=chromium,firefox,webkit bun x vitest run --project browser src/listbox/listbox.membership-wave.test-browser.tsx"
+            ],
+            "limits": "Coordinator runs browsers sequentially; hydration E2E command determined from existing harness before that batch. No broad repeated runs unless failures/source changes justify."
+          }
+        },
+        {
+          "id": "selection-navigation",
+          "title": "Listbox navigation, focus and reference integrity",
+          "ids": [
+            "listbox.keyboard.28",
+            "listbox.keyboard.52",
+            "listbox.focus.5",
+            "listbox.focus.20",
+            "listbox.focus.32",
+            "listbox.focus.33",
+            "listbox.focus.11",
+            "listbox.a11y.7",
+            "listbox.rtl.5"
+          ],
+          "paths": [
+            "packages/suite/src/listbox/listbox.focus-wave.test-browser.tsx"
+          ],
+          "dependencies": [
+            "selection-membership"
+          ],
+          "risks": [
+            "Medium browser focus/scroll sensitivity. Require actual scroll/overflow baseline and exact focus targets; no mocked browser geometry."
+          ],
+          "supported": "Both wrap directions, vertical horizontal-key no-ops, composition guard, initial nofocus/noscroll, negative tabindex native paths, two-root ID uniqueness, virtual scroll-region positive audit.",
+          "limits": [
+            "Automatic scrollIntoView is not shipped; styling visual focus is consumer-owned; initial nonscroll does not imply interaction auto-scroll."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "commands": [
+              "bun x tsc --noEmit",
+              "bun x eslint src/listbox/listbox.focus-wave.test-browser.tsx",
+              "xenon_BROWSERS=chromium,firefox,webkit bun x vitest run --project browser src/listbox/listbox.focus-wave.test-browser.tsx"
+            ],
+            "limits": "Coordinator runs browsers sequentially; hydration E2E command determined from existing harness before that batch. No broad repeated runs unless failures/source changes justify."
+          }
+        },
+        {
+          "id": "selection-editing",
+          "title": "Combobox editing, controlled drafts and native submission",
+          "ids": [
+            "combobox.keyboard.15",
+            "combobox.keyboard.16",
+            "combobox.keyboard.42",
+            "combobox.keyboard.51",
+            "combobox.forms.23",
+            "combobox.focus.10",
+            "combobox.state.21",
+            "combobox.state.22",
+            "combobox.notes.24"
+          ],
+          "paths": [
+            "packages/suite/src/combobox/combobox.editing-wave.test-browser.tsx"
+          ],
+          "dependencies": [],
+          "risks": [
+            "Medium clipboard protocol/engine variation; caret test must have real active option and nontrivial selection, long input actual scrollWidth>clientWidth."
+          ],
+          "supported": "Native caret horizontal movement, input horizontal scroll, real clipboard paste, zero/one enabled items, no-highlight Enter native submission, draft vs committed ownership, internal filter and shipped Empty status.",
+          "limits": [
+            "No multi/object values or grid; no OS softkeyboard claim; do not implement new keyboard policy from historical divergence."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "commands": [
+              "bun x tsc --noEmit",
+              "bun x eslint src/combobox/combobox.editing-wave.test-browser.tsx",
+              "xenon_BROWSERS=chromium,firefox,webkit bun x vitest run --project browser src/combobox/combobox.editing-wave.test-browser.tsx"
+            ],
+            "limits": "Coordinator runs browsers sequentially; hydration E2E command determined from existing harness before that batch. No broad repeated runs unless failures/source changes justify."
+          }
+        },
+        {
+          "id": "selection-field-forms",
+          "title": "Select and Combobox native Field ownership and reactive gates",
+          "ids": [
+            "select.roles.20",
+            "select.roles.21",
+            "select.roles.27",
+            "select.focus.11",
+            "select.focus.12",
+            "combobox.roles.34",
+            "combobox.roles.53",
+            "combobox.pointer.22",
+            "combobox.forms.4",
+            "combobox.focus.27"
+          ],
+          "paths": [
+            "packages/suite/src/select/select.field-forms-wave.test-browser.tsx",
+            "packages/suite/src/combobox/combobox.field-forms-wave.test-browser.tsx"
+          ],
+          "dependencies": [],
+          "risks": [
+            "Medium shared Field registry and native form differences. Verify label identity and form owner rather than relying on name queries alone."
+          ],
+          "supported": "Author+Field description/error references resolve and clean up, live root ID/label association, root/Field disabled markers native Tab and click, hidden native mirror focus redirection, disabled FormData omission.",
+          "limits": [
+            "No Select.Description export, passive label flag, dynamic proxy tabindex scheme, per-trigger disabled overrides, or aria-disabled-only form omission policy."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "commands": [
+              "bun x tsc --noEmit",
+              "bun x eslint src/select/select.field-forms-wave.test-browser.tsx src/combobox/combobox.field-forms-wave.test-browser.tsx",
+              "xenon_BROWSERS=chromium,firefox,webkit bun x vitest run --project browser src/select/select.field-forms-wave.test-browser.tsx src/combobox/combobox.field-forms-wave.test-browser.tsx"
+            ],
+            "limits": "Coordinator runs browsers sequentially; hydration E2E command determined from existing harness before that batch. No broad repeated runs unless failures/source changes justify."
+          }
+        },
+        {
+          "id": "selection-lifecycle-hydration",
+          "title": "Popup presence and real hydration with form ownership",
+          "ids": [
+            "combobox.animation.2",
+            "combobox.animation.7",
+            "combobox.animation.8",
+            "combobox.ssr.3",
+            "combobox.ssr.4",
+            "combobox.ssr.5",
+            "combobox.ssr.6",
+            "listbox.ssr.1"
+          ],
+          "paths": [
+            "packages/suite/src/combobox/combobox.presence-wave.test-browser.tsx",
+            "packages/suite/e2e/selection-hydration.test.ts"
+          ],
+          "dependencies": [
+            "selection-field-forms"
+          ],
+          "risks": [
+            "High harness/animation complexity. Split native presence and hydration into separately reviewed batches; animation lifetime controlled pause/seek/finish, no duration races."
+          ],
+          "supported": "Closed forceMount inaccessible markup, paused real exit animation selection focus/value persistence, cleanup pending presence work, server HTML then actual client hydration preserving nodes/IDs/selected text/form control owner.",
+          "limits": [
+            "No static public flag or completion callback; server-transform tests are not hydration. Confirm existing hydration harness and entry ownership before creating fixture paths."
+          ],
+          "verification": {
+            "cwd": "/workspace/packages/suite",
+            "commands": [
+              "bun x tsc --noEmit",
+              "bun x eslint src/combobox/combobox.presence-wave.test-browser.tsx",
+              "xenon_BROWSERS=chromium,firefox,webkit bun x vitest run --project browser src/combobox/combobox.presence-wave.test-browser.tsx"
+            ],
+            "limits": "Coordinator runs browsers sequentially; hydration E2E command determined from existing harness before that batch. No broad repeated runs unless failures/source changes justify."
+          }
+        }
+      ],
+      "firstBatch": {
+        "slice": "selection-membership",
+        "path": "packages/suite/src/listbox/listbox.membership-wave.test-browser.tsx",
+        "cases": [
+          {
+            "title": "ShiftDown extension enumerates all option markers after each step",
+            "ids": [
+              "listbox.keyboard.35",
+              "listbox.state.3"
+            ],
+            "assertions": [
+              "Start anchor Apple with selected Apple; extend across disabled item to Banana/Cherry.",
+              "After each step assert every enabled and disabled aria-selected, active focus, exact selected callback arrays, outside options false."
+            ]
+          },
+          {
+            "title": "Plain click replaces range anchor before ShiftDown",
+            "ids": [
+              "listbox.keyboard.36",
+              "listbox.state.3"
+            ],
+            "assertions": [
+              "Select prior distant range, click new anchor, ShiftDown.",
+              "Assert complete overwrite of inside/outside membership and callback ordering, disabled exclusion."
+            ]
+          },
+          {
+            "title": "Meta+A and repeated select-all preserve supported array policy",
+            "ids": [
+              "listbox.keyboard.41"
+            ],
+            "assertions": [
+              "Native Meta+A selects all enabled items, excludes disabled, exact array once.",
+              "Repeat reports same enabled array; no optional clear/string-all claim."
+            ]
+          },
+          {
+            "title": "Selected membership persists while Tab is outside",
+            "ids": [
+              "listbox.state.2"
+            ],
+            "assertions": [
+              "Native select option, Tab to known sibling.",
+              "Assert outside activeElement and same selected marker/value, no new selection callback; reenter preserves membership."
+            ]
+          },
+          {
+            "title": "Uncontrolled default selection changes without remount",
+            "ids": [
+              "listbox.state.4"
+            ],
+            "assertions": [
+              "Assert default marker before interaction, capture all option/root identities.",
+              "Native click another option updates full membership and exact callback once on same hosts."
+            ]
+          },
+          {
+            "title": "Fixed controlled single selection rejects attempted value exactly once",
+            "ids": [
+              "listbox.state.5"
+            ],
+            "assertions": [
+              "Hold value Apple, click Banana.",
+              "Callback once Banana; Apple remains selected, Banana false; native focus may move separately."
+            ]
+          },
+          {
+            "title": "Filtered collection follows external controlled replacement silently",
+            "ids": [
+              "listbox.state.6"
+            ],
+            "assertions": [
+              "Filter registered items via For/Show and externally replace value.",
+              "New selected item marker matches owner, obsolete item removed/false, no change callback; no selectedItems API claim."
+            ]
+          },
+          {
+            "title": "Pass-through attribute changes preserve option identity and state",
+            "ids": [
+              "listbox.state.16"
+            ],
+            "assertions": [
+              "Update title/data/aria attribute without active/value changes.",
+              "Same option node gets attributes, selected/highlight unchanged, callbacks silent; reactive disabled path independently remains valid."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlays-focus",
+      "title": "Overlays, focus and positioning",
+      "slices": [
+        {
+          "id": "toast",
+          "title": "Toast metadata, timing, queue and gesture lifecycle",
+          "ids": [
+            "toast.roles.3",
+            "toast.roles.6",
+            "toast.roles.7",
+            "toast.roles.8",
+            "toast.keyboard.2",
+            "toast.keyboard.6",
+            "toast.keyboard.8",
+            "toast.keyboard.9",
+            "toast.pointer.1",
+            "toast.pointer.2",
+            "toast.pointer.4",
+            "toast.pointer.6",
+            "toast.pointer.7",
+            "toast.pointer.8",
+            "toast.pointer.9",
+            "toast.pointer.10",
+            "toast.pointer.11",
+            "toast.pointer.13",
+            "toast.pointer.14",
+            "toast.pointer.15",
+            "toast.pointer.17",
+            "toast.focus.1",
+            "toast.focus.2",
+            "toast.focus.3",
+            "toast.focus.6",
+            "toast.focus.7",
+            "toast.focus.8",
+            "toast.focus.9",
+            "toast.focus.10",
+            "toast.state.1",
+            "toast.state.2",
+            "toast.state.4",
+            "toast.state.7",
+            "toast.state.9",
+            "toast.state.10",
+            "toast.state.11",
+            "toast.state.12",
+            "toast.state.13",
+            "toast.state.14",
+            "toast.state.15",
+            "toast.state.16",
+            "toast.state.17",
+            "toast.state.18",
+            "toast.state.19",
+            "toast.state.20",
+            "toast.state.21",
+            "toast.state.22",
+            "toast.state.23",
+            "toast.state.25",
+            "toast.dismissal.1",
+            "toast.dismissal.2",
+            "toast.dismissal.4",
+            "toast.positioning.1",
+            "toast.positioning.2",
+            "toast.animation.1",
+            "toast.animation.2",
+            "toast.animation.3",
+            "toast.a11y.1",
+            "toast.notes.2",
+            "toast.notes.5",
+            "toast.notes.7"
+          ],
+          "paths": [
+            "packages/suite/src/toast/toast.metadata.remaining.test-browser.tsx",
+            "packages/suite/src/toast/toast.timing-queue.remaining.test-browser.tsx",
+            "packages/suite/src/toast/toast.gestures.remaining.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Toast manager/Provider/Viewport shipped; use manager protocol tests for exact deadlines and native tests for actual focus/gestures."
+          ],
+          "risks": [
+            "Separate persistent live nodes from accessible speech; clear text is adopted instead of mandatory node removal.",
+            "No automatic locale API; translated author labels are supported.",
+            "Window blur and pointer/focus reasons overlap; restore document focus before measuring active time."
+          ],
+          "verification": [
+            "cd /workspace/packages/suite && bun run typecheck",
+            "cd /workspace && bunx eslint packages/suite/src/toast/toast.metadata.remaining.test-browser.tsx packages/suite/src/toast/toast.timing-queue.remaining.test-browser.tsx packages/suite/src/toast/toast.gestures.remaining.test-browser.tsx",
+            "cd /workspace/packages/suite && xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/toast/toast.metadata.remaining.test-browser.tsx src/toast/toast.timing-queue.remaining.test-browser.tsx src/toast/toast.gestures.remaining.test-browser.tsx"
+          ]
+        },
+        {
+          "id": "hover-tooltip-positioning",
+          "title": "HoverCard and Tooltip live intent, shared triggers and positioning",
+          "ids": [
+            "hover-card.pointer.7",
+            "hover-card.pointer.9",
+            "hover-card.pointer.12",
+            "hover-card.pointer.14",
+            "hover-card.pointer.15",
+            "hover-card.pointer.16",
+            "hover-card.pointer.23",
+            "hover-card.focus.1",
+            "hover-card.focus.8",
+            "hover-card.state.3",
+            "hover-card.dismissal.6",
+            "hover-card.dismissal.8",
+            "hover-card.dismissal.10",
+            "hover-card.positioning.1",
+            "hover-card.animation.1",
+            "hover-card.animation.2",
+            "hover-card.animation.4",
+            "hover-card.notes.2",
+            "tooltip.roles.7",
+            "tooltip.pointer.2",
+            "tooltip.pointer.4",
+            "tooltip.pointer.5",
+            "tooltip.pointer.7",
+            "tooltip.pointer.9",
+            "tooltip.pointer.11",
+            "tooltip.pointer.10",
+            "tooltip.pointer.12",
+            "tooltip.pointer.13",
+            "tooltip.pointer.15",
+            "tooltip.pointer.18",
+            "tooltip.focus.9",
+            "tooltip.state.4",
+            "tooltip.state.5",
+            "tooltip.state.6",
+            "tooltip.state.7",
+            "tooltip.state.9",
+            "tooltip.state.11",
+            "tooltip.state.13",
+            "tooltip.state.14",
+            "tooltip.dismissal.3",
+            "tooltip.dismissal.4",
+            "tooltip.dismissal.5",
+            "tooltip.positioning.1",
+            "tooltip.positioning.2",
+            "tooltip.positioning.4",
+            "tooltip.positioning.6",
+            "tooltip.animation.1",
+            "tooltip.animation.2",
+            "tooltip.animation.4",
+            "tooltip.a11y.1",
+            "tooltip.a11y.2",
+            "tooltip.a11y.6",
+            "tooltip.a11y.8",
+            "positioning.roles.2",
+            "positioning.positioning.4",
+            "positioning.positioning.6",
+            "positioning.positioning.12",
+            "positioning.positioning.17",
+            "positioning.positioning.18",
+            "positioning.positioning.19",
+            "positioning.positioning.21",
+            "positioning.positioning.22",
+            "positioning.positioning.26",
+            "positioning.positioning.30",
+            "positioning.positioning.34",
+            "positioning.positioning.32",
+            "positioning.positioning.41",
+            "positioning.positioning.53",
+            "positioning.positioning.55",
+            "positioning.positioning.58",
+            "positioning.positioning.59",
+            "positioning.positioning.62",
+            "positioning.positioning.63",
+            "positioning.animation.2",
+            "positioning.rtl.1",
+            "positioning.rtl.2",
+            "positioning.rtl.4",
+            "positioning.rtl.5",
+            "positioning.a11y.1",
+            "positioning.notes.7",
+            "positioning.positioning.2"
+          ],
+          "paths": [
+            "packages/suite/src/hover-card/hover-card.delayed-intent.remaining.test-browser.tsx",
+            "packages/suite/src/tooltip/tooltip.controlled-intent.remaining.test-browser.tsx",
+            "packages/suite/src/floating-layer/positioning.lifecycle.remaining.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Use public Root options and current hover-intent defaults; reuse existing positioning geometry harness.",
+            "Coordinate any shared FloatingLayer/hover-intent production diagnosis with coordinator; test files stay separate."
+          ],
+          "risks": [
+            "Clock-controlled delay assertions must not fake native pointer/focus behavior or measure layout with fake geometry.",
+            "Unsupported per-trigger delay/config and positioning middleware options stay named mixed residuals.",
+            "Geometry assertions should compare relative layout tolerances and await ResizeObserver/frame settlement."
+          ],
+          "verification": [
+            "cd /workspace/packages/suite && bun run typecheck",
+            "cd /workspace && bunx eslint packages/suite/src/hover-card/hover-card.delayed-intent.remaining.test-browser.tsx packages/suite/src/tooltip/tooltip.controlled-intent.remaining.test-browser.tsx packages/suite/src/floating-layer/positioning.lifecycle.remaining.test-browser.tsx",
+            "cd /workspace/packages/suite && xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/hover-card/hover-card.delayed-intent.remaining.test-browser.tsx src/tooltip/tooltip.controlled-intent.remaining.test-browser.tsx src/floating-layer/positioning.lifecycle.remaining.test-browser.tsx"
+          ]
+        },
+        {
+          "id": "dialog-popover-drawer",
+          "title": "Dialog family and Popover native focus, handles and retained lifecycle",
+          "ids": [
+            "drawer.roles.1",
+            "drawer.roles.2",
+            "drawer.roles.3",
+            "drawer.roles.4",
+            "drawer.roles.5",
+            "drawer.roles.16",
+            "drawer.keyboard.1",
+            "drawer.pointer.1",
+            "drawer.pointer.2",
+            "drawer.pointer.10",
+            "drawer.pointer.31",
+            "drawer.pointer.43",
+            "drawer.pointer.51",
+            "drawer.pointer.54",
+            "drawer.pointer.55",
+            "drawer.focus.2",
+            "drawer.state.10",
+            "drawer.dismissal.1",
+            "drawer.dismissal.3",
+            "drawer.dismissal.4",
+            "drawer.animation.7",
+            "drawer.a11y.1",
+            "drawer.notes.4",
+            "drawer.notes.7",
+            "popover.keyboard.2",
+            "popover.keyboard.4",
+            "popover.focus.3",
+            "popover.focus.19",
+            "popover.focus.10",
+            "popover.focus.12",
+            "popover.focus.18",
+            "popover.state.5",
+            "popover.dismissal.1",
+            "popover.dismissal.3",
+            "popover.dismissal.8",
+            "popover.dismissal.11",
+            "popover.positioning.1",
+            "popover.positioning.2",
+            "popover.positioning.3",
+            "popover.positioning.5",
+            "popover.positioning.6",
+            "popover.positioning.7",
+            "popover.positioning.11",
+            "popover.rtl.1",
+            "popover.rtl.2",
+            "popover.positioning.4",
+            "popover.positioning.9",
+            "popover.positioning.10",
+            "popover.notes.3",
+            "popover.animation.1",
+            "popover.animation.3",
+            "popover.a11y.1",
+            "dialog.roles.1",
+            "dialog.roles.3",
+            "dialog.roles.4",
+            "dialog.roles.5",
+            "dialog.dismissal.1",
+            "dialog.roles.18",
+            "dialog.roles.21",
+            "dialog.roles.22",
+            "dialog.roles.24",
+            "dialog.roles.28",
+            "dialog.keyboard.5",
+            "dialog.focus.8",
+            "dialog.focus.25",
+            "dialog.keyboard.3",
+            "dialog.keyboard.4",
+            "dialog.keyboard.7",
+            "dialog.keyboard.8",
+            "dialog.keyboard.9",
+            "dialog.keyboard.10",
+            "dialog.dismissal.14",
+            "dialog.keyboard.15",
+            "dialog.keyboard.16",
+            "dialog.pointer.2",
+            "dialog.pointer.6",
+            "dialog.pointer.19",
+            "dialog.pointer.9",
+            "dialog.pointer.10",
+            "dialog.pointer.12",
+            "dialog.pointer.15",
+            "dialog.pointer.16",
+            "dialog.pointer.18",
+            "dialog.focus.33",
+            "dialog.dismissal.16",
+            "dialog.dismissal.22",
+            "dialog.focus.9",
+            "dialog.focus.17",
+            "dialog.focus.19",
+            "dialog.focus.24",
+            "dialog.dismissal.12",
+            "dialog.state.3",
+            "dialog.state.9",
+            "dialog.state.10",
+            "dialog.state.11",
+            "dialog.dismissal.8",
+            "dialog.dismissal.10",
+            "dialog.dismissal.13",
+            "dialog.dismissal.15",
+            "dialog.positioning.2",
+            "dialog.ssr.1",
+            "dialog.ssr.2",
+            "dialog.a11y.4",
+            "dialog.a11y.7",
+            "dialog.notes.4",
+            "dialog.dismissal.4",
+            "alert-dialog.focus.7",
+            "alert-dialog.focus.6",
+            "alert-dialog.state.1",
+            "alert-dialog.state.2",
+            "alert-dialog.state.4",
+            "alert-dialog.dismissal.1",
+            "alert-dialog.a11y.1"
+          ],
+          "paths": [
+            "packages/suite/src/dialog/dialog.single-static-focus.remaining.test-browser.tsx",
+            "packages/suite/src/dialog/dialog.retained-controls.remaining.test-browser.tsx",
+            "packages/suite/src/popover/popover.retained-handles.remaining.test-browser.tsx",
+            "packages/suite/src/drawer/drawer.lifecycle.remaining.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Public Dialog retains native modal policy; Popover defaults to noncontained focus.",
+            "Run existing accepted metadata/focus tests before introducing duplicate fixtures; latest verified IDs excluded."
+          ],
+          "risks": [
+            "Do not impose research reason callback or selector/ref/disabled Portal APIs absent from shipped types.",
+            "Native disabled labels may need force:true to attempt deliberate activation while retaining trusted-event assertions.",
+            "Capture outside nodes before native modal isolation; role queries correctly omit hidden/inert nodes."
+          ],
+          "verification": [
+            "cd /workspace/packages/suite && bun run typecheck",
+            "cd /workspace && bunx eslint packages/suite/src/dialog/dialog.single-static-focus.remaining.test-browser.tsx packages/suite/src/dialog/dialog.retained-controls.remaining.test-browser.tsx packages/suite/src/popover/popover.retained-handles.remaining.test-browser.tsx packages/suite/src/drawer/drawer.lifecycle.remaining.test-browser.tsx",
+            "cd /workspace/packages/suite && xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/dialog/dialog.single-static-focus.remaining.test-browser.tsx src/dialog/dialog.retained-controls.remaining.test-browser.tsx src/popover/popover.retained-handles.remaining.test-browser.tsx src/drawer/drawer.lifecycle.remaining.test-browser.tsx"
+          ]
+        },
+        {
+          "id": "focus-scopes",
+          "title": "Shared FocusScope scans, native Tab edges and restoration",
+          "ids": [
+            "focus-scope.keyboard.3",
+            "focus-scope.keyboard.4",
+            "focus-scope.keyboard.6",
+            "focus-scope.keyboard.7",
+            "focus-scope.keyboard.8",
+            "focus-scope.focus.1",
+            "focus-scope.focus.10",
+            "focus-scope.focus.13",
+            "focus-scope.focus.16",
+            "focus-scope.dismissal.2",
+            "focus-scope.notes.5",
+            "focus-scope.notes.10",
+            "focus-scope.notes.11",
+            "focus-scope.notes.12",
+            "focus-trap.keyboard.1",
+            "focus-trap.keyboard.5",
+            "focus-trap.keyboard.7",
+            "focus-trap.keyboard.8",
+            "focus-trap.focus.6",
+            "focus-trap.focus.10",
+            "focus-trap.dismissal.1",
+            "focus-trap.dismissal.4",
+            "focus-trap.dismissal.3"
+          ],
+          "paths": [
+            "packages/suite/src/layering/focus-scope.tabbable-edges.remaining.test-browser.tsx",
+            "packages/suite/src/layering/focus-scope.restoration.remaining.test-browser.tsx",
+            "packages/dom/src/focus-scope/focus-scope.restoration-remaining.test.ts"
+          ],
+          "dependencies": [
+            "Map accepted FocusTrap clauses to exported registerFocusScope; no separate Trap lifecycle API.",
+            "tabbable dependency and real engine own focusability; source evidence alone cannot mark these native rows passing."
+          ],
+          "risks": [
+            "Tab-only containment, public paused flags and activate/reorder API alternatives are unshipped.",
+            "Keep documented WebKit Field/nested-fieldset limitation separate; no browser-specific product workaround or weakened assertion.",
+            "Shadow deep-active-element checks must distinguish document host focus from inner shadow active element."
+          ],
+          "verification": [
+            "cd /workspace/packages/suite && bun run typecheck",
+            "cd /workspace && bunx eslint packages/suite/src/layering/focus-scope.tabbable-edges.remaining.test-browser.tsx packages/suite/src/layering/focus-scope.restoration.remaining.test-browser.tsx packages/dom/src/focus-scope/focus-scope.restoration-remaining.test.ts",
+            "cd /workspace/packages/suite && xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/layering/focus-scope.tabbable-edges.remaining.test-browser.tsx src/layering/focus-scope.restoration.remaining.test-browser.tsx",
+            "cd /workspace/packages/dom && bun run test -- src/focus-scope/focus-scope.restoration-remaining.test.ts --maxWorkers=2"
+          ]
+        },
+        {
+          "id": "modal-layer-portal",
+          "title": "Modal isolation mutations, layer sessions and nested portal ordering",
+          "ids": [
+            "dismissable-layer.keyboard.1",
+            "dismissable-layer.keyboard.3",
+            "dismissable-layer.keyboard.4",
+            "dismissable-layer.keyboard.6",
+            "dismissable-layer.keyboard.9",
+            "dismissable-layer.pointer.3",
+            "dismissable-layer.pointer.13",
+            "dismissable-layer.pointer.17",
+            "dismissable-layer.pointer.25",
+            "dismissable-layer.pointer.27",
+            "dismissable-layer.state.1",
+            "dismissable-layer.animation.1",
+            "dismissable-layer.animation.2",
+            "dismissable-layer.notes.3",
+            "aria-hidden.roles.2",
+            "aria-hidden.roles.4",
+            "aria-hidden.roles.5",
+            "aria-hidden.state.1",
+            "aria-hidden.state.2",
+            "aria-hidden.state.3",
+            "aria-hidden.state.5",
+            "aria-hidden.state.4",
+            "aria-hidden.dismissal.1",
+            "aria-hidden.dismissal.2",
+            "aria-hidden.dismissal.4",
+            "aria-hidden.dismissal.5",
+            "aria-hidden.a11y.1",
+            "aria-hidden.a11y.2",
+            "aria-hidden.notes.1",
+            "aria-hidden.notes.2",
+            "aria-hidden.notes.3",
+            "aria-hidden.notes.4",
+            "prevent-scroll.positioning.1",
+            "portal.dismissal.3",
+            "nested-overlay-ordering.keyboard.3",
+            "nested-overlay-ordering.pointer.3",
+            "nested-overlay-ordering.pointer.5",
+            "nested-overlay-ordering.focus.2",
+            "nested-overlay-ordering.focus.3",
+            "nested-overlay-ordering.dismissal.3",
+            "nested-overlay-ordering.dismissal.4",
+            "dismissable-layer.pointer.2",
+            "dismissable-layer.pointer.1",
+            "aria-hidden.roles.3"
+          ],
+          "paths": [
+            "packages/dom/src/modal/modal.mutation-remaining.test.ts",
+            "packages/suite/src/layering/modal.isolation.remaining.test-browser.tsx",
+            "packages/suite/src/layering/layer.sessions.remaining.test-browser.tsx",
+            "packages/suite/src/layering/nested-order.remaining.test-browser.tsx"
+          ],
+          "dependencies": [
+            "Shared registerModal content+branches implement kept-target sets; no standalone hideOthers API.",
+            "Capture-based Layer has one outside-pointer wrapper; combine protocol and trusted browser evidence."
+          ],
+          "risks": [
+            "Modal stack policy differs from independent per-hide refcount APIs; assert actual excluded/kept sets and final ownership restoration.",
+            "No --scrollbar-width variable is published; padding compensation already has direct tests.",
+            "No universal aria AX-tree claim from DOM attrs; use role queries for finite fixtures and keep actual engine tree work explicit."
+          ],
+          "verification": [
+            "cd /workspace/packages/suite && bun run typecheck",
+            "cd /workspace && bunx eslint packages/dom/src/modal/modal.mutation-remaining.test.ts packages/suite/src/layering/modal.isolation.remaining.test-browser.tsx packages/suite/src/layering/layer.sessions.remaining.test-browser.tsx packages/suite/src/layering/nested-order.remaining.test-browser.tsx",
+            "cd /workspace/packages/suite && xenon_BROWSERS=chromium,firefox,webkit bun run test:browser -- src/layering/modal.isolation.remaining.test-browser.tsx src/layering/layer.sessions.remaining.test-browser.tsx src/layering/nested-order.remaining.test-browser.tsx",
+            "cd /workspace/packages/dom && bun run test -- src/modal/modal.mutation-remaining.test.ts --maxWorkers=2"
+          ]
+        }
+      ],
+      "firstBatch": {
+        "slice": "toast",
+        "path": "packages/suite/src/toast/toast.metadata.remaining.test-browser.tsx",
+        "cases": [
+          {
+            "title": "Title absent then registered: all aria-labelledby IDs resolve and disappear on Title removal.",
+            "ids": [
+              "toast.roles.3"
+            ],
+            "assertions": [
+              "Title absent then registered: all aria-labelledby IDs resolve and disappear on Title removal."
+            ]
+          },
+          {
+            "title": "Replace Title element and reactive authored ID; Content stays same node and exact association follows replacement.",
+            "ids": [
+              "toast.roles.3"
+            ],
+            "assertions": [
+              "Replace Title element and reactive authored ID; Content stays same node and exact association follows replacement."
+            ]
+          },
+          {
+            "title": "Author region label replaces default; {hotkey} interpolates default Alt+T in computed name.",
+            "ids": [
+              "toast.roles.7"
+            ],
+            "assertions": [
+              "Author region label replaces default; {hotkey} interpolates default Alt+T in computed name."
+            ]
+          },
+          {
+            "title": "Custom hotkey changes interpolation reactively; authored undefined removes default name without invented localization.",
+            "ids": [
+              "toast.roles.7"
+            ],
+            "assertions": [
+              "Custom hotkey changes interpolation reactively; authored undefined removes default name without invented localization."
+            ]
+          },
+          {
+            "title": "Trusted Enter on focused Close dismisses once, reports close reason and clears only its speech.",
+            "ids": [
+              "toast.keyboard.9"
+            ],
+            "assertions": [
+              "Trusted Enter on focused Close dismisses once, reports close reason and clears only its speech."
+            ]
+          },
+          {
+            "title": "Empty native region between two buttons is skipped by forward and reverse Tab, before arrivals and after last close.",
+            "ids": [
+              "toast.focus.10"
+            ],
+            "assertions": [
+              "Empty native region between two buttons is skipped by forward and reverse Tab, before arrivals and after last close."
+            ]
+          },
+          {
+            "title": "Trusted Close dismisses pending promise; resolution afterward cannot re-add or announce the record.",
+            "ids": [
+              "toast.state.16"
+            ],
+            "assertions": [
+              "Trusted Close dismisses pending promise; resolution afterward cannot re-add or announce the record."
+            ]
+          },
+          {
+            "title": "Explicit Portal container receives actual region/content and DOM ownership remains correct.",
+            "ids": [
+              "toast.dismissal.4"
+            ],
+            "assertions": [
+              "Explicit Portal container receives actual region/content and DOM ownership remains correct."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "workflow": [
+    "Each worker owns one new test file at a time and reports 5–10 meaningful cases with requirement IDs, supported clauses, exclusions and static checks.",
+    "Coordinator checks assertions against shipped behavior, freezes affected source, and runs the native batch in Chromium, Firefox and WebKit. No concurrent browser sessions from workers.",
+    "Classify a failure as product defect, fixture/timing error, environment failure or contract conflict. Reproduce before assigning a fix; retain failing assertions unless the fixture or expectation is wrong.",
+    "Assign real fixes to a focused worker. Serialize edits to shared DOM/Solid utilities. Coordinator reruns the slice and relevant sibling consumers.",
+    "Commit each accepted test batch separately from each product fix. Refresh generated reports after reviewed evidence changes. No attribution trailers.",
+    "Keep mixed clauses partial; unsupported APIs, explicit decisions and browser limitations are not completion credit. No new API implementation without a scope decision."
+  ],
+  "sharedAssignments": [
+    {
+      "id": "portal.dismissal.3",
+      "lane": "overlays-focus"
+    },
+    {
+      "id": "prevent-scroll.positioning.1",
+      "lane": "overlays-focus"
+    }
+  ]
+}

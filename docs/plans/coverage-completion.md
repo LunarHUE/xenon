@@ -7,6 +7,13 @@ The reconciled campaign is recorded in [test-campaign.json](test-campaign.json).
 Its historical status and requirement IDs remain immutable; current review and
 execution evidence belongs in separate batch entries.
 
+Current totals and dispatch categories are generated in
+[test-campaign-summary.md](test-campaign-summary.md). The
+[first-wave proposal](test-campaign-wave-1.md) lists lane ownership and concrete
+initial batches. Run `bun run --cwd packages/suite campaign:report` after changing
+reviewed evidence or the proposal, and `campaign:check` to detect stale reports.
+These reports derive recorded claims; they do not execute tests or certify coverage.
+
 Finish the 1,038 partial and 484 missing requirements recorded in
 `coverage-backlog.json` for built components. The original IDs remain in this
 backlog so changing a disposition cannot silently count as test completion.

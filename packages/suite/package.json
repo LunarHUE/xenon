@@ -14,7 +14,10 @@
     "spec:tick": "vitest run --project jsdom --reporter=json --outputFile=.vitest/results.json; bun scripts/tick-spec.ts .vitest/results.json",
     "test:e2e": "playwright test --project=chromium",
     "test:e2e:all": "playwright test",
-    "test:browser:all": "xenon_BROWSERS=chromium,firefox,webkit vitest run --project browser"
+    "test:browser:all": "xenon_BROWSERS=chromium,firefox,webkit vitest run --project browser",
+    "campaign:report": "bun scripts/campaign-report.ts",
+    "campaign:check": "bun scripts/campaign-report.ts --check",
+    "campaign:test": "bun test scripts/campaign-report.test.ts"
   },
   "dependencies": {
     "@xenon-ui/core": "workspace:*",
