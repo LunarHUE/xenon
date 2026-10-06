@@ -9,6 +9,7 @@
     "scripts/**/*.ts",
     "vitest.config.ts",
     "vitest-setup.ts",
+    "vitest-browser-setup.ts",
     "e2e/**/*.ts",
     "playwright.config.ts",
     "fixtures/**/*.tsx"
