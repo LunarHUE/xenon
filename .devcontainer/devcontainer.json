@@ -1,10 +1,10 @@
 {
-  "name": "${localWorkspaceFolderBasename} — Nix Dev Environment",
+  "name": "${localWorkspaceFolderBasename} repo",
   "build": {
     "context": ".",
     "dockerfile": "Dockerfile",
     "args": {
-      "PRETTY_HOSTNAME": "${localWorkspaceFolderBasename} Repo"
+      "PRETTY_HOSTNAME": "${localWorkspaceFolderBasename} repo"
     }
   },
 
