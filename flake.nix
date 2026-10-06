@@ -18,7 +18,13 @@
 
     # Private repo. HTTPS lets git's credential helper supply access.
     headless-paper = {
-      url = "git+https://github.com/LunarHUE/headless-paper.git?ref=refs/tags/v0.1.115";
+      url = "git+https://github.com/LunarHUE/headless-paper.git?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    t3code = {
+      url = "github:LunarHUE/t3code";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -30,6 +36,7 @@
     codex-cli-nix,
     claude-code,
     headless-paper,
+    t3code,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -78,6 +85,9 @@
           pkgs.claude-code
           pkgs.codex
           pkgs.headless-paper
+        ] ++ pkgs.lib.optionals (t3code.packages ? ${system}) [
+          t3code.packages.${system}.t3
+          t3code.packages.${system}.t3-devcontainer
         ];
 
         devShell = pkgs.mkShell {
