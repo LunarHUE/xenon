@@ -19,10 +19,6 @@
     "--tmpfs",
     "/mnt/user-home/codex/tmp:rw,exec,nosuid,nodev,mode=0700,uid=1000,gid=1000,size=64m"
   ],
-
-  "remoteEnv": {
-    "NIX_CONFIG": "experimental-features = nix-command flakes\nbuild-users-group ="
-  },
   "updateRemoteUserUID": false,
 
   "features": {
@@ -40,10 +36,16 @@
     }
   },
 
+  // The Coder template supplies these; start.sh launches T3 Code when both are set.
+  "remoteEnv": {
+    "T3CODE_INSTANCE": "${localEnv:T3CODE_INSTANCE}",
+    "T3CODE_RELAY_PRIVATE_URL": "${localEnv:T3CODE_RELAY_PRIVATE_URL}"
+  },
   "containerEnv": {
     "CODEX_HOME": "/mnt/user-home/codex",
     "CLAUDE_CONFIG_DIR": "/mnt/user-home/claude",
-    "BASH_ENV": "/home/vscode/.bashrc"
+    "T3CODE_HOME": "/mnt/user-home/t3code",
+    "GH_CONFIG_DIR": "/mnt/user-home/gh"
   },
 
   "postCreateCommand": "bash .devcontainer/create.sh",
@@ -51,12 +53,7 @@
 
   "customizations": {
     "vscode": {
-      "extensions": ["mkhl.direnv", "jnoortheen.nix-ide", "golang.go"],
-      "settings": {
-        "go.useLanguageServer": true,
-        "go.toolsManagement.checkForUpdates": "off",
-        "go.toolsManagement.autoUpdate": false
-      }
+      "extensions": ["mkhl.direnv", "jnoortheen.nix-ide"]
     }
   },
 

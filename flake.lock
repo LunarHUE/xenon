@@ -109,43 +109,27 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_4"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "headless-paper": {
       "inputs": {
         "bun2nix": "bun2nix",
-        "flake-utils": "flake-utils_2",
+        "flake-utils": [
+          "flake-utils"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1790448469,
-        "narHash": "sha256-ABH8HuqAqdvPwGDoInD1dBio1FDNihBEpYssEeAZDVU=",
-        "ref": "refs/tags/v0.1.115",
-        "rev": "fdbd2f62a1b9f10d1758e5169b374f06c857d10a",
-        "revCount": 115,
+        "lastModified": 1790813773,
+        "narHash": "sha256-8WEgD9Z+3ZzTW87X26aHY45prHzXIJ1DxIdRhJXMCYE=",
+        "ref": "main",
+        "rev": "5e08a0c789933660c202ed3dfc812a20bd5fbf68",
+        "revCount": 126,
         "type": "git",
         "url": "https://github.com/LunarHUE/headless-paper.git"
       },
       "original": {
-        "ref": "refs/tags/v0.1.115",
+        "ref": "main",
         "type": "git",
         "url": "https://github.com/LunarHUE/headless-paper.git"
       }
@@ -172,7 +156,8 @@
         "codex-cli-nix": "codex-cli-nix",
         "flake-utils": "flake-utils",
         "headless-paper": "headless-paper",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "t3code": "t3code"
       }
     },
     "systems": {
@@ -220,18 +205,23 @@
         "type": "github"
       }
     },
-    "systems_4": {
+    "t3code": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "lastModified": 1791275578,
+        "narHash": "sha256-0646VoZy+oKMX+3KZHStp7/WHP+0CLUSJ4JeInnBZW4=",
+        "owner": "LunarHUE",
+        "repo": "t3code",
+        "rev": "c44bb080977e0aec69b8d8cea38b469a41789e9e",
         "type": "github"
       },
       "original": {
-        "owner": "nix-systems",
-        "repo": "default",
+        "owner": "LunarHUE",
+        "repo": "t3code",
         "type": "github"
       }
     },
