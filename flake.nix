@@ -50,6 +50,26 @@
             claude-code.overlays.default
             codex-cli-nix.overlays.default
             headless-paper.overlays.default
+            # The pinned bun2nix caches every platform. Filter headless-paper's
+            # cache with its original lock metadata before creating derivations.
+            (final: prev: {
+              headless-paper = prev.headless-paper.override {
+                bun2nix = let
+                  upstream = headless-paper.inputs.bun2nix.packages.${system}.default;
+                  filterPlatform = import ./nix/filter-bun-platform.nix {
+                    inherit (final) lib;
+                    inherit (final.stdenv) hostPlatform;
+                    lockfile = headless-paper.outPath + "/bun.lock";
+                  };
+                in upstream // {
+                  fetchBunDeps = args: upstream.fetchBunDeps (args // {
+                    bunNix = final.lib.setFunctionArgs
+                      (packageArgs: filterPlatform (import args.bunNix packageArgs))
+                      (builtins.functionArgs (import args.bunNix));
+                  });
+                };
+              };
+            })
           ];
         };
 
