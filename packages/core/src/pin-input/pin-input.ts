@@ -8,6 +8,23 @@ export interface PinInputOptions {
   length?: number
   /** Accepted ASCII characters; defaults to numeric. */
   type?: 'numeric' | 'alphanumeric' | 'alphabetic'
+  /**
+   * Letter case applied to typed, pasted and autofilled text before filtering.
+   * Upper also starts mobile keyboards in capitals.
+   * @defaultValue 'preserve'
+   */
+  case?: 'preserve' | 'upper' | 'lower'
+  /**
+   * Allow-list checked after type filtering and the case transform; other characters
+   * are dropped. Matching is exact, so list both cases when case is preserve.
+   */
+  charset?: string
+  /**
+   * Autocomplete token for the first slot; later slots are always off. Pass off for
+   * codes the browser should not fill from SMS, such as device codes.
+   * @defaultValue 'one-time-code'
+   */
+  autocomplete?: string
   /** Render password inputs when true. */
   mask?: boolean
   /** Disable interaction and form participation. */
@@ -58,8 +75,15 @@ export interface PinInputResult {
 /** Build a pure segmented code controller. Deletion splices the scalar string. */
 export function pinInput(options: PinInputOptions = {}): PinInputResult {
   const length = Number.isInteger(options.length) && options.length! > 0 ? options.length! : 6
-  const clean = (text: string) =>
-    text.replace(
+  const charset = options.charset
+  const clean = (text: string) => {
+    const cased =
+      options.case === 'upper'
+        ? text.toUpperCase()
+        : options.case === 'lower'
+          ? text.toLowerCase()
+          : text
+    const typed = cased.replace(
       options.type === 'alphanumeric'
         ? /[^a-zA-Z0-9]/g
         : options.type === 'alphabetic'
@@ -67,6 +91,10 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
           : /[^0-9]/g,
       ''
     )
+    return charset === undefined
+      ? typed
+      : [...typed].filter((char) => charset.includes(char)).join('')
+  }
   const value = clean(options.value ?? '').slice(0, length)
   const insertion = Math.min(value.length, length - 1)
   const state = { value, length, complete: value.length === length, insertion }
@@ -108,8 +136,8 @@ export function pinInput(options: PinInputOptions = {}): PinInputResult {
       'data-filled': value[index] ? '' : undefined,
       tabindex: index === insertion ? 0 : -1,
       inputmode: options.type && options.type !== 'numeric' ? 'text' : 'numeric',
-      autocomplete: index === 0 ? 'one-time-code' : 'off',
-      autocapitalize: 'off',
+      autocomplete: index === 0 ? (options.autocomplete ?? 'one-time-code') : 'off',
+      autocapitalize: options.case === 'upper' ? 'characters' : 'off',
       spellcheck: 'false',
     },
     on: {
