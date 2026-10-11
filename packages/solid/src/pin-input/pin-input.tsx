@@ -105,6 +105,9 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
       value: props.value ?? internal(),
       length: props.length,
       type: props.type,
+      case: props.case,
+      charset: props.charset,
+      autocomplete: props.autocomplete,
       mask: props.mask,
       disabled: disabled(),
       readonly: readonly(),
@@ -162,6 +165,9 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
     'onValueComplete',
     'length',
     'type',
+    'case',
+    'charset',
+    'autocomplete',
     'mask',
     'name',
     'form',
@@ -324,7 +330,15 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
   )
 }
 
-/** Segmented code root with explicitly indexed native Input parts. Pair with Field.Label for a shared label. */
+/**
+ * Segmented code root with explicitly indexed native Input parts. Pair with Field.Label for a shared label.
+ *
+ * @remarks
+ * Visual separators such as the dash in `XXXX-XXXX` are plain elements between two
+ * Inputs. Mark them `aria-hidden="true"`; slot labels count Inputs only, so the fifth
+ * slot of an eight-character code is still "Pin code 5 of 8". Arrow keys, Backspace
+ * and paste follow Input indexes and skip separators.
+ */
 export const PinInput = Object.assign(PinInputRoot, {
   /** One focusable character slot. */
   Input: PinInputInput,

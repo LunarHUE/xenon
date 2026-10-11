@@ -79,3 +79,75 @@ test('modifier Backspace clears the whole code and returns focus to the first sl
   expect(change).toHaveBeenCalledExactlyOnceWith('')
   expect(focus).toHaveBeenCalledExactlyOnceWith(0)
 })
+
+describe('case, charset and autocomplete', () => {
+  const device = {
+    type: 'alphabetic',
+    case: 'upper',
+    charset: 'BCDFGHJKLMNPQRSTVWXZ',
+    length: 8,
+  } as const
+
+  test.each(['bcdf-ghjk', 'BCDF GHJK', 'bcdfghjk'])('pasting %s gives BCDFGHJK', (text) => {
+    const change = vi.fn()
+    pinInput({ ...device, onValueChange: change }).insert(0, text)
+    expect(change).toHaveBeenCalledExactlyOnceWith('BCDFGHJK')
+    expect(pinInput({ ...device, value: change.mock.calls[0]![0] }).state).toMatchObject({
+      value: 'BCDFGHJK',
+      complete: true,
+    })
+  })
+
+  test('a character outside the charset is rejected', () => {
+    const change = vi.fn()
+    const result = pinInput({ ...device, value: 'BC', onValueChange: change })
+    result.insert(2, 'a')
+    expect(change).not.toHaveBeenCalled()
+    expect(result.state.value).toBe('BC')
+    expect(pinInput({ ...device, value: 'BCa' }).state.value).toBe('BC')
+  })
+
+  test('lower case applies without a charset', () => {
+    const change = vi.fn()
+    pinInput({ type: 'alphanumeric', case: 'lower', onValueChange: change }).insert(0, 'AB12')
+    expect(change).toHaveBeenCalledExactlyOnceWith('ab12')
+    expect(pinInput({ type: 'alphanumeric', case: 'lower', value: 'AB12' }).state.value).toBe(
+      'ab12'
+    )
+  })
+
+  test('preserve matches the charset exactly', () => {
+    expect(pinInput({ type: 'alphabetic', charset: 'BC', value: 'bBcC' }).state.value).toBe('BC')
+  })
+
+  test('an upper-cased retype of the same character advances without emitting', () => {
+    const change = vi.fn()
+    const focus = vi.fn()
+    pinInput({ ...device, value: 'B', onValueChange: change, onFocusChange: focus }).insert(0, 'b')
+    expect(change).not.toHaveBeenCalled()
+    expect(focus).toHaveBeenCalledExactlyOnceWith(1)
+  })
+
+  test('defaults keep the existing filtering and slot attributes', () => {
+    const result = pinInput({ type: 'alphanumeric', value: 'aB-9', length: 4 })
+    expect(result.state.value).toBe('aB9')
+    const first = result.parts.input(0).attrs
+    expect(first.autocomplete).toBe('one-time-code')
+    expect(first.autocapitalize).toBe('off')
+    expect(result.parts.input(1).attrs.autocomplete).toBe('off')
+  })
+
+  test('autocomplete applies to the first slot only', () => {
+    const result = pinInput({ autocomplete: 'off', length: 2 })
+    expect(result.parts.input(0).attrs.autocomplete).toBe('off')
+    expect(result.parts.input(1).attrs.autocomplete).toBe('off')
+    const named = pinInput({ autocomplete: 'username', length: 2 })
+    expect(named.parts.input(0).attrs.autocomplete).toBe('username')
+    expect(named.parts.input(1).attrs.autocomplete).toBe('off')
+  })
+
+  test('upper case asks mobile keyboards for capitals', () => {
+    expect(pinInput(device).parts.input(3).attrs.autocapitalize).toBe('characters')
+    expect(pinInput({ case: 'lower' }).parts.input(0).attrs.autocapitalize).toBe('off')
+  })
+})

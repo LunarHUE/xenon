@@ -109,6 +109,35 @@ const registries = new WeakMap<Document, Registry>()
 /** Resolves parent handles without exposing entries through the public handle. */
 const handles = new WeakMap<LayerHandle, Entry>()
 
+/** Stack-change listeners, kept apart from registries so they outlive an empty stack. */
+const stackListeners = new WeakMap<Document, Set<() => void>>()
+
+function notifyStack(document: Document) {
+  for (const listener of [...(stackListeners.get(document) ?? [])]) listener()
+}
+
+/** Host elements of the document's active layers, oldest first; the last one receives dismissals. */
+export function getLayerElements(document: Document): HTMLElement[] {
+  return registries.get(document)?.entries.map((entry) => entry.element) ?? []
+}
+
+/**
+ * Call the listener synchronously after every layer registration or disposal in
+ * the document. Adds no document listeners. Returns an idempotent unsubscribe.
+ */
+export function subscribeLayers(document: Document, listener: () => void): () => void {
+  let listeners = stackListeners.get(document)
+  if (!listeners) stackListeners.set(document, (listeners = new Set()))
+  const own = () => listener()
+  listeners.add(own)
+  return () => {
+    listeners.delete(own)
+    if (!listeners.size && stackListeners.get(document) === listeners) {
+      stackListeners.delete(document)
+    }
+  }
+}
+
 /** Pointer-only exceptions, independent of any particular overlay's lifetime. */
 const pointerExclusions = new WeakMap<Document, Map<Element, number>>()
 
@@ -385,6 +414,7 @@ export function registerLayer(element: HTMLElement, options: LayerOptions = {}):
   }
   registry.invalidate()
   registry.entries.push(entry)
+  notifyStack(document)
   const handle: LayerHandle = {
     isTopmost: () => entry.active && registry.entries.at(-1) === entry,
     update(next) {
@@ -417,6 +447,7 @@ export function registerLayer(element: HTMLElement, options: LayerOptions = {}):
       entry.branches.clear()
       registry.entries.splice(registry.entries.indexOf(entry), 1)
       if (registry.entries.length === 0) registry.cleanup()
+      notifyStack(document)
     },
   }
   handles.set(handle, entry)
