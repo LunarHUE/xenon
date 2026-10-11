@@ -92,6 +92,11 @@ function publishContent(document: Document): boolean {
   return published
 }
 
+/** Host of the newest registered modal in the document, or undefined when none is open. */
+export function getTopModal(document: Document): HTMLElement | undefined {
+  return states.get(document)?.entries.at(-1)?.element
+}
+
 /**
  * Subscribe to the newest registered modal's content in one document. Emits the
  * current destination synchronously, then only changes after isolation is
