@@ -37,6 +37,9 @@ Neither component has an APG pattern page.
 - [ ] `pin-input.roles.21` Divergence: one real transparent input sits over consumer-drawn slots and is the only focus target, with selection exposed as an active-slot index array so no slot needs its own input. [corvu, bits] (decision needed)
 - [ ] `pin-input.roles.22` Divergence: `autocomplete="one-time-code"` goes on the first slot only and every other slot gets `autocomplete="off"`. [base-ui] (decision needed)
 - [ ] `pin-input.roles.23` Divergence: `autocomplete="one-time-code"` goes on every slot when the field is in OTP mode, and `off` on every slot when it is not. [zag, ark, corvu] (decision needed)
+- [x] `pin-input.roles.24` Given an `autocomplete` token, then the first slot carries it instead of `one-time-code` and every other slot stays `off`; `autocomplete="off"` keeps browser one-time-code autofill away from codes that never arrive by SMS, such as device codes. [xenon]
+- [x] `pin-input.roles.25` Given `case="upper"`, then every slot sets `autocapitalize="characters"` so mobile keyboards start in capitals; `preserve` and `lower` keep `autocapitalize="off"`. [xenon]
+- [x] `pin-input.roles.26` Given an `aria-hidden` separator element rendered between two slots, then it is absent from the accessibility tree and slot labels count slots only, so the fifth slot of eight reads "Pin code 5 of 8". [xenon]
 
 ### Keyboard
 
@@ -71,6 +74,9 @@ Neither component has an APG pattern page.
 - [ ] `pin-input.keyboard.29` Divergence: Delete and Backspace clear only the targeted slot and leave a hole, so deleting the second slot of `t`,`e`,`s`,`t` gives `t`,`""`,`s`,`t`. [reka, melt] (decision needed)
 - [ ] `pin-input.keyboard.30` Divergence: End moves focus to the last FILLED slot, so a partially filled field lands on the last character rather than the next empty box. [zag] (decision needed)
 - [ ] `pin-input.keyboard.31` Divergence: End moves focus to the first EMPTY slot, which is the insertion point for the next character. [base-ui] (decision needed)
+- [x] `pin-input.keyboard.32` Given `case="upper"`, when a lowercase letter is typed, then the slot shows and the change callback reports the uppercase letter; `case="lower"` does the reverse. Retyping a slot's character in the other case advances focus without a change. [xenon]
+- [x] `pin-input.keyboard.33` Given a `charset` allow-list, when a character outside it is typed, then the slot stays empty, focus does not advance and no change fires. With `case="preserve"` matching is exact, so `b` is rejected by a charset of `BCD`. [xenon]
+- [x] `pin-input.keyboard.34` Given a separator element between slots 3 and 4 of eight, then ArrowRight from slot 3 lands on slot 4, ArrowLeft from slot 4 lands on slot 3, and Backspace in an empty slot 4 clears slot 3 and focuses it. [xenon]
 
 ### Pointer
 
@@ -87,6 +93,7 @@ Neither component has an APG pattern page.
 - [ ] `pin-input.pointer.11` Given a filled pin input, when the clear trigger is clicked, then every slot is cleared and focus returns to the first slot. [zag] (candidate)
 - [ ] `pin-input.pointer.12` Given the single-input design, then the root is `pointer-events: none` while the input is `pointer-events: all`, so a click anywhere in the slot layout lands on the invisible full-size input; the input's next sibling is forced back to `pointer-events: all` so a visible slot wrapper stays interactive. [corvu] (candidate)
 - [ ] `pin-input.pointer.13` Given the input is not disabled, when the pointer enters it, then a hovered flag is set and cleared on leave; a disabled input never sets it. [corvu] (candidate)
+- [x] `pin-input.pointer.14` Given `case="upper"`, `type="alphabetic"` and a charset, when `bcdf-ghjk`, `BCDF GHJK` or `bcdfghjk` is pasted into the first slot of an eight-slot field split by a separator, then all eight slots fill and the value is `BCDFGHJK` and complete. [xenon]
 
 ### Focus management
 
@@ -134,6 +141,7 @@ Neither component has an APG pattern page.
 - [ ] `pin-input.forms.7` Given a form reset, then the value resyncs from the DOM input after the next paint rather than being left stale. [corvu] (candidate)
 - [ ] `pin-input.forms.8` Divergence: completing the code submits the owning form automatically, with no opt-in prop. [zag] (decision needed)
 - [ ] `pin-input.forms.9` Divergence: completing the code does not submit the form unless `autoSubmit` is set; with it set the form submits exactly once with the completed value, an associated external form by id is submitted instead of an ancestor form, a non-form element with that id submits nothing, an incomplete code submits nothing, and a form with no `requestSubmit` keeps the value without submitting. [base-ui] (decision needed)
+- [x] `pin-input.forms.10` Given `case="upper"`, when lowercase text is typed or pasted, then the submitted form value and the completion callback carry the upper-case code. [xenon]
 
 ### RTL and i18n
 
@@ -217,6 +225,7 @@ Neither component has an APG pattern page.
 - `docs/research/kobalte-and-corvu.md`, section `otp-field` (corvu `packages/otp-field`, read from source rather than tests; kobalte ships no OTP field).
 - `docs/research/radix-and-base-ui.md`, sections `one-time-password-field` (radix) and `password-toggle-field` (radix), plus base-ui's `otp-field` root, input, utils and type-only suites.
 - No APG pattern, axe rule or HTML element corresponds to either component. The nearest normative material is the `group` role and the HTML `autocomplete="one-time-code"` token, neither of which is covered in the research files.
+- The `case`, `charset` and `autocomplete` bullets tagged `[xenon]` come from the device-authorization flow, whose codes are eight characters from `BCDFGHJKLMNPQRSTVWXZ` shown as `XXXX-XXXX`. No surveyed library ships a case transform or a character allow-list.
 
 ## Deferred
 
