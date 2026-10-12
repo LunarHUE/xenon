@@ -31,7 +31,10 @@ function mount(props: {
         onValueCommit={props.onValueCommit}
       >
         <Editable.Label>{props.label ?? 'Title'}</Editable.Label>
-        <Editable.Preview />
+        {/* An empty preview renders no text, so give it a box the way a styled app would. */}
+        <Editable.Preview
+          style={{ display: 'inline-block', 'min-width': '4ch', 'min-height': '1lh' }}
+        />
         <Editable.Input />
         <Editable.SubmitTrigger>Save</Editable.SubmitTrigger>
         <Editable.CancelTrigger>Cancel</Editable.CancelTrigger>
