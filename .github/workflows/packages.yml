@@ -1,0 +1,24 @@
+# Packs core, dom and solid, installs each tarball into a scratch project and
+# imports every subpath, so a release can't ship missing exports, stale build
+# output or a dependency range that admits a version without a needed module.
+# See scripts/check-packages.mjs.
+name: Packages
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: bun install --frozen-lockfile
+      - run: bun run check:packages
