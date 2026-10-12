@@ -31,6 +31,14 @@ import type { SelectionPopupProps, SelectionPopupSource } from '../internal/sele
 import { spread } from '../spread'
 import { OverlayPortal } from '../internal/overlay-portal'
 import { subscribeFormReset } from '../internal/form-reset'
+import { VirtualList, useVirtualList } from '../virtual-list/virtual-list'
+import type { VirtualItem, VirtualOptions, VirtualizerHandle } from '../virtual-list/virtual-list'
+
+/** A virtualized Combobox.Viewport and the row index of each visible value. */
+interface VirtualBinding {
+  handle: VirtualizerHandle
+  index(value: string): number
+}
 
 type ComboboxOptions = NativeBooleanAttributes<CoreComboboxOptions>
 
@@ -109,6 +117,11 @@ interface Context {
   optionId(value: string): string
   /** Register an option ID getter. */
   registerOptionId(value: string, read: () => string | undefined): () => void
+  /** Virtualized viewport, when one is rendered. */
+  virtual(): VirtualBinding | undefined
+  setVirtual(binding: VirtualBinding | undefined): void
+  /** Whether the highlighted option has a mounted row, so aria-activedescendant may name it. */
+  activeMounted(): boolean
 }
 const Context = createContext<Context>()
 /** Read the owning combobox; parts cannot be rendered outside its root. */
@@ -189,6 +202,9 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
     ownedWrite: true,
   })
   const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
+  const [virtual, setVirtual] = createSignal<VirtualBinding | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const disabled = () => booleanAttribute(props.disabled) || !!field?.disabled()
   const readonly = () => booleanAttribute(props.readonly) || !!field?.readonly()
   const required = () => booleanAttribute(props.required) || !!field?.required()
@@ -270,6 +286,13 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
       }
     },
     (state) => {
+      const list = untrack(virtual)
+      const activeValue = untrack(() => engine().state.activeValue)
+      if (state.open && list && activeValue !== undefined) {
+        const index = untrack(() => list.index(activeValue))
+        if (index >= 0) list.handle.scrollToIndex(index)
+        return
+      }
       if (state.open && state.id)
         state.content?.ownerDocument
           .getElementById(state.id)
@@ -298,6 +321,13 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
     registerContentId,
     optionId,
     registerOptionId,
+    virtual,
+    setVirtual: (binding) => setVirtual(() => binding),
+    activeMounted() {
+      const list = virtual()
+      const activeValue = engine().state.activeValue
+      return !list || activeValue === undefined || list.handle.isRendered(list.index(activeValue))
+    },
     props,
     engine,
     id: `${base}-input`,
@@ -419,11 +449,15 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
     'aria-required': !context.popupInput && context.required() ? 'true' : undefined,
     'aria-activedescendant': context.associations
       ? context.associations.attribute('aria-activedescendant', () =>
-          context.source.open() && context.engine().state.activeValue !== undefined
+          context.source.open() &&
+          context.engine().state.activeValue !== undefined &&
+          context.activeMounted()
             ? context.optionId(context.engine().state.activeValue!)
             : undefined
         )
-      : context.source.open() && context.engine().state.activeValue !== undefined
+      : context.source.open() &&
+          context.engine().state.activeValue !== undefined &&
+          context.activeMounted()
         ? context.optionId(context.engine().state.activeValue!)
         : undefined,
     'aria-controls': context.associations
@@ -662,11 +696,20 @@ function ComboboxArrow(props: ComponentProps<'div'>): JSX.Element {
 export type ComboboxViewportProps = Omit<ComponentProps<'div'>, 'children'> & {
   /** Static options or a callback receiving the live filtered collection. */
   children?: ComboboxCollectionChildren
+  /**
+   * Render only the options in view; the viewport becomes the scroll container.
+   * Options come from the root's items. Read once.
+   */
+  virtual?: VirtualOptions
+  /** With `virtual`, renders the contents of one option. Defaults to its label. */
+  renderItem?: (item: Option) => JSX.Element
 }
 /** Scroll container; owns the listbox role when search lives inside Content's dialog. */
 export function ComboboxViewport(props: ComboboxViewportProps): JSX.Element {
+  // eslint-disable-next-line solid/components-return-once -- virtual is read once.
+  if (untrack(() => props.virtual)) return <VirtualViewport {...props} />
   const context = useCombobox()
-  const rest = omit(props, 'children')
+  const rest = omit(props, 'children', 'virtual', 'renderItem')
   if (context.popupInput)
     // eslint-disable-next-line solid/reactivity -- The registry retains this ID getter for the viewport lifetime.
     onCleanup(context.registerListId(() => (typeof props.id === 'string' ? props.id : undefined)))
@@ -687,6 +730,66 @@ export function ComboboxViewport(props: ComboboxViewportProps): JSX.Element {
         <CollectionChildren>{props.children}</CollectionChildren>
       )}
     </div>
+  )
+}
+
+/** Combobox.Viewport over a virtualizer. Rows are keyed by value, so filtering keeps them mounted. */
+function VirtualViewport(props: ComboboxViewportProps): JSX.Element {
+  const context = useCombobox()
+  const rest = omit(props, 'children', 'virtual', 'renderItem')
+  const options = untrack(() => props.virtual)!
+  const render = untrack(() => props.renderItem) ?? ((item: Option) => item.label)
+  if (context.popupInput)
+    // eslint-disable-next-line solid/reactivity -- The registry retains this ID getter for the viewport lifetime.
+    onCleanup(context.registerListId(() => (typeof props.id === 'string' ? props.id : undefined)))
+  const index = createMemo(
+    () => new Map(context.engine().state.items.map((item, position) => [item.value, position]))
+  )
+  const byValue = createMemo(
+    () => new Map(context.engine().state.items.map((item) => [item.value, item]))
+  )
+  // The virtualizer calls this outside tracking scopes, so it closes over one snapshot.
+  const getKey = createMemo(() => {
+    const items = context.engine().state.items
+    return (position: number) => items[position]?.value ?? position
+  })
+  function Bind(): JSX.Element {
+    const handle = useVirtualList()
+    context.setVirtual({ handle, index: (value) => index().get(value) ?? -1 })
+    onCleanup(() => context.setVirtual(undefined))
+    return undefined
+  }
+  function Row(row: { item: VirtualItem }): JSX.Element {
+    const value = String(untrack(() => row.item.key))
+    const item = untrack(() => byValue().get(value)) ?? { value, label: value }
+    return (
+      <VirtualList.Item
+        item={row.item}
+        {...spread(context.engine().parts.item(value), {
+          id: context.optionId(value),
+          'aria-setsize': String(context.engine().state.items.length),
+          'aria-posinset': String((index().get(value) ?? 0) + 1),
+        })}
+      >
+        {render(item)}
+      </VirtualList.Item>
+    )
+  }
+  return (
+    <VirtualList
+      data-part="viewport"
+      data-state={context.source.open() ? 'open' : 'closed'}
+      id={context.popupInput ? context.listId() : undefined}
+      role={context.popupInput ? 'listbox' : undefined}
+      aria-label={context.popupInput ? 'Suggestions' : undefined}
+      {...rest}
+      {...options}
+      count={context.engine().state.items.length}
+      getKey={getKey()}
+    >
+      <Bind />
+      <VirtualList.Viewport>{(item: VirtualItem) => <Row item={item} />}</VirtualList.Viewport>
+    </VirtualList>
   )
 }
 
