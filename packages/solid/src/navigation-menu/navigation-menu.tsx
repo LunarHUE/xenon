@@ -297,7 +297,7 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
     <Host
       ref={(el: HTMLElement) => {
         setRoot(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...spread(result().parts.root, { 'aria-label': 'Main navigation', ...rest })}
     >
@@ -410,7 +410,7 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
     <Host
       ref={(el: HTMLElement) => {
         entry.element = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...spread(part(), rest)}
     >
@@ -515,7 +515,7 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
     <Host
       ref={(el: HTMLElement) => {
         context.setPanel(item()!, el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...spread(
         {
@@ -647,7 +647,7 @@ export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): 
       {...rest}
       ref={(el) => {
         setElement(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       popover="manual"
       hidden={!open()}
@@ -702,7 +702,7 @@ export function NavigationMenuArrow(props: HostProps<'div'>): JSX.Element {
     <Host
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       {...positioner.arrowProps()}
       {...rest}

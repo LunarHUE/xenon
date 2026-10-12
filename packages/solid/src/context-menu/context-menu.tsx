@@ -138,7 +138,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       {...spread(part(), { tabindex: 0, ...rest, id: entry.id() })}
       ref={(element: HTMLElement) => {
         entry.element = element
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
     >
       {children()}

@@ -321,7 +321,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
       })}
       ref={(el) => {
         root = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {content()}
@@ -344,7 +344,7 @@ function SliderControl(props: SliderPartProps): JSX.Element {
       )}
       ref={(el) => {
         context.setControl(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       style={mergeStyle(props.style, { position: 'relative', 'touch-action': 'none' })}
     >
@@ -506,7 +506,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
       {...bindings()}
       ref={(el) => {
         input = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )

@@ -314,7 +314,7 @@ function createItem<T extends ValidComponent>(
       {...spread(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.el = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}

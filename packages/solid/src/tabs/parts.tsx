@@ -80,7 +80,7 @@ export function TabsList<T extends ValidComponent = 'div'>(props: TabsListProps<
   const context = useTabs('Tabs.List')
 
   const content = createMemo(() => (props as { children?: JSX.Element }).children)
-  const ref = (node: HTMLElement) => setRef(own.ref, node)
+  const ref = (node: HTMLElement) => setRef(() => own.ref, node)
 
   const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
@@ -111,7 +111,7 @@ export function TabsTab<T extends ValidComponent = 'button'>(props: TabsTabProps
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   if (isServer) context.register(entry)
@@ -153,7 +153,7 @@ export function TabsPanel<T extends ValidComponent = 'div'>(props: TabsPanelProp
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {

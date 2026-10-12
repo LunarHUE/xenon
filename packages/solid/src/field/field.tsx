@@ -190,7 +190,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)

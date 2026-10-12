@@ -139,7 +139,7 @@ function HoverCardRoot<T extends ValidComponent = 'div', Payload = unknown>(
     contexts.set(root, context)
     createEffect(
       () => [props.disabled, props.openDelay, props.closeDelay],
-      () => intent.refresh()
+      () => untrack(() => intent.refresh())
     )
     onCleanup(() => {
       intent.dispose()
@@ -276,7 +276,7 @@ export function HoverCardTrigger<T extends ValidComponent = 'a', Payload = unkno
       {...attributes()}
       ref={(element: HTMLElement) => {
         entry.element = element
-        setRef(props.ref, element)
+        setRef(() => props.ref, element)
       }}
     >
       {props.children}

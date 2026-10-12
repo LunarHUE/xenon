@@ -155,7 +155,7 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {

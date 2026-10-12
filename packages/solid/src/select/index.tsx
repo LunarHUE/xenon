@@ -338,7 +338,7 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       {...spread(part(), rest)}
       ref={(el: HTMLElement) => {
         context.setTrigger(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}
@@ -427,7 +427,7 @@ export function SelectContent<T extends ValidComponent = 'div'>(
       ref={(el: HTMLElement) => {
         context.setContent(el)
         context.life.ref(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {own.children}
@@ -469,7 +469,7 @@ export function SelectArrow(props: ComponentProps<'div'>): JSX.Element {
       {...positioning.arrowProps()}
       ref={(el) => {
         positioning.setArrow(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       aria-hidden="true"
     />

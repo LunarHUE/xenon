@@ -262,7 +262,7 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
       ref={(element: HTMLElement) => {
         trigger.element = element
         entry.menu.setTrigger(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
     >
       {children()}

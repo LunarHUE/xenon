@@ -204,7 +204,7 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {
@@ -250,7 +250,7 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => context.register(entry))

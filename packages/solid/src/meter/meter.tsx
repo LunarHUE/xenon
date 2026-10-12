@@ -53,7 +53,7 @@ export function Meter<T extends ValidComponent = 'meter'>(props: MeterProps<T>):
     <Host
       ref={(node: HTMLElement) => {
         element = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(result().parts.root, { ...rest })}
     >

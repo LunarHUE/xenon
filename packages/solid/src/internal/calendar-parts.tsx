@@ -281,7 +281,7 @@ export function CalendarDay<T = unknown, As extends ValidComponent = 'button'>(
     <Button
       ref={(element: HTMLElement) => {
         entry.element = element
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       {...spread(part(), rest)}
     >

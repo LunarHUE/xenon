@@ -509,7 +509,7 @@ export function PopoverTrigger<T extends ValidComponent = 'button', Payload = un
     <Button
       ref={(el: HTMLElement) => {
         entry.element = el
-        setRef((props as { ref?: unknown }).ref, el)
+        setRef(() => (props as { ref?: unknown }).ref, el)
       }}
       {...buttonProps(part(), { ...rest })}
     >
@@ -713,7 +713,7 @@ function createPositionerView(
       <div
         ref={(el) => {
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
         {...rest}
         popover="manual"
@@ -783,7 +783,7 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
     <Host
       ref={(el: HTMLElement) => {
         context.setContent(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...attributes()}
     >
@@ -821,7 +821,7 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
     <Host
       ref={(el: HTMLElement) => {
         context.setAnchor(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...rest}
     >
@@ -863,7 +863,7 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
     <Host
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
       {...positioner.arrowProps()}
       {...rest}

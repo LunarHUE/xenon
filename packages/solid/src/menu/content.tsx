@@ -236,7 +236,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
         data-state={context.open() ? 'open' : 'closed'}
         ref={(el) => {
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
       >
         {children()}
@@ -340,7 +340,7 @@ export function MenuContent<T extends ValidComponent = 'div'>(
       {...spread(part(), { ...rest, id: own.id ?? id })}
       ref={(el: HTMLElement) => {
         context.setContent(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}
@@ -377,7 +377,7 @@ export function MenuArrow(props: MenuArrowProps): JSX.Element {
       {...rest}
       ref={(element) => {
         positioner.setArrow(element)
-        setRef(props.ref, element)
+        setRef(() => props.ref, element)
       }}
     >
       {children()}

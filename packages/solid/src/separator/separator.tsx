@@ -49,7 +49,7 @@ export function Separator<T extends ValidComponent = 'hr'>(props: SeparatorProps
     })
   )
 
-  const ref = (node: HTMLElement) => setRef(own.ref, node)
+  const ref = (node: HTMLElement) => setRef(() => own.ref, node)
 
   const Host = dynamic(() => (own.as ?? 'hr') as ValidComponent)
   return <Host ref={ref} {...spread(result().parts.root, { ...rest })} />

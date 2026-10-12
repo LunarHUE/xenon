@@ -177,14 +177,10 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
   })
   createEffect(
     () => [booleanAttribute(props.disabled), behavior()],
-    () => context.intent.refresh()
+    () => untrack(() => context.intent.refresh())
   )
   createEffect(open, (visible) => {
-    if (visible)
-      group.claim(
-        identity,
-        untrack(() => () => change(false))
-      )
+    if (visible) group.claim(identity, () => untrack(() => change(false)))
     else group.release(identity)
   })
   onCleanup(() => {
@@ -224,7 +220,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         {...rest}
         ref={(node: HTMLElement) => {
           rootElement = node
-          setRef((props as { ref?: unknown }).ref, node)
+          setRef(() => (props as { ref?: unknown }).ref, node)
         }}
         open={open()}
         onOpenChange={change}
@@ -366,7 +362,7 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
       ref={(node: HTMLElement) => {
         entry.element = node
         entries.set(node, entry)
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
     >
       {own.children}

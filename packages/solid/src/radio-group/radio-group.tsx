@@ -176,7 +176,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   /** Use the first registered native radio or mirror, including a null form owner. */

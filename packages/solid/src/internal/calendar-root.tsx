@@ -273,7 +273,7 @@ export function createCalendarRoot(
     <Host
       ref={(node: HTMLElement) => {
         element = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(
         {

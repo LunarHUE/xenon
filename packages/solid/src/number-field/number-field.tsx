@@ -150,7 +150,7 @@ function NumberFieldRoot(props: NumberFieldProps): JSX.Element {
       })
     )
       return
-    const text = draft()
+    const text = untrack(draft)
     if (text === undefined) return
     // Interpret the draft with its original locale and tokens before changing display.
     // Formatting alone must not commit it or replace it with the older numeric value.
@@ -240,7 +240,7 @@ function NumberFieldInput(props: NumberFieldInputProps): JSX.Element {
       {...bindings()}
       ref={(el) => {
         context.setInput(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )

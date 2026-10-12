@@ -177,7 +177,7 @@ export function SelectionPopup(props: SelectionPopupProps): JSX.Element {
         data-state={context.open() ? 'open' : 'closed'}
         ref={(el) => {
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
       >
         {children()}

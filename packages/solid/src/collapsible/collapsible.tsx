@@ -150,7 +150,7 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
   const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
     <Host
-      ref={(node: HTMLElement) => setRef(own.ref, node)}
+      ref={(node: HTMLElement) => setRef(() => own.ref, node)}
       {...spread(result().parts.root, { ...rest })}
     >
       {inner()}
@@ -187,7 +187,7 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
   const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
   return (
     <Host
-      ref={(node: HTMLElement) => setRef(own.ref, node)}
+      ref={(node: HTMLElement) => setRef(() => own.ref, node)}
       {...spread(
         disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
         { ...rest, id: own.id ?? context.trigger().attrs.id }
@@ -222,7 +222,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     el = node
     context.contentRef(node)
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   createEffect(

@@ -139,7 +139,7 @@ export function AccordionItem<T extends ValidComponent = 'div'>(
   const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
     <Host
-      ref={(node: HTMLElement) => setRef(own.ref, node)}
+      ref={(node: HTMLElement) => setRef(() => own.ref, node)}
       {...spread(context.item(entry), { ...rest })}
     >
       {inner()}
@@ -170,7 +170,7 @@ export function AccordionTrigger<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     context.entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
@@ -203,7 +203,7 @@ export function AccordionPanel<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     el = node
     context.panelRef(node)
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   createEffect(

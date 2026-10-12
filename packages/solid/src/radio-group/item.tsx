@@ -95,7 +95,7 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
   const ref = (node: HTMLElement) => {
     entry.el = node
     if (node instanceof HTMLInputElement) entry.input = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const mirrorRef = (node: HTMLInputElement) => {

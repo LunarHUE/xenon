@@ -83,7 +83,7 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
       {...props}
       ref={(el: HTMLElement) => {
         setElement(el)
-        setRef((props as { ref?: unknown }).ref, el)
+        setRef(() => (props as { ref?: unknown }).ref, el)
       }}
     />
   )

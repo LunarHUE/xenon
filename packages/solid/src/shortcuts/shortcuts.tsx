@@ -215,7 +215,7 @@ export function ShortcutScope(props: ShortcutScopeProps): JSX.Element {
     <div
       ref={(node) => {
         element = node
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
       {...rest}
     >

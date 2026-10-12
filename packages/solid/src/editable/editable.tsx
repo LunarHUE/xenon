@@ -277,7 +277,7 @@ export function EditablePreview(props: EditablePreviewProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         context.preview = node
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
     >
       {props.children ?? (context.result().state.value || context.props.placeholder || 'Edit')}
@@ -343,7 +343,8 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
   })
   const ref = (node: HTMLInputElement | HTMLTextAreaElement) => {
     context.input = node
-    setRef(props.ref, node)
+    // eslint-disable-next-line solid/reactivity -- setRef reads the ref untracked
+    setRef(() => props.ref, node)
   }
   const Host = dynamic(() => props.as ?? 'input')
   return (

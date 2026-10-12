@@ -414,7 +414,7 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
     <Host
       ref={(host: HTMLElement) => {
         element = host
-        setRef(own.ref, host)
+        setRef(() => own.ref, host)
       }}
       {...spread({ attrs: { role: 'region', tabindex: -1 }, on: { keydown } }, rest)}
       aria-label={label()}

@@ -45,7 +45,7 @@ export function Progress<T extends ValidComponent = 'div'>(props: ProgressProps<
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   createEffect(

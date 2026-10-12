@@ -477,7 +477,7 @@ export function DialogTrigger<T extends ValidComponent = 'button', Payload = unk
       {...buttonProps(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.element = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {(props as { children?: JSX.Element }).children}
@@ -564,7 +564,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
       {...attributes()}
       ref={(el) => {
         context.setContent(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {props.children}
@@ -726,7 +726,7 @@ function DialogHost(
         ref={(el) => {
           if (!viewport) context.setContent(el)
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
         {...attributes()}
         style={

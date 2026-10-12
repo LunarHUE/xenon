@@ -115,7 +115,7 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
   const ref = (node: HTMLLabelElement) => {
     if (previous === node) return
     previous = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const Host = dynamic(() => 'label')
@@ -154,7 +154,7 @@ export function FieldDescription<T extends ValidComponent = 'p'>(
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const Host = dynamic(() => (own.as ?? 'p') as ValidComponent)
@@ -189,7 +189,7 @@ export function FieldError<T extends ValidComponent = 'p'>(props: FieldErrorProp
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   const Host = dynamic(() => (own.as ?? 'p') as ValidComponent)
@@ -292,7 +292,7 @@ export function FieldControl<T extends ValidComponent = 'input'>(
   const ref = (node: HTMLElement) => {
     if (previous === node) return
     previous = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {

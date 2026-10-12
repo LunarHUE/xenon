@@ -302,7 +302,7 @@ export function ScrollAreaViewport<T extends ValidComponent = 'div'>(
       id={id()}
       ref={(element: HTMLElement) => {
         ctx.setViewport(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles(
         { overflow: 'auto', 'scrollbar-width': ctx.hideNative() ? 'none' : undefined },
@@ -333,7 +333,7 @@ export function ScrollAreaContent<T extends ValidComponent = 'div'>(
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setContent(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
     >
       {own.children}
@@ -486,7 +486,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       )}
       ref={(element: HTMLElement) => {
         setTrack(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles(
         {
@@ -534,7 +534,7 @@ export function ScrollAreaThumb<T extends ValidComponent = 'div'>(
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setThumb(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles({ position: 'absolute', left: '0', top: '0', ...style() }, own.style)}
     >

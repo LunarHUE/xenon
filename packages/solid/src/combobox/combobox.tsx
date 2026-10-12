@@ -449,7 +449,7 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
       {...spread(part(), attributes())}
       ref={(el) => {
         context.setInput(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )
@@ -495,7 +495,7 @@ function ComboboxContent(props: ComboboxContentProps): JSX.Element {
       ref={(el) => {
         context.setContent(el)
         context.source.life.ref(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {props.children === undefined ? (
@@ -618,7 +618,7 @@ function ComboboxTrigger(props: ComboboxTriggerProps): JSX.Element {
       )}
       ref={(el) => {
         context.setTrigger(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {props.children}
@@ -646,7 +646,7 @@ function ComboboxArrow(props: ComponentProps<'div'>): JSX.Element {
       {...rest}
       ref={(el) => {
         positioning.setArrow(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )

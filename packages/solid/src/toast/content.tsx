@@ -256,7 +256,7 @@ export function ToastContent<T extends ValidComponent = 'div', Data = unknown>(
       ref={(host: HTMLElement) => {
         element = host
         presence.ref(host)
-        setRef(own.ref, host)
+        setRef(() => own.ref, host)
       }}
       {...spread(
         {

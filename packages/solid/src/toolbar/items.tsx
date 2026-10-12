@@ -104,7 +104,7 @@ export function ToolbarButton<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -135,7 +135,7 @@ export function ToolbarLink(props: ToolbarLinkProps): JSX.Element {
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -198,7 +198,7 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
     on: {},
   })
 
-  const ref = (node: HTMLElement) => setRef(own.ref, node)
+  const ref = (node: HTMLElement) => setRef(() => own.ref, node)
 
   const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (

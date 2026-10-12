@@ -219,7 +219,7 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
     <Host
       ref={(node: HTMLElement) => {
         host = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(engine().parts.root, { ...rest })}
     >
@@ -267,7 +267,7 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
     <Host
       ref={(node: HTMLElement) => {
         entry.el = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(part(), { ...rest })}
     >

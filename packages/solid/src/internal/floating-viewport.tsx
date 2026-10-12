@@ -96,7 +96,7 @@ export function FloatingViewport(props: FloatingViewportProps): JSX.Element {
       {...rest}
       ref={(el) => {
         viewport = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       <div
