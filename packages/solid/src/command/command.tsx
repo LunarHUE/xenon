@@ -21,6 +21,8 @@ import { booleanAttribute, setRef } from '../internal/host'
 import { createShortcut } from '../shortcuts/shortcuts'
 import type { ShortcutHandle } from '../shortcuts/shortcuts'
 import { spread } from '../spread'
+import { VirtualList, useVirtualList } from '../virtual-list/virtual-list'
+import type { VirtualItem, VirtualOptions, VirtualizerHandle } from '../virtual-list/virtual-list'
 import { VisuallyHidden } from '../visually-hidden'
 
 /** Passed to an item's onSelect. Cancel it to keep Command.Dialog open. */
@@ -67,6 +69,11 @@ export interface CommandRootOwn extends Pick<CommandOptions, 'shouldFilter' | 'f
   announce?: false | ((count: number, query: string) => string)
   /** Milliseconds to wait for typing to settle before announcing. Defaults to 500. */
   announceDelay?: number
+  /**
+   * Runs for every chosen item, after the item's own onSelect. Data-driven and
+   * virtualized lists, which render no Command.Item, handle selection here.
+   */
+  onSelect?: (value: string, event: CommandSelectEvent) => void
 }
 /** Polymorphic root host; defaults to div. */
 export type CommandRootProps<T extends ValidComponent = 'div'> = Omit<
@@ -120,6 +127,15 @@ interface Internal extends CommandContextValue {
   root: Accessor<HTMLElement | undefined>
   addLoading(): () => void
   loading: Accessor<boolean>
+  /** Virtualized list, when Command.List renders one. */
+  virtual: Accessor<VirtualBinding | undefined>
+  setVirtual(binding: VirtualBinding | undefined): void
+}
+
+/** A virtualized Command.List and the row index of each item value. */
+interface VirtualBinding {
+  handle: VirtualizerHandle
+  index(value: string): number
 }
 
 const Context = createContext<Internal | null>(null)
@@ -194,7 +210,8 @@ export function CommandRoot<T extends ValidComponent = 'div'>(
     'defaultPages',
     'onPagesChange',
     'announce',
-    'announceDelay'
+    'announceDelay',
+    'onSelect'
   )
   const base = untrack(() => own.id) ?? `xenon-command-${createUniqueId()}`
   const [internalQuery, setInternalQuery] = createSignal(untrack(() => own.defaultQuery ?? ''))
@@ -205,6 +222,9 @@ export function CommandRoot<T extends ValidComponent = 'div'>(
   const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   const [loadingCount, setLoadingCount] = createSignal(0, { ownedWrite: true })
   const [root, setRoot] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
+  const [virtual, setVirtual] = createSignal<VirtualBinding | undefined>(undefined, {
+    ownedWrite: true,
+  })
   let registered: Entry[] = []
   const query = () => own.query ?? internalQuery()
   const pages = () => own.pages ?? internalPages()
@@ -268,13 +288,20 @@ export function CommandRoot<T extends ValidComponent = 'div'>(
     }
     const before = untrack(pages)
     entry?.onSelect?.(value, event)
+    own.onSelect?.(value, event)
     bridge?.selected(event, untrack(pages) !== before)
   }
-  // Keep the highlight in view, including after the list scrolls under virtualization.
+  // Keep the highlight in view. A virtual list scrolls by index, which also mounts the row.
   createEffect(
     () => engine().state.activeValue,
     (value) => {
       if (value === undefined) return
+      const list = untrack(virtual)
+      if (list) {
+        const index = untrack(() => list.index(value))
+        if (index >= 0) list.handle.scrollToIndex(index)
+        return
+      }
       untrack(root)
         ?.ownerDocument.getElementById(getCommandItemId(base, value))
         ?.scrollIntoView?.({ block: 'nearest' })
@@ -317,6 +344,8 @@ export function CommandRoot<T extends ValidComponent = 'div'>(
     setInput: (el) => bridge?.setInput(el),
     releaseInput: (el) => bridge?.releaseInput(el),
     loading: () => loadingCount() > 0,
+    virtual,
+    setVirtual: (binding) => setVirtual(() => binding),
     addLoading() {
       setLoadingCount((count) => count + 1)
       return () => setLoadingCount((count) => count - 1)
@@ -392,11 +421,22 @@ export function CommandInput(props: CommandInputProps): JSX.Element {
   const rest = omit(props as Record<string, unknown>, 'ref')
   let element: HTMLInputElement | undefined
   onCleanup(() => element && context.releaseInput(element))
+  /** Under virtualization the highlighted row may be scrolled out and unmounted. */
+  const mounted = () => {
+    const list = context.virtual()
+    const active = context.activeValue()
+    return !list || active === undefined || list.handle.isRendered(list.index(active))
+  }
   const part = (): PartProps<'input'> => {
     const core = context.engine().parts.input
     return {
       ...core,
-      attrs: { ...core.attrs, type: 'text', 'aria-busy': context.loading() ? 'true' : undefined },
+      attrs: {
+        ...core.attrs,
+        type: 'text',
+        'aria-busy': context.loading() ? 'true' : undefined,
+        'aria-activedescendant': mounted() ? core.attrs['aria-activedescendant'] : undefined,
+      },
       on: {
         ...core.on,
         input(event) {
@@ -425,11 +465,28 @@ export type CommandListChildren = JSX.Element | ((items: readonly CommandItem[])
 export type CommandListProps = Omit<ComponentProps<'div'>, 'children'> & {
   /** Items, groups and status parts, or a callback receiving the visible items. */
   children?: CommandListChildren
+  /**
+   * Render only the options in view; the list becomes the scroll container. Needs
+   * the root's `items` and `renderItem`. Read once. Handle selection with the root's onSelect.
+   */
+  virtual?: VirtualOptions
+  /** With `virtual`, renders the contents of one item's option. */
+  renderItem?: (item: CommandItem) => JSX.Element
+  /** With `virtual`, a sticky heading row rendered before each group's first item. */
+  groupHeading?: (group: string) => JSX.Element
 }
 /** Listbox holding groups and items. A function child receives the visible items in order. */
 export function CommandList(props: CommandListProps): JSX.Element {
+  // eslint-disable-next-line solid/components-return-once -- virtual is read once.
+  if (untrack(() => props.virtual)) return <VirtualCommandList {...props} />
   const context = useInternal('Command.List')
-  const rest = omit(props as Record<string, unknown>, 'children')
+  const rest = omit(
+    props as Record<string, unknown>,
+    'children',
+    'virtual',
+    'groupHeading',
+    'renderItem'
+  )
   const items = createProjection<CommandItem[]>(() => [...context.engine().state.items], [], {
     key: 'value',
   })
@@ -447,6 +504,112 @@ export function CommandList(props: CommandListProps): JSX.Element {
     >
       {children()}
     </div>
+  )
+}
+
+/** One virtual row: an option, or a group heading when `groupHeading` is set. */
+type Row = { kind: 'item'; value: string } | { kind: 'group'; value: string }
+const rowKey = (row: Row) => `${row.kind}:${row.value}`
+
+/** Command.List over a virtualizer. Rows are keyed by value, so filtering keeps them mounted. */
+function VirtualCommandList(props: CommandListProps): JSX.Element {
+  const context = useInternal('Command.List')
+  const rest = omit(
+    props as Record<string, unknown>,
+    'children',
+    'virtual',
+    'groupHeading',
+    'renderItem'
+  )
+  const options = untrack(() => props.virtual)!
+  const heading = untrack(() => props.groupHeading)
+  const render = untrack(() => props.renderItem) ?? ((item: CommandItem) => item.value)
+  const rows = createMemo(() => {
+    const out: Row[] = []
+    let group: string | undefined
+    for (const item of context.engine().state.items) {
+      if (heading && item.group !== undefined && item.group !== group)
+        out.push({ kind: 'group', value: item.group })
+      group = item.group
+      out.push({ kind: 'item', value: item.value })
+    }
+    return out
+  })
+  const lookup = createMemo(() => {
+    const index = new Map<string, number>()
+    const ordinal = new Map<string, number>()
+    rows().forEach((row, position) => {
+      if (row.kind !== 'item') return
+      index.set(row.value, position)
+      ordinal.set(row.value, ordinal.size + 1)
+    })
+    return { index, ordinal }
+  })
+  // The virtualizer calls these outside tracking scopes, so each closes over one snapshot
+  // and a new function stands for new rows.
+  const getKey = createMemo(() => {
+    const staticRows = rows()
+    return (index: number) => rowKey(staticRows[index]!)
+  })
+  const sticky = createMemo(() => {
+    const staticRows = rows()
+    return heading ? (index: number) => staticRows[index]?.kind === 'group' : undefined
+  })
+  const data = createMemo(
+    () => new Map(context.engine().state.items.map((item) => [item.value, item]))
+  )
+  function Bind(): JSX.Element {
+    const handle = useVirtualList()
+    context.setVirtual({ handle, index: (value) => lookup().index.get(value) ?? -1 })
+    onCleanup(() => context.setVirtual(undefined))
+    return undefined
+  }
+  function Line(line: { item: VirtualItem }): JSX.Element {
+    const key = String(untrack(() => line.item.key))
+    const kind = key.slice(0, key.indexOf(':'))
+    const value = key.slice(kind.length + 1)
+    // A row's key, and so its kind, is fixed for its lifetime.
+    if (kind === 'group')
+      // eslint-disable-next-line solid/components-return-once
+      return (
+        <VirtualList.Item
+          item={line.item}
+          data-part="group-heading"
+          role="presentation"
+          aria-setsize={undefined}
+          aria-posinset={undefined}
+        >
+          {heading!(value)}
+        </VirtualList.Item>
+      )
+    const item = untrack(() => data().get(value)) ?? { value }
+    return (
+      <VirtualList.Item
+        item={line.item}
+        {...spread(context.engine().parts.item(value), {
+          'aria-setsize': String(context.engine().state.count),
+          'aria-posinset': String(lookup().ordinal.get(value) ?? 0),
+        })}
+      >
+        {render(item)}
+      </VirtualList.Item>
+    )
+  }
+  return (
+    <VirtualList
+      {...spread(context.engine().parts.list, {
+        'aria-label': 'Commands',
+        'aria-busy': context.loading() ? 'true' : undefined,
+        ...rest,
+      })}
+      {...options}
+      count={rows().length}
+      getKey={getKey()}
+      sticky={sticky()}
+    >
+      <Bind />
+      <VirtualList.Viewport>{(item: VirtualItem) => <Line item={item} />}</VirtualList.Viewport>
+    </VirtualList>
   )
 }
 
