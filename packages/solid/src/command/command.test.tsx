@@ -300,6 +300,9 @@ describe('Command', () => {
     flush()
     const status = document.querySelector('[data-part="announcer"]')!
     expect(status).toHaveAttribute('aria-live', 'polite')
+    // Items registering after mount are not a search result.
+    vi.advanceTimersByTime(1000)
+    flush()
     expect(status).toHaveTextContent('')
     type(input(), 'z')
     type(input(), 'zo')
