@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.1 — 2026-10-12
+
+Moves to `solid-js` and `@solidjs/web` 2.0.0-rc.14, which is now the minimum
+peer version. Core and DOM stay at 0.2.0.
+
+- Core event listeners now reach the DOM again. rc.14 only binds `on*` props
+  whose third letter is uppercase and renders `onkeydown` as an attribute, so
+  `spread` now emits `onKeydown`, `onFocus` and so on. Author handlers can
+  still use any casing.
+- Hosts are built with a hoisted `dynamic()` in place of the deprecated
+  `<Dynamic>`. Under rc.14, `<Dynamic>` rebuilt its element whenever a
+  sibling registered during the first render. Menubar and HoverCard triggers
+  created three buttons on mount and passed two detached ones to the author's
+  ref. Each host is now created once.
+- Removes the rc.14 `STRICT_READ_UNTRACKED` dev warnings. Refs, Tooltip and
+  HoverCard intent refreshes, Tooltip group closing and NumberField draft
+  reformatting read their values untracked on purpose, and now say so.
+
 ## 0.2.0 — 2026-10-11
 
 Adds keyboard shortcuts and the PinInput options a device-authorization code
