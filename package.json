@@ -29,9 +29,10 @@
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "pack": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts --pack",
-    "verify:packages": "turbo run build --filter=./packages/* && node scripts/verify-package.mjs packages/core/dist && node scripts/verify-package.mjs packages/dom/dist && node scripts/verify-package.mjs packages/solid/dist",
-    "publish:packages": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts"
+    "pack": "turbo run build --filter=./packages/* --force && bun scripts/publish-packages.ts --pack",
+    "verify:packages": "turbo run build --filter=./packages/* --force && node scripts/verify-package.mjs packages/core/dist && node scripts/verify-package.mjs packages/dom/dist && node scripts/verify-package.mjs packages/solid/dist",
+    "publish:packages": "turbo run build --filter=./packages/* --force && bun scripts/publish-packages.ts",
+    "check:packages": "turbo run build --filter=./packages/* --force && node scripts/check-packages.mjs"
   },
   "devDependencies": {
     "prettier": "^3.9.6",

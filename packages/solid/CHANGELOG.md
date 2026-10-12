@@ -1,9 +1,23 @@
 # Changelog
 
-## 0.3.0 — 2026-10-12
+## 0.2.3 — 2026-10-12
 
-Adds a command palette and a virtual list. `@xenon-ui/core` and `@xenon-ui/dom`
-move to 0.3.0 with them, and this package now depends on `^0.3.0` of both.
+Adds a command palette and a virtual list, and packages them so they can be
+imported. Use with `@xenon-ui/core` 0.2.2 and `@xenon-ui/dom` 0.2.1; this
+package now depends on `^0.2.2` and `^0.2.1`.
+
+### Packaging
+
+- 0.2.2 shipped the `command` and `virtual-list` modules, but its `exports` had
+  no `./command` or `./virtual-list` entry, so neither could be imported. A
+  turbo cache hit had restored the 0.2.2 build over a newer `dist/` without
+  deleting the newer files. 0.2.2 is deprecated.
+- `@xenon-ui/dom` 0.2.1 adds `./virtualizer`, which the virtual list imports.
+  0.2.2 accepted any `^0.2.0` dom, and none of those had it.
+- Release builds now always run without the turbo cache. A new check installs
+  each packed tarball into a scratch project and imports every subpath. It
+  also resolves cross-package imports and rejects stale files, and it fails
+  if a version already on npm would change. It runs in CI.
 
 ### Command (`@xenon-ui/solid/command`)
 
