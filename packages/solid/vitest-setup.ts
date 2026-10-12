@@ -18,6 +18,7 @@ const forbidden = new Set([
   'REACTIVE_WRITE_IN_OWNED_SCOPE',
   'STRICT_READ_UNTRACKED',
   'FLUSH_IN_EFFECT_CALLBACK',
+  'LOWERCASE_EVENT_ATTRIBUTE',
 ])
 let capture: ReturnType<NonNullable<typeof OBSERVE>['diagnostics']['capture']> | undefined
 beforeEach(() => {
