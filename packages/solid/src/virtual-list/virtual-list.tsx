@@ -37,6 +37,12 @@ export interface CreateVirtualizerOptions extends VirtualizerOptions {
   onFollowChange?: (following: boolean) => void
 }
 
+/** Row sizing options for components that virtualize their list through a `virtual` prop. */
+export type VirtualOptions = Pick<
+  CreateVirtualizerOptions,
+  'size' | 'estimateSize' | 'overscan' | 'paddingStart' | 'paddingEnd' | 'gap'
+>
+
 /** Reactive virtual list state and scroll commands. */
 export interface VirtualizerHandle {
   /** Rows to render, reconciled by key: scrolling keeps surviving rows and only updates changed fields. */
@@ -223,6 +229,8 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
 export interface VirtualListContextValue extends VirtualizerHandle {
   /** Rendered scroll container. */
   root(): HTMLElement | undefined
+  /** Whether the root holds focus for a row that scrolled out. Ignore root focus events then. */
+  holding(): boolean
 }
 /** Row focus to restore: the row key and the focused descendant's position, -1 for the row itself. */
 interface FocusMemory {
@@ -368,7 +376,7 @@ export function VirtualListRoot<T extends ValidComponent = 'div'>(
     path: row === target ? -1 : [...row.querySelectorAll('*')].indexOf(target),
   })
   const value: ContextValue = {
-    list: { ...handle, root: host },
+    list: { ...handle, root: host, holding },
     size: () => own.size,
     register(key, element) {
       rows.set(key, element)
@@ -388,8 +396,14 @@ export function VirtualListRoot<T extends ValidComponent = 'div'>(
       focused = undefined
       setRestore(memory)
       setHolding(true)
-      root.setAttribute('tabindex', '-1')
-      root.focus({ preventScroll: true })
+      const target = root
+      target.setAttribute('tabindex', '-1')
+      // Rows unmount inside the list's computation; focus handlers must not run there.
+      queueMicrotask(() => {
+        const active = target.ownerDocument.activeElement
+        if (target.isConnected && (!active || active === target.ownerDocument.body))
+          target.focus({ preventScroll: true })
+      })
     },
   }
   createEffect(

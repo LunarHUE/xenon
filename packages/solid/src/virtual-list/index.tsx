@@ -8,6 +8,7 @@ export {
 } from './virtual-list'
 export type {
   CreateVirtualizerOptions,
+  VirtualOptions,
   VirtualizerHandle,
   VirtualListContextValue,
   VirtualListProps,
