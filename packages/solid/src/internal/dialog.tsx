@@ -2,7 +2,7 @@ import { setRef } from './host'
 import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@xenon-ui/core'
 import { createDialogController } from '@xenon-ui/dom'
 import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@xenon-ui/dom'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -415,14 +415,11 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
       </ViewportContext>
     </DialogContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   const element = (
-    <Dynamic
-      component={own.as ?? 'div'}
-      ref={props.ref}
-      {...spread(result().parts.root, { ...rest })}
-    >
+    <Host ref={props.ref} {...spread(result().parts.root, { ...rest })}>
       {inner()}
-    </Dynamic>
+    </Host>
   )
   return associations ? associations.finish(element) : element
 }
@@ -779,9 +776,8 @@ export function DialogTitle<T extends ValidComponent = 'h2'>(
   const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref')
   onCleanup(context.register('title', () => ('id' in props ? own.id : context.id('title'))))
-  return (
-    <Dynamic component={own.as ?? 'h2'} ref={props.ref} {...{ id: context.id('title'), ...rest }} />
-  )
+  const Host = dynamic(() => own.as ?? 'h2')
+  return <Host ref={props.ref} {...{ id: context.id('title'), ...rest }} />
 }
 /**
  * Renders descriptive text and registers a live ID getter for content description.
@@ -799,13 +795,8 @@ export function DialogDescription<T extends ValidComponent = 'p'>(
   onCleanup(
     context.register('description', () => ('id' in props ? own.id : context.id('description')))
   )
-  return (
-    <Dynamic
-      component={own.as ?? 'p'}
-      ref={props.ref}
-      {...{ id: context.id('description'), ...rest }}
-    />
-  )
+  const Host = dynamic(() => own.as ?? 'p')
+  return <Host ref={props.ref} {...{ id: context.id('description'), ...rest }} />
 }
 
 /** Shared compound parts attached to Dialog, AlertDialog, and Drawer roots. */

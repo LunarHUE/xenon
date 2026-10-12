@@ -1,5 +1,5 @@
 import type { RadioItemHost, RadioValue } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, omit, onSettled } from 'solid-js'
 
@@ -129,10 +129,10 @@ export function RadioGroupItem<T extends ValidComponent = 'input'>(
 
   const mirrored = () => host() !== 'input' && context.name() !== undefined
 
+  const Host = dynamic(() => (own.as ?? 'input') as ValidComponent)
   return (
     <>
-      <Dynamic
-        component={(own.as ?? 'input') as ValidComponent}
+      <Host
         ref={ref}
         {...spread(
           composed.part(

@@ -1,5 +1,5 @@
 import type { PartProps } from '@xenon-ui/core'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createMemo, omit, onSettled, untrack } from 'solid-js'
 
@@ -118,12 +118,13 @@ export function FieldLabel(props: FieldLabelProps): JSX.Element {
     setRef(own.ref, node)
   }
 
+  const Host = dynamic(() => 'label')
   // Defer serialization until flat siblings register their author control IDs.
   // Keep the same memo allocation on both sides of hydration.
   const view = () => (
-    <Dynamic component="label" ref={ref} {...spread(part(), { ...rest })}>
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
   const element = createMemo(() => untrack(view), { lazy: true })
   // eslint-disable-next-line solid/reactivity
@@ -156,14 +157,11 @@ export function FieldDescription<T extends ValidComponent = 'p'>(
     setRef(own.ref, node)
   }
 
+  const Host = dynamic(() => (own.as ?? 'p') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'p') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -194,15 +192,12 @@ export function FieldError<T extends ValidComponent = 'p'>(props: FieldErrorProp
     setRef(own.ref, node)
   }
 
+  const Host = dynamic(() => (own.as ?? 'p') as ValidComponent)
   return (
     <Show when={context.invalid()}>
-      <Dynamic
-        component={(own.as ?? 'p') as ValidComponent}
-        ref={ref}
-        {...spread(part(), { ...rest })}
-      >
+      <Host ref={ref} {...spread(part(), { ...rest })}>
         {content()}
-      </Dynamic>
+      </Host>
     </Show>
   )
 }
@@ -304,14 +299,11 @@ export function FieldControl<T extends ValidComponent = 'input'>(
     if (booleanAttribute(own.autofocus)) previous?.focus()
   })
 
+  const Host = dynamic(() => (own.as ?? 'input') as ValidComponent)
   const view = () => (
-    <Dynamic
-      component={(own.as ?? 'input') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
   const element = createMemo(() => untrack(view), { lazy: true })
   // Resolving here would serialize before later sibling descriptions register on the server.

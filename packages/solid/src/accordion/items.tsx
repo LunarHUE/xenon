@@ -1,6 +1,6 @@
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -136,14 +136,14 @@ export function AccordionItem<T extends ValidComponent = 'div'>(
     </AccordionItemContext>
   ))
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
+    <Host
       ref={(node: HTMLElement) => setRef(own.ref, node)}
       {...spread(context.item(entry), { ...rest })}
     >
       {inner()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -173,9 +173,9 @@ export function AccordionTrigger<T extends ValidComponent = 'button'>(
     setRef(own.ref, node)
   }
 
+  const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'button') as ValidComponent}
+    <Host
       ref={ref}
       {...spread(
         disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
@@ -220,10 +220,10 @@ export function AccordionPanel<T extends ValidComponent = 'div'>(
     }
   )
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
     <Show when={context.present()}>
-      <Dynamic
-        component={(own.as ?? 'div') as ValidComponent}
+      <Host
         ref={ref}
         {...spread(context.panel(), { ...rest, id: own.id ?? context.panel().attrs.id })}
       />

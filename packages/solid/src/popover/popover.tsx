@@ -7,7 +7,7 @@ import type { Positioner, PositionerOptions } from '../positioning/positioning'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import type { FloatingLayerOptions } from '@xenon-ui/dom/floating-layer'
 import type { LayerPointerOutsideEvent } from '@xenon-ui/dom'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -413,14 +413,11 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
       })()}
     </PopoverContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   const element = (
-    <Dynamic
-      component={own.as ?? 'div'}
-      ref={props.ref}
-      {...spread(result().parts.root, { ...rest })}
-    >
+    <Host ref={props.ref} {...spread(result().parts.root, { ...rest })}>
       {inner()}
-    </Dynamic>
+    </Host>
   )
   // eslint-disable-next-line solid/components-return-once -- Server associations finalize one synchronous render.
   return associations ? associations.finish(element) : element
@@ -583,7 +580,10 @@ export function HoverPositioner(props: PopoverPositionerProps): JSX.Element {
   return createPositionerView(props, false)
 }
 /** Share hosting and geometry while keeping logical Tab routing a per-family policy. */
-function createPositionerView(props: PopoverPositionerProps, logicalTabOrder: boolean): JSX.Element {
+function createPositionerView(
+  props: PopoverPositionerProps,
+  logicalTabOrder: boolean
+): JSX.Element {
   const context = usePopover('Popover.Positioner')
   const rest = omit(
     props as Record<string, unknown>,
@@ -778,9 +778,9 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
       ...rest,
       id: own.id ?? context.id('content'),
     })
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(el: HTMLElement) => {
         context.setContent(el)
         setRef(own.ref, el)
@@ -788,7 +788,7 @@ export function PopoverContent<T extends ValidComponent = 'div'>(
       {...attributes()}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Explicit geometry-anchor host props. The registered anchor takes priority over the active trigger. */
@@ -816,9 +816,9 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
     children?: JSX.Element
   }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(el: HTMLElement) => {
         context.setAnchor(el)
         setRef(own.ref, el)
@@ -826,7 +826,7 @@ export function PopoverAnchor<T extends ValidComponent = 'div'>(
       {...rest}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /**
@@ -858,9 +858,9 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
     children?: JSX.Element
   }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
         setRef(own.ref, el)
@@ -869,7 +869,7 @@ export function PopoverArrow<T extends ValidComponent = 'div'>(
       {...rest}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /**
@@ -885,10 +885,11 @@ export function PopoverTitle<T extends ValidComponent = 'h2'>(
   const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref', 'children')
   onCleanup(context.register('title', () => ('id' in props ? own.id : context.id('title'))))
+  const Host = dynamic(() => own.as ?? 'h2')
   return (
-    <Dynamic component={own.as ?? 'h2'} ref={props.ref} {...{ id: context.id('title'), ...rest }}>
+    <Host ref={props.ref} {...{ id: context.id('title'), ...rest }}>
       {(props as { children?: JSX.Element }).children}
-    </Dynamic>
+    </Host>
   )
 }
 /**
@@ -906,14 +907,11 @@ export function PopoverDescription<T extends ValidComponent = 'p'>(
   onCleanup(
     context.register('description', () => ('id' in props ? own.id : context.id('description')))
   )
+  const Host = dynamic(() => own.as ?? 'p')
   return (
-    <Dynamic
-      component={own.as ?? 'p'}
-      ref={props.ref}
-      {...{ id: context.id('description'), ...rest }}
-    >
+    <Host ref={props.ref} {...{ id: context.id('description'), ...rest }}>
       {(props as { children?: JSX.Element }).children}
-    </Dynamic>
+    </Host>
   )
 }
 

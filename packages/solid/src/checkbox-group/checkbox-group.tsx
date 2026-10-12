@@ -1,7 +1,7 @@
 import type { CheckboxGroupOptions as CoreCheckboxGroupOptions } from '@xenon-ui/core'
 import { field, checkboxGroup } from '@xenon-ui/core'
 import type { PartProps } from '@xenon-ui/core'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, untrack } from 'solid-js'
 
@@ -246,14 +246,11 @@ function CheckboxGroupRoot<T extends ValidComponent = 'div'>(
     setRef(own.ref, node)
   }
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   const element = (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
   // eslint-disable-next-line solid/components-return-once -- server-only finalization; the environment never changes while mounted
   return associations ? associations.finish(element) : element

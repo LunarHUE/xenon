@@ -3,7 +3,7 @@ import { booleanAttribute, setRef } from '../internal/host'
 import type { AccordionOptions } from '@xenon-ui/core'
 import type { CompositeDirection } from '@xenon-ui/core'
 import { accordion } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
@@ -165,14 +165,11 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
     setAmbient(resolved === 'rtl' ? 'rtl' : 'ltr')
   })
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(engine().parts.root, { ...rest })}
-    >
+    <Host ref={ref} {...spread(engine().parts.root, { ...rest })}>
       {inner()}
-    </Dynamic>
+    </Host>
   )
 }
 

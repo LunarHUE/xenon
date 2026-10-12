@@ -1,6 +1,6 @@
 import { booleanAttribute, setRef } from '../internal/host'
 import type { MenubarOptions } from '@xenon-ui/core/menubar'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -156,11 +156,8 @@ export function MenubarRoot<T extends ValidComponent = 'div'>(props: MenubarProp
     'loop'
   )
   const children = createMemo(() => <BarContext value={bar}>{own.children}</BarContext>)
-  return (
-    <Dynamic component={own.as ?? 'div'} {...spread(engine().parts.root, { ...rest })}>
-      {children()}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'div')
+  return <Host {...spread(engine().parts.root, { ...rest })}>{children()}</Host>
 }
 /** One top-level menu's identity and shared Menu settings. */
 export interface MenubarMenuProps extends Omit<MenuProps, 'open' | 'defaultOpen' | 'children'> {
@@ -258,9 +255,9 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
     }
   }
   const children = createMemo(() => own.children)
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(element: HTMLElement) => {
         trigger.element = element
@@ -269,7 +266,7 @@ export function MenubarTrigger<T extends ValidComponent = 'button'>(
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Menu surface props; horizontal keys hand focus to adjacent top-level menus. */

@@ -3,7 +3,7 @@ import { booleanAttribute, setRef } from '../internal/host'
 import type { TabsOptions } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
 import { tabs } from '@xenon-ui/core'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
 
@@ -204,14 +204,11 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
     return () => observer.disconnect()
   })
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 

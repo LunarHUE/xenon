@@ -1,6 +1,6 @@
 import { listbox, getListboxItemId } from '@xenon-ui/core/listbox'
 import type { ListboxOptions as CoreListboxOptions, ListboxValue } from '@xenon-ui/core/listbox'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -214,9 +214,9 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
     return () => observer.disconnect()
   })
   const content = createMemo(() => <Context value={context}>{own.children}</Context>)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(node: HTMLElement) => {
         host = node
         setRef(own.ref, node)
@@ -224,7 +224,7 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
       {...spread(engine().parts.root, { ...rest })}
     >
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Registers an enabled-only option with the nearest Listbox. Throws without a root. */
@@ -262,9 +262,9 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
       },
     }
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(node: HTMLElement) => {
         entry.el = node
         setRef(own.ref, node)
@@ -272,7 +272,7 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
       {...spread(part(), { ...rest })}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Standalone listbox with single/multiple selection and compound options. */

@@ -1,6 +1,6 @@
 import { select } from '@xenon-ui/core/select'
 import type { SelectOptions as CoreSelectOptions } from '@xenon-ui/core/select'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   For,
@@ -332,9 +332,9 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
   // Preserve child hosts when a composed toolbar updates its roving tab stop
   // during pointer focus, so the pending native click keeps its original target.
   const children = createMemo(() => own.children)
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       {...spread(part(), rest)}
       ref={(el: HTMLElement) => {
         context.setTrigger(el)
@@ -342,7 +342,7 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Displayed selection; placeholder defaults to empty text. */
@@ -409,9 +409,9 @@ export function SelectContent<T extends ValidComponent = 'div'>(
           ?.scrollIntoView?.({ block: 'nearest' })
     }
   )
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(
         {
           ...context.engine().parts.content,
@@ -431,7 +431,7 @@ export function SelectContent<T extends ValidComponent = 'div'>(
       }}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Option identity must exist in the root metadata; children may contain custom presentation. */
@@ -451,10 +451,11 @@ export function SelectOption<T extends ValidComponent = 'div'>(
   onCleanup(
     context.registerOptionId(own.value, () => (typeof own.id === 'string' ? own.id : undefined))
   )
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic component={own.as ?? 'div'} {...spread(context.engine().parts.item(own.value), rest)}>
+    <Host {...spread(context.engine().parts.item(own.value), rest)}>
       {own.children ?? context.props.items.find((item) => item.value === own.value)?.label}
-    </Dynamic>
+    </Host>
   )
 }
 /** Decorative arrow sized and positioned by the shared positioning controller. */

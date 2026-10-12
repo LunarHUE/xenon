@@ -3,7 +3,7 @@ import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon-ui/cor
 import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon-ui/core/tooltip'
 import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
 import type { HoverIntent } from '@xenon-ui/dom/hover-intent'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -359,9 +359,9 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
   onCleanup(() => {
     if (entry.element) entries.delete(entry.element)
   })
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(node: HTMLElement) => {
         entry.element = node
@@ -370,7 +370,7 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
       }}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Positions the tooltip while allowing pointer input through a non-hoverable surface. */

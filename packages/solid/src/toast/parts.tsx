@@ -1,4 +1,4 @@
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { Show, createMemo, omit, onCleanup } from 'solid-js'
 import { Button } from '../button/button'
@@ -29,10 +29,11 @@ export function ToastTitle<T extends ValidComponent = 'div'>(
     )
   )
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'id')
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic component={own.as ?? 'div'} {...rest} id={id()}>
+    <Host {...rest} id={id()}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Registers the rendered description ID, with reactive record text as its default children. */
@@ -49,10 +50,11 @@ export function ToastDescription<T extends ValidComponent = 'div'>(
     )
   )
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'id')
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic component={own.as ?? 'div'} {...rest} id={id()}>
+    <Host {...rest} id={id()}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Action-button attributes with optional persistence after an accepted action. */

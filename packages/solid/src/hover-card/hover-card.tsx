@@ -1,7 +1,7 @@
 import { booleanAttribute, setRef } from '../internal/host'
 import { hoverCard } from '@xenon-ui/core/hover-card'
 import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -270,9 +270,9 @@ export function HoverCardTrigger<T extends ValidComponent = 'a', Payload = unkno
       { ...rest }
     )
   }
+  const Host = dynamic(() => props.as ?? 'a')
   return (
-    <Dynamic
-      component={props.as ?? 'a'}
+    <Host
       {...attributes()}
       ref={(element: HTMLElement) => {
         entry.element = element
@@ -280,7 +280,7 @@ export function HoverCardTrigger<T extends ValidComponent = 'a', Payload = unkno
       }}
     >
       {props.children}
-    </Dynamic>
+    </Host>
   )
 }
 

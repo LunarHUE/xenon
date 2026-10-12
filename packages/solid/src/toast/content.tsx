@@ -2,7 +2,7 @@ import { setRef } from '../internal/host'
 import { toast } from '@xenon-ui/core/toast'
 import { createToastSwipe } from '@xenon-ui/dom/toast'
 import type { ToastSwipeDirection } from '@xenon-ui/dom/toast'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createEffect,
@@ -250,9 +250,9 @@ export function ToastContent<T extends ValidComponent = 'div', Data = unknown>(
   const children = createMemo(() => (
     <ToastContentContext value={context}>{own.children}</ToastContentContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   const elementOutput = (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(host: HTMLElement) => {
         element = host
         presence.ref(host)
@@ -291,7 +291,7 @@ export function ToastContent<T extends ValidComponent = 'div', Data = unknown>(
       >
         {children()}
       </div>
-    </Dynamic>
+    </Host>
   )
   // eslint-disable-next-line solid/components-return-once -- Server associations finalize one synchronous render.
   return associations ? associations.finish(elementOutput) : elementOutput

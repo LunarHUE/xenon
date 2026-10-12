@@ -4,7 +4,7 @@ import { navigationMenu } from '@xenon-ui/core/navigation-menu'
 import type { AnyPart } from '@xenon-ui/core'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
 import type { FloatingLayerOptions } from '@xenon-ui/dom/floating-layer'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -27,7 +27,7 @@ import { FloatingViewport } from '../internal/floating-viewport'
 import type { FloatingViewportProps } from '../internal/floating-viewport'
 
 /** Polymorphic host attributes. Custom components must forward attributes and refs. */
-type Host<T extends ValidComponent> = Omit<ComponentProps<T>, 'as'> & {
+type HostProps<T extends ValidComponent> = Omit<ComponentProps<T>, 'as'> & {
   /** Host tag or forwarding component; defaults depend on the part. */
   as?: T
 }
@@ -43,7 +43,7 @@ type DismissPolicy = Pick<
 
 /** Root navigation policy. Null closes controlled selection; undefined selects uncontrolled state. */
 export type NavigationMenuProps<T extends ValidComponent = 'nav'> = Omit<
-  Host<T>,
+  HostProps<T>,
   'onValueChange' | 'defaultValue'
 > &
   DismissPolicy & {
@@ -292,9 +292,9 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
     'onFocusOutside'
   )
   const children = createMemo(() => <Context value={context}>{own.children}</Context>)
+  const Host = dynamic(() => own.as ?? 'nav')
   const element = (
-    <Dynamic
-      component={own.as ?? 'nav'}
+    <Host
       ref={(el: HTMLElement) => {
         setRoot(el)
         setRef(own.ref, el)
@@ -302,52 +302,51 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
       {...spread(result().parts.root, { 'aria-label': 'Main navigation', ...rest })}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
   // eslint-disable-next-line solid/components-return-once -- Server associations finalize one synchronous render.
   return associations ? associations.finish(element) : element
 }
 /** Native list with optional arrow and Home/End shortcuts. Every native tab stop remains tabbable. */
-export function NavigationMenuList<T extends ValidComponent = 'ul'>(props: Host<T>): JSX.Element {
+export function NavigationMenuList<T extends ValidComponent = 'ul'>(
+  props: HostProps<T>
+): JSX.Element {
   const context = useNavigation('List')
-  const own = props as Host<'ul'>
+  const own = props as HostProps<'ul'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
+  const Host = dynamic(() => own.as ?? 'ul')
   return (
-    <Dynamic
-      component={own.as ?? 'ul'}
+    <Host
       {...spread(
         { attrs: context.result().parts.list.attrs, on: { keydown: context.navigate } } as AnyPart,
         rest
       )}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Native list item providing a stable, nonempty or empty string identity for its trigger and content. */
 export function NavigationMenuItem<T extends ValidComponent = 'li'>(
-  props: Omit<Host<T>, 'value'> & { value: string }
+  props: Omit<HostProps<T>, 'value'> & { value: string }
 ): JSX.Element {
-  const own = props as unknown as Omit<Host<'li'>, 'value'> & { value: string }
+  const own = props as unknown as Omit<HostProps<'li'>, 'value'> & { value: string }
   useNavigation('Item')
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'value')
   const children = createMemo(() => (
     <ItemContext value={() => own.value}>{own.children}</ItemContext>
   ))
-  return (
-    <Dynamic component={own.as ?? 'li'} {...rest}>
-      {children()}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'li')
+  return <Host {...rest}>{children()}</Host>
 }
 /** Native disclosure button. Enter/Space use native click; ArrowDown opens and focuses the first panel tab stop. */
 export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
-  props: Host<T>
+  props: HostProps<T>
 ): JSX.Element {
   const context = useNavigation('Trigger')
   const item = useContext(ItemContext)
   if (!item) throw new Error('NavigationMenu.Trigger must be rendered inside NavigationMenu.Item')
-  const own = props as Host<'button'>
+  const own = props as HostProps<'button'>
   const entry: Entry = { value: item, disabled: () => booleanAttribute(own.disabled) }
   if (own.id) context.claim('trigger', item(), own.id)
   onCleanup(context.register(entry))
@@ -406,9 +405,9 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
       },
     } as AnyPart
   }
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       ref={(el: HTMLElement) => {
         entry.element = el
         setRef(own.ref, el)
@@ -416,11 +415,14 @@ export function NavigationMenuTrigger<T extends ValidComponent = 'button'>(
       {...spread(part(), rest)}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Native anchor props plus current-page semantics and cancellable selection notification. */
-export type NavigationMenuLinkProps<T extends ValidComponent = 'a'> = Omit<Host<T>, 'onSelect'> & {
+export type NavigationMenuLinkProps<T extends ValidComponent = 'a'> = Omit<
+  HostProps<T>,
+  'onSelect'
+> & {
   /** Adds aria-current=page when true. */
   current?: boolean
   /** Runs after an uncanceled click. preventDefault keeps the panel open and cancels native navigation. */
@@ -442,14 +444,11 @@ export function NavigationMenuLink<T extends ValidComponent = 'a'>(
       },
     },
   })
-  return (
-    <Dynamic component={own.as ?? 'a'} {...spread(part() as AnyPart, rest)}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'a')
+  return <Host {...spread(part() as AnyPart, rest)}>{own.children}</Host>
 }
 /** Panel attributes. Supply value when placing panels together outside their Item, such as inside Viewport. */
-export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = Host<T> & {
+export type NavigationMenuContentProps<T extends ValidComponent = 'div'> = HostProps<T> & {
   /** Panel identity; omit only when inheriting an enclosing Item value. */
   value?: string
 }
@@ -511,9 +510,9 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
     event.preventDefault()
     elements[Math.max(0, Math.min(next, elements.length - 1))]?.focus()
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(el: HTMLElement) => {
         context.setPanel(item()!, el)
         setRef(own.ref, el)
@@ -535,7 +534,7 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
       )}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 const PositionerContext = createContext<
@@ -690,7 +689,7 @@ export function NavigationMenuViewport(props: Omit<FloatingViewportProps, 'sourc
   )
 }
 /** Presentation-only measured arrow. Requires Positioner; provide arrow artwork as children. */
-export function NavigationMenuArrow(props: Host<'div'>): JSX.Element {
+export function NavigationMenuArrow(props: HostProps<'div'>): JSX.Element {
   const positioner = useContext(PositionerContext)
   if (!positioner)
     throw new Error('NavigationMenu.Arrow must be rendered inside NavigationMenu.Positioner')
@@ -698,9 +697,9 @@ export function NavigationMenuArrow(props: Host<'div'>): JSX.Element {
     if (!isServer) positioner.setArrow(undefined)
   })
   const rest = omit(props, 'ref', 'children', 'as')
+  const Host = dynamic(() => props.as ?? 'div')
   return (
-    <Dynamic
-      component={props.as ?? 'div'}
+    <Host
       ref={(el: HTMLElement) => {
         positioner.setArrow(el)
         setRef(props.ref, el)
@@ -709,7 +708,7 @@ export function NavigationMenuArrow(props: Host<'div'>): JSX.Element {
       {...rest}
     >
       {props.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Site navigation parts using nav, ul, li, buttons and native anchors. Content stays mounted and hidden while closed. */

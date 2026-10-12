@@ -1,7 +1,7 @@
 import { setRef } from '../internal/host'
 import { isServer } from '@solidjs/web'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -334,9 +334,9 @@ export function MenuContent<T extends ValidComponent = 'div'>(
     },
   })
   const children = createMemo(() => own.children)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(part(), { ...rest, id: own.id ?? id })}
       ref={(el: HTMLElement) => {
         context.setContent(el)
@@ -344,7 +344,7 @@ export function MenuContent<T extends ValidComponent = 'div'>(
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 

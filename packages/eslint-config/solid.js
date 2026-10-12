@@ -5,4 +5,12 @@ import solid from 'eslint-plugin-solid/configs/typescript'
  * component tests. Core and DOM packages do not consume this framework preset.
  * @type {import("eslint").Linter.Config[]}
  */
-export default [solid]
+export default [
+  solid,
+  {
+    rules: {
+      // dynamic() from @solidjs/web reads its source in a tracked memo.
+      'solid/reactivity': ['warn', { customReactiveFunctions: ['dynamic'] }],
+    },
+  },
+]

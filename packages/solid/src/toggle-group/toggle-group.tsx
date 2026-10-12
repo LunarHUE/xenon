@@ -5,7 +5,7 @@ import { toggleGroup } from '@xenon-ui/core'
 import type { ToggleGroupMode } from '@xenon-ui/core'
 import type { ToggleHost } from '@xenon-ui/core'
 import type { CompositeDirection } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
@@ -214,14 +214,11 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     setAmbient(value === 'rtl' ? 'rtl' : 'ltr')
   })
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(engine().parts.root, { ...rest })}
-    >
+    <Host ref={ref} {...spread(engine().parts.root, { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -264,13 +261,8 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
     return out
   }
 
-  return (
-    <Dynamic
-      component={(own.as ?? 'button') as ValidComponent}
-      ref={ref}
-      {...spread(composed.part(context.part(entry)), merged())}
-    />
-  )
+  const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
+  return <Host ref={ref} {...spread(composed.part(context.part(entry)), merged())} />
 }
 
 /**

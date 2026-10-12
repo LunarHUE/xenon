@@ -1,6 +1,6 @@
 import { setRef } from './host'
 import type { AnyPart } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { For, Show, createMemo, omit, onCleanup } from 'solid-js'
 import { Button } from '../button/button'
@@ -19,11 +19,8 @@ export function CalendarHeader<As extends ValidComponent = 'div'>(
   useCalendarContext('Header')
   const own = props as CalendarHeaderProps<'div'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'div'} {...rest}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'div')
+  return <Host {...rest}>{own.children}</Host>
 }
 /** Heading attributes; omitted children render the localized displayed month interval. */
 export type CalendarHeadingProps<As extends ValidComponent = 'h2'> = CalendarHostProps<As>
@@ -36,10 +33,11 @@ export function CalendarHeading<As extends ValidComponent = 'h2'>(
   const id = () => (own.id === false ? undefined : (own.id ?? context.headingId()))
   onCleanup(context.registerHeading(id))
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'id')
+  const Host = dynamic(() => own.as ?? 'h2')
   return (
-    <Dynamic component={own.as ?? 'h2'} {...spread(context.result().parts.heading, rest)} id={id()}>
+    <Host {...spread(context.result().parts.heading, rest)} id={id()}>
       {own.children === undefined ? context.result().state.heading : own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Previous-page button props; the default label is Previous month. */
@@ -128,11 +126,8 @@ export function CalendarGrid<As extends ValidComponent = 'table'>(
       )}
     </CalendarGridContext>
   ))
-  return (
-    <Dynamic component={own.as ?? 'table'} {...spread(context.result().parts.grid(month()), rest)}>
-      {children()}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'table')
+  return <Host {...spread(context.result().parts.grid(month()), rest)}>{children()}</Host>
 }
 /** Native table heading section attributes. */
 export type CalendarGridHeadProps<As extends ValidComponent = 'thead'> = CalendarHostProps<As>
@@ -143,11 +138,8 @@ export function CalendarGridHead<As extends ValidComponent = 'thead'>(
   const context = useCalendarContext('GridHead')
   const own = props as CalendarGridHeadProps<'thead'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'thead'} {...spread(context.result().parts.gridHead, rest)}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'thead')
+  return <Host {...spread(context.result().parts.gridHead, rest)}>{own.children}</Host>
 }
 /** Native table body section attributes. */
 export type CalendarGridBodyProps<As extends ValidComponent = 'tbody'> = CalendarHostProps<As>
@@ -158,11 +150,8 @@ export function CalendarGridBody<As extends ValidComponent = 'tbody'>(
   const context = useCalendarContext('GridBody')
   const own = props as CalendarGridBodyProps<'tbody'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'tbody'} {...spread(context.result().parts.gridBody, rest)}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'tbody')
+  return <Host {...spread(context.result().parts.gridBody, rest)}>{own.children}</Host>
 }
 /** Native table row attributes. */
 export type CalendarRowProps<As extends ValidComponent = 'tr'> = CalendarHostProps<As>
@@ -173,11 +162,8 @@ export function CalendarRow<As extends ValidComponent = 'tr'>(
   const context = useCalendarContext('Row')
   const own = props as CalendarRowProps<'tr'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'tr'} {...spread(context.result().parts.row, rest)}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'tr')
+  return <Host {...spread(context.result().parts.row, rest)}>{own.children}</Host>
 }
 /** Weekday column header attributes. */
 export type CalendarColumnHeaderProps<As extends ValidComponent = 'th'> = CalendarHostProps<As> & {
@@ -194,13 +180,11 @@ export function CalendarColumnHeader<As extends ValidComponent = 'th'>(
     context.result().state.weekdays.find((day) => day.weekday === own.weekday) ??
     context.result().state.weekdays[0]!
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'weekday')
+  const Host = dynamic(() => own.as ?? 'th')
   return (
-    <Dynamic
-      component={own.as ?? 'th'}
-      {...spread(context.result().parts.headerCell(weekday()), rest)}
-    >
+    <Host {...spread(context.result().parts.headerCell(weekday()), rest)}>
       {own.children === undefined ? weekday().shortLabel : own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Native grid-cell attributes bound to a date in the enclosing Grid month. */
@@ -219,13 +203,11 @@ export function CalendarCell<T = unknown, As extends ValidComponent = 'td'>(
   const month = useCalendarMonth()
   const own = props as unknown as CalendarCellProps<unknown, 'td'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'date')
+  const Host = dynamic(() => own.as ?? 'td')
   return (
-    <Dynamic
-      component={own.as ?? 'td'}
-      {...spread(context.result().parts.cell(context.day(own.date, month())), rest)}
-    >
+    <Host {...spread(context.result().parts.cell(context.day(own.date, month())), rest)}>
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Day-button attributes bound to the enclosing root's representation and Grid month. */

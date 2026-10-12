@@ -2,7 +2,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { setRef } from '../internal/host'
 import { separator } from '@xenon-ui/core'
 import type { SeparatorHost, SeparatorOptions } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit } from 'solid-js'
 
@@ -51,11 +51,6 @@ export function Separator<T extends ValidComponent = 'hr'>(props: SeparatorProps
 
   const ref = (node: HTMLElement) => setRef(own.ref, node)
 
-  return (
-    <Dynamic
-      component={(own.as ?? 'hr') as ValidComponent}
-      ref={ref}
-      {...spread(result().parts.root, { ...rest })}
-    />
-  )
+  const Host = dynamic(() => (own.as ?? 'hr') as ValidComponent)
+  return <Host ref={ref} {...spread(result().parts.root, { ...rest })} />
 }

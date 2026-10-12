@@ -2,7 +2,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { setRef } from '../internal/host'
 import { progress } from '@xenon-ui/core'
 import type { ProgressOptions } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createEffect, createMemo, omit } from 'solid-js'
 
@@ -57,11 +57,6 @@ export function Progress<T extends ValidComponent = 'div'>(props: ProgressProps<
     }
   )
 
-  return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(result().parts.root, { ...rest })}
-    />
-  )
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
+  return <Host ref={ref} {...spread(result().parts.root, { ...rest })} />
 }

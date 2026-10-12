@@ -1,7 +1,7 @@
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import type { AnyPart } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
 
@@ -200,14 +200,11 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
 
   const ref = (node: HTMLElement) => setRef(own.ref, node)
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 

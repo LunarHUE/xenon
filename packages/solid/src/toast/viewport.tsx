@@ -1,5 +1,5 @@
 import { setRef } from '../internal/host'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createEffect,
@@ -409,9 +409,9 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
   const children = createMemo(() => (
     <ToastViewportContext value={context}>{own.children}</ToastViewportContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(host: HTMLElement) => {
         element = host
         setRef(own.ref, host)
@@ -431,6 +431,6 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
       <div role="alert" aria-live="assertive" aria-atomic="true" style={speechStyle}>
         {assertive()}
       </div>
-    </Dynamic>
+    </Host>
   )
 }

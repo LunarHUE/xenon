@@ -2,7 +2,7 @@ import type { RadioGroupOptions as CoreRadioGroupOptions } from '@xenon-ui/core'
 import { radioGroup } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
 import type { RadioValue } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
 
@@ -199,14 +199,11 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
     })
   })
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(result().parts.root, { ...rest })}
-    >
+    <Host ref={ref} {...spread(result().parts.root, { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 

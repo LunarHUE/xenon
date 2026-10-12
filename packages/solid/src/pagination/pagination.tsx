@@ -6,7 +6,7 @@ import type {
   PaginationState,
   PaginationResult,
 } from '@xenon-ui/core/pagination'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { JSX, ComponentProps, ValidComponent } from '@solidjs/web'
 import { createContext, useContext, createMemo, createSignal, untrack, omit } from 'solid-js'
 import { spread } from '../spread'
@@ -106,11 +106,8 @@ function PaginationRoot<T extends ValidComponent = 'nav'>(props: PaginationProps
       {typeof own.children === 'function' ? own.children(state) : own.children}
     </Context>
   ))
-  return (
-    <Dynamic component={own.as ?? 'nav'} {...spread(result().parts.root, { ...rest })}>
-      {inner()}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'nav')
+  return <Host {...spread(result().parts.root, { ...rest })}>{inner()}</Host>
 }
 /** Bind a page request while preserving native keyboard and navigation behavior. */
 function Control(
@@ -142,11 +139,8 @@ function Control(
     if (props.as === 'a' && blocked) out.href = undefined
     return out
   }
-  return (
-    <Dynamic component={(props.as ?? 'button') as ValidComponent} {...spread(result(), merged())}>
-      {props.children as JSX.Element}
-    </Dynamic>
-  )
+  const Host = dynamic(() => (props.as ?? 'button') as ValidComponent)
+  return <Host {...spread(result(), merged())}>{props.children as JSX.Element}</Host>
 }
 /** Select a numbered page; repeated selection is silent. */
 function Item<T extends ValidComponent = 'button'>(props: PaginationItemProps<T>): JSX.Element {
@@ -177,11 +171,8 @@ function Ellipsis<T extends ValidComponent = 'span'>(
   const context = usePagination()
   const own = props as { as?: ValidComponent; children?: JSX.Element }
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'span'} {...spread(context().parts.ellipsis, { ...rest })}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'span')
+  return <Host {...spread(context().parts.ellipsis, { ...rest })}>{own.children}</Host>
 }
 /** Compound page navigation with native Tab order and consumer-rendered page ranges. */
 export const Pagination = Object.assign(PaginationRoot, {

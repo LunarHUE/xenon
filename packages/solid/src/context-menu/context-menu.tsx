@@ -1,5 +1,5 @@
 import { booleanAttribute, setRef } from '../internal/host'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createUniqueId, omit, onCleanup, onSettled, untrack } from 'solid-js'
 import { contextMenu } from '@xenon-ui/core/context-menu'
@@ -132,9 +132,9 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
     }
   }
   const children = createMemo(() => own.children)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(part(), { tabindex: 0, ...rest, id: entry.id() })}
       ref={(element: HTMLElement) => {
         entry.element = element
@@ -142,7 +142,7 @@ export function ContextMenuTrigger<T extends ValidComponent = 'div'>(
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Menu surface props, including author naming and handlers. */

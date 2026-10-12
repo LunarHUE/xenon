@@ -1,4 +1,4 @@
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -69,13 +69,9 @@ function AvatarRoot<T extends ValidComponent = 'span'>(props: AvatarProps<T>): J
   }
   const rest = omit(props as Record<string, unknown>, 'as', 'fallbackDelay', 'children')
   const content = createMemo(() => <AvatarContext value={context}>{props.children}</AvatarContext>)
+  const Host = dynamic(() => props.as ?? 'span')
   return (
-    <Dynamic
-      component={props.as ?? 'span'}
-      {...spread({ attrs: { 'data-state': state() }, on: {} }, { ...rest })}
-    >
-      {content()}
-    </Dynamic>
+    <Host {...spread({ attrs: { 'data-state': state() }, on: {} }, { ...rest })}>{content()}</Host>
   )
 }
 
@@ -160,14 +156,12 @@ function AvatarFallback<T extends ValidComponent = 'span'>(
     }
   )
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
+  const Host = dynamic(() => props.as ?? 'span')
   return (
     <Show when={context.state() !== 'loaded' && ready()}>
-      <Dynamic
-        component={props.as ?? 'span'}
-        {...spread({ attrs: { 'data-state': context.state() }, on: {} }, { ...rest })}
-      >
+      <Host {...spread({ attrs: { 'data-state': context.state() }, on: {} }, { ...rest })}>
         {props.children}
-      </Dynamic>
+      </Host>
     </Show>
   )
 }

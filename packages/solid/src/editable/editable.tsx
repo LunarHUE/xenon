@@ -4,7 +4,7 @@ import type {
   EditableOptions as CoreEditableOptions,
   EditableResult,
 } from '@xenon-ui/core/editable'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,
@@ -345,9 +345,9 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
     context.input = node
     setRef(props.ref, node)
   }
+  const Host = dynamic(() => props.as ?? 'input')
   return (
-    <Dynamic
-      component={props.as ?? 'input'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(node: HTMLInputElement | HTMLTextAreaElement) => ref(node)}
     />
