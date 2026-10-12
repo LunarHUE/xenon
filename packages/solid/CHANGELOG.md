@@ -1,5 +1,60 @@
 # Changelog
 
+## 0.3.0 — 2026-10-12
+
+Adds a command palette and a virtual list. `@xenon-ui/core` and `@xenon-ui/dom`
+move to 0.3.0 with them, and this package now depends on `^0.3.0` of both.
+
+### Command (`@xenon-ui/solid/command`)
+
+- `Command` with `Input`, `List`, `Group`, `GroupHeading`, `Item`, `Shortcut`,
+  `Empty`, `Loading` and `Separator`. The input is a `role="combobox"` that
+  keeps DOM focus and points `aria-activedescendant` at the highlighted
+  option.
+- Filtering defaults to a cmdk-style fuzzy score over `value` and `keywords`.
+  `filter(item, query)` replaces it (0 hides an item), and
+  `shouldFilter={false}` leaves filtering to a server.
+- Mounted `Command.Item` children filter in place and keep author order. Pass
+  `items` to rank results instead, and render them from `Command.List`'s
+  function child or `renderItem`.
+- Arrow Up and Down move and wrap (`loop`), Home and End jump, Ctrl or Meta
+  with an arrow jumps between groups, and Enter runs `onSelect`. Disabled
+  items are skipped. Groups with no matches hide.
+- `pages` is a controlled page stack. Backspace on an empty input and Escape
+  pop a page, and Escape only reaches an enclosing dialog on the root page.
+  `useCommand()` exposes `pushPage`, `popPage`, the query and the highlight.
+- An item's `shortcut` registers through `createShortcut`, scoped to the
+  palette. It is announced through `aria-keyshortcuts` and drawn by
+  `Command.Shortcut`.
+- A polite live region announces the result count once typing settles.
+  `announce` changes the text or turns it off.
+- `Command.Dialog` puts the palette in a modal Xenon dialog. `openShortcut`
+  (default `Mod+K`) registers through the shortcuts package. Opening focuses
+  the input, selecting closes unless the handler calls `preventDefault()` or
+  opens a page, and closing returns focus.
+- Data attributes: `data-active`, `data-disabled`, `data-empty` and
+  `data-page`.
+
+### Virtual list (`@xenon-ui/solid/virtual-list`)
+
+- `createVirtualizer` over a scroll element you own, and the
+  `VirtualList.Root`, `Viewport` and `Item` parts built on it. Rows can have a
+  fixed size, an estimate, or a measured size through ResizeObserver.
+  `overscan`, `scrollToIndex(index, { align })` and sticky group headings are
+  supported. Vertical lists only for now.
+- Scrolling keeps row identity, so only rows entering or leaving the range
+  render.
+- Rows carry `aria-setsize` and `aria-posinset`. When the focused row scrolls
+  out, focus waits on the scroll container and returns when the row comes
+  back.
+- `follow` keeps an append-only list pinned to its end, as in a log viewer.
+  Scrolling up stops following and reaching the end resumes it. Appending
+  rows while not following leaves the scroll position alone.
+- `Listbox` (with `items`), `Combobox.Viewport` and `Command.List` take a
+  `virtual` prop. Keyboard handling works over every item, a move to an
+  unmounted option scrolls it in first, and `aria-activedescendant` only
+  names options that are mounted.
+
 ## 0.2.2 — 2026-10-12
 
 Bug fixes. `@xenon-ui/core` moves to 0.2.1 with them, and this package now
