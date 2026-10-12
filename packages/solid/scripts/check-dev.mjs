@@ -32,6 +32,7 @@ try {
     'breadcrumbs',
     'resizable',
     'scroll-area',
+    'virtual-list',
   ]) {
     const file = ['avatar', 'visually-hidden', 'accessible-icon'].includes(family)
       ? 'index'
