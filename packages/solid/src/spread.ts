@@ -14,7 +14,9 @@ type Handler = (event: Event) => void
  * Matches author keys beginning with lowercase `on` case-insensitively against
  * core DOM event names, preserving the author's spelling. Use one spelling per
  * event; duplicate case variants are not removed. Without a match, the core
- * listener is copied to an `on`-prefixed prop without a cancellation wrapper.
+ * listener is copied to an `on`-prefixed prop with the event name capitalized
+ * (`onKeydown`), since Solid treats lowercase `on*` props as attributes, and
+ * without a cancellation wrapper.
  *
  * Author handlers accept Solid functions and bound tuples, plus runtime listener
  * objects. Undefined author handlers leave core behavior intact. Recompute
@@ -37,7 +39,7 @@ export function spread(
     const core = part.on[name as keyof typeof part.on] as Handler
     const userKey = userKeys.get(`on${name}`)
     if (!userKey) {
-      out[`on${name}`] = core
+      out[`on${name.charAt(0).toUpperCase()}${name.slice(1)}`] = core
       continue
     }
     const user = props[userKey]

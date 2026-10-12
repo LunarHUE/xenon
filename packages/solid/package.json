@@ -228,14 +228,14 @@
     "@xenon-ui/dom": "workspace:*"
   },
   "peerDependencies": {
-    "@solidjs/web": "^2.0.0-rc.8",
-    "solid-js": "^2.0.0-rc.8"
+    "@solidjs/web": "^2.0.0-rc.14",
+    "solid-js": "^2.0.0-rc.14"
   },
   "devDependencies": {
     "@xenon/eslint-config": "workspace:*",
     "@xenon/typescript-config": "workspace:*",
     "@solidjs/testing-library": "^1.0.0-beta.3",
-    "@solidjs/vite-plugin": "^3.0.0-next.43",
+    "@solidjs/vite-plugin": "^3.0.0-next.49",
     "@solidjs/web": "catalog:",
     "@testing-library/jest-dom": "^7.0.1",
     "@typescript/native": "catalog:",
