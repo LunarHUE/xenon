@@ -1,6 +1,6 @@
 {
   "name": "@xenon-ui/solid",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Headless, accessible components for Solid 2.",
   "license": "MIT",
   "keywords": [
@@ -122,6 +122,10 @@
       "types": "./src/combobox/index.tsx",
       "default": "./src/combobox/index.tsx"
     },
+    "./command": {
+      "types": "./src/command/index.tsx",
+      "default": "./src/command/index.tsx"
+    },
     "./slider": {
       "types": "./src/slider/index.tsx",
       "default": "./src/slider/index.tsx"
@@ -213,6 +217,10 @@
     "./shortcuts": {
       "types": "./src/shortcuts/index.tsx",
       "default": "./src/shortcuts/index.tsx"
+    },
+    "./virtual-list": {
+      "types": "./src/virtual-list/index.tsx",
+      "default": "./src/virtual-list/index.tsx"
     }
   },
   "scripts": {
