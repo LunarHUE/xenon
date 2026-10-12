@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.2.2 — 2026-10-12
+
+Bug fixes. `@xenon-ui/core` moves to 0.2.1 with them, and this package now
+depends on `^0.2.1`. DOM stays at 0.2.0.
+
+### Overlays
+
+- Removing an open Dialog, AlertDialog, Drawer, Popover, HoverCard or Combobox
+  no longer halts Solid. Their parts cleared element signals from `onCleanup`
+  without `ownedWrite`. When a list (`For`, or a router built on `mapArray`)
+  removed the row holding the overlay, that cleanup ran inside the list's
+  computation and Solid threw `REACTIVE_WRITE_IN_OWNED_SCOPE`. `Show` and
+  ternaries dispose outside a computation, so they never hit it.
+- Every element, arrow and direction signal written from `onCleanup`,
+  `onSettled` or a ref callback now sets `ownedWrite`. That covers the dialog
+  family, Popover, Menu, Select, Combobox, NavigationMenu and Listbox.
+- A Viewport dialog opened after mount could stay hidden. Solid can build
+  `Dialog.Content` twice in that flush, and the discarded copy's cleanup
+  cleared the live one's element. Cleanup now clears only what it owns.
+
+### Components
+
+- Pagination marks only the current page's Item with `data-state="current"`.
+  First, Previous, Next and Last stay `idle`.
+- Slider sets `data-focus` on the focused thumb only. The root still sets it
+  while any thumb has focus.
+- Editable no longer puts `type="text"` on a textarea. Every part gets
+  `data-empty` while the value is empty. With no value or placeholder the
+  preview renders no text instead of "Edit", and keeps "Edit" as its
+  `aria-label`.
+- RangeCalendar gives a draft anchor `data-selection-start` while its preview
+  is invalid. Overflow days from neighbouring months no longer get range
+  flags, so side-by-side months draw the band once.
+- Calendar and RangeCalendar name the paging buttons "Previous 2 months" and
+  "Next 2 months" when `visibleMonths` is above 1.
+
+### Already fixed in 0.2.1
+
+Reported against 0.2.0, and covered by new tests here:
+
+- Lowercase event props (`onclick` and the rest) on rc.14. `spread` emits
+  `onClick`-style keys and no part writes a lowercase handler.
+- `RangeCalendar.Heading` logging `STRICT_READ_UNTRACKED` in a loop. The
+  heading host was rebuilt on every registration under `<Dynamic>`.
+
+### Tests
+
+- The suite fails any test that produces `REACTIVE_WRITE_IN_OWNED_SCOPE`,
+  `STRICT_READ_UNTRACKED`, `FLUSH_IN_EFFECT_CALLBACK` or
+  `LOWERCASE_EVENT_ATTRIBUTE`.
+
 ## 0.2.1 — 2026-10-12
 
 Moves to `solid-js` and `@solidjs/web` 2.0.0-rc.14, which is now the minimum
