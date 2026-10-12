@@ -4,6 +4,7 @@ import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
+  createEffect,
   createMemo,
   createSignal,
   createUniqueId,
@@ -16,6 +17,12 @@ import {
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import { spread } from '../spread'
+import { VirtualList, useVirtualList } from '../virtual-list/virtual-list'
+import type {
+  VirtualItem,
+  VirtualListContextValue,
+  VirtualOptions,
+} from '../virtual-list/virtual-list'
 
 type ListboxOptions = NativeBooleanAttributes<CoreListboxOptions>
 
@@ -43,6 +50,27 @@ interface Own extends Omit<
   defaultActiveValue?: ListboxOptions['activeValue']
   /** Receives the rendered host. */
   ref?: unknown
+  /**
+   * Every option as data, in order. Required with `virtual`, where navigation,
+   * typeahead and selection work over this list instead of the mounted items.
+   */
+  items?: readonly ListboxItemData[]
+  /**
+   * Render only the options in view; the root becomes the scroll container. Needs
+   * `items`. Read once. Focus that scrolls out stays on the root and returns with its row.
+   */
+  virtual?: VirtualOptions
+  /** With `virtual`, renders the contents of one option. Defaults to its text or value. */
+  renderItem?: (item: ListboxItemData) => JSX.Element
+}
+/** One option of a data-driven listbox. */
+export interface ListboxItemData {
+  /** Unique selection identity. */
+  value: string
+  /** Searchable label; defaults to the value. */
+  textValue?: string
+  /** Skip during navigation and selection. */
+  disabled?: boolean
 }
 /** Polymorphic listbox root. Supply an accessible name and unique string values. */
 export type ListboxProps<T extends ValidComponent = 'div'> = Omit<
@@ -121,7 +149,10 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
     'virtualFocus',
     'activeValue',
     'defaultActiveValue',
-    'onActiveChange'
+    'onActiveChange',
+    'items',
+    'virtual',
+    'renderItem'
   )
   const [value, setValue] = createSignal<ListboxValue>(untrack(() => own.defaultValue))
   const [activeValue, setActiveValue] = createSignal<string | undefined>(
@@ -136,6 +167,17 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
   let host: HTMLElement | undefined
   let focusing = false
   const entryFor = (key: string) => entries().find((entry) => entry.value() === key)
+  const virtual = untrack(() => own.virtual)
+  const [list, setList] = createSignal<VirtualListContextValue | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [pending, setPending] = createSignal<string | undefined>(undefined, { ownedWrite: true })
+  /** Mounted virtual rows by value. */
+  const rows = new Map<string, HTMLElement>()
+  const data = createMemo(() => new Map((own.items ?? []).map((item) => [item.value, item])))
+  const indexOf = createMemo(
+    () => new Map((own.items ?? []).map((item, index) => [item.value, index]))
+  )
   /** Reports each request once; synchronous DOM focus events must not report it again. */
   const focus = (next: string) => {
     if (focusing) return
@@ -144,14 +186,25 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
       const previous = own.activeValue ?? untrack(activeValue)
       if (own.activeValue === undefined) setActiveValue(next)
       if (previous !== next) own.onActiveChange?.(next)
-      if (!own.virtualFocus) entryFor(next)?.el?.focus({ preventScroll: true })
+      if (own.virtualFocus) return
+      if (!virtual) {
+        entryFor(next)?.el?.focus({ preventScroll: true })
+        return
+      }
+      const row = rows.get(next)
+      if (row) row.focus({ preventScroll: true })
+      else setPending(next)
+      const index = untrack(indexOf).get(next)
+      if (index !== undefined) untrack(list)?.scrollToIndex(index)
     } finally {
       focusing = false
     }
   }
   const engine = createMemo(() =>
     listbox({
-      items: entries().map((entry) => entry.value()),
+      items: own.items
+        ? own.items.map((item) => item.value)
+        : entries().map((entry) => entry.value()),
       value: own.value ?? value(),
       activeValue: own.activeValue ?? activeValue(),
       selectionMode: own.selectionMode,
@@ -162,8 +215,10 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
       dir: own.dir ?? ambient(),
       virtualFocus: own.virtualFocus,
       id: own.id ?? base,
-      isItemDisabled: (key) => entryFor(key)?.disabled() ?? false,
-      textValue: (key) => entryFor(key)?.text() ?? key,
+      isItemDisabled: (key) =>
+        own.items ? !!data().get(key)?.disabled : (entryFor(key)?.disabled() ?? false),
+      textValue: (key) =>
+        own.items ? (data().get(key)?.textValue ?? key) : (entryFor(key)?.text() ?? key),
       search: search(),
       anchorValue: anchor(),
       onAnchorChange: setAnchor,
@@ -213,7 +268,82 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
     observer.observe(host, { childList: true, subtree: true })
     return () => observer.disconnect()
   })
+  // A keyboard move to an unmounted row scrolls it in; focus it once it renders.
+  createEffect(
+    () => {
+      const value = pending()
+      const index = value === undefined ? undefined : indexOf().get(value)
+      return index !== undefined && list()?.isRendered(index) ? value : undefined
+    },
+    (value) => {
+      if (value === undefined) return
+      setPending(undefined)
+      rows.get(value)?.focus({ preventScroll: true })
+    }
+  )
   const content = createMemo(() => <Context value={context}>{own.children}</Context>)
+  if (virtual) {
+    const render =
+      untrack(() => own.renderItem) ?? ((item: ListboxItemData) => item.textValue ?? item.value)
+    const getKey = createMemo(() => {
+      const items = own.items ?? []
+      return (index: number) => items[index]?.value ?? index
+    })
+    function Bind(): JSX.Element {
+      setList(useVirtualList())
+      onCleanup(() => setList(undefined))
+      return undefined
+    }
+    function Row(row: { item: VirtualItem }): JSX.Element {
+      const value = String(untrack(() => row.item.key))
+      const item = untrack(() => data().get(value)) ?? { value }
+      let element: HTMLElement | undefined
+      onCleanup(() => {
+        if (element && rows.get(value) === element) rows.delete(value)
+      })
+      return (
+        <VirtualList.Item
+          item={row.item}
+          {...spread(engine().parts.item(value))}
+          ref={(node: HTMLElement) => {
+            element = node
+            rows.set(value, node)
+          }}
+        >
+          {render(item)}
+        </VirtualList.Item>
+      )
+    }
+    // eslint-disable-next-line solid/components-return-once -- virtual is read once.
+    return (
+      <VirtualList
+        as={own.as}
+        ref={(node: HTMLElement) => {
+          host = node
+          setRef(() => own.ref, node)
+        }}
+        {...spread(
+          {
+            ...engine().parts.root,
+            on: {
+              ...engine().parts.root.on,
+              // Focus parked on the root for a scrolled-out row must not pull the list back.
+              focus(event: FocusEvent & { currentTarget: HTMLDivElement }) {
+                if (!untrack(list)?.holding()) engine().parts.root.on.focus?.(event)
+              },
+            },
+          },
+          { ...rest }
+        )}
+        {...virtual}
+        count={own.items?.length ?? 0}
+        getKey={getKey()}
+      >
+        <Bind />
+        <VirtualList.Viewport>{(item: VirtualItem) => <Row item={item} />}</VirtualList.Viewport>
+      </VirtualList>
+    )
+  }
   const Host = dynamic(() => own.as ?? 'div')
   return (
     <Host
