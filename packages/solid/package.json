@@ -122,6 +122,10 @@
       "types": "./src/combobox/index.tsx",
       "default": "./src/combobox/index.tsx"
     },
+    "./command": {
+      "types": "./src/command/index.tsx",
+      "default": "./src/command/index.tsx"
+    },
     "./slider": {
       "types": "./src/slider/index.tsx",
       "default": "./src/slider/index.tsx"
