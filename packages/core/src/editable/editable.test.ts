@@ -21,3 +21,10 @@ test('commit reports the draft and cancellation remains possible after disabling
   expect(submit).toHaveBeenCalledOnce()
   expect(cancel).toHaveBeenCalledOnce()
 })
+
+test('data-empty marks an empty committed value on every part', () => {
+  const empty = editable({ value: '', draft: 'typing' })
+  expect(empty.parts.root.attrs['data-empty']).toBe('')
+  expect(empty.parts.preview.attrs['data-empty']).toBe('')
+  expect(editable({ value: 'set' }).parts.preview.attrs['data-empty']).toBeUndefined()
+})

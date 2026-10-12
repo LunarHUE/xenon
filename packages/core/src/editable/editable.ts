@@ -81,6 +81,7 @@ export function editable(options: EditableOptions = {}): EditableResult {
     'data-readonly': options.readonly ? '' : undefined,
     'data-required': options.required ? '' : undefined,
     'data-invalid': options.invalid ? '' : undefined,
+    'data-empty': value === '' ? '' : undefined,
   }
   return {
     state: { value, draft, editing, interactive },
