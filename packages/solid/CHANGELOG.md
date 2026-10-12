@@ -5,6 +5,18 @@
 Bug fixes. `@xenon-ui/core` moves to 0.2.1 with them, and this package now
 depends on `^0.2.1`. DOM stays at 0.2.0.
 
+### Packaging
+
+- 0.2.1 on npm is incomplete: 192 of its 433 files, so imports such as
+  `@xenon-ui/solid/avatar` fail to resolve. It was packed while a second build
+  was deleting `dist/`. 0.2.2 ships the same source in full and 0.2.1 is
+  deprecated. Upgrade from 0.2.0 or 0.2.1 straight to 0.2.2.
+- The `./spread` export's default condition now points at `./spread/index.js`.
+  Since 0.2.0 it named a `./spread.js` that was never built.
+- Publishing now checks the packed tarball first: every `exports` target under
+  every condition, every relative import in a shipped module, and README,
+  LICENSE and package.json must be present.
+
 ### Overlays
 
 - Removing an open Dialog, AlertDialog, Drawer, Popover, HoverCard or Combobox
