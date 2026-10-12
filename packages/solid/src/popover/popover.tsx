@@ -251,12 +251,14 @@ function PopoverRoot<T extends ValidComponent = 'div', Payload = unknown>(
   )
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultOpen ?? false))
-  const [content, setContent] = createSignal<HTMLElement>()
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
     ownedWrite: true,
   })
   let triggers: TriggerEntry[] = []
-  const [payload, setPayload] = createSignal<unknown>(undefined, { ownedWrite: true })
+  const [payload, setPayload] = createSignal<unknown | undefined>(undefined, { ownedWrite: true })
   const listeners = new Set<() => void>()
   const triggerId = () => {
     revision()
@@ -610,7 +612,9 @@ function createPositionerView(
   )
   /** Owns controllers only while the outer presence branch exists, including force-mounted closed state. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDivElement>()
+    const [element, setElement] = createSignal<HTMLDivElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
     const [shown, setShown] = createSignal(false)
     /** Keeps physical hosting alive through exit, independently of forceMount. */

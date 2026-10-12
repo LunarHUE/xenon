@@ -275,15 +275,17 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
   )
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultOpen ?? false))
-  const [content, setContent] = createSignal<HTMLElement>()
-  const [cancel, setCancel] = createSignal<HTMLElement>()
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [cancel, setCancel] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
   let triggers: TriggerEntry[] = []
   const [selected, setSelected] = createSignal<TriggerEntry | undefined>(undefined, {
     ownedWrite: true,
   })
-  const [payload, setPayload] = createSignal<unknown>(undefined, { ownedWrite: true })
+  const [payload, setPayload] = createSignal<unknown | undefined>(undefined, { ownedWrite: true })
   const activeEntry = () => {
     revision()
     return selected() ?? triggers[0]
@@ -611,7 +613,9 @@ function DialogHost(
   )
   /** Own one physical content lifetime, including memoized children and controller cleanup. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDialogElement>()
+    const [element, setElement] = createSignal<HTMLDialogElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     const children = createMemo(() => (
       <OverlayPortalMountContext value={viewport ? context.content : element}>
         {viewport ? (
@@ -639,7 +643,7 @@ function DialogHost(
     let controller: ReturnType<typeof createDialogController> | undefined
     let attached: HTMLDialogElement | undefined
     // Descendants must finish registration before native opening chooses focus.
-    const [ready, setReady] = createSignal(false)
+    const [ready, setReady] = createSignal(false, { ownedWrite: true })
     onSettled(() => {
       setReady(true)
     })

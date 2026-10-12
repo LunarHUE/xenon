@@ -130,7 +130,7 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
   const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   const [search, setSearch] = createSignal('')
   const [anchor, setAnchor] = createSignal<string>()
-  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
   let registered: Entry[] = []
   let timer: ReturnType<typeof setTimeout> | undefined
   let host: HTMLElement | undefined

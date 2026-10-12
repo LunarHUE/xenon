@@ -179,10 +179,16 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
   )
   const [expanded, setExpanded] = createSignal(untrack(() => props.defaultOpen ?? false))
   const [active, setActive] = createSignal<string>()
-  const [input, setInput] = createSignal<HTMLInputElement>()
-  const [trigger, setTrigger] = createSignal<HTMLButtonElement>()
-  const [content, setContent] = createSignal<HTMLElement>()
-  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  const [input, setInput] = createSignal<HTMLInputElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [trigger, setTrigger] = createSignal<HTMLButtonElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
   const disabled = () => booleanAttribute(props.disabled) || !!field?.disabled()
   const readonly = () => booleanAttribute(props.readonly) || !!field?.readonly()
   const required = () => booleanAttribute(props.required) || !!field?.required()

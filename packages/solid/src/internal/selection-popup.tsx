@@ -84,10 +84,12 @@ export function SelectionPopup(props: SelectionPopupProps): JSX.Element {
   )
   /** Own one physical wrapper lifetime and the positioner context for its children. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDivElement>()
+    const [element, setElement] = createSignal<HTMLDivElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     /** Native-show result prevents measuring the wrapper while it is still hidden. */
     const [shown, setShown] = createSignal(false)
-    const [arrow, setArrow] = createSignal<HTMLElement>()
+    const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
     const positioning = createPositioner({
       anchor: context.trigger,
       arrow,

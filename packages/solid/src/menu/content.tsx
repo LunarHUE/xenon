@@ -101,7 +101,9 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
   })
   /** Retain logical children while attaching and disposing physical hosting by presence. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDivElement>()
+    const [element, setElement] = createSignal<HTMLDivElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     /** Native-show result prevents measuring the wrapper while it is still hidden. */
     const [shown, setShown] = createSignal(false)
     const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })

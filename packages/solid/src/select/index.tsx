@@ -63,9 +63,13 @@ function createSelect(props: SelectProps) {
   const [internalOpen, setInternalOpen] = createSignal(untrack(() => props.defaultOpen ?? false))
   const [active, setActive] = createSignal<string>()
   const [search, setSearch] = createSignal('')
-  const [trigger, setTrigger] = createSignal<HTMLElement>()
-  const [content, setContent] = createSignal<HTMLElement>()
-  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
   onSettled(() => {
     const node = trigger()
     if (node)

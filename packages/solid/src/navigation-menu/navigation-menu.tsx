@@ -120,9 +120,9 @@ export function NavigationMenuRoot<T extends ValidComponent = 'nav'>(
   const [internal, setInternal] = createSignal<string | null>(
     untrack(() => own.defaultValue ?? null)
   )
-  const [root, setRoot] = createSignal<HTMLElement>()
+  const [root, setRoot] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [version, setVersion] = createSignal(0, { ownedWrite: true })
-  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
   const entries: Entry[] = []
   const panels = new Map<string, HTMLElement>()
   const ids = new Map<string, string>()
@@ -546,8 +546,10 @@ export type NavigationMenuPositionerProps = Omit<ComponentProps<'div'>, keyof Po
 /** Native nonmodal popup anchored to the selected trigger. Opening never moves focus automatically. */
 export function NavigationMenuPositioner(props: NavigationMenuPositionerProps): JSX.Element {
   const context = useNavigation('Positioner')
-  const [element, setElement] = createSignal<HTMLDivElement>()
-  const [arrow, setArrow] = createSignal<HTMLElement>()
+  const [element, setElement] = createSignal<HTMLDivElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [shown, setShown] = createSignal(false)
   const open = () => context.value() !== null
   const positioner = createPositioner({
