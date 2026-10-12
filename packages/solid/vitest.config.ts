@@ -7,5 +7,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest-setup.ts'],
+    // SSR tests start a Vite server each. Alone they take about a second, but
+    // a full parallel run can push one past the 5s default.
+    testTimeout: 20_000,
   },
 })
