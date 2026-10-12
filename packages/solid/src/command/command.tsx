@@ -309,15 +309,15 @@ export function CommandRoot<T extends ValidComponent = 'div'>(
   )
   const [message, setMessage] = createSignal('')
   let timer: ReturnType<typeof setTimeout> | undefined
-  let announced = false
+  let previousQuery = untrack(query)
   createEffect(
     () => ({ count: engine().state.count, query: query() }),
     (next) => {
-      // Mounting announces nothing; only changes after it do.
-      if (!announced) {
-        announced = true
-        return
-      }
+      // Items registering after mount change the count without a search, so
+      // announce only a new query or new results for a query that is set.
+      const searched = next.query !== previousQuery || next.query !== ''
+      previousQuery = next.query
+      if (!searched) return
       const announce = untrack(() => own.announce)
       if (announce === false) return
       clearTimeout(timer)
