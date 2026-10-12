@@ -141,7 +141,9 @@ export type DialogPortalProps = OverlayPortalProps
 export const DialogPortal = OverlayPortal
 /** Inner surface supplies authored semantics to its surrounding native host. */
 const ViewportContext = createContext<{
-  setProps(props: DialogContentProps | undefined): void
+  setProps(props: DialogContentProps): void
+  /** Clear the surface props only if they still belong to this Content. */
+  clearProps(props: DialogContentProps): void
 } | null>(null)
 /** {@link ButtonProps} for an opening trigger, including native/generic activation and disabled/pending gates. */
 export type DialogTriggerProps<
@@ -532,9 +534,12 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
   if (!viewport) return <DialogHost {...props} />
   const context = useDialog('Dialog.Content')
   viewport.setProps(props)
+  let surface: HTMLElement | undefined
+  // Solid can build a replacement Content before disposing this one, so clear
+  // only what this instance still owns.
   onCleanup(() => {
-    viewport.setProps(undefined)
-    context.setContent(undefined)
+    viewport.clearProps(props)
+    if (surface && untrack(context.content) === surface) context.setContent(undefined)
   })
   const rest = omit(
     props as Record<string, unknown>,
@@ -565,6 +570,7 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
     <div
       {...attributes()}
       ref={(el) => {
+        surface = el
         context.setContent(el)
         setRef(() => props.ref, el)
       }}
@@ -611,6 +617,12 @@ function DialogHost(
       () => hostId()
     )
   )
+  const surface = {
+    setProps: (next: DialogContentProps) => setSurfaceProps(() => next),
+    clearProps(owner: DialogContentProps) {
+      if (untrack(surfaceProps) === owner) setSurfaceProps(undefined)
+    },
+  }
   /** Own one physical content lifetime, including memoized children and controller cleanup. */
   function Mounted(): JSX.Element {
     const [element, setElement] = createSignal<HTMLDialogElement | undefined>(undefined, {
@@ -619,7 +631,7 @@ function DialogHost(
     const children = createMemo(() => (
       <OverlayPortalMountContext value={viewport ? context.content : element}>
         {viewport ? (
-          <ViewportContext value={{ setProps: setSurfaceProps }}>{props.children}</ViewportContext>
+          <ViewportContext value={surface}>{props.children}</ViewportContext>
         ) : (
           props.children
         )}

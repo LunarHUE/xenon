@@ -462,3 +462,25 @@ test('explicit viewport undefined suppresses generated content associations', ()
   expect(host).not.toHaveAttribute('aria-labelledby')
   expect(host).not.toHaveAttribute('aria-describedby')
 })
+
+test('viewport opened after mount presents its content', () => {
+  const [open, setOpen] = createSignal(false)
+  const surface = vi.fn()
+  const view = render(() => (
+    <Dialog open={open()}>
+      <Dialog.Viewport>
+        <Dialog.Content aria-label="Later" ref={surface}>
+          <input />
+        </Dialog.Content>
+      </Dialog.Viewport>
+    </Dialog>
+  ))
+  flush()
+  setOpen(true)
+  flush()
+  const host = view.container.querySelector('dialog')!
+  // Solid may build Content twice here; the discarded copy must not clear the live one.
+  expect(host).toHaveAttribute('open')
+  expect(host).toHaveAttribute('aria-label', 'Later')
+  expect(surface).toHaveBeenLastCalledWith(host.firstElementChild)
+})
