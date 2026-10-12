@@ -121,9 +121,12 @@ export function rangeCalendar<T>(options: RangeCalendarOptions<T>): RangeCalenda
       ? same(date, options.anchorValue)
       : value !== undefined && within(date, value)
   const flags = (day: CalendarDay<T>) => {
-    const date = day.value
+    // Overflow days repeat a neighbouring grid's dates, so only the owning grid draws the range.
+    const date = day.outsideMonth ? undefined : day.value
     const selected = date !== undefined && selection(date)
-    const range = options.anchorValue !== undefined ? previewRange : value
+    // An invalid preview still leaves the anchor as a one-day range start.
+    const anchor = options.anchorValue
+    const range = anchor !== undefined ? (previewRange ?? { start: anchor, end: anchor }) : value
     return {
       'data-state': selected ? 'selected' : 'unselected',
       'data-selected': selected ? '' : undefined,

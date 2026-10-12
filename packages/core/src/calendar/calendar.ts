@@ -440,7 +440,7 @@ export function calendar<T>(options: CalendarOptions<T>): CalendarResult<T> {
       attrs: {
         type: 'button',
         disabled: !canGoPrevious ? true : undefined,
-        'aria-label': 'Previous month',
+        'aria-label': requestedCount === 1 ? 'Previous month' : `Previous ${requestedCount} months`,
       },
       on: { click: () => navigate(-requestedCount) },
     },
@@ -448,7 +448,7 @@ export function calendar<T>(options: CalendarOptions<T>): CalendarResult<T> {
       attrs: {
         type: 'button',
         disabled: !canGoNext ? true : undefined,
-        'aria-label': 'Next month',
+        'aria-label': requestedCount === 1 ? 'Next month' : `Next ${requestedCount} months`,
       },
       on: { click: () => navigate(requestedCount) },
     },
