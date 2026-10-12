@@ -124,7 +124,7 @@ export function MenuTrigger<T extends ValidComponent = 'button', Payload = unkno
       id={entry.id()}
       ref={(el) => {
         entry.element = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}

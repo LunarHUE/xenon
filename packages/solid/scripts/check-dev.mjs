@@ -6,6 +6,7 @@
  */
 import assert from 'node:assert/strict'
 import { log } from 'node:console'
+import process from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
 import solid from '@solidjs/vite-plugin'
 import { createServer } from 'vite'
@@ -43,3 +44,6 @@ try {
 } finally {
   await server.close()
 }
+// A handle stays open after close() and would keep the process alive, so exit
+// explicitly once the checks have passed. Failures throw before reaching this.
+process.exit(0)

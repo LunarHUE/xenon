@@ -1,5 +1,5 @@
 import { booleanAttribute, setRef } from '../internal/host'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -308,17 +308,17 @@ function createItem<T extends ValidComponent>(
   const children = createMemo(() => (
     <IndicatorContext value={config.checked ?? (() => false)}>{own.children}</IndicatorContext>
   ))
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.el = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /**
@@ -421,9 +421,9 @@ export function MenuGroup<T extends ValidComponent = 'div'>(props: MenuGroupProp
     },
   }
   const children = createMemo(() => <GroupContext value={value}>{own.children}</GroupContext>)
+  const Host = dynamic(() => own.as ?? 'div')
   const element = (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       role="group"
       aria-labelledby={
         associations ? associations.attribute('aria-labelledby', value.label) : value.label()
@@ -431,7 +431,7 @@ export function MenuGroup<T extends ValidComponent = 'div'>(props: MenuGroupProp
       {...rest}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
   const result = associations ? associations.finish(element) : element
   return result

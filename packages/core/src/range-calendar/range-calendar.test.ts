@@ -156,3 +156,42 @@ describe('range calendar', () => {
     expect(selected).toHaveBeenCalledExactlyOnceWith({ start: '2024-02-28', end: '2024-03-02' })
   })
 })
+
+describe('range calendar flags', () => {
+  const cell = (result: ReturnType<typeof rangeCalendar<string>>, value: string, outside = false) =>
+    result.state.weeks.flat().find((day) => day.value === value && day.outsideMonth === outside)!
+  it('marks a draft anchor as the range start while its preview is invalid', () => {
+    const result = rangeCalendar({
+      adapter,
+      today,
+      anchorValue: '2024-02-20',
+      previewValue: '2024-02-10',
+      isDateUnavailable: (value) => value === today,
+    })
+    expect(result.parts.day(cell(result, '2024-02-20')).attrs).toMatchObject({
+      'data-selected': '',
+      'data-selection-start': '',
+    })
+    expect(result.parts.day(cell(result, '2024-02-20')).attrs['data-selection-end']).toBeUndefined()
+    expect(result.parts.day(cell(result, '2024-02-12')).attrs['data-highlighted']).toBeUndefined()
+  })
+  it('leaves overflow days from neighbouring months unflagged', () => {
+    const result = rangeCalendar({
+      adapter,
+      today,
+      value: { start: '2024-02-26', end: '2024-03-02' },
+    })
+    expect(result.parts.day(cell(result, '2024-02-26')).attrs['data-selected']).toBe('')
+    const overflow = result.parts.day(cell(result, '2024-03-01', true)).attrs
+    expect(overflow['data-selected']).toBeUndefined()
+    expect(overflow['data-selection-end']).toBeUndefined()
+    expect(overflow['data-outside-month']).toBe('')
+  })
+  it('names paging by the number of visible months', () => {
+    const single = rangeCalendar({ adapter, today })
+    expect(single.parts.previousTrigger.attrs['aria-label']).toBe('Previous month')
+    const double = rangeCalendar({ adapter, today, visibleMonths: 2 })
+    expect(double.parts.previousTrigger.attrs['aria-label']).toBe('Previous 2 months')
+    expect(double.parts.nextTrigger.attrs['aria-label']).toBe('Next 2 months')
+  })
+})

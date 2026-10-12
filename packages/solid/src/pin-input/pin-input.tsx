@@ -323,7 +323,7 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
       ref={(el) => {
         unregister?.()
         unregister = context.register(props.index, el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       {...bindings()}
     />

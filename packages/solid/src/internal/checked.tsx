@@ -1,6 +1,6 @@
 import { checkbox, toggleSwitch } from '@xenon-ui/core'
 import type { CheckboxHost, CheckboxOptions } from '@xenon-ui/core'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { Show, createEffect, createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
@@ -190,7 +190,7 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   let mirror: HTMLInputElement | undefined
@@ -335,13 +335,10 @@ export function createChecked(props: object, kind: 'checkbox' | 'switch'): JSX.E
   /** Named non-input hosts render a native checkbox sibling for forms and validation. */
   const mirrored = () => result().state.host !== 'input' && name() !== undefined
 
+  const Host = dynamic(() => (own.as ?? 'input') as ValidComponent)
   return (
     <>
-      <Dynamic
-        component={(own.as ?? 'input') as ValidComponent}
-        ref={ref}
-        {...withoutBlankValue(spread(result().parts.root, merged()))}
-      />
+      <Host ref={ref} {...withoutBlankValue(spread(result().parts.root, merged()))} />
       <Show when={mirrored()}>
         <input
           type="checkbox"

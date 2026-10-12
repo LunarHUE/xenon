@@ -1,6 +1,6 @@
 import { listbox, getListboxItemId } from '@xenon-ui/core/listbox'
 import type { ListboxOptions as CoreListboxOptions, ListboxValue } from '@xenon-ui/core/listbox'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -130,7 +130,7 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
   const [entries, setEntries] = createSignal<Entry[]>([], { ownedWrite: true })
   const [search, setSearch] = createSignal('')
   const [anchor, setAnchor] = createSignal<string>()
-  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr')
+  const [ambient, setAmbient] = createSignal<'ltr' | 'rtl'>('ltr', { ownedWrite: true })
   let registered: Entry[] = []
   let timer: ReturnType<typeof setTimeout> | undefined
   let host: HTMLElement | undefined
@@ -214,17 +214,17 @@ export function ListboxRoot<T extends ValidComponent = 'div'>(props: ListboxProp
     return () => observer.disconnect()
   })
   const content = createMemo(() => <Context value={context}>{own.children}</Context>)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(node: HTMLElement) => {
         host = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(engine().parts.root, { ...rest })}
     >
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Registers an enabled-only option with the nearest Listbox. Throws without a root. */
@@ -262,17 +262,17 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
       },
     }
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(node: HTMLElement) => {
         entry.el = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(part(), { ...rest })}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 /** Standalone listbox with single/multiple selection and compound options. */

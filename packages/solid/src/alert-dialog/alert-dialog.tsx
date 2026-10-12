@@ -31,7 +31,7 @@ export function AlertDialogCancel<T extends ValidComponent = 'button'>(
       {...props}
       ref={(el: HTMLElement) => {
         context.setCancel(el)
-        setRef((props as { ref?: unknown }).ref, el)
+        setRef(() => (props as { ref?: unknown }).ref, el)
       }}
     />
   )

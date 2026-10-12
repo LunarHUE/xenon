@@ -1,4 +1,4 @@
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createSignal, omit } from 'solid-js'
 import { spread } from '../spread'
@@ -45,9 +45,9 @@ export function VisuallyHidden<T extends ValidComponent = 'span'>(
           .join(';')};${props.style}`
       : { ...defaults, ...props.style }
   }
+  const Host = dynamic(() => props.as ?? 'span')
   return (
-    <Dynamic
-      component={props.as ?? 'span'}
+    <Host
       {...spread(
         {
           attrs: {},
@@ -66,6 +66,6 @@ export function VisuallyHidden<T extends ValidComponent = 'span'>(
       style={style()}
     >
       {props.children}
-    </Dynamic>
+    </Host>
   )
 }

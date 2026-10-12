@@ -42,8 +42,8 @@ declare global {
 function bind(part: AnyPart, overrides: Record<string, unknown> = {}): Record<string, unknown> {
   const props: Record<string, unknown> = { ...part.attrs, ...overrides }
   for (const [name, listener] of Object.entries(part.on) as [string, (event: Event) => void][]) {
-    const key = `on${name}`
-    const own = Object.keys(overrides).find((prop) => prop.toLowerCase() === key)
+    const key = `on${name.charAt(0).toUpperCase()}${name.slice(1)}`
+    const own = Object.keys(overrides).find((prop) => prop.toLowerCase() === `on${name}`)
     const first = own ? (overrides[own] as (event: Event) => void) : undefined
     if (own) delete props[own]
     props[key] = first

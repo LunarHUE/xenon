@@ -1,5 +1,86 @@
 # Changelog
 
+## 0.2.2 — 2026-10-12
+
+Bug fixes. `@xenon-ui/core` moves to 0.2.1 with them, and this package now
+depends on `^0.2.1`. DOM stays at 0.2.0.
+
+### Packaging
+
+- 0.2.1 on npm is incomplete: 192 of its 433 files, so imports such as
+  `@xenon-ui/solid/avatar` fail to resolve. It was packed while a second build
+  was deleting `dist/`. 0.2.2 ships the same source in full and 0.2.1 is
+  deprecated. Upgrade from 0.2.0 or 0.2.1 straight to 0.2.2.
+- The `./spread` export's default condition now points at `./spread/index.js`.
+  Since 0.2.0 it named a `./spread.js` that was never built.
+- Publishing now checks the packed tarball first: every `exports` target under
+  every condition, every relative import in a shipped module, and README,
+  LICENSE and package.json must be present.
+
+### Overlays
+
+- Removing an open Dialog, AlertDialog, Drawer, Popover, HoverCard or Combobox
+  no longer halts Solid. Their parts cleared element signals from `onCleanup`
+  without `ownedWrite`. When a list (`For`, or a router built on `mapArray`)
+  removed the row holding the overlay, that cleanup ran inside the list's
+  computation and Solid threw `REACTIVE_WRITE_IN_OWNED_SCOPE`. `Show` and
+  ternaries dispose outside a computation, so they never hit it.
+- Every element, arrow and direction signal written from `onCleanup`,
+  `onSettled` or a ref callback now sets `ownedWrite`. That covers the dialog
+  family, Popover, Menu, Select, Combobox, NavigationMenu and Listbox.
+- A Viewport dialog opened after mount could stay hidden. Solid can build
+  `Dialog.Content` twice in that flush, and the discarded copy's cleanup
+  cleared the live one's element. Cleanup now clears only what it owns.
+
+### Components
+
+- Pagination marks only the current page's Item with `data-state="current"`.
+  First, Previous, Next and Last stay `idle`.
+- Slider sets `data-focus` on the focused thumb only. The root still sets it
+  while any thumb has focus.
+- Editable no longer puts `type="text"` on a textarea. Every part gets
+  `data-empty` while the value is empty. With no value or placeholder the
+  preview renders no text instead of "Edit", and keeps "Edit" as its
+  `aria-label`.
+- RangeCalendar gives a draft anchor `data-selection-start` while its preview
+  is invalid. Overflow days from neighbouring months no longer get range
+  flags, so side-by-side months draw the band once.
+- Calendar and RangeCalendar name the paging buttons "Previous 2 months" and
+  "Next 2 months" when `visibleMonths` is above 1.
+
+### Already fixed in 0.2.1
+
+Reported against 0.2.0, and covered by new tests here:
+
+- Lowercase event props (`onclick` and the rest) on rc.14. `spread` emits
+  `onClick`-style keys and no part writes a lowercase handler.
+- `RangeCalendar.Heading` logging `STRICT_READ_UNTRACKED` in a loop. The
+  heading host was rebuilt on every registration under `<Dynamic>`.
+
+### Tests
+
+- The suite fails any test that produces `REACTIVE_WRITE_IN_OWNED_SCOPE`,
+  `STRICT_READ_UNTRACKED`, `FLUSH_IN_EFFECT_CALLBACK` or
+  `LOWERCASE_EVENT_ATTRIBUTE`.
+
+## 0.2.1 — 2026-10-12
+
+Moves to `solid-js` and `@solidjs/web` 2.0.0-rc.14, which is now the minimum
+peer version. Core and DOM stay at 0.2.0.
+
+- Core event listeners now reach the DOM again. rc.14 only binds `on*` props
+  whose third letter is uppercase and renders `onkeydown` as an attribute, so
+  `spread` now emits `onKeydown`, `onFocus` and so on. Author handlers can
+  still use any casing.
+- Hosts are built with a hoisted `dynamic()` in place of the deprecated
+  `<Dynamic>`. Under rc.14, `<Dynamic>` rebuilt its element whenever a
+  sibling registered during the first render. Menubar and HoverCard triggers
+  created three buttons on mount and passed two detached ones to the author's
+  ref. Each host is now created once.
+- Removes the rc.14 `STRICT_READ_UNTRACKED` dev warnings. Refs, Tooltip and
+  HoverCard intent refreshes, Tooltip group closing and NumberField draft
+  reformatting read their values untracked on purpose, and now say so.
+
 ## 0.2.0 — 2026-10-11
 
 Adds keyboard shortcuts and the PinInput options a device-authorization code

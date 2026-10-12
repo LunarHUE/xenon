@@ -1,7 +1,7 @@
 import { setRef } from '../internal/host'
 import { isServer } from '@solidjs/web'
 import { createFloatingLayer } from '@xenon-ui/dom/floating-layer'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -101,7 +101,9 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
   })
   /** Retain logical children while attaching and disposing physical hosting by presence. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDivElement>()
+    const [element, setElement] = createSignal<HTMLDivElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     /** Native-show result prevents measuring the wrapper while it is still hidden. */
     const [shown, setShown] = createSignal(false)
     const [arrow, setArrow] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
@@ -236,7 +238,7 @@ export function MenuPositioner(props: MenuPositionerProps): JSX.Element {
         data-state={context.open() ? 'open' : 'closed'}
         ref={(el) => {
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
       >
         {children()}
@@ -334,17 +336,17 @@ export function MenuContent<T extends ValidComponent = 'div'>(
     },
   })
   const children = createMemo(() => own.children)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(part(), { ...rest, id: own.id ?? id })}
       ref={(el: HTMLElement) => {
         context.setContent(el)
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -377,7 +379,7 @@ export function MenuArrow(props: MenuArrowProps): JSX.Element {
       {...rest}
       ref={(element) => {
         positioner.setArrow(element)
-        setRef(props.ref, element)
+        setRef(() => props.ref, element)
       }}
     >
       {children()}

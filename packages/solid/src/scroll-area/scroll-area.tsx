@@ -10,7 +10,7 @@ import type {
   ScrollAreaMetrics,
   ScrollbarGeometry,
 } from '@xenon-ui/dom/scroll-area'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -235,9 +235,9 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
     'scrollHideDelay'
   )
   const children = createMemo(() => <Context value={value}>{own.children}</Context>)
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(
         {
           attrs: {
@@ -264,7 +264,7 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
       style={styles({ position: 'relative' }, own.style)}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -295,14 +295,14 @@ export function ScrollAreaViewport<T extends ValidComponent = 'div'>(
       'data-at-right': m.left >= m.scrollWidth - m.width - 1 ? '' : undefined,
     }
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread({ attrs: data(), on: {} }, rest)}
       id={id()}
       ref={(element: HTMLElement) => {
         ctx.setViewport(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles(
         { overflow: 'auto', 'scrollbar-width': ctx.hideNative() ? 'none' : undefined },
@@ -310,7 +310,7 @@ export function ScrollAreaViewport<T extends ValidComponent = 'div'>(
       )}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -326,18 +326,18 @@ export function ScrollAreaContent<T extends ValidComponent = 'div'>(
   onCleanup(() => {
     if (!isServer) ctx.setContent(undefined)
   })
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       data-part="content"
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setContent(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -470,9 +470,9 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       'data-dragging': ctx.dragging() ? '' : undefined,
     }
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       {...spread(
         {
           attrs: attrs(),
@@ -486,7 +486,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       )}
       ref={(element: HTMLElement) => {
         setTrack(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles(
         {
@@ -505,7 +505,7 @@ export function ScrollAreaScrollbar<T extends ValidComponent = 'div'>(
       )}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -526,20 +526,20 @@ export function ScrollAreaThumb<T extends ValidComponent = 'div'>(
       ? { width: `${g.size}px`, height: '100%', transform: `translateX(${g.position}px)` }
       : { height: `${g.size}px`, width: '100%', transform: `translateY(${g.position}px)` }
   }
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       data-part="thumb"
       aria-hidden="true"
       {...rest}
       ref={(element: HTMLElement) => {
         ctx.setThumb(element)
-        setRef(own.ref, element)
+        setRef(() => own.ref, element)
       }}
       style={styles({ position: 'absolute', left: '0', top: '0', ...style() }, own.style)}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -552,9 +552,9 @@ export function ScrollAreaCorner<T extends ValidComponent = 'div'>(
   const ctx = context('Corner')
   const own = props as ScrollAreaCornerProps<'div'>
   const rest = omit(props as Record<string, unknown>, 'as', 'children', 'style')
+  const Host = dynamic(() => own.as ?? 'div')
   return (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       data-part="corner"
       aria-hidden="true"
       hidden={!ctx.corner('horizontal') || !ctx.corner('vertical')}
@@ -571,7 +571,7 @@ export function ScrollAreaCorner<T extends ValidComponent = 'div'>(
       )}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 

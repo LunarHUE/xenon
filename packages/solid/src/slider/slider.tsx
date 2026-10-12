@@ -83,8 +83,10 @@ interface Context {
   start(event: PointerEvent, index?: number): void
   /** Register the element whose bounds define pointer coordinates. */
   setControl(el: HTMLDivElement): void
-  /** Record focus for root styling. */
-  setFocus(value: boolean): void
+  /** Record the focused thumb, or undefined when none has focus. */
+  setFocus(index: number | undefined): void
+  /** Index of the thumb holding focus. */
+  focusedThumb(): number | undefined
   /** Optional enclosing Field. */
   field: ReturnType<typeof useFieldContext>
 }
@@ -119,7 +121,9 @@ function SliderRoot(props: SliderProps): JSX.Element {
   const [draggingThumb, setDraggingThumb] = createSignal<number | undefined>(undefined, {
     ownedWrite: true,
   })
-  const [focused, setFocus] = createSignal(false, { ownedWrite: true })
+  const [focusedThumb, setFocusedThumb] = createSignal<number | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const [labelSignal, setLabelSignal] = createSignal<string | undefined>(undefined, {
     ownedWrite: true,
   })
@@ -281,12 +285,13 @@ function SliderRoot(props: SliderProps): JSX.Element {
     setControl: (el) => {
       control = el
     },
-    setFocus,
+    setFocus: (index) => setFocusedThumb(index),
+    focusedThumb,
     field,
     flags: () => ({
       ...result().parts.control.attrs,
       'data-dragging': draggingThumb() !== undefined ? '' : undefined,
-      'data-focus': focused() ? '' : undefined,
+      'data-focus': focusedThumb() !== undefined ? '' : undefined,
     }),
   }
   const rest = omit(
@@ -321,7 +326,7 @@ function SliderRoot(props: SliderProps): JSX.Element {
       })}
       ref={(el) => {
         root = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {content()}
@@ -344,7 +349,7 @@ function SliderControl(props: SliderPartProps): JSX.Element {
       )}
       ref={(el) => {
         context.setControl(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
       style={mergeStyle(props.style, { position: 'relative', 'touch-action': 'none' })}
     >
@@ -422,6 +427,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
         ...native.attrs,
         ...context.flags(),
         'data-dragging': context.draggingThumb() === index() ? '' : undefined,
+        'data-focus': context.focusedThumb() === index() ? '' : undefined,
         id: id(),
         name: context.props.name ?? context.field?.name(),
         form: context.props.form,
@@ -471,9 +477,9 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
           context.sync()
         },
         change: () => context.commit(),
-        focus: () => context.setFocus(true),
+        focus: () => context.setFocus(untrack(index)),
         blur: () => {
-          context.setFocus(false)
+          if (untrack(context.focusedThumb) === untrack(index)) context.setFocus(undefined)
           context.commit()
         },
       },
@@ -506,7 +512,7 @@ function SliderThumb(props: SliderThumbProps): JSX.Element {
       {...bindings()}
       ref={(el) => {
         input = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )

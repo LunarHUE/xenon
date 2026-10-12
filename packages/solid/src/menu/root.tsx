@@ -99,7 +99,9 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
   const [trigger, setTrigger] = createSignal<HTMLElement | undefined>(undefined, {
     ownedWrite: true,
   })
-  const [anchor, setAnchor] = createSignal<PositioningAnchor>()
+  const [anchor, setAnchor] = createSignal<PositioningAnchor | undefined>(undefined, {
+    ownedWrite: true,
+  })
   const [payload, setPayload] = createSignal<unknown>()
   const [selectedTrigger, setSelectedTrigger] = createSignal<MenuTriggerEntry | undefined>(
     undefined,

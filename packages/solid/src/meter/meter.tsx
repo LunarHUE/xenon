@@ -2,7 +2,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { setRef } from '../internal/host'
 import { meter } from '@xenon-ui/core/meter'
 import type { MeterOptions } from '@xenon-ui/core/meter'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createEffect, omit } from 'solid-js'
 import { spread } from '../spread'
@@ -48,16 +48,16 @@ export function Meter<T extends ValidComponent = 'meter'>(props: MeterProps<T>):
     () => result().state.percentage,
     (percentage) => element?.style.setProperty('--meter-percentage', String(percentage))
   )
+  const Host = dynamic(() => own.as ?? 'meter')
   return (
-    <Dynamic
-      component={own.as ?? 'meter'}
+    <Host
       ref={(node: HTMLElement) => {
         element = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(result().parts.root, { ...rest })}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }

@@ -12,14 +12,14 @@
       "@typescript/native": "npm:typescript@^7.0.2",
       "eslint": "^10.10.0",
       "vitest": "^5.0.0",
-      "solid-js": "2.0.0-rc.8",
-      "@solidjs/web": "2.0.0-rc.8",
+      "solid-js": "2.0.0-rc.14",
+      "@solidjs/web": "2.0.0-rc.14",
       "@types/bun": "^1.4.2"
     }
   },
   "overrides": {
     "@typescript/old": "npm:typescript@6.0.3",
-    "@solidjs/signals": "2.0.0-rc.8"
+    "@solidjs/signals": "2.0.0-rc.14"
   },
   "scripts": {
     "build": "turbo run build",
@@ -30,13 +30,14 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "pack": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts --pack",
+    "verify:packages": "turbo run build --filter=./packages/* && node scripts/verify-package.mjs packages/core/dist && node scripts/verify-package.mjs packages/dom/dist && node scripts/verify-package.mjs packages/solid/dist",
     "publish:packages": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts"
   },
   "devDependencies": {
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^1.0.0",
     "turbo": "^2.10.12",
-    "@solidjs/vite-plugin": "^3.0.0-next.43",
+    "@solidjs/vite-plugin": "^3.0.0-next.49",
     "@types/bun": "catalog:",
     "vite": "^8.3.0"
   },

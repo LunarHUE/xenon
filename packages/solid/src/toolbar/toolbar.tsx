@@ -3,7 +3,7 @@ import { booleanAttribute, setRef } from '../internal/host'
 import type { CompositeOptions } from '@xenon-ui/core'
 import { composite } from '@xenon-ui/core'
 import type { AnyPart, CompositeDirection } from '@xenon-ui/core'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled } from 'solid-js'
 
@@ -136,7 +136,7 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {
@@ -146,14 +146,11 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
     setAmbient(value === 'rtl' ? 'rtl' : 'ltr')
   })
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 

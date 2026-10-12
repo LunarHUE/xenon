@@ -272,7 +272,7 @@ function ResizableRoot(props: ResizableProps): JSX.Element {
       })}
       ref={(el) => {
         root = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {content()}
@@ -371,7 +371,7 @@ function ResizableHandle(props: ResizableHandleProps): JSX.Element {
       style={style(props.style, { flex: '0 0 auto', 'touch-action': 'none' })}
       ref={(el) => {
         element = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {props.children}

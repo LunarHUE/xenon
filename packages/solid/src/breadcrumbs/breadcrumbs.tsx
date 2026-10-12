@@ -1,5 +1,5 @@
 import { breadcrumbs } from '@xenon-ui/core/breadcrumbs'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit } from 'solid-js'
 import { spread } from '../spread'
@@ -29,11 +29,8 @@ function BreadcrumbsRoot<T extends ValidComponent = 'nav'>(
 ): JSX.Element {
   const own = props as { as?: ValidComponent; children?: JSX.Element }
   const rest = omit(props as Record<string, unknown>, 'as', 'children')
-  return (
-    <Dynamic component={own.as ?? 'nav'} {...spread(breadcrumbs().parts.root, { ...rest })}>
-      {own.children}
-    </Dynamic>
-  )
+  const Host = dynamic(() => own.as ?? 'nav')
+  return <Host {...spread(breadcrumbs().parts.root, { ...rest })}>{own.children}</Host>
 }
 /** Render an ordered list without injected separators or links. */
 function List(props: BreadcrumbsListProps): JSX.Element {

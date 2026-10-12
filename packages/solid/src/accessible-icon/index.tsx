@@ -1,4 +1,4 @@
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { omit } from 'solid-js'
 import { spread } from '../spread'
@@ -24,12 +24,10 @@ export function AccessibleIcon<T extends ValidComponent = 'span'>(
   props: AccessibleIconProps<T>
 ): JSX.Element {
   const rest = omit(props as Record<string, unknown>, 'as', 'label', 'children')
+  const Host = dynamic(() => props.as ?? 'span')
   return (
-    <Dynamic
-      component={props.as ?? 'span'}
-      {...spread({ attrs: { role: 'img', 'aria-label': props.label }, on: {} }, { ...rest })}
-    >
+    <Host {...spread({ attrs: { role: 'img', 'aria-label': props.label }, on: {} }, { ...rest })}>
       <span aria-hidden="true">{props.children}</span>
-    </Dynamic>
+    </Host>
   )
 }

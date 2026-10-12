@@ -3,7 +3,7 @@ import { tooltip, resolveTooltipBehavior, tooltipOpenDelay } from '@xenon-ui/cor
 import type { TooltipBehaviorOptions, TooltipBehavior } from '@xenon-ui/core/tooltip'
 import { createHoverIntent } from '@xenon-ui/dom/hover-intent'
 import type { HoverIntent } from '@xenon-ui/dom/hover-intent'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   createContext,
@@ -177,14 +177,10 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
   })
   createEffect(
     () => [booleanAttribute(props.disabled), behavior()],
-    () => context.intent.refresh()
+    () => untrack(() => context.intent.refresh())
   )
   createEffect(open, (visible) => {
-    if (visible)
-      group.claim(
-        identity,
-        untrack(() => () => change(false))
-      )
+    if (visible) group.claim(identity, () => untrack(() => change(false)))
     else group.release(identity)
   })
   onCleanup(() => {
@@ -224,7 +220,7 @@ function TooltipRoot<T extends ValidComponent = 'div', Payload = unknown>(
         {...rest}
         ref={(node: HTMLElement) => {
           rootElement = node
-          setRef((props as { ref?: unknown }).ref, node)
+          setRef(() => (props as { ref?: unknown }).ref, node)
         }}
         open={open()}
         onOpenChange={change}
@@ -359,18 +355,18 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
   onCleanup(() => {
     if (entry.element) entries.delete(entry.element)
   })
+  const Host = dynamic(() => own.as ?? 'button')
   return (
-    <Dynamic
-      component={own.as ?? 'button'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(node: HTMLElement) => {
         entry.element = node
         entries.set(node, entry)
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
     >
       {own.children}
-    </Dynamic>
+    </Host>
   )
 }
 /** Positions the tooltip while allowing pointer input through a non-hoverable surface. */

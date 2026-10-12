@@ -1,4 +1,5 @@
 import { ref as solidRef } from '@solidjs/web'
+import { untrack } from 'solid-js'
 import type { JSX } from '@solidjs/web'
 
 /** Native boolean attributes consumed by adapter behavior, rather than forwarded unchanged. */
@@ -13,8 +14,12 @@ export function booleanAttribute(value: JSX.BooleanAttribute | undefined): boole
   return value === true || value === ''
 }
 
-/** Forward callback refs and nested callback arrays through Solid's native ref lifecycle. */
-export function setRef(value: unknown, element: Element): void {
+/**
+ * Forward callback refs and nested callback arrays through Solid's native ref lifecycle.
+ * Takes a getter so the ref prop is read untracked; refs run in an effect callback.
+ */
+export function setRef(read: () => unknown, element: Element): void {
+  const value = untrack(read)
   if (typeof value === 'function' || Array.isArray(value)) {
     solidRef(() => value as ReturnType<Parameters<typeof solidRef>[0]>, element)
   }

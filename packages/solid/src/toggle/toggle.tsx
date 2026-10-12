@@ -3,7 +3,7 @@ import { booleanAttribute, setRef } from '../internal/host'
 import type { ToggleOptions } from '@xenon-ui/core'
 import { toggle } from '@xenon-ui/core'
 import type { ToggleHost } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, omit, onSettled, untrack } from 'solid-js'
 
@@ -100,7 +100,7 @@ export function Toggle<T extends ValidComponent = 'button'>(props: ToggleProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {
@@ -112,11 +112,6 @@ export function Toggle<T extends ValidComponent = 'button'>(props: ToggleProps<T
     }
   })
 
-  return (
-    <Dynamic
-      component={(own.as ?? 'button') as ValidComponent}
-      ref={ref}
-      {...spread(result().parts.root, merged())}
-    />
-  )
+  const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
+  return <Host ref={ref} {...spread(result().parts.root, merged())} />
 }

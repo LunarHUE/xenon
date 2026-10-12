@@ -1,7 +1,7 @@
 import { booleanAttribute, setRef } from './host'
 import { dateKey, dateOnlyAdapter } from '@xenon-ui/core/date'
 import type { DateAdapter } from '@xenon-ui/core/date'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, createUniqueId, omit, onSettled, untrack } from 'solid-js'
 import { localToday, useDateEnvironment } from '../date/date-provider'
@@ -268,12 +268,12 @@ export function createCalendarRoot(
       })()}
     </CalendarContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   const output = (
-    <Dynamic
-      component={own.as ?? 'div'}
+    <Host
       ref={(node: HTMLElement) => {
         element = node
-        setRef(own.ref, node)
+        setRef(() => own.ref, node)
       }}
       {...spread(
         {
@@ -292,7 +292,7 @@ export function createCalendarRoot(
       )}
     >
       {children()}
-    </Dynamic>
+    </Host>
   )
   return associations ? associations.finish(output) : output
 }

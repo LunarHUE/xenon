@@ -1,7 +1,7 @@
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import type { AnyPart } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
 
@@ -104,7 +104,7 @@ export function ToolbarButton<T extends ValidComponent = 'button'>(
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -135,7 +135,7 @@ export function ToolbarLink(props: ToolbarLinkProps): JSX.Element {
 
   const ref = (node: HTMLElement) => {
     entry.el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => context.register(entry))
@@ -198,16 +198,13 @@ export function ToolbarGroup<T extends ValidComponent = 'div'>(
     on: {},
   })
 
-  const ref = (node: HTMLElement) => setRef(own.ref, node)
+  const ref = (node: HTMLElement) => setRef(() => own.ref, node)
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={ref}
-      {...spread(part(), { ...rest })}
-    >
+    <Host ref={ref} {...spread(part(), { ...rest })}>
       {content()}
-    </Dynamic>
+    </Host>
   )
 }
 

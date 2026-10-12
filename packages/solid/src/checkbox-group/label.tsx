@@ -23,7 +23,7 @@ export function CheckboxGroupLabel(props: CheckboxGroupLabelProps): JSX.Element 
       id={id()}
       ref={(node) => {
         el = node
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
     >
       {props.children}

@@ -2,7 +2,7 @@ import { setRef } from './host'
 import type { AnyPart, DialogOptions, DialogResult, DrawerSide } from '@xenon-ui/core'
 import { createDialogController } from '@xenon-ui/dom'
 import type { DrawerDragThreshold, LayerPointerOutsideEvent } from '@xenon-ui/dom'
-import { Dynamic, isServer } from '@solidjs/web'
+import { dynamic, isServer } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -141,7 +141,9 @@ export type DialogPortalProps = OverlayPortalProps
 export const DialogPortal = OverlayPortal
 /** Inner surface supplies authored semantics to its surrounding native host. */
 const ViewportContext = createContext<{
-  setProps(props: DialogContentProps | undefined): void
+  setProps(props: DialogContentProps): void
+  /** Clear the surface props only if they still belong to this Content. */
+  clearProps(props: DialogContentProps): void
 } | null>(null)
 /** {@link ButtonProps} for an opening trigger, including native/generic activation and disabled/pending gates. */
 export type DialogTriggerProps<
@@ -275,15 +277,17 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
   )
   const base = createUniqueId()
   const [internal, setInternal] = createSignal(untrack(() => own.defaultOpen ?? false))
-  const [content, setContent] = createSignal<HTMLElement>()
-  const [cancel, setCancel] = createSignal<HTMLElement>()
+  const [content, setContent] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
+  const [cancel, setCancel] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   const [revision, setRevision] = createSignal(0, { ownedWrite: true })
   let version = 0
   let triggers: TriggerEntry[] = []
   const [selected, setSelected] = createSignal<TriggerEntry | undefined>(undefined, {
     ownedWrite: true,
   })
-  const [payload, setPayload] = createSignal<unknown>(undefined, { ownedWrite: true })
+  const [payload, setPayload] = createSignal<unknown | undefined>(undefined, { ownedWrite: true })
   const activeEntry = () => {
     revision()
     return selected() ?? triggers[0]
@@ -415,14 +419,11 @@ export function createDialogRoot<T extends ValidComponent, Payload = unknown>(
       </ViewportContext>
     </DialogContext>
   ))
+  const Host = dynamic(() => own.as ?? 'div')
   const element = (
-    <Dynamic
-      component={own.as ?? 'div'}
-      ref={props.ref}
-      {...spread(result().parts.root, { ...rest })}
-    >
+    <Host ref={props.ref} {...spread(result().parts.root, { ...rest })}>
       {inner()}
-    </Dynamic>
+    </Host>
   )
   return associations ? associations.finish(element) : element
 }
@@ -480,7 +481,7 @@ export function DialogTrigger<T extends ValidComponent = 'button', Payload = unk
       {...buttonProps(part(), { ...rest })}
       ref={(el: HTMLElement) => {
         entry.element = el
-        setRef(own.ref, el)
+        setRef(() => own.ref, el)
       }}
     >
       {(props as { children?: JSX.Element }).children}
@@ -533,9 +534,12 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
   if (!viewport) return <DialogHost {...props} />
   const context = useDialog('Dialog.Content')
   viewport.setProps(props)
+  let surface: HTMLElement | undefined
+  // Solid can build a replacement Content before disposing this one, so clear
+  // only what this instance still owns.
   onCleanup(() => {
-    viewport.setProps(undefined)
-    context.setContent(undefined)
+    viewport.clearProps(props)
+    if (surface && untrack(context.content) === surface) context.setContent(undefined)
   })
   const rest = omit(
     props as Record<string, unknown>,
@@ -566,8 +570,9 @@ export function DialogContent(props: DialogContentProps): JSX.Element {
     <div
       {...attributes()}
       ref={(el) => {
+        surface = el
         context.setContent(el)
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     >
       {props.children}
@@ -612,13 +617,21 @@ function DialogHost(
       () => hostId()
     )
   )
+  const surface = {
+    setProps: (next: DialogContentProps) => setSurfaceProps(() => next),
+    clearProps(owner: DialogContentProps) {
+      if (untrack(surfaceProps) === owner) setSurfaceProps(undefined)
+    },
+  }
   /** Own one physical content lifetime, including memoized children and controller cleanup. */
   function Mounted(): JSX.Element {
-    const [element, setElement] = createSignal<HTMLDialogElement>()
+    const [element, setElement] = createSignal<HTMLDialogElement | undefined>(undefined, {
+      ownedWrite: true,
+    })
     const children = createMemo(() => (
       <OverlayPortalMountContext value={viewport ? context.content : element}>
         {viewport ? (
-          <ViewportContext value={{ setProps: setSurfaceProps }}>{props.children}</ViewportContext>
+          <ViewportContext value={surface}>{props.children}</ViewportContext>
         ) : (
           props.children
         )}
@@ -642,7 +655,7 @@ function DialogHost(
     let controller: ReturnType<typeof createDialogController> | undefined
     let attached: HTMLDialogElement | undefined
     // Descendants must finish registration before native opening chooses focus.
-    const [ready, setReady] = createSignal(false)
+    const [ready, setReady] = createSignal(false, { ownedWrite: true })
     onSettled(() => {
       setReady(true)
     })
@@ -729,7 +742,7 @@ function DialogHost(
         ref={(el) => {
           if (!viewport) context.setContent(el)
           setElement(el)
-          setRef(props.ref, el)
+          setRef(() => props.ref, el)
         }}
         {...attributes()}
         style={
@@ -779,9 +792,8 @@ export function DialogTitle<T extends ValidComponent = 'h2'>(
   const own = props as { as?: ValidComponent; id?: string; ref?: unknown }
   const rest = omit(props as Record<string, unknown>, 'as', 'ref')
   onCleanup(context.register('title', () => ('id' in props ? own.id : context.id('title'))))
-  return (
-    <Dynamic component={own.as ?? 'h2'} ref={props.ref} {...{ id: context.id('title'), ...rest }} />
-  )
+  const Host = dynamic(() => own.as ?? 'h2')
+  return <Host ref={props.ref} {...{ id: context.id('title'), ...rest }} />
 }
 /**
  * Renders descriptive text and registers a live ID getter for content description.
@@ -799,13 +811,8 @@ export function DialogDescription<T extends ValidComponent = 'p'>(
   onCleanup(
     context.register('description', () => ('id' in props ? own.id : context.id('description')))
   )
-  return (
-    <Dynamic
-      component={own.as ?? 'p'}
-      ref={props.ref}
-      {...{ id: context.id('description'), ...rest }}
-    />
-  )
+  const Host = dynamic(() => own.as ?? 'p')
+  return <Host ref={props.ref} {...{ id: context.id('description'), ...rest }} />
 }
 
 /** Shared compound parts attached to Dialog, AlertDialog, and Drawer roots. */

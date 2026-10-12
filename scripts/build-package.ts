@@ -70,8 +70,12 @@ async function fixExtensions(dir: string) {
   }
 }
 
-/** Map a src entry like ./src/button/index.tsx to its dist counterparts. */
-function distEntry(srcPath: string, hasJsx: boolean) {
+/**
+ * Map a src entry like ./src/button/index.tsx to its dist counterparts. The
+ * compiled default follows the Vite entry name, `<subpath>/index`, so a file
+ * entry such as ./src/spread.ts compiles to ./spread/index.js, not ./spread.js.
+ */
+function distEntry(subpath: string, srcPath: string, hasJsx: boolean) {
   const compiled = srcPath.replace(/^\.\/src\//, './').replace(/\.tsx?$/, '')
   const source = srcPath.replace(/\.tsx?$/, '')
   const jsx = srcPath.endsWith('.tsx')
@@ -79,7 +83,7 @@ function distEntry(srcPath: string, hasJsx: boolean) {
   return {
     types: `${source}.d.ts`,
     solid: jsx ? `${source}.jsx` : `${source}.js`,
-    default: `${compiled}.js`,
+    default: subpath === '.' ? './index.js' : `${subpath}/index.js`,
   }
 }
 
@@ -125,7 +129,7 @@ if (hasJsx) {
 
 const exportsOut: Record<string, unknown> = {}
 for (const [subpath, target] of exportEntries) {
-  exportsOut[subpath] = distEntry(target.default, hasJsx)
+  exportsOut[subpath] = distEntry(subpath, target.default, hasJsx)
 }
 
 const dependencies: Record<string, string> = {}
@@ -149,6 +153,9 @@ const published = {
   exports: exportsOut,
   dependencies: Object.keys(dependencies).length ? dependencies : undefined,
   peerDependencies: manifest.peerDependencies,
+  // `npm publish` from dist/ checks the packed tarball first. Publishing a
+  // tarball skips lifecycle scripts, so publish-packages verifies those itself.
+  scripts: { prepublishOnly: 'node ../../../scripts/verify-package.mjs .' },
   publishConfig: { access: 'public' },
 }
 await writeFile(join(dist, 'package.json'), JSON.stringify(published, null, 2) + '\n')

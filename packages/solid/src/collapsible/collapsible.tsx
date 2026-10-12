@@ -2,7 +2,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import type { CollapsibleOptions } from '@xenon-ui/core'
 import { collapsible } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import {
   Show,
@@ -147,14 +147,14 @@ function CollapsibleRoot<T extends ValidComponent = 'div'>(
     </CollapsibleContext>
   ))
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'div') as ValidComponent}
-      ref={(node: HTMLElement) => setRef(own.ref, node)}
+    <Host
+      ref={(node: HTMLElement) => setRef(() => own.ref, node)}
       {...spread(result().parts.root, { ...rest })}
     >
       {inner()}
-    </Dynamic>
+    </Host>
   )
 }
 
@@ -184,10 +184,10 @@ export function CollapsibleTrigger<T extends ValidComponent = 'button'>(
     }
   )
 
+  const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
   return (
-    <Dynamic
-      component={(own.as ?? 'button') as ValidComponent}
-      ref={(node: HTMLElement) => setRef(own.ref, node)}
+    <Host
+      ref={(node: HTMLElement) => setRef(() => own.ref, node)}
       {...spread(
         disclosureTrigger(context.trigger(), !own.as || own.as === 'button' || own.as === 'input'),
         { ...rest, id: own.id ?? context.trigger().attrs.id }
@@ -222,7 +222,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
   const ref = (node: HTMLElement) => {
     el = node
     context.contentRef(node)
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   createEffect(
@@ -239,10 +239,10 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
     }
   )
 
+  const Host = dynamic(() => (own.as ?? 'div') as ValidComponent)
   return (
     <Show when={context.present()}>
-      <Dynamic
-        component={(own.as ?? 'div') as ValidComponent}
+      <Host
         ref={ref}
         {...spread(context.content(), { ...rest, id: own.id ?? context.content().attrs.id })}
       />

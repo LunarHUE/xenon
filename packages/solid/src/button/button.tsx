@@ -2,7 +2,7 @@ import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import { button } from '@xenon-ui/core'
 import type { ButtonHost, ButtonOptions } from '@xenon-ui/core'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, omit, onSettled } from 'solid-js'
 
@@ -96,7 +96,7 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
   let el: HTMLElement | undefined
   const ref = (node: HTMLElement) => {
     el = node
-    setRef(own.ref, node)
+    setRef(() => own.ref, node)
   }
 
   onSettled(() => {
@@ -116,11 +116,6 @@ export function Button<T extends ValidComponent = 'button'>(props: ButtonProps<T
     }
   })
 
-  return (
-    <Dynamic
-      component={(own.as ?? 'button') as ValidComponent}
-      ref={ref}
-      {...spread(composed.part(result().parts.root), merged())}
-    />
-  )
+  const Host = dynamic(() => (own.as ?? 'button') as ValidComponent)
+  return <Host ref={ref} {...spread(composed.part(result().parts.root), merged())} />
 }

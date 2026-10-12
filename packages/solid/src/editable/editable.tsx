@@ -4,7 +4,7 @@ import type {
   EditableOptions as CoreEditableOptions,
   EditableResult,
 } from '@xenon-ui/core/editable'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import {
   createContext,
@@ -249,13 +249,24 @@ function EditableRoot(props: EditableProps): JSX.Element {
   return <>{content()}</>
 }
 
-/** Preview attributes. Its default text is committed value or the placeholder. */
+/**
+ * Preview attributes. Its default text is the committed value, else the placeholder.
+ * With neither, it renders empty and is named "Edit" through aria-label.
+ */
 export type EditablePreviewProps = ComponentProps<'span'>
 /** Renders the keyboard-activatable preview without entering editing on focus alone. */
 export function EditablePreview(props: EditablePreviewProps): JSX.Element {
   const context = useEditable()
   const part = () => ({
     ...context.result().parts.preview,
+    attrs: {
+      ...context.result().parts.preview.attrs,
+      // An empty button has no accessible name, so fall back to the action.
+      'aria-label':
+        props.children === undefined && !context.result().state.value && !context.props.placeholder
+          ? 'Edit'
+          : undefined,
+    },
     on: {
       click() {
         if ((context.props.activationMode ?? 'click') === 'click') context.result().edit()
@@ -277,10 +288,10 @@ export function EditablePreview(props: EditablePreviewProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         context.preview = node
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
     >
-      {props.children ?? (context.result().state.value || context.props.placeholder || 'Edit')}
+      {props.children ?? (context.result().state.value || context.props.placeholder)}
     </span>
   )
 }
@@ -301,6 +312,7 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
   const part = () => ({
     attrs: {
       ...context.result().parts.input.attrs,
+      type: props.as === 'textarea' ? undefined : context.result().parts.input.attrs.type,
       id: id(),
       name: context.props.name ?? field.name(),
       form: context.props.form,
@@ -343,11 +355,12 @@ export function EditableInput(props: EditableInputProps): JSX.Element {
   })
   const ref = (node: HTMLInputElement | HTMLTextAreaElement) => {
     context.input = node
-    setRef(props.ref, node)
+    // eslint-disable-next-line solid/reactivity -- setRef reads the ref untracked
+    setRef(() => props.ref, node)
   }
+  const Host = dynamic(() => props.as ?? 'input')
   return (
-    <Dynamic
-      component={props.as ?? 'input'}
+    <Host
       {...spread(part(), { ...rest })}
       ref={(node: HTMLInputElement | HTMLTextAreaElement) => ref(node)}
     />

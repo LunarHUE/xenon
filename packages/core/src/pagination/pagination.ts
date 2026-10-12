@@ -110,7 +110,7 @@ export function pagination(options: PaginationOptions): PaginationResult {
         ...base.attrs,
         'aria-label': label,
         'aria-current': !edge && target === page ? 'page' : undefined,
-        'data-state': target === page ? 'current' : 'idle',
+        'data-state': !edge && target === page ? 'current' : 'idle',
       },
       on: {
         ...base.on,

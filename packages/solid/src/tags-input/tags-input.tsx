@@ -420,7 +420,7 @@ export function TagsInputInput(props: TagsInputInputProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         context.setInput(node)
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
     />
   )
@@ -504,7 +504,7 @@ export function TagsInputItem(props: TagsInputItemProps): JSX.Element {
       {...spread(part(), { ...rest })}
       ref={(node) => {
         entry.element = node
-        setRef(props.ref, node)
+        setRef(() => props.ref, node)
       }}
     >
       {children()}
@@ -608,7 +608,7 @@ export function TagsInputItemInput(props: TagsInputItemInputProps): JSX.Element 
       {...spread(part(), { ...rest })}
       ref={(el) => {
         node = el
-        setRef(props.ref, el)
+        setRef(() => props.ref, el)
       }}
     />
   )

@@ -34,7 +34,9 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
   props: ButtonProps<T>
 ): JSX.Element {
   const context = useDialog('Drawer.Handle')
-  const [element, setElement] = createSignal<HTMLElement>()
+  const [element, setElement] = createSignal<HTMLElement | undefined>(undefined, {
+    ownedWrite: true,
+  })
   let controller: ReturnType<typeof registerDrawerHandle> | undefined
   let attached: HTMLElement | undefined
   let attachedContent: HTMLElement | undefined
@@ -83,7 +85,7 @@ export function DrawerHandle<T extends ValidComponent = 'button'>(
       {...props}
       ref={(el: HTMLElement) => {
         setElement(el)
-        setRef((props as { ref?: unknown }).ref, el)
+        setRef(() => (props as { ref?: unknown }).ref, el)
       }}
     />
   )
