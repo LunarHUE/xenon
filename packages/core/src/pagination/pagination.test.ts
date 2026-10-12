@@ -75,3 +75,17 @@ describe('pagination', () => {
     expect(attrs.tabindex).toBeUndefined()
   })
 })
+
+test('only the current page Item is marked current', () => {
+  const first = pagination({ count: 5, page: 1 })
+  expect(first.parts.item(1).attrs).toMatchObject({
+    'data-state': 'current',
+    'aria-current': 'page',
+  })
+  expect(first.parts.first().attrs['data-state']).toBe('idle')
+  expect(first.parts.previous().attrs['data-state']).toBe('idle')
+  const last = pagination({ count: 5, page: 5 })
+  expect(last.parts.next().attrs['data-state']).toBe('idle')
+  expect(last.parts.last().attrs['data-state']).toBe('idle')
+  expect(last.parts.item(5).attrs['data-state']).toBe('current')
+})
