@@ -110,7 +110,9 @@ depends on `^0.2.1`. DOM stays at 0.2.0.
 - Editable no longer puts `type="text"` on a textarea. Every part gets
   `data-empty` while the value is empty. With no value or placeholder the
   preview renders no text instead of "Edit", and keeps "Edit" as its
-  `aria-label`.
+  `aria-label`. That empty preview has no size until it's styled, so give
+  `[data-empty]` a minimum width or a visible hint, or pointer users can't
+  click it.
 - RangeCalendar gives a draft anchor `data-selection-start` while its preview
   is invalid. Overflow days from neighbouring months no longer get range
   flags, so side-by-side months draw the band once.
