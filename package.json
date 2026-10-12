@@ -30,6 +30,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "pack": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts --pack",
+    "verify:packages": "turbo run build --filter=./packages/* && node scripts/verify-package.mjs packages/core/dist && node scripts/verify-package.mjs packages/dom/dist && node scripts/verify-package.mjs packages/solid/dist",
     "publish:packages": "turbo run build --filter=./packages/* && bun scripts/publish-packages.ts"
   },
   "devDependencies": {
