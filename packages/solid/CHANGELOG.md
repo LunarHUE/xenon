@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.2.4 — 2026-10-16
+
+Packaging only. No component behavior changes. Use with `@xenon-ui/core` 0.2.3
+and `@xenon-ui/dom` 0.2.2; this package now depends on `^0.2.3` and `^0.2.2`.
+
+### Packaging
+
+- Under the `solid` condition the package is one JSX-preserved file,
+  `src/index.jsx`, and every subpath is a one-line re-export from it. The
+  bundle imports `@xenon-ui/core` and `@xenon-ui/dom` by their package roots,
+  two specifiers instead of 42 subpaths. A Vite dev server with the Solid
+  plugin serves this package file by file, and a page that used five
+  components went from 175 module requests to 25 with no consumer config.
+  `@xenon-ui/core` 0.2.3 and `@xenon-ui/dom` 0.2.2 are one bundled file each
+  for the same reason.
+- Context and compound-component initializers are marked pure, and Editable,
+  TagsInput, HoverCard and Tooltip import Field and Popover parts directly.
+  With everything in one file, a bundler kept those top-level calls and with
+  them every component; a build that used only Button retained 420 kB. It
+  now retains 27 kB.
+- All three packages export `./package.json`.
+- The README says what a Vite consumer should see in dev, and gives the two
+  `optimizeDeps.include` entries that fold core and dom into `.vite/deps`.
+  Vite and the Solid plugin cannot discover them on their own; see the README.
+
 ## 0.2.3 — 2026-10-12
 
 Adds a command palette and a virtual list, and packages them so they can be

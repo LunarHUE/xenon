@@ -22,6 +22,7 @@ import {
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import { Field } from '../field/field'
+import { FieldDescription, FieldError, FieldLabel } from '../field/parts'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { spread } from '../spread'
 
@@ -86,7 +87,7 @@ interface Context {
   /** Restore pre-edit text and exit. */
   cancel(): void
 }
-const Context = createContext<Context>()
+const Context = /* @__PURE__ */ createContext<Context>()
 /** Reads the enclosing inline editor. */
 function useEditable(): Context {
   return useContext(Context)
@@ -383,17 +384,17 @@ export const EditableSubmitTrigger = trigger('submitTrigger')
 /** Abandons the current draft. */
 export const EditableCancelTrigger = trigger('cancelTrigger')
 /** Inline text editor with native field parts and explicit commit/cancel controls. */
-export const Editable = Object.assign(EditableRoot, {
+export const Editable = /* @__PURE__ */ Object.assign(EditableRoot, {
   /** Committed text and activation target. */
   Preview: EditablePreview,
   /** Native draft editor. */
   Input: EditableInput,
   /** Native associated label. */
-  Label: Field.Label,
+  Label: FieldLabel,
   /** Registered helper text. */
-  Description: Field.Description,
+  Description: FieldDescription,
   /** Conditional registered error. */
-  Error: Field.Error,
+  Error: FieldError,
   /** Starts editing. */
   EditTrigger: EditableEditTrigger,
   /** Commits editing. */

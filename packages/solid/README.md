@@ -62,3 +62,49 @@ Solid version. Server rendering needs the plugin's `ssr: true` option so the
 server environment gets server codegen. Other bundlers get a precompiled ESM
 build, which is a client build: importing it in Node throws for any component
 that creates DOM templates at module load.
+
+### What the Vite dev server loads
+
+Under the `solid` condition the whole package is one file, `src/index.jsx`,
+with JSX left for your Solid plugin to compile. Each subpath such as
+`@xenon-ui/solid/dialog` is a one-line re-export from that file. The bundle
+imports `@xenon-ui/core` and `@xenon-ui/dom` by their package roots only, and
+each of those packages is also one bundled file with one-line subpath
+re-exports.
+
+The Solid plugin excludes any package with a `solid` export condition from
+Vite's dependency pre-bundling, so the dev server serves this package as
+source. That is by design: JSX has to be compiled per environment, DOM for the
+client and server codegen for SSR. A page that uses five components makes
+about six requests to this package: the bundle plus one re-export per subpath.
+
+`@xenon-ui/core` and `@xenon-ui/dom` are plain ESM with no JSX, so they can be
+pre-bundled. Vite does not do that on its own, for two reasons that live
+outside this package:
+
+- Vite registers a dependency for pre-bundling only when the importer is
+  outside `node_modules`. The import from this package's bundle never counts.
+- The Solid plugin uses vitefu to deep-include dependencies of framework
+  packages, but vitefu only includes packages that look like CommonJS (no
+  `exports` field, no `module` field), and the plugin then drops any include
+  that passes through a package depending on `solid-js`, which this one does.
+
+So with no config, core and dom arrive as one raw file each, two requests in
+total. To fold them into `.vite/deps` along with `tabbable` and
+`@floating-ui/dom`, add these two entries. They are static; nothing needs to
+walk this package's files:
+
+```ts
+import { defineConfig } from 'vite'
+import solid from '@solidjs/vite-plugin'
+
+export default defineConfig({
+  plugins: [solid()],
+  optimizeDeps: {
+    include: ['@xenon-ui/solid > @xenon-ui/core', '@xenon-ui/solid > @xenon-ui/dom'],
+  },
+})
+```
+
+Do not list core and dom subpaths; the bundle imports the roots and the roots
+export everything.

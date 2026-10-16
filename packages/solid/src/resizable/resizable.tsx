@@ -73,7 +73,7 @@ interface Context {
   /** Current dragged handle index. */
   dragging(): number | undefined
 }
-const ResizableContext = createContext<Context>()
+const ResizableContext = /* @__PURE__ */ createContext<Context>()
 /** Require a root for every part. */
 function useResizable(): Context {
   const context = useContext(ResizableContext)
@@ -379,7 +379,7 @@ function ResizableHandle(props: ResizableHandleProps): JSX.Element {
   )
 }
 /** Headless percent split layout with adjacent handles and optional primary collapse. */
-export const Resizable = Object.assign(ResizableRoot, {
+export const Resizable = /* @__PURE__ */ Object.assign(ResizableRoot, {
   /** Ordered pane with percent constraints. */
   Panel: ResizablePanel,
   /** Focusable separator before the next pane. */

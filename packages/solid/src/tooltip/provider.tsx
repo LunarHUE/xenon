@@ -45,7 +45,7 @@ export interface TooltipProviderContextValue {
   /** Shared warm-window coordinator. */
   group: TooltipGroup
 }
-const ProviderContext = createContext<TooltipProviderContextValue | null>(null)
+const ProviderContext = /* @__PURE__ */ createContext<TooltipProviderContextValue | null>(null)
 /** Reads an optional tooltip provider without requiring one. */
 export function useTooltipProvider(): TooltipProviderContextValue | null {
   return useContext(ProviderContext)

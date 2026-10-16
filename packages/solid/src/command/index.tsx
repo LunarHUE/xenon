@@ -13,7 +13,7 @@ import {
 import { CommandDialog } from './dialog'
 
 /** Command palette: a search input that filters and runs commands, inline or in a dialog. */
-export const Command = Object.assign(CommandRoot, {
+export const Command = /* @__PURE__ */ Object.assign(CommandRoot, {
   /** Alias of Command itself. */
   Root: CommandRoot,
   /** Root inside a modal dialog with an open shortcut. */

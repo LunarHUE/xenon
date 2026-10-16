@@ -106,7 +106,7 @@ function DrawerRoot<T extends ValidComponent = 'div', Payload = unknown>(
  * context. Viewport owns native presentation; Content supplies the rectangle and
  * transform for handle gestures. Standalone Content remains a native dialog.
  */
-export const Drawer = Object.assign(DrawerRoot, {
+export const Drawer = /* @__PURE__ */ Object.assign(DrawerRoot, {
   /** Alias of Drawer with the same root options and context. */
   Root: DrawerRoot,
   ...dialogParts,

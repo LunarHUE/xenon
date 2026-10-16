@@ -9,7 +9,7 @@ export interface ToastProviderContext {
   manager: ToastManager<unknown>
 }
 /** Internal manager context; public reads go through useToastManager. */
-export const ToastProviderContext = createContext<ToastProviderContext | null>(null)
+export const ToastProviderContext = /* @__PURE__ */ createContext<ToastProviderContext | null>(null)
 /** Measured notification dimensions and its current display position. */
 export interface ToastLayout {
   /** Zero-based visual position among admitted records, including exits. */
@@ -41,7 +41,7 @@ export interface ToastViewportContext {
   announce(record: ToastRecord<unknown>, text: string): void
 }
 /** Internal geometry, focus and announcement owner. */
-export const ToastViewportContext = createContext<ToastViewportContext | null>(null)
+export const ToastViewportContext = /* @__PURE__ */ createContext<ToastViewportContext | null>(null)
 /** Internal record and association state consumed by title, description and controls. */
 export interface ToastContentContext {
   /** Current reactive record supplied to Content. */
@@ -58,7 +58,7 @@ export interface ToastContentContext {
   association(name: Association, read: () => string | undefined): string | undefined
 }
 /** Internal nearest notification content context. */
-export const ToastContentContext = createContext<ToastContentContext | null>(null)
+export const ToastContentContext = /* @__PURE__ */ createContext<ToastContentContext | null>(null)
 /** Read required viewport services or report the missing compound ancestor. */
 export function useToastViewport(name: string): ToastViewportContext {
   const context = useContext(ToastViewportContext)

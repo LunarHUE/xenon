@@ -53,7 +53,7 @@ const RangeCalendarComponent: RangeCalendarComponentType = (props: unknown): JSX
  * valid ranges reach onValueChange. Escape cancels an active draft; with no draft
  * it remains available to ancestor overlays. Each Grid owns one visible month.
  */
-export const RangeCalendar = Object.assign(RangeCalendarComponent, {
+export const RangeCalendar = /* @__PURE__ */ Object.assign(RangeCalendarComponent, {
   /** Layout wrapper for the heading and paging controls. */
   Header: CalendarHeader,
   /** Localized displayed interval and accessible name. */

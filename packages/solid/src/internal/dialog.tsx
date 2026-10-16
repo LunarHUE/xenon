@@ -140,7 +140,7 @@ export type DialogPortalProps = OverlayPortalProps
 /** Portal with inherited native modal ancestry and client-only rendering. */
 export const DialogPortal = OverlayPortal
 /** Inner surface supplies authored semantics to its surrounding native host. */
-const ViewportContext = createContext<{
+const ViewportContext = /* @__PURE__ */ createContext<{
   setProps(props: DialogContentProps): void
   /** Clear the surface props only if they still belong to this Content. */
   clearProps(props: DialogContentProps): void
@@ -209,7 +209,7 @@ interface Context {
   setCancel(el: HTMLElement): void
 }
 /** Shared provider used by all three dialog families and their parts. */
-const DialogContext = createContext<Context | null>(null)
+const DialogContext = /* @__PURE__ */ createContext<Context | null>(null)
 /** Reads the nearest dialog-family context, throwing an error naming the consumer when absent. */
 export function useDialog(name: string): Context {
   const context = useContext(DialogContext)

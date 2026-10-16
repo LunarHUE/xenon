@@ -17,7 +17,16 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { Popover, HoverPositioner, usePopover, createPopoverHandle } from '../popover/popover'
+import {
+  Popover,
+  HoverPositioner,
+  usePopover,
+  createPopoverHandle,
+  PopoverViewport,
+  PopoverAnchor,
+  PopoverArrow,
+} from '../popover/popover'
+import { OverlayPortal } from '../internal/overlay-portal'
 import type {
   PopoverHandle,
   PopoverProps,
@@ -95,7 +104,7 @@ interface Context {
   /** Publish the latest instant marker. */
   setInstant(value: boolean): void
 }
-const Context = createContext<Context | null>(null)
+const Context = /* @__PURE__ */ createContext<Context | null>(null)
 const roots = new WeakMap<PopupContext, Context>()
 /** Read required local tooltip context for non-trigger parts. */
 function useTooltip(): Context {
@@ -421,7 +430,7 @@ export function TooltipContent<T extends ValidComponent = 'div'>(
   )
 }
 /** Tooltip interaction root with inherited policy, detached handles, and the standard overlay anatomy. */
-export const Tooltip = Object.assign(TooltipRoot, {
+export const Tooltip = /* @__PURE__ */ Object.assign(TooltipRoot, {
   /** Scoped defaults and shared delay coordination. */
   Provider: TooltipProvider,
   /** Typed detached-trigger connection. */
@@ -429,15 +438,15 @@ export const Tooltip = Object.assign(TooltipRoot, {
   /** Native trigger without an expanded state. */
   Trigger: TooltipTrigger,
   /** Portal preserving native modal ancestry. */
-  Portal: Popover.Portal,
+  Portal: OverlayPortal,
   /** Anchor positioning and top-layer hosting. */
   Positioner: TooltipPositioner,
   /** Nonfocusable descriptive content. */
   Content: TooltipContent,
   /** Inert previous-content transitions for a shared tooltip. */
-  Viewport: Popover.Viewport,
+  Viewport: PopoverViewport,
   /** Decorative positioning arrow. */
-  Arrow: Popover.Arrow,
+  Arrow: PopoverArrow,
   /** Optional explicit positioning anchor. */
-  Anchor: Popover.Anchor,
+  Anchor: PopoverAnchor,
 })

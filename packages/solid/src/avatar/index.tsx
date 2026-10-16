@@ -50,7 +50,7 @@ interface AvatarContextValue {
 }
 
 /** Context shared by the root's image and fallback. */
-const AvatarContext = createContext<AvatarContextValue>()
+const AvatarContext = /* @__PURE__ */ createContext<AvatarContextValue>()
 
 /** Require a root for image and fallback coordination. */
 function useAvatar(): AvatarContextValue {
@@ -167,7 +167,7 @@ function AvatarFallback<T extends ValidComponent = 'span'>(
 }
 
 /** Compound avatar with a native loaded image and delayed fallback content. */
-export const Avatar = Object.assign(AvatarRoot, {
+export const Avatar = /* @__PURE__ */ Object.assign(AvatarRoot, {
   /** Image content rendered only after successful loading. */
   Image: AvatarImage,
   /** Content shown when the image is not loaded. */

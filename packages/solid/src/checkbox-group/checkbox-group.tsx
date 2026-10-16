@@ -262,7 +262,7 @@ function CheckboxGroupRoot<T extends ValidComponent = 'div'>(
  * Required means at least one selected value; individual required props remain native.
  * Every checkbox retains its own tab stop. Custom hosts must forward props and refs.
  */
-export const CheckboxGroup = Object.assign(CheckboxGroupRoot, {
+export const CheckboxGroup = /* @__PURE__ */ Object.assign(CheckboxGroupRoot, {
   /** Group name, referenced by aria-labelledby. */
   Label: CheckboxGroupLabel,
   /** Registered group description, also described by every item. */

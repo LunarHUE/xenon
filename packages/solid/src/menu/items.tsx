@@ -79,9 +79,9 @@ export type MenuRadioGroupProps<T extends ValidComponent = 'div'> = Omit<
 }
 
 /** Current item checked state; indicators outside an item see false. */
-const IndicatorContext = createContext<() => MenuChecked>(() => false)
+const IndicatorContext = /* @__PURE__ */ createContext<() => MenuChecked>(() => false)
 /** Nearest radio group selection and deduplicated change request. */
-const RadioContext = createContext<{
+const RadioContext = /* @__PURE__ */ createContext<{
   /** Current controlled or internal selection. */
   value(): string | undefined
   /** Ignore equal values, update uncontrolled state, then notify the author. */
@@ -382,7 +382,7 @@ export function MenuRadioGroup<T extends ValidComponent = 'div'>(
   )
 }
 /** Last-label association registry for one group. */
-const GroupContext = createContext<{
+const GroupContext = /* @__PURE__ */ createContext<{
   /** Current ID from the most recently registered label, or undefined. */
   label(): string | undefined
   /** Append a live ID reader and return owner cleanup that removes that reader. */

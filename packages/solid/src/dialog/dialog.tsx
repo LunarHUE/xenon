@@ -19,7 +19,7 @@ function DialogRoot<T extends ValidComponent = 'div', Payload = unknown>(
  * require this family's context. Use open for controlled state or defaultOpen for
  * initial uncontrolled state, and supply an accessible content name.
  */
-export const Dialog = Object.assign(DialogRoot, {
+export const Dialog = /* @__PURE__ */ Object.assign(DialogRoot, {
   /** Alias of Dialog itself, providing the same root state and context. */
   Root: DialogRoot,
   ...dialogParts,

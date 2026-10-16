@@ -25,7 +25,9 @@ export interface ToggleGroupContextValue {
 }
 
 /** Nearest group context, or null when no group provides it. */
-export const ToggleGroupContext = createContext<ToggleGroupContextValue | null>(null)
+export const ToggleGroupContext = /* @__PURE__ */ createContext<ToggleGroupContextValue | null>(
+  null
+)
 
 /**
  * Reads the enclosing group for an item within its Solid owner.

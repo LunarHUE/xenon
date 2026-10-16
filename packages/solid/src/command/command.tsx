@@ -138,9 +138,9 @@ interface VirtualBinding {
   index(value: string): number
 }
 
-const Context = createContext<Internal | null>(null)
-const GroupContext = createContext<Accessor<string> | null>(null)
-const ItemContext = createContext<ShortcutHandle | null>(null)
+const Context = /* @__PURE__ */ createContext<Internal | null>(null)
+const GroupContext = /* @__PURE__ */ createContext<Accessor<string> | null>(null)
+const ItemContext = /* @__PURE__ */ createContext<ShortcutHandle | null>(null)
 
 /** Hooks Command.Dialog into the palette rendered inside it. */
 interface Bridge {
@@ -150,7 +150,7 @@ interface Bridge {
   openShortcut?: string
   close(): void
 }
-const BridgeContext = createContext<Bridge | null>(null)
+const BridgeContext = /* @__PURE__ */ createContext<Bridge | null>(null)
 
 function useInternal(name: string): Internal {
   const context = useContext(Context)

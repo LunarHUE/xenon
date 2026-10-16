@@ -18,7 +18,7 @@ import {
  * Place each Trigger and positioned Content inside a Menu with a unique value.
  * Nested Sub parts reuse Menu state, item semantics, and navigation.
  */
-export const Menubar = Object.assign(MenubarRoot, {
+export const Menubar = /* @__PURE__ */ Object.assign(MenubarRoot, {
   /** Menubar container and top-level navigation provider. */
   Root: MenubarRoot,
   /** One identified top-level menu. */

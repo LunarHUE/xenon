@@ -62,7 +62,7 @@ interface Context {
   /** Generated slot ID. */
   id: (index: number) => string
 }
-const Context = createContext<Context | null>(null)
+const Context = /* @__PURE__ */ createContext<Context | null>(null)
 /** Read the required owning root. */
 function usePinInput(): Context {
   const context = useContext(Context)
@@ -339,7 +339,7 @@ function PinInputInput(props: PinInputInputProps): JSX.Element {
  * slot of an eight-character code is still "Pin code 5 of 8". Arrow keys, Backspace
  * and paste follow Input indexes and skip separators.
  */
-export const PinInput = Object.assign(PinInputRoot, {
+export const PinInput = /* @__PURE__ */ Object.assign(PinInputRoot, {
   /** One focusable character slot. */
   Input: PinInputInput,
 })

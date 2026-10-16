@@ -52,9 +52,9 @@ export interface CalendarContextValue {
   association(name: Association, read: () => string | undefined): string | undefined
 }
 /** Shared calendar provider; isolated roots keep independent registries and values. */
-export const CalendarContext = createContext<CalendarContextValue | null>(null)
+export const CalendarContext = /* @__PURE__ */ createContext<CalendarContextValue | null>(null)
 /** Owning month index for Grid descendants. */
-export const CalendarGridContext = createContext<(() => number) | null>(null)
+export const CalendarGridContext = /* @__PURE__ */ createContext<(() => number) | null>(null)
 /** Read required calendar context and identify the missing ancestor in errors. */
 export function useCalendarContext(part: string): CalendarContextValue {
   const context = useContext(CalendarContext)

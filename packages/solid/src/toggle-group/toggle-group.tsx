@@ -270,7 +270,7 @@ function ToggleGroupItem<T extends ValidComponent = 'button'>(
  * Renders group semantics, not a radiogroup. Provide an accessible group name and
  * distinct item values. No hidden form inputs or form-reset selection handling are installed.
  */
-export const ToggleGroup = Object.assign(ToggleGroupRoot, {
+export const ToggleGroup = /* @__PURE__ */ Object.assign(ToggleGroupRoot, {
   /** Toggle item requiring this group's context; see {@link ToggleGroupItemProps}. */
   Item: ToggleGroupItem,
 })

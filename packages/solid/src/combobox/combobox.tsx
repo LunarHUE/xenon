@@ -123,7 +123,7 @@ interface Context {
   /** Whether the highlighted option has a mounted row, so aria-activedescendant may name it. */
   activeMounted(): boolean
 }
-const Context = createContext<Context>()
+const Context = /* @__PURE__ */ createContext<Context>()
 /** Read the owning combobox; parts cannot be rendered outside its root. */
 function useCombobox(): Context {
   const context = useContext(Context)
@@ -831,7 +831,7 @@ function DefaultItems(): JSX.Element {
 }
 
 /** Editable single-selection root and its independently rendered compound parts. */
-export const Combobox = Object.assign(ComboboxRoot, {
+export const Combobox = /* @__PURE__ */ Object.assign(ComboboxRoot, {
   /** Portal popup parts while the form mirror stays at Root. */
   Portal: OverlayPortal,
   /** Current selection label, with optional placeholder or custom children. */

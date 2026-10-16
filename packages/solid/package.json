@@ -1,6 +1,6 @@
 {
   "name": "@xenon-ui/solid",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Headless, accessible components for Solid 2.",
   "license": "MIT",
   "keywords": [
@@ -221,7 +221,8 @@
     "./virtual-list": {
       "types": "./src/virtual-list/index.tsx",
       "default": "./src/virtual-list/index.tsx"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "bun ../../scripts/build-package.ts",

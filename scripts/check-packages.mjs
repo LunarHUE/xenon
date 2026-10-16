@@ -70,7 +70,9 @@ function sourceModules(name) {
 /** Subpaths a consumer can import: one per public module, plus file entries listed in exports. */
 function subpaths(name, manifest) {
   const modules = sourceModules(name).filter((dir) => dir !== 'internal')
-  const listed = Object.keys(manifest.exports).filter((key) => key !== '.' && !key.includes('*'))
+  const listed = Object.keys(manifest.exports).filter(
+    (key) => key !== '.' && key !== './package.json' && !key.includes('*')
+  )
   return [...new Set(['.', ...modules.map((dir) => `./${dir}`), ...listed])]
 }
 

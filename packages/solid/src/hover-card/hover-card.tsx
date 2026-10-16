@@ -14,7 +14,18 @@ import {
   untrack,
   useContext,
 } from 'solid-js'
-import { Popover, HoverPositioner, createPopoverHandle, usePopover } from '../popover/popover'
+import {
+  Popover,
+  HoverPositioner,
+  createPopoverHandle,
+  usePopover,
+  PopoverViewport,
+  PopoverAnchor,
+  PopoverArrow,
+  PopoverTitle,
+  PopoverDescription,
+} from '../popover/popover'
+import { OverlayPortal } from '../internal/overlay-portal'
 import type {
   PopoverProps,
   PopoverHandle,
@@ -91,7 +102,7 @@ interface Context {
   /** Suppresses focus opening while Escape restores the trigger. */
   restoring: boolean
 }
-const HoverCardContext = createContext<Context | null>(null)
+const HoverCardContext = /* @__PURE__ */ createContext<Context | null>(null)
 const contexts = new WeakMap<RootContext, Context>()
 /** Read the nearest preview state; throws when called outside HoverCard.Root. */
 export function useHoverCard(): Context {
@@ -315,7 +326,7 @@ export function HoverCardContent<T extends ValidComponent = 'div'>(
  * Arrow inside Positioner. Hover and keyboard focus open after 600ms by default,
  * leaving both regions closes after 300ms, and touch never opens a preview.
  */
-export const HoverCard = Object.assign(HoverCardRoot, {
+export const HoverCard = /* @__PURE__ */ Object.assign(HoverCardRoot, {
   /** Visibility and intent provider. */
   Root: HoverCardRoot,
   /** Create a typed detached trigger and imperative command handle. */
@@ -323,19 +334,19 @@ export const HoverCard = Object.assign(HoverCardRoot, {
   /** Native link opener with delayed intent. */
   Trigger: HoverCardTrigger,
   /** Move content while preserving modal ancestry and Solid ownership. */
-  Portal: Popover.Portal,
+  Portal: OverlayPortal,
   /** Native top-layer host and fixed positioning. */
   Positioner: HoverPositioner,
   /** Nonmodal preview dialog and focus region. */
   Content: HoverCardContent,
   /** Optional content transition and scrolling host. */
-  Viewport: Popover.Viewport,
+  Viewport: PopoverViewport,
   /** Optional explicit geometry anchor. */
-  Anchor: Popover.Anchor,
+  Anchor: PopoverAnchor,
   /** Measured arrow host with author-supplied artwork. */
-  Arrow: Popover.Arrow,
+  Arrow: PopoverArrow,
   /** Accessible dialog title. */
-  Title: Popover.Title,
+  Title: PopoverTitle,
   /** Accessible dialog description. */
-  Description: Popover.Description,
+  Description: PopoverDescription,
 })

@@ -104,7 +104,7 @@ export interface MenuContextValue {
   leave(): void
 }
 /** Nearest root or submenu context; undefined outside a provider. */
-export const MenuContext = createContext<MenuContextValue>()
+export const MenuContext = /* @__PURE__ */ createContext<MenuContextValue>()
 /**
  * Reads the enclosing menu within the current Solid owner.
  * @param name - Part name included in the missing-provider error.

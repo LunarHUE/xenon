@@ -251,7 +251,7 @@ export function CollapsibleContent<T extends ValidComponent = 'div'>(
 }
 
 /** Disclosure root with context-bound Trigger and Content parts. See {@link CollapsibleProps}. */
-export const Collapsible = Object.assign(CollapsibleRoot, {
+export const Collapsible = /* @__PURE__ */ Object.assign(CollapsibleRoot, {
   /** Toggle host with expanded and content-control associations. */
   Trigger: CollapsibleTrigger,
   /** Presence-managed panel with phase-dependent size properties. */

@@ -22,7 +22,7 @@ export interface ToolbarContextValue {
 }
 
 /** Nearest toolbar or nested group policy; null outside a toolbar. */
-export const ToolbarContext = createContext<ToolbarContextValue | null>(null)
+export const ToolbarContext = /* @__PURE__ */ createContext<ToolbarContextValue | null>(null)
 
 /**
  * Requires a toolbar provider in the current Solid owner.

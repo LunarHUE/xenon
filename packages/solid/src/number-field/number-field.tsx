@@ -57,7 +57,7 @@ interface Context {
   /** Record the native text input for form reset and validity synchronization. */
   setInput: (input: HTMLInputElement) => void
 }
-const Context = createContext<Context>()
+const Context = /* @__PURE__ */ createContext<Context>()
 /** Read the required owning NumberField context. */
 function useNumberField() {
   const context = useContext(Context)
@@ -305,7 +305,7 @@ function NumberFieldValueText(props: NumberFieldValueTextProps): JSX.Element {
   return <span {...props}>{props.children ?? context.engine().state.inputValue}</span>
 }
 /** Numeric form input and its independently styled parts. */
-export const NumberField = Object.assign(NumberFieldRoot, {
+export const NumberField = /* @__PURE__ */ Object.assign(NumberFieldRoot, {
   /** Native text spinbutton with locale parsing and Field associations. */
   Input: NumberFieldInput,
   /** Layout wrapper for the input and step controls. */

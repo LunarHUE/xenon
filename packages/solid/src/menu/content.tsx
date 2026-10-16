@@ -38,7 +38,7 @@ export type MenuContentProps<T extends ValidComponent = 'div'> = Omit<ComponentP
   as?: T
 }
 /** Positioner controller supplied to its descendant content for resolved placement hooks. */
-const PositionContext = createContext<
+const PositionContext = /* @__PURE__ */ createContext<
   Positioner & { setArrow(element: HTMLElement | undefined): void }
 >()
 /**

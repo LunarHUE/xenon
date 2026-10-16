@@ -91,8 +91,8 @@ interface Context {
   navigate(event: KeyboardEvent): void
   beforeChange(listener: () => void): () => void
 }
-const Context = createContext<Context | null>(null)
-const ItemContext = createContext<(() => string) | null>(null)
+const Context = /* @__PURE__ */ createContext<Context | null>(null)
+const ItemContext = /* @__PURE__ */ createContext<(() => string) | null>(null)
 function useNavigation(name: string) {
   const context = useContext(Context)
   if (!context)
@@ -537,7 +537,7 @@ export function NavigationMenuContent<T extends ValidComponent = 'div'>(
     </Host>
   )
 }
-const PositionerContext = createContext<
+const PositionerContext = /* @__PURE__ */ createContext<
   (Positioner & { setArrow(el: HTMLElement | undefined): void }) | null
 >(null)
 /** Fixed-position native hosting attributes and collision options. */
@@ -714,7 +714,7 @@ export function NavigationMenuArrow(props: HostProps<'div'>): JSX.Element {
   )
 }
 /** Site navigation parts using nav, ul, li, buttons and native anchors. Content stays mounted and hidden while closed. */
-export const NavigationMenu = Object.assign(NavigationMenuRoot, {
+export const NavigationMenu = /* @__PURE__ */ Object.assign(NavigationMenuRoot, {
   /** Navigation landmark, selection provider and interaction policy. */
   Root: NavigationMenuRoot,
   /** Native list with optional arrow and Home/End shortcuts. */

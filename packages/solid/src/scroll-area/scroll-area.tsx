@@ -80,8 +80,8 @@ interface ScrollContext {
   /** Hide native bars only when every overflowing axis has a custom control. */
   hideNative(): boolean
 }
-const Context = createContext<ScrollContext>()
-const TrackContext = createContext<{
+const Context = /* @__PURE__ */ createContext<ScrollContext>()
+const TrackContext = /* @__PURE__ */ createContext<{
   /** Owning track's physical axis. */
   axis(): ScrollAreaAxis
   /** Current thumb dimensions and displacement. */
@@ -576,7 +576,7 @@ export function ScrollAreaCorner<T extends ValidComponent = 'div'>(
 }
 
 /** Native scrolling root with optional custom, keyboard-operable scrollbar parts. */
-export const ScrollArea = Object.assign(ScrollAreaRoot, {
+export const ScrollArea = /* @__PURE__ */ Object.assign(ScrollAreaRoot, {
   /** Named native overflow region. */
   Viewport: ScrollAreaViewport,
   /** Content size observation wrapper. */

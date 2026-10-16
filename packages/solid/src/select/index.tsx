@@ -193,7 +193,7 @@ function createSelect(props: SelectProps) {
     dir: () => props.dir ?? ambient(),
   }
 }
-const Context = createContext<ReturnType<typeof createSelect>>()
+const Context = /* @__PURE__ */ createContext<ReturnType<typeof createSelect>>()
 function useSelect(part: string) {
   const context = useContext(Context)
   if (!context) throw new Error(`${part} must be rendered inside <Select>`)
@@ -492,7 +492,7 @@ export function SelectViewport(props: SelectViewportProps): JSX.Element {
 }
 
 /** Select-only combobox with wrapper-free state and compound presentation parts. */
-export const Select = Object.assign(SelectRoot, {
+export const Select = /* @__PURE__ */ Object.assign(SelectRoot, {
   /** Portal popup parts while the form mirror stays at Root. */
   Portal: OverlayPortal,
   /** Optional scrolling wrapper for options inside Content. */

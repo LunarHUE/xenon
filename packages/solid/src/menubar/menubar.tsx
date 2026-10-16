@@ -36,8 +36,8 @@ interface BarContext {
   move(entry: Entry, event: KeyboardEvent): void
   dir(): 'ltr' | 'rtl'
 }
-const BarContext = createContext<BarContext>()
-const EntryContext = createContext<Entry>()
+const BarContext = /* @__PURE__ */ createContext<BarContext>()
+const EntryContext = /* @__PURE__ */ createContext<Entry>()
 function useBar() {
   const bar = useContext(BarContext)
   if (!bar) throw new Error('Menubar parts must be rendered inside Menubar')
