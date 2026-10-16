@@ -57,7 +57,7 @@ export interface FieldContextValue {
 }
 
 /** Nearest Field's context, defaulting to null outside a provider. */
-export const FieldContext = createContext<FieldContextValue | null>(null)
+export const FieldContext = /* @__PURE__ */ createContext<FieldContextValue | null>(null)
 
 /** Reads the optional enclosing Field in the current Solid owner without requiring one. */
 export function useFieldContext(): FieldContextValue | null {

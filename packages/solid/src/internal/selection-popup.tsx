@@ -46,7 +46,7 @@ export interface SelectionPositioner extends Positioner {
   /** Attach or clear the decorative arrow layout box. */
   setArrow(el: HTMLElement | undefined): void
 }
-const PositionContext = createContext<SelectionPositioner>()
+const PositionContext = /* @__PURE__ */ createContext<SelectionPositioner>()
 /** Read geometry for Content and Arrow; throws outside a selection Positioner. */
 export function useSelectionPositioner(): SelectionPositioner {
   const value = useContext(PositionContext)

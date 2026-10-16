@@ -47,7 +47,7 @@ export interface RadioGroupContextValue {
 }
 
 /** Nullable provider shared by the group root and its items. */
-export const RadioGroupContext = createContext<RadioGroupContextValue | null>(null)
+export const RadioGroupContext = /* @__PURE__ */ createContext<RadioGroupContextValue | null>(null)
 
 /** Reads the nearest group, throwing an error naming the consumer when absent. */
 export function useRadioGroup(name: string): RadioGroupContextValue {

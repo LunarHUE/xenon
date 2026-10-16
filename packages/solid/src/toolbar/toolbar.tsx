@@ -155,7 +155,7 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
 }
 
 /** Toolbar root with Button, Link, Separator, and Group parts, which require its context. */
-export const Toolbar = Object.assign(ToolbarRoot, {
+export const Toolbar = /* @__PURE__ */ Object.assign(ToolbarRoot, {
   /** Navigable button inheriting toolbar/group disabled state. */
   Button: ToolbarButton,
   /** Navigable anchor independent of toolbar/group disabled state. */

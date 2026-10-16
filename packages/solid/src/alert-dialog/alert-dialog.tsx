@@ -51,7 +51,7 @@ function AlertDialogRoot<T extends ValidComponent = 'div', Payload = unknown>(
  * missing associations produce development warnings. Open state and presence
  * follow the shared dialog adapter, and all parts require its context.
  */
-export const AlertDialog = Object.assign(AlertDialogRoot, {
+export const AlertDialog = /* @__PURE__ */ Object.assign(AlertDialogRoot, {
   /** Alias of AlertDialog with the same root options and context. */
   Root: AlertDialogRoot,
   ...dialogParts,

@@ -44,7 +44,7 @@ const CalendarComponent: CalendarComponentType = (props: unknown): JSX.Element =
  * component itself. Grid supplies a complete default table; custom layouts can
  * use a children callback and GridHead, GridBody, Row, Cell, Day and ColumnHeader.
  */
-export const Calendar = Object.assign(CalendarComponent, {
+export const Calendar = /* @__PURE__ */ Object.assign(CalendarComponent, {
   /** Layout wrapper for the heading and paging controls. */
   Header: CalendarHeader,
   /** Localized month interval and accessible calendar name. */

@@ -33,7 +33,7 @@ export interface TabsContextValue {
 }
 
 /** Nearest Tabs provider, or null outside a root. */
-export const TabsContext = createContext<TabsContextValue | null>(null)
+export const TabsContext = /* @__PURE__ */ createContext<TabsContextValue | null>(null)
 
 /**
  * Requires a Tabs provider in the current Solid owner.

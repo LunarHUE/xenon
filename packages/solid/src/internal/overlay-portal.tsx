@@ -3,7 +3,9 @@ import type { JSX } from '@solidjs/web'
 import { For, createContext, useContext } from 'solid-js'
 
 /** Nearest native modal host. Descendant portals wait for this host to attach. */
-export const OverlayPortalMountContext = createContext<(() => Element | undefined) | null>(null)
+export const OverlayPortalMountContext = /* @__PURE__ */ createContext<
+  (() => Element | undefined) | null
+>(null)
 
 /** DOM destination for an overlay's positioned or modal contents. */
 export interface OverlayPortalProps {

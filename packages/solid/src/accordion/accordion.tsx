@@ -178,7 +178,7 @@ function AccordionRoot<T extends ValidComponent = 'div'>(props: AccordionProps<T
  * Native triggers keep their normal tab stops; arrow navigation is independent
  * of opening. The caller supplies trigger names and panel animation styles.
  */
-export const Accordion = Object.assign(AccordionRoot, {
+export const Accordion = /* @__PURE__ */ Object.assign(AccordionRoot, {
   /** Item scope owning stable identity and panel presence. */
   Item: AccordionItem,
   /** Disclosure trigger requiring an enclosing Item. */

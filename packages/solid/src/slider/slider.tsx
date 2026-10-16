@@ -90,7 +90,7 @@ interface Context {
   /** Optional enclosing Field. */
   field: ReturnType<typeof useFieldContext>
 }
-const SliderContext = createContext<Context | null>(null)
+const SliderContext = /* @__PURE__ */ createContext<Context | null>(null)
 /** Read the required owning Slider context. */
 function useSlider(): Context {
   const context = useContext(SliderContext)
@@ -572,7 +572,7 @@ function SliderValueText(props: SliderValueTextProps): JSX.Element {
   )
 }
 /** Native range inputs with fixed thumb order, pointer geometry, keyboard steps, and native forms. Style geometry through the published percentage properties. */
-export const Slider = Object.assign(SliderRoot, {
+export const Slider = /* @__PURE__ */ Object.assign(SliderRoot, {
   /** Pointer rail. Its rectangle defines the full numeric range. */
   Control: SliderControl,
   /** Decorative rail. */

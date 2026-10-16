@@ -209,7 +209,7 @@ function FieldRoot<T extends ValidComponent = 'div'>(props: FieldProps<T>): JSX.
  * hosts must forward their props and refs. Supply unique part IDs when rendering
  * multiple parts of the same kind, since each kind otherwise shares one fallback ID.
  */
-export const Field = Object.assign(FieldRoot, {
+export const Field = /* @__PURE__ */ Object.assign(FieldRoot, {
   /** Native label associated with the registered control; see {@link FieldLabel}. */
   Label: FieldLabel,
   /** Registered descriptive text; see {@link FieldDescription}. */

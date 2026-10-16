@@ -121,7 +121,7 @@ interface ContextValue {
   /** Whether pointerdown must preserve an external focus owner. */
   virtualFocus(): boolean
 }
-const Context = createContext<ContextValue>()
+const Context = /* @__PURE__ */ createContext<ContextValue>()
 /**
  * Owns controlled/uncontrolled selection, active identity, DOM order, and a 700ms
  * typeahead timeout. Roving focus is the default; virtualFocus leaves DOM focus
@@ -406,7 +406,7 @@ export function ListboxItem<T extends ValidComponent = 'div'>(
   )
 }
 /** Standalone listbox with single/multiple selection and compound options. */
-export const Listbox = Object.assign(ListboxRoot, {
+export const Listbox = /* @__PURE__ */ Object.assign(ListboxRoot, {
   /** Root alias for explicit compound composition. */
   Root: ListboxRoot,
   /** Option requiring a Listbox ancestor. */

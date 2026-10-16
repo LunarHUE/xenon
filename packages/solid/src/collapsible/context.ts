@@ -20,7 +20,9 @@ export interface CollapsibleContextValue {
 }
 
 /** Nullable context provided by the root; parts require a matching ancestor. */
-export const CollapsibleContext = createContext<CollapsibleContextValue | null>(null)
+export const CollapsibleContext = /* @__PURE__ */ createContext<CollapsibleContextValue | null>(
+  null
+)
 
 /** Reads the nearest disclosure context or throws an error naming the consumer. */
 export function useCollapsible(name: string): CollapsibleContextValue {

@@ -250,7 +250,7 @@ interface ContextValue {
   /** Forget a row element and, if it held DOM focus, move focus to the root. */
   release(key: VirtualKey, element: HTMLElement): void
 }
-const Context = createContext<ContextValue | null>(null)
+const Context = /* @__PURE__ */ createContext<ContextValue | null>(null)
 
 /** Require root context while retaining the missing part's name in the error. */
 function context(part: string): ContextValue {
@@ -597,7 +597,7 @@ export function VirtualListItem<T extends ValidComponent = 'div'>(
 }
 
 /** Virtualized vertical list: scroll container, sizer and positioned rows. */
-export const VirtualList = Object.assign(VirtualListRoot, {
+export const VirtualList = /* @__PURE__ */ Object.assign(VirtualListRoot, {
   /** Root alias for explicit compound composition. */
   Root: VirtualListRoot,
   /** Sizer that renders the current rows. */

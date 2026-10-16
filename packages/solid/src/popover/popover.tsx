@@ -198,7 +198,7 @@ interface Context {
   setAnchor(el: HTMLElement | undefined): void
 }
 /** Nearest popover root state; absent outside a provider. */
-const PopoverContext = createContext<Context | null>(null)
+const PopoverContext = /* @__PURE__ */ createContext<Context | null>(null)
 /**
  * Reads the enclosing popover root in the current Solid owner.
  * @param name - Part name included in the missing-provider error.
@@ -544,7 +544,7 @@ export function PopoverClose<T extends ValidComponent = 'button'>(
   )
 }
 /** Positioning state and the single arrow slot for one mounted positioner. */
-const PositionerContext = createContext<
+const PositionerContext = /* @__PURE__ */ createContext<
   Positioner & {
     /** Replaces or clears the measured arrow host; prior arrows are not stacked. */
     setArrow(el: HTMLElement | undefined): void
@@ -948,7 +948,7 @@ export function PopoverViewport(props: PopoverViewportProps): JSX.Element {
  * Popover root and associated parts. Place Content and Arrow inside Positioner;
  * other parts require the root context. Root is also available as Popover.Root.
  */
-export const Popover = Object.assign(PopoverRoot, {
+export const Popover = /* @__PURE__ */ Object.assign(PopoverRoot, {
   /** Root state, associations, and presence provider. */
   Root: PopoverRoot,
   /** Create a typed handle for detached triggers and imperative commands. */

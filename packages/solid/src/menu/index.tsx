@@ -20,7 +20,7 @@ import {
  * additionally requires RadioGroup, and GroupLabel requires Group or RadioGroup.
  * See {@link MenuRoot} for state ownership and {@link MenuContent} for focus handling.
  */
-export const Menu = Object.assign(MenuRoot, {
+export const Menu = /* @__PURE__ */ Object.assign(MenuRoot, {
   /** Alias of the wrapper-free menu state provider. */
   Root: MenuRoot,
   /** Links detached triggers to one mounted root. */

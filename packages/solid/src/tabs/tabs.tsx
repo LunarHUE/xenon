@@ -213,7 +213,7 @@ function TabsRoot<T extends ValidComponent = 'div'>(props: TabsProps<T>): JSX.El
 }
 
 /** Tabs root with List, Tab, and Panel parts that require its context. Panels stay mounted while inactive. */
-export const Tabs = Object.assign(TabsRoot, {
+export const Tabs = /* @__PURE__ */ Object.assign(TabsRoot, {
   /** Tablist semantics and focus-leave reporting. Supply its accessible name. */
   List: TabsList,
   /** Registered button selecting the panel with the same value. */

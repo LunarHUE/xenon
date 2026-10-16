@@ -23,7 +23,7 @@ export interface DateEnvironment {
   /** Shared Gregorian fields, converted by each root's explicit adapter. */
   today(): DateValue
 }
-const DateContext = createContext<DateEnvironment | null>(null)
+const DateContext = /* @__PURE__ */ createContext<DateEnvironment | null>(null)
 /** Capture the local civil day once. Callers needing stable SSR should supply an explicit today snapshot. */
 export function localToday(): DateValue {
   const now = new Date()

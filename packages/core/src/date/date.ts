@@ -119,7 +119,7 @@ const integer = (amount: number) => {
 const formatters = new Map<string, Intl.DateTimeFormat>()
 
 /** Default immutable Gregorian date-only adapter. No operation reads the clock. */
-export const dateOnlyAdapter: DateAdapter<DateValue> = Object.freeze({
+export const dateOnlyAdapter: DateAdapter<DateValue> = /* @__PURE__ */ Object.freeze({
   getFields(value: DateValue) {
     return createDate(value.year, value.month, value.day)
   },

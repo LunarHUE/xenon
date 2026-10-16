@@ -208,7 +208,7 @@ function RadioGroupRoot<T extends ValidComponent = 'div'>(props: RadioGroupProps
 }
 
 /** Radio group root with a required-context Item component. See {@link RadioGroupProps}. */
-export const RadioGroup = Object.assign(RadioGroupRoot, {
+export const RadioGroup = /* @__PURE__ */ Object.assign(RadioGroupRoot, {
   /** Native radio by default, or a custom host with radio semantics and optional form mirror. */
   Item: RadioGroupItem,
 })

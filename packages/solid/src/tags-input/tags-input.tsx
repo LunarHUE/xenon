@@ -21,6 +21,7 @@ import {
 import type { NativeBooleanAttributes } from '../internal/host'
 import { booleanAttribute, setRef } from '../internal/host'
 import { Field } from '../field/field'
+import { FieldDescription, FieldError, FieldLabel } from '../field/parts'
 import { useFieldContext, fieldDescribedBy, fieldLabelledBy } from '../field/context'
 import { hiddenStyle } from '../internal/native'
 import { spread } from '../spread'
@@ -98,8 +99,8 @@ interface Context {
   /** Shared keyboard navigation for tag hosts and main input. */
   key(event: KeyboardEvent, index: number): void
 }
-const Context = createContext<Context>()
-const ItemContext = createContext<() => number>()
+const Context = /* @__PURE__ */ createContext<Context>()
+const ItemContext = /* @__PURE__ */ createContext<() => number>()
 /** Reads required root context. */
 function useTags(): Context {
   return useContext(Context)
@@ -637,7 +638,7 @@ export function TagsInputClearTrigger(props: TagsInputClearTriggerProps): JSX.El
   return <button {...spread(part(), { ...rest })}>{props.children}</button>
 }
 /** String tag entry with explicit rendering, native fields, optional inline editing, and removal. */
-export const TagsInput = Object.assign(TagsInputRoot, {
+export const TagsInput = /* @__PURE__ */ Object.assign(TagsInputRoot, {
   /** Visual grouping and padding click target. */
   Control: TagsInputControl,
   /** Native tag draft textbox. */
@@ -653,9 +654,9 @@ export const TagsInput = Object.assign(TagsInputRoot, {
   /** Clears the collection. */
   ClearTrigger: TagsInputClearTrigger,
   /** Native label targeting the visible input. */
-  Label: Field.Label,
+  Label: FieldLabel,
   /** Registered helper text. */
-  Description: Field.Description,
+  Description: FieldDescription,
   /** Conditional registered error text. */
-  Error: Field.Error,
+  Error: FieldError,
 })

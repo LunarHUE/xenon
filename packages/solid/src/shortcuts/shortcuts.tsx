@@ -99,7 +99,7 @@ export function configureShortcuts(options: {
   current.invalidate()
 }
 
-const ScopeContext = createContext<Accessor<Element | undefined> | null>(null)
+const ScopeContext = /* @__PURE__ */ createContext<Accessor<Element | undefined> | null>(null)
 
 /** Options for {@link createShortcut}. */
 export interface CreateShortcutOptions {

@@ -51,7 +51,7 @@ export type PaginationEllipsisProps<T extends ValidComponent = 'span'> = Omit<
   /** Host, default span; content is author supplied. */
   as?: T
 }
-const Context = createContext<() => PaginationResult>()
+const Context = /* @__PURE__ */ createContext<() => PaginationResult>()
 /** Require a pagination root around controls. */
 function usePagination() {
   const context = useContext(Context)
@@ -175,7 +175,7 @@ function Ellipsis<T extends ValidComponent = 'span'>(
   return <Host {...spread(context().parts.ellipsis, { ...rest })}>{own.children}</Host>
 }
 /** Compound page navigation with native Tab order and consumer-rendered page ranges. */
-export const Pagination = Object.assign(PaginationRoot, {
+export const Pagination = /* @__PURE__ */ Object.assign(PaginationRoot, {
   /** Explicit root alias. */
   Root: PaginationRoot,
   /** Numbered page control. */

@@ -55,10 +55,12 @@ export interface AccordionItemContextValue {
 }
 
 /** Nearest accordion root, or null outside a provider. */
-export const AccordionContext = createContext<AccordionContextValue | null>(null)
+export const AccordionContext = /* @__PURE__ */ createContext<AccordionContextValue | null>(null)
 
 /** Nearest accordion item, or null outside a provider. */
-export const AccordionItemContext = createContext<AccordionItemContextValue | null>(null)
+export const AccordionItemContext = /* @__PURE__ */ createContext<AccordionItemContextValue | null>(
+  null
+)
 
 /**
  * Reads the enclosing Accordion context in the current Solid owner.

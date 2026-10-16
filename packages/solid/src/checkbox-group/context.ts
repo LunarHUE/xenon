@@ -17,6 +17,8 @@ export interface CheckboxGroupContextValue {
   reset(): void
 }
 /** Optional nearest group. */
-export const CheckboxGroupContext = createContext<CheckboxGroupContextValue | null>(null)
+export const CheckboxGroupContext = /* @__PURE__ */ createContext<CheckboxGroupContextValue | null>(
+  null
+)
 /** Read group ownership without requiring a provider. */
 export const useCheckboxGroup = () => useContext(CheckboxGroupContext)

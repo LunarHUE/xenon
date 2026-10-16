@@ -17,7 +17,7 @@ import {
  * Context-menu region, pointer-anchored popup, and shared Menu item parts.
  * Place Content inside Positioner. Submenus reuse Menu state and navigation.
  */
-export const ContextMenu = Object.assign(ContextMenuRoot, {
+export const ContextMenu = /* @__PURE__ */ Object.assign(ContextMenuRoot, {
   /** Alias of the wrapper-free menu state provider. */
   Root: ContextMenuRoot,
   /** Mounts contents outside layout ancestry while preserving native modal containment. */

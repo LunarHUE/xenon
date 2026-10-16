@@ -59,7 +59,7 @@ function Separator(props: BreadcrumbsSeparatorProps): JSX.Element {
   return <span {...spread(breadcrumbs().parts.separator, { ...rest })}>{props.children}</span>
 }
 /** Native breadcrumb anatomy with explicit current-page marking and no routing dependency. */
-export const Breadcrumbs = Object.assign(BreadcrumbsRoot, {
+export const Breadcrumbs = /* @__PURE__ */ Object.assign(BreadcrumbsRoot, {
   /** Explicit root alias. */
   Root: BreadcrumbsRoot,
   /** Ordered-list container. */
