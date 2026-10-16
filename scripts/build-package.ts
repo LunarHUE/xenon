@@ -27,9 +27,16 @@
  *                             roots so a consumer sees two bare specifiers.
  *   dist/src/foo/index.js     export { ... } from '../index.jsx'
  *   dist/src/foo/index.d.ts   declarations (tsc)
- *   dist/foo/index.js         compiled with the Solid plugin, module per module,
- *                             for everything else
- * The solid and default trees are separate module graphs and never import each other.
+ *   dist/index.js             everything, compiled with the Solid plugin for the
+ *                             DOM, for everything else
+ *   dist/foo/index.js         export { ... } from '../index.js'
+ * The solid and default bundles are separate module graphs and never import
+ * each other.
+ *
+ * No source maps ship. With sources inlined they are two to three times the
+ * size of the code they describe; without, they point at files that are not
+ * in the package. JSDoc lives in the declarations, so the runtime bundles drop
+ * it too.
  */
 import { createRequire } from 'node:module'
 import { spawnSync } from 'node:child_process'
@@ -191,6 +198,9 @@ const packageRoots: Plugin = {
   },
 }
 
+/** Keep pure annotations and license comments; the declarations carry the JSDoc. */
+const runtimeComments = { legal: true, annotation: true, jsdoc: false }
+
 /** Bundle one entry into one file, with JSX left for the consumer's compiler. */
 async function bundle(input: string, outDir: string, fileName: string) {
   const build = await rolldown({
@@ -207,8 +217,9 @@ async function bundle(input: string, outDir: string, fileName: string) {
     dir: outDir,
     format: 'esm',
     entryFileNames: fileName,
-    sourcemap: true,
+    sourcemap: false,
     minify: false,
+    comments: runtimeComments,
   })
   await build.close()
   const chunks = output.filter((item) => item.type === 'chunk')
@@ -259,34 +270,39 @@ for (const entry of entries) {
 }
 
 if (hasJsx) {
+  // The default condition: the same graph compiled for the DOM, one file.
   const { build } = await import('vite')
   const { default: solid } = await import('@solidjs/vite-plugin')
-  const entry: Record<string, string> = {}
-  for (const { subpath, src } of entries) {
-    entry[subpath === '.' ? 'index' : `${subpath.slice(2)}/index`] = join(pkgDir, src)
-  }
-  await build({
+  const result = await build({
     root: pkgDir,
     configFile: false,
     logLevel: 'warn',
-    plugins: [solid({ refresh: { disabled: true } })],
+    plugins: [solid({ refresh: { disabled: true } }), { ...packageRoots, enforce: 'pre' }],
     build: {
       outDir: dist,
       emptyOutDir: false,
       minify: false,
-      sourcemap: true,
+      sourcemap: false,
       target: 'esnext',
-      lib: { entry, formats: ['es'] },
+      lib: { entry: join(pkgDir, rootEntry.src), formats: ['es'], fileName: () => 'index.js' },
       rolldownOptions: {
-        external,
-        output: {
-          preserveModules: true,
-          preserveModulesRoot: join(pkgDir, 'src'),
-          entryFileNames: '[name].js',
-        },
+        external: (id: string) => external(id) && !subpathOfBundledPackage.test(id),
+        output: { comments: runtimeComments },
       },
     },
   })
+  const chunks = (Array.isArray(result) ? result : [result as { output: { type: string }[] }])
+    .flatMap((item) => ('output' in item ? item.output : []))
+    .filter((item) => item.type === 'chunk')
+  if (chunks.length !== 1) fail(`expected one compiled chunk, got ${chunks.length}`)
+  for (const entry of entries) {
+    if (entry.subpath === '.') continue
+    await writeReexport(
+      join(dist, entry.subpath, 'index.js'),
+      join(dist, 'index.js'),
+      names.get(entry.subpath)!
+    )
+  }
 }
 
 /** The exports entry for a subpath, types first so resolvers that stop at the first match find them. */
