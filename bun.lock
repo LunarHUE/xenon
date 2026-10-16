@@ -9,6 +9,7 @@
         "@types/bun": "catalog:",
         "prettier": "^3.9.6",
         "prettier-plugin-astro": "^1.0.0",
+        "rolldown": "^1.2.8",
         "turbo": "^2.10.12",
         "vite": "^8.3.0",
       },
