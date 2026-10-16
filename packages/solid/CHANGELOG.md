@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.2.5 — 2026-10-16
+
+Packaging only. No component behavior changes. Use with `@xenon-ui/core` 0.2.4
+and `@xenon-ui/dom` 0.2.3; this package now depends on `^0.2.4` and `^0.2.3`.
+
+### Packaging
+
+- The `default` condition is now one compiled DOM bundle, `index.js`, with a
+  one-line re-export per subpath, the same shape the `solid` condition got in
+  0.2.4. 0.2.4 still shipped the old per-component tree next to the new JSX
+  bundle, so the package was 3.7 MB unpacked in 448 files. It is now 1.1 MB in
+  255 files: 395 KB compiled bundle, 367 KB JSX bundle, 337 KB declarations.
+- No source maps ship. The JSX bundle's map alone was 1.1 MB. Core and dom
+  drop theirs too.
+- The runtime bundles no longer carry JSDoc; the declarations do. Pure
+  annotations stay, so a consumer's production build still drops unused
+  components. Importing any bundle for side effects alone retains nothing.
+- The compiled bundle is not minified. Minifying strips the pure annotations
+  and would turn every import into the whole library.
+
 ## 0.2.4 — 2026-10-16
 
 Packaging only. No component behavior changes. Use with `@xenon-ui/core` 0.2.3
