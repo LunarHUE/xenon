@@ -133,6 +133,8 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
   const [draggingY, setDraggingY] = createSignal(false)
   const [bars, setBars] = createSignal<BarEntry[]>([], { ownedWrite: true })
   const [idVersion, setIdVersion] = createSignal(0, { ownedWrite: true })
+  /** Observer for the current viewport, which explicit measurements share. */
+  let active: { element: HTMLElement; measure(): void } | undefined
   let currentBars: BarEntry[] = []
   const ids: Array<() => string> = []
   const id = `${createUniqueId()}-viewport`
@@ -160,7 +162,12 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
     visible,
     measure() {
       const element = viewport()
-      if (element) setMetrics(readScrollArea(element))
+      if (!element) return
+      // The observer skips snapshots equal to the last one it published, so an
+      // explicit measurement must go through it or a later change back to that
+      // snapshot is dropped.
+      if (active?.element === element) active.measure()
+      else setMetrics(readScrollArea(element))
     },
     viewportId() {
       idVersion()
@@ -211,6 +218,8 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
         return
       }
       const observer = observeScrollArea(element, child, (next) => setMetrics(next))
+      const current = { element, measure: observer.measure }
+      active = current
       const onScroll = () => {
         setScrolling(true)
         clearTimeout(timer)
@@ -221,6 +230,7 @@ function ScrollAreaRoot<T extends ValidComponent = 'div'>(props: ScrollAreaProps
       }
       element.addEventListener('scroll', onScroll, { passive: true })
       return () => {
+        if (active === current) active = undefined
         observer.destroy()
         element.removeEventListener('scroll', onScroll)
       }
