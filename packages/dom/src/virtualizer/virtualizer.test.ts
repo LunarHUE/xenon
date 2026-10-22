@@ -70,6 +70,11 @@ function setup(
     height = next
     resize(element)
   }
+  /** Grow the viewport the way a browser does: the clamped scroll event arrives before the resize report. */
+  const clamp = (next: number, top: number) => {
+    height = next
+    scroll(top)
+  }
   const row = (index: number, rowHeight: number) => {
     const node = document.createElement('div')
     node.setAttribute('data-index', String(index))
@@ -84,7 +89,7 @@ function setup(
       },
     }
   }
-  return { element, layout, controller, changes, follow, scroll, setHeight, row }
+  return { element, layout, controller, changes, follow, scroll, setHeight, clamp, row }
 }
 
 describe('scrolling', () => {
@@ -240,6 +245,30 @@ describe('follow mode', () => {
     expect(m.follow).toHaveBeenLastCalledWith(true)
     m.scroll(699.5)
     expect(m.controller.following()).toBe(true)
+  })
+
+  test('a viewport that grows and clamps scrollTop before its resize report keeps following', () => {
+    const m = setup({ count: 20, size: 20 }, { follow: true })
+    m.clamp(160, 240)
+    expect(m.controller.viewportSize()).toBe(160)
+    expect(m.controller.following()).toBe(true)
+    expect(m.element.scrollTop).toBe(240)
+    m.setHeight(160)
+    expect(m.controller.following()).toBe(true)
+    expect(m.follow).not.toHaveBeenCalled()
+  })
+
+  test('viewport growth after scrolling away resumes following only once the clamp reaches the end', () => {
+    const m = setup({ count: 20, size: 20 }, { follow: true })
+    m.scroll(100)
+    expect(m.follow).toHaveBeenLastCalledWith(false)
+    m.setHeight(150)
+    expect(m.controller.following()).toBe(false)
+    expect(m.element.scrollTop).toBe(100)
+    m.clamp(320, 80)
+    expect(m.controller.following()).toBe(true)
+    expect(m.follow).toHaveBeenLastCalledWith(true)
+    expect(m.follow).toHaveBeenCalledTimes(2)
   })
 
   test('programmatic scrolls update following; scrollToEnd resumes it', () => {
