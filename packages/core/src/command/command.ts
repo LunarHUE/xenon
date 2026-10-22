@@ -92,8 +92,13 @@ export function defaultCommandFilter(item: CommandItem, query: string): number {
   return commandScore(text, query)
 }
 
-/** Encode a value so any string makes a valid, collision-free ID suffix. */
-const encode = (value: string) => encodeURIComponent(value).replace(/%/g, '_')
+/**
+ * Encode a value so any string makes a valid, collision-free ID suffix. Letters,
+ * digits and hyphens pass through; every other UTF-16 unit, `_` included, becomes
+ * `_` and four hex digits, so each output decodes back to one value.
+ */
+const encode = (value: string) =>
+  value.replace(/[^A-Za-z0-9-]/g, (unit) => `_${unit.charCodeAt(0).toString(16).padStart(4, '0')}`)
 
 /** Deterministic option ID under an adapter-owned base. */
 export function getCommandItemId(base: string, value: string): string {
