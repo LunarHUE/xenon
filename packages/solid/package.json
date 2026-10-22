@@ -1,6 +1,6 @@
 {
   "name": "@xenon-ui/solid",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Headless, accessible components for Solid 2.",
   "license": "MIT",
   "keywords": [
