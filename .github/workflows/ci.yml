@@ -93,6 +93,13 @@ jobs:
   browser:
     name: Browser (${{ matrix.browser }} ${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
+    # Playwright's image carries every browser and its system libraries, which
+    # skips apt: installing them on the runner took up to 23 minutes when the
+    # Ubuntu mirror was slow. The tag must match the playwright version in
+    # bun.lock; on a mismatch Playwright fails at launch and names the image.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001 --ipc=host
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -108,9 +115,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
-      - uses: ./.github/actions/playwright
-        with:
-          browser: ${{ matrix.browser }}
       - run: >-
           bunx vitest run --project browser
           --shard=${{ matrix.shard }}/4
@@ -138,6 +142,10 @@ jobs:
   e2e:
     name: E2E (${{ matrix.browser }} ${{ matrix.shard }}/2)
     runs-on: ubuntu-latest
+    # Same image as the browser jobs.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001 --ipc=host
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -152,9 +160,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
-      - uses: ./.github/actions/playwright
-        with:
-          browser: ${{ matrix.browser }}
       - run: >-
           bunx playwright test
           --project=${{ matrix.browser }}
