@@ -116,8 +116,18 @@ export function createVirtualizerController(
   }
   const pin = () => write(layout().maxOffset(size))
 
+  const resized = () => {
+    const next = element.clientHeight
+    if (next === size) return false
+    size = next
+    return true
+  }
+
   const onScroll = () => {
     const top = element.scrollTop
+    // Growing the viewport clamps scrollTop before ResizeObserver reports the
+    // new size. Reading it here keeps the clamp from looking like a scroll up.
+    const sizeChanged = resized()
     const programmatic = written !== undefined && Math.abs(top - written) < 1
     if (!programmatic) {
       written = undefined
@@ -129,12 +139,11 @@ export function createVirtualizerController(
       if (atEnd()) setFollowing(true)
       else if (!programmatic && top < previous) setFollowing(false)
     }
+    if (sizeChanged && following) pin()
     notify()
   }
   const onResize = () => {
-    const next = element.clientHeight
-    if (next === size) return
-    size = next
+    if (!resized()) return
     if (following) pin()
     notify()
   }
