@@ -56,6 +56,13 @@ export interface Positioner {
   }
 }
 
+/** Snapshots hold only primitives, and the controller copies on every read, so compare fields. */
+function sameSnapshot(a: Readonly<PositioningState>, b: Readonly<PositioningState>): boolean {
+  for (const key in a)
+    if (a[key as keyof PositioningState] !== b[key as keyof PositioningState]) return false
+  return true
+}
+
 /**
  * Bind the DOM positioner to reactive accessors inside a Solid owner.
  *
@@ -74,7 +81,7 @@ export interface Positioner {
 export function createPositioner(source: PositionerSource): Positioner {
   const [state, setState] = createSignal<Readonly<PositioningState>>(
     untrack(() => initialPositioningState(source.options?.())),
-    { ownedWrite: true }
+    { ownedWrite: true, equals: sameSnapshot }
   )
   let controller: DOMPositioner | undefined
   let floating: HTMLElement | null | undefined

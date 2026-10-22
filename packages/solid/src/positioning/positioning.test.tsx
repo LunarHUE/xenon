@@ -1,6 +1,6 @@
 import { cleanup, render } from '@solidjs/testing-library'
 import type { PositioningOptions, PositioningState } from '@xenon-ui/dom/positioning'
-import { createSignal, flush } from 'solid-js'
+import { createEffect, createSignal, flush } from 'solid-js'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { createPositioner } from './positioning'
 import type { Positioner } from './positioning'
@@ -168,5 +168,52 @@ describe('createPositioner', () => {
       'aria-hidden': 'true',
       role: 'presentation',
     })
+  })
+
+  test('keeps equal snapshots from rerunning effects that read the floating ref and state', () => {
+    // The DOM controller returns a fresh copy from every getState call.
+    engine.create.mockImplementation((_node: HTMLElement, options: PositioningOptions) => {
+      const controller = mockController(options)
+      const getState = controller.getState
+      controller.getState = () => ({ ...getState() })
+      controllers.push(controller)
+      return controller
+    })
+    const [floating, setFloating] = createSignal<HTMLElement>()
+    const runs: [HTMLElement | undefined, boolean][] = []
+    let api!: Positioner
+    render(() => {
+      api = createPositioner({ anchor: () => document.body, floating, enabled: () => false })
+      createEffect(
+        () => [floating(), api.state().positioned] as [HTMLElement | undefined, boolean],
+        (value) => {
+          runs.push(value)
+        }
+      )
+      return <span />
+    })
+    flush()
+    const initial = api.state()
+    runs.length = 0
+    const node = document.createElement('div')
+    setFloating(node)
+    flush()
+    expect(engine.create).toHaveBeenCalledTimes(1)
+    expect(runs).toEqual([[node, false]])
+    expect(api.state()).toBe(initial)
+    controllers[0]!.publish()
+    flush()
+    expect(runs).toEqual([
+      [node, false],
+      [node, true],
+    ])
+    const positioned = api.state()
+    controllers[0]!.publish()
+    flush()
+    expect(api.state()).toBe(positioned)
+    controllers[0]!.publish({ x: 41 })
+    flush()
+    expect(api.state().x).toBe(41)
+    expect(runs).toHaveLength(3)
   })
 })
