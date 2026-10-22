@@ -143,20 +143,15 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
           input(event) {
             if (!interactive) return
             highlight(undefined)
-            // A composing draft stays in the DOM until compositionend publishes it.
-            if (event.isComposing) return
-            // WebKit can repeat the text compositionend already published.
-            if (
-              event.inputType !== 'insertFromComposition' ||
-              event.currentTarget.value !== inputValue
-            )
-              options.onInputValueChange?.(event.currentTarget.value)
+            // Composed text, including WebKit's committing insertFromComposition
+            // input, publishes once at compositionend whatever the event order.
+            if (event.isComposing || event.inputType === 'insertFromComposition') return
+            options.onInputValueChange?.(event.currentTarget.value)
             visibility(true)
           },
           compositionend(event) {
             if (!interactive) return
-            if (event.currentTarget.value !== inputValue)
-              options.onInputValueChange?.(event.currentTarget.value)
+            options.onInputValueChange?.(event.currentTarget.value)
             visibility(true)
           },
           keydown(event) {
