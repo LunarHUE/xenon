@@ -7,13 +7,15 @@ import { userEvent } from 'vitest/browser'
 
 const cleanups: (() => void)[] = []
 
-afterEach(() => {
+function cleanup() {
   cleanups
     .splice(0)
     .reverse()
-    .forEach((cleanup) => cleanup())
+    .forEach((dispose) => dispose())
   flush()
-})
+}
+
+afterEach(cleanup)
 
 function mount(props: {
   defaultValue: string
@@ -103,6 +105,9 @@ test('editable.state.5 native typing respects maxLength and still permits backsp
     await userEvent.keyboard('{Backspace}')
     await userEvent.type(input, 'x')
     expect(input).toHaveValue(`${example.expected.slice(0, -1)}x`)
+    // A focused editor left mounted commits on the next click and changes the
+    // layout under the pointer before it releases (#63).
+    cleanup()
   }
 })
 
