@@ -1,0 +1,33 @@
+# Installs the repo's pinned Bun and Node 24, then runs a frozen install.
+# Only pushes to main save the Bun download cache. Pull requests restore it
+# but never write, so a PR can't seed a cache that main later reads. Bun
+# checks every package against the lockfile hashes either way.
+name: Setup
+description: Pinned Bun and Node with a frozen dependency install
+
+runs:
+  using: composite
+  steps:
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version-file: package.json
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+    - id: bun-cache
+      shell: bash
+      run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+    - if: github.event_name == 'push'
+      uses: actions/cache@v6
+      with:
+        path: ${{ steps.bun-cache.outputs.dir }}
+        key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+        restore-keys: bun-${{ runner.os }}-
+    - if: github.event_name != 'push'
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ steps.bun-cache.outputs.dir }}
+        key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+        restore-keys: bun-${{ runner.os }}-
+    - shell: bash
+      run: bun install --frozen-lockfile

@@ -1,0 +1,32 @@
+# Installs one Playwright browser and the system libraries it needs. The
+# browser download is cached per Playwright version and engine, saved only
+# from pushes to main, the same as the Bun cache.
+name: Playwright browser
+description: Install a single Playwright engine with its system dependencies
+
+inputs:
+  browser:
+    description: chromium, firefox or webkit
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - id: version
+      shell: bash
+      working-directory: packages/suite
+      run: echo "playwright=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+    - if: github.event_name == 'push'
+      uses: actions/cache@v6
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.version.outputs.playwright }}-${{ inputs.browser }}
+    - if: github.event_name != 'push'
+      uses: actions/cache/restore@v6
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ steps.version.outputs.playwright }}-${{ inputs.browser }}
+    # Downloads only when the cache missed; the system packages always install.
+    - shell: bash
+      working-directory: packages/suite
+      run: bunx playwright install --with-deps ${{ inputs.browser }}
