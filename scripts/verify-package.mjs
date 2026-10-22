@@ -111,7 +111,7 @@ function verify(root) {
   for (const file of files) {
     if (!/\.(m?js|jsx|d\.ts)$/.test(file)) continue
     const source = readFileSync(join(root, file), 'utf8')
-    for (const spec of moduleSpecifiers(source)) {
+    for (const spec of moduleSpecifiers(source, { jsx: !file.endsWith('.d.ts') })) {
       if (!/^\.{1,2}\//.test(spec)) continue
       const target = posix.normalize(posix.join(posix.dirname(file), spec))
       const candidates = file.endsWith('.d.ts')
@@ -132,11 +132,14 @@ function verify(root) {
 /**
  * Split JavaScript or a declaration file into tokens, dropping comments and
  * whitespace. Strings come back with their unquoted text so a specifier can be
- * read off them; template and regex literals come back whole and opaque.
+ * read off them; template, regex and JSX literals come back opaque. JSX is
+ * only recognised when `jsx` is set, since `<` in a declaration file's
+ * expression position opens a type parameter list instead.
  */
-function tokenize(source) {
+function tokenize(source, { jsx = false } = {}) {
   const tokens = []
-  // One entry per open brace: 'template' for a `${`, 'block' or 'object' otherwise.
+  // One entry per open brace: 'block' or 'object' for a code brace,
+  // 'template' for a `${`, or the paused JSX element a `{` interrupted.
   const braces = []
   const word = /[\p{ID_Continue}$\u200c\u200d\\#]+/uy
   const punctuator =
@@ -146,14 +149,20 @@ function tokenize(source) {
     'await case delete in instanceof new of return throw typeof void yield'.split(' ')
   )
   const blockKeywords = new Set(['do', 'else'])
-  let i = source.startsWith('#!') ? source.indexOf('\n') >>> 0 : 0
+  let i = 0
+  if (source.startsWith('#!')) {
+    const end = source.indexOf('\n')
+    i = end < 0 ? source.length : end
+  }
 
-  // Whether a `/` here starts a regex rather than dividing.
-  const regexAllowed = () => {
+  // Whether an expression can start here, so `/` opens a regex and `<` opens JSX.
+  const expressionAllowed = () => {
     const last = tokens.at(-1)
     if (!last) return true
     if (last.type === 'word')
       return last.keyword && (expressionKeywords.has(last.value) || blockKeywords.has(last.value))
+    // A template that stopped at `${` is followed by the expression inside it.
+    if (last.type === 'template') return last.open
     if (last.type !== 'punctuator') return false
     if (last.value === '}') return last.closed === 'block'
     return ![')', ']', '++', '--'].includes(last.value)
@@ -163,6 +172,7 @@ function tokenize(source) {
     const last = tokens.at(-1)
     if (!last) return false
     if (last.type === 'word') return last.keyword && expressionKeywords.has(last.value)
+    if (last.type === 'template') return last.open
     if (last.type !== 'punctuator') return false
     return !['=>', ')', ';', '{', '}'].includes(last.value)
   }
@@ -171,13 +181,49 @@ function tokenize(source) {
     while (i < source.length) {
       const char = source[i++]
       if (char === '\\') i++
-      else if (char === '`') return
+      else if (char === '`') return tokens.push({ type: 'template', open: false })
       else if (char === '$' && source[i] === '{') {
         i++
         braces.push('template')
-        return
+        return tokens.push({ type: 'template', open: true })
       }
     }
+    tokens.push({ type: 'template', open: false })
+  }
+  // Scan JSX from i until the outermost element closes or a `{` hands control
+  // back to code. `element.depth` counts elements whose children are being
+  // read; `element.inTag` is set between a tag's `<` and its `>`.
+  const jsxElement = (element) => {
+    while (i < source.length) {
+      const char = source[i]
+      if (char === '{') {
+        i++
+        braces.push(element)
+        return
+      }
+      if (element.inTag) {
+        if (char === '"' || char === "'") {
+          const end = source.indexOf(char, i + 1)
+          i = end < 0 ? source.length : end + 1
+        } else if (char === '>' || source.startsWith('/>', i)) {
+          i += char === '>' ? 1 : 2
+          element.inTag = false
+          if (char === '>' && !element.closing) element.depth++
+          if (element.closing) element.depth--
+          element.closing = false
+          if (element.depth === 0) break
+        } else {
+          if (char === '/') element.closing = true
+          i++
+        }
+      } else if (char === '<') {
+        i++
+        element.inTag = true
+      } else {
+        i++
+      }
+    }
+    tokens.push({ type: 'jsx' })
   }
 
   while (i < source.length) {
@@ -200,13 +246,14 @@ function tokenize(source) {
     } else if (char === '`') {
       i++
       template()
-      tokens.push({ type: 'template' })
     } else if (char === '}' && braces.at(-1) === 'template') {
       braces.pop()
       i++
       template()
-      tokens.push({ type: 'template' })
-    } else if (char === '/' && regexAllowed()) {
+    } else if (char === '}' && typeof braces.at(-1) === 'object') {
+      i++
+      jsxElement(braces.pop())
+    } else if (char === '/' && expressionAllowed()) {
       let inClass = false
       for (i++; i < source.length; i++) {
         const next = source[i]
@@ -220,6 +267,9 @@ function tokenize(source) {
       word.lastIndex = i
       if (word.test(source)) i = word.lastIndex
       tokens.push({ type: 'regex' })
+    } else if (char === '<' && jsx && expressionAllowed()) {
+      i++
+      jsxElement({ depth: 0, inTag: true, closing: false })
     } else {
       word.lastIndex = i
       if (word.test(source)) {
@@ -250,10 +300,10 @@ function tokenize(source) {
 /**
  * Module specifiers a source file depends on: `import 'x'`, `import ... from 'x'`,
  * `export ... from 'x'` and `import('x')`, the last also covering declaration
- * files' `import('x').Type`. Text in comments, strings and templates is ignored.
+ * files' `import('x').Type`. Text in comments, strings, templates and JSX is ignored.
  */
-function moduleSpecifiers(source) {
-  const tokens = tokenize(source)
+function moduleSpecifiers(source, options) {
+  const tokens = tokenize(source, options)
   const specifiers = []
   const is = (token, type, value) =>
     token?.type === type && (value === undefined || token.value === value)
@@ -281,7 +331,8 @@ function moduleSpecifiers(source) {
         (clause.type === 'word' && !(clause.value === 'import' || clause.value === 'export')) ||
         clause.type === 'string' ||
         (clause.type === 'punctuator' && ['{', '}', ',', '*'].includes(clause.value))
-      if (!inClause || (clause.value === '}' && !is(tokens[ahead + 1], 'word', 'from'))) break
+      if (!inClause || (is(clause, 'punctuator', '}') && !is(tokens[ahead + 1], 'word', 'from')))
+        break
     }
   }
   return specifiers

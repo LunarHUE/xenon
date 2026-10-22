@@ -219,3 +219,45 @@ test('declaration files check type imports and import types but not commented ex
   expect(result.stderr).toContain('1 problem(s)')
   expect(result.stderr).toContain('index.d.ts imports ./types/c, which is missing')
 })
+
+test('imports after regex literals in template expressions are still checked', () => {
+  const result = verify('./index.js', {
+    'index.js': [
+      "const t = `${/}/.test('x') && import('./first.js')}`",
+      "const u = `${{ a: /`/ }.a}${'}'}`",
+      "import './second.js'",
+    ].join('\n'),
+  })
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('2 problem(s)')
+  expect(result.stderr).toContain('index.js imports ./first.js, which is missing')
+  expect(result.stderr).toContain('index.js imports ./second.js, which is missing')
+})
+
+test('JSX text and tags neither hide nor invent imports', () => {
+  const result = verify('./index.jsx', {
+    'index.jsx': [
+      'const view = <span></span>; import "./first.js"',
+      "const page = <><p class=\"a/b\" title='it\\'s'>Don't // import './text.js' {/* import './comment.js' */}</p><br/></>",
+      "const lazy = <div onClick={() => import('./second.js')} {...{ a: '}' }}>{`${<i>/</i>}`}</div>",
+      "export * from './third.js'",
+    ].join('\n'),
+  })
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('3 problem(s)')
+  for (const name of ['first', 'second', 'third'])
+    expect(result.stderr).toContain(`index.jsx imports ./${name}.js, which is missing`)
+})
+
+test('quoted names in import and export clauses do not end the clause', () => {
+  const result = verify('./index.js', {
+    'index.js': [
+      'import { "}" as value } from "./first.js"',
+      "export { value as '}' } from './second.js'",
+    ].join('\n'),
+  })
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('2 problem(s)')
+  for (const name of ['first', 'second'])
+    expect(result.stderr).toContain(`index.js imports ./${name}.js, which is missing`)
+})
