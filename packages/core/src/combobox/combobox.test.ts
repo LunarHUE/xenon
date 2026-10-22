@@ -219,12 +219,14 @@ describe('combobox', () => {
     const fire = (
       engine: ReturnType<typeof combobox>,
       type: 'input' | 'compositionend',
-      isComposing = false
+      isComposing = false,
+      inputType = 'insertText'
     ) =>
       type === 'input'
         ? engine.parts.input.on.input?.({
             currentTarget: target,
             isComposing,
+            inputType,
           } as unknown as InputEvent & {
             currentTarget: HTMLInputElement
           })
@@ -251,7 +253,7 @@ describe('combobox', () => {
     fire(engine, 'compositionend')
     expect(text).toHaveBeenCalledExactlyOnceWith('Ch')
     // WebKit can follow compositionend with a noncomposing input carrying the same text.
-    fire(combobox({ ...options, inputValue: 'Ch' }), 'input')
+    fire(combobox({ ...options, inputValue: 'Ch' }), 'input', false, 'insertFromComposition')
     expect(text).toHaveBeenCalledOnce()
     // A canceled composition that restores the prior text requests nothing.
     fire(combobox({ ...options, inputValue: 'Ch' }), 'compositionend')
@@ -259,6 +261,17 @@ describe('combobox', () => {
     expect(open).not.toHaveBeenCalled()
     fire(combobox({ ...options, readonly: true }), 'compositionend')
     expect(text).toHaveBeenCalledOnce()
+  })
+  test('ordinary input publishes every attempt while a controlled owner lags', () => {
+    const text = vi.fn()
+    const engine = combobox({ items, id: 'x', inputValue: '', onInputValueChange: text })
+    for (const value of ['a', ''])
+      engine.parts.input.on.input?.({
+        currentTarget: { value },
+        isComposing: false,
+        inputType: value ? 'insertText' : 'deleteContentBackward',
+      } as unknown as InputEvent & { currentTarget: HTMLInputElement })
+    expect(text.mock.calls).toEqual([['a'], ['']])
   })
   test('pointer press retains input focus but only click commits; closed and disabled items cannot commit', () => {
     const change = vi.fn()

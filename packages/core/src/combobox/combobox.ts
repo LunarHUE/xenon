@@ -145,7 +145,11 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
             highlight(undefined)
             // A composing draft stays in the DOM until compositionend publishes it.
             if (event.isComposing) return
-            if (event.currentTarget.value !== inputValue)
+            // WebKit can repeat the text compositionend already published.
+            if (
+              event.inputType !== 'insertFromComposition' ||
+              event.currentTarget.value !== inputValue
+            )
               options.onInputValueChange?.(event.currentTarget.value)
             visibility(true)
           },
