@@ -1,4 +1,4 @@
-import { Toolbar } from '@xenon-ui/solid'
+import { ToggleGroup, Toolbar } from '@xenon-ui/solid'
 import { render } from '@solidjs/web'
 import { within } from '@testing-library/dom'
 import { For, Show, createSignal, flush } from 'solid-js'
@@ -14,8 +14,8 @@ async function focused(node: HTMLElement) {
     .toBe(node)
 }
 
-// Candidate contract: registration sorts once; later DOM-only moves are currently
-// documented as unobserved. Keep this requested behavior visible for issue review.
+// Adopted contract (#44): keyboard navigation re-reads DOM order, so keyed moves that
+// keep their hosts mounted change where arrows, Home and End go.
 test('candidate: reordered keyed toolbar hosts retain identity and native arrows follow their current DOM order', async () => {
   const [items, setItems] = createSignal(['a', 'b', 'c'])
   const activated = vi.fn()
@@ -170,3 +170,58 @@ test('a generic disabled survivor that opted out of focus stays out of the Tab s
   await userEvent.keyboard('{Tab}')
   await focused(survivor)
 })
+
+// The initial fallback stop sets no explicit active item, so a reorder must not
+// re-resolve the navigation origin away from the focused host.
+for (const composition of ['button', 'toggle-group'] as const) {
+  for (const key of ['ArrowRight', 'Home'] as const) {
+    test(`${composition} reorder keeps the focused fallback item as the ${key} origin`, async () => {
+      const [items, setItems] = createSignal(['a', 'b', 'c'])
+      const container = document.createElement('div')
+      document.body.append(container)
+      const dispose = render(
+        () => (
+          <Toolbar aria-label="Actions">
+            {composition === 'button' ? (
+              <For each={items()}>{(value) => <Toolbar.Button>{value}</Toolbar.Button>}</For>
+            ) : (
+              <ToggleGroup aria-label="Styles">
+                <For each={items()}>
+                  {(value) => (
+                    <ToggleGroup.Item as={Toolbar.Button} value={value}>
+                      {value}
+                    </ToggleGroup.Item>
+                  )}
+                </For>
+              </ToggleGroup>
+            )}
+          </Toolbar>
+        ),
+        container
+      )
+      onTestFinished(() => {
+        dispose()
+        container.remove()
+        flush()
+      })
+      flush()
+      const m = within(container)
+      const a = m.getByRole('button', { name: 'a' })
+      expect(a).toHaveAttribute('tabindex', '0')
+      setItems(['c', 'b', 'a'])
+      flush()
+      await expect.poll(() => m.getByRole('toolbar').textContent).toBe('cba')
+      a.focus()
+      await userEvent.keyboard(`{${key}}`)
+      const c = m.getByRole('button', { name: 'c' })
+      await focused(c)
+      await expect
+        .poll(() => {
+          flush()
+          return c.getAttribute('tabindex')
+        })
+        .toBe('0')
+      expect(a).toHaveAttribute('tabindex', '-1')
+    })
+  }
+}

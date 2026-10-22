@@ -71,10 +71,10 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
   const direction = () => own.dir ?? ambient()
   const disabled = () => booleanAttribute(own.disabled)
 
-  const build = (items: ToolbarEntry[]) =>
+  const build = (items: ToolbarEntry[], stop = active()) =>
     composite<ToolbarEntry>({
       items,
-      active: active(),
+      active: stop,
       disabled: (entry) => entry.disabled(),
       orientation: orientation(),
       direction: direction(),
@@ -97,13 +97,19 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
     }
   }
 
-  /** Publishes the current DOM order if hosts moved since registration and returns navigation built from it. */
+  /**
+   * Publishes the current DOM order if hosts moved since registration and returns
+   * navigation built from it. The stop resolved before the move is pinned, so an
+   * unset active value cannot fall back to a different first item mid-event.
+   */
   const resorted = () => {
     const next = reordered(registered)
     if (!next) return undefined
+    const pinned = engine().state.active
     registered = next
     setEntries(next)
-    return build(next)
+    setActive(pinned)
+    return build(next, pinned)
   }
 
   const navigable = () => entries().some((entry) => !entry.disabled())

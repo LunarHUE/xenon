@@ -13,8 +13,8 @@ async function focused(node: HTMLElement) {
     })
     .toBe(node)
 }
-// Candidate contract: the adapter currently documents no observation of later
-// DOM-only reordering. These assertions retain the requested behavior for review.
+// Adopted contract (#44): keyboard navigation re-reads DOM order after keyed moves
+// that keep item hosts mounted, without touching pressed state.
 for (const mode of ['single', 'multiple'] as const) {
   test(`candidate: ${mode} keyed reordering preserves pressed state and native traversal uses the new order`, async () => {
     const [items, setItems] = createSignal(['a', 'b', 'c'])
@@ -79,6 +79,52 @@ for (const mode of ['single', 'multiple'] as const) {
     expect(changed).toHaveBeenCalledOnce()
     expect(changed).toHaveBeenLastCalledWith(mode === 'multiple' ? ['b', 'c'] : 'c')
   })
+}
+
+// With no selection the first host is a fallback stop, not an explicit active value.
+for (const mode of ['single', 'multiple'] as const) {
+  for (const key of ['ArrowRight', 'Home'] as const) {
+    test(`${mode} reorder keeps the focused fallback item as the ${key} origin`, async () => {
+      const [items, setItems] = createSignal(['a', 'b', 'c'])
+      const changed = vi.fn()
+      const container = document.createElement('div')
+      document.body.append(container)
+      const dispose = render(
+        () => (
+          <ToggleGroup mode={mode} aria-label="Styles" onValueChange={changed}>
+            <For each={items()}>
+              {(value) => <ToggleGroup.Item value={value}>{value}</ToggleGroup.Item>}
+            </For>
+          </ToggleGroup>
+        ),
+        container
+      )
+      onTestFinished(() => {
+        dispose()
+        container.remove()
+        flush()
+      })
+      flush()
+      const m = within(container)
+      const a = m.getByRole('button', { name: 'a' })
+      expect(a).toHaveAttribute('tabindex', '0')
+      setItems(['c', 'b', 'a'])
+      flush()
+      await expect.poll(() => m.getByRole('group').textContent).toBe('cba')
+      a.focus()
+      await userEvent.keyboard(`{${key}}`)
+      const c = m.getByRole('button', { name: 'c' })
+      await focused(c)
+      await expect
+        .poll(() => {
+          flush()
+          return c.getAttribute('tabindex')
+        })
+        .toBe('0')
+      expect(a).toHaveAttribute('tabindex', '-1')
+      expect(changed).not.toHaveBeenCalled()
+    })
+  }
 }
 
 for (const orientation of ['horizontal', 'vertical'] as const) {

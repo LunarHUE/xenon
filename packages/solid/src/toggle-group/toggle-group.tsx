@@ -152,12 +152,12 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     own.onValueChange?.(next)
   }
 
-  const build = (items: ToggleGroupEntry[]) =>
+  const build = (items: ToggleGroupEntry[], stop = active()) =>
     toggleGroup<string>({
       items: items.map((entry) => entry.value()),
       mode: mode(),
       value: current(),
-      active: active(),
+      active: stop,
       disabled: disabled(),
       itemDisabled: (value) => entryFor(value)?.disabled() ?? false,
       host: (value) => entryFor(value)?.host() ?? 'button',
@@ -183,13 +183,19 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     }
   }
 
-  /** Publishes the current DOM order if hosts moved since registration and returns navigation built from it. */
+  /**
+   * Publishes the current DOM order if hosts moved since registration and returns
+   * navigation built from it. The stop resolved before the move is pinned, so an
+   * unset active value cannot fall back to a different first item mid-event.
+   */
   const resorted = () => {
     const next = reordered(registered)
     if (!next) return undefined
+    const pinned = engine().state.active
     registered = next
     setEntries(next)
-    return build(next)
+    setActive(pinned)
+    return build(next, pinned)
   }
 
   const context: ToggleGroupContextValue = {
