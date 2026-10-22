@@ -42,7 +42,7 @@ async function expanded(trigger: HTMLElement, value: boolean) {
     })
     .toBe(String(value))
 }
-function Panels(props: { onValueChange?: (value: string | null) => void }) {
+function Panels(props: { onValueChange?: (value: string | null) => void; viewportClass?: string }) {
   return (
     <Nav openOnHover={false} onValueChange={props.onValueChange}>
       <Nav.List>
@@ -54,7 +54,7 @@ function Panels(props: { onValueChange?: (value: string | null) => void }) {
         </Nav.Item>
       </Nav.List>
       <Nav.Positioner>
-        <Nav.Viewport>
+        <Nav.Viewport class={props.viewportClass}>
           <Nav.Content value="products" data-testid="products-panel" style={{ padding: '16px' }}>
             <Nav.Link href="#one">One</Nav.Link>
             <Nav.Link href="#two">Two</Nav.Link>
@@ -180,9 +180,17 @@ test('Escape from every panel link restores the trigger and Enter reopens naviga
   }
 })
 
-test('pointer down inside the active panel cannot let a retained inactive panel dismiss it navigation-menu.state.9', async () => {
-  const changed = vi.fn()
-  const m = mount(() => <Panels onValueChange={changed} />)
+// The viewport keeps an inert data-previous clone of the outgoing panels until the
+// next frame or its CSS exit animation finishes, so panel queries stay inside the
+// live data-current wrapper.
+function livePanels(m: ReturnType<typeof mount>) {
+  return within(m.container.querySelector<HTMLElement>('[data-part="viewport"] > [data-current]')!)
+}
+async function pointerDownInActivePanel(
+  m: ReturnType<typeof mount>,
+  changed: ReturnType<typeof vi.fn>,
+  afterSwitch?: () => void
+) {
   const products = m.getByRole('button', { name: 'Products' })
   const docs = m.getByRole('button', { name: 'Docs' })
   docs.focus()
@@ -191,16 +199,47 @@ test('pointer down inside the active panel cannot let a retained inactive panel 
   await userEvent.keyboard('{ArrowLeft}')
   await focused(products)
   await userEvent.keyboard('{ArrowDown}')
-  await focused(m.getByText('One'))
-  const inactive = m.getByTestId('docs-panel'),
-    active = m.getByTestId('products-panel')
+  const live = livePanels(m)
+  await focused(live.getByText('One'))
+  afterSwitch?.()
+  const inactive = live.getByTestId('docs-panel'),
+    active = live.getByTestId('products-panel')
   expect(inactive).toBeInTheDocument()
   expect(inactive).toHaveAttribute('hidden')
   await userEvent.click(active, { position: { x: 4, y: 4 } })
   expect(products).toHaveAttribute('aria-expanded', 'true')
   expect(docs).toHaveAttribute('aria-expanded', 'false')
-  expect(m.getByTestId('docs-panel')).toBe(inactive)
+  expect(live.getByTestId('docs-panel')).toBe(inactive)
   expect(changed.mock.calls).toEqual([['docs'], ['products']])
+}
+
+test('pointer down inside the active panel cannot let a retained inactive panel dismiss it navigation-menu.state.9', async () => {
+  const changed = vi.fn()
+  const m = mount(() => <Panels onValueChange={changed} />)
+  await pointerDownInActivePanel(m, changed)
+})
+
+test('retained panel dismissal holds while the outgoing viewport snapshot is still mounted navigation-menu.state.9', async () => {
+  const changed = vi.fn()
+  const m = mount(() => (
+    <>
+      <style>{`
+        .held-viewport > [data-previous] { opacity: 1; transition: opacity 2s linear; }
+        .held-viewport > [data-previous][data-ending-style] { opacity: 0; }
+      `}</style>
+      <Panels onValueChange={changed} viewportClass="held-viewport" />
+    </>
+  ))
+  // A 2s exit transition keeps the inert clone mounted while the scenario queries
+  // and clicks, which is the state body-wide queries used to trip over.
+  await pointerDownInActivePanel(m, changed, () => {
+    const outgoing = m.container.querySelector('[data-part="viewport"] > [data-previous]')
+    expect(outgoing).toHaveAttribute('inert')
+    expect(outgoing).toHaveAttribute('aria-hidden', 'true')
+    expect(m.getAllByText('One')).toHaveLength(2)
+    expect(m.getAllByTestId('products-panel')).toHaveLength(2)
+    expect(m.getAllByTestId('docs-panel')).toHaveLength(2)
+  })
 })
 
 test('direct content stays inside its own item without creating a viewport navigation-menu.positioning.14', async () => {
