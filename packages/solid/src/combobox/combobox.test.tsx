@@ -257,6 +257,38 @@ describe('Combobox', () => {
     type(input, 'Ch')
     expect(text.mock.calls).toEqual([['Ch']])
   })
+  test('a committing insertFromComposition input before compositionend keeps the composed text', () => {
+    for (const placement of ['trigger', 'popup'] as const) {
+      const text = vi.fn()
+      const view = render(() => (
+        <Combobox
+          items={items}
+          defaultOpen
+          defaultValue="a"
+          inputPlacement={placement}
+          onInputValueChange={text}
+        >
+          <Parts />
+        </Combobox>
+      ))
+      flush()
+      const input = view
+        .getAllByRole('combobox')
+        .find((element): element is HTMLInputElement => element instanceof HTMLInputElement)!
+      type(input, 'Ch', true)
+      input.dispatchEvent(
+        new InputEvent('input', { bubbles: true, inputType: 'insertFromComposition' })
+      )
+      flush()
+      expect(input.value).toBe('Ch')
+      expect(text).not.toHaveBeenCalled()
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+      flush()
+      expect(input.value).toBe('Ch')
+      expect(text.mock.calls).toEqual([['Ch']])
+      view.unmount()
+    }
+  })
   test('a rejected controlled query restores owner text once composition ends', () => {
     const text = vi.fn()
     const view = render(() => (

@@ -480,8 +480,10 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
       ...context.engine().parts.input.on,
       input(event) {
         context.engine().parts.input.on.input?.(event)
-        // Writing the value mid-composition would cancel the IME session.
-        if (!event.isComposing) event.currentTarget.value = context.engine().state.inputValue
+        // Writing mid-composition would cancel the IME session, and WebKit's committing
+        // input precedes the compositionend that publishes and then syncs the text.
+        if (!event.isComposing && event.inputType !== 'insertFromComposition')
+          event.currentTarget.value = context.engine().state.inputValue
       },
       compositionend(event) {
         context.engine().parts.input.on.compositionend?.(event)
