@@ -289,6 +289,38 @@ describe('Combobox', () => {
       view.unmount()
     }
   })
+  test('a committing insertFromComposition input after compositionend restores rejected owner text', () => {
+    for (const placement of ['trigger', 'popup'] as const) {
+      const text = vi.fn()
+      const view = render(() => (
+        <Combobox
+          items={items}
+          defaultOpen
+          inputValue="Apple"
+          inputPlacement={placement}
+          onInputValueChange={text}
+        >
+          <Parts />
+        </Combobox>
+      ))
+      flush()
+      const input = view
+        .getAllByRole('combobox')
+        .find((element): element is HTMLInputElement => element instanceof HTMLInputElement)!
+      type(input, 'Ch', true)
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+      flush()
+      expect(input.value).toBe('Apple')
+      input.value = 'Ch'
+      input.dispatchEvent(
+        new InputEvent('input', { bubbles: true, inputType: 'insertFromComposition' })
+      )
+      flush()
+      expect(input.value).toBe('Apple')
+      expect(text.mock.calls).toEqual([['Ch']])
+      view.unmount()
+    }
+  })
   test('a rejected controlled query restores owner text once composition ends', () => {
     const text = vi.fn()
     const view = render(() => (
