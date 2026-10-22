@@ -11,6 +11,7 @@ import { ToolbarContext } from './context'
 import type { ToolbarContextValue, ToolbarEntry } from './context'
 import { ToolbarButton, ToolbarGroup, ToolbarLink, ToolbarSeparator } from './items'
 import { spread } from '../spread'
+import { byDomOrder, reordered } from '../internal/dom-order'
 
 /** Library-owned root settings, replacing matching host props. */
 interface Own extends Pick<CompositeOptions<string>, 'orientation' | 'loop'> {
@@ -34,15 +35,6 @@ export type ToolbarProps<T extends ValidComponent = 'div'> = Omit<
     as?: T
   }
 
-/** Sorts entries with known hosts by document position, leaving pairs without both refs unchanged. */
-function byDomOrder(a: ToolbarEntry, b: ToolbarEntry): number {
-  if (!a.el || !b.el) return 0
-  const relation = a.el.compareDocumentPosition(b.el)
-  if (relation & Node.DOCUMENT_POSITION_FOLLOWING) return -1
-  if (relation & Node.DOCUMENT_POSITION_PRECEDING) return 1
-  return 0
-}
-
 /**
  * Provides toolbar role and a shared roving tab stop for registered items.
  *
@@ -50,9 +42,12 @@ function byDomOrder(a: ToolbarEntry, b: ToolbarEntry): number {
  * Arrow, Home, and End navigation follows the core composite and moves DOM focus
  * after settling. Items register on the client; server output leaves each enabled
  * item tabbable until that registry exists. With no navigable items the root gets
- * tabindex=-1, not a sequential tab stop. Ambient direction is read after settling
- * and is not observed for later ancestor attribute changes. Registration sorts by
- * current DOM order; subsequent DOM moves alone do not trigger a new sort.
+ * tabindex=-1, not a sequential tab stop, and an item excluded while disabled never
+ * holds tabindex=0. Ambient direction is read after settling and is not observed for
+ * later ancestor attribute changes. Registration sorts by current DOM order, and each
+ * item keydown re-reads that order first, so arrows, Home, and End follow hosts that
+ * a keyed list moved without remounting. A move alone does not update the fallback
+ * tab stop until the next keydown.
  * Supply an accessible toolbar name and forward props/ref from custom hosts.
  */
 function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): JSX.Element {
@@ -70,26 +65,33 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
   // Keyed children unregister while Solid disposes an owned computation.
   const [entries, setEntries] = createSignal<ToolbarEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<ToolbarEntry>()
+  // Signal reads stay at their committed value until the batch flushes; this mirror
+  // sees writes made earlier in the same event, such as focus from an author handler.
+  let latest: ToolbarEntry | undefined
+  const activate = (next: ToolbarEntry | undefined) => {
+    latest = next
+    setActive(next)
+  }
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
 
   const orientation = () => own.orientation ?? 'horizontal'
   const direction = () => own.dir ?? ambient()
   const disabled = () => booleanAttribute(own.disabled)
 
-  const engine = createMemo(() =>
+  const build = (items: ToolbarEntry[], stop = active()) =>
     composite<ToolbarEntry>({
-      items: entries(),
-      active: active(),
+      items,
+      active: stop,
       disabled: (entry) => entry.disabled(),
       orientation: orientation(),
       direction: direction(),
       loop: own.loop ?? true,
       onActiveChange: (entry) => {
-        setActive(entry)
+        activate(entry)
         onSettled(() => entry.el?.focus())
       },
     })
-  )
+  const engine = createMemo(() => build(entries()))
 
   let registered: ToolbarEntry[] = []
   /** Publishes a DOM-sorted registry and removes entries by identity during descendant cleanup. */
@@ -102,16 +104,44 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
     }
   }
 
+  /**
+   * Publishes the current DOM order if hosts moved since registration and returns
+   * navigation built from it. The latest stop, resolved in the old order, is pinned so
+   * an unset active value cannot fall back to a different first item mid-event.
+   */
+  const resorted = () => {
+    const next = reordered(registered)
+    if (!next) return undefined
+    const pinned = build(registered, latest).state.active
+    registered = next
+    setEntries(next)
+    activate(pinned)
+    return build(next, pinned)
+  }
+
   const navigable = () => entries().some((entry) => !entry.disabled())
 
   const context: ToolbarContextValue = {
     register,
     // Until the client registry exists, native items must remain keyboard reachable.
+    // Excluded items never hold the stop, even when core falls back to one with no enabled peer.
     part: (entry) => {
       const part = engine().parts.item(entry)
-      return isServer || entries().length === 0
-        ? { ...part, attrs: { ...part.attrs, tabindex: entry.disabled() ? -1 : 0 } }
-        : part
+      const attrs =
+        isServer || entries().length === 0 || entry.disabled()
+          ? { ...part.attrs, tabindex: entry.disabled() ? -1 : 0 }
+          : part.attrs
+      return {
+        attrs,
+        on: {
+          ...part.on,
+          // Keyed lists move hosts without remounting, so navigation re-reads DOM order first.
+          keydown(event: KeyboardEvent) {
+            const current = resorted() ?? engine()
+            current.parts.item(entry).on.keydown?.(event as never)
+          },
+        },
+      }
     },
     orientation,
     disabled,

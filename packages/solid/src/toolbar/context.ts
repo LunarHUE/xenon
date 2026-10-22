@@ -13,7 +13,7 @@ export interface ToolbarEntry {
 export interface ToolbarContextValue {
   /** Adds an entry and sorts current entries by DOM order. Returned cleanup removes this identity and is repeatable. */
   register: (entry: ToolbarEntry) => () => void
-  /** Current tab index and composite key/focus handlers; server and empty-registry output makes every enabled entry tabbable. */
+  /** Current tab index and composite key/focus handlers; excluded entries get -1, and server or empty-registry output makes every other entry tabbable. */
   part: (entry: ToolbarEntry) => AnyPart
   /** Resolved navigation axis, also used to infer separator orientation. */
   orientation: () => 'horizontal' | 'vertical'

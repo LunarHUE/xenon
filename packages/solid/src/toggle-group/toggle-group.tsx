@@ -13,6 +13,7 @@ import { ToggleGroupContext, useToggleGroup } from './context'
 import type { ToggleGroupContextValue, ToggleGroupEntry } from './context'
 import { gate } from '../internal/gate'
 import { spread } from '../spread'
+import { byDomOrder, reordered } from '../internal/dom-order'
 import { toolbarHost } from '../internal/toolbar-host'
 
 /** Unified internal payload: scalar/undefined in single mode, array in multiple mode. */
@@ -93,15 +94,6 @@ export type ToggleGroupItemProps<T extends ValidComponent = 'button'> = Omit<
     as?: T
   }
 
-/** Sorts available item hosts by document position; missing hosts retain their registration order. */
-function byDomOrder(a: ToggleGroupEntry, b: ToggleGroupEntry): number {
-  if (!a.el || !b.el) return 0
-  const relation = a.el.compareDocumentPosition(b.el)
-  if (relation & Node.DOCUMENT_POSITION_FOLLOWING) return -1
-  if (relation & Node.DOCUMENT_POSITION_PRECEDING) return 1
-  return 0
-}
-
 /** Infers core host semantics from the literal as value, without inspecting custom component output. */
 function hostOf(as: ValidComponent | undefined): ToggleHost {
   if (as === undefined || as === 'button') return 'button'
@@ -115,8 +107,10 @@ function hostOf(as: ValidComponent | undefined): ToggleHost {
  * for accepted activation, never initialization or navigation. In single mode,
  * setting value to undefined releases control to internal state.
  * Item registration occurs after settling; direction is sampled after the root
- * settles, without observing later ancestor dir changes. Navigation updates active
- * immediately and focuses its registered host after settling.
+ * settles, without observing later ancestor dir changes. Each item keydown re-reads
+ * document order first, so navigation follows hosts that a keyed list moved without
+ * remounting. Navigation updates active immediately and focuses its registered host
+ * after settling.
  */
 function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   props: ToggleGroupProps<T>
@@ -140,6 +134,13 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   // Keyed children unregister while Solid disposes an owned computation.
   const [entries, setEntries] = createSignal<ToggleGroupEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<string>()
+  // Signal reads stay at their committed value until the batch flushes; this mirror
+  // sees writes made earlier in the same event, such as focus from an author handler.
+  let latest: string | undefined
+  const activate = (next: string | undefined) => {
+    latest = next
+    setActive(next)
+  }
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
   const [internal, setInternal] = createSignal<GroupValue>(untrack(() => own.defaultValue))
 
@@ -158,12 +159,12 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     own.onValueChange?.(next)
   }
 
-  const engine = createMemo(() =>
+  const build = (items: ToggleGroupEntry[], stop = active()) =>
     toggleGroup<string>({
-      items: entries().map((entry) => entry.value()),
+      items: items.map((entry) => entry.value()),
       mode: mode(),
       value: current(),
-      active: active(),
+      active: stop,
       disabled: disabled(),
       itemDisabled: (value) => entryFor(value)?.disabled() ?? false,
       host: (value) => entryFor(value)?.host() ?? 'button',
@@ -172,14 +173,14 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
       loop: own.loop ?? true,
       onValueChange: change,
       onActiveChange: (value) => {
-        setActive(value)
+        activate(value)
         onSettled(() => entryFor(value)?.el?.focus())
       },
     })
-  )
+  const engine = createMemo(() => build(entries()))
 
   let registered: ToggleGroupEntry[] = []
-  /** Sorts on addition and publishes removals; no observer tracks later DOM-only reordering. */
+  /** Sorts on addition and publishes removals; item keydown catches later DOM-only reordering. */
   const register = (entry: ToggleGroupEntry) => {
     registered = [...registered, entry].sort(byDomOrder)
     setEntries(registered)
@@ -189,9 +190,37 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
     }
   }
 
+  /**
+   * Publishes the current DOM order if hosts moved since registration and returns
+   * navigation built from it. The latest stop, resolved in the old order, is pinned so
+   * an unset active value cannot fall back to a different first item mid-event.
+   */
+  const resorted = () => {
+    const next = reordered(registered)
+    if (!next) return undefined
+    const pinned = build(registered, latest).state.active
+    registered = next
+    setEntries(next)
+    activate(pinned)
+    return build(next, pinned)
+  }
+
   const context: ToggleGroupContextValue = {
     register,
-    part: (entry) => engine().parts.item(entry.value()),
+    part: (entry) => {
+      const part = engine().parts.item(entry.value())
+      return {
+        ...part,
+        on: {
+          ...part.on,
+          // Keyed lists move hosts without remounting, so navigation re-reads DOM order first.
+          keydown(event: KeyboardEvent) {
+            const current = resorted() ?? engine()
+            current.parts.item(entry.value()).on.keydown?.(event as never)
+          },
+        },
+      }
+    },
     disabled,
   }
 
