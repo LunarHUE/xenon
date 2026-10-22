@@ -8,7 +8,7 @@ import type {
   PositioningOptions,
   PositioningState,
 } from '@xenon-ui/dom/positioning'
-import { createEffect, createSignal, onCleanup, untrack } from 'solid-js'
+import { createEffect, createMemo, createSignal, onCleanup } from 'solid-js'
 
 /** Geometry and observer options; element refs and enabled state come from separate source accessors. */
 export type PositionerOptions = Omit<PositioningOptions, 'anchor' | 'arrow' | 'enabled'>
@@ -23,7 +23,7 @@ export interface PositionerSource {
   arrow?: () => HTMLElement | null | undefined
   /** Whether positioning is enabled, defaulting to true. False retains the controller but resets its state and owned DOM values. */
   enabled?: () => boolean
-  /** Current replacement options, with omitted members using DOM defaults. Read once untracked for initial state, then reactively. */
+  /** Current replacement options, with omitted members using DOM defaults. Read reactively, including for unpositioned state. */
   options?: () => PositionerOptions
 }
 
@@ -56,25 +56,50 @@ export interface Positioner {
   }
 }
 
+/** Snapshots hold only primitives, and the controller copies on every read, so compare fields. */
+function sameSnapshot(a: Readonly<PositioningState>, b: Readonly<PositioningState>): boolean {
+  for (const key in a)
+    if (a[key as keyof PositioningState] !== b[key as keyof PositioningState]) return false
+  return true
+}
+
 /**
  * Bind the DOM positioner to reactive accessors inside a Solid owner.
  *
  * @remarks
  * No DOM controller is created until a floating host exists. Replacing that host
  * disposes the old controller; changing other inputs updates it in place. Removing
- * the host resets the signal to an unpositioned snapshot without invoking the
- * author's onPositioned callback. Accepted controller publications update the
- * signal before invoking the callback. Replaced/disposed controller callbacks
- * cannot publish into this owner.
+ * the host, a missing anchor, or disabling resets the state to an unpositioned
+ * snapshot in the same flush as that input change. Removing the host does not
+ * invoke the author's onPositioned callback; a disabled or anchorless controller
+ * still reports its reset through it. Accepted controller publications update the
+ * state before invoking the callback. Replaced/disposed controller callbacks
+ * cannot publish into this owner. Equal snapshots do not notify readers.
  *
  * Owner cleanup disposes DOM subscriptions and restores controller-owned values.
  * The caller renders the floating/arrow elements, supplies their refs, and merges
  * the returned props. This helper supplies no portal, presence, or dismissal layer.
  */
 export function createPositioner(source: PositionerSource): Positioner {
-  const [state, setState] = createSignal<Readonly<PositioningState>>(
-    untrack(() => initialPositioningState(source.options?.())),
-    { ownedWrite: true }
+  /** Latest measured snapshot and the floating host it belongs to; unmeasured publications clear it. */
+  const [measured, setMeasured] = createSignal<
+    { floating: HTMLElement; state: Readonly<PositioningState> } | undefined
+  >(undefined, { ownedWrite: true })
+  /** Every unmeasured snapshot the controller publishes is the initial state for the current options. */
+  const publish = (floating: HTMLElement, next: Readonly<PositioningState>) =>
+    setMeasured(next.positioned ? { floating, state: next } : undefined)
+  // Derive resets from the inputs so readers see them in the same flush as the input change.
+  // Measurement is read last: while it can't apply, writes to it don't rerun this memo.
+  const state = createMemo(
+    () => {
+      const floating = source.floating()
+      if (floating && source.anchor() && (source.enabled?.() ?? true)) {
+        const current = measured()
+        if (current?.floating === floating) return current.state
+      }
+      return initialPositioningState(source.options?.())
+    },
+    { equals: sameSnapshot }
   )
   let controller: DOMPositioner | undefined
   let floating: HTMLElement | null | undefined
@@ -98,15 +123,16 @@ export function createPositioner(source: PositionerSource): Positioner {
         floating = value.floating
       }
       if (!floating) {
-        setState(initialPositioningState(value.options))
+        setMeasured(undefined)
         return
       }
+      const host = floating
       const current = generation
       const options: PositioningOptions = {
         ...value.options,
         onPositioned: (next) => {
           if (current !== generation) return
-          setState(next)
+          publish(host, next)
           value.options.onPositioned?.(next)
         },
         onError: value.options.onError
@@ -116,8 +142,8 @@ export function createPositioner(source: PositionerSource): Positioner {
           : undefined,
       }
       if (controller) controller.update(options)
-      else controller = createDOMPositioner(floating, options)
-      setState(controller.getState())
+      else controller = createDOMPositioner(host, options)
+      publish(host, controller.getState())
     }
   )
 

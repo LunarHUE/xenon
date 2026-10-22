@@ -1,6 +1,6 @@
 import { cleanup, render } from '@solidjs/testing-library'
 import type { PositioningOptions, PositioningState } from '@xenon-ui/dom/positioning'
-import { createSignal, flush } from 'solid-js'
+import { createEffect, createSignal, flush } from 'solid-js'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { createPositioner } from './positioning'
 import type { Positioner } from './positioning'
@@ -168,5 +168,61 @@ describe('createPositioner', () => {
       'aria-hidden': 'true',
       role: 'presentation',
     })
+  })
+
+  test('keeps equal snapshots and resets from rerunning effects that read the same inputs', () => {
+    // The DOM controller returns a fresh copy from every getState call.
+    engine.create.mockImplementation((_node: HTMLElement, options: PositioningOptions) => {
+      const controller = mockController(options)
+      const getState = controller.getState
+      controller.getState = () => ({ ...getState() })
+      controllers.push(controller)
+      return controller
+    })
+    const [floating, setFloating] = createSignal<HTMLElement>()
+    const [enabled, setEnabled] = createSignal(false)
+    const runs: [HTMLElement | undefined, boolean, boolean][] = []
+    let api!: Positioner
+    render(() => {
+      api = createPositioner({ anchor: () => document.body, floating, enabled })
+      createEffect(
+        () => [floating(), enabled(), api.state().positioned] as (typeof runs)[number],
+        (value) => {
+          runs.push(value)
+        }
+      )
+      return <span />
+    })
+    flush()
+    const initial = api.state()
+    runs.length = 0
+    const node = document.createElement('div')
+    setFloating(node)
+    flush()
+    expect(engine.create).toHaveBeenCalledTimes(1)
+    expect(runs).toEqual([[node, false, false]])
+    expect(api.state()).toBe(initial)
+    setEnabled(true)
+    flush()
+    expect(runs).toEqual([
+      [node, false, false],
+      [node, true, false],
+    ])
+    controllers[0]!.publish()
+    flush()
+    expect(runs.at(-1)).toEqual([node, true, true])
+    const positioned = api.state()
+    controllers[0]!.publish()
+    flush()
+    expect(api.state()).toBe(positioned)
+    controllers[0]!.publish({ x: 41 })
+    flush()
+    expect(api.state().x).toBe(41)
+    expect(runs).toHaveLength(4)
+    setEnabled(false)
+    flush()
+    expect(runs).toHaveLength(5)
+    expect(runs.at(-1)).toEqual([node, false, false])
+    expect(api.state().x).toBeNull()
   })
 })
