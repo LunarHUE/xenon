@@ -11,6 +11,9 @@
  * 0.2.1 of @xenon-ui/solid shipped 192 of its 433 files because dist/ was being
  * deleted by a second build while npm packed it; this would have rejected it.
  *
+ * Shipped modules are parsed with rolldown's parser (oxc), a root dev
+ * dependency, so imports are read from syntax rather than raw text.
+ *
  * Exits 1 with one line per problem. Plain Node, so it also runs as the
  * prepublishOnly script of each built package.
  */
@@ -19,6 +22,7 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:f
 import { tmpdir } from 'node:os'
 import { join, posix, relative, resolve } from 'node:path'
 import process from 'node:process'
+import { parseSync } from 'rolldown/utils'
 
 const input = process.argv[2]
 if (!input) {
@@ -108,11 +112,17 @@ function verify(root) {
         if (!set.has(stem)) problems.push(`exports["${subpath}"] ${label} has no "${stem}"`)
   }
   // A partial tree can keep every entry while losing modules they import.
-  const specifier = /(?:\bfrom\s*|\bimport\s*\(?\s*)['"](\.{1,2}\/[^'"]+)['"]/g
   for (const file of files) {
     if (!/\.(m?js|jsx|d\.ts)$/.test(file)) continue
     const source = readFileSync(join(root, file), 'utf8')
-    for (const [, spec] of source.matchAll(specifier)) {
+    const { program, errors } = parseSync(file, source, { sourceType: 'module' })
+    // A module that does not parse cannot be checked, and would not load either.
+    if (errors.length) {
+      problems.push(`${file} does not parse: ${errors[0].message}`)
+      continue
+    }
+    for (const spec of moduleSpecifiers(program)) {
+      if (!/^\.{1,2}\//.test(spec)) continue
       const target = posix.normalize(posix.join(posix.dirname(file), spec))
       const candidates = file.endsWith('.d.ts')
         ? [
@@ -127,4 +137,39 @@ function verify(root) {
     }
   }
   return problems
+}
+
+/**
+ * Module specifiers a parsed module depends on. `import()` only counts when
+ * its argument is a constant string; a computed one can't be checked.
+ */
+function moduleSpecifiers(program) {
+  // The property holding the module specifier, per node type.
+  const keys = {
+    ImportDeclaration: 'source',
+    ExportNamedDeclaration: 'source',
+    ExportAllDeclaration: 'source',
+    ImportExpression: 'source',
+    // `import('x').Type` and `import x = require('x')` in declaration files.
+    TSImportType: 'source',
+    TSExternalModuleReference: 'expression',
+  }
+  const specifiers = []
+  const pending = [program]
+  while (pending.length) {
+    const node = pending.pop()
+    if (!node || typeof node !== 'object') continue
+    // Arrays push items one at a time; a spread can exceed the argument limit.
+    if (Array.isArray(node)) {
+      for (const item of node) pending.push(item)
+      continue
+    }
+    const specifier = node[keys[node.type]]
+    if (specifier?.type === 'Literal' && typeof specifier.value === 'string')
+      specifiers.push(specifier.value)
+    else if (specifier?.type === 'TemplateLiteral' && !specifier.expressions.length)
+      specifiers.push(specifier.quasis[0].value.cooked)
+    for (const value of Object.values(node)) pending.push(value)
+  }
+  return specifiers
 }
