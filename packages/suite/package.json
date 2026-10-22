@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --project jsdom",
+    "test": "bun run test:scripts && vitest run --project jsdom",
+    "test:scripts": "bun test scripts/*.test.ts",
     "test:browser": "vitest run --project browser",
     "spec:check": "bun test scripts/spec-coverage.test.ts && bun scripts/check-spec.ts",
     "test:spec": "bun test scripts/spec-coverage.test.ts",
