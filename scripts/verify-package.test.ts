@@ -238,7 +238,7 @@ test('JSX text and tags neither hide nor invent imports', () => {
   const result = verify('./index.jsx', {
     'index.jsx': [
       'const view = <span></span>; import "./first.js"',
-      "const page = <><p class=\"a/b\" title='it\\'s'>Don't // import './text.js' {/* import './comment.js' */}</p><br/></>",
+      "const page = <><p class=\"a/b\" title=\"it's\">Don't // import './text.js' {/* import './comment.js' */}</p><br/></>",
       "const lazy = <div onClick={() => import('./second.js')} {...{ a: '}' }}>{`${<i>/</i>}`}</div>",
       "export * from './third.js'",
     ].join('\n'),
@@ -260,4 +260,38 @@ test('quoted names in import and export clauses do not end the clause', () => {
   expect(result.stderr).toContain('2 problem(s)')
   for (const name of ['first', 'second'])
     expect(result.stderr).toContain(`index.js imports ./${name}.js, which is missing`)
+})
+
+test('imports after ambiguous slashes and adjacent JSX expressions are still checked', () => {
+  const result = verify('./index.jsx', {
+    'index.jsx': [
+      'const f = function () {} / 2; import "./first.js"',
+      'if (f) /x/.test("y"); import "./second.js"',
+      'const view = <div>{f}{/}/.test("x") && import("./third.js")}</div>',
+    ].join('\n'),
+  })
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('3 problem(s)')
+  for (const name of ['first', 'second', 'third'])
+    expect(result.stderr).toContain(`index.jsx imports ./${name}.js, which is missing`)
+})
+
+test('constant template imports and declaration require imports are checked', () => {
+  const result = verify(
+    { '.': { types: './index.d.ts', default: './index.js' } },
+    {
+      'index.js': "import(`./first.js`); import(`./${'computed'}.js`)",
+      'index.d.ts': "import x = require('./second')\nexport = x",
+    }
+  )
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('2 problem(s)')
+  expect(result.stderr).toContain('index.js imports ./first.js, which is missing')
+  expect(result.stderr).toContain('index.d.ts imports ./second, which is missing')
+})
+
+test('a shipped module that does not parse is rejected', () => {
+  const result = verify('./index.js', { 'index.js': "const = 1; import './hidden.js'" })
+  expect(result.status).toBe(1)
+  expect(result.stderr).toContain('index.js does not parse')
 })

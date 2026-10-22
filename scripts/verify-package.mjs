@@ -11,6 +11,9 @@
  * 0.2.1 of @xenon-ui/solid shipped 192 of its 433 files because dist/ was being
  * deleted by a second build while npm packed it; this would have rejected it.
  *
+ * Shipped modules are parsed with rolldown's parser (oxc), a root dev
+ * dependency, so imports are read from syntax rather than raw text.
+ *
  * Exits 1 with one line per problem. Plain Node, so it also runs as the
  * prepublishOnly script of each built package.
  */
@@ -19,6 +22,7 @@ import { mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:f
 import { tmpdir } from 'node:os'
 import { join, posix, relative, resolve } from 'node:path'
 import process from 'node:process'
+import { parseSync } from 'rolldown/utils'
 
 const input = process.argv[2]
 if (!input) {
@@ -111,7 +115,13 @@ function verify(root) {
   for (const file of files) {
     if (!/\.(m?js|jsx|d\.ts)$/.test(file)) continue
     const source = readFileSync(join(root, file), 'utf8')
-    for (const spec of moduleSpecifiers(source, { jsx: !file.endsWith('.d.ts') })) {
+    const { program, errors } = parseSync(file, source, { sourceType: 'module' })
+    // A module that does not parse cannot be checked, and would not load either.
+    if (errors.length) {
+      problems.push(`${file} does not parse: ${errors[0].message}`)
+      continue
+    }
+    for (const spec of moduleSpecifiers(program)) {
       if (!/^\.{1,2}\//.test(spec)) continue
       const target = posix.normalize(posix.join(posix.dirname(file), spec))
       const candidates = file.endsWith('.d.ts')
@@ -130,210 +140,36 @@ function verify(root) {
 }
 
 /**
- * Split JavaScript or a declaration file into tokens, dropping comments and
- * whitespace. Strings come back with their unquoted text so a specifier can be
- * read off them; template, regex and JSX literals come back opaque. JSX is
- * only recognised when `jsx` is set, since `<` in a declaration file's
- * expression position opens a type parameter list instead.
+ * Module specifiers a parsed module depends on. `import()` only counts when
+ * its argument is a constant string; a computed one can't be checked.
  */
-function tokenize(source, { jsx = false } = {}) {
-  const tokens = []
-  // One entry per open brace: 'block' or 'object' for a code brace,
-  // 'template' for a `${`, or the paused JSX element a `{` interrupted.
-  const braces = []
-  const word = /[\p{ID_Continue}$\u200c\u200d\\#]+/uy
-  const punctuator =
-    /\.\.\.|\?\.(?!\d)|>>>=?|<<=|>>=|\*\*=?|\?\?=?|&&=?|\|\|=?|[=!]==?|=>|\+\+|--|<<|>>|[<>+\-*%&|^/]=|[^\s]/y
-  // Keywords after which an expression starts, and those that can also open a block.
-  const expressionKeywords = new Set(
-    'await case delete in instanceof new of return throw typeof void yield'.split(' ')
-  )
-  const blockKeywords = new Set(['do', 'else'])
-  let i = 0
-  if (source.startsWith('#!')) {
-    const end = source.indexOf('\n')
-    i = end < 0 ? source.length : end
+function moduleSpecifiers(program) {
+  // The property holding the module specifier, per node type.
+  const keys = {
+    ImportDeclaration: 'source',
+    ExportNamedDeclaration: 'source',
+    ExportAllDeclaration: 'source',
+    ImportExpression: 'source',
+    // `import('x').Type` and `import x = require('x')` in declaration files.
+    TSImportType: 'source',
+    TSExternalModuleReference: 'expression',
   }
-
-  // Whether an expression can start here, so `/` opens a regex and `<` opens JSX.
-  const expressionAllowed = () => {
-    const last = tokens.at(-1)
-    if (!last) return true
-    if (last.type === 'word')
-      return last.keyword && (expressionKeywords.has(last.value) || blockKeywords.has(last.value))
-    // A template that stopped at `${` is followed by the expression inside it.
-    if (last.type === 'template') return last.open
-    if (last.type !== 'punctuator') return false
-    if (last.value === '}') return last.closed === 'block'
-    return ![')', ']', '++', '--'].includes(last.value)
-  }
-  // Whether a `{` here opens an object literal rather than a block.
-  const objectAllowed = () => {
-    const last = tokens.at(-1)
-    if (!last) return false
-    if (last.type === 'word') return last.keyword && expressionKeywords.has(last.value)
-    if (last.type === 'template') return last.open
-    if (last.type !== 'punctuator') return false
-    return !['=>', ')', ';', '{', '}'].includes(last.value)
-  }
-  // Scan template text from i up to its closing backtick or the next `${`.
-  const template = () => {
-    while (i < source.length) {
-      const char = source[i++]
-      if (char === '\\') i++
-      else if (char === '`') return tokens.push({ type: 'template', open: false })
-      else if (char === '$' && source[i] === '{') {
-        i++
-        braces.push('template')
-        return tokens.push({ type: 'template', open: true })
-      }
-    }
-    tokens.push({ type: 'template', open: false })
-  }
-  // Scan JSX from i until the outermost element closes or a `{` hands control
-  // back to code. `element.depth` counts elements whose children are being
-  // read; `element.inTag` is set between a tag's `<` and its `>`.
-  const jsxElement = (element) => {
-    while (i < source.length) {
-      const char = source[i]
-      if (char === '{') {
-        i++
-        braces.push(element)
-        return
-      }
-      if (element.inTag) {
-        if (char === '"' || char === "'") {
-          const end = source.indexOf(char, i + 1)
-          i = end < 0 ? source.length : end + 1
-        } else if (char === '>' || source.startsWith('/>', i)) {
-          i += char === '>' ? 1 : 2
-          element.inTag = false
-          if (char === '>' && !element.closing) element.depth++
-          if (element.closing) element.depth--
-          element.closing = false
-          if (element.depth === 0) break
-        } else {
-          if (char === '/') element.closing = true
-          i++
-        }
-      } else if (char === '<') {
-        i++
-        element.inTag = true
-      } else {
-        i++
-      }
-    }
-    tokens.push({ type: 'jsx' })
-  }
-
-  while (i < source.length) {
-    const char = source[i]
-    if (/\s/.test(char)) {
-      i++
-    } else if (source.startsWith('//', i)) {
-      const end = source.slice(i).search(/[\n\r\u2028\u2029]/)
-      i = end < 0 ? source.length : i + end
-    } else if (source.startsWith('/*', i)) {
-      const end = source.indexOf('*/', i + 2)
-      i = end < 0 ? source.length : end + 2
-    } else if (char === '"' || char === "'") {
-      let value = ''
-      // A raw line break ends an unterminated string, as it would a real one.
-      for (i++; i < source.length && source[i] !== char && source[i] !== '\n'; i++)
-        value += source[i] === '\\' ? source[i] + source[++i] : source[i]
-      i++
-      tokens.push({ type: 'string', value })
-    } else if (char === '`') {
-      i++
-      template()
-    } else if (char === '}' && braces.at(-1) === 'template') {
-      braces.pop()
-      i++
-      template()
-    } else if (char === '}' && typeof braces.at(-1) === 'object') {
-      i++
-      jsxElement(braces.pop())
-    } else if (char === '/' && expressionAllowed()) {
-      let inClass = false
-      for (i++; i < source.length; i++) {
-        const next = source[i]
-        if (next === '\\') i++
-        else if (next === '[') inClass = true
-        else if (next === ']') inClass = false
-        else if (next === '/' && !inClass) break
-        else if (next === '\n') break
-      }
-      i++
-      word.lastIndex = i
-      if (word.test(source)) i = word.lastIndex
-      tokens.push({ type: 'regex' })
-    } else if (char === '<' && jsx && expressionAllowed()) {
-      i++
-      jsxElement({ depth: 0, inTag: true, closing: false })
-    } else {
-      word.lastIndex = i
-      if (word.test(source)) {
-        const value = source.slice(i, word.lastIndex)
-        i = word.lastIndex
-        // After `.` or `?.` a keyword is just a property name.
-        const last = tokens.at(-1)
-        const keyword = !(
-          last?.type === 'punctuator' &&
-          (last.value === '.' || last.value === '?.')
-        )
-        tokens.push({ type: 'word', value, keyword })
-        continue
-      }
-      punctuator.lastIndex = i
-      punctuator.test(source)
-      const value = source.slice(i, punctuator.lastIndex)
-      i = punctuator.lastIndex
-      const token = { type: 'punctuator', value }
-      if (value === '{') braces.push(objectAllowed() ? 'object' : 'block')
-      else if (value === '}') token.closed = braces.pop()
-      tokens.push(token)
-    }
-  }
-  return tokens
-}
-
-/**
- * Module specifiers a source file depends on: `import 'x'`, `import ... from 'x'`,
- * `export ... from 'x'` and `import('x')`, the last also covering declaration
- * files' `import('x').Type`. Text in comments, strings, templates and JSX is ignored.
- */
-function moduleSpecifiers(source, options) {
-  const tokens = tokenize(source, options)
   const specifiers = []
-  const is = (token, type, value) =>
-    token?.type === type && (value === undefined || token.value === value)
-  for (let index = 0; index < tokens.length; index++) {
-    const token = tokens[index]
-    if (!token.keyword || (token.value !== 'import' && token.value !== 'export')) continue
-    const next = tokens[index + 1]
-    if (token.value === 'import' && is(next, 'string')) {
-      specifiers.push(next.value)
+  const pending = [program]
+  while (pending.length) {
+    const node = pending.pop()
+    if (!node || typeof node !== 'object') continue
+    // Arrays push items one at a time; a spread can exceed the argument limit.
+    if (Array.isArray(node)) {
+      for (const item of node) pending.push(item)
       continue
     }
-    if (token.value === 'import' && is(next, 'punctuator', '(')) {
-      if (is(tokens[index + 2], 'string')) specifiers.push(tokens[index + 2].value)
-      continue
-    }
-    // An import or export clause holds only names, braces, commas, `*` and
-    // string names, and ends at `from 'x'` or at its closing brace.
-    for (let ahead = index + 1; ahead < tokens.length; ahead++) {
-      const clause = tokens[ahead]
-      if (is(clause, 'word', 'from') && is(tokens[ahead + 1], 'string')) {
-        specifiers.push(tokens[ahead + 1].value)
-        break
-      }
-      const inClause =
-        (clause.type === 'word' && !(clause.value === 'import' || clause.value === 'export')) ||
-        clause.type === 'string' ||
-        (clause.type === 'punctuator' && ['{', '}', ',', '*'].includes(clause.value))
-      if (!inClause || (is(clause, 'punctuator', '}') && !is(tokens[ahead + 1], 'word', 'from')))
-        break
-    }
+    const specifier = node[keys[node.type]]
+    if (specifier?.type === 'Literal' && typeof specifier.value === 'string')
+      specifiers.push(specifier.value)
+    else if (specifier?.type === 'TemplateLiteral' && !specifier.expressions.length)
+      specifiers.push(specifier.quasis[0].value.cooked)
+    for (const value of Object.values(node)) pending.push(value)
   }
   return specifiers
 }
