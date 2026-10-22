@@ -460,8 +460,10 @@ export function CommandInput(props: CommandInputProps): JSX.Element {
 }
 
 /**
- * Collection callback for data-driven lists. It must declare the items parameter, as
- * with Show's function child. Read it in tracked JSX such as For's each.
+ * Collection callback for data-driven lists. Read the items in tracked JSX such as
+ * For's each. As with Show's function child, the callback must declare `items` as a
+ * plain first parameter. A function whose `length` is 0, such as `(items = []) =>` or
+ * `(...args) =>`, is rendered as content and never receives the items.
  */
 export type CommandListChildren = JSX.Element | ((items: readonly CommandItem[]) => JSX.Element)
 /** Native div props for the listbox. */

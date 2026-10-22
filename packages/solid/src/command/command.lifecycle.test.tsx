@@ -113,6 +113,27 @@ describe('Command mounted collection lifecycle', () => {
     expect(view.getByText('Open a long list of things')).toBe(open)
   })
 
+  test('a zero-arity function child renders as content without receiving items', async () => {
+    const received: unknown[] = []
+    const [label, setLabel] = createSignal('first')
+    const child = (...args: unknown[]) => {
+      received.push(...args)
+      return <Command.Item value="only">{label()}</Command.Item>
+    }
+    const view = render(() => (
+      <Command items={[{ value: 'only' }]}>
+        <Command.Input aria-label="Search" />
+        <Command.List>{child as never}</Command.List>
+      </Command>
+    ))
+    await settle()
+    expect(view.getByRole('option')).toHaveTextContent('first')
+    setLabel('second')
+    await settle()
+    expect(view.getByRole('option')).toHaveTextContent('second')
+    expect(received).toEqual([])
+  })
+
   test('disabled updates immediately prevent selection and restore activation when enabled', async () => {
     const [disabled, setDisabled] = createSignal(false)
     const select = vi.fn()
