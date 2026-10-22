@@ -459,7 +459,12 @@ export function CommandInput(props: CommandInputProps): JSX.Element {
   )
 }
 
-/** Collection callback for data-driven lists. Read it in tracked JSX such as For's each. */
+/**
+ * Collection callback for data-driven lists. Read the items in tracked JSX such as
+ * For's each. As with Show's function child, the callback must declare `items` as a
+ * plain first parameter. A function whose `length` is 0, such as `(items = []) =>` or
+ * `(...args) =>`, is rendered as content and never receives the items.
+ */
 export type CommandListChildren = JSX.Element | ((items: readonly CommandItem[]) => JSX.Element)
 /** Native div props for the listbox. */
 export type CommandListProps = Omit<ComponentProps<'div'>, 'children'> & {
@@ -490,9 +495,13 @@ export function CommandList(props: CommandListProps): JSX.Element {
   const items = createProjection<CommandItem[]>(() => [...context.engine().state.items], [], {
     key: 'value',
   })
+  // Like Show, only a function that declares a parameter is the items callback; a
+  // zero-argument function such as For's list accessor is content. Running either
+  // tracked here would rerun the children getter on every reorder and remount keyed rows.
   const children = createMemo(() => {
     const value = props.children
-    return typeof value === 'function' ? value(items) : value
+    if (typeof value === 'function' && value.length > 0) return untrack(() => value(items))
+    return value as JSX.Element
   })
   return (
     <div

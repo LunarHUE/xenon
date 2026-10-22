@@ -28,6 +28,14 @@ The dependency installation needs root privileges. The repository's Bun dev shel
 alone does not supply WebKit's GTK, GStreamer, and TLS libraries. Test runs do not
 need root once those dependencies are installed.
 
+Each Playwright release expects specific browser revisions. Neither `bun install`
+nor any test script downloads browsers, so run the install command again on a fresh
+machine or cache, and after a lockfile change moves the `playwright` version. If
+a run stops before any test with `browserType.launch: Executable doesn't exist at
+.../chromium_headless_shell-<revision>/...`, the cache lacks that revision.
+Browsers go to `~/.cache/ms-playwright` unless `PLAYWRIGHT_BROWSERS_PATH` names
+another directory; set it to the same value for install and test commands.
+
 On Debian/Ubuntu, the Nix dev and CI shells use `/usr/bin/ldd` for browser
 dependency checks so Playwright can find the host-installed libraries. After
 updating the flake, run `direnv reload`, or exit and re-enter `nix develop`.
