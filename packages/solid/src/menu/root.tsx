@@ -163,6 +163,9 @@ function createMenu<Payload>(props: MenuProps<Payload>, parent?: MenuContextValu
       setSearch('')
     }
     if (untrack(open) === next) return
+    // Reopening mid-exit keeps the existing focus scope, which never reapplies
+    // its initial focus, so request the opening edge through the content effect.
+    if (next && untrack(life.status) === 'exiting') setFocusRevision((value) => value + 1)
     if (props.open === undefined) setInternal(next)
     props.onOpenChange?.(next)
   }
