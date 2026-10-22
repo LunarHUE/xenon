@@ -128,12 +128,13 @@ jobs:
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 14
-      # Vitest browser mode saves a screenshot beside the test file when a test fails.
+      # Failure screenshots land in .vitest/attachments/failure-screenshots.
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
-          name: vitest-screenshots-${{ matrix.browser }}-${{ matrix.shard }}
-          path: packages/suite/src/**/__screenshots__/
+          name: vitest-attachments-${{ matrix.browser }}-${{ matrix.shard }}
+          path: packages/suite/.vitest/attachments/
+          include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 14
 
