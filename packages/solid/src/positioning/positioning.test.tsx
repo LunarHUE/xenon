@@ -170,7 +170,7 @@ describe('createPositioner', () => {
     })
   })
 
-  test('keeps equal snapshots from rerunning effects that read the floating ref and state', () => {
+  test('keeps equal snapshots and resets from rerunning effects that read the same inputs', () => {
     // The DOM controller returns a fresh copy from every getState call.
     engine.create.mockImplementation((_node: HTMLElement, options: PositioningOptions) => {
       const controller = mockController(options)
@@ -180,12 +180,13 @@ describe('createPositioner', () => {
       return controller
     })
     const [floating, setFloating] = createSignal<HTMLElement>()
-    const runs: [HTMLElement | undefined, boolean][] = []
+    const [enabled, setEnabled] = createSignal(false)
+    const runs: [HTMLElement | undefined, boolean, boolean][] = []
     let api!: Positioner
     render(() => {
-      api = createPositioner({ anchor: () => document.body, floating, enabled: () => false })
+      api = createPositioner({ anchor: () => document.body, floating, enabled })
       createEffect(
-        () => [floating(), api.state().positioned] as [HTMLElement | undefined, boolean],
+        () => [floating(), enabled(), api.state().positioned] as (typeof runs)[number],
         (value) => {
           runs.push(value)
         }
@@ -199,14 +200,17 @@ describe('createPositioner', () => {
     setFloating(node)
     flush()
     expect(engine.create).toHaveBeenCalledTimes(1)
-    expect(runs).toEqual([[node, false]])
+    expect(runs).toEqual([[node, false, false]])
     expect(api.state()).toBe(initial)
-    controllers[0]!.publish()
+    setEnabled(true)
     flush()
     expect(runs).toEqual([
-      [node, false],
-      [node, true],
+      [node, false, false],
+      [node, true, false],
     ])
+    controllers[0]!.publish()
+    flush()
+    expect(runs.at(-1)).toEqual([node, true, true])
     const positioned = api.state()
     controllers[0]!.publish()
     flush()
@@ -214,6 +218,11 @@ describe('createPositioner', () => {
     controllers[0]!.publish({ x: 41 })
     flush()
     expect(api.state().x).toBe(41)
-    expect(runs).toHaveLength(3)
+    expect(runs).toHaveLength(4)
+    setEnabled(false)
+    flush()
+    expect(runs).toHaveLength(5)
+    expect(runs.at(-1)).toEqual([node, false, false])
+    expect(api.state().x).toBeNull()
   })
 })
