@@ -134,6 +134,13 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
   // Keyed children unregister while Solid disposes an owned computation.
   const [entries, setEntries] = createSignal<ToggleGroupEntry[]>([], { ownedWrite: true })
   const [active, setActive] = createSignal<string>()
+  // Signal reads stay at their committed value until the batch flushes; this mirror
+  // sees writes made earlier in the same event, such as focus from an author handler.
+  let latest: string | undefined
+  const activate = (next: string | undefined) => {
+    latest = next
+    setActive(next)
+  }
   const [ambient, setAmbient] = createSignal<CompositeDirection>('ltr')
   const [internal, setInternal] = createSignal<GroupValue>(untrack(() => own.defaultValue))
 
@@ -166,7 +173,7 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
       loop: own.loop ?? true,
       onValueChange: change,
       onActiveChange: (value) => {
-        setActive(value)
+        activate(value)
         onSettled(() => entryFor(value)?.el?.focus())
       },
     })
@@ -185,16 +192,16 @@ function ToggleGroupRoot<T extends ValidComponent = 'div'>(
 
   /**
    * Publishes the current DOM order if hosts moved since registration and returns
-   * navigation built from it. The stop resolved before the move is pinned, so an
-   * unset active value cannot fall back to a different first item mid-event.
+   * navigation built from it. The latest stop, resolved in the old order, is pinned so
+   * an unset active value cannot fall back to a different first item mid-event.
    */
   const resorted = () => {
     const next = reordered(registered)
     if (!next) return undefined
-    const pinned = engine().state.active
+    const pinned = build(registered, latest).state.active
     registered = next
     setEntries(next)
-    setActive(pinned)
+    activate(pinned)
     return build(next, pinned)
   }
 

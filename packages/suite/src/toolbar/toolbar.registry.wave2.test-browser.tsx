@@ -225,3 +225,64 @@ for (const composition of ['button', 'toggle-group'] as const) {
     })
   }
 }
+
+// An author handler runs before the generated keydown; a focus change it makes must
+// survive the reorder that the same event discovers.
+for (const composition of ['button', 'toggle-group'] as const) {
+  test(`${composition} reorder keeps a stop that an author shortcut moved in the same keydown`, async () => {
+    const [items, setItems] = createSignal(['a', 'b', 'c'])
+    const container = document.createElement('div')
+    document.body.append(container)
+    const shortcut = (event: KeyboardEvent) => {
+      if (event.key !== 'q') return
+      const target = [...container.querySelectorAll('button')].find((b) => b.textContent === 'c')
+      target?.focus()
+    }
+    const dispose = render(
+      () => (
+        <Toolbar aria-label="Actions">
+          {composition === 'button' ? (
+            <For each={items()}>
+              {(value) => <Toolbar.Button onKeyDown={shortcut}>{value}</Toolbar.Button>}
+            </For>
+          ) : (
+            <ToggleGroup aria-label="Styles">
+              <For each={items()}>
+                {(value) => (
+                  <ToggleGroup.Item as={Toolbar.Button} value={value} onKeyDown={shortcut}>
+                    {value}
+                  </ToggleGroup.Item>
+                )}
+              </For>
+            </ToggleGroup>
+          )}
+        </Toolbar>
+      ),
+      container
+    )
+    onTestFinished(() => {
+      dispose()
+      container.remove()
+      flush()
+    })
+    flush()
+    const m = within(container)
+    setItems(['c', 'b', 'a'])
+    flush()
+    await expect.poll(() => m.getByRole('toolbar').textContent).toBe('cba')
+    const a = m.getByRole('button', { name: 'a' })
+    const c = m.getByRole('button', { name: 'c' })
+    a.focus()
+    await userEvent.keyboard('q')
+    await focused(c)
+    await expect
+      .poll(() => {
+        flush()
+        return c.getAttribute('tabindex')
+      })
+      .toBe('0')
+    expect(a).toHaveAttribute('tabindex', '-1')
+    await userEvent.keyboard('{ArrowRight}')
+    await focused(m.getByRole('button', { name: 'b' }))
+  })
+}

@@ -127,6 +127,61 @@ for (const mode of ['single', 'multiple'] as const) {
   }
 }
 
+// An author handler runs before the generated keydown; a focus change it makes must
+// survive the reorder that the same event discovers.
+for (const mode of ['single', 'multiple'] as const) {
+  test(`${mode} reorder keeps a stop that an author shortcut moved in the same keydown`, async () => {
+    const [items, setItems] = createSignal(['a', 'b', 'c'])
+    const changed = vi.fn()
+    const container = document.createElement('div')
+    document.body.append(container)
+    const shortcut = (event: KeyboardEvent) => {
+      if (event.key !== 'q') return
+      const target = [...container.querySelectorAll('button')].find((b) => b.textContent === 'c')
+      target?.focus()
+    }
+    const dispose = render(
+      () => (
+        <ToggleGroup mode={mode} aria-label="Styles" onValueChange={changed}>
+          <For each={items()}>
+            {(value) => (
+              <ToggleGroup.Item value={value} onKeyDown={shortcut}>
+                {value}
+              </ToggleGroup.Item>
+            )}
+          </For>
+        </ToggleGroup>
+      ),
+      container
+    )
+    onTestFinished(() => {
+      dispose()
+      container.remove()
+      flush()
+    })
+    flush()
+    const m = within(container)
+    setItems(['c', 'b', 'a'])
+    flush()
+    await expect.poll(() => m.getByRole('group').textContent).toBe('cba')
+    const a = m.getByRole('button', { name: 'a' })
+    const c = m.getByRole('button', { name: 'c' })
+    a.focus()
+    await userEvent.keyboard('q')
+    await focused(c)
+    await expect
+      .poll(() => {
+        flush()
+        return c.getAttribute('tabindex')
+      })
+      .toBe('0')
+    expect(a).toHaveAttribute('tabindex', '-1')
+    await userEvent.keyboard('{ArrowRight}')
+    await focused(m.getByRole('button', { name: 'b' }))
+    expect(changed).not.toHaveBeenCalled()
+  })
+}
+
 for (const orientation of ['horizontal', 'vertical'] as const) {
   for (const dir of ['ltr', 'rtl'] as const) {
     test(`${orientation} ${dir} disabled items retain native navigation while activation stays blocked`, async () => {
