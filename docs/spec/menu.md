@@ -285,7 +285,7 @@ nested in a dialog, and a combobox nested in a menu. Context menus live in
 ### RTL and i18n
 
 - [ ] `menu.rtl.1` Given a right-to-left menu, then the submenu open and close keys MUST swap: ArrowLeft opens the submenu and ArrowRight closes it. [apg, radix, base-ui, react-aria]
-- [ ] `menu.rtl.2` Given a right-to-left menu with three levels open and focus on a submenu trigger, when ArrowRight is pressed, then only the deepest submenu MUST close and focus MUST stay on the trigger. [react-aria] (candidate)
+- [x] `menu.rtl.2` Given a right-to-left menu with three levels open and focus on a submenu trigger, when ArrowRight is pressed, then only the deepest submenu MUST close and focus MUST stay on the trigger. [react-aria] (candidate)
 - [ ] `menu.rtl.3` Given a right-to-left menu, then the pointer grace area MUST mirror: leaving the trigger left-to-right closes the submenu and right-to-left keeps it open, with the directions inverted again at a collision edge. [radix] (candidate)
 - [ ] `menu.rtl.4` Given a right-to-left menu item that opens a sub-dialog, then ArrowLeft MUST open it. [react-aria] (candidate)
 - [ ] `menu.rtl.5` Given a menu filter input during an IME composition, then the filter MUST NOT update until `compositionend`, and arrow keys dispatched with `isComposing: true` MUST NOT move the highlight because they are IME candidate navigation. [reka] (candidate)

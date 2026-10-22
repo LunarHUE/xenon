@@ -135,8 +135,10 @@ export function MenuRadioItem<T extends ValidComponent = 'button'>(
 /**
  * Registers in the parent menu while opening the enclosing Menu.Sub.
  * Click, the forward horizontal arrow, or a 150ms non-touch hover requests its
- * first item. Hover leave cancels pending opening and starts the child's leave
- * policy. onSelect and closeOnSelect do not apply; disabled state blocks opening.
+ * first item. While its submenu is open, the back arrow (ArrowLeft, or ArrowRight
+ * in RTL) closes only that submenu and keeps focus on the trigger. Hover leave
+ * cancels pending opening and starts the child's leave policy. onSelect and
+ * closeOnSelect do not apply; disabled state blocks opening.
  * @throws If there is no enclosing Menu.Sub with a parent menu.
  */
 export function MenuSubTrigger<T extends ValidComponent = 'button'>(
@@ -276,6 +278,17 @@ function createItem<T extends ValidComponent>(
           if (config.sub && event.key === (context.dir() === 'rtl' ? 'ArrowLeft' : 'ArrowRight')) {
             event.preventDefault()
             openSub()
+            return
+          }
+          // The back arrow on an open trigger closes its own child, not the menu containing it.
+          if (
+            config.sub &&
+            child.open() &&
+            event.key === (context.dir() === 'rtl' ? 'ArrowRight' : 'ArrowLeft')
+          ) {
+            event.preventDefault()
+            event.stopPropagation()
+            child.change(false)
             return
           }
           if (event.key === 'Enter' || event.key === ' ') {
