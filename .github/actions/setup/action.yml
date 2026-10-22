@@ -9,16 +9,30 @@ description: Pinned Bun and Node with a frozen dependency install
 runs:
   using: composite
   steps:
-    - uses: oven-sh/setup-bun@v2
-      with:
-        bun-version-file: package.json
-        no-cache: ${{ github.event_name != 'push' }}
     - uses: actions/setup-node@v7
       with:
         node-version: 24
+    # setup-bun extracts a zip, and the Playwright image has no unzip. There,
+    # Bun comes from its npm package at the same packageManager version.
+    - id: unzip
+      shell: bash
+      run: echo "found=$(command -v unzip > /dev/null && echo true || echo false)" >> "$GITHUB_OUTPUT"
+    - if: steps.unzip.outputs.found == 'true'
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version-file: package.json
+        no-cache: ${{ github.event_name != 'push' }}
+    - if: steps.unzip.outputs.found != 'true'
+      shell: bash
+      run: |
+        version=$(node -p "require('./package.json').packageManager.replace(/^bun@/, '')")
+        npm install --prefix "$RUNNER_TEMP/bun" --no-save --no-fund --no-audit "bun@$version"
+        echo "$RUNNER_TEMP/bun/node_modules/.bin" >> "$GITHUB_PATH"
     - id: bun-cache
       shell: bash
-      run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+      run: |
+        bun --version
+        echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
     - if: github.event_name == 'push'
       uses: actions/cache@v6
       with:
