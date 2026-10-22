@@ -480,6 +480,11 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
       ...context.engine().parts.input.on,
       input(event) {
         context.engine().parts.input.on.input?.(event)
+        // Writing the value mid-composition would cancel the IME session.
+        if (!event.isComposing) event.currentTarget.value = context.engine().state.inputValue
+      },
+      compositionend(event) {
+        context.engine().parts.input.on.compositionend?.(event)
         event.currentTarget.value = context.engine().state.inputValue
       },
     },

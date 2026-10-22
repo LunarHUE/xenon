@@ -211,6 +211,55 @@ describe('combobox', () => {
     expect(active).not.toHaveBeenCalled()
     expect(open).not.toHaveBeenCalled()
   })
+  test('composing drafts publish nothing until compositionend publishes the composed text once', () => {
+    const text = vi.fn(),
+      open = vi.fn(),
+      active = vi.fn()
+    const target = { value: 'Ch' } as HTMLInputElement
+    const fire = (
+      engine: ReturnType<typeof combobox>,
+      type: 'input' | 'compositionend',
+      isComposing = false
+    ) =>
+      type === 'input'
+        ? engine.parts.input.on.input?.({
+            currentTarget: target,
+            isComposing,
+          } as unknown as InputEvent & {
+            currentTarget: HTMLInputElement
+          })
+        : engine.parts.input.on.compositionend?.({
+            currentTarget: target,
+          } as unknown as CompositionEvent & {
+            currentTarget: HTMLInputElement
+          })
+    const options = {
+      items,
+      id: 'x',
+      inputValue: 'Apple',
+      open: true,
+      activeValue: 'a',
+      onInputValueChange: text,
+      onOpenChange: open,
+      onActiveChange: active,
+    }
+    const engine = combobox(options)
+    fire(engine, 'input', true)
+    expect(text).not.toHaveBeenCalled()
+    expect(engine.state.items.map((item) => item.value)).toEqual(['a'])
+    expect(active).toHaveBeenCalledExactlyOnceWith(undefined)
+    fire(engine, 'compositionend')
+    expect(text).toHaveBeenCalledExactlyOnceWith('Ch')
+    // WebKit can follow compositionend with a noncomposing input carrying the same text.
+    fire(combobox({ ...options, inputValue: 'Ch' }), 'input')
+    expect(text).toHaveBeenCalledOnce()
+    // A canceled composition that restores the prior text requests nothing.
+    fire(combobox({ ...options, inputValue: 'Ch' }), 'compositionend')
+    expect(text).toHaveBeenCalledOnce()
+    expect(open).not.toHaveBeenCalled()
+    fire(combobox({ ...options, readonly: true }), 'compositionend')
+    expect(text).toHaveBeenCalledOnce()
+  })
   test('pointer press retains input focus but only click commits; closed and disabled items cannot commit', () => {
     const change = vi.fn()
     const event = { button: 0, preventDefault: vi.fn() } as unknown as PointerEvent & {
