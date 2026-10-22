@@ -82,8 +82,9 @@ export interface ComboboxResult {
  * Computes list filtering and virtual navigation without owning state or the DOM.
  * Enter commits only an enabled highlight; Tab closes without selection. Home,
  * End, and horizontal arrows clear the highlight and retain native caret behavior.
- * Composition and modified editing keys are left to the browser. Typing retains
- * the committed value until another option is explicitly chosen.
+ * Composition and modified editing keys are left to the browser; composed text
+ * filters and publishes once, at compositionend. Typing retains the committed
+ * value until another option is explicitly chosen.
  */
 export function combobox(options: ComboboxOptions): ComboboxResult {
   const open = options.open ?? false
@@ -141,12 +142,17 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
         on: {
           input(event) {
             if (!interactive) return
-            options.onInputValueChange?.(event.currentTarget.value)
             highlight(undefined)
-            if (!event.isComposing) visibility(true)
+            // Composed text, including WebKit's committing insertFromComposition
+            // input, publishes once at compositionend whatever the event order.
+            if (event.isComposing || event.inputType === 'insertFromComposition') return
+            options.onInputValueChange?.(event.currentTarget.value)
+            visibility(true)
           },
-          compositionend() {
-            if (interactive) visibility(true)
+          compositionend(event) {
+            if (!interactive) return
+            options.onInputValueChange?.(event.currentTarget.value)
+            visibility(true)
           },
           keydown(event) {
             if (

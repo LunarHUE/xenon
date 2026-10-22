@@ -231,6 +231,111 @@ describe('Combobox', () => {
     expect(input).toHaveAttribute('aria-expanded', 'true')
     expect(change).not.toHaveBeenCalled()
   })
+  test('an open popup keeps its filter and the composing draft until compositionend publishes once', () => {
+    const text = vi.fn()
+    const view = render(() => (
+      <Combobox items={items} defaultOpen defaultValue="a" onInputValueChange={text}>
+        <Parts />
+      </Combobox>
+    ))
+    flush()
+    const input = view.getByRole('combobox') as HTMLInputElement
+    const options = () =>
+      [
+        ...document
+          .getElementById(input.getAttribute('aria-controls')!)!
+          .querySelectorAll('[role="option"]:not([hidden])'),
+      ].map((option) => option.textContent)
+    expect(options()).toEqual(['Apple'])
+    type(input, 'Ch', true)
+    expect(input.value).toBe('Ch')
+    expect(options()).toEqual(['Apple'])
+    expect(text).not.toHaveBeenCalled()
+    input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+    flush()
+    expect(options()).toEqual(['Cherry'])
+    type(input, 'Ch')
+    expect(text.mock.calls).toEqual([['Ch']])
+  })
+  test('a committing insertFromComposition input before compositionend keeps the composed text', () => {
+    for (const placement of ['trigger', 'popup'] as const) {
+      const text = vi.fn()
+      const view = render(() => (
+        <Combobox
+          items={items}
+          defaultOpen
+          defaultValue="a"
+          inputPlacement={placement}
+          onInputValueChange={text}
+        >
+          <Parts />
+        </Combobox>
+      ))
+      flush()
+      const input = view
+        .getAllByRole('combobox')
+        .find((element): element is HTMLInputElement => element instanceof HTMLInputElement)!
+      type(input, 'Ch', true)
+      input.dispatchEvent(
+        new InputEvent('input', { bubbles: true, inputType: 'insertFromComposition' })
+      )
+      flush()
+      expect(input.value).toBe('Ch')
+      expect(text).not.toHaveBeenCalled()
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+      flush()
+      expect(input.value).toBe('Ch')
+      expect(text.mock.calls).toEqual([['Ch']])
+      view.unmount()
+    }
+  })
+  test('a committing insertFromComposition input after compositionend restores rejected owner text', () => {
+    for (const placement of ['trigger', 'popup'] as const) {
+      const text = vi.fn()
+      const view = render(() => (
+        <Combobox
+          items={items}
+          defaultOpen
+          inputValue="Apple"
+          inputPlacement={placement}
+          onInputValueChange={text}
+        >
+          <Parts />
+        </Combobox>
+      ))
+      flush()
+      const input = view
+        .getAllByRole('combobox')
+        .find((element): element is HTMLInputElement => element instanceof HTMLInputElement)!
+      type(input, 'Ch', true)
+      input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+      flush()
+      expect(input.value).toBe('Apple')
+      input.value = 'Ch'
+      input.dispatchEvent(
+        new InputEvent('input', { bubbles: true, inputType: 'insertFromComposition' })
+      )
+      flush()
+      expect(input.value).toBe('Apple')
+      expect(text.mock.calls).toEqual([['Ch']])
+      view.unmount()
+    }
+  })
+  test('a rejected controlled query restores owner text once composition ends', () => {
+    const text = vi.fn()
+    const view = render(() => (
+      <Combobox items={items} inputValue="" onInputValueChange={text}>
+        <Parts />
+      </Combobox>
+    ))
+    const input = view.getByRole('combobox') as HTMLInputElement
+    type(input, 'Ch', true)
+    expect(input.value).toBe('Ch')
+    input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
+    flush()
+    expect(input.value).toBe('')
+    expect(text.mock.calls).toEqual([['Ch']])
+  })
   test('default query is preserved and controlled value updates synchronize its label', () => {
     const [value, setValue] = createSignal<string | undefined>()
     const view = render(() => (

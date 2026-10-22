@@ -474,12 +474,26 @@ function ComboboxInput(props: ComboboxInputProps): JSX.Element {
       ? fieldDescribedBy(context.field, props['aria-describedby'])
       : props['aria-describedby'],
   })
+  // Writing the value mid-composition would cancel the IME session. WebKit's committing
+  // input can arrive before compositionend, which then publishes and syncs the text,
+  // or after it, when it must sync like any other input.
+  let composing = false
   const part = (): PartProps<'input'> => ({
     ...context.engine().parts.input,
     on: {
       ...context.engine().parts.input.on,
+      compositionstart() {
+        composing = true
+      },
       input(event) {
         context.engine().parts.input.on.input?.(event)
+        if (event.isComposing) composing = true
+        if (event.isComposing || (composing && event.inputType === 'insertFromComposition')) return
+        event.currentTarget.value = context.engine().state.inputValue
+      },
+      compositionend(event) {
+        composing = false
+        context.engine().parts.input.on.compositionend?.(event)
         event.currentTarget.value = context.engine().state.inputValue
       },
     },

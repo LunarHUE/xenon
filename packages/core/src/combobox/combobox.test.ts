@@ -211,6 +211,71 @@ describe('combobox', () => {
     expect(active).not.toHaveBeenCalled()
     expect(open).not.toHaveBeenCalled()
   })
+  test('composing drafts publish nothing until compositionend publishes the composed text once', () => {
+    const text = vi.fn(),
+      open = vi.fn(),
+      active = vi.fn()
+    const target = { value: 'Ch' } as HTMLInputElement
+    const fire = (
+      engine: ReturnType<typeof combobox>,
+      type: 'input' | 'compositionend',
+      isComposing = false,
+      inputType = 'insertText'
+    ) =>
+      type === 'input'
+        ? engine.parts.input.on.input?.({
+            currentTarget: target,
+            isComposing,
+            inputType,
+          } as unknown as InputEvent & {
+            currentTarget: HTMLInputElement
+          })
+        : engine.parts.input.on.compositionend?.({
+            currentTarget: target,
+          } as unknown as CompositionEvent & {
+            currentTarget: HTMLInputElement
+          })
+    const options = {
+      items,
+      id: 'x',
+      inputValue: 'Apple',
+      open: true,
+      activeValue: 'a',
+      onInputValueChange: text,
+      onOpenChange: open,
+      onActiveChange: active,
+    }
+    const engine = combobox(options)
+    fire(engine, 'input', true)
+    expect(text).not.toHaveBeenCalled()
+    expect(engine.state.items.map((item) => item.value)).toEqual(['a'])
+    expect(active).toHaveBeenCalledExactlyOnceWith(undefined)
+    fire(engine, 'compositionend')
+    expect(text).toHaveBeenCalledExactlyOnceWith('Ch')
+    // WebKit's committing input, before or after compositionend, never publishes again,
+    // even while a controlled owner still holds the pre-composition text.
+    fire(engine, 'input', false, 'insertFromComposition')
+    expect(text).toHaveBeenCalledOnce()
+    text.mockClear()
+    fire(engine, 'input', false, 'insertFromComposition')
+    fire(engine, 'compositionend')
+    expect(text).toHaveBeenCalledExactlyOnceWith('Ch')
+    expect(open).not.toHaveBeenCalled()
+    text.mockClear()
+    fire(combobox({ ...options, readonly: true }), 'compositionend')
+    expect(text).not.toHaveBeenCalled()
+  })
+  test('ordinary input publishes every attempt while a controlled owner lags', () => {
+    const text = vi.fn()
+    const engine = combobox({ items, id: 'x', inputValue: '', onInputValueChange: text })
+    for (const value of ['a', ''])
+      engine.parts.input.on.input?.({
+        currentTarget: { value },
+        isComposing: false,
+        inputType: value ? 'insertText' : 'deleteContentBackward',
+      } as unknown as InputEvent & { currentTarget: HTMLInputElement })
+    expect(text.mock.calls).toEqual([['a'], ['']])
+  })
   test('pointer press retains input focus but only click commits; closed and disabled items cannot commit', () => {
     const change = vi.fn()
     const event = { button: 0, preventDefault: vi.fn() } as unknown as PointerEvent & {
