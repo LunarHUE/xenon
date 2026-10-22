@@ -1,0 +1,283 @@
+# Runs every check and test suite on pull requests into main and on pushes to
+# main. "CI passed" at the end is the one job to mark as required: it fails
+# unless every job it depends on finished with success, so a skipped or
+# cancelled shard can't count as a pass.
+#
+# Browser and E2E shards write native blob reports. The report jobs merge them
+# into one Vitest summary and one Playwright HTML report, and list tests that
+# only passed on a retry. Merging is for reading results; the gate reads the
+# shard jobs directly.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# A new push to a pull request cancels that PR's older run. Runs on main
+# each get their own group and always finish.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  static:
+    name: Static (${{ matrix.check }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - check: typecheck
+            run: bun run typecheck
+          - check: lint
+            run: bun run lint
+          - check: spec
+            run: bun run --cwd packages/suite spec:check
+          - check: campaign
+            run: bun run --cwd packages/suite campaign:check
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: ${{ matrix.run }}
+
+  # Packs core, dom and solid, installs each tarball into a scratch project and
+  # imports every subpath, so a release can't ship missing exports, stale build
+  # output or a dependency range that admits a version without a needed module.
+  # See scripts/check-packages.mjs. Nothing is published.
+  packages:
+    name: Packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: bun run check:packages
+
+  # Together these run what the root `bun run test` runs: the root script tests
+  # plus each package's test script. Suite's covers its script tests and the
+  # jsdom project.
+  unit:
+    name: Unit (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - package: scripts
+            run: bun run test:scripts
+          - package: core
+            run: bun run --cwd packages/core test
+          - package: dom
+            run: bun run --cwd packages/dom test
+          - package: solid
+            run: bun run --cwd packages/solid test
+          - package: suite
+            run: bun run --cwd packages/suite test
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: ${{ matrix.run }}
+
+  # Vitest splits test files across shards. One worker and no file parallelism
+  # keep a single page in focus at a time, as the browser project expects.
+  browser:
+    name: Browser (${{ matrix.browser }} ${{ matrix.shard }}/4)
+    runs-on: ubuntu-latest
+    # Playwright's image carries every browser and its system libraries, which
+    # skips apt: installing them on the runner took up to 23 minutes when the
+    # Ubuntu mirror was slow. The tag must match the playwright version in
+    # bun.lock; on a mismatch Playwright fails at launch and names the image.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001 --ipc=host
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2, 3, 4]
+    defaults:
+      run:
+        working-directory: packages/suite
+    env:
+      xenon_BROWSERS: ${{ matrix.browser }}
+      VITEST_BLOB_LABEL: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: >-
+          bunx vitest run --project browser
+          --shard=${{ matrix.shard }}/4
+          --maxWorkers=1 --no-file-parallelism
+          --reporter=default --reporter=github-actions --reporter=blob
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: vitest-blob-${{ matrix.browser }}-${{ matrix.shard }}
+          path: packages/suite/.vitest/blob/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14
+      # Failure screenshots land in .vitest/attachments/failure-screenshots.
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: vitest-attachments-${{ matrix.browser }}-${{ matrix.shard }}
+          path: packages/suite/.vitest/attachments/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # The CI retry from playwright.config.ts stays on. A test that passes only on
+  # its retry is reported as flaky by the github reporter and in the merged report.
+  e2e:
+    name: E2E (${{ matrix.browser }} ${{ matrix.shard }}/2)
+    runs-on: ubuntu-latest
+    # Same image as the browser jobs.
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001 --ipc=host
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2]
+    defaults:
+      run:
+        working-directory: packages/suite
+    env:
+      PLAYWRIGHT_BLOB_OUTPUT_NAME: e2e-${{ matrix.browser }}-${{ matrix.shard }}.zip
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - run: >-
+          bunx playwright test
+          --project=${{ matrix.browser }}
+          --shard=${{ matrix.shard }}/2
+          --workers=1
+          --reporter=list,github,blob
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-blob-${{ matrix.browser }}-${{ matrix.shard }}
+          path: packages/suite/blob-report/
+          if-no-files-found: ignore
+          retention-days: 14
+      # Traces and screenshots from failed attempts, kept even if the blob is missing.
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-results-${{ matrix.browser }}-${{ matrix.shard }}
+          path: packages/suite/test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  browser-report:
+    name: Browser report
+    needs: browser
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/suite
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: vitest-blob-*
+          path: packages/suite/.vitest/blob-all
+          merge-multiple: true
+      # The merge only reads the blobs; listing all three engines makes every
+      # browser project known to the config. No browser launches.
+      - run: >-
+          bunx vitest run --merge-reports=.vitest/blob-all
+          --reporter=default --reporter=github-actions --reporter=junit
+          --outputFile.junit=.vitest/merged/junit.xml
+        env:
+          xenon_BROWSERS: chromium,firefox,webkit
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: vitest-browser-report
+          path: packages/suite/.vitest/merged/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 14
+
+  e2e-report:
+    name: E2E report
+    needs: e2e
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: packages/suite
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: playwright-blob-*
+          path: packages/suite/all-blob-reports
+          merge-multiple: true
+      # The HTML report lands in playwright-report/; the JSON goes beside it so
+      # the HTML reporter's cleanup can't remove it.
+      - run: >-
+          PLAYWRIGHT_JSON_OUTPUT_FILE="$PWD/e2e-results/results.json"
+          bunx playwright merge-reports --reporter=html,json ./all-blob-reports
+      - name: Summarize results
+        if: ${{ !cancelled() }}
+        run: |
+          results=e2e-results/results.json
+          if [ ! -f "$results" ]; then
+            echo "No merged Playwright results." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          {
+            echo "### Playwright E2E"
+            echo
+            jq -r '.stats | "Passed first try: \(.expected). Flaky (passed on retry): \(.flaky). Failed: \(.unexpected). Skipped: \(.skipped)."' "$results"
+            jq -r '
+              def walk_specs: (.specs[]?), (.suites[]? | walk_specs);
+              [.suites[] | walk_specs | . as $spec | .tests[]
+                | select(.status == "flaky" or .status == "unexpected")
+                | "- \(.status): `\($spec.file):\($spec.line)` \($spec.title) [\(.projectName)]"]
+              | if length > 0 then "", .[] else empty end
+            ' "$results"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            packages/suite/playwright-report/
+            packages/suite/e2e-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  ci-passed:
+    name: CI passed
+    needs: [static, packages, unit, browser, e2e]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          echo "$NEEDS" | jq -e 'all(.[]; .result == "success")' > /dev/null

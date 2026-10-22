@@ -21,15 +21,17 @@ function mountPin({
   autofocus = false,
   next = false,
   onKeyDown,
+  ownerDocument = document,
 }: {
   defaultValue?: string
   length?: number
   autofocus?: boolean
   next?: boolean
   onKeyDown?: (event: KeyboardEvent) => void
+  ownerDocument?: Document
 }) {
-  const container = document.createElement('div')
-  document.body.append(container)
+  const container = ownerDocument.createElement('div')
+  ownerDocument.body.append(container)
   const dispose = render(
     () => (
       <>
@@ -61,12 +63,17 @@ function mountPin({
   }
 }
 
-// Native autofocus requires a fresh document before another control has taken
-// focus. Run this first in the browser file and wait for the browser's processing.
+// Browsers process autofocus once per top-level document, and every test file
+// shares Vitest's top-level page, so an earlier file's autofocus or focus
+// leaves nothing for this one (#59). A popup is a new top-level document.
 test('pin-input.focus.4 native autofocus on the first slot focuses it on mount', async () => {
-  const { slots } = mountPin({ autofocus: true })
-  expect(slots[0]).toHaveAttribute('autofocus')
-  await expect.poll(() => document.activeElement).toBe(slots[0])
+  const popup = window.open('', '_blank', 'popup,width=400,height=300')
+  if (!popup) throw new Error('The browser blocked the autofocus popup')
+  cleanups.push(() => popup.close())
+  const { slots } = mountPin({ autofocus: true, ownerDocument: popup.document })
+  // jest-dom matchers reject elements from another window, so read the attribute directly.
+  expect(slots[0]!.hasAttribute('autofocus')).toBe(true)
+  await expect.poll(() => popup.document.activeElement).toBe(slots[0])
 })
 
 test('pin-input.focus.1 programmatic focus past a gap redirects to the insertion slot', () => {

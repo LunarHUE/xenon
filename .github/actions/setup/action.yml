@@ -1,0 +1,49 @@
+# Installs the repo's pinned Bun and Node 24, then runs a frozen install.
+# Only pushes to main save the Bun download cache. Pull requests restore it
+# but never write, so a PR can't seed a cache that main later reads. Bun
+# checks every package against the lockfile hashes either way. setup-bun's
+# own cache of the Bun binary saves from any run, so PRs turn it off.
+name: Setup
+description: Pinned Bun and Node with a frozen dependency install
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+    # setup-bun extracts a zip, and the Playwright image has no unzip. There,
+    # Bun comes from its npm package at the same packageManager version.
+    - id: unzip
+      shell: bash
+      run: echo "found=$(command -v unzip > /dev/null && echo true || echo false)" >> "$GITHUB_OUTPUT"
+    - if: steps.unzip.outputs.found == 'true'
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version-file: package.json
+        no-cache: ${{ github.event_name != 'push' }}
+    - if: steps.unzip.outputs.found != 'true'
+      shell: bash
+      run: |
+        version=$(node -p "require('./package.json').packageManager.replace(/^bun@/, '')")
+        npm install --prefix "$RUNNER_TEMP/bun" --no-save --no-fund --no-audit "bun@$version"
+        echo "$RUNNER_TEMP/bun/node_modules/.bin" >> "$GITHUB_PATH"
+    - id: bun-cache
+      shell: bash
+      run: |
+        bun --version
+        echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+    - if: github.event_name == 'push'
+      uses: actions/cache@v6
+      with:
+        path: ${{ steps.bun-cache.outputs.dir }}
+        key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+        restore-keys: bun-${{ runner.os }}-
+    - if: github.event_name != 'push'
+      uses: actions/cache/restore@v6
+      with:
+        path: ${{ steps.bun-cache.outputs.dir }}
+        key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+        restore-keys: bun-${{ runner.os }}-
+    - shell: bash
+      run: bun install --frozen-lockfile

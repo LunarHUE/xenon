@@ -1,5 +1,5 @@
 import { flush } from 'solid-js'
-import { expect } from 'vitest'
+import { expect, test } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { expectNoViolations } from '../a11y'
 import { spec } from '../spec'
@@ -121,6 +121,36 @@ spec('scroll-area.alpha.4', async () => {
     .toBeLessThan(2)
   view.getByTestId('root').dir = 'ltr'
   await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('0')
+})
+
+// alpha.4 above covers the same steps with native keys. Here both keys land in
+// one task, so no native scroll event is delivered before the direction
+// changes, which is the ordering that left the thumb stale in #62.
+test('keyboard offsets set before any scroll event still publish a later direction change', async () => {
+  const view = mountScrollArea({
+    dir: 'rtl',
+    horizontal: true,
+    vertical: false,
+    contentWidth: 960,
+    contentHeight: 120,
+  })
+  const viewport = view.viewport()
+  const { track, thumb } = await measured(view, 'horizontal')
+  track.focus()
+  await userEvent.keyboard('{Home}')
+  await expect.poll(() => viewport.scrollLeft).toBeLessThan(-700)
+  await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('0')
+  for (const key of ['ArrowRight', 'End']) {
+    track.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }))
+    flush()
+  }
+  expect(viewport.scrollLeft).toBe(0)
+  expect(track).toHaveAttribute('aria-valuenow', '100')
+  view.getByTestId('root').dir = 'ltr'
+  await expect.poll(() => track.getAttribute('aria-valuenow')).toBe('0')
+  await expect
+    .poll(() => Math.abs(thumb.getBoundingClientRect().left - track.getBoundingClientRect().left))
+    .toBeLessThan(2)
 })
 
 spec('scroll-area.alpha.5', async () => {

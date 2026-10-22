@@ -50,17 +50,57 @@ function pointerAt(
   )
 }
 
-function range(values: number[], props: Record<string, unknown> = {}) {
+function range(
+  values: number[],
+  props: Record<string, unknown> = {},
+  thumbStyle?: JSX.CSSProperties
+) {
   return (
     <Slider defaultValue={values} aria-label="Budget" {...props}>
-      <Slider.Control data-testid="control" style={rail}>
+      <Slider.Control
+        data-testid="control"
+        style={thumbStyle ? { ...rail, position: 'relative' } : rail}
+      >
         <Slider.Track />
         <Slider.Range />
-        <Slider.Thumb index={0} aria-label="Lower" />
-        {values.length > 1 && <Slider.Thumb index={1} aria-label="Upper" />}
+        <Slider.Thumb index={0} aria-label="Lower" style={thumbStyle} />
+        {values.length > 1 && <Slider.Thumb index={1} aria-label="Upper" style={thumbStyle} />}
       </Slider.Control>
     </Slider>
   )
+}
+
+/**
+ * Lays thumbs over the rail at their value, so equal values really stack.
+ * Unstyled native inputs sit in normal flow, where a press meant for the rail
+ * can land on one of them instead (#64).
+ */
+const stackedThumb: JSX.CSSProperties = {
+  position: 'absolute',
+  left: 'var(--slider-thumb-position)',
+  top: '40px',
+  width: '20px',
+  height: '20px',
+  margin: '0',
+  transform: 'translateX(-50%)',
+}
+
+/** Checks both thumbs share one box and that the press point is bare rail. */
+function expectRailPress(view: ReturnType<typeof mount>, x: number, y: number) {
+  const control = view.getByTestId('control')
+  const lower = view.getByRole('slider', { name: 'Lower' }).getBoundingClientRect()
+  const upper = view.getByRole('slider', { name: 'Upper' }).getBoundingClientRect()
+  expect([upper.left, upper.top, upper.width, upper.height]).toEqual([
+    lower.left,
+    lower.top,
+    lower.width,
+    lower.height,
+  ])
+  const rect = control.getBoundingClientRect()
+  const hit = document.elementFromPoint(rect.left + x, rect.top + y)
+  expect(hit).not.toBeNull()
+  expect(control.contains(hit)).toBe(true)
+  expect(hit!.closest('input')).toBeNull()
 }
 
 test('slider.pointer.1 stacked thumbs choose the lower index before and higher index after', async () => {
@@ -170,17 +210,19 @@ test('slider.pointer.15 maps a press on a non-thumb descendant of the control', 
 })
 
 test('slider.pointer.1 real hit-tested stacked presses choose lower before and upper after', async () => {
-  const before = mount(() => range([50, 50]))
+  const before = mount(() => range([50, 50], {}, stackedThumb))
   await settle()
   const beforeControl = before.getByTestId('control')
+  expectRailPress(before, 120, 50)
   await userEvent.click(beforeControl, { position: { x: 120, y: 50 } })
   await settle()
   expect((before.getByRole('slider', { name: 'Lower' }) as HTMLInputElement).value).toBe('40')
   expect((before.getByRole('slider', { name: 'Upper' }) as HTMLInputElement).value).toBe('50')
   expect(before.getByRole('slider', { name: 'Lower' })).toHaveFocus()
 
-  const after = mount(() => range([50, 50]))
+  const after = mount(() => range([50, 50], {}, stackedThumb))
   await settle()
+  expectRailPress(after, 180, 50)
   await userEvent.click(after.getByTestId('control'), { position: { x: 180, y: 50 } })
   await settle()
   expect((after.getByRole('slider', { name: 'Lower' }) as HTMLInputElement).value).toBe('50')

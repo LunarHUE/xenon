@@ -70,7 +70,10 @@ test('portal.dismissal.5: recursive Dialog Menu Select Popover layers open depth
               <button>Recursive inner outside</button>
             </Dialog.Content>
           </Dialog>
-          <button>Recursive outside</button>
+          {/* Kept clear of the nonmodal dialog, which otherwise covers its center (#61). */}
+          <button style={{ position: 'fixed', left: '8px', top: '400px' }}>
+            Recursive outside
+          </button>
         </>
       ))
 
@@ -204,7 +207,12 @@ test('portal.dismissal.5: recursive Dialog Menu Select Popover layers open depth
       })
       expect(openDialogAfterOutside).toBeVisible()
       expect(openDialogAfterOutside).toHaveAttribute('data-state', 'open')
-      await userEvent.click(query.getByRole('button', { name: 'Recursive outside' }))
+      const outside = query.getByRole('button', { name: 'Recursive outside' })
+      const target = outside.getBoundingClientRect()
+      expect(
+        document.elementFromPoint(target.x + target.width / 2, target.y + target.height / 2)
+      ).toBe(outside)
+      await userEvent.click(outside)
       await settle()
       const outsideClosedDialog = query.queryByRole('dialog', {
         name: 'Dialog level',

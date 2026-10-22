@@ -183,8 +183,17 @@ test('native Tab blur with no pointer intent closes the uncontrolled tooltip too
       <button>Before</button>
       <Tip name="Action" text="Action details" onOpenChange={changed} />
       <button>After</button>
+      <div
+        data-testid="pointer-park"
+        style={{ position: 'fixed', right: 0, bottom: 0, width: '8px', height: '8px' }}
+      />
     </>
   ))
+  // The page keeps the pointer where an earlier file left it, which can be
+  // where this tooltip opens (#60). Park it away so no hover intent exists.
+  const park = m.getByTestId('pointer-park')
+  await userEvent.hover(park)
+  expect(park.matches(':hover')).toBe(true)
   const trigger = m.getByRole('button', { name: 'Action' })
   m.getByRole('button', { name: 'Before' }).focus()
   flush()

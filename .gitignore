@@ -11,6 +11,7 @@ result-*
 .vitest/
 playwright-report/
 test-results/
+blob-report/
 /packages/suite/coverage/
 *.tgz
 .claude/worktrees
