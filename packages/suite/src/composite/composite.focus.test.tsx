@@ -1,5 +1,5 @@
 import { Toolbar } from '@xenon-ui/solid'
-import { screen } from '@testing-library/dom'
+import { screen, within } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { Show, createSignal } from 'solid-js'
 import { describe, expect } from 'vitest'
@@ -72,7 +72,9 @@ describe('composite focus management', () => {
     expect(item('italic')).toHaveFocus()
     skipped.unmount()
 
-    mount('toolbar', {
+    // Core still falls back to the first item (composite.test.ts); Toolbar items that
+    // opted out of focus never take that stop, and the root leaves the tab order instead.
+    const excluded = mount('toolbar', {
       'aria-label': 'Format',
       children: () => (
         <>
@@ -86,8 +88,9 @@ describe('composite focus management', () => {
       ),
     })
 
-    expect(item('bold')).toHaveAttribute('tabindex', '0')
+    expect(item('bold')).toHaveAttribute('tabindex', '-1')
     expect(item('italic')).toHaveAttribute('tabindex', '-1')
+    expect(within(excluded.container).getByRole('toolbar')).toHaveAttribute('tabindex', '-1')
   })
 
   spec('composite.focus.8', async () => {

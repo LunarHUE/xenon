@@ -50,7 +50,8 @@ function byDomOrder(a: ToolbarEntry, b: ToolbarEntry): number {
  * Arrow, Home, and End navigation follows the core composite and moves DOM focus
  * after settling. Items register on the client; server output leaves each enabled
  * item tabbable until that registry exists. With no navigable items the root gets
- * tabindex=-1, not a sequential tab stop. Ambient direction is read after settling
+ * tabindex=-1, not a sequential tab stop, and an item excluded while disabled never
+ * holds tabindex=0. Ambient direction is read after settling
  * and is not observed for later ancestor attribute changes. Registration sorts by
  * current DOM order; subsequent DOM moves alone do not trigger a new sort.
  * Supply an accessible toolbar name and forward props/ref from custom hosts.
@@ -107,9 +108,10 @@ function ToolbarRoot<T extends ValidComponent = 'div'>(props: ToolbarProps<T>): 
   const context: ToolbarContextValue = {
     register,
     // Until the client registry exists, native items must remain keyboard reachable.
+    // Excluded items never hold the stop, even when core falls back to one with no enabled peer.
     part: (entry) => {
       const part = engine().parts.item(entry)
-      return isServer || entries().length === 0
+      return isServer || entries().length === 0 || entry.disabled()
         ? { ...part, attrs: { ...part.attrs, tabindex: entry.disabled() ? -1 : 0 } }
         : part
     },
