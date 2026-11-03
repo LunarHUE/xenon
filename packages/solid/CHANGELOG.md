@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.2.6 — 2026-11-03
+
+Bug fixes. Use with `@xenon-ui/core` 0.2.5 and `@xenon-ui/dom` 0.2.4; this
+package now depends on `^0.2.5` and `^0.2.4`.
+
+### Fixed
+
+- Closing a Dialog while a `Toast.Portal` was mounted halted the app under
+  Solid's dev build with `REACTIVE_WRITE_IN_OWNED_SCOPE`. The modal registry
+  reports the new destination synchronously from the Dialog's cleanup, and
+  that cleanup can run inside a computation, such as a `For` dropping a row.
+  The portal's destination signals now accept owned writes. The same applied
+  to `Toast.Viewport` when it was unmounted while expanded by hover or focus.
+- Menu: with a submenu open, the back arrow (ArrowLeft, or ArrowRight in RTL)
+  closes only that submenu and keeps focus on its trigger. Reopening a menu
+  during its exit transition focuses the requested edge again. (#13, #44, #55)
+- ToggleGroup and Toolbar: keyboard navigation follows document order after a
+  keyed list moves items without remounting them, and disabled Toolbar items
+  are skipped. (#43)
+- Combobox: composed text (IME) filters and publishes once, at
+  `compositionend`, and controlled owners keep the draft while composing. (#18)
+- Command: item IDs encode every non-alphanumeric character, so values such as
+  `a b` and `a_b` no longer collide, and keyed rows keep their identity through
+  reordering. The collection callback must take `items` as a plain first
+  parameter; a zero-length function is rendered as content. (#12, #26)
+- Positioning: input-driven resets land in the same flush as the input change,
+  without effect relay warnings, and equal snapshots do not notify readers.
+  (#16)
+- ScrollArea: explicit measurements share the live observer, so a measure
+  request after a resize no longer reads stale metrics.
+- VirtualList: the viewport height is read before a native scroll clamp is
+  classified, so following the end survives viewport growth. (#36)
+
 ## 0.2.5 — 2026-10-16
 
 Packaging only. No component behavior changes. Use with `@xenon-ui/core` 0.2.4

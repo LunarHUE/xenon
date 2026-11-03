@@ -1,6 +1,7 @@
 import { cleanup, render } from '@solidjs/testing-library'
 import { For, Show, createSignal, flush } from 'solid-js'
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { Dialog } from '../dialog'
 import { Toast } from './index'
 
 beforeEach(() => {
@@ -206,4 +207,83 @@ test('nested viewport refs attach and explicit undefined removes its default nam
   ))
   expect(host).toHaveBeenCalledWith(view.getByRole('region', { hidden: true }))
   expect(view.getByRole('region', { hidden: true })).not.toHaveAttribute('aria-label')
+})
+
+test('Portal tolerates modal destination changes published during disposal', async () => {
+  // Disposing a Dialog unregisters its modal from the dialog host's cleanup, and the
+  // modal registry publishes the next destination synchronously from there. A For
+  // disposes removed rows inside its own computation, so the portal's destination
+  // signals are then written from an owned scope.
+  HTMLDialogElement.prototype.showModal ??= function () {
+    this.open = true
+  }
+  HTMLDialogElement.prototype.close ??= function () {
+    this.open = false
+    this.dispatchEvent(new Event('close'))
+  }
+  const manager = Toast.createManager()
+  const [peeks, setPeeks] = createSignal(['first'])
+  const [probe, setProbe] = createSignal(0)
+  const m = render(() => (
+    <Toast.Provider manager={manager} duration={0}>
+      <Toast.Portal>
+        <Notifications />
+      </Toast.Portal>
+      <output>{probe()}</output>
+      <For each={peeks()}>
+        {(peek) => (
+          <Dialog open>
+            <Dialog.Content>
+              <Dialog.Title>{peek}</Dialog.Title>
+            </Dialog.Content>
+          </Dialog>
+        )}
+      </For>
+    </Toast.Provider>
+  ))
+  await settle()
+  const portal = () => document.querySelector('[data-toast-portal]')
+  expect(m.getByRole('dialog').contains(portal())).toBe(true)
+  expect(() => {
+    setPeeks([])
+    flush()
+  }).not.toThrow()
+  await settle()
+  expect(m.queryByRole('dialog')).toBeNull()
+  expect(portal()?.parentElement).toBe(document.body)
+  // Reactivity keeps running after the disposal, and a second dialog can open.
+  setProbe(1)
+  flush()
+  expect(m.container.querySelector('output')).toHaveTextContent('1')
+  setPeeks(['second'])
+  await settle()
+  expect(m.getByRole('dialog').contains(portal())).toBe(true)
+})
+
+test('Viewport disposes cleanly while expanded by hover', async () => {
+  // The viewport controller reports the collapse synchronously from its dispose, which
+  // runs in the viewport's cleanup. A For disposes removed rows inside its own
+  // computation, so that report lands in an owned scope.
+  const manager = Toast.createManager()
+  manager.add({ title: 'Saved' })
+  const [rows, setRows] = createSignal(['only'])
+  const m = render(() => (
+    <Toast.Provider manager={manager} duration={0}>
+      <For each={rows()}>{() => <Notifications />}</For>
+    </Toast.Provider>
+  ))
+  await settle()
+  const region = m.getByRole('region', { name: 'Updates' })
+  region.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }))
+  await settle()
+  expect(region).toHaveAttribute('data-expanded')
+  expect(() => {
+    setRows([])
+    flush()
+  }).not.toThrow()
+  await settle()
+  expect(m.queryByRole('region')).toBeNull()
+  setRows(['again'])
+  await settle()
+  expect(m.getByRole('region', { name: 'Updates' })).not.toHaveAttribute('data-expanded')
 })
