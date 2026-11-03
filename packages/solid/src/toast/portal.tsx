@@ -34,8 +34,11 @@ export interface ToastPortalProps {
  */
 export function ToastPortal(props: ToastPortalProps): JSX.Element {
   const inherited = useContext(OverlayPortalMountContext)
-  const [host, setHost] = createSignal<HTMLDivElement>()
-  const [modal, setModal] = createSignal<HTMLElement>()
+  // Both are written from outside the reactive graph: the host after settlement and
+  // the modal from the registry's subscription callback, which can fire inside an
+  // owned scope when a disposed Dialog unregisters its modal.
+  const [host, setHost] = createSignal<HTMLDivElement | undefined>(undefined, { ownedWrite: true })
+  const [modal, setModal] = createSignal<HTMLElement | undefined>(undefined, { ownedWrite: true })
   let unsubscribe: (() => void) | undefined
   let disposed = false
   const move = (element: HTMLElement, destination: Element) => {

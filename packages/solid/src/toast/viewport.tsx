@@ -99,7 +99,9 @@ export function ToastViewport<T extends ValidComponent = 'div'>(
 ): JSX.Element {
   const own = props as ToastViewportProps<'div'>
   const manager = useToastManager()
-  const [interactionExpanded, setInteractionExpanded] = createSignal(false)
+  // The viewport controller reports the collapse from its own disposal, which runs
+  // in this component's cleanup and so can sit inside an owned scope.
+  const [interactionExpanded, setInteractionExpanded] = createSignal(false, { ownedWrite: true })
   const [heights, setHeights] = createSignal<Record<string, number>>({}, { ownedWrite: true })
   const [ready, setReady] = createSignal(false)
   const [polite, setPolite] = createSignal('')
