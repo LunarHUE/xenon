@@ -20,6 +20,8 @@ Xenon's call sites pass `getShadowRoot: true` and sometimes
 
 ## Changed
 
+- `src/index.js` is `tabbable.ts` here. An `index.d.ts` under `dist/internal/` would match the
+  package's `./*` export as a types-only subpath.
 - Converted from JavaScript to TypeScript, with the option and return types
   from upstream's `index.d.ts` narrowed as above. Casts and non-null
   assertions are type-only.

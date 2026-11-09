@@ -7,12 +7,14 @@
 ## Dropped
 
 - `middleware/autoPlacement.ts` and `middleware/inline.ts`. Xenon uses `flip`
-  and never positions against inline fragments. Their exports from `index.ts`
+  and never positions against inline fragments. Their exports from `core.ts`
   and the `autoPlacement` field of `MiddlewareData` went with them.
 - `utils/debugRects.ts`, a development helper nothing imports.
 
 ## Changed
 
+- `src/index.ts` is `core.ts` here. An `index.d.ts` under `dist/internal/` would match the
+  package's `./*` export as a types-only subpath.
 - `@floating-ui/utils` imports point at `../floating-ui-utils`.
 - Formatted with this repo's prettier config.
 - A `/*! @license */` banner at the top of `computePosition.ts`, so the bundle

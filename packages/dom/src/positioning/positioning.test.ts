@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { ComputePositionReturn } from '../internal/vendor/floating-ui-dom'
+import type { ComputePositionReturn } from '../internal/vendor/floating-ui-dom/dom'
 import { createPositioner, initialPositioningState } from './positioning'
 import type { Positioner, PositioningOptions } from './types'
 
@@ -8,8 +8,8 @@ const floating = vi.hoisted(() => ({
   observe: vi.fn(),
   dimensions: vi.fn(),
 }))
-vi.mock('../internal/vendor/floating-ui-dom', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../internal/vendor/floating-ui-dom')>()
+vi.mock('../internal/vendor/floating-ui-dom/dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../internal/vendor/floating-ui-dom/dom')>()
   return {
     ...actual,
     computePosition: floating.compute,

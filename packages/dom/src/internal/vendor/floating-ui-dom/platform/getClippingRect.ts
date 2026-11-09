@@ -4,9 +4,9 @@ import type {
   Rect,
   RootBoundary,
   Strategy,
-} from '../../floating-ui-core'
-import { rectToClientRect } from '../../floating-ui-core'
-import { max, min } from '../../floating-ui-utils'
+} from '../../floating-ui-core/core'
+import { rectToClientRect } from '../../floating-ui-core/core'
+import { max, min } from '../../floating-ui-utils/utils'
 import {
   getComputedStyle,
   getDocumentElement,

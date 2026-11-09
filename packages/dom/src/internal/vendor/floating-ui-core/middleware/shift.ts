@@ -5,7 +5,7 @@ import {
   getOppositeAxis,
   getSide,
   getSideAxis,
-} from '../../floating-ui-utils'
+} from '../../floating-ui-utils/utils'
 
 import { originSides } from '../constants'
 import type { DetectOverflowOptions } from '../detectOverflow'

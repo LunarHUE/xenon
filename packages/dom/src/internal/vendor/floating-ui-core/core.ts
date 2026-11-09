@@ -47,7 +47,7 @@ export type {
   SideObject,
   Strategy,
   VirtualElement,
-} from '../floating-ui-utils'
+} from '../floating-ui-utils/utils'
 // This export exists only for backwards compatibility. It will be removed in
 // the next major version.
-export { rectToClientRect } from '../floating-ui-utils'
+export { rectToClientRect } from '../floating-ui-utils/utils'

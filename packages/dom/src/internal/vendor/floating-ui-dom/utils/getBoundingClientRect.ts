@@ -1,6 +1,6 @@
-import type { ClientRectObject } from '../../floating-ui-core'
-import { rectToClientRect } from '../../floating-ui-core'
-import { createCoords } from '../../floating-ui-utils'
+import type { ClientRectObject } from '../../floating-ui-core/core'
+import { rectToClientRect } from '../../floating-ui-core/core'
+import { createCoords } from '../../floating-ui-utils/utils'
 import { getComputedStyle, getFrameElement, getWindow } from '../../floating-ui-utils/dom'
 
 import { getScale } from '../platform/getScale'

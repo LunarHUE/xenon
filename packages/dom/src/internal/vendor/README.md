@@ -16,6 +16,11 @@ directory in `src/` into a public subpath. Only `src/positioning` imports the
 Floating UI copies, and only `src/focus-scope`, `src/floating-layer` and
 `src/dialog` import tabbable.
 
+No file here is named `index.ts`. The package exports `./*` as
+`./*/index.js` and `./*/index.d.ts`, and `*` can span slashes, so an
+`index.d.ts` under `internal/` would become an importable types-only subpath.
+Each directory's entry file is named after the package instead.
+
 Treat these files as upstream code, not as Xenon's own. Fix a bug here only
 when the same fix exists upstream, or record it in PROVENANCE.md. To update,
 copy the new upstream sources over these, apply the changes PROVENANCE.md

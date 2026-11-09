@@ -1,4 +1,4 @@
-import type { Padding } from '../../floating-ui-utils'
+import type { Padding } from '../../floating-ui-utils/utils'
 import {
   clamp,
   evaluate,
@@ -7,7 +7,7 @@ import {
   getAxisLength,
   getPaddingObject,
   min,
-} from '../../floating-ui-utils'
+} from '../../floating-ui-utils/utils'
 
 import type { Derivable, Middleware } from '../types'
 

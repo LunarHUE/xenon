@@ -13,10 +13,12 @@
 
 ## Changed
 
+- `src/index.ts` is `dom.ts` here. An `index.d.ts` under `dist/internal/` would match the
+  package's `./*` export as a types-only subpath.
 - `@floating-ui/core`, `@floating-ui/utils` and `@floating-ui/utils/dom`
   imports point at the sibling directories.
 - Formatted with this repo's prettier config.
-- A `/*! @license */` banner at the top of `index.ts`, so the bundle keeps the notice.
+- A `/*! @license */` banner at the top of `dom.ts`, so the bundle keeps the notice.
 - `autoUpdate.ts`: `timeoutId` is typed `ReturnType<typeof setTimeout>` instead
   of `NodeJS.Timeout`, since the declaration build has no Node types.
 - `autoUpdate.ts`: `entries[0]!`; `platform/getClippingRect.ts`:

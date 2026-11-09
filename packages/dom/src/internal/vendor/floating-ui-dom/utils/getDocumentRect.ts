@@ -1,5 +1,5 @@
-import type { Rect } from '../../floating-ui-core'
-import { max } from '../../floating-ui-utils'
+import type { Rect } from '../../floating-ui-core/core'
+import { max } from '../../floating-ui-utils/utils'
 import { getComputedStyle, getNodeScroll } from '../../floating-ui-utils/dom'
 
 import { getWindowScrollBarX } from './getWindowScrollBarX'

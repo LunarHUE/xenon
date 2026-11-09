@@ -1,5 +1,5 @@
-import type { Elements, Rect, Strategy } from '../../floating-ui-core'
-import { createCoords } from '../../floating-ui-utils'
+import type { Elements, Rect, Strategy } from '../../floating-ui-core/core'
+import { createCoords } from '../../floating-ui-utils/utils'
 import {
   getDocumentElement,
   getNodeName,

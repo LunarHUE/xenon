@@ -1,5 +1,5 @@
-import type { Coords } from '../../floating-ui-core'
-import { createCoords, round } from '../../floating-ui-utils'
+import type { Coords } from '../../floating-ui-core/core'
+import { createCoords, round } from '../../floating-ui-utils/utils'
 import { isHTMLElement } from '../../floating-ui-utils/dom'
 
 import type { VirtualElement } from '../types'

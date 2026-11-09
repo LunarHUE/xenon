@@ -8,7 +8,7 @@ import type {
   Rect,
   SideObject,
   Strategy,
-} from '../floating-ui-utils'
+} from '../floating-ui-utils/utils'
 import type { detectOverflow } from './detectOverflow'
 
 type Promisable<T> = T | Promise<T>

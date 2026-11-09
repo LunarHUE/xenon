@@ -1,4 +1,10 @@
-import { type Coords, evaluate, getAlignment, getSide, getSideAxis } from '../../floating-ui-utils'
+import {
+  type Coords,
+  evaluate,
+  getAlignment,
+  getSide,
+  getSideAxis,
+} from '../../floating-ui-utils/utils'
 
 import { originSides } from '../constants'
 import type { Derivable, Middleware, MiddlewareState } from '../types'

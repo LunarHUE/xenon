@@ -2,7 +2,7 @@
  * @floating-ui/dom 1.8.0, vendored into @xenon-ui/dom
  * @license MIT, Copyright (c) 2021-present Floating UI contributors, https://github.com/floating-ui/floating-ui/blob/master/LICENSE
  */
-import { computePosition as computePositionCore } from '../floating-ui-core'
+import { computePosition as computePositionCore } from '../floating-ui-core/core'
 
 import { platform } from './platform'
 import type { ComputePositionConfig, FloatingElement, Platform, ReferenceElement } from './types'
@@ -78,7 +78,7 @@ export type {
   Side,
   SideObject,
   Strategy,
-} from '../floating-ui-core'
+} from '../floating-ui-core/core'
 // This export exists only for backwards compatibility. It will be removed in
 // the next major version.
 export { getOverflowAncestors } from '../floating-ui-utils/dom'

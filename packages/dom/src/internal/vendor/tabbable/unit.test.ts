@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { focusable, getTabIndex, isFocusable, tabbable } from '.'
-import type { CheckOptions } from '.'
+import { focusable, getTabIndex, isFocusable, tabbable } from './tabbable'
+import type { CheckOptions } from './tabbable'
 
 // Ported from tabbable 6.5.0 test/unit/unit.test.js and test/unit/node.test.js.
 

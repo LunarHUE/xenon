@@ -1,4 +1,11 @@
-import { evaluate, getAlignment, getSide, getSideAxis, max, min } from '../../floating-ui-utils'
+import {
+  evaluate,
+  getAlignment,
+  getSide,
+  getSideAxis,
+  max,
+  min,
+} from '../../floating-ui-utils/utils'
 
 import type { DetectOverflowOptions } from '../detectOverflow'
 import type { Derivable, Middleware, MiddlewareState } from '../types'

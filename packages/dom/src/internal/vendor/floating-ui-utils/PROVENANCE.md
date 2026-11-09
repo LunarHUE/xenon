@@ -7,13 +7,15 @@
 
 ## Dropped
 
-Nothing. `index.ts` and `dom.ts` are the whole package.
+Nothing. Upstream `src/index.ts` and `src/dom.ts` are the whole package.
 
 ## Changed
 
+- `src/index.ts` is `utils.ts` here. An `index.d.ts` under `dist/internal/` would match the
+  package's `./*` export as a types-only subpath.
 - Formatted with this repo's prettier config.
-- A `/*! @license */` banner at the top of `index.ts`, so the bundle keeps the notice.
-- `index.ts`: `alignments[0]!` and `alignments[1]!` in `placements`, for
+- A `/*! @license */` banner at the top of `utils.ts`, so the bundle keeps the notice.
+- `utils.ts`: `alignments[0]!` and `alignments[1]!` in `placements`, for
   `noUncheckedIndexedAccess`. Type-only.
 
 ## Tests

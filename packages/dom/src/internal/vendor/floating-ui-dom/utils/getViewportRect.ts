@@ -1,4 +1,4 @@
-import type { Rect, RootBoundary, Strategy } from '../../floating-ui-core'
+import type { Rect, RootBoundary, Strategy } from '../../floating-ui-core/core'
 import { getWindow, isWebKit } from '../../floating-ui-utils/dom'
 
 import { getDocumentElement } from '../platform/getDocumentElement'

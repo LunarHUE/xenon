@@ -1,4 +1,4 @@
-import type { Coords, LimitShiftOptions } from '../floating-ui-core'
+import type { Coords, LimitShiftOptions } from '../floating-ui-core/core'
 import {
   arrow as arrowCore,
   flip as flipCore,
@@ -7,7 +7,7 @@ import {
   offset as offsetCore,
   shift as shiftCore,
   size as sizeCore,
-} from '../floating-ui-core'
+} from '../floating-ui-core/core'
 
 import type {
   ArrowOptions,

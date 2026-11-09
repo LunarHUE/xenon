@@ -1,5 +1,5 @@
-import type { Dimensions } from '../../floating-ui-core'
-import { round } from '../../floating-ui-utils'
+import type { Dimensions } from '../../floating-ui-core/core'
+import { round } from '../../floating-ui-utils/utils'
 import { getComputedStyle, isHTMLElement } from '../../floating-ui-utils/dom'
 
 export function getCssDimensions(element: Element): Dimensions & { $: boolean } {

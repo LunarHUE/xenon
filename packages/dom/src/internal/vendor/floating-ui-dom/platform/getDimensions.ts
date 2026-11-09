@@ -1,4 +1,4 @@
-import type { Dimensions } from '../../floating-ui-core'
+import type { Dimensions } from '../../floating-ui-core/core'
 
 import { getCssDimensions } from '../utils/getCssDimensions'
 

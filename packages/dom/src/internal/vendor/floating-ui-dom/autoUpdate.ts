@@ -1,4 +1,4 @@
-import { floor, max, min } from '../floating-ui-utils'
+import { floor, max, min } from '../floating-ui-utils/utils'
 import { getDocumentElement, getOverflowAncestors, getWindow } from '../floating-ui-utils/dom'
 
 import type { FloatingElement, ReferenceElement } from './types'

@@ -16,7 +16,7 @@ import type {
   SizeOptions as CoreSizeOptions,
   Strategy,
   detectOverflow,
-} from '../floating-ui-core'
+} from '../floating-ui-core/core'
 
 type Prettify<T> = {
   [K in keyof T]: T[K]

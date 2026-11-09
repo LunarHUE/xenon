@@ -1,5 +1,5 @@
-import type { Coords } from '../../floating-ui-core'
-import { createCoords } from '../../floating-ui-utils'
+import type { Coords } from '../../floating-ui-core/core'
+import { createCoords } from '../../floating-ui-utils/utils'
 import { getWindow, isWebKit } from '../../floating-ui-utils/dom'
 
 const noOffsets = createCoords(0)

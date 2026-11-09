@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { platform } from '..'
+import { platform } from '../dom'
 
 test('polyfill', () => {
   const element = document.createElement('div')

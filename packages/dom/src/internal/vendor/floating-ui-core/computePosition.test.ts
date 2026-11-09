@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { computePosition } from '.'
+import { computePosition } from './core'
 import type { Platform } from './types'
 
 const reference = {}
