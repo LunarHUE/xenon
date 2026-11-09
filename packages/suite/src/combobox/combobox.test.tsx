@@ -248,7 +248,7 @@ describe('combobox filtering, commitment, and cancellation', () => {
     await press(input, 'Enter')
     expect(view.queryByRole('listbox')).toBeNull()
     expect(input.value).toBe('Apple')
-    expect(text).toHaveBeenLastCalledWith('Apple')
+    expect(text).toHaveBeenLastCalledWith('Apple', { reason: 'selection' })
     expect(change).not.toHaveBeenCalled()
     expect(new FormData(form).get('fruit')).toBe('apple')
   })

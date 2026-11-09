@@ -82,7 +82,7 @@ test('combobox.rtl.1: an already open popup isolates composing drafts from filte
   input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true, data: 'Pear' }))
   await settle()
   expect(view.getAllByRole('option').map((option) => option.textContent)).toEqual(['Pear'])
-  expect(text.mock.calls).toEqual([['Pear']])
+  expect(text.mock.calls).toEqual([['Pear', { reason: 'input' }]])
   expect(change).not.toHaveBeenCalled()
   expect(new FormData(form).get('fruit')).toBe('apple')
 })
@@ -111,17 +111,23 @@ test('combobox.state.21: rejected controlled query and commitment retain owner t
   await userEvent.fill(input, 'draft')
   await settle()
   expect(input).toHaveValue('')
-  expect(text.mock.calls).toEqual([['draft']])
+  expect(text.mock.calls).toEqual([['draft', { reason: 'input' }]])
   expect(view.getByRole('option', { name: 'Apple' })).toHaveAttribute('aria-selected', 'true')
   await userEvent.click(view.getByRole('option', { name: 'Pear' }))
   await settle()
   expect(input).toHaveValue('')
   expect(change.mock.calls).toEqual([['pear']])
-  expect(text.mock.calls).toEqual([['draft'], ['Pear']])
+  expect(text.mock.calls).toEqual([
+    ['draft', { reason: 'input' }],
+    ['Pear', { reason: 'selection' }],
+  ])
   expect(new FormData(view.container.querySelector('form')!).get('fruit')).toBe('apple')
   await userEvent.click(view.getByRole('button', { name: 'Outside' }))
   await settle()
   expect(input).toHaveValue('')
   expect(change.mock.calls).toEqual([['pear']])
-  expect(text.mock.calls).toEqual([['draft'], ['Pear']])
+  expect(text.mock.calls).toEqual([
+    ['draft', { reason: 'input' }],
+    ['Pear', { reason: 'selection' }],
+  ])
 })

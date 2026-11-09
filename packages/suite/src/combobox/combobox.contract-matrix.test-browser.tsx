@@ -113,7 +113,7 @@ test('combobox.state.22: controlled value preserves edited query until an extern
   expect(input).toHaveValue('Pear')
   expect(new FormData(view.container.querySelector('form')!).get('fruit')).toBe('pear')
   expect(change).not.toHaveBeenCalled()
-  expect(text.mock.calls).toEqual([['draft']])
+  expect(text.mock.calls).toEqual([['draft', { reason: 'input' }]])
 })
 
 test('combobox.state.22: controlled query keeps owner text while an uncontrolled commit updates submission', async () => {
@@ -139,7 +139,7 @@ test('combobox.state.22: controlled query keeps owner text while an uncontrolled
   expect(view.getByRole('combobox')).toHaveValue('')
   expect(new FormData(view.container.querySelector('form')!).get('fruit')).toBe('pear')
   expect(change.mock.calls).toEqual([['pear']])
-  expect(text.mock.calls).toEqual([['Pear']])
+  expect(text.mock.calls).toEqual([['Pear', { reason: 'selection' }]])
 })
 
 test('combobox.roles.31: separately named trigger is skipped by native Tab traversal', async () => {
