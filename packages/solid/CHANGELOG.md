@@ -1,5 +1,55 @@
 # Changelog
 
+## Unreleased
+
+New features, no breaking changes. They need new versions of all three packages:
+`@xenon-ui/core` 0.2.6, `@xenon-ui/dom` 0.2.5 and `@xenon-ui/solid` 0.2.7, with
+this package depending on `^0.2.6` and `^0.2.5`.
+
+### Shortcuts (`@xenon-ui/solid/shortcuts`)
+
+- A binding can name a physical key by its `KeyboardEvent.code`:
+  `createShortcut('Shift+Digit1', fit)`, `Alt+KeyT`, `Mod+BracketLeft`,
+  `NumpadAdd`. It fires on that key whatever character the layout or the held
+  modifiers make it type, which a character binding cannot do: `Shift+1` never
+  fires on a US layout, where the press types `!`. The names are the letter,
+  digit, punctuation and numpad codes, matched case-insensitively.
+- Modifiers on a physical key match exactly. Shift is not implied, and a press
+  with AltGr held matches no physical key.
+- Everything else is shared with character bindings: scopes, the modal and
+  layer rules, the editable-element rule, `repeat`, sequences (`g Digit1`),
+  duplicate warnings and `useShortcuts()` listings.
+- Hints show the key's legend. `Shift+Digit1` renders as `Shift` `1`, reads as
+  "Shift 1" and sets `aria-keyshortcuts="Shift+1"`. A digit key always shows
+  its digit. A letter or punctuation key shows what the user's layout types
+  there, so `Alt+KeyQ` reads `Alt` `A` on AZERTY. Chromium reports the layout
+  through the Keyboard Map API. Firefox and Safari do not, and show the US
+  legend unless you pass `configureShortcuts({ layout })`.
+- Core: `ShortcutChord.code`, `ShortcutKeyState.code`, the `ShortcutLayout`
+  type, a `layout` registry option and an optional `layout` argument on
+  `formatKeys`, `formatSteps`, `formatLabel` and `ariaKeyshortcuts`. DOM:
+  `readKeyboardLayout(document)`.
+- Existing bindings parse and match as before. Every new name was a parse error
+  until now.
+
+### Combobox
+
+- `activationMode="automatic"`: an arrow key in an open list selects the option
+  it highlights, and navigation starts from the selected option when nothing is
+  highlighted. Hover still only highlights and a click still selects. The input
+  text and the popup are left alone, so the field can stay a search box. The
+  default, `manual`, is the old behavior.
+- `onActiveChange(value, { reason })` is now a root prop. It reports the
+  highlighted value and whether the `keyboard` or the `pointer` moved it, or
+  `reset` with an undefined value when the highlight is cleared.
+- `onInputValueChange(value, { reason })` gains a second argument: `input` for
+  typed or composed text, `selection` when choosing an option writes its label,
+  `reset` when a popup search closes. A controlled search field ignores
+  `selection`.
+- An open list rendered inline, with Viewport and Items and no Positioner or
+  Content, scrolls the highlighted option into view as Content does.
+- With none of these set, nothing changes except the second callback argument.
+
 ## 0.2.6 — 2026-11-03
 
 Bug fixes. Use with `@xenon-ui/core` 0.2.5 and `@xenon-ui/dom` 0.2.4; this
