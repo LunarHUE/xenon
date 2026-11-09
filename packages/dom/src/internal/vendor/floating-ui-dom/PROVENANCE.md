@@ -17,6 +17,8 @@
   imports point at the sibling directories.
 - Formatted with this repo's prettier config.
 - A `/*! @license */` banner at the top of `index.ts`, so the bundle keeps the notice.
+- `autoUpdate.ts`: `timeoutId` is typed `ReturnType<typeof setTimeout>` instead
+  of `NodeJS.Timeout`, since the declaration build has no Node types.
 - `autoUpdate.ts`: `entries[0]!`; `platform/getClippingRect.ts`:
   `clippingAncestors[0]!` and `clippingAncestors[i]!`. Both for
   `noUncheckedIndexedAccess` and type-only.
