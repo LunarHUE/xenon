@@ -11,13 +11,22 @@ and `@xenon-ui/dom` 0.2.6; this package now depends on `^0.2.6` for both.
   `@floating-ui/dom` (with `@floating-ui/core` and `@floating-ui/utils`) and
   `tabbable`. Their code is now vendored into dom, trimmed to the parts Xenon
   calls, with the upstream license notices kept in the bundle.
-- Positioning and focus handling run the same code as before: Floating UI 1.8.0
-  and tabbable 6.5.0.
+- Positioning runs the same code as before, Floating UI 1.8.0. Focus handling
+  runs tabbable 6.5.1, one patch past the 6.5.0 that dom installed before; see
+  Focus below.
 - `PositioningAnchor` no longer imports Floating UI's `VirtualElement` type.
   It uses a structurally identical type, so existing virtual anchors still
   type-check.
 - If your Vite config listed `tabbable` or `@floating-ui/dom` in
   `optimizeDeps.include`, remove them; they are no longer installed.
+
+### Focus
+
+- The vendored tabbable is updated to 6.5.1. Focus scopes, dialogs and floating
+  layers now treat an element with `contenteditable="plaintext-only"`, or a
+  `contenteditable` value in another case such as `TRUE`, as a tab stop in
+  natural order when it has no `tabindex`. Before, they were left out of the
+  Tab cycle wherever the browser reported a negative `tabIndex` for them.
 
 ### Tooltip
 
