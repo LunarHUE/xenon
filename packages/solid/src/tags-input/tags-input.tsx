@@ -176,7 +176,13 @@ function TagsInputRoot(props: TagsInputProps): JSX.Element {
         remaining.splice(index, 1)
         return false
       })
-      setDraft(rejected.join(delimiter))
+      const next = rejected.join(delimiter)
+      setDraft(next)
+      // The typed text became tags. Write what stays in the field now: the
+      // draft can net back to its committed value in this batch, and a later
+      // spread re-run must not be the write that clears the user's text.
+      const node = input()
+      if (node && node.value !== next) node.value = next
       announce(`Added ${accepted.join(', ')}`)
       return true
     },

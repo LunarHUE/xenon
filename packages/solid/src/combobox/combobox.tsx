@@ -376,19 +376,27 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
         ? 'rtl'
         : 'ltr'
     )
+    const writeNative = () => {
+      const node = input()
+      if (node) node.value = text()
+      if (mirror) mirror.value = value() ?? ''
+    }
     return subscribeFormReset(
       initialNode.ownerDocument,
       () => mirror?.form ?? null,
       () => {
+        // The native reset rewrote these values behind their bindings. Put back
+        // what the bindings last wrote first, so the flush below changes only
+        // what the state changes and Solid's dev build does not report the
+        // reset as a lost user edit (UNCOMMITTED_INPUT_OVERWRITTEN).
+        writeNative()
         if (props.value === undefined) setInternal(props.defaultValue)
         if (props.inputValue === undefined)
           setQuery(props.defaultInputValue ?? (popupInput ? '' : label(value())))
         if (props.open === undefined) setExpanded(false)
         clearActive()
         flush()
-        const node = input()
-        if (node) node.value = text()
-        if (mirror) mirror.value = value() ?? ''
+        writeNative()
       }
     )
   })

@@ -19,6 +19,9 @@ const forbidden = new Set([
   'STRICT_READ_UNTRACKED',
   'FLUSH_IN_EFFECT_CALLBACK',
   'LOWERCASE_EVENT_ATTRIBUTE',
+  // Solid rc.17+: a value/checked binding rewrote its last value over a DOM
+  // edit nobody committed. Components that restore a value write it themselves.
+  'UNCOMMITTED_INPUT_OVERWRITTEN',
 ])
 let capture: ReturnType<NonNullable<typeof OBSERVE>['diagnostics']['capture']> | undefined
 beforeEach(() => {

@@ -156,12 +156,15 @@ function SliderRoot(props: SliderProps): JSX.Element {
   let control: HTMLDivElement | undefined
   let pending: number[] | undefined
   let removeDrag: (() => void) | undefined
+  const write = () => {
+    for (const [index, input] of inputs)
+      input.value = String(result().state.value[index] ?? result().state.min)
+  }
   const sync = () =>
     onSettled(() => {
-      for (const [index, input] of inputs) {
-        input.value = String(result().state.value[index] ?? result().state.min)
+      write()
+      for (const input of inputs.values())
         if (input.disabled && input === input.ownerDocument.activeElement) input.blur()
-      }
     })
   const change = (next: number[]) => {
     if (next.every((value, index) => value === result().state.value[index])) return
@@ -251,6 +254,10 @@ function SliderRoot(props: SliderProps): JSX.Element {
       if (event.target !== inputs.values().next().value?.form) return
       resetTimer = setTimeout(() => {
         if (event.defaultPrevented) return
+        // The native reset rewrote the range inputs behind their bindings. Put
+        // back what the bindings last wrote before the state changes, so Solid's
+        // dev build does not report the reset as a lost user edit.
+        write()
         pending = undefined
         if (props.value === undefined) setInternal(props.defaultValue ?? [props.min ?? 0])
         sync()

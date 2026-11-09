@@ -145,6 +145,10 @@ function PinInputRoot(props: PinInputProps): JSX.Element {
       clearTimeout(resetTimer)
       resetTimer = setTimeout(() => {
         if (event.defaultPrevented) return
+        // The native reset rewrote the inputs behind their bindings. Put back
+        // what the bindings last wrote before the state changes, so Solid's dev
+        // build does not report the reset as a lost user edit.
+        sync()
         if (props.value === undefined) setInternal(initial)
         flush()
         sync()
