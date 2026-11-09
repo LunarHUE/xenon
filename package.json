@@ -12,14 +12,14 @@
       "@typescript/native": "npm:typescript@^7.0.2",
       "eslint": "^10.10.0",
       "vitest": "^5.0.0",
-      "solid-js": "2.0.0-rc.14",
-      "@solidjs/web": "2.0.0-rc.14",
+      "solid-js": "2.0.0-rc.21",
+      "@solidjs/web": "2.0.0-rc.21",
       "@types/bun": "^1.4.2"
     }
   },
   "overrides": {
     "@typescript/old": "npm:typescript@6.0.3",
-    "@solidjs/signals": "2.0.0-rc.14"
+    "@solidjs/signals": "2.0.0-rc.21"
   },
   "scripts": {
     "build": "turbo run build",
@@ -39,7 +39,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^1.0.0",
     "turbo": "^2.10.12",
-    "@solidjs/vite-plugin": "^3.0.0-next.49",
+    "@solidjs/vite-plugin": "^3.0.0-next.57",
     "@types/bun": "catalog:",
     "vite": "^8.3.0",
     "rolldown": "^1.2.8"

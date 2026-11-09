@@ -45,7 +45,7 @@ const collectGarbage: BrowserCommand<[]> = async ({ provider, project, page, con
 
 export default defineConfig({
   /** Disable refresh wrappers so tests exercise direct component execution. */
-  plugins: [solid({ refresh: { disabled: true } })],
+  plugins: [solid({ refresh: false })],
   test: {
     projects: [
       {

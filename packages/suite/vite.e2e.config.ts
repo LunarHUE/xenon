@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 /** Build only the suite-owned interaction fixtures consumed by Playwright on port 4173. */
 export default defineConfig({
   root: fileURLToPath(new URL('./fixtures/e2e-app', import.meta.url)),
-  plugins: [solid({ refresh: { disabled: true } })],
+  plugins: [solid({ refresh: false })],
   build: {
     outDir: fileURLToPath(new URL('./.vitest/e2e-app', import.meta.url)),
     emptyOutDir: true,

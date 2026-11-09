@@ -1,6 +1,6 @@
 {
   "name": "@xenon-ui/solid",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Headless, accessible components for Solid 2.",
   "license": "MIT",
   "keywords": [
@@ -243,8 +243,8 @@
   "devDependencies": {
     "@xenon/eslint-config": "workspace:*",
     "@xenon/typescript-config": "workspace:*",
-    "@solidjs/testing-library": "^1.0.0-beta.3",
-    "@solidjs/vite-plugin": "^3.0.0-next.49",
+    "@solidjs/testing-library": "^1.0.0-rc.2",
+    "@solidjs/vite-plugin": "^3.0.0-next.57",
     "@solidjs/web": "catalog:",
     "@testing-library/jest-dom": "^7.0.1",
     "@typescript/native": "catalog:",

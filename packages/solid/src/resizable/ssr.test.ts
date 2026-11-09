@@ -6,7 +6,7 @@ test('SSR renders percent sizes and preceding author ID without DOM access', asy
     configFile: false,
     root: process.cwd(),
     appType: 'custom',
-    plugins: [solid({ ssr: true, refresh: { disabled: true } })],
+    plugins: [solid({ ssr: true, refresh: false })],
     server: { middlewareMode: true, hmr: false, ws: false },
   })
   try {

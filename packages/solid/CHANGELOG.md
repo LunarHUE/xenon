@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased (0.2.9)
+
+Built and tested against Solid 2.0.0-rc.21. No API changes. The peer range
+stays `^2.0.0-rc.14`: the compiled build imports nothing from `solid-js` or
+`@solidjs/web` that rc.14 lacks.
+
+### Fixes
+
+- Combobox, PinInput and Slider no longer trigger Solid's
+  `UNCOMMITTED_INPUT_OVERWRITTEN` dev warning (new in rc.17) when a form reset
+  restores their values. They now write the restored value to the native input
+  themselves before the state change.
+- TagsInput writes the leftover text to the field when typing a delimiter turns
+  the draft into tags. The field no longer depends on a later binding run to
+  clear, and the same dev warning no longer fires.
+
+### Tooling
+
+- Dev dependencies move to `solid-js` and `@solidjs/web` 2.0.0-rc.21,
+  `@solidjs/vite-plugin` 3.0.0-next.57 and `@solidjs/testing-library`
+  1.0.0-rc.2. If you copied Xenon's Vite config, `refresh: { disabled: true }`
+  is now `refresh: false`; the old spelling throws.
+
 ## 0.2.8 — 2026-11-09
 
 Fixes and a dependency change, no API changes. Use with `@xenon-ui/core` 0.2.6

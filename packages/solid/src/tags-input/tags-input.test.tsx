@@ -157,3 +157,36 @@ test('author cancellation and addOnPaste=false keep delimiters in the draft', ()
   flush()
   expect(changed).not.toHaveBeenCalled()
 })
+
+test('typing a delimiter commits the tags and clears the field without a stateful-write warning', () => {
+  const change = vi.fn()
+  const view = render(() => (
+    <TagsInput defaultValue={[]} onValueChange={change} required>
+      {(state) => (
+        <TagsInput.Control>
+          <TagsInput.Input aria-label="Tags" />
+          <For each={state.value}>
+            {(_, index) => (
+              <TagsInput.Item index={index()}>
+                <TagsInput.ItemText />
+              </TagsInput.Item>
+            )}
+          </For>
+        </TagsInput.Control>
+      )}
+    </TagsInput>
+  ))
+  const input = view.getByRole('textbox', { name: 'Tags' }) as HTMLInputElement
+  fireEvent.input(input, { target: { value: 'one,two' } })
+  flush()
+  expect(change).toHaveBeenLastCalledWith(['one', 'two'])
+  expect(input.value).toBe('')
+  // `required` drops once tags exist, re-running the input's spread. The field
+  // must already be empty, or Solid rewrites '' over the typed text and warns.
+  expect(input).not.toBeRequired()
+  // A rejected duplicate stays in the field as the new draft.
+  fireEvent.input(input, { target: { value: 'one,three' } })
+  flush()
+  expect(change).toHaveBeenLastCalledWith(['one', 'two', 'three'])
+  expect(input.value).toBe('one')
+})
