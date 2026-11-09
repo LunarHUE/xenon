@@ -10,8 +10,8 @@ import {
   platform,
   shift,
   size,
-} from '@floating-ui/dom'
-import type { Middleware } from '@floating-ui/dom'
+} from '../internal/vendor/floating-ui-dom'
+import type { Middleware } from '../internal/vendor/floating-ui-dom'
 import type {
   Positioner,
   PositioningAlign,

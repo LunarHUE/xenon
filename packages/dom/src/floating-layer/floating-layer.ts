@@ -1,4 +1,4 @@
-import { isFocusable, tabbable } from 'tabbable'
+import { isFocusable, tabbable } from '../internal/vendor/tabbable'
 import { registerLayer } from '../layer'
 import type { LayerHandle, LayerPointerOutsideEvent } from '../layer'
 import { registerFocusScope } from '../focus-scope'
