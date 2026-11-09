@@ -1,5 +1,14 @@
-import { parseShortcut } from './binding'
+import { CODE_LEGENDS, parseShortcut } from './binding'
 import type { ShortcutChord, ShortcutPlatform } from './binding'
+
+/**
+ * The character each physical key types on the user's keyboard, by
+ * `KeyboardEvent.code`. A `Map` works, and so does the `KeyboardLayoutMap` from
+ * `navigator.keyboard.getLayoutMap()`.
+ */
+export interface ShortcutLayout {
+  get(code: string): string | undefined
+}
 
 type Modifier = 'ctrl' | 'alt' | 'shift' | 'meta'
 
@@ -93,30 +102,63 @@ function modifiers(chord: ShortcutChord, platform: ShortcutPlatform): Modifier[]
 }
 
 /**
+ * Legend of a physical key. Digits and numpad keys read the same on every layout.
+ * A letter or punctuation key shows what the user's layout types there when a
+ * layout is known, and the US legend otherwise.
+ */
+function legend(code: string, layout?: ShortcutLayout): string {
+  const us = CODE_LEGENDS[code]!
+  if (/^(Digit|Numpad)/.test(code)) return us
+  const typed = layout?.get(code)
+  if (!typed || [...typed].length !== 1) return us
+  const upper = typed.toUpperCase()
+  return [...upper].length === 1 ? upper : typed
+}
+
+const numpad = (chord: ShortcutChord) => !!chord.code?.startsWith('Numpad')
+
+/** The key part of one chord as a display token. */
+function keyToken(chord: ShortcutChord, platform: ShortcutPlatform, layout?: ShortcutLayout) {
+  if (chord.code) return (numpad(chord) ? 'Num ' : '') + legend(chord.code, layout)
+  return (platform === 'apple' && APPLE_KEY_TOKENS[chord.key]) || KEY_TOKENS[chord.key] || chord.key
+}
+
+/**
  * Display tokens per step, one array per chord, for rendering nested `<kbd>` groups.
  *
  * @example
  * formatSteps('Mod+K', 'apple') // [['⌘', 'K']]
  * formatSteps('g n', 'other') // [['g'], ['n']]
+ * formatSteps('Shift+Digit1', 'other') // [['Shift', '1']]
  */
-export function formatSteps(binding: string, platform: ShortcutPlatform): string[][] {
+export function formatSteps(
+  binding: string,
+  platform: ShortcutPlatform,
+  layout?: ShortcutLayout
+): string[][] {
   return parseShortcut(binding).steps.map((chord) => [
     ...modifiers(chord, platform).map((modifier) => SYMBOLS[platform][modifier]),
-    (platform === 'apple' && APPLE_KEY_TOKENS[chord.key]) || KEY_TOKENS[chord.key] || chord.key,
+    keyToken(chord, platform, layout),
   ])
 }
 
 /**
  * Display tokens for a `<kbd>` hint: ⌘ and ⌥ on Apple, Ctrl and Alt elsewhere.
  * Letters keep the case written in the binding. Sequences list every step's
- * tokens in order; use {@link formatSteps} to keep the steps grouped.
+ * tokens in order; use {@link formatSteps} to keep the steps grouped. A physical
+ * key shows its legend: the digit for `Digit1`, and for a letter or punctuation
+ * key the character `layout` gives it, or its US legend without a layout.
  *
  * @example
  * formatKeys('Mod+K', 'apple') // ['⌘', 'K']
  * formatKeys('Mod+K', 'other') // ['Ctrl', 'K']
  */
-export function formatKeys(binding: string, platform: ShortcutPlatform): string[] {
-  return formatSteps(binding, platform).flat()
+export function formatKeys(
+  binding: string,
+  platform: ShortcutPlatform,
+  layout?: ShortcutLayout
+): string[] {
+  return formatSteps(binding, platform, layout).flat()
 }
 
 /**
@@ -127,14 +169,20 @@ export function formatKeys(binding: string, platform: ShortcutPlatform): string[
  * formatLabel('Mod+K', 'apple') // 'Command K'
  * formatLabel('g n', 'other') // 'G then N'
  */
-export function formatLabel(binding: string, platform: ShortcutPlatform): string {
+export function formatLabel(
+  binding: string,
+  platform: ShortcutPlatform,
+  layout?: ShortcutLayout
+): string {
   return parseShortcut(binding)
-    .steps.map((chord) =>
-      [
+    .steps.map((chord) => {
+      const key = chord.code ? legend(chord.code, layout) : chord.key
+      return [
         ...modifiers(chord, platform).map((modifier) => SPOKEN[platform][modifier]),
-        KEY_NAMES[chord.key] ?? ([...chord.key].length === 1 ? chord.key.toUpperCase() : chord.key),
+        ...(numpad(chord) ? ['Numpad'] : []),
+        KEY_NAMES[key] ?? ([...key].length === 1 ? key.toUpperCase() : key),
       ].join(' ')
-    )
+    })
     .join(' then ')
 }
 
@@ -144,18 +192,25 @@ export function formatLabel(binding: string, platform: ShortcutPlatform): string
  * @remarks
  * ARIA reads spaces in this attribute as alternative shortcuts, not as a sequence,
  * so a multi-step binding returns undefined and the attribute should be omitted.
+ * A physical key is written as its legend, so `Shift+Digit1` is `Shift+1`: ARIA asks
+ * for the keys to press, not the character they produce.
  */
-export function ariaKeyshortcuts(binding: string, platform: ShortcutPlatform): string | undefined {
+export function ariaKeyshortcuts(
+  binding: string,
+  platform: ShortcutPlatform,
+  layout?: ShortcutLayout
+): string | undefined {
   const { steps } = parseShortcut(binding)
   if (steps.length !== 1) return undefined
   const chord = steps[0]!
+  const value = chord.code ? legend(chord.code, layout) : chord.key
   const key =
-    chord.key === ' '
+    value === ' '
       ? 'Space'
-      : chord.key === '+'
+      : value === '+'
         ? 'Plus'
-        : [...chord.key].length === 1
-          ? chord.key.toUpperCase()
-          : chord.key
+        : [...value].length === 1
+          ? value.toUpperCase()
+          : value
   return [...modifiers(chord, platform).map((modifier) => ARIA[modifier]), key].join('+')
 }

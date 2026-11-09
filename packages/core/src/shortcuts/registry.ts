@@ -7,13 +7,14 @@ import {
 } from './binding'
 import type { ParsedShortcut, ShortcutKeyState, ShortcutPlatform } from './binding'
 import { ariaKeyshortcuts, formatKeys, formatLabel } from './format'
+import type { ShortcutLayout } from './format'
 
 /** Where a registration listens: an element, or a reader for one that may not be mounted yet. */
 export type ShortcutScopeTarget = Element | (() => Element | null | undefined)
 
 /** One shortcut and the work it triggers. */
 export interface ShortcutRegistration {
-  /** Binding text, such as `Mod+K` or `g n`. See {@link parseShortcut}. */
+  /** Binding text, such as `Mod+K`, `g n` or `Shift+Digit1`. See {@link parseShortcut}. */
   binding: string
   /** Runs when the binding wins a keydown. */
   handler: (event: KeyboardEvent) => void
@@ -74,6 +75,11 @@ export interface ShortcutRegistryOptions {
    */
   platform?: ShortcutPlatform
   /**
+   * The user's keyboard layout, used only to label physical-key bindings. Without
+   * it a letter or punctuation key shows its US legend.
+   */
+  layout?: ShortcutLayout
+  /**
    * Milliseconds allowed between sequence steps.
    * @defaultValue 1000
    */
@@ -88,6 +94,8 @@ export interface ShortcutRegistryOptions {
 export interface ShortcutRegistry {
   /** Platform currently used for matching and display. */
   readonly platform: ShortcutPlatform
+  /** Layout currently used to label physical keys, if one was given. */
+  readonly layout: ShortcutLayout | undefined
   /** Number of registrations, active or not. */
   readonly size: number
   /**
@@ -216,6 +224,9 @@ export function createShortcutRegistry(options: ShortcutRegistryOptions = {}): S
     get platform() {
       return settings.platform
     },
+    get layout() {
+      return settings.layout
+    },
     get size() {
       return entries.length
     },
@@ -258,9 +269,13 @@ export function createShortcutRegistry(options: ShortcutRegistryOptions = {}): S
           binding: registration.binding,
           description: registration.description,
           group: registration.group,
-          keys: formatKeys(registration.binding, settings.platform),
-          label: formatLabel(registration.binding, settings.platform),
-          ariaKeyshortcuts: ariaKeyshortcuts(registration.binding, settings.platform),
+          keys: formatKeys(registration.binding, settings.platform, settings.layout),
+          label: formatLabel(registration.binding, settings.platform, settings.layout),
+          ariaKeyshortcuts: ariaKeyshortcuts(
+            registration.binding,
+            settings.platform,
+            settings.layout
+          ),
         }))
     },
     handle(event, context) {
@@ -268,6 +283,7 @@ export function createShortcutRegistry(options: ShortcutRegistryOptions = {}): S
       if (!event.key || MODIFIER_KEYS.has(event.key)) return false
       const state: ShortcutKeyState = {
         key: event.key,
+        code: event.code,
         ctrlKey: event.ctrlKey,
         metaKey: event.metaKey,
         altKey: event.altKey,

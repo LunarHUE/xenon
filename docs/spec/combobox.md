@@ -148,6 +148,10 @@ every other kobalte-tagged bullet here is unverified.
 - [ ] `combobox.keyboard.72` Given an IME composition keydown (`keyCode` 229) with no highlighted option, when Enter arrives, then no option is selected. [base-ui] (candidate)
 - [ ] `combobox.keyboard.73` Given a command palette, when the query is typed, then matching items are reordered by score with the best match first and selected, and clearing the query restores the original order with the first item selected again. [bits] (candidate)
 - [ ] `combobox.keyboard.74` Given a command palette whose group is filtered out entirely, then the group element stays in the DOM but reports as not visible, and its separator is removed unless force-mounted. [bits] (candidate)
+- [x] `combobox.keyboard.76` Given `activationMode="automatic"` and an open list, when ArrowDown or ArrowUp is pressed, then the option it highlights becomes the selection, disabled options are skipped, the input text is unchanged and the list stays open; with the default manual activation the arrow keys only highlight. [xenon]
+- [x] `combobox.keyboard.77` Given automatic activation and no highlight, when an arrow key is pressed, then navigation starts from the selected option when it is in the list, and from the first or last option otherwise. [xenon]
+- [x] `combobox.keyboard.78` Given automatic activation, when ArrowDown is followed at once by Enter, then the selection change for the row ArrowDown reached is requested during that keydown, so an Enter handler acts on that row. [xenon]
+- [x] `combobox.keyboard.79` Given an open list rendered inline, with a Viewport and Items and no Positioner or Content, when the highlight moves, then the highlighted option is scrolled into view, as it is inside Content. (browser-only) [xenon]
 
 ### Pointer
 
@@ -187,6 +191,7 @@ every other kobalte-tagged bullet here is unverified.
 - [ ] `combobox.pointer.33` Given an input group with padding around the input and chips, then a press on the padding focuses the input and opens the popup (and does not dismiss it as an outside press), unless the open-on-click flag is off, in which case it focuses without opening; a chip press inside the group is handled once, not twice. [base-ui] (candidate)
 - [ ] `combobox.pointer.34` Given a combobox and a separate standalone list outside any popup, when the list's own surface is clicked, then DOM focus is redirected to the input, even when an ancestor form element shadows the `activeElement` lookup. [ariakit] (candidate)
 - [ ] `combobox.pointer.35` Given a command palette or filtered list, when an item whose id is undefined is clicked, then the value commits and no focus recursion error is thrown. [ariakit] (candidate) (browser-only)
+- [x] `combobox.pointer.37` Given automatic activation, when the pointer moves over an option, then it is highlighted and not selected; a click selects it. [xenon]
 
 ### Focus management
 
@@ -279,6 +284,9 @@ every other kobalte-tagged bullet here is unverified.
 - [ ] `combobox.state.42` Given a loading state, then a spinner appears only after a 500 ms delay, the delay timer restarts when the input text changes, loading that finishes inside the window shows no spinner at all, and a `loading`-to-`filtering` transition does not restart the timer; the spinner is removed when loading ends or the popup closes. [react-aria] (candidate)
 - [ ] `combobox.state.43` Given each loading state, then the spinner's placement and label differ: in the field for the initial load and filtering, inside the listbox with a "Loading more" label for load-more, and a "Loading..." placeholder in the popup when there are no items yet. [react-aria] (candidate)
 - [ ] `combobox.state.44` Given an async list, then load-more fires once when the popup is first opened and does not fire again on a later reopen. (candidate) [react-aria]
+- [x] `combobox.state.48` Given `onActiveChange`, then it receives the highlighted value and a reason: `keyboard` for an arrow key, `pointer` for hover, and `reset`, with an undefined value, once each time typing, choosing, closing or a caret key clears the highlight. [xenon]
+- [x] `combobox.state.49` Given `onInputValueChange`, then its reason is `input` for typed text and for composed text at `compositionend`, and `selection` when choosing an option writes its label, so a controlled owner that ignores `selection` keeps the field as a search query. [xenon]
+- [x] `combobox.state.50` Given automatic activation, when typing filters the selected option out of the list, then it stays selected, no selection change is requested, and it shows as selected again when it returns. [xenon]
 
 ### Forms
 

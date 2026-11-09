@@ -13,7 +13,7 @@ import {
 import type { CreateShortcutOptions, ShortcutHandle } from '@xenon-ui/solid/shortcuts'
 import { Slider } from '@xenon-ui/solid/slider'
 import { For, Show, createSignal, flush } from 'solid-js'
-import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, expect, onTestFinished, test, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import { expectNoViolations } from '../a11y'
 
@@ -564,4 +564,119 @@ test('shortcuts.notes.3 a slider that handles an arrow key keeps it from a globa
   await userEvent.click(m.getByRole('button', { name: 'Page' }))
   await userEvent.keyboard('{ArrowRight}')
   expect(arrow).toHaveBeenCalledOnce()
+})
+
+test('shortcuts.keyboard.13 Shift+Digit1 fires on the physical key with exact modifiers', async () => {
+  const fit = vi.fn()
+  const bare = vi.fn()
+  const m = mount(() => (
+    <>
+      <Bind binding="Shift+Digit1" handler={fit} />
+      <Bind binding="Digit0" handler={bare} />
+      <button>Focus</button>
+    </>
+  ))
+  await userEvent.click(m.getByRole('button'))
+  // A US layout types "!" on Shift+1, so the character binding `Shift+1` never fires there.
+  await userEvent.keyboard('{Shift>}!{/Shift}')
+  expect(fit).toHaveBeenCalledOnce()
+  expect(fit.mock.calls[0]![0]).toMatchObject({ code: 'Digit1', key: '!', defaultPrevented: true })
+  // A layout that types "1" there, as French AZERTY does, fires it too.
+  await userEvent.keyboard('{Shift>}[Digit1]{/Shift}')
+  expect(fit).toHaveBeenCalledTimes(2)
+  expect(fit.mock.calls[1]![0]).toMatchObject({ code: 'Digit1', key: '1' })
+  await userEvent.keyboard('1')
+  await userEvent.keyboard('{Control>}{Shift>}!{/Shift}{/Control}')
+  await userEvent.keyboard('{Shift>}8{/Shift}')
+  expect(fit).toHaveBeenCalledTimes(2)
+  // Shift is never implied for a physical key.
+  await userEvent.keyboard('{Shift>}0{/Shift}')
+  expect(bare).not.toHaveBeenCalled()
+  await userEvent.keyboard('0')
+  expect(bare).toHaveBeenCalledOnce()
+})
+
+test('shortcuts.keyboard.15 a physical-key binding follows the editable, modal, repeat and listing rules', async () => {
+  const fit = vi.fn()
+  const inside = vi.fn()
+  const held = vi.fn()
+  let view!: ReturnType<typeof useShortcuts>
+  let dialog!: HTMLDialogElement
+  const m = mount(() => {
+    view = useShortcuts()
+    return (
+      <>
+        <Bind binding="Shift+Digit1" handler={fit} options={{ description: 'Fit everything' }} />
+        <Bind binding="KeyJ" handler={held} options={{ repeat: true }} />
+        <button>Focus</button>
+        <input aria-label="Name" />
+        <dialog ref={(el) => (dialog = el)} aria-label="Settings">
+          <ShortcutScope>
+            <Bind binding="Shift+Digit1" handler={inside} />
+            <button>Inside</button>
+          </ShortcutScope>
+        </dialog>
+      </>
+    )
+  })
+  await userEvent.click(m.getByRole('button', { name: 'Focus' }))
+  await settle()
+  expect(view.list().map((item) => [item.binding, item.description, item.keys])).toEqual([
+    ['Shift+Digit1', 'Fit everything', ['Shift', '1']],
+    ['KeyJ', undefined, ['J']],
+  ])
+  await userEvent.keyboard('{Shift>}[Digit1>3/]{/Shift}')
+  expect(fit).toHaveBeenCalledOnce()
+  await userEvent.keyboard('{j>3/}')
+  expect(held).toHaveBeenCalledTimes(3)
+  await userEvent.click(m.getByRole('textbox'))
+  await userEvent.keyboard('{Shift>}!{/Shift}')
+  expect(fit).toHaveBeenCalledOnce()
+  expect(m.getByRole('textbox')).toHaveValue('!')
+  dialog.showModal()
+  await settle()
+  await userEvent.keyboard('{Shift>}!{/Shift}')
+  expect(fit).toHaveBeenCalledOnce()
+  expect(inside).toHaveBeenCalledOnce()
+  dialog.close()
+})
+
+test('shortcuts.roles.5 shortcuts.state.8 a physical key shows its legend, relabelled by the keyboard layout', async () => {
+  onTestFinished(() => configureShortcuts({ layout: undefined }))
+  configureShortcuts({ layout: new Map() })
+  let digit!: ShortcutHandle
+  let letter!: ShortcutHandle
+  const m = mount(() => (
+    <>
+      <Bind binding="Shift+Digit1" handler={() => {}} handle={(handle) => (digit = handle)} />
+      <Bind binding="Alt+KeyQ" handler={() => {}} handle={(handle) => (letter = handle)} />
+      <button aria-keyshortcuts={digit.ariaKeyshortcuts()}>
+        Fit <kbd>{digit.keys().join(' ')}</kbd>
+      </button>
+      <button aria-keyshortcuts={letter.ariaKeyshortcuts()}>
+        Quit <kbd>{letter.keys().join(' ')}</kbd>
+      </button>
+    </>
+  ))
+  await settle()
+  const fit = m.getByRole('button', { name: /Fit/ })
+  const quit = m.getByRole('button', { name: /Quit/ })
+  expect(fit).toHaveAttribute('aria-keyshortcuts', 'Shift+1')
+  expect(fit).toHaveTextContent('Fit Shift 1')
+  expect(quit).toHaveAttribute('aria-keyshortcuts', 'Alt+Q')
+  expect(quit).toHaveTextContent('Quit Alt Q')
+  expect(digit.label()).toBe('Shift 1')
+  // French AZERTY: the Q position types "a" and the 1 key types "&".
+  configureShortcuts({
+    layout: new Map([
+      ['KeyQ', 'a'],
+      ['Digit1', '&'],
+    ]),
+  })
+  await settle()
+  expect(quit).toHaveAttribute('aria-keyshortcuts', 'Alt+A')
+  expect(quit).toHaveTextContent('Quit Alt A')
+  expect(letter.label()).toBe('Alt A')
+  expect(fit).toHaveAttribute('aria-keyshortcuts', 'Shift+1')
+  expect(fit).toHaveTextContent('Fit Shift 1')
 })

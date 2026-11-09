@@ -7,12 +7,14 @@ import {
 } from '@xenon-ui/core/shortcuts'
 import type {
   ActiveShortcut,
+  ShortcutLayout,
   ShortcutPlatform,
   ShortcutRegistration,
   ShortcutRegistry,
 } from '@xenon-ui/core/shortcuts'
 import {
   detectShortcutPlatform,
+  readKeyboardLayout,
   readShortcutContext,
   watchShortcutContext,
 } from '@xenon-ui/dom/shortcuts'
@@ -55,6 +57,12 @@ function useManager(): Manager | undefined {
     registry.handle(event, readShortcutContext(doc))
   }
   let stopWatching: (() => void) | undefined
+  // Chromium reports the layout; elsewhere physical keys keep their US legends.
+  void readKeyboardLayout(doc).then((layout) => {
+    if (!layout || registry.layout) return
+    registry.configure({ layout })
+    invalidate()
+  })
   manager = {
     registry,
     version,
@@ -84,12 +92,18 @@ function useManager(): Manager | undefined {
 }
 
 /**
- * Override the detected platform or the sequence timeout for every shortcut in
- * the document. Call outside components, for example in test setup.
+ * Override the detected platform, the keyboard layout or the sequence timeout for
+ * every shortcut in the document. Call outside components, for example in test setup.
  */
 export function configureShortcuts(options: {
   /** Apple shows ⌘ and resolves Mod to Meta; other uses Ctrl. */
   platform?: ShortcutPlatform
+  /**
+   * Characters by `KeyboardEvent.code`, used to label physical-key bindings such
+   * as `Alt+KeyQ`. Detected in Chromium; other browsers show US legends unless
+   * you pass one.
+   */
+  layout?: ShortcutLayout
   /** Milliseconds allowed between sequence steps. */
   sequenceTimeout?: number
 }): void {
@@ -138,6 +152,10 @@ export interface ShortcutHandle {
  * Bind a key for the current owner's lifetime and get its display forms from the
  * same registration, so a hint never advertises a key that does nothing.
  *
+ * A binding names the character a key types (`Mod+K`, `?`) or, by its
+ * `KeyboardEvent.code` name, the physical key (`Shift+Digit1`, `Alt+KeyT`). Use the
+ * second when the character depends on the layout or on the modifiers held.
+ *
  * @remarks
  * Global bindings stand down while a modal dialog is open, and bindings
  * containing Escape stand down while any Xenon layer is open, because the layer
@@ -170,9 +188,13 @@ export function createShortcut(
     current?.version()
     return current?.registry.platform ?? 'other'
   }
-  const keys = createMemo(() => formatKeys(binding, platform()))
-  const label = createMemo(() => formatLabel(binding, platform()))
-  const aria = createMemo(() => ariaKeyshortcuts(binding, platform()))
+  const layout = () => {
+    current?.version()
+    return current?.registry.layout
+  }
+  const keys = createMemo(() => formatKeys(binding, platform(), layout()))
+  const label = createMemo(() => formatLabel(binding, platform(), layout()))
+  const aria = createMemo(() => ariaKeyshortcuts(binding, platform(), layout()))
   const active = createMemo(() => list(current).some((item) => item.registration === registration))
   return { keys, label, ariaKeyshortcuts: aria, active }
 }
@@ -224,4 +246,4 @@ export function ShortcutScope(props: ShortcutScopeProps): JSX.Element {
   )
 }
 
-export type { ActiveShortcut, ShortcutPlatform }
+export type { ActiveShortcut, ShortcutLayout, ShortcutPlatform }

@@ -1,7 +1,12 @@
 import { afterEach, expect, test, vi } from 'vitest'
 import { registerLayer } from '../layer'
 import { registerModal } from '../modal'
-import { detectShortcutPlatform, readShortcutContext, watchShortcutContext } from './shortcuts'
+import {
+  detectShortcutPlatform,
+  readKeyboardLayout,
+  readShortcutContext,
+  watchShortcutContext,
+} from './shortcuts'
 
 afterEach(() => {
   document.body.replaceChildren()
@@ -68,4 +73,22 @@ test.each([
   const spy = vi.spyOn(navigator, 'platform', 'get').mockReturnValue(platform)
   expect(detectShortcutPlatform(document)).toBe(expected)
   spy.mockRestore()
+})
+
+test('reads the keyboard layout where the browser exposes one', async () => {
+  const keyboard = Object.getOwnPropertyDescriptor(navigator, 'keyboard')
+  const define = (value: unknown) =>
+    Object.defineProperty(navigator, 'keyboard', { configurable: true, value })
+  try {
+    define(undefined)
+    await expect(readKeyboardLayout(document)).resolves.toBeUndefined()
+    const layout = new Map([['KeyQ', 'a']])
+    define({ getLayoutMap: () => Promise.resolve(layout) })
+    await expect(readKeyboardLayout(document)).resolves.toBe(layout)
+    define({ getLayoutMap: () => Promise.reject(new DOMException('blocked', 'SecurityError')) })
+    await expect(readKeyboardLayout(document)).resolves.toBeUndefined()
+  } finally {
+    if (keyboard) Object.defineProperty(navigator, 'keyboard', keyboard)
+    else delete (navigator as { keyboard?: unknown }).keyboard
+  }
 })

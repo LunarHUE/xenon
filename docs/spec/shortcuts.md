@@ -20,6 +20,7 @@ against.
 - [ ] `shortcuts.roles.2` Given `Shift+?`, `Escape`, `[`, `Control+Space` and `Plus`, then `ariaKeyshortcuts` writes `Shift+?`, `Escape`, `[`, `Control+Space` and `Plus`, using the ARIA names for the space and plus keys. [aria]
 - [ ] `shortcuts.roles.3` Given a sequence such as `g n`, then `ariaKeyshortcuts` returns undefined, because ARIA reads a space in the attribute as alternative shortcuts and `G N` would claim that G alone works. [aria, xenon]
 - [x] `shortcuts.roles.4` Given a control that renders `aria-keyshortcuts` from its registration handle, then the attribute matches the binding that fires, on both platforms. [xenon]
+- [x] `shortcuts.roles.5` Given `Shift+Digit1` and `Alt+KeyT`, then `ariaKeyshortcuts` writes `Shift+1` and `Alt+T`: the legend of the key to press, not the character the chord types. [aria, xenon]
 
 ### Keyboard
 
@@ -35,6 +36,9 @@ against.
 - [x] `shortcuts.keyboard.10` Given a keydown whose default a component or author already prevented, then no shortcut fires. [xenon]
 - [ ] `shortcuts.keyboard.11` Given a binding that fires, then its keydown default is prevented unless the registration sets `preventDefault: false`. [tanstack]
 - [ ] `shortcuts.keyboard.12` Given an invalid binding such as `Mod+`, `Shift+Shift+A`, `Escpe` or `Mod+Meta+K`, then registration throws an error that quotes the binding. [xenon]
+- [x] `shortcuts.keyboard.13` Given `Shift+Digit1`, a binding that names a key by its `KeyboardEvent.code`, then Shift plus the 1 key fires it whatever character the layout types there (`!` on a US layout, `1` on French AZERTY), the same character from another key does not, and the modifiers must match exactly: Shift is never implied. [xenon]
+- [ ] `shortcuts.keyboard.14` Given a physical-key binding, when the key is pressed with AltGr held, then it does not fire, because that press types a character. (browser-only) [xenon]
+- [x] `shortcuts.keyboard.15` Given a physical-key binding, then scopes, the modal and layer rules, the editable-focus rule, `repeat` and sequences apply to it as to a character binding, and `list()` includes it. [xenon]
 
 ### Focus management
 
@@ -54,6 +58,7 @@ against.
 - [x] `shortcuts.state.5` Given two registrations of the same binding in the same scope, then a development warning names both, the later one wins, and removing it restores the earlier one; production builds stay silent. [tanstack, xenon]
 - [ ] `shortcuts.state.6` Given `enabled` as an accessor, then the binding fires only while it reads true. [tanstack]
 - [ ] `shortcuts.state.7` Given the platform is detected from `navigator.userAgentData.platform` or `navigator.platform`, then macOS and iOS resolve to Apple and everything else to other; tests can override it with `configureShortcuts`. [tanstack, xenon]
+- [x] `shortcuts.state.8` Given a physical-key binding, then `formatKeys`, `formatLabel` and `ariaKeyshortcuts` show the key's legend: the digit for a digit key on every layout, and for a letter or punctuation key the character the configured layout types there, or the US legend when no layout is known. [xenon]
 
 ### Dismissal and layering
 
@@ -86,7 +91,9 @@ against.
 
 ## Deferred
 
-- Physical-key bindings (`event.code`). TanStack's `[KeyS]` bracket syntax would add them without changing the grammar.
+- Keyboard layout detection outside Chromium. Firefox and Safari have no Keyboard Map API, so a letter or punctuation key bound by code shows its US legend there unless the app passes a layout to `configureShortcuts`.
+- Physical keys beyond the letter, digit, punctuation and numpad codes: the `Intl*` keys and left or right modifier keys.
+- Moving `Toast.Viewport`'s `hotkey` onto the registry. A global binding stands down under a modal dialog, and the hotkey must keep working there because `Toast.Portal` moves the region into the modal.
 - User-customisable keymaps and recorders.
 - The command palette.
 - `<kbd>` rendering and styling, which belong to `solid-ui`.
