@@ -20,7 +20,7 @@ const vite = await createViteServer({
   configFile: false,
   root,
   appType: 'custom',
-  plugins: [solid({ ssr: true, refresh: { disabled: true } })],
+  plugins: [solid({ ssr: true, refresh: false })],
   server: { middlewareMode: true, hmr: false },
 })
 /**

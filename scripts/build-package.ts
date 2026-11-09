@@ -277,7 +277,7 @@ if (hasJsx) {
     root: pkgDir,
     configFile: false,
     logLevel: 'warn',
-    plugins: [solid({ refresh: { disabled: true } }), { ...packageRoots, enforce: 'pre' }],
+    plugins: [solid({ refresh: false }), { ...packageRoots, enforce: 'pre' }],
     build: {
       outDir: dist,
       emptyOutDir: false,

@@ -8,7 +8,7 @@ beforeAll(async () => {
     configFile: false,
     root: process.cwd(),
     appType: 'custom',
-    plugins: [solid({ ssr: true, refresh: { disabled: true } })],
+    plugins: [solid({ ssr: true, refresh: false })],
     server: { middlewareMode: true, hmr: false, ws: false },
   })
   fixture = (await server.ssrLoadModule('/src/menubar/ssr-fixture.tsx')) as typeof fixture

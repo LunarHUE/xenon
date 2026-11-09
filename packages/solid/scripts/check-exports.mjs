@@ -32,7 +32,7 @@ async function bundle(source) {
           value === 'xenon-export-check' || value.endsWith('/xenon-export-check') ? id : undefined,
         load: (value) => (value === id ? source : undefined),
       },
-      solid({ refresh: { disabled: true } }),
+      solid({ refresh: false }),
     ],
     build: {
       write: false,
