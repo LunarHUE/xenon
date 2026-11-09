@@ -90,8 +90,7 @@ outside this package:
   that passes through a package depending on `solid-js`, which this one does.
 
 So with no config, core and dom arrive as one raw file each, two requests in
-total. To fold them into `.vite/deps` along with `tabbable` and
-`@floating-ui/dom`, add these two entries. They are static; nothing needs to
+total. To fold them into `.vite/deps`, add these two entries. They are static; nothing needs to
 walk this package's files:
 
 ```ts
