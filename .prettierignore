@@ -10,3 +10,6 @@ playwright-report
 test-results
 .vitest
 docs/**/*
+
+# Upstream test fixtures, kept byte for byte
+packages/dom/src/internal/vendor/*/fixtures

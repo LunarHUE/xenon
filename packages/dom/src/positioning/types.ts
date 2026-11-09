@@ -1,4 +1,24 @@
-import type { VirtualElement } from '@floating-ui/dom'
+/**
+ * Rectangle provider used in place of a DOM anchor. Same shape as Floating UI's
+ * `VirtualElement`. Not exported by name, as before, when it came from
+ * `@floating-ui/dom`.
+ */
+interface VirtualElement {
+  getBoundingClientRect(): ClientRectObject
+  getClientRects?: (() => Array<ClientRectObject> | DOMRectList) | undefined
+  contextElement?: Element | undefined
+}
+/** Viewport rectangle in CSS pixels, with both position and edge coordinates. */
+interface ClientRectObject {
+  x: number
+  y: number
+  width: number
+  height: number
+  top: number
+  right: number
+  bottom: number
+  left: number
+}
 
 /** Physical side of the anchor on which the floating box is placed. */
 export type PositioningSide = 'top' | 'right' | 'bottom' | 'left'
