@@ -2,9 +2,9 @@
 
 ## Unreleased
 
-New features, no breaking changes. They need new versions of all three packages:
-`@xenon-ui/core` 0.2.6, `@xenon-ui/dom` 0.2.5 and `@xenon-ui/solid` 0.2.7, with
-this package depending on `^0.2.6` and `^0.2.5`.
+New features, no breaking changes. Not published yet. The package versions are
+already bumped for it: `@xenon-ui/core` 0.2.6, `@xenon-ui/dom` 0.2.5 and
+`@xenon-ui/solid` 0.2.7, with this package depending on `^0.2.6` and `^0.2.5`.
 
 ### Shortcuts (`@xenon-ui/solid/shortcuts`)
 
