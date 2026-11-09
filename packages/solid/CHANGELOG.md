@@ -2,9 +2,9 @@
 
 ## Unreleased
 
-No API or behavior changes. Needs new versions of two packages:
-`@xenon-ui/dom` 0.2.6 and `@xenon-ui/solid` 0.2.8, with this package depending
-on `^0.2.6` for dom. Core stays at 0.2.6.
+Fixes and a dependency change, no API changes. Needs new versions of two
+packages: `@xenon-ui/dom` 0.2.6 and `@xenon-ui/solid` 0.2.8, with this package
+depending on `^0.2.6` for dom. Core stays at 0.2.6.
 
 ### Dependencies
 
@@ -19,6 +19,25 @@ on `^0.2.6` for dom. Core stays at 0.2.6.
   type-check.
 - If your Vite config listed `tabbable` or `@floating-ui/dom` in
   `optimizeDeps.include`, remove them; they are no longer installed.
+
+### Tooltip
+
+- No more `STRICT_READ_UNTRACKED` warnings in Solid's dev build from
+  `Tooltip.Trigger`. A trigger that mounted or became disabled, and a handle
+  trigger whose `Tooltip` unmounted, read the popup's active trigger and open
+  state directly in an effect callback or its cleanup. Both are now untracked
+  one-off reads; behavior is unchanged.
+
+### VirtualList
+
+- A list with `follow` that grows at its end lays its rows out once per change.
+  Before, each appended row ran the item, count and range computations twice
+  (Solid's attribution engine reported `EFFECT_RELAY_TEAR`): once with the new
+  count at the old scroll offset, and again after the scroll controller pinned
+  to the end. The pinned offset is now derived in the same update.
+- `offset()` on `createVirtualizer` and `useVirtualList()` returns that derived
+  offset, so while following it already shows the new end in the update where
+  the count changes.
 
 ## 0.2.7 — 2026-11-09
 

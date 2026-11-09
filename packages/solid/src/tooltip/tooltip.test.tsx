@@ -1,5 +1,5 @@
 import { within, cleanup, fireEvent, render } from '@solidjs/testing-library'
-import { createSignal, flush } from 'solid-js'
+import { createSignal, flush, Show } from 'solid-js'
 import { afterEach, expect, test, vi } from 'vitest'
 import { Tooltip } from './tooltip'
 afterEach(() => {
@@ -254,4 +254,73 @@ test('empty disabled roots suppress display and nested refs attach', () => {
   tick(1000)
   expect(host).toHaveBeenCalledWith(view.getByText('Preview'))
   expect(change).not.toHaveBeenCalled()
+})
+// vitest-setup.ts fails each of these on any STRICT_READ_UNTRACKED diagnostic.
+test('a trigger that mounts disabled reads its popup state once without warnings', () => {
+  render(() => (
+    <Tooltip openDelay={0}>
+      <Tooltip.Trigger disabled>Save</Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Content>Save changes</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip>
+  ))
+  flush()
+  expect(within(document.body).queryByRole('tooltip', { hidden: true })).toBeNull()
+})
+test('disabling the active trigger dismisses it and hover cannot reopen it', () => {
+  const [disabled, setDisabled] = createSignal(false)
+  const view = render(() => (
+    <Tooltip openDelay={0}>
+      <Tooltip.Trigger disabled={disabled()}>Save</Tooltip.Trigger>
+      <Tooltip.Portal>
+        <Tooltip.Positioner>
+          <Tooltip.Content>Save changes</Tooltip.Content>
+        </Tooltip.Positioner>
+      </Tooltip.Portal>
+    </Tooltip>
+  ))
+  flush()
+  const trigger = view.getByText('Save')
+  enter(trigger)
+  expect(within(document.body).getByRole('tooltip', { hidden: true })).toBeInTheDocument()
+  setDisabled(true)
+  flush()
+  expect(within(document.body).queryByRole('tooltip', { hidden: true })).toBeNull()
+  leave(trigger)
+  enter(trigger)
+  expect(within(document.body).queryByRole('tooltip', { hidden: true })).toBeNull()
+})
+test('a handle trigger releases an unmounting root without warnings', () => {
+  const handle = Tooltip.createHandle<string>()
+  const [mounted, setMounted] = createSignal(true)
+  const view = render(() => (
+    <>
+      <Tooltip.Trigger handle={handle} payload="Save">
+        Save
+      </Tooltip.Trigger>
+      <Show when={mounted()}>
+        <Tooltip handle={handle} openDelay={0}>
+          <Tooltip.Portal>
+            <Tooltip.Positioner>
+              <Tooltip.Content>Save changes</Tooltip.Content>
+            </Tooltip.Positioner>
+          </Tooltip.Portal>
+        </Tooltip>
+      </Show>
+    </>
+  ))
+  flush()
+  enter(view.getByText('Save'))
+  expect(within(document.body).getByRole('tooltip', { hidden: true })).toBeInTheDocument()
+  setMounted(false)
+  flush()
+  expect(within(document.body).queryByRole('tooltip', { hidden: true })).toBeNull()
+  setMounted(true)
+  flush()
+  leave(view.getByText('Save'))
+  enter(view.getByText('Save'))
+  expect(within(document.body).getByRole('tooltip', { hidden: true })).toBeInTheDocument()
 })
