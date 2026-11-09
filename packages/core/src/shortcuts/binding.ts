@@ -3,8 +3,10 @@ export type ShortcutPlatform = 'apple' | 'other'
 
 /** One key press with its modifiers. Mod stays unresolved until a platform is known. */
 export interface ShortcutChord {
-  /** `KeyboardEvent.key` value; letters keep the case the author wrote. */
+  /** `KeyboardEvent.key` value; letters keep the case the author wrote. Empty for a physical key. */
   key: string
+  /** `KeyboardEvent.code` value when the binding names a physical key, such as `Digit1` or `KeyT`. */
+  code?: string
   /** Meta on Apple platforms, Control elsewhere. */
   mod: boolean
   meta: boolean
@@ -24,6 +26,8 @@ export interface ParsedShortcut {
 /** Key state read from a keydown, independent of the DOM event object. */
 export interface ShortcutKeyState {
   key: string
+  /** `KeyboardEvent.code`. Without it no physical-key chord matches. */
+  code?: string
   ctrlKey: boolean
   metaKey: boolean
   altKey: boolean
@@ -93,6 +97,37 @@ const ALIASES: Record<string, string> = {
   plus: '+',
 }
 
+/**
+ * Physical keys a binding can name, by `KeyboardEvent.code`, with the legend each
+ * carries on a US keyboard. Keys whose code equals their key value on every layout
+ * (Enter, Escape, the arrows, F1 to F24, Space) are not here; they match by key.
+ */
+export const CODE_LEGENDS: Readonly<Record<string, string>> = {
+  ...Object.fromEntries(
+    [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].map((letter) => [`Key${letter}`, letter])
+  ),
+  ...Object.fromEntries([...'0123456789'].map((digit) => [`Digit${digit}`, digit])),
+  ...Object.fromEntries([...'0123456789'].map((digit) => [`Numpad${digit}`, digit])),
+  Minus: '-',
+  Equal: '=',
+  BracketLeft: '[',
+  BracketRight: ']',
+  Backslash: '\\',
+  Semicolon: ';',
+  Quote: "'",
+  Backquote: '`',
+  Comma: ',',
+  Period: '.',
+  Slash: '/',
+  NumpadAdd: '+',
+  NumpadSubtract: '-',
+  NumpadMultiply: '*',
+  NumpadDivide: '/',
+  NumpadDecimal: '.',
+  NumpadEnter: 'Enter',
+}
+const CODES = new Map(Object.keys(CODE_LEGENDS).map((name) => [name.toLowerCase(), name]))
+
 const cache = new Map<string, ParsedShortcut>()
 
 /**
@@ -103,6 +138,12 @@ const cache = new Map<string, ParsedShortcut>()
  * Mod, Meta, Control, Alt and Shift (Cmd, Ctrl and Option are accepted aliases).
  * Write the plus key as `Plus` and the space bar as `Space`. Named keys use their
  * `KeyboardEvent.key` value and match case-insensitively, as do letters.
+ *
+ * A key written as its `KeyboardEvent.code` name binds the physical key wherever
+ * the layout puts its character: `Shift+Digit1`, `Alt+KeyT`, `Mod+BracketLeft`,
+ * `NumpadAdd`. The names are the ones in {@link CODE_LEGENDS} and match
+ * case-insensitively. Such a chord matches on `code`, and its modifiers must match
+ * exactly.
  *
  * @throws An error naming the binding when it is empty, repeats a modifier, has no
  * key, or names an unknown key.
@@ -135,7 +176,9 @@ export function parseShortcut(binding: string): ParsedShortcut {
         return
       }
       if (modifier) fail('the last part must be a key, not a modifier')
-      chord.key = key(part) ?? fail(`"${part}" is not a key name`)
+      const code = CODES.get(part.toLowerCase())
+      if (code) chord.code = code
+      else chord.key = key(part) ?? fail(`"${part}" is not a key name`)
     })
     if (chord.mod && (chord.meta || chord.ctrl)) {
       fail('Mod already means Meta or Control; use one of them')
@@ -172,13 +215,16 @@ export function sameKey(a: string, b: string): boolean {
  * Mod is Meta on Apple and Control elsewhere, and the other one must be up, so
  * `Mod+K` never cross-fires. Shift is implied for printable characters that are
  * not letters: `?` matches Shift+/ on a US layout. Letters need Shift written out.
+ * A physical-key chord compares `code`, takes Shift only when written, and never
+ * matches while AltGr is held, because that press types a character.
  */
 export function matchChord(
   state: ShortcutKeyState,
   chord: ShortcutChord,
   platform: ShortcutPlatform
 ): boolean {
-  if (!sameKey(state.key, chord.key)) return false
+  if (chord.code ? state.code !== chord.code || !!state.altGraph : !sameKey(state.key, chord.key))
+    return false
   const ctrl = state.altGraph ? false : state.ctrlKey
   const alt = state.altGraph ? false : state.altKey
   const apple = platform === 'apple'
@@ -186,7 +232,7 @@ export function matchChord(
   if (state.metaKey !== (chord.meta || (chord.mod && apple))) return false
   if (alt !== chord.alt) return false
   if (state.shiftKey === chord.shift) return true
-  return state.shiftKey && !chord.shift && printable(chord.key) && !letter(chord.key)
+  return !chord.code && state.shiftKey && !chord.shift && printable(chord.key) && !letter(chord.key)
 }
 
 /** Whether any step carries Control, Meta or Mod, which makes it safe to fire while typing. */
@@ -204,7 +250,7 @@ export function normalizeShortcut(parsed: ParsedShortcut): string {
         step.alt && 'Alt',
         step.shift && 'Shift',
         step.meta && 'Meta',
-        printable(step.key) ? step.key.toLowerCase() : step.key,
+        step.code ?? (printable(step.key) ? step.key.toLowerCase() : step.key),
       ]
         .filter(Boolean)
         .join('+')

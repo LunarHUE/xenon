@@ -470,3 +470,178 @@ describe('registry', () => {
     expect(registry.size).toBe(0)
   })
 })
+
+describe('physical keys', () => {
+  /** A keydown that also reports the physical key, as real events do. */
+  const strike = (key: string, code: string, init: Parameters<typeof press>[1] = {}) =>
+    Object.assign(press(key, init), { code })
+
+  test('a code name parses to a chord with a code and no key', () => {
+    expect(parseShortcut('Shift+Digit1').steps).toEqual([
+      { key: '', code: 'Digit1', mod: false, meta: false, ctrl: false, alt: false, shift: true },
+    ])
+    expect(parseShortcut('alt+keyt').steps[0]).toMatchObject({ code: 'KeyT', alt: true })
+    expect(parseShortcut('Mod+BracketLeft').steps[0]).toMatchObject({ code: 'BracketLeft' })
+    expect(parseShortcut('1').steps[0]).toMatchObject({ key: '1' })
+    expect(parseShortcut('Space').steps[0]!.code).toBeUndefined()
+    expect(() => parseShortcut('Shift+Digit')).toThrow('"Shift+Digit"')
+    expect(() => parseShortcut('KeyÄ')).toThrow('"KeyÄ"')
+  })
+
+  test('Shift+Digit1 fires on the key whatever character the layout types', () => {
+    const { registry } = setup()
+    const handler = vi.fn()
+    registry.register({ binding: 'Shift+Digit1', handler })
+    // US types "!", French AZERTY types "1", German types "!" too.
+    expect(registry.handle(strike('!', 'Digit1', { shiftKey: true }), idle)).toBe(true)
+    expect(registry.handle(strike('1', 'Digit1', { shiftKey: true }), idle)).toBe(true)
+    expect(handler).toHaveBeenCalledTimes(2)
+    // The same character from another key, or the key without Shift, does not.
+    expect(registry.handle(strike('!', 'Digit8', { shiftKey: true }), idle)).toBe(false)
+    expect(registry.handle(strike('1', 'Digit1'), idle)).toBe(false)
+    expect(registry.handle(strike('1', 'Numpad1', { shiftKey: true }), idle)).toBe(false)
+  })
+
+  test('modifiers are exact: Shift is never implied and extra modifiers miss', () => {
+    const { registry } = setup({ platform: 'apple' })
+    const digit = vi.fn(),
+      toast = vi.fn()
+    registry.register({ binding: 'Digit1', handler: digit })
+    registry.register({ binding: 'Alt+KeyT', handler: toast })
+    registry.handle(strike('!', 'Digit1', { shiftKey: true }), idle)
+    expect(digit).not.toHaveBeenCalled()
+    registry.handle(strike('1', 'Digit1'), idle)
+    expect(digit).toHaveBeenCalledTimes(1)
+    // Option+T types a dagger on macOS; the binding still names the T key.
+    registry.handle(strike('†', 'KeyT', { altKey: true }), idle)
+    registry.handle(strike('Dead', 'KeyT', { altKey: true }), idle)
+    expect(toast).toHaveBeenCalledTimes(2)
+    registry.handle(strike('†', 'KeyT', { altKey: true, ctrlKey: true }), idle)
+    registry.handle(strike('t', 'KeyT'), idle)
+    expect(toast).toHaveBeenCalledTimes(2)
+  })
+
+  test('an AltGr press types a character and matches no physical key', () => {
+    const { registry } = setup()
+    const handler = vi.fn()
+    registry.register({ binding: 'Digit2', handler })
+    registry.register({ binding: 'Control+Alt+Digit2', handler })
+    const event = strike('@', 'Digit2', { ctrlKey: true, altKey: true })
+    event.getModifierState = (name) => name === 'AltGraph'
+    expect(registry.handle(event, idle)).toBe(false)
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  test('a key state without a code matches no physical key', () => {
+    const { registry } = setup()
+    const handler = vi.fn()
+    registry.register({ binding: 'Digit1', handler })
+    expect(registry.handle(press('1'), idle)).toBe(false)
+  })
+
+  test('scope, modal, editable and repeat rules apply as for any binding', () => {
+    const { registry } = setup()
+    const fit = vi.fn(),
+      scoped = vi.fn(),
+      held = vi.fn()
+    const dialog = element('dialog')
+    const inside = element('button', dialog)
+    registry.register({ binding: 'Shift+Digit1', handler: fit })
+    registry.register({ binding: 'Shift+Digit0', handler: scoped, scope: dialog })
+    registry.register({ binding: 'Mod+BracketLeft', handler: held, repeat: true })
+    const one = { shiftKey: true }
+    registry.handle(strike('!', 'Digit1', { ...one, target: element('input') }), idle)
+    registry.handle(
+      strike('!', 'Digit1', { ...one, target: element('div', null, { contenteditable: '' }) }),
+      idle
+    )
+    registry.handle(strike('!', 'Digit1', { ...one, repeat: true }), idle)
+    registry.handle(strike('!', 'Digit1', one), { focus: inside, layers: [dialog], modal: dialog })
+    expect(fit).not.toHaveBeenCalled()
+    registry.handle(strike('!', 'Digit1', one), idle)
+    expect(fit).toHaveBeenCalledTimes(1)
+    registry.handle(strike(')', 'Digit0', one), idle)
+    expect(scoped).not.toHaveBeenCalled()
+    registry.handle(strike(')', 'Digit0', one), { focus: inside, layers: [dialog], modal: dialog })
+    expect(scoped).toHaveBeenCalledTimes(1)
+    // A command chord fires in a text field and, with repeat, while held.
+    const bracket = { ctrlKey: true, target: element('input') }
+    registry.handle(strike('[', 'BracketLeft', bracket), idle)
+    registry.handle(strike('[', 'BracketLeft', { ...bracket, repeat: true }), idle)
+    expect(held).toHaveBeenCalledTimes(2)
+  })
+
+  test('sequences can mix physical keys and characters', () => {
+    const { registry } = setup()
+    const handler = vi.fn()
+    registry.register({ binding: 'g Digit1', handler })
+    registry.handle(strike('g', 'KeyG'), idle)
+    registry.handle(strike('&', 'Digit1'), idle)
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
+  test('a physical key and the character it types are separate bindings', () => {
+    const warn = vi.fn()
+    const { registry } = setup({ warn })
+    const character = vi.fn(),
+      physical = vi.fn()
+    registry.register({ binding: '!', handler: character })
+    registry.register({ binding: 'Shift+Digit1', handler: physical })
+    registry.register({ binding: 'shift+digit1', handler: physical })
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(registry.list(idle).map((item) => item.binding)).toEqual(['!', 'shift+digit1'])
+    // One press fires one handler: the later registration.
+    registry.handle(strike('!', 'Digit1', { shiftKey: true }), idle)
+    expect(character).not.toHaveBeenCalled()
+    expect(physical).toHaveBeenCalledTimes(1)
+  })
+
+  test.each([
+    ['Shift+Digit1', ['⇧', '1'], ['Shift', '1'], 'Shift 1', 'Shift+1'],
+    ['Alt+KeyT', ['⌥', 'T'], ['Alt', 'T'], 'Alt T', 'Alt+T'],
+    ['Mod+BracketLeft', ['⌘', '['], ['Ctrl', '['], 'Control Left bracket', 'Control+['],
+    ['Slash', ['/'], ['/'], 'Slash', '/'],
+    ['NumpadAdd', ['Num +'], ['Num +'], 'Numpad Plus', 'Plus'],
+    ['Numpad5', ['Num 5'], ['Num 5'], 'Numpad 5', '5'],
+    ['NumpadEnter', ['Num Enter'], ['Num Enter'], 'Numpad Enter', 'Enter'],
+  ])('%s shows the legend of the key', (binding, apple, other, label, aria) => {
+    expect(formatKeys(binding, 'apple')).toEqual(apple)
+    expect(formatKeys(binding, 'other')).toEqual(other)
+    expect(formatLabel(binding, 'other')).toBe(label)
+    expect(ariaKeyshortcuts(binding, 'other')).toBe(aria)
+  })
+
+  test('a layout relabels letters and punctuation, never digits', () => {
+    // French AZERTY: the Q position types "a", Semicolon types "m", Digit1 types "&".
+    const azerty = new Map([
+      ['KeyQ', 'a'],
+      ['Semicolon', 'm'],
+      ['Digit1', '&'],
+      ['BracketLeft', 'Dead'],
+      ['Minus', 'ß'],
+    ])
+    expect(formatKeys('Mod+KeyQ', 'other', azerty)).toEqual(['Ctrl', 'A'])
+    expect(formatLabel('Mod+KeyQ', 'apple', azerty)).toBe('Command A')
+    expect(ariaKeyshortcuts('Mod+KeyQ', 'other', azerty)).toBe('Control+A')
+    expect(formatSteps('Semicolon Shift+Digit1', 'other', azerty)).toEqual([['M'], ['Shift', '1']])
+    // A dead key has no single character to show, and ß has no one-letter capital.
+    expect(formatKeys('BracketLeft', 'other', azerty)).toEqual(['['])
+    expect(formatKeys('Minus', 'other', azerty)).toEqual(['ß'])
+    // A key the layout does not list keeps its US legend, as do character bindings.
+    expect(formatKeys('KeyZ', 'other', azerty)).toEqual(['Z'])
+    expect(formatKeys('q', 'other', azerty)).toEqual(['q'])
+  })
+
+  test('list formats with the configured layout', () => {
+    const { registry } = setup()
+    registry.register({ binding: 'Alt+KeyQ', handler() {} })
+    expect(registry.layout).toBeUndefined()
+    expect(registry.list(idle)[0]).toMatchObject({ keys: ['Alt', 'Q'], ariaKeyshortcuts: 'Alt+Q' })
+    registry.configure({ layout: new Map([['KeyQ', 'a']]) })
+    expect(registry.list(idle)[0]).toMatchObject({
+      keys: ['Alt', 'A'],
+      label: 'Alt A',
+      ariaKeyshortcuts: 'Alt+A',
+    })
+  })
+})
