@@ -1,6 +1,5 @@
 import type {
   ArrowOptions as CoreArrowOptions,
-  AutoPlacementOptions as CoreAutoPlacementOptions,
   ClientRectObject,
   ComputePositionConfig as CoreComputePositionConfig,
   DetectOverflowOptions as CoreDetectOverflowOptions,
@@ -190,9 +189,6 @@ export type ArrowOptions = Prettify<
   Omit<CoreArrowOptions, 'element'> & {
     element: Element
   }
->
-export type AutoPlacementOptions = Prettify<
-  Omit<CoreAutoPlacementOptions, 'boundary'> & DetectOverflowOptions
 >
 export type ShiftOptions = Prettify<Omit<CoreShiftOptions, 'boundary'> & DetectOverflowOptions>
 export type FlipOptions = Prettify<Omit<CoreFlipOptions, 'boundary'> & DetectOverflowOptions>

@@ -1,11 +1,8 @@
-import type { Coords, InlineOptions, LimitShiftOptions, SideObject } from '../floating-ui-core'
+import type { Coords, LimitShiftOptions } from '../floating-ui-core'
 import {
   arrow as arrowCore,
-  autoPlacement as autoPlacementCore,
-  detectOverflow as detectOverflowCore,
   flip as flipCore,
   hide as hideCore,
-  inline as inlineCore,
   limitShift as limitShiftCore,
   offset as offsetCore,
   shift as shiftCore,
@@ -14,9 +11,7 @@ import {
 
 import type {
   ArrowOptions,
-  AutoPlacementOptions,
   Derivable,
-  DetectOverflowOptions,
   FlipOptions,
   HideOptions,
   Middleware,
@@ -27,19 +22,6 @@ import type {
 } from './types'
 
 /**
- * Resolves with an object of overflow side offsets that determine how much the
- * element is overflowing a given clipping boundary on each side.
- * - positive = overflowing the boundary by that number of pixels
- * - negative = how many pixels left before it will overflow
- * - 0 = lies flush with the boundary
- * @see https://floating-ui.com/docs/detectOverflow
- */
-export const detectOverflow: (
-  state: MiddlewareState,
-  options?: DetectOverflowOptions | Derivable<DetectOverflowOptions>
-) => Promise<SideObject> = detectOverflowCore
-
-/**
  * Modifies the placement by translating the floating element along the
  * specified axes.
  * A number (shorthand for `mainAxis` or distance), or an axes configuration
@@ -47,16 +29,6 @@ export const detectOverflow: (
  * @see https://floating-ui.com/docs/offset
  */
 export const offset: (options?: OffsetOptions) => Middleware = offsetCore
-
-/**
- * Optimizes the visibility of the floating element by choosing the placement
- * that has the most space available automatically, without needing to specify a
- * preferred placement. Alternative to `flip`.
- * @see https://floating-ui.com/docs/autoPlacement
- */
-export const autoPlacement: (
-  options?: AutoPlacementOptions | Derivable<AutoPlacementOptions>
-) => Middleware = autoPlacementCore
 
 /**
  * Optimizes the visibility of the floating element by shifting it in order to
@@ -94,13 +66,6 @@ export const hide: (options?: HideOptions | Derivable<HideOptions>) => Middlewar
  * @see https://floating-ui.com/docs/arrow
  */
 export const arrow: (options: ArrowOptions | Derivable<ArrowOptions>) => Middleware = arrowCore
-
-/**
- * Provides improved positioning for inline reference elements that can span
- * over multiple lines, such as hyperlinks or range selections.
- * @see https://floating-ui.com/docs/inline
- */
-export const inline: (options?: InlineOptions | Derivable<InlineOptions>) => Middleware = inlineCore
 
 /**
  * Built-in `limiter` that will stop `shift()` at a certain point.

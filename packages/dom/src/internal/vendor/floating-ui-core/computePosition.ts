@@ -1,3 +1,7 @@
+/*!
+ * @floating-ui/core 1.8.0, vendored into @xenon-ui/dom
+ * @license MIT, Copyright (c) 2021-present Floating UI contributors, https://github.com/floating-ui/floating-ui/blob/master/LICENSE
+ */
 import { computeCoordsFromPlacement } from './computeCoordsFromPlacement'
 import { detectOverflow } from './detectOverflow'
 import type { ComputePosition, Middleware, MiddlewareData, Platform } from './types'

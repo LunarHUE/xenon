@@ -1,3 +1,7 @@
+/*!
+ * @floating-ui/dom 1.8.0, vendored into @xenon-ui/dom
+ * @license MIT, Copyright (c) 2021-present Floating UI contributors, https://github.com/floating-ui/floating-ui/blob/master/LICENSE
+ */
 import { computePosition as computePositionCore } from '../floating-ui-core'
 
 import { platform } from './platform'
@@ -29,22 +33,10 @@ export const computePosition = (
 }
 
 export { autoUpdate } from './autoUpdate'
-export {
-  arrow,
-  autoPlacement,
-  detectOverflow,
-  flip,
-  hide,
-  inline,
-  limitShift,
-  offset,
-  shift,
-  size,
-} from './middleware'
+export { arrow, flip, hide, limitShift, offset, shift, size } from './middleware'
 export { platform } from './platform'
 export type {
   ArrowOptions,
-  AutoPlacementOptions,
   AutoUpdateOptions,
   Boundary,
   ComputePositionConfig,
@@ -75,7 +67,6 @@ export type {
   Dimensions,
   ElementContext,
   ElementRects,
-  InlineOptions,
   Length,
   LimitShiftOptions,
   MiddlewareData,

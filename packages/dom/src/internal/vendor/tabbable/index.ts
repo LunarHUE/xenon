@@ -1,3 +1,17 @@
+/*!
+ * tabbable 6.5.0, vendored into @xenon-ui/dom
+ * @license MIT, Copyright (c) 2015 David Clark, https://github.com/focus-trap/tabbable/blob/master/LICENSE
+ */
+export type FocusableElement = HTMLElement | SVGElement
+
+export type CheckOptions = {
+  getShadowRoot?: boolean
+}
+
+export type TabbableOptions = {
+  includeContainer?: boolean
+}
+
 // NOTE: separate `:not()` selectors has broader browser support than the newer
 //  `:not([inert], [inert] *)` (Feb 2023)
 const candidateSelectors = [
@@ -18,30 +32,38 @@ const candidateSelector = /* #__PURE__ */ candidateSelectors.join(',')
 
 const NoElement = typeof Element === 'undefined'
 
-const matches = NoElement
-  ? function () {}
-  : Element.prototype.matches ||
-    Element.prototype.msMatchesSelector ||
-    Element.prototype.webkitMatchesSelector
+/** Vendor-prefixed `matches` from browsers that predate the standard name. */
+type LegacyElement = Element & {
+  msMatchesSelector?: Element['matches']
+  webkitMatchesSelector?: Element['matches']
+}
 
-const getRootNode =
-  !NoElement && Element.prototype.getRootNode
+const matches: (this: Element, selectors: string) => boolean = NoElement
+  ? function () {
+      return undefined as unknown as boolean
+    }
+  : Element.prototype.matches ||
+    (Element.prototype as LegacyElement).msMatchesSelector ||
+    (Element.prototype as LegacyElement).webkitMatchesSelector
+
+const getRootNode: (element: Node | null | undefined) => Node | null | undefined =
+  !NoElement && (Element.prototype as Partial<Element>).getRootNode
     ? (element) => element?.getRootNode?.()
     : (element) => element?.ownerDocument
 
 /**
  * Determines if a node is inert or in an inert ancestor.
- * @param {Node} [node]
- * @param {boolean} [lookUp] If true and `node` is not inert, looks up at ancestors to
+ * @param [node]
+ * @param [lookUp] If true and `node` is not inert, looks up at ancestors to
  *  see if any of them are inert. If false, only `node` itself is considered.
- * @returns {boolean} True if inert itself or by way of being in an inert ancestor.
+ * @returns True if inert itself or by way of being in an inert ancestor.
  *  False if `node` is falsy.
  */
-const isInert = function (node, lookUp = true) {
+const isInert = function (node: Node | null | undefined, lookUp = true): boolean {
   // CAREFUL: JSDom does not support inert at all, so we can't use the `HTMLElement.inert`
   //  JS API property; we have to check the attribute, which can either be empty or 'true';
   //  if it's `null` (not specified) or 'false', it's an active element
-  const inertAtt = node?.getAttribute?.('inert')
+  const inertAtt = (node as Element | null | undefined)?.getAttribute?.('inert')
   const inert = inertAtt === '' || inertAtt === 'true'
 
   // NOTE: this could also be handled with `node.matches('[inert], :is([inert] *)')`
@@ -53,17 +75,20 @@ const isInert = function (node, lookUp = true) {
       node &&
       // closest does not exist on shadow roots, so we fall back to a manual
       // lookup upward, in case it is not defined.
-      (typeof node.closest === 'function' ? node.closest('[inert]') : isInert(node.parentNode)))
+      (typeof (node as Element).closest === 'function'
+        ? (node as Element).closest('[inert]')
+        : isInert(node.parentNode)))
 
-  return result
+  // Upstream returns this expression as is; callers only test it for truthiness.
+  return result as boolean
 }
 
 /**
  * Determines if a node's content is editable.
- * @param {Element} [node]
+ * @param [node]
  * @returns True if it's content-editable; false if it's not or `node` is falsy.
  */
-const isContentEditable = function (node) {
+const isContentEditable = function (node: Element | null | undefined) {
   // CAREFUL: JSDom does not support the `HTMLElement.isContentEditable` API so we have
   //  to use the attribute directly to check for this, which can either be empty or 'true';
   //  if it's `null` (not specified) or 'false', it's a non-editable element
@@ -72,65 +97,63 @@ const isContentEditable = function (node) {
 }
 
 /**
- * @param {Element} el container to check in
- * @param {boolean} includeContainer add container to check
- * @param {(node: Element) => boolean} filter filter candidates
- * @returns {Element[]}
+ * @param el container to check in
+ * @param includeContainer add container to check
+ * @param filter filter candidates
  */
-const getCandidates = function (el, includeContainer, filter) {
+const getCandidates = function (
+  el: Element,
+  includeContainer: boolean | undefined,
+  filter: (node: FocusableElement) => boolean
+): FocusableElement[] {
   // even if `includeContainer=false`, we still have to check it for inertness because
   //  if it's inert (either by itself or via its parent), then all its children are inert
   if (isInert(el)) {
     return []
   }
 
-  let candidates = Array.prototype.slice.apply(el.querySelectorAll(candidateSelector))
+  let candidates = Array.prototype.slice.apply(
+    el.querySelectorAll<FocusableElement>(candidateSelector)
+  ) as FocusableElement[]
   if (includeContainer && matches.call(el, candidateSelector)) {
-    candidates.unshift(el)
+    candidates.unshift(el as FocusableElement)
   }
   candidates = candidates.filter(filter)
   return candidates
 }
 
-/**
- * @callback GetShadowRoot
- * @param {Element} element to check for shadow root
- * @returns {ShadowRoot|boolean} ShadowRoot if available or boolean indicating if a shadowRoot is attached but not available.
- */
+type CandidateScope = {
+  /** contains inner candidates */
+  scopeParent: Element
+  /** list of candidates found in the scope parent */
+  candidates: Candidate[]
+}
+
+type Candidate = FocusableElement | CandidateScope
+
+type IterativeOptions = {
+  /** filter candidates */
+  filter: (node: FocusableElement) => boolean
+  /** if true then result will flatten any CandidateScope into the returned list */
+  flatten: boolean
+  /** filter shadow roots; true if a shadow root could potentially contain valid candidates */
+  shadowRootFilter?: (shadowHostNode: Element) => boolean
+}
 
 /**
- * @callback ShadowRootFilter
- * @param {Element} shadowHostNode the element which contains shadow content
- * @returns {boolean} true if a shadow root could potentially contain valid candidates.
+ * @param elements list of element containers to match candidates from
+ * @param includeContainer add container list to check
+ * @param options
  */
-
-/**
- * @typedef {Object} CandidateScope
- * @property {Element} scopeParent contains inner candidates
- * @property {Element[]} candidates list of candidates found in the scope parent
- */
-
-/**
- * @typedef {Object} IterativeOptions
- * @property {GetShadowRoot|boolean} getShadowRoot true if shadow support is enabled; falsy if not;
- *  if a function, implies shadow support is enabled and either returns the shadow root of an element
- *  or a boolean stating if it has an undisclosed shadow root
- * @property {(node: Element) => boolean} filter filter candidates
- * @property {boolean} flatten if true then result will flatten any CandidateScope into the returned list
- * @property {ShadowRootFilter} shadowRootFilter filter shadow roots;
- */
-
-/**
- * @param {Element[]} elements list of element containers to match candidates from
- * @param {boolean} includeContainer add container list to check
- * @param {IterativeOptions} options
- * @returns {Array.<Element|CandidateScope>}
- */
-const getCandidatesIteratively = function (elements, includeContainer, options) {
-  const candidates = []
+const getCandidatesIteratively = function (
+  elements: ArrayLike<Element>,
+  includeContainer: boolean | undefined,
+  options: IterativeOptions
+): Candidate[] {
+  const candidates: Candidate[] = []
   const elementsToCheck = Array.from(elements)
   while (elementsToCheck.length) {
-    const element = elementsToCheck.shift()
+    const element = elementsToCheck.shift()!
     if (isInert(element, false)) {
       // no need to look up since we're drilling down
       // anything inside this container will also be inert
@@ -139,7 +162,7 @@ const getCandidatesIteratively = function (elements, includeContainer, options) 
 
     if (element.tagName === 'SLOT') {
       // add shadow dom slot scope (slot itself cannot be focusable)
-      const assigned = element.assignedElements()
+      const assigned = (element as HTMLSlotElement).assignedElements()
       const content = assigned.length ? assigned : element.children
       const nestedCandidates = getCandidatesIteratively(content, true, options)
       if (options.flatten) {
@@ -155,17 +178,16 @@ const getCandidatesIteratively = function (elements, includeContainer, options) 
       const validCandidate = matches.call(element, candidateSelector)
       if (
         validCandidate &&
-        options.filter(element) &&
-        (includeContainer || !elements.includes(element))
+        options.filter(element as FocusableElement) &&
+        // `elements` is an HTMLCollection only on recursive calls, which pass
+        //  `includeContainer` as true, so `includes` is never reached on one
+        (includeContainer || !(elements as Element[]).includes(element))
       ) {
-        candidates.push(element)
+        candidates.push(element as FocusableElement)
       }
 
       // iterate over shadow content if possible
-      const shadowRoot =
-        element.shadowRoot ||
-        // check for an undisclosed shadow
-        (typeof options.getShadowRoot === 'function' && options.getShadowRoot(element))
+      const shadowRoot = element.shadowRoot
 
       // no inert look up because we're already drilling down and checking for inertness
       //  on the way down, so all containers to this root node should have already been
@@ -175,17 +197,8 @@ const getCandidatesIteratively = function (elements, includeContainer, options) 
         (!options.shadowRootFilter || options.shadowRootFilter(element))
 
       if (shadowRoot && validShadowRoot) {
-        // add shadow dom scope IIF a shadow root node was given; otherwise, an undisclosed
-        //  shadow exists, so look at light dom children as fallback BUT create a scope for any
-        //  child candidates found because they're likely slotted elements (elements that are
-        //  children of the web component element (which has the shadow), in the light dom, but
-        //  slotted somewhere _inside_ the undisclosed shadow) -- the scope is created below,
-        //  _after_ we return from this recursive call
-        const nestedCandidates = getCandidatesIteratively(
-          shadowRoot === true ? element.children : shadowRoot.children,
-          true,
-          options
-        )
+        // add shadow dom scope IIF a shadow root node was given
+        const nestedCandidates = getCandidatesIteratively(shadowRoot.children, true, options)
 
         if (options.flatten) {
           candidates.push(...nestedCandidates)
@@ -208,20 +221,18 @@ const getCandidatesIteratively = function (elements, includeContainer, options) 
 /**
  * @private
  * Determines if the node has an explicitly specified `tabindex` attribute.
- * @param {HTMLElement} node
- * @returns {boolean} True if so; false if not.
+ * @returns True if so; false if not.
  */
-const hasTabIndex = function (node) {
-  return !isNaN(parseInt(node.getAttribute('tabindex'), 10))
+const hasTabIndex = function (node: Element) {
+  return !isNaN(parseInt(node.getAttribute('tabindex')!, 10))
 }
 
 /**
  * Determine the tab index of a given node.
- * @param {HTMLElement} node
- * @returns {number} Tab order (negative, 0, or positive number).
+ * @returns Tab order (negative, 0, or positive number).
  * @throws {Error} If `node` is falsy.
  */
-const getTabIndex = function (node) {
+const getTabIndex = function (node: FocusableElement) {
   if (!node) {
     throw new Error('No node provided')
   }
@@ -247,13 +258,12 @@ const getTabIndex = function (node) {
 
 /**
  * Determine the tab index of a given node __for sort order purposes__.
- * @param {HTMLElement} node
- * @param {boolean} [isScope] True for a custom element with shadow root or slot that, by default,
+ * @param [isScope] True for a custom element with shadow root or slot that, by default,
  *  has tabIndex -1, but needs to be sorted by document order in order for its content to be
  *  inserted into the correct sort position.
- * @returns {number} Tab order (negative, 0, or positive number).
+ * @returns Tab order (negative, 0, or positive number).
  */
-const getSortOrderTabIndex = function (node, isScope) {
+const getSortOrderTabIndex = function (node: FocusableElement, isScope: boolean) {
   const tabIndex = getTabIndex(node)
 
   if (tabIndex < 0 && isScope && !hasTabIndex(node)) {
@@ -263,40 +273,53 @@ const getSortOrderTabIndex = function (node, isScope) {
   return tabIndex
 }
 
-const sortOrderedTabbables = function (a, b) {
+type OrderedTabbable = {
+  documentOrder: number
+  tabIndex: number
+  item: Candidate
+  isScope: boolean
+  content: FocusableElement | FocusableElement[]
+}
+
+const sortOrderedTabbables = function (a: OrderedTabbable, b: OrderedTabbable) {
   return a.tabIndex === b.tabIndex ? a.documentOrder - b.documentOrder : a.tabIndex - b.tabIndex
 }
 
-const isInput = function (node) {
+const isInput = function (node: Element): node is HTMLInputElement {
   return node.tagName === 'INPUT'
 }
 
-const isHiddenInput = function (node) {
+const isHiddenInput = function (node: Element) {
   return isInput(node) && node.type === 'hidden'
 }
 
-const isDetailsWithSummary = function (node) {
+const isDetailsWithSummary = function (node: Element) {
   const r =
     node.tagName === 'DETAILS' &&
-    Array.prototype.slice.apply(node.children).some((child) => child.tagName === 'SUMMARY')
+    (Array.prototype.slice.apply(node.children) as Element[]).some(
+      (child) => child.tagName === 'SUMMARY'
+    )
   return r
 }
 
-const getCheckedRadio = function (nodes, form) {
+const getCheckedRadio = function (
+  nodes: NodeListOf<HTMLInputElement>,
+  form: HTMLFormElement | null
+) {
   for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].checked && nodes[i].form === form) {
+    if (nodes[i]!.checked && nodes[i]!.form === form) {
       return nodes[i]
     }
   }
 }
 
-const isTabbableRadio = function (node) {
+const isTabbableRadio = function (node: HTMLInputElement) {
   if (!node.name) {
     return true
   }
-  const radioScope = node.form || getRootNode(node)
-  const queryRadios = function (name) {
-    return radioScope.querySelectorAll('input[type="radio"][name="' + name + '"]')
+  const radioScope = (node.form || getRootNode(node)) as ParentNode
+  const queryRadios = function (name: string) {
+    return radioScope.querySelectorAll<HTMLInputElement>('input[type="radio"][name="' + name + '"]')
   }
 
   let radioSet
@@ -310,10 +333,9 @@ const isTabbableRadio = function (node) {
     try {
       radioSet = queryRadios(node.name)
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error(
         'Looks like you have a radio button with a name attribute containing invalid CSS selector characters and need the CSS.escape polyfill: %s',
-        err.message
+        (err as Error).message
       )
       return false
     }
@@ -323,16 +345,16 @@ const isTabbableRadio = function (node) {
   return !checked || checked === node
 }
 
-const isRadio = function (node) {
+const isRadio = function (node: Element): node is HTMLInputElement {
   return isInput(node) && node.type === 'radio'
 }
 
-const isNonTabbableRadio = function (node) {
+const isNonTabbableRadio = function (node: Element) {
   return isRadio(node) && !isTabbableRadio(node)
 }
 
 // determines if a node is ultimately attached to the window's document
-const isNodeAttached = function (node) {
+const isNodeAttached = function (node: Element) {
   // The root node is the shadow root if the node is in a shadow DOM; some document otherwise
   //  (but NOT _the_ document; see second 'If' comment below for more).
   // If rootNode is shadow root, it'll have a host, which is the element to which the shadow
@@ -357,7 +379,7 @@ const isNodeAttached = function (node) {
   //  from the DOM as in https://github.com/focus-trap/focus-trap-react/issues/905), then
   //  `ownerDocument` will be `null`, hence the optional chaining on it.
   let nodeRoot = node && getRootNode(node)
-  let nodeRootHost = nodeRoot?.host
+  let nodeRootHost = (nodeRoot as ShadowRoot | null | undefined)?.host
 
   // in some cases, a detached node will return itself as the root instead of a document or
   //  shadow root object, in which case, we shouldn't try to look further up the host chain
@@ -372,7 +394,7 @@ const isNodeAttached = function (node) {
       //  which means we need to get the host's host and check if that parent host is contained
       //  in (i.e. attached to) the document
       nodeRoot = getRootNode(nodeRootHost)
-      nodeRootHost = nodeRoot?.host
+      nodeRootHost = (nodeRoot as ShadowRoot | null | undefined)?.host
       attached = !!nodeRootHost?.ownerDocument?.contains(nodeRootHost)
     }
   }
@@ -380,34 +402,7 @@ const isNodeAttached = function (node) {
   return attached
 }
 
-const isZeroArea = function (node) {
-  const { width, height } = node.getBoundingClientRect()
-  return width === 0 && height === 0
-}
-const isHidden = function (node, { displayCheck, getShadowRoot }) {
-  if (displayCheck === 'full-native') {
-    if ('checkVisibility' in node) {
-      // Chrome >= 105, Edge >= 105, Firefox >= 106, Safari >= 17.4
-      // @see https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility#browser_compatibility
-      const visible = node.checkVisibility({
-        // Checking opacity might be desirable for some use cases, but natively,
-        // opacity zero elements _are_ focusable and tabbable.
-        checkOpacity: false,
-        opacityProperty: false,
-
-        contentVisibilityAuto: true,
-        visibilityProperty: true,
-        // This is an alias for `visibilityProperty`. Contemporary browsers
-        // support both. However, this alias has wider browser support (Chrome
-        // >= 105 and Firefox >= 106, vs. Chrome >= 121 and Firefox >= 122), so
-        // we include it anyway.
-        checkVisibilityCSS: true,
-      })
-      return !visible
-    }
-    // Fall through to manual visibility checks
-  }
-
+const isHidden = function (node: Element) {
   // NOTE: visibility will be `undefined` if node is detached from the document
   //  (see notes about this further down), which means we will consider it visible
   //  (this is legacy behavior from a very long way back)
@@ -419,112 +414,49 @@ const isHidden = function (node, { displayCheck, getShadowRoot }) {
   }
 
   const isDirectSummary = matches.call(node, 'details>summary:first-of-type')
-  const nodeUnderDetails = isDirectSummary ? node.parentElement : node
+  const nodeUnderDetails = isDirectSummary ? node.parentElement! : node
   if (matches.call(nodeUnderDetails, 'details:not([open]) *')) {
     return true
   }
 
-  if (
-    !displayCheck ||
-    displayCheck === 'full' ||
-    // full-native can run this branch when it falls through in case
-    // Element#checkVisibility is unsupported
-    displayCheck === 'full-native' ||
-    displayCheck === 'legacy-full'
-  ) {
-    if (typeof getShadowRoot === 'function') {
-      // figure out if we should consider the node to be in an undisclosed shadow and use the
-      //  'non-zero-area' fallback
-      const originalNode = node
-      while (node) {
-        const parentElement = node.parentElement
-        const rootNode = getRootNode(node)
-        if (
-          parentElement &&
-          !parentElement.shadowRoot &&
-          getShadowRoot(parentElement) === true // check if there's an undisclosed shadow
-        ) {
-          // node has an undisclosed shadow which means we can only treat it as a black box, so we
-          //  fall back to a non-zero-area test
-          return isZeroArea(node)
-        } else if (node.assignedSlot) {
-          // iterate up slot
-          node = node.assignedSlot
-        } else if (!parentElement && rootNode !== node.ownerDocument) {
-          // cross shadow boundary
-          node = rootNode.host
-        } else {
-          // iterate up normal dom
-          node = parentElement
-        }
-      }
+  // Test to see if it would normally be visible or not, provided it's
+  //  attached to the main document.
+  // NOTE: We must consider case where node is inside a shadow DOM and given directly to
+  //  `isTabbable()` or `isFocusable()` -- regardless of `getShadowRoot` option setting.
 
-      node = originalNode
-    }
-    // else, `getShadowRoot` might be true, but all that does is enable shadow DOM support
-    //  (i.e. it does not also presume that all nodes might have undisclosed shadows); or
-    //  it might be a falsy value, which means shadow DOM support is disabled
-
-    // Since we didn't find it sitting in an undisclosed shadow (or shadows are disabled)
-    //  now we can just test to see if it would normally be visible or not, provided it's
-    //  attached to the main document.
-    // NOTE: We must consider case where node is inside a shadow DOM and given directly to
-    //  `isTabbable()` or `isFocusable()` -- regardless of `getShadowRoot` option setting.
-
-    if (isNodeAttached(node)) {
-      // this works wherever the node is: if there's at least one client rect, it's
-      //  somehow displayed; it also covers the CSS 'display: contents' case where the
-      //  node itself is hidden in place of its contents; and there's no need to search
-      //  up the hierarchy either
-      return !node.getClientRects().length
-    }
-
-    // Else, the node isn't attached to the document, which means the `getClientRects()`
-    //  API will __always__ return zero rects (this can happen, for example, if React
-    //  is used to render nodes onto a detached tree, as confirmed in this thread:
-    //  https://github.com/facebook/react/issues/9117#issuecomment-284228870)
-    //
-    // It also means that even window.getComputedStyle(node).display will return `undefined`
-    //  because styles are only computed for nodes that are in the document.
-    //
-    // NOTE: THIS HAS BEEN THE CASE FOR YEARS. It is not new, nor is it caused by tabbable
-    //  somehow. Though it was never stated officially, anyone who has ever used tabbable
-    //  APIs on nodes in detached containers has actually implicitly used tabbable in what
-    //  was later (as of v5.2.0 on Apr 9, 2021) called `displayCheck="none"` mode -- essentially
-    //  considering __everything__ to be visible because of the innability to determine styles.
-    //
-    // v6.0.0: As of this major release, the default 'full' option __no longer treats detached
-    //  nodes as visible with the 'none' fallback.__
-    if (displayCheck !== 'legacy-full') {
-      return true // hidden
-    }
-    // else, fallback to 'none' mode and consider the node visible
-  } else if (displayCheck === 'non-zero-area') {
-    // NOTE: Even though this tests that the node's client rect is non-zero to determine
-    //  whether it's displayed, and that a detached node will __always__ have a zero-area
-    //  client rect, we don't special-case for whether the node is attached or not. In
-    //  this mode, we do want to consider nodes that have a zero area to be hidden at all
-    //  times, and that includes attached or not.
-    return isZeroArea(node)
+  if (isNodeAttached(node)) {
+    // this works wherever the node is: if there's at least one client rect, it's
+    //  somehow displayed; it also covers the CSS 'display: contents' case where the
+    //  node itself is hidden in place of its contents; and there's no need to search
+    //  up the hierarchy either
+    return !node.getClientRects().length
   }
 
-  // visible, as far as we can tell, or per current `displayCheck=none` mode, we assume
-  //  it's visible
-  return false
+  // Else, the node isn't attached to the document, which means the `getClientRects()`
+  //  API will __always__ return zero rects (this can happen, for example, if React
+  //  is used to render nodes onto a detached tree, as confirmed in this thread:
+  //  https://github.com/facebook/react/issues/9117#issuecomment-284228870)
+  //
+  // It also means that even window.getComputedStyle(node).display will return `undefined`
+  //  because styles are only computed for nodes that are in the document.
+  //
+  // v6.0.0: As of this major release, the default 'full' option __no longer treats detached
+  //  nodes as visible with the 'none' fallback.__
+  return true // hidden
 }
 
 // form fields (nested) inside a disabled fieldset are not focusable/tabbable
 //  unless they are in the _first_ <legend> element of the top-most disabled
 //  fieldset
-const isDisabledFromFieldset = function (node) {
+const isDisabledFromFieldset = function (node: Element) {
   if (/^(INPUT|BUTTON|SELECT|TEXTAREA)$/.test(node.tagName)) {
     let parentNode = node.parentElement
     // check if `node` is contained in a disabled <fieldset>
     while (parentNode) {
-      if (parentNode.tagName === 'FIELDSET' && parentNode.disabled) {
+      if (parentNode.tagName === 'FIELDSET' && (parentNode as HTMLFieldSetElement).disabled) {
         // look for the first <legend> among the children of the disabled <fieldset>
         for (let i = 0; i < parentNode.children.length; i++) {
-          const child = parentNode.children.item(i)
+          const child = parentNode.children.item(i)!
           // when the first <legend> (in document order) is found
           if (child.tagName === 'LEGEND') {
             // if its parent <fieldset> is not nested in another disabled <fieldset>,
@@ -544,11 +476,11 @@ const isDisabledFromFieldset = function (node) {
   return false
 }
 
-const isNodeMatchingSelectorFocusable = function (options, node) {
+const isNodeMatchingSelectorFocusable = function (node: Element) {
   if (
-    node.disabled ||
+    (node as HTMLButtonElement).disabled ||
     isHiddenInput(node) ||
-    isHidden(node, options) ||
+    isHidden(node) ||
     // For a details element with a summary, the summary element gets the focus
     isDetailsWithSummary(node) ||
     isDisabledFromFieldset(node)
@@ -558,19 +490,15 @@ const isNodeMatchingSelectorFocusable = function (options, node) {
   return true
 }
 
-const isNodeMatchingSelectorTabbable = function (options, node) {
-  if (
-    isNonTabbableRadio(node) ||
-    getTabIndex(node) < 0 ||
-    !isNodeMatchingSelectorFocusable(options, node)
-  ) {
+const isNodeMatchingSelectorTabbable = function (node: FocusableElement) {
+  if (isNonTabbableRadio(node) || getTabIndex(node) < 0 || !isNodeMatchingSelectorFocusable(node)) {
     return false
   }
   return true
 }
 
-const isShadowRootTabbable = function (shadowHostNode) {
-  const tabIndex = parseInt(shadowHostNode.getAttribute('tabindex'), 10)
+const isShadowRootTabbable = function (shadowHostNode: Element) {
+  const tabIndex = parseInt(shadowHostNode.getAttribute('tabindex')!, 10)
   if (isNaN(tabIndex) || tabIndex >= 0) {
     return true
   }
@@ -579,20 +507,17 @@ const isShadowRootTabbable = function (shadowHostNode) {
   return false
 }
 
-/**
- * @param {Array.<Element|CandidateScope>} candidates
- * @returns Element[]
- */
-const sortByOrder = function (candidates) {
-  const regularTabbables = []
-  const orderedTabbables = []
+const sortByOrder = function (candidates: Candidate[]): FocusableElement[] {
+  const regularTabbables: FocusableElement[] = []
+  const orderedTabbables: OrderedTabbable[] = []
   candidates.forEach(function (item, i) {
-    const isScope = !!item.scopeParent
-    const element = isScope ? item.scopeParent : item
+    const isScope = !!(item as CandidateScope).scopeParent
+    const element = (isScope ? (item as CandidateScope).scopeParent : item) as FocusableElement
     const candidateTabindex = getSortOrderTabIndex(element, isScope)
-    const elements = isScope ? sortByOrder(item.candidates) : element
+    const elements = isScope ? sortByOrder((item as CandidateScope).candidates) : element
     if (candidateTabindex === 0) {
-      isScope ? regularTabbables.push(...elements) : regularTabbables.push(element)
+      if (isScope) regularTabbables.push(...(elements as FocusableElement[]))
+      else regularTabbables.push(element)
     } else {
       orderedTabbables.push({
         documentOrder: i,
@@ -606,79 +531,66 @@ const sortByOrder = function (candidates) {
 
   return orderedTabbables
     .sort(sortOrderedTabbables)
-    .reduce((acc, sortable) => {
-      sortable.isScope ? acc.push(...sortable.content) : acc.push(sortable.content)
+    .reduce<FocusableElement[]>((acc, sortable) => {
+      if (sortable.isScope) acc.push(...(sortable.content as FocusableElement[]))
+      else acc.push(sortable.content as FocusableElement)
       return acc
     }, [])
     .concat(regularTabbables)
 }
 
-const tabbable = function (container, options) {
+const tabbable = function (
+  container: Element,
+  options?: TabbableOptions & CheckOptions
+): FocusableElement[] {
   options = options || {}
 
   let candidates
   if (options.getShadowRoot) {
     candidates = getCandidatesIteratively([container], options.includeContainer, {
-      filter: isNodeMatchingSelectorTabbable.bind(null, options),
+      filter: isNodeMatchingSelectorTabbable,
       flatten: false,
-      getShadowRoot: options.getShadowRoot,
       shadowRootFilter: isShadowRootTabbable,
     })
   } else {
-    candidates = getCandidates(
-      container,
-      options.includeContainer,
-      isNodeMatchingSelectorTabbable.bind(null, options)
-    )
+    candidates = getCandidates(container, options.includeContainer, isNodeMatchingSelectorTabbable)
   }
   return sortByOrder(candidates)
 }
 
-const focusable = function (container, options) {
+const focusable = function (
+  container: Element,
+  options?: TabbableOptions & CheckOptions
+): FocusableElement[] {
   options = options || {}
 
   let candidates
   if (options.getShadowRoot) {
     candidates = getCandidatesIteratively([container], options.includeContainer, {
-      filter: isNodeMatchingSelectorFocusable.bind(null, options),
+      filter: isNodeMatchingSelectorFocusable,
       flatten: true,
-      getShadowRoot: options.getShadowRoot,
-    })
+    }) as FocusableElement[]
   } else {
-    candidates = getCandidates(
-      container,
-      options.includeContainer,
-      isNodeMatchingSelectorFocusable.bind(null, options)
-    )
+    candidates = getCandidates(container, options.includeContainer, isNodeMatchingSelectorFocusable)
   }
 
   return candidates
-}
-
-const isTabbable = function (node, options) {
-  options = options || {}
-  if (!node) {
-    throw new Error('No node provided')
-  }
-  if (matches.call(node, candidateSelector) === false) {
-    return false
-  }
-  return isNodeMatchingSelectorTabbable(options, node)
 }
 
 const focusableCandidateSelector = /* #__PURE__ */ candidateSelectors
   .concat('iframe:not([inert]):not([inert] *)')
   .join(',')
 
-const isFocusable = function (node, options) {
-  options = options || {}
+// Without `displayCheck` or a `getShadowRoot` callback, no check reads the
+//  options here; the parameter stays so call sites match the upstream API.
+const isFocusable = function (node: Element, _options?: CheckOptions): boolean {
   if (!node) {
     throw new Error('No node provided')
   }
   if (matches.call(node, focusableCandidateSelector) === false) {
     return false
   }
-  return isNodeMatchingSelectorFocusable(options, node)
+  return isNodeMatchingSelectorFocusable(node)
 }
 
-export { tabbable, focusable, isTabbable, isFocusable, getTabIndex }
+export { tabbable, focusable, isFocusable, getTabIndex }

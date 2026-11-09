@@ -1,3 +1,7 @@
+/*!
+ * @floating-ui/utils 0.2.12, vendored into @xenon-ui/dom
+ * @license MIT, Copyright (c) 2021-present Floating UI contributors, https://github.com/floating-ui/floating-ui/blob/master/LICENSE
+ */
 type Prettify<T> = {
   [K in keyof T]: T[K]
 } & {}
@@ -35,7 +39,7 @@ export const sides: Side[] = ['top', 'right', 'bottom', 'left']
 export const alignments: Alignment[] = ['start', 'end']
 export const placements: Placement[] = sides.reduce(
   (acc: Placement[], side) =>
-    acc.concat(side, `${side}-${alignments[0]}`, `${side}-${alignments[1]}`),
+    acc.concat(side, `${side}-${alignments[0]!}`, `${side}-${alignments[1]!}`),
   []
 )
 

@@ -79,7 +79,7 @@ function observeMove(element: Element, onMove: () => void, ancestorResize: boole
     let isFirstUpdate = true
 
     function handleObserve(entries: IntersectionObserverEntry[]) {
-      const ratio = entries[0].intersectionRatio
+      const ratio = entries[0]!.intersectionRatio
 
       // The entry is a snapshot, so the reference may have moved since the
       // intersection was computed (under performance constraints, or between

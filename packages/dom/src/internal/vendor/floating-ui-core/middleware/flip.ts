@@ -138,7 +138,7 @@ export const flip = (options: FlipOptions | Derivable<FlipOptions> = {}): Middle
           // We leave the current main axis only if every placement on that axis
           // overflows the main axis.
           overflowsData.every((d) =>
-            getSideAxis(d.placement) === initialSideAxis ? d.overflows[0] > 0 : true
+            getSideAxis(d.placement) === initialSideAxis ? d.overflows[0]! > 0 : true
           )
         ) {
           // Try next placement and re-run the lifecycle.
@@ -157,8 +157,8 @@ export const flip = (options: FlipOptions | Derivable<FlipOptions> = {}): Middle
       // First, find the candidates that fit on the mainAxis side of overflow,
       // then find the placement that fits the best on the main crossAxis side.
       let resetPlacement = overflowsData
-        .filter((d) => d.overflows[0] <= 0)
-        .sort((a, b) => a.overflows[1] - b.overflows[1])[0]?.placement
+        .filter((d) => d.overflows[0]! <= 0)
+        .sort((a, b) => a.overflows[1]! - b.overflows[1]!)[0]?.placement
 
       // Otherwise fallback.
       if (!resetPlacement) {

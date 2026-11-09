@@ -154,14 +154,14 @@ export function getClippingRect(
       : [].concat(boundary)
   const clippingAncestors = [...elementClippingAncestors, rootBoundary]
 
-  const firstRect = getClientRectFromClippingAncestor(element, clippingAncestors[0], strategy)
+  const firstRect = getClientRectFromClippingAncestor(element, clippingAncestors[0]!, strategy)
   let top = firstRect.top
   let right = firstRect.right
   let bottom = firstRect.bottom
   let left = firstRect.left
 
   for (let i = 1; i < clippingAncestors.length; i++) {
-    const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i], strategy)
+    const rect = getClientRectFromClippingAncestor(element, clippingAncestors[i]!, strategy)
     top = max(rect.top, top)
     right = min(rect.right, right)
     bottom = min(rect.bottom, bottom)

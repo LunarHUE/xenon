@@ -63,15 +63,6 @@ export interface MiddlewareData {
         alignmentOffset?: number | undefined
       })
     | undefined
-  autoPlacement?:
-    | {
-        index?: number | undefined
-        overflows: Array<{
-          placement: Placement
-          overflows: Array<number>
-        }>
-      }
-    | undefined
   flip?:
     | {
         index?: number | undefined
