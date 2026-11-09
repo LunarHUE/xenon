@@ -1,7 +1,13 @@
-# tabbable 6.5.0
+# tabbable 6.5.1
 
 - Upstream: https://github.com/focus-trap/tabbable, `src/index.js` and `index.d.ts`
-- Tag: `v6.5.0`, commit `7dbb9e9bf1636b02c2fc6955f0719648bb465743`
+- Version: 6.5.1, published to npm on 2026-10-24. Upstream pushed no `v6.5.1`
+  git tag; the release is commit `c31b0b8` ("Version Packages"), and its only
+  source change is `ab07c2b`. The npm 6.5.1 tarball's `dist/` has the same
+  change.
+- Originally vendored from tag `v6.5.0`, commit
+  `7dbb9e9bf1636b02c2fc6955f0719648bb465743`.
+- Last compared against upstream: 6.5.1, on 2026-11-09.
 - License: MIT, see `LICENSE` (copied from the repository root)
 
 ## Dropped
@@ -17,6 +23,15 @@ Xenon's call sites pass `getShadowRoot: true` and sometimes
   runs as upstream; the ported tests use it.
 - `isTabbable`. `getTabIndex` is still exported, but only the ported tests
   import it.
+
+## Updates
+
+- 6.5.1 (reviewed and applied 2026-11-09): upstream `ab07c2b` makes
+  `isContentEditable` read `contenteditable` case-insensitively and treat
+  `plaintext-only` as editable. Xenon keeps that helper (`getTabIndex` uses it
+  to give contenteditable hosts without a `tabindex` a tab index of 0), so the
+  change is ported as is, with its unit test. The other 6.5.0 to 6.5.1
+  difference in shipped files, `index.d.ts`, is formatting only.
 
 ## Changed
 

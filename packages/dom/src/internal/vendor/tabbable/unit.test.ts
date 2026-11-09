@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { focusable, getTabIndex, isFocusable, tabbable } from './tabbable'
 import type { CheckOptions } from './tabbable'
 
-// Ported from tabbable 6.5.0 test/unit/unit.test.js and test/unit/node.test.js.
+// Ported from tabbable 6.5.1 test/unit/unit.test.js and test/unit/node.test.js.
 
 const fixture = (name: string) =>
   readFileSync(join(import.meta.dirname, 'fixtures', `${name}.html`), 'utf8')
@@ -180,6 +180,23 @@ describe('unit tests', () => {
   })
 
   describe('getTabIndex', () => {
+    // Added in 6.5.1. Upstream builds the element detached and runs with
+    // displayCheck 'none'; here it is attached so the kept 'full' check sees it,
+    // and tabbable runs on both traversal paths.
+    it.each(['plaintext-only', 'PLAINTEXT-ONLY', 'TRUE'])(
+      'recognizes contenteditable=%s without an explicit tab index',
+      (value) => {
+        const editable = document.createElement('div')
+        editable.setAttribute('contenteditable', value)
+        document.body.append(editable)
+        expect(getTabIndex(editable)).toBe(0)
+        for (const [, options] of modes)
+          expect(tabbable(editable, { ...options, includeContainer: true })).toEqual([editable])
+        editable.tabIndex = -1
+        expect(getTabIndex(editable)).toBe(-1)
+      }
+    )
+
     describe('tabindex example', () => {
       let container: HTMLElement
 
