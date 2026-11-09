@@ -2,8 +2,23 @@
 
 ## Unreleased
 
-Fixes, no API changes. Needs a new `@xenon-ui/solid`, 0.2.8; core and dom are
-unchanged.
+Fixes and a dependency change, no API changes. Needs new versions of two
+packages: `@xenon-ui/dom` 0.2.6 and `@xenon-ui/solid` 0.2.8, with this package
+depending on `^0.2.6` for dom. Core stays at 0.2.6.
+
+### Dependencies
+
+- `@xenon-ui/dom` has no runtime dependencies. It used to install
+  `@floating-ui/dom` (with `@floating-ui/core` and `@floating-ui/utils`) and
+  `tabbable`. Their code is now vendored into dom, trimmed to the parts Xenon
+  calls, with the upstream license notices kept in the bundle.
+- Positioning and focus handling run the same code as before: Floating UI 1.8.0
+  and tabbable 6.5.0.
+- `PositioningAnchor` no longer imports Floating UI's `VirtualElement` type.
+  It uses a structurally identical type, so existing virtual anchors still
+  type-check.
+- If your Vite config listed `tabbable` or `@floating-ui/dom` in
+  `optimizeDeps.include`, remove them; they are no longer installed.
 
 ### Tooltip
 

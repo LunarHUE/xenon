@@ -1,6 +1,7 @@
 # Positioning
 
-xenon uses `@floating-ui/dom` 1.8 behind `@xenon-ui/dom/positioning`. Geometry stays
+xenon uses Floating UI (`@floating-ui/dom` 1.8.0) behind `@xenon-ui/dom/positioning`,
+as a copy vendored into `packages/dom/src/internal/vendor`. Geometry stays
 in the DOM package. Solid binds refs and reactive options through
 `@xenon-ui/solid/positioning`; core has no browser dependency or duplicate geometry
 controller. Positioning does not open overlays, dismiss them, assign roles,

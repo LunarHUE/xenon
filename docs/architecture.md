@@ -326,12 +326,18 @@ only package besides the adapters allowed to touch the DOM. It owns presence
 animation timing, the layering stack, focus scopes, modal locks, native dialog
 synchronization, drawer handle gestures, and anchored positioning.
 
-Positioning uses `@floating-ui/dom` behind xenon's own options and state types.
+Positioning uses Floating UI behind xenon's own options and state types.
 It stays in the DOM package; core has no duplicate browser geometry controller.
 The Solid utility has a separate `@xenon-ui/solid/positioning` entry point. Animated
 content sits inside the measured positioner so scale/slide transforms do not
 change its layout box. See [positioning](positioning.md) for the library
 comparison, defaults, and lifecycle contract.
+
+`@xenon-ui/dom` has no runtime dependencies. Floating UI (`@floating-ui/dom`,
+`core` and `utils`) and `tabbable` are vendored as TypeScript under
+`packages/dom/src/internal/vendor`, trimmed to what xenon calls and otherwise
+unchanged. Each copy records its upstream commit and every change in a
+PROVENANCE.md, and carries the upstream unit tests that cover what was kept.
 
 Dialog, AlertDialog, and Drawer have separate public modules in core and Solid.
 Shared adapter internals accept each family's core controller. Drawer gesture

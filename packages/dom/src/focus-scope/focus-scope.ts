@@ -1,4 +1,4 @@
-import { focusable, isFocusable, tabbable } from 'tabbable'
+import { focusable, isFocusable, tabbable } from '../internal/vendor/tabbable/tabbable'
 
 /** Focus containment, initial placement, and conditional restoration for one region. */
 export interface FocusScopeOptions {

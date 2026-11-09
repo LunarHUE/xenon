@@ -1,0 +1,13 @@
+import { expect, test } from 'vitest'
+import { platform } from '../dom'
+
+test('polyfill', () => {
+  const element = document.createElement('div')
+  const parent = document.createElement('div')
+  expect(
+    platform.getOffsetParent?.(element, (el) => {
+      expect(el).toBe(element)
+      return parent
+    })
+  ).toBe(parent)
+})

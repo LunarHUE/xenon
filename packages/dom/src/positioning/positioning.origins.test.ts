@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Placement } from '@floating-ui/dom'
+import type { Placement } from '../internal/vendor/floating-ui-dom/dom'
 import { createPositioner } from './positioning'
 import type { Positioner } from './types'
 
 const floating = vi.hoisted(() => ({ compute: vi.fn(), observe: vi.fn(), dimensions: vi.fn() }))
-vi.mock('@floating-ui/dom', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@floating-ui/dom')>()
+vi.mock('../internal/vendor/floating-ui-dom/dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../internal/vendor/floating-ui-dom/dom')>()
   return {
     ...actual,
     computePosition: floating.compute,
