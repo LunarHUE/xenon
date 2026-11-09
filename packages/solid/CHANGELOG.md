@@ -1,10 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.2.8 — 2026-11-09
 
-Fixes and a dependency change, no API changes. Needs new versions of two
-packages: `@xenon-ui/dom` 0.2.6 and `@xenon-ui/solid` 0.2.8, with this package
-depending on `^0.2.6` for dom. Core stays at 0.2.6.
+Fixes and a dependency change, no API changes. Use with `@xenon-ui/core` 0.2.6
+and `@xenon-ui/dom` 0.2.6; this package now depends on `^0.2.6` for both.
 
 ### Dependencies
 
