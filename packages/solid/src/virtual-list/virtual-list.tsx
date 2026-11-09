@@ -5,6 +5,7 @@ import type {
   VirtualKey,
   VirtualRange,
   VirtualizerOptions,
+  VirtualizerResult,
 } from '@xenon-ui/core/virtualizer'
 import { createVirtualizerController } from '@xenon-ui/dom/virtualizer'
 import type { VirtualizerController, VirtualizerControllerOptions } from '@xenon-ui/dom/virtualizer'
@@ -91,8 +92,20 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
   const [viewportSize, setViewportSize] = createSignal(0, { ownedWrite: true })
   const [version, setVersion] = createSignal(0, { ownedWrite: true })
   const [following, setFollowing] = createSignal(false, { ownedWrite: true })
+  /** Whether the controller's offset was at the end of the list when last read. */
+  const [pinned, setPinned] = createSignal(false, { ownedWrite: true })
   let controller: VirtualizerController | undefined
   let pending: Element[] = []
+  /** Set when a row measurement changes the layout; only then does version move. */
+  let remeasured = false
+  const measured: VirtualizerResult = {
+    ...layout,
+    measure(index, size, offset) {
+      const result = layout.measure(index, size, offset)
+      if (result.changed) remeasured = true
+      return result
+    },
+  }
 
   const keys = createMemo(() => {
     const getKey = options.getKey
@@ -120,9 +133,21 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
     version()
     if (next !== applied) layout.setOptions((applied = next))
   }
+  const totalSize = createMemo(() => {
+    current()
+    return layout.totalSize()
+  })
+  // While following from the end, the controller pins the offset to the new end
+  // whenever the layout grows or shrinks. That offset is derived here, in the
+  // same flush, instead of waiting for the controller to write it back.
+  const viewOffset = createMemo(() => {
+    if (!following() || !pinned()) return offset()
+    totalSize()
+    return layout.maxOffset(viewportSize())
+  })
   const list = createMemo(() => {
     current()
-    return layout.items(offset(), viewportSize())
+    return layout.items(viewOffset(), viewportSize())
   })
   const items = createProjection<VirtualItem[]>(() => list().map((item) => ({ ...item })), [], {
     key: 'key',
@@ -132,13 +157,9 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
     current()
     return layout.count()
   })
-  const totalSize = createMemo(() => {
-    current()
-    return layout.totalSize()
-  })
   const range = createMemo(() => {
     current()
-    return layout.range(offset(), viewportSize())
+    return layout.range(viewOffset(), viewportSize())
   })
 
   const pull = () => {
@@ -146,14 +167,18 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
     setOffset(controller.offset())
     setViewportSize(controller.viewportSize())
     setFollowing(controller.following())
-    setVersion((value) => value + 1)
+    setPinned(controller.offset() >= layout.maxOffset(controller.viewportSize()))
+    if (remeasured) {
+      remeasured = false
+      setVersion((value) => value + 1)
+    }
   }
   const report = (next: boolean) => {
     setFollowing(next)
     untrack(() => options.onFollowChange)?.(next)
   }
   const follow = createMemo((): VirtualizerControllerOptions => ({
-    layout,
+    layout: measured,
     follow: !!options.follow,
     followThreshold: options.followThreshold,
     onFollowChange: report,
@@ -187,7 +212,7 @@ export function createVirtualizer(options: CreateVirtualizerOptions): Virtualize
     count,
     totalSize,
     range,
-    offset,
+    offset: viewOffset,
     viewportSize,
     following,
     isRendered: (index) => rendered().has(index),

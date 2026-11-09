@@ -1,5 +1,6 @@
 import { cleanup, render } from '@solidjs/testing-library'
-import { createSignal, flush } from 'solid-js'
+import { createSignal, flush, OBSERVE } from 'solid-js'
+import { attribution } from 'solid-js/attribution'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { VirtualList, useVirtualList } from './virtual-list'
 import type { VirtualListContextValue } from './virtual-list'
@@ -265,6 +266,44 @@ describe('VirtualList', () => {
     setCount(31)
     await settle()
     expect(root.scrollTop).toBe(520)
+  })
+
+  test('appending to a followed list lays the rows out once per write', async () => {
+    // EFFECT_RELAY_TEAR comes from Solid's attribution engine, so this test turns it on.
+    const stop = attribution.enable()
+    const [lines, setLines] = createSignal(Array.from({ length: 10 }, (_, i) => `Line ${i}`))
+    const view = render(() => (
+      <VirtualList
+        count={lines().length}
+        size={20}
+        follow
+        role="log"
+        aria-label="Log"
+        ref={viewport}
+      >
+        <VirtualList.Viewport>
+          {(item) => <VirtualList.Item item={item}>{lines()[item.index]}</VirtualList.Item>}
+        </VirtualList.Viewport>
+      </VirtualList>
+    ))
+    await settle()
+    const capture = OBSERVE!.diagnostics.capture()
+    try {
+      for (let i = 10; i < 15; i++) {
+        setLines((previous) => [...previous, `Line ${i}`])
+        await settle()
+      }
+    } finally {
+      stop()
+    }
+    const tears = capture
+      .stop()
+      .filter((event) => event.code === 'EFFECT_RELAY_TEAR')
+      .map((event) => event.message)
+    expect(tears).toEqual([])
+    const root = view.getByRole('log')
+    expect(root.scrollTop).toBe(200)
+    expect(row(view.container, 14)).toHaveTextContent('Line 14')
   })
 
   test('the active sticky heading stays rendered and pinned', async () => {
