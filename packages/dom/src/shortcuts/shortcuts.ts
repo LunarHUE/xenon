@@ -75,3 +75,26 @@ export function detectShortcutPlatform(document: Document): 'apple' | 'other' {
   const platform = navigator?.userAgentData?.platform || navigator?.platform || ''
   return /mac|iphone|ipad|ipod/i.test(platform) ? 'apple' : 'other'
 }
+
+/** The character each physical key types, by `KeyboardEvent.code`. */
+export interface ShortcutKeyboardLayout {
+  get(code: string): string | undefined
+}
+
+/**
+ * Read the user's keyboard layout, for labelling shortcuts bound to a physical key.
+ * Resolves to undefined where the Keyboard Map API is missing (Firefox, Safari) or
+ * refused, as in an insecure context or a frame without the `keyboard-map` permission.
+ */
+export async function readKeyboardLayout(
+  document: Document
+): Promise<ShortcutKeyboardLayout | undefined> {
+  const navigator = document.defaultView?.navigator as
+    | (Navigator & { keyboard?: { getLayoutMap?: () => Promise<ShortcutKeyboardLayout> } })
+    | undefined
+  try {
+    return await navigator?.keyboard?.getLayoutMap?.()
+  } catch {
+    return undefined
+  }
+}

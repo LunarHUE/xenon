@@ -346,3 +346,56 @@ describe('registry', () => {
     await settle()
   })
 })
+
+describe('physical keys', () => {
+  afterEach(() => configureShortcuts({ layout: undefined }))
+
+  test('Shift+Digit1 fires on the key, skips text fields and lists like any binding', async () => {
+    const fit = vi.fn()
+    let view!: ReturnType<typeof useShortcuts>
+    const { getByRole } = render(() => {
+      view = useShortcuts()
+      return (
+        <Bind binding="Shift+Digit1" handler={fit} options={{ description: 'Fit everything' }}>
+          <input aria-label="Search" />
+        </Bind>
+      )
+    })
+    await settle()
+    expect(view.list()).toEqual([
+      expect.objectContaining({
+        binding: 'Shift+Digit1',
+        description: 'Fit everything',
+        keys: ['Shift', '1'],
+        label: 'Shift 1',
+        ariaKeyshortcuts: 'Shift+1',
+      }),
+    ])
+    press('!', { code: 'Digit1', shiftKey: true })
+    press('1', { code: 'Digit1', shiftKey: true })
+    expect(fit).toHaveBeenCalledTimes(2)
+    press('!', { code: 'Digit1', shiftKey: true, ctrlKey: true })
+    press('!', { code: 'Digit1', shiftKey: true, repeat: true })
+    press('!', { code: 'Digit8', shiftKey: true })
+    getByRole('textbox').focus()
+    press('!', { code: 'Digit1', shiftKey: true })
+    expect(fit).toHaveBeenCalledTimes(2)
+  })
+
+  test('the hint follows the keyboard layout once one is known', async () => {
+    let handle!: ShortcutHandle
+    const { getByRole } = render(() => (
+      <Bind binding="Alt+KeyQ" handler={() => {}} handle={(value) => (handle = value)}>
+        <button aria-keyshortcuts={handle.ariaKeyshortcuts()}>{handle.keys().join('+')}</button>
+      </Bind>
+    ))
+    const button = getByRole('button')
+    expect(button).toHaveTextContent('Alt+Q')
+    expect(button).toHaveAttribute('aria-keyshortcuts', 'Alt+Q')
+    configureShortcuts({ layout: new Map([['KeyQ', 'a']]) })
+    await settle()
+    expect(button).toHaveTextContent('Alt+A')
+    expect(button).toHaveAttribute('aria-keyshortcuts', 'Alt+A')
+    expect(handle.label()).toBe('Alt A')
+  })
+})
