@@ -94,7 +94,7 @@
     },
     "packages/solid": {
       "name": "@xenon-ui/solid",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "dependencies": {
         "@xenon-ui/core": "workspace:*",
         "@xenon-ui/dom": "workspace:*",
