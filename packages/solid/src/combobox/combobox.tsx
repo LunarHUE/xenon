@@ -1,6 +1,8 @@
 import type { PartProps } from '@xenon-ui/core'
 import { combobox } from '@xenon-ui/core/combobox'
 import type {
+  ComboboxActiveChangeDetails,
+  ComboboxInputValueChangeDetails,
   ComboboxItem as Option,
   ComboboxOptions as CoreComboboxOptions,
 } from '@xenon-ui/core/combobox'
@@ -34,6 +36,12 @@ import { subscribeFormReset } from '../internal/form-reset'
 import { VirtualList, useVirtualList } from '../virtual-list/virtual-list'
 import type { VirtualItem, VirtualOptions, VirtualizerHandle } from '../virtual-list/virtual-list'
 
+export type {
+  ComboboxActivationMode,
+  ComboboxActiveChangeDetails,
+  ComboboxInputValueChangeDetails,
+} from '@xenon-ui/core/combobox'
+
 /** A virtualized Combobox.Viewport and the row index of each visible value. */
 interface VirtualBinding {
   handle: VirtualizerHandle
@@ -46,11 +54,15 @@ type ComboboxOptions = NativeBooleanAttributes<CoreComboboxOptions>
  * Editable single-selection root options. Items remain available while the popup is closed.
  * Undefined controlled values release ownership to internal state. Typing retains the
  * committed selection. Disabled, readonly, required, and invalid state combine with Field.
+ *
+ * For a search-and-pick list that stays open, pass `open`, render Viewport and
+ * Items without Positioner or Content, and set `activationMode="automatic"` so the
+ * arrow keys select. The highlighted option scrolls into view there as it does in
+ * Content. `onActiveChange` reports the highlight and whether the keyboard or the
+ * pointer moved it; `onInputValueChange` says whether text was typed or written by
+ * a selection, so a controlled search field can ignore the second.
  */
-export interface ComboboxProps extends Omit<
-  ComboboxOptions,
-  'id' | 'activeValue' | 'onActiveChange'
-> {
+export interface ComboboxProps extends Omit<ComboboxOptions, 'id' | 'activeValue'> {
   /** Input outside the popup (default), or search inside a dialog opened by Trigger. Fixed for the root lifetime. */
   inputPlacement?: 'trigger' | 'popup'
   /** Initial uncontrolled selection and silent form-reset value. */
@@ -210,24 +222,34 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
   const required = () => booleanAttribute(props.required) || !!field?.required()
   const open = () => !disabled() && !readonly() && (props.open ?? expanded())
   const text = () => props.inputValue ?? query()
-  const changeText = (next: string) => {
+  const changeText = (next: string, details: ComboboxInputValueChangeDetails) => {
     if (next === untrack(text)) return
     if (props.inputValue === undefined) setQuery(next)
-    props.onInputValueChange?.(next)
+    props.onInputValueChange?.(next, details)
   }
+  // The engine compares against its snapshot and closing clears the highlight too,
+  // so one event can ask for the same move twice. Report each move once.
+  let highlighted: string | undefined
+  const changeActive = (next: string | undefined, details: ComboboxActiveChangeDetails) => {
+    if (next === highlighted) return
+    highlighted = next
+    setActive(next)
+    props.onActiveChange?.(next, details)
+  }
+  const clearActive = () => changeActive(undefined, { reason: 'reset' })
   const changeOpen = (next: boolean) => {
     if (next && (disabled() || readonly())) return
     if (next === untrack(open)) return
     if (props.open === undefined) setExpanded(next)
-    if (!next) setActive(undefined)
+    if (!next) clearActive()
     props.onOpenChange?.(next)
   }
   // Reset only after visibility actually changes, including controlled or disabled closure.
   let wasOpen = untrack(open)
   createEffect(open, (next) => {
     if (popupInput && wasOpen && !next) {
-      changeText('')
-      setActive(undefined)
+      changeText('', { reason: 'reset' })
+      clearActive()
     }
     wasOpen = next
   })
@@ -252,10 +274,12 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
       },
       onInputValueChange: changeText,
       onOpenChange: changeOpen,
-      onActiveChange: setActive,
+      activationMode: props.activationMode,
+      onActiveChange: changeActive,
     })
   )
   // External selection changes update the display, but typing does not change selection.
+  // With automatic activation the field is a search box: only an explicit choice writes it.
   let previousValue = untrack(value)
   let previousLabel = untrack(() => label(value()))
   createEffect(
@@ -263,11 +287,13 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
       value: value(),
       label: label(value()),
       controlledText: props.inputValue !== undefined,
+      search: props.activationMode === 'automatic',
     }),
     (next) => {
       if (
         !popupInput &&
         !next.controlledText &&
+        !next.search &&
         (next.value !== previousValue ||
           (next.label !== previousLabel && untrack(query) === previousLabel))
       )
@@ -293,8 +319,9 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
         if (index >= 0) list.handle.scrollToIndex(index)
         return
       }
+      // An inline list has no Content, so the input supplies the document.
       if (state.open && state.id)
-        state.content?.ownerDocument
+        (state.content ?? untrack(input))?.ownerDocument
           .getElementById(state.id)
           ?.scrollIntoView?.({ block: 'nearest' })
     }
@@ -357,7 +384,7 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
         if (props.inputValue === undefined)
           setQuery(props.defaultInputValue ?? (popupInput ? '' : label(value())))
         if (props.open === undefined) setExpanded(false)
-        setActive(undefined)
+        clearActive()
         flush()
         const node = input()
         if (node) node.value = text()
@@ -410,7 +437,7 @@ function ComboboxRoot(props: ComboboxProps): JSX.Element {
           const previous = value()
           if (props.value === undefined) setInternal(next)
           if (next !== previous) props.onValueChange?.(next)
-          changeText(popupInput ? '' : label(next))
+          changeText(popupInput ? '' : label(next), { reason: 'selection' })
           event.currentTarget.value = value() ?? ''
         }}
       >

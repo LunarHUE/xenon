@@ -133,7 +133,7 @@ describe('Combobox', () => {
     ))
     const input = view.getByRole('combobox') as HTMLInputElement
     type(input, 'ap')
-    expect(text).toHaveBeenCalledExactlyOnceWith('ap')
+    expect(text).toHaveBeenCalledExactlyOnceWith('ap', { reason: 'input' })
     expect(input.value).toBe('Cherry')
     const form = view.container.querySelector('form')!
     const mirror = form.querySelector('select')!
@@ -255,7 +255,7 @@ describe('Combobox', () => {
     flush()
     expect(options()).toEqual(['Cherry'])
     type(input, 'Ch')
-    expect(text.mock.calls).toEqual([['Ch']])
+    expect(text.mock.calls).toEqual([['Ch', { reason: 'input' }]])
   })
   test('a committing insertFromComposition input before compositionend keeps the composed text', () => {
     for (const placement of ['trigger', 'popup'] as const) {
@@ -285,7 +285,7 @@ describe('Combobox', () => {
       input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
       flush()
       expect(input.value).toBe('Ch')
-      expect(text.mock.calls).toEqual([['Ch']])
+      expect(text.mock.calls).toEqual([['Ch', { reason: 'input' }]])
       view.unmount()
     }
   })
@@ -317,7 +317,7 @@ describe('Combobox', () => {
       )
       flush()
       expect(input.value).toBe('Apple')
-      expect(text.mock.calls).toEqual([['Ch']])
+      expect(text.mock.calls).toEqual([['Ch', { reason: 'input' }]])
       view.unmount()
     }
   })
@@ -334,7 +334,7 @@ describe('Combobox', () => {
     input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }))
     flush()
     expect(input.value).toBe('')
-    expect(text.mock.calls).toEqual([['Ch']])
+    expect(text.mock.calls).toEqual([['Ch', { reason: 'input' }]])
   })
   test('default query is preserved and controlled value updates synchronize its label', () => {
     const [value, setValue] = createSignal<string | undefined>()
