@@ -46,9 +46,5 @@
     "jsdom": "^30.0.1",
     "typescript": "catalog:",
     "vitest": "catalog:"
-  },
-  "dependencies": {
-    "tabbable": "^6.5.0",
-    "@floating-ui/dom": "^1.8.0"
   }
 }
