@@ -1,5 +1,5 @@
 /*!
- * tabbable 6.5.0, vendored into @xenon-ui/dom
+ * tabbable 6.5.1, vendored into @xenon-ui/dom
  * @license MIT, Copyright (c) 2015 David Clark, https://github.com/focus-trap/tabbable/blob/master/LICENSE
  */
 export type FocusableElement = HTMLElement | SVGElement
@@ -90,10 +90,10 @@ const isInert = function (node: Node | null | undefined, lookUp = true): boolean
  */
 const isContentEditable = function (node: Element | null | undefined) {
   // CAREFUL: JSDom does not support the `HTMLElement.isContentEditable` API so we have
-  //  to use the attribute directly to check for this, which can either be empty or 'true';
-  //  if it's `null` (not specified) or 'false', it's a non-editable element
-  const attValue = node?.getAttribute?.('contenteditable')
-  return attValue === '' || attValue === 'true'
+  //  to use the case-insensitive attribute directly: empty, 'true', and 'plaintext-only'
+  //  are editable states; `null` (not specified) and 'false' are not.
+  const attValue = node?.getAttribute?.('contenteditable')?.toLowerCase()
+  return attValue === '' || attValue === 'true' || attValue === 'plaintext-only'
 }
 
 /**

@@ -43,7 +43,7 @@ root. Positive tabindex values sort within each root, not across portal roots.
 Tab and Shift+Tab cycle through these stops. The listener runs in bubble phase
 and honors cancellation and Alt, Control, or Meta modifiers. Escape remains the
 dismissal layer's responsibility. Candidate discovery uses a vendored copy of
-[`tabbable`](https://github.com/focus-trap/tabbable#api) 6.5.0 with normal
+[`tabbable`](https://github.com/focus-trap/tabbable#api) 6.5.1 with normal
 visibility checks and open-shadow traversal enabled. There is no production jsdom bypass.
 Real-browser tests cover visibility, disabled fieldsets, radios, and shadow slots.
 

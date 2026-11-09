@@ -9,7 +9,7 @@ PROVENANCE.md that names the upstream commit and every change made to it.
 | `floating-ui-utils` | `@floating-ui/utils` (floating-ui/floating-ui) | 0.2.12  |
 | `floating-ui-core`  | `@floating-ui/core` (floating-ui/floating-ui)  | 1.8.0   |
 | `floating-ui-dom`   | `@floating-ui/dom` (floating-ui/floating-ui)   | 1.8.0   |
-| `tabbable`          | `tabbable` (focus-trap/tabbable)               | 6.5.0   |
+| `tabbable`          | `tabbable` (focus-trap/tabbable)               | 6.5.1   |
 
 The code lives under `src/internal/` because the build turns every other
 directory in `src/` into a public subpath. Only `src/positioning` imports the
