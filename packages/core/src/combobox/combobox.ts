@@ -11,6 +11,27 @@ export interface ComboboxItem {
   disabled?: boolean
 }
 
+/** Whether arrow-key navigation commits the option it reaches or leaves that to Enter and click. */
+export type ComboboxActivationMode = 'manual' | 'automatic'
+
+/** Why the highlight moved. */
+export interface ComboboxActiveChangeDetails {
+  /**
+   * `keyboard` for an arrow key and `pointer` for hover, both with a value. `reset`
+   * when the highlight is cleared: by typing, choosing, closing, or a caret key.
+   */
+  reason: 'keyboard' | 'pointer' | 'reset'
+}
+
+/** Why the input text changed. */
+export interface ComboboxInputValueChangeDetails {
+  /**
+   * `input` when the user typed or composed the text, `selection` when choosing an
+   * option wrote its label, and `reset` when the adapter cleared a popup search.
+   */
+  reason: 'input' | 'selection' | 'reset'
+}
+
 /** Snapshot inputs for an editable, single-selection listbox popup. */
 export interface ComboboxOptions {
   /** Complete collection, including options not currently matching the query. */
@@ -35,16 +56,24 @@ export interface ComboboxOptions {
   invalid?: boolean
   /** Wrap arrow navigation at enabled edges. Defaults to true. */
   loop?: boolean
+  /**
+   * With `automatic`, an arrow key in an open list commits the option it highlights,
+   * and navigation starts from the committed option when nothing is highlighted.
+   * Hover still only highlights, and the key that opens the list commits nothing.
+   * The input text and the popup are left alone until Enter or a click. Meant for
+   * a list that stays open. Defaults to `manual`.
+   */
+  activationMode?: ComboboxActivationMode
   /** False retains all items; otherwise default case-insensitive substring matching or a custom predicate. */
   filter?: false | ((item: ComboboxItem, query: string) => boolean)
   /** Requests a committed value; initialization is silent. */
   onValueChange?: (value: string | undefined) => void
-  /** Requests editable text independently of selection. */
-  onInputValueChange?: (value: string) => void
+  /** Requests editable text independently of selection, and says whether it was typed or chosen. */
+  onInputValueChange?: (value: string, details: ComboboxInputValueChangeDetails) => void
   /** Requests popup visibility. */
   onOpenChange?: (open: boolean) => void
-  /** Requests virtual focus without moving DOM focus. */
-  onActiveChange?: (value: string | undefined) => void
+  /** Requests virtual focus without moving DOM focus, and says what moved it. */
+  onActiveChange?: (value: string | undefined, details: ComboboxActiveChangeDetails) => void
 }
 
 /** Deterministic option ID derived from an adapter-owned base and unique string value. */
@@ -84,7 +113,8 @@ export interface ComboboxResult {
  * End, and horizontal arrows clear the highlight and retain native caret behavior.
  * Composition and modified editing keys are left to the browser; composed text
  * filters and publishes once, at compositionend. Typing retains the committed
- * value until another option is explicitly chosen.
+ * value until another option is explicitly chosen, or, with automatic activation,
+ * reached with an arrow key.
  */
 export function combobox(options: ComboboxOptions): ComboboxResult {
   const open = options.open ?? false
@@ -105,8 +135,10 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
     ? options.activeValue
     : undefined
   const interactive = !options.disabled && !options.readonly
-  const highlight = (value: string | undefined) => {
-    if (value !== options.activeValue) options.onActiveChange?.(value)
+  const automatic = options.activationMode === 'automatic'
+  const highlight = (value: string | undefined, reason: 'keyboard' | 'pointer' | 'reset') => {
+    if (value !== options.activeValue)
+      options.onActiveChange?.(value, { reason: value === undefined ? 'reset' : reason })
   }
   const visibility = (value: boolean) => {
     if (value !== open) options.onOpenChange?.(value)
@@ -115,9 +147,9 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
     const item = items.find((candidate) => candidate.value === value)
     if (!interactive || !item || item.disabled) return
     if (value !== options.value) options.onValueChange?.(value)
-    if (inputValue !== item.label) options.onInputValueChange?.(item.label)
+    if (inputValue !== item.label) options.onInputValueChange?.(item.label, { reason: 'selection' })
     visibility(false)
-    highlight(undefined)
+    highlight(undefined, 'reset')
   }
   return {
     state: { value: options.value, inputValue, open, activeValue, items },
@@ -142,16 +174,16 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
         on: {
           input(event) {
             if (!interactive) return
-            highlight(undefined)
+            highlight(undefined, 'reset')
             // Composed text, including WebKit's committing insertFromComposition
             // input, publishes once at compositionend whatever the event order.
             if (event.isComposing || event.inputType === 'insertFromComposition') return
-            options.onInputValueChange?.(event.currentTarget.value)
+            options.onInputValueChange?.(event.currentTarget.value, { reason: 'input' })
             visibility(true)
           },
           compositionend(event) {
             if (!interactive) return
-            options.onInputValueChange?.(event.currentTarget.value)
+            options.onInputValueChange?.(event.currentTarget.value, { reason: 'input' })
             visibility(true)
           },
           keydown(event) {
@@ -167,11 +199,21 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
               event.preventDefault()
               visibility(true)
+              // Automatic activation moves on from the committed option, so the first
+              // arrow after a search does not land on the row that is already selected.
+              const from = open
+                ? (activeValue ??
+                  (automatic && enabled.navigable.includes(options.value ?? '')
+                    ? options.value
+                    : undefined))
+                : undefined
               const next =
                 event.key === 'ArrowDown'
-                  ? enabled.next(open ? activeValue : undefined, { loop: options.loop ?? true })
-                  : enabled.previous(open ? activeValue : undefined, { loop: options.loop ?? true })
-              highlight(next ?? (open ? activeValue : undefined))
+                  ? enabled.next(from, { loop: options.loop ?? true })
+                  : enabled.previous(from, { loop: options.loop ?? true })
+              highlight(next ?? (open ? activeValue : undefined), 'keyboard')
+              if (automatic && open && next !== undefined && next !== options.value)
+                options.onValueChange?.(next)
             } else if (event.key === 'Enter' && open) {
               if (activeValue !== undefined) {
                 event.preventDefault()
@@ -180,12 +222,12 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
             } else if (event.key === 'Escape' && open) {
               event.preventDefault()
               visibility(false)
-              highlight(undefined)
+              highlight(undefined, 'reset')
             } else if (event.key === 'Tab') {
               visibility(false)
-              highlight(undefined)
+              highlight(undefined, 'reset')
             } else if (['Home', 'End', 'ArrowLeft', 'ArrowRight'].includes(event.key))
-              highlight(undefined)
+              highlight(undefined, 'reset')
           },
         },
       },
@@ -210,7 +252,7 @@ export function combobox(options: ComboboxOptions): ComboboxResult {
               if (event.button === 0) event.preventDefault()
             },
             pointermove() {
-              if (!disabled && interactive && open) highlight(value)
+              if (!disabled && interactive && open) highlight(value, 'pointer')
             },
             click(event) {
               if (open && !event.defaultPrevented) choose(value)
