@@ -1,10 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.2.7 — 2026-11-09
 
-New features, no breaking changes. Not published yet. The package versions are
-already bumped for it: `@xenon-ui/core` 0.2.6, `@xenon-ui/dom` 0.2.5 and
-`@xenon-ui/solid` 0.2.7, with this package depending on `^0.2.6` and `^0.2.5`.
+New features, no breaking changes. Use with `@xenon-ui/core` 0.2.6 and
+`@xenon-ui/dom` 0.2.5; this package now depends on `^0.2.6` and `^0.2.5`.
 
 ### Shortcuts (`@xenon-ui/solid/shortcuts`)
 
