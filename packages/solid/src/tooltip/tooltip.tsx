@@ -289,13 +289,16 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
   const register = (value: PopupContext) => {
     const release = value.registerTrigger(entry)
     if (entry.element && !untrack(value.trigger)) value.setTrigger(entry.element)
-    return () => {
-      if (!isServer && value.activeTrigger(entry)) {
-        context()?.intent.cancel()
-        value.change(false)
-      }
-      release()
-    }
+    // A handle trigger's release runs as the cleanup of an effect callback, so
+    // read the popup's state once here instead of tracking it.
+    return () =>
+      untrack(() => {
+        if (!isServer && value.activeTrigger(entry)) {
+          context()?.intent.cancel()
+          value.change(false)
+        }
+        release()
+      })
   }
   if (handle) createEffect(popup, (value) => (value ? register(value) : undefined))
   else if (inherited?.popup) onCleanup(register(inherited.popup))
@@ -357,8 +360,11 @@ export function TooltipTrigger<T extends ValidComponent = 'button', Payload = un
   })
   createEffect(
     () => booleanAttribute(own.disabled),
+    // Dismiss when the trigger becomes disabled while it owns the tooltip. Hover
+    // intent ignores disabled hosts, so ownership cannot move to this trigger
+    // while it stays disabled; read it once instead of tracking it.
     (disabled) => {
-      if (disabled && popup()?.activeTrigger(entry)) context()?.intent.dismiss()
+      if (disabled) untrack(() => popup()?.activeTrigger(entry) && context()?.intent.dismiss())
     }
   )
   onCleanup(() => {
