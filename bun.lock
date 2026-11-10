@@ -45,7 +45,7 @@
     },
     "packages/core": {
       "name": "@xenon-ui/core",
-      "version": "0.2.6",
+      "version": "0.3.0",
       "devDependencies": {
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
@@ -60,7 +60,7 @@
     },
     "packages/dom": {
       "name": "@xenon-ui/dom",
-      "version": "0.2.6",
+      "version": "0.3.0",
       "devDependencies": {
         "@types/bun": "catalog:",
         "@typescript/native": "catalog:",
@@ -90,7 +90,7 @@
     },
     "packages/solid": {
       "name": "@xenon-ui/solid",
-      "version": "0.2.8",
+      "version": "0.3.0",
       "dependencies": {
         "@xenon-ui/core": "workspace:*",
         "@xenon-ui/dom": "workspace:*",

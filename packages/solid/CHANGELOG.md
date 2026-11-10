@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased (0.3.0)
+
+Use with `@xenon-ui/core` 0.3.0 and `@xenon-ui/dom` 0.3.0; this package now
+depends on `^0.3.0` for both.
+
 ## 0.2.9 — 2026-11-10
 
 Built and tested against Solid 2.0.0-rc.21. No API changes. Use with
