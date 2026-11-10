@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased (0.2.9)
+## 0.2.9 — 2026-11-10
 
-Built and tested against Solid 2.0.0-rc.21. No API changes. The peer range
+Built and tested against Solid 2.0.0-rc.21. No API changes. Use with
+`@xenon-ui/core` 0.2.6 and `@xenon-ui/dom` 0.2.6, as before. The peer range
 stays `^2.0.0-rc.14`: the compiled build imports nothing from `solid-js` or
 `@solidjs/web` that rc.14 lacks.
 
