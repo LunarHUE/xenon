@@ -362,8 +362,10 @@ describe('VirtualList', () => {
             <VirtualList.Item
               item={item}
               ref={(element: HTMLElement) => {
-                element.getBoundingClientRect = () =>
-                  ({ height: Number(element.dataset.index) === 1 ? grown : 20 }) as DOMRect
+                Object.defineProperty(element, 'offsetHeight', {
+                  get: () => (Number(element.dataset.index) === 1 ? grown : 20),
+                  configurable: true,
+                })
               }}
             >
               Row {item.index}

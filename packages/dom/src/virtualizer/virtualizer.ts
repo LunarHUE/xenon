@@ -67,6 +67,21 @@ export interface VirtualizerController {
   dispose(): void
 }
 
+/** A row to measure, with the border box from its resize report when there is one. */
+interface RowSize {
+  target: Element
+  borderBoxSize?: readonly ResizeObserverSize[]
+}
+
+/**
+ * Border-box height without ancestor transforms. getBoundingClientRect scales
+ * with them, while scrollTop and the offsets written to rows do not.
+ */
+function layoutHeight(row: Element): number {
+  const height = (row as Partial<HTMLElement>).offsetHeight
+  return typeof height === 'number' ? height : row.getBoundingClientRect().height
+}
+
 /**
  * Binds a vertical scroll element to virtual list layout math.
  *
@@ -81,6 +96,12 @@ export interface VirtualizerController {
  * With follow enabled the list starts pinned to its end and stays there while
  * rows are appended or grow. Scrolling up stops following; reaching the end
  * resumes it. Without following, appended rows never move scrollTop.
+ *
+ * Rows are measured in layout pixels, the units of scrollTop and clientHeight,
+ * so a CSS transform on an ancestor (a zoomed canvas, for example) does not
+ * change their sizes. Resize reports use the entry's border-box block size;
+ * a direct measurement uses offsetHeight, or the bounding rect for elements
+ * without one, such as SVG.
  *
  * Callers own the sizer element. Render it at the layout's total size and call
  * sync() after it grows, since the browser clamps scrollTop to the current content.
@@ -147,17 +168,18 @@ export function createVirtualizerController(
     if (following) pin()
     notify()
   }
-  const measure = (rows: Iterable<Element>) => {
+  const measure = (entries: Iterable<RowSize>) => {
     let changed = false
     let adjustment = 0
-    for (const row of rows) {
+    for (const { target: row, borderBoxSize } of entries) {
       if (!row.isConnected) {
         unmeasure(row)
         continue
       }
       const index = Number(row.getAttribute('data-index') || Number.NaN)
       if (!Number.isInteger(index)) continue
-      const result = layout().measure(index, row.getBoundingClientRect().height, offset)
+      const height = borderBoxSize?.[0]?.blockSize ?? layoutHeight(row)
+      const result = layout().measure(index, height, offset)
       if (!result.changed) continue
       changed = true
       adjustment += result.scrollAdjustment
@@ -168,9 +190,7 @@ export function createVirtualizerController(
     else if (adjustment) write(offset + adjustment)
     notify()
   }
-  const rowObserver = view?.ResizeObserver
-    ? new view.ResizeObserver((entries) => measure(entries.map((entry) => entry.target)))
-    : undefined
+  const rowObserver = view?.ResizeObserver ? new view.ResizeObserver(measure) : undefined
   const viewportObserver = view?.ResizeObserver ? new view.ResizeObserver(onResize) : undefined
   const unmeasure = (row: Element) => rowObserver?.unobserve(row)
 
@@ -221,8 +241,8 @@ export function createVirtualizerController(
     },
     measureElement(row) {
       if (disposed) return
-      rowObserver?.observe(row)
-      if (row.isConnected) measure([row])
+      rowObserver?.observe(row, { box: 'border-box' })
+      if (row.isConnected) measure([{ target: row }])
     },
     unmeasureElement: unmeasure,
     sync() {

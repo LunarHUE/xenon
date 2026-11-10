@@ -47,7 +47,7 @@ function viewport(height = 100, top = 0) {
 function row(index: number, height: number) {
   const element = document.createElement('div')
   element.dataset.index = String(index)
-  element.getBoundingClientRect = () => ({ height }) as DOMRect
+  Object.defineProperty(element, 'offsetHeight', { value: height })
   document.body.append(element)
   return element
 }
