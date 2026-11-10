@@ -37,7 +37,8 @@ export interface LayerOptions {
   /**
    * Runs in a zero-delay timer after an eligible outside pointerup. Preventing the
    * wrapper default vetoes dismissal. Native pointerdown/up cancellation, a new
-   * pointerdown, or layer registration/disposal can cancel the pending request.
+   * pointerdown, or a layer disposal cancels the pending request. So does a layer
+   * opened during the gesture as this layer's descendant; an unrelated one does not.
    */
   onPointerOutside?: (event: LayerPointerOutsideEvent) => void
   /**
@@ -100,6 +101,8 @@ interface Registry {
   entries: Entry[]
   /** Advances the gesture generation and clears pending pointer gestures and their timers. */
   invalidate(): void
+  /** Records a layer opened during a live outside gesture; otherwise invalidates. */
+  register(entry: Entry): void
   /** Releases listeners, capture/composition bookkeeping, and registry lookup after invalidation of the empty stack. */
   cleanup(): void
 }
@@ -240,6 +243,27 @@ function contains(registry: Registry, entry: Entry, targets: Element[]): boolean
   })
 }
 
+/** Whether the entry's fixed parent chain reaches the ancestor. */
+function descends(entry: Entry, ancestor: Entry): boolean {
+  for (let current = entry.parent; current; current = current.parent)
+    if (current === ancestor) return true
+  return false
+}
+
+/** One outside-started pointer gesture, from pointerdown until its dismissal timer runs. */
+interface Gesture {
+  /** Entries whose containment the press escaped, newest first. */
+  candidates: Entry[]
+  /** Pointerdown that started the gesture. */
+  event: PointerEvent
+  /** Registry generation at pointerdown; disposal or a new press advances it. */
+  generation: number
+  /** Pointerdown count at the start of the gesture. */
+  press: number
+  /** Layers registered while the gesture was live, usually opened by the same press. */
+  opened: Entry[]
+}
+
 /** Accepts primary left-button gestures, excluding Control-click. Other modifiers are allowed. */
 function primaryPointer(event: PointerEvent): boolean {
   return event.isPrimary && event.button === 0 && !event.ctrlKey
@@ -253,66 +277,96 @@ function createRegistry(document: Document): Registry {
   const capturedPointers = new Set<number>()
   const gotpointercapture = (event: PointerEvent) => capturedPointers.add(event.pointerId)
   const lostpointercapture = (event: PointerEvent) => capturedPointers.delete(event.pointerId)
-  /** Invalidates gestures across new pointerdowns and stack registration/disposal. */
+  /** Invalidates gestures across new pointerdowns, disposals, and registrations outside a gesture. */
   let generation = 0
+  /** Counts pointerdowns so a dismissal sequence stops if a new press starts inside a callback. */
+  let presses = 0
   const pointerTimers = new Set<ReturnType<typeof setTimeout>>()
-  /** At most one outside-started gesture can complete, with the same pointer ID and generation. */
-  let pending: { entry: Entry; event: PointerEvent; generation: number } | undefined
+  /**
+   * The one outside-started gesture that can still dismiss, from pointerdown until its
+   * timer runs. Candidates are the entries the press escaped, newest first, ending at
+   * the first entry that contained it. Layers registered meanwhile are collected in opened.
+   */
+  let live: Gesture | undefined
+  /** Matches pointerup to the pointerdown that started the live gesture. */
+  let awaitingUp = false
+  /** Classifies one endpoint for one entry, using its classifier before containment. */
+  const outside = (entry: Entry, event: PointerEvent, targets: Element[]) =>
+    !(entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
   const pointerdown = (event: PointerEvent) => {
     registry.invalidate()
+    presses++
     if (!primaryPointer(event)) return
-    const entry = registry.entries.at(-1)
     const targets = eventTargets(event, document)
-    if (
-      !entry ||
-      !targets ||
-      excludedPointer(document, targets) ||
-      (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
-    )
-      return
-    pending = { entry, event, generation }
+    if (!targets || excludedPointer(document, targets)) return
+    const candidates: Entry[] = []
+    for (let index = registry.entries.length - 1; index >= 0; index--) {
+      const entry = registry.entries[index]!
+      if (!outside(entry, event, targets)) break
+      candidates.push(entry)
+    }
+    if (!candidates.length) return
+    live = { candidates, event, generation, press: presses, opened: [] }
+    awaitingUp = true
   }
   const pointercancel = (event: PointerEvent) => {
     capturedPointers.delete(event.pointerId)
-    if (pending?.event.pointerId === event.pointerId) pending = undefined
+    if (awaitingUp && live?.event.pointerId === event.pointerId) {
+      live = undefined
+      awaitingUp = false
+    }
   }
   /** Checks both outside endpoints, then defers cancellation checks until native dispatch finishes. */
   const pointerup = (event: PointerEvent) => {
     const captured = capturedPointers.delete(event.pointerId)
-    if (!pending || pending.event.pointerId !== event.pointerId) return
-    const gesture = pending
-    pending = undefined
-    const { entry } = gesture
-    const current = () =>
-      entry.active && generation === gesture.generation && registry.entries.at(-1) === entry
-    if (!current() || !primaryPointer(event)) return
+    if (!awaitingUp || !live || live.event.pointerId !== event.pointerId) return
+    const gesture = live
+    awaitingUp = false
+    live = undefined
+    if (generation !== gesture.generation || !primaryPointer(event)) return
     const targets = pointerUpTargets(event, document, captured)
-    if (
-      !targets ||
-      excludedPointer(document, targets) ||
-      (entry.options.isPointerInside?.(event) ?? contains(registry, entry, targets))
-    )
-      return
-    const options = entry.options
-    if (options.outsidePointer !== 'dismiss') return
+    if (!targets || excludedPointer(document, targets)) return
+    // Each request keeps the options from pointerup. The first entry that kept the
+    // press (inside, inactive, or not dismissing) shields every entry beneath it.
+    const requests: { entry: Entry; options: Entry['options'] }[] = []
+    for (const entry of gesture.candidates) {
+      if (!entry.active || !outside(entry, event, targets)) break
+      if (entry.options.outsidePointer !== 'dismiss') break
+      requests.push({ entry, options: entry.options })
+    }
+    if (!requests.length) return
+    live = gesture
     // Wait for target and bubble handlers to cancel either native event.
     const timer = setTimeout(() => {
       pointerTimers.delete(timer)
-      if (!current() || gesture.event.defaultPrevented || event.defaultPrevented) return
-      let prevented = false
-      const outsideEvent: LayerPointerOutsideEvent = {
-        originalEvent: event,
-        get defaultPrevented() {
-          return prevented
-        },
-        preventDefault() {
-          prevented = true
-        },
+      if (live !== gesture || generation !== gesture.generation) return
+      live = undefined
+      if (gesture.event.defaultPrevented || event.defaultPrevented) return
+      // A press that opened an unrelated layer closes every layer it escaped. Otherwise
+      // only the newest one closes, so a nested stack unwinds one press at a time.
+      const opened = gesture.opened.filter((entry) => entry.active)
+      for (const { entry, options } of opened.length ? requests : requests.slice(0, 1)) {
+        if (presses !== gesture.press) return
+        if (!entry.active) continue
+        // A layer the press opened inside this one keeps it open, and so its ancestors.
+        if (opened.some((child) => descends(child, entry))) return
+        const before = generation
+        const current = () => entry.active && generation === before && presses === gesture.press
+        let prevented = false
+        const outsideEvent: LayerPointerOutsideEvent = {
+          originalEvent: event,
+          get defaultPrevented() {
+            return prevented
+          },
+          preventDefault() {
+            prevented = true
+          },
+        }
+        options.onPointerOutside?.(outsideEvent)
+        if (!current() || prevented || gesture.event.defaultPrevented || event.defaultPrevented)
+          return
+        options.onDismiss?.(event)
       }
-      options.onPointerOutside?.(outsideEvent)
-      if (!current() || prevented || gesture.event.defaultPrevented || event.defaultPrevented)
-        return
-      options.onDismiss?.(event)
     }, 0)
     pointerTimers.add(timer)
   }
@@ -348,9 +402,14 @@ function createRegistry(document: Document): Registry {
     entries: [],
     invalidate() {
       generation++
-      pending = undefined
+      live = undefined
+      awaitingUp = false
       for (const timer of pointerTimers) clearTimeout(timer)
       pointerTimers.clear()
+    },
+    register(entry) {
+      if (live) live.opened.push(entry)
+      else registry.invalidate()
     },
     cleanup() {
       capturedPointers.clear()
@@ -381,10 +440,13 @@ function createRegistry(document: Document): Registry {
  * Registers an active layer as the newest entry in its element's owner document.
  *
  * @remarks
- * Only the top entry receives Escape and outside-pointer dismissal requests.
- * Pointer dismissal requires primary left-button down and up outside that entry,
- * with matching pointer IDs and no Control modifier. A stack change invalidates
- * the gesture; successful callbacks use the options captured at pointerup.
+ * Only the top entry receives Escape. Pointer dismissal requires primary
+ * left-button down and up outside the top entry, with matching pointer IDs and no
+ * Control modifier; it goes to the top entry alone. When the same gesture opens a
+ * layer that descends from none of them, every entry the press escaped is asked in
+ * turn, newest first, stopping at the first that contains either endpoint, ignores
+ * outside presses, vetoes, or is an ancestor of the new layer. A disposal during
+ * the gesture cancels it. Callbacks use the options captured at pointerup.
  * Escape waits for bubble propagation and ignores composition until the deferred
  * composition-end reset. Registration invokes no callbacks, changes no DOM, and
  * does not move focus or lock scrolling. Keep the host in its original document
@@ -412,7 +474,7 @@ export function registerLayer(element: HTMLElement, options: LayerOptions = {}):
     branches: new Map(),
     active: true,
   }
-  registry.invalidate()
+  registry.register(entry)
   registry.entries.push(entry)
   notifyStack(document)
   const handle: LayerHandle = {
