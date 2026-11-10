@@ -48,7 +48,7 @@ function setup() {
     const node = document.createElement('div')
     node.dataset.index = String(index)
     let height = initial
-    node.getBoundingClientRect = () => ({ height }) as DOMRect
+    Object.defineProperty(node, 'offsetHeight', { get: () => height })
     element.append(node)
     return {
       node,
