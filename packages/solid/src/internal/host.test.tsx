@@ -16,7 +16,7 @@ describe('Solid host boundary', () => {
   test('composes nested refs with the native owner and disposal behavior', () => {
     const cleanup = vi.fn()
     const first = vi.fn(() => {
-      expect(getOwner()).toBeNull()
+      expect(getOwner()).not.toBeNull()
       return cleanup
     })
     const second = vi.fn()

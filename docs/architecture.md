@@ -413,8 +413,8 @@ style.
 
 bun workspaces with a catalog, turbo for task running, TypeScript 7 for
 `tsc` with the 6.x API kept for typescript-eslint, eslint 10, prettier,
-vitest. Solid 2 release candidate, pinned exact with `@solidjs/signals`
-overridden to the same version because the rc range floats.
+vitest. Solid 2.0.0, pinned exact with `@solidjs/signals` overridden to the
+same version.
 
 ## Later
 

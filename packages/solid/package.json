@@ -244,7 +244,7 @@
     "@xenon/eslint-config": "workspace:*",
     "@xenon/typescript-config": "workspace:*",
     "@solidjs/testing-library": "^1.0.0-rc.2",
-    "@solidjs/vite-plugin": "^3.0.0-next.57",
+    "@solidjs/vite-plugin": "^3.0.1",
     "@solidjs/web": "catalog:",
     "@testing-library/jest-dom": "^7.0.1",
     "@typescript/native": "catalog:",
