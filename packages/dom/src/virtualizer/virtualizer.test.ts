@@ -5,7 +5,8 @@ import type { VirtualizerOptions } from '../../../core/src/virtualizer/virtualiz
 import { createVirtualizerController } from './virtualizer'
 import type { VirtualizerControllerOptions } from './virtualizer'
 
-type Callback = (entries: { target: Element }[]) => void
+type Entry = { target: Element; borderBoxSize?: { blockSize: number; inlineSize: number }[] }
+type Callback = (entries: Entry[]) => void
 const observers: { callback: Callback; targets: Set<Element> }[] = []
 const disposals: Array<() => void> = []
 
@@ -38,10 +39,11 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-/** Report a resize to every observer watching target. */
-function resize(target: Element) {
-  for (const observer of observers)
-    if (observer.targets.has(target)) observer.callback([{ target }])
+/** Report a resize to every observer watching target, with a border box when given. */
+function resize(target: Element, blockSize?: number) {
+  const entry: Entry =
+    blockSize === undefined ? { target } : { target, borderBoxSize: [{ blockSize, inlineSize: 0 }] }
+  for (const observer of observers) if (observer.targets.has(target)) observer.callback([entry])
 }
 
 function setup(
@@ -75,17 +77,24 @@ function setup(
     height = next
     scroll(top)
   }
-  const row = (index: number, rowHeight: number) => {
+  /** A row whose layout height is rowHeight and whose bounding rect is scaled by scale. */
+  const row = (index: number, rowHeight: number, scale = 1) => {
     const node = document.createElement('div')
     node.setAttribute('data-index', String(index))
     let current = rowHeight
-    node.getBoundingClientRect = () => ({ height: current }) as DOMRect
+    Object.defineProperty(node, 'offsetHeight', { get: () => current, configurable: true })
+    node.getBoundingClientRect = () => ({ height: current * scale }) as DOMRect
     element.append(node)
     return {
       node,
       grow(next: number) {
         current = next
         resize(node)
+      },
+      /** Report a resize that carries the border box, as browsers do. */
+      report(next: number) {
+        current = Math.round(next)
+        resize(node, next)
       },
     }
   }
@@ -206,10 +215,56 @@ describe('measurement', () => {
   test('rows without a numeric data-index are ignored', () => {
     const m = setup({ count: 10, estimateSize: () => 20 })
     const node = document.createElement('div')
-    node.getBoundingClientRect = () => ({ height: 99 }) as DOMRect
+    Object.defineProperty(node, 'offsetHeight', { value: 99 })
     m.element.append(node)
     m.controller.measureElement(node)
     expect(m.layout.totalSize()).toBe(200)
+  })
+})
+
+describe('measurement under a scaled ancestor', () => {
+  test('a direct measurement uses the layout height, not the scaled bounding rect', () => {
+    const m = setup({ count: 10, estimateSize: () => 20 })
+    const first = m.row(0, 22, 0.5)
+    m.controller.measureElement(first.node)
+    expect(m.layout.item(0)?.size).toBe(22)
+    expect(m.layout.item(1)?.start).toBe(22)
+    expect(m.layout.totalSize()).toBe(202)
+  })
+
+  test('resize reports use the border-box block size and keep fractions', () => {
+    const m = setup({ count: 10, estimateSize: () => 20 })
+    const first = m.row(0, 20, 0.7)
+    m.controller.measureElement(first.node)
+    first.report(22.4)
+    expect(m.layout.item(0)?.size).toBe(22.4)
+    expect(m.layout.item(1)?.start).toBe(22.4)
+    first.grow(30)
+    expect(m.layout.item(0)?.size).toBe(30)
+  })
+
+  test('scroll anchoring and follow use unscaled sizes', () => {
+    const m = setup({ count: 20, estimateSize: () => 20 }, { follow: true })
+    expect(m.element.scrollTop).toBe(300)
+    const last = m.row(19, 40, 1.3)
+    m.controller.measureElement(last.node)
+    expect(m.layout.totalSize()).toBe(420)
+    expect(m.element.scrollTop).toBe(320)
+    expect(m.controller.following()).toBe(true)
+    m.scroll(100)
+    const above = m.row(1, 50, 0.5)
+    m.controller.measureElement(above.node)
+    expect(m.element.scrollTop).toBe(130)
+  })
+
+  test('elements without offsetHeight fall back to the bounding rect', () => {
+    const m = setup({ count: 10, estimateSize: () => 20 })
+    const node = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+    node.setAttribute('data-index', '3')
+    node.getBoundingClientRect = () => ({ height: 33 }) as DOMRect
+    m.element.append(node)
+    m.controller.measureElement(node)
+    expect(m.layout.item(3)?.size).toBe(33)
   })
 })
 
