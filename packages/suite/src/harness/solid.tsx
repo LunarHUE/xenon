@@ -13,7 +13,7 @@ import {
   ToggleGroup,
   Toolbar,
 } from '@xenon-ui/solid'
-import { Dynamic, render } from '@solidjs/web'
+import { dynamic, render } from '@solidjs/web'
 import type { JSX, ValidComponent } from '@solidjs/web'
 import { createMemo, createSignal, flush, omit, untrack } from 'solid-js'
 
@@ -60,15 +60,11 @@ export const harness: Harness = {
     const container = document.createElement('div')
     document.body.appendChild(container)
     const [props, setProps] = createSignal<Record<string, unknown>>({ ...(initial as object) })
-    const component = components[name] as ValidComponent
+    const Component = dynamic(() => components[name] as ValidComponent)
     const attrs = createMemo(() => omit(props(), 'children'))
     const children = createMemo(() => props()['children'])
     const dispose = render(
-      () => (
-        <Dynamic component={component} {...attrs()}>
-          {renderChildren(children())}
-        </Dynamic>
-      ),
+      () => <Component {...attrs()}>{renderChildren(children())}</Component>,
       container
     )
     flush()
