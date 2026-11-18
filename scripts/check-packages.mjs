@@ -13,9 +13,10 @@
  *    the root index re-exports each module.
  * 5. Resolve every @xenon-ui/<pkg>/<subpath> import in the installed package
  *    through the dependency's exports, including declaration files.
- * 6. Fail if this version is already on npm with different files. dom gained
- *    a virtualizer while still at the published 0.2.0, so solid's ^0.2.0 range
- *    could install a dom without it.
+ * 6. Fail if this version is already on npm with different files and no
+ *    pending changeset will bump it. dom gained a virtualizer while still at
+ *    the published 0.2.0, so solid's ^0.2.0 range could install a dom without
+ *    it.
  *
  * Run after a clean build: `bun run check:packages`. Needs network for npm.
  */
@@ -33,6 +34,7 @@ import {
 import { tmpdir } from 'node:os'
 import { join, relative, resolve } from 'node:path'
 import process from 'node:process'
+import { pendingReleases, publishedScope } from './changeset.ts'
 
 const root = resolve(import.meta.dirname, '..')
 const order = ['core', 'dom', 'solid']
@@ -41,6 +43,25 @@ const catalog = rootManifest.workspaces?.catalog ?? {}
 const scratch = mkdtempSync(join(tmpdir(), 'xenon-check-'))
 const tarballs = {}
 let failures = 0
+
+/** Packages the pending changesets will bump at the next release. */
+function willRelease() {
+  const dir = join(root, '.changeset')
+  const changesets = readdirSync(dir)
+    .filter((file) => file.endsWith('.md') && file !== 'README.md')
+    .map((file) => readFileSync(join(dir, file), 'utf8'))
+  const dependencies = Object.fromEntries(
+    order.map((name) => {
+      const manifest = JSON.parse(
+        readFileSync(join(root, 'packages', name, 'package.json'), 'utf8')
+      )
+      const needs = Object.keys(manifest.dependencies ?? {})
+      return [manifest.name, needs.filter((dependency) => dependency.startsWith(publishedScope))]
+    })
+  )
+  return pendingReleases(changesets, dependencies)
+}
+const releasing = willRelease()
 
 const fail = (pkg, message) => {
   failures++
@@ -275,12 +296,14 @@ try {
       const differ = [...new Set([...mine.keys(), ...theirs.keys()])].filter(
         (file) => mine.get(file) !== theirs.get(file)
       )
-      if (differ.length)
+      if (!differ.length) console.log('  matches the published version')
+      else if (releasing.has(manifest.name))
+        console.log('  differs from the published version; a pending changeset bumps it')
+      else
         fail(
           id,
-          `is already on npm with different files (${differ.length}, e.g. ${differ.slice(0, 3).join(', ')}); bump the version`
+          `is already on npm with different files (${differ.length}, e.g. ${differ.slice(0, 3).join(', ')}); add a changeset with \`bun run changeset\``
         )
-      else console.log('  matches the published version')
     } else console.log('  not published yet')
   }
 } finally {
