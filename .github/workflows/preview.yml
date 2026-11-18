@@ -1,0 +1,49 @@
+name: Preview
+
+# Builds core, dom and solid for each pull request and push to main and uploads
+# them to pkg.pr.new, which comments install links on the pull request. Nothing
+# goes to npm.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Preview
+    # pkg.pr.new serves every upload at a public URL, so this stays off if the
+    # repo goes private. The repository check keeps forks' copies of the
+    # workflow quiet.
+    if: github.event.repository.private == false && github.repository == 'LunarHUE/xenon'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      TURBO_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          # The packageManager field pins Bun.
+          bun-version-file: package.json
+          no-cache: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: bunx turbo run build --filter='./packages/*' --force
+      # Each dist/ holds the package.json a release publishes, with real version
+      # ranges in place of workspace: and catalog: ones, so npm can pack it.
+      - run: >-
+          bunx pkg-pr-new publish --commentWithSha
+          ./packages/core/dist ./packages/dom/dist ./packages/solid/dist
