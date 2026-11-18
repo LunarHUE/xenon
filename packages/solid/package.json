@@ -237,8 +237,8 @@
     "@xenon-ui/dom": "workspace:*"
   },
   "peerDependencies": {
-    "@solidjs/web": "^2.0.0-rc.14",
-    "solid-js": "^2.0.0-rc.14"
+    "@solidjs/web": "^2.0.0",
+    "solid-js": "^2.0.0"
   },
   "devDependencies": {
     "@xenon/eslint-config": "workspace:*",
