@@ -1,6 +1,6 @@
 # Xenon docs
 
-Astro 7, MDX content collections, Tailwind CSS 4, and Solid 2.0.0-rc.8.
+Astro 7, MDX content collections, Tailwind CSS 4, and Solid 2.0.0.
 
 ```sh
 bun install
