@@ -1,0 +1,49 @@
+name: Changeset
+
+# Its own workflow so that adding or removing the no-changeset label reruns
+# this check alone. In ci.yml a label event would start a run that cancels the
+# test shards on the same commit.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: changeset-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  changeset:
+    name: Changeset
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # The event payload carries the labels, so this needs no extra permission.
+      # The Version Packages pull request spends changesets instead of adding
+      # one, so it is exempt too. A fork can't claim that branch name.
+      EXEMPT: >-
+        ${{ contains(github.event.pull_request.labels.*.name, 'no-changeset')
+        || (github.head_ref == 'changeset-release/main'
+        && github.event.pull_request.head.repo.full_name == github.repository) }}
+    steps:
+      - if: env.EXEMPT == 'true'
+        run: echo "Labelled no-changeset or a release pull request, so no changeset is needed."
+      - if: env.EXEMPT != 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The check diffs against the merge base with the base branch.
+          fetch-depth: 0
+          persist-credentials: false
+      - if: env.EXEMPT != 'true'
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          # The packageManager field pins Bun.
+          bun-version-file: package.json
+          no-cache: true
+      # The script uses only Bun and git, so nothing is installed.
+      - if: env.EXEMPT != 'true'
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: bun scripts/check-changeset.ts "$BASE"

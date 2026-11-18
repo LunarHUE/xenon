@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "baseBranch": "main",
+  "access": "public",
+  "ignore": ["@xenon/docs", "@xenon/suite", "@xenon/eslint-config", "@xenon/typescript-config"],
+  "fixed": [],
+  "linked": [],
+  "privatePackages": {
+    "version": true,
+    "tag": true
+  },
+  "format": "auto",
+  "updateInternalDependencies": "patch",
+  "commit": false,
+  "changelog": ["@changesets/changelog-github", { "repo": "LunarHUE/xenon" }]
+}
