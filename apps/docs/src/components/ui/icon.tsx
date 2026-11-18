@@ -1,5 +1,5 @@
 import type { IconNode } from 'lucide'
-import { Dynamic } from '@solidjs/web'
+import { dynamic } from '@solidjs/web'
 import type { ComponentProps, JSX } from '@solidjs/web'
 import { For, omit } from 'solid-js'
 import { cn } from '../../lib/utils'
@@ -33,7 +33,12 @@ export function Icon(props: IconProps): JSX.Element {
       data-slot="icon"
       class={cn('lucide', props.class)}
     >
-      <For each={props.icon}>{([tag, attrs]) => <Dynamic component={tag} {...attrs} />}</For>
+      <For each={props.icon}>
+        {([tag, attrs]) => {
+          const Shape = dynamic(() => tag)
+          return <Shape {...attrs} />
+        }}
+      </For>
     </svg>
   )
 }
